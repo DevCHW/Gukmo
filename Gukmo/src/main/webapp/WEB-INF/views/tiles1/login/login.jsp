@@ -4,33 +4,18 @@
 	String ctxPath = request.getContextPath();
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>로그인페이지</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-  <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인페이지</title>
   <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/login.css" />
-  
-  <!-- Optional JavaScript -->
-  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
-  <!-- sweet alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <!-- toastr css라이브러리 -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-  <!-- toastr cdn 라이브러리 둘다 제이쿼리 밑에 있어야함 -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>  
-
-  <!-- JqueryUI JS,CSS -->
-  <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/jquery-ui-1.13.1.custom/jquery-ui.css" />
-  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery-ui-1.13.1.custom/jquery-ui.js"></script> 
+  <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/css/login.css" />
   <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%= ctxPath%>/js/login.js" ></script>
+  <script type="text/javascript" src="<%= ctxPath%>/resources/js/login.js" ></script>
 </head>
+
+
 <body>
   <div id="login" class="d-flex flex-column mx-auto my-5">
 
