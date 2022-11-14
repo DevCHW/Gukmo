@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+	
+	<!-- ==== Spring Scheduler(스프링스케줄러1) 어노테이션을 사용하여 스프링스케줄러를 구현하도록 한다. ==== -->
+	<task:annotation-driven/>
+	
+	<!-- ==== 이미지, 동영상, js, css 파일등이 위치하는 경로를 의미한다.
+                            그 경로는 /webapp/resources 아래에 위치하거나 또는 /webapp/resources 아래에 폴더를 만들어서 저장시켜야 한다. ==== --> 
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+
+	<!-- === #19. 엑셀파일다운로드를 위해  BeanNameViewResolver 추가하기 === -->
+	<beans:bean id="excelDownloadView" class="com.gukmo.board.common.ExcelDownloadView"/>
+	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <beans:property name="order" value="0"/>
+    </beans:bean>
+    
+	
+	<!-- ======= 실행시 모든 페이지에 기본틀이 되어지는 틀을 배치하기 위한 템플릿 프레임워크인 TilesViewResolver 를 사용하기 위해 빈으로 등록한다. ======= -->
+	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <beans:property name="definitions">
+            <beans:list>
+                 <beans:value>/WEB-INF/tiles/tiles-layout.xml</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+    
+    <!-- === Resolver의 사용우선순위를 TilesViewResolver 를 1로 한다. 
+	          <beans:property name="order" value="1"/> 을 주면 된다.=== -->
+    <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <beans:property name="order" value="1"/>
+    </beans:bean>
+    
+    
+    
+    
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2"/>
+	</beans:bean>
+	
+	<!-- ===== 파일업로드 및 파일다운로드에 필요한 의존객체 설정하기 ===== -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">   
+	<!-- 자바파일이 UTF-8로 저장된 경우 한글파일명이 깨지지 않게하기 위해 -->
+        <beans:property name="defaultEncoding" value="utf-8" />
+		<beans:property name="maxUploadSize" value="10485760" />
+	</beans:bean>
+	
+	
+	<beans:bean id="aes" class="com.gukmo.board.common.AES256">
+		<beans:constructor-arg>
+			<beans:value>abcd0070#aclass$</beans:value> <!-- abcd0070#aclass$ 은 각자 com.spring.board.common.SecretMyKey 에 사용되던 암호화/복호화 키 이다. -->   
+		</beans:constructor-arg>
+	</beans:bean>
+	
+	<context:component-scan base-package="com.gukmo.*" name-generator="com.gukmo.board.common.FullBeanNameGenerator" />
+	
+	
+	<!--  AOP 관련 어노테이션 동작이 가능하게 설정 -->	
+	<aop:aspectj-autoproxy /> <!-- 추가 -->	     
+	 
+	<aop:config proxy-target-class="true">
+	  <aop:pointcut id="controllerOperation" expression="execution(public * com.spring..*Controller.*(..))" />
+    </aop:config>
+	
+</beans:beans>
