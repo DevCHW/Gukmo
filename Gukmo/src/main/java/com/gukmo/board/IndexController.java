@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 	@RequestMapping(value="/index.do")
 	public String hello_gukmo(HttpServletRequest request) {
-		return "index";
+		return "index.tiles1";
 	}
 }
