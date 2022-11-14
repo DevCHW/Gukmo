@@ -16,12 +16,6 @@ public class BoardService implements InterBoardService{
 	@Autowired
 	private InterBoardDAO dao;
 
-	@Override
-	public List<MemberDTO> select_member() {
-		List<MemberDTO> memberList = new ArrayList<>();
-		memberList = dao.select_member();
-		return memberList;
-	}
 	
 	
 }
