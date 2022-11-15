@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.gukmo.board.hw.repository.InterLoginDAO;
 
 @Service
-public class LoginService {
+public class LoginService implements InterLoginService{
 	@Autowired
 	InterLoginDAO dao;
 	
