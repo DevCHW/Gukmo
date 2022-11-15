@@ -19,9 +19,11 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/login.do", method= {RequestMethod.GET})
-	public String login(HttpServletRequest request) {
-		return "login/login.tiles1";
+	public ModelAndView login(ModelAndView mav) {
+		System.out.println("요청이왔나요");
+		mav.setViewName("login/login.tiles1");
 		//   /WEB-INF/views/tiles1/login/login.jsp 파일을 생성한다.
+		return mav;
 	}
 	
 
