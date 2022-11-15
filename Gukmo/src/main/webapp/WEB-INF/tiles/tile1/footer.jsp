@@ -1,11 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%-- ======= #27. tile1 중 footer 페이지 만들기  ======= --%>
+<!-- Footer -->
+<footer class="text-center text-lg-start text-muted border-top">
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-2">
+      <!-- Grid row -->
+      <div class="row mt-1">
+        <!-- Grid column -->
+        <div class="col-md col-lg col-xl mx-auto">
+          <!-- Content -->
+          <h2 class="text-uppercase fw-bold">
+            국모
+          </h2>
+          <!-- Section: Social media -->
+           
+              <div>
+                <a href="" class="me-4 text-reset">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="mailto:info@gukmo.kr" class="me-4 text-reset">
+                  <i class="fas fa-envelope me-3"></i>
+                </a>
+              </div>
+    
+            <!-- Section: Social media -->
+        </div>
 
-<div style="color: #999999; margin: auto; padding: 7px;">
-쌍용교육센터 | 강남 서울특별시 강남구 테혜란로 132(역삼동) 한독약품빌딩 8층 쌍용교육센터 | 강남 Tel 02)3482-4632-5 Fax 02)3482-4636<br>
-강북 서울특별시 마포구 월드컵북로 21 풍성빌딩 2,3,4층 쌍용강북교육센터 | 강북  Tel 02)336-8546-8 Fax 02)334-5405<br>
-사업자번호 : 214-85-29296 | 대표 : 노경한 | 개인정보처리관리책임자 : 장일규<br>       
-Copyright ⓒ 2012 Ssangyong institute of System Technology. All Right Reserved
-</div>     
+        <div class="col-lg col-xl mx-auto pt-3">
+          <p>
+            <a href="#!" class="text-reset">회사소개</a>
+          </p>
+        </div>
+        <div class="col-lg col-xl mx-auto pt-3">
+          <p>
+            <a href="#!" class="text-reset">공지사항</a>
+          </p>
+        </div>
+        <div class="col-lg col-xl mx-auto pt-3">
+          <p>
+            <a href="#!" class="text-reset">버그제보</a>
+          </p>
+        </div>
+        <div class="col-lg col-xl mx-auto pt-3">
+          <p>
+            <a href="#!" class="text-reset">광고문의</a>
+          </p>
+        </div>
+        <div class="col-lg col-xl mx-auto pt-3">
+          <p>
+            <a href="#!" class="text-reset">개인정보 처리방침</a>
+          </p>
+        </div>
+        <div class="col-lg col-xl mx-auto pt-3">
+          <p>
+            <a href="#!" class="text-reset">서비스 이용약관</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <div class="text-center" >
+    <p style="margin:0;">상호명: (주)국모 | 사업자등록번호 : 123-45-67890 |   문의 :
+      <a
+        href="mailto:info@okky.kr"
+        class="text-gray-700 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-200"
+        >info@gukmo.kr</a
+      ></p>
+    <p>
+      통신판매업신고번호 : 제 2022-서울마포-123호
+    </p>
+  </div>
+
+  <!-- Copyright -->
+  <div class="text-center p-3 bg-light">
+    © 2022 
+    (주)국모, Inc. All rights reserved.
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
