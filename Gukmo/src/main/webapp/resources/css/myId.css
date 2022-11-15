@@ -1,0 +1,77 @@
+div.container{
+  font-size:small;
+  display:flex;
+  justify-content:space-between;
+}
+h5.guide_title{
+  font-weight: bold;
+  margin-bottom:24px;
+}
+
+/* 사이드바 시작 */
+div#sidebar{
+  border-right:solid 1px #EBEBEB;
+  width:320px;
+}
+h5#sidebar_title{
+  font-weight: bold;
+}
+div#sidebar > ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  line-height: 36px;
+}
+/* 사이드바 끝 */
+
+
+
+/* main 시작 */
+div#main{
+  width:100%;
+  margin-left:48px;
+}
+input#email{
+  outline:none;
+  width:50%;
+}
+
+span.guide_content{
+  font-size: 12px;
+  color:#687280;
+}
+
+input[name=agreement]{
+  width:14px;
+  height:14px;
+}
+label[for='agreement']{
+  font-size:14px;
+  position:relative;
+  top:3px;
+}
+
+
+
+@media screen and (max-width: 768px){
+  div.container{
+    display:block;
+  }
+  
+  /* 사이드바 시작*/
+  div#sidebar{
+    border-right:none;
+    border-bottom:solid 1px #EBEBEB;
+    width:100%;
+  }
+  /* 사이드바 끝*/
+
+
+  /* 메인 시작 */
+  div#main{
+    margin-top:24px;
+    margin-left:0;
+  }
+  /* 메인 끝 */
+}
+
