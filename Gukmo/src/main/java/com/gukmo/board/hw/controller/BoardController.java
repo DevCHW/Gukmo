@@ -1,7 +1,6 @@
 package com.gukmo.board.hw.controller;
 
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,8 @@ public class BoardController {
 		//   /WEB-INF/views/tiles1/login/login.jsp 파일을 생성한다.
 		return mav;
 	}
+	
+	
 	
 
 }
