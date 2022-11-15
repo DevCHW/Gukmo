@@ -15,12 +15,7 @@ public class MemberController {
 	private InterMemberService service;
 	
 	
-	@RequestMapping(value="/login.do", method = {RequestMethod.GET})
-	public ModelAndView login(ModelAndView mav) {
-		mav.setViewName("login/login.jsp");
-		
-		return mav;
-	}
+	
 	
 	
 	
