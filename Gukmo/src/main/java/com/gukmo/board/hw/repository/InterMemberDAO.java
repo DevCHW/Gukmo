@@ -1,6 +1,5 @@
 package com.gukmo.board.hw.repository;
 
-public interface InterBoardDAO {
+public interface InterMemberDAO {
 
-	
 }
