@@ -14,4 +14,5 @@ public class BoardController {
 	@Autowired
 	private InterBoardService service;
 	
+
 }
