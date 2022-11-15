@@ -5,7 +5,37 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="chw">
-	<select id="select_member" resultType="com.gukmo.board.model.MemberDTO">
-		select * from tbl_member_login
+	
+	<!--=============== Member 시작 ============-->
+	
+	<select id="idExistCheck" parameterType="String" resultType="Integer">
+		select count(userid) from tbl_member_login
+		where userid = #{userid}
 	</select>
+	
+	
+	<!--=============== Member 끝 ============-->
+	
+	
+	
+	<!--=============== Login 시작 ============-->
+	
+	<select id="userExistCheck" parameterType="HashMap" resultType="Integer">
+		select count(userid) from tbl_member_login
+		where userid = #{userid} and passwd = #{passwd}
+	</select>
+	
+	
+	<!--=============== Login 끝 ============-->
+
+
+
+	
+	<!--=============== Board 시작 ============-->
+	
+	
+	<!--=============== Board 끝 ============-->
+	
+	
+	
 </mapper>

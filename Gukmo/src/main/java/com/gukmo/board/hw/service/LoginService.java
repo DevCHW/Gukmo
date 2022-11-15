@@ -9,5 +9,7 @@ import com.gukmo.board.hw.repository.InterLoginDAO;
 public class LoginService implements InterLoginService{
 	@Autowired
 	InterLoginDAO dao;
+
+	
 	
 }
