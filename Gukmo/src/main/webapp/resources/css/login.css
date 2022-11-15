@@ -1,0 +1,101 @@
+div#login{
+  font-size:small;
+}
+
+div#login{
+  min-width: 380px;
+  width: 448px;
+}
+div#logo_img_box{
+  cursor: pointer;
+  width:70px;
+  height:70px;
+  border:solid 1px gray;
+}
+img#logo{
+  width:100%;
+  height:100%;
+}
+
+p#about_content{
+  color:darkgray;
+}
+
+/* sns_login */
+div.sns_login{
+  cursor: pointer;
+  height:38px;
+  width: 30%;
+}
+svg{
+  width: 20px;
+  height: 20px;
+}
+
+
+.line{
+  display:flex;
+  flex-basis:100%;
+  align-items: center;
+  color:darkgray;
+  font-size:14px;
+  margin:8px 0px;
+}
+
+.line::before{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background-color: darkgray;
+  height: 1px;
+  font-size: 0px;
+  line-height: 0px;
+}
+.line::after{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background: darkgray;
+  height: 1px;
+  font-size:0px;
+  line-height: 0px;
+}
+
+
+/* input_login */
+input.input_login{
+  height:40px;
+}
+input.input_login::placeholder{
+  font-size:small;
+}
+
+
+span.login_error{
+  display:none;
+  color:red;
+  font-size:small;
+}
+
+button#btn_login{
+  height:40px;
+  background-color: #14587D;
+  font-size:medium;
+  font-weight: bold;
+  color:white;
+}
+
+
+
+div#find_id{
+  color:blue;
+  cursor:pointer;
+}
+
+
+span#btn_signup{
+  color:blue;
+  cursor:pointer;
+}
+
+
