@@ -7,14 +7,14 @@
 	String ctxPath = request.getContextPath();
 %>   
 
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
+
 <!-- 직접만든 javascript -->
-<script type="text/javascript" src="js/boardList.js"></script>
-   
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/boardList.js" ></script>
+
    <div class="container mt-4">
-     <div
-       id="category"
-       class="d-flex justify-content-center align-content-center"
-     >
+     <div id="category" class="d-flex justify-content-center align-content-center">
        <div class="mx-2 px-2 py-1 rounded">자유게시판</div>
        <div class="mx-2 px-2 py-1 rounded">Q&A</div>
        <div class="mx-2 px-2 py-1 rounded">정보공유</div>
@@ -80,8 +80,10 @@
 
      <!------------------------------------- 게시판 리스트 시작 ------------------------------------->
 
-     <!-- 이 div가 반복문 시작 -->
      <c:forEach var="boardvo" items="${requestScope.boardList}">
+     <!-- 이 div가 반복문 시작 -->
+      <div class="border-top px-2 py-2">
+        <div class="d-flex align-items-center my-2">
      	<!-- 작성자 닉네임 -->
         <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
         <a href="#" class="writer_nickname ml-2"> ${boardvo.nickname} </a>

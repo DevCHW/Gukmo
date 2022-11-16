@@ -5,10 +5,16 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<<<<<<< HEAD
 <%-- ======= #28. tile2 중 header 페이지 만들기 ======= --%>
 <%
 	String ctxPath = request.getContextPath();
 %>
+=======
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/header.css">
+
+>>>>>>> branch 'main' of https://github.com/hyunwoocastle/Gukmo.git
 <!-- 상단 네비게이션 시작 -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top mx-4 py-3">
 		<!-- Brand/logo --> 
