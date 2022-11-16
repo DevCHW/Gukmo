@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" href="<%=ctxPath %>/resources/css/header.css">
+<link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/header.css">
 
 <!-- 상단 네비게이션 시작 -->
 	<haeder>

@@ -50,6 +50,19 @@
 
 .btn_login {
     margin-right: 10px;
+    background-color: white;
+}
+
+.btn_regist {
+	background-color: #208EC9;
+	color:white;
+}
+
+.btn_login:hover {
+	background-color: #F5F5F6;
+}
+.btn_regist:hover {
+	background-color: #14587D;
 }
 
 .login > i,
@@ -58,19 +71,19 @@
 	padding-right:30px;
 }
 
-.login span {
-	color: #E1E2E1;
+.login_academy span {
+	color: grey;
 	margin-right:15px;
 }
 
 
 /* 메뉴 a태그 색상 바꾸기 시작 */
 
-.my.mainCate > li > a.nav-link, 
-.my.mainCate > li > a.nav-link:hover, 
-.my.mainCate > li > a.nav-link:focus {
+.my.mainCate > li > a.nav-link{
   z-index:0;
   color: black;
 }
-
+.my.mainCate > li > a.nav-link:hover {
+	color: #208EC9;
+}
 /* 메뉴 a태그 색상 바꾸기 끝 */

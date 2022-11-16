@@ -30,13 +30,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <!-- 직접 만든 CSS -->
-	<link rel="stylesheet" href="<%=ctxPath %>/resources/css/gukmo_main.css">
+  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo_main.css">
   
   <!-- title Icon -->
   <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">
   
   <!-- Optional JavaScript -->
-  <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
   <script type="text/javascript" src="<%= ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script> 
   
