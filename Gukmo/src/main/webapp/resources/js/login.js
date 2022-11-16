@@ -64,8 +64,7 @@ $(document).ready(function(){
 		    		    dataType:"JSON",
 		    		    success:function(json){	
 		    		    	if(json.userExist){ //로그인이 성공이라면
-		    		    		alert("로그인성공");
-		    		    		login();
+		    		    		user_status(userid);
 		    		    		return;
 		    		    	}
 		    		    	else{	//로그인이 실패했다면
@@ -93,13 +92,58 @@ $(document).ready(function(){
 });//end of $(document).ready(function(){})
 
 //Function Declaration
+
+
 /**
- * 로그인처리를 하는 메소드
+ * user의 상태 체크
+ * @param 사용자가 입력한 userid
+ * @returns
+ */
+function user_status(userid){
+	$.ajax({	//아이디존재여부 검사
+		url:getContextPath()+"/statusCheck.do",
+		type:"POST",
+		data:{"userid":userid},
+	    dataType:"JSON",
+	    success:function(json){	
+	    	switch (json.status) {
+				case '활동':
+					login();
+					break;
+					
+				case '정지':
+					alert("정지된 회원입니다.");
+					break;
+					
+				case '휴면':
+					alert("휴면상태의 회원입니다. 휴면풀어주는 페이지로 이동");
+					break;
+					
+				case '대기':
+					alert("승인대기중인 회원입니다.")
+					break;
+				
+				case '비밀번호 변경 권장':
+					alert("비밀번호 변경을 권장합니다.");
+					break;
+			}//end of switch-case---
+	    },
+	    error:function(request, status, error){
+		    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});//end of $.ajax({})--
+	    	
+}//end of method----
+
+
+
+/**
+ * 로그인완료처리하기
  */
 function login(){
 	const frm = document.login_form;
 	
-	frm.action = getContextPath()+"login_complete.do";
+	frm.action = getContextPath()+"/login.do";
 	frm.method = "POST";
 	frm.submit();
 }
