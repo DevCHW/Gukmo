@@ -116,7 +116,7 @@ function user_status(userid){
 					break;
 					
 				case '휴면':
-					alert("휴면상태의 회원입니다. 휴면풀어주는 페이지로 이동");
+					alert("로그인한지 1년이상 지나서 휴면회원으로 전환되었습니다. 휴면을 푸시겠습니까?confirm창 띄운 후 이동 버튼 누르면 휴면 풀어주는 페이지로이동시키기");
 					break;
 					
 				case '대기':
@@ -124,7 +124,7 @@ function user_status(userid){
 					break;
 				
 				case '비밀번호 변경 권장':
-					alert("비밀번호 변경을 권장합니다.");
+					alert("비밀번호 변경한지 3개월 이상 지났습니다 변경을 권장합니다. 비밀번호를 변경하시겠습니까? confirm창 띄운 후 변경 버튼 누르면 비밀번호 변경할 수 있는 페이지로 이동시키기");
 					break;
 			}//end of switch-case---
 	    },
