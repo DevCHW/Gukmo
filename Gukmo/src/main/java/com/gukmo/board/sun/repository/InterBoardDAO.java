@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.gukmo.board.model.BoardVO;
-import com.gukmo.board.model.MemberDTO;
 
 public interface InterBoardDAO {
 
