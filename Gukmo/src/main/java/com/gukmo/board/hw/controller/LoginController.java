@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,6 @@ public class LoginController {
 	public String loginCheck(HttpServletRequest request) {
 		String userid = request.getParameter("userid");
 		String passwd = request.getParameter("passwd");
-		System.out.println("요청이 왔나요");
 		
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
@@ -63,11 +63,43 @@ public class LoginController {
 	
 	
 	
-	@RequestMapping(value="login_complete.do",method= {RequestMethod.POST})
+	
+	/**
+	 * 로그인되어질 회원의 상태 체크하기(정지,휴면,승인여부,비밀번호 변경시점 3개월)
+	 * @param 유저가 입력한 아이디
+	 * @return 활동중이라면 "활동" 정지회원이라면 "정지" 휴면회원이라면 "휴면" 승인대기라면 "대기"
+	 */
+	@ResponseBody
+	@RequestMapping(value="/statusCheck.do",method= {RequestMethod.POST})
+	public String status_check(HttpServletRequest request) {
+		String userid = request.getParameter("userid");
+		
+		String status = service.statusCheck(userid);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", status);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 로그인 완료처리하기
+	 * @param 유저아이디, 비밀번호
+	 * @return 이전페이지로 이동(추후 구현예정),로그인기록테이블 insert해주기(추후구현예정) 현재는 index 페이지로 이동,
+	 */
+	
+	@RequestMapping(value="/login.do",method= {RequestMethod.POST})
 	public String login_complete(HttpServletRequest request) {
 		String userid = request.getParameter("userid");
-		String passwd = request.getParameter("passwd");
-		return "";
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("userid", userid);
+		
+		return "index.tiles1";
 	}
 	
 	
