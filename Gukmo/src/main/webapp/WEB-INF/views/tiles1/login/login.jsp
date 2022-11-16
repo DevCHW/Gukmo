@@ -17,7 +17,7 @@
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/login.js" ></script>
 </head>
 <body>
-  <form id="login_form">
+  <form name="login_form" id="login_form">
   
     <div id="login" class="d-flex flex-column mx-auto my-5">
 

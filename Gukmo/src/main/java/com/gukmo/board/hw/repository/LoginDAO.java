@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gukmo.board.model.MemberVO;
+
 @Repository
 public class LoginDAO implements InterLoginDAO{
 	@Resource
@@ -30,4 +32,59 @@ public class LoginDAO implements InterLoginDAO{
 		}
 		return userExist;
 	}
+
+	
+	/**
+	 * 로그인되어질 회원의 상태 체크하기(정지,휴면,승인여부,비밀번호 변경시점 3개월)
+	 * @param 유저가 입력한 아이디, 유저가 입력한 비밀번호
+	 * @return 로그인관련한 회원정보
+	 */
+	@Override
+	public MemberVO statusCheck(String userid) {
+		MemberVO user = gukmo_sql.selectOne("chw.statusCheck",userid);
+		return user;
+	}
+
+
+	
+	/**
+	 * 마지막로그인이 몇일전인지 알아내기
+	 * @param 유저아이디
+	 * @return 현재날짜-마지막로그인날짜를 하여 마지막로그인날짜가 몇일전인지 반환한다.
+	 */
+	@Override
+	public int getLastLoginday(String userid) {
+		try {
+			int lastLoginday = gukmo_sql.selectOne("chw.getLastLoginday",userid);
+			return lastLoginday;
+		}catch(NullPointerException e) {	//로그인을 한번도 하지 않았다면
+			return 0;
+		}
+	}
+
+
+	/**
+	 * 유저의 상태를 휴면으로 업데이트해주기
+	 * @param 유저아이디
+	 */
+	@Override
+	public int editUserStatus_rest(String userid) {
+		int n = gukmo_sql.update("chw.editUserStatus_rest", userid);
+		return n;
+	}
+
+
+	/**
+	 * 마지막 비밀변호 변경일이 몇일전인지 알아내기
+	 * @param userid
+	 * @return 현재날짜로부터 마지막비밀번호 변경날짜가 몇일전인지 int형으로 반환
+	 */
+	@Override
+	public int getLastUpdateDay(String userid) {
+		int lastUpdateDay = gukmo_sql.selectOne("chw.getLastUpdateDay",userid);
+		return lastUpdateDay;
+	}
+
+
+	
 }

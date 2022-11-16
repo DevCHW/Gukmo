@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.gukmo.board.hw.repository.BoardDAO;
 import com.gukmo.board.hw.repository.InterBoardDAO;
-import com.gukmo.board.model.MemberDTO;
+import com.gukmo.board.model.MemberVO;
 
 @Service
 public class BoardService implements InterBoardService{
