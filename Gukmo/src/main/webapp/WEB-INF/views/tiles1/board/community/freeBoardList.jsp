@@ -12,6 +12,7 @@
 
 <!-- 직접만든 javascript -->
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/boardList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/freeBoardList.js" ></script>
 
    <div class="container mt-4">
      <div id="category" class="d-flex justify-content-center align-content-center">
@@ -22,61 +23,52 @@
        <div class="mx-2 px-2 py-1 rounded">취미모임</div>
        <div class="mx-2 px-2 py-1 rounded active">수강/취업성공후기</div>
      </div>
-
+	
      <!-- 검색바시작 -->
-     <div id="search_area" class="d-flex mx-auto my-3 mt-4">
-       <div id="academy_search" class="d-flex m-auto rounded">
-         <div id="input_keyword">
-           <input
-             type="text"
-             id="searchWord"
-             placeholder="스터디 내에서 검색"
-             id="keyword"
-             class="pl-3"
-             name="keyword"
-           />
-         </div>
-         <div id="search_btn">
-           <button type="button" class="btn btn-white" id="btn_search">
-             <i class="fas fa-xl fa-thin fa-magnifying-glass ml-auto"></i>
-           </button>
-         </div>
-       </div>
-     </div>
-     <!-- 검색바 끝 -->
+    <div id="search_area" class="d-flex mx-auto my-3 mt-4">
+      <div id="academy_search" class="d-flex m-auto rounded">
+        <div id="input_keyword">
+          <input type="text" id="searchWord" placeholder="스터디 내에서 검색" id="keyword" class="pl-3" name="keyword">
+        </div>
+        <div id="search_btn">
+          <button type="button" class="btn btn-white" id="btn_search">
+            <i class="fas fa-xl fa-thin fa-magnifying-glass ml-auto"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- 검색바 끝 -->
 
-     <!-- py-5 -->
-     <!-- navbar 시작 -->
-     <div id="nav" class="d-flex align-items-center py-2">
-       <!-- 필터 시작 이곳에 자바스크립트로 필터 넣으세요. -->
-       <div id="filter_area" class="d-flex align-items-end"></div>
-       <!-- filter_area -->
 
-       <div class="d-flex ml-auto">
-         <div
-           id="btn_filter"
-           class="d-flex justify-content-center align-items-center border rounded"
-         >
-           <i class="fa-solid fa-filter"></i>
-         </div>
+    <!-- py-5 -->
+    <!-- navbar 시작 -->
+    <div id="nav" class="d-flex align-items-center py-2">
+      <!-- 필터 시작 이곳에 자바스크립트로 필터 넣으세요. -->
+      <div id="filter_area" class="d-flex align-items-end">
+        
+      </div>
+      <!-- filter_area -->
 
-         <div id="mask"></div>
-         <div
-           id="sort"
-           class="d-flex ml-3 border rounded justify-content-center align-items-center"
-         >
-           <i class="fa-solid fa-arrow-down-short-wide"></i>
-           <span id="current_sort">최신순</span>
-           <div id="sort_option" class="border rounded px-3 py-2">
-             <span>최신순</span>
-             <span>추천순</span>
-             <span>댓글순</span>
-             <span>조회순</span>
-           </div>
-         </div>
-       </div>
-     </div>
-     <!-- 필터 끝 -->
+      
+      <div class="d-flex ml-auto">
+        <div id="btn_filter" class="d-flex justify-content-center align-items-center border rounded">
+          <i class="fa-solid fa-filter"></i>
+        </div>
+  
+        <div id="mask"></div>
+        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
+          <i class="fa-solid fa-arrow-down-short-wide"></i>
+          <span id=current_sort>최신순</span>
+          <div id="sort_option" class="border rounded px-3 py-2">
+            <span>최신순</span>
+            <span>추천순</span>
+            <span>댓글순</span>
+            <span>조회순</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 필터 끝 -->
 
      <!------------------------------------- 게시판 리스트 시작 ------------------------------------->
 
@@ -99,7 +91,7 @@
        </div>
 
        <!-- 글제목 -->
-       <a href="<%=ctxPath %>/board/boardView.do?board_num=${boardvo.board_num}" class="subject align-items-center my-2">
+       <a href="<%=ctxPath %>/boardView.do?board_num=${boardvo.board_num}" class="subject align-items-center my-2">
          ${boardvo.subject}
        </a>
 
@@ -155,7 +147,7 @@
          총&nbsp;<span style="font-weight: bold">1257&nbsp;</span>건
        </div>
 
-       <button type="button" id="btn_write" class="btn border-0 rounded">
+       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/communityNew.do'">
          글쓰기
        </button>
      </div>
