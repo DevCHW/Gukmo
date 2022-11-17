@@ -146,14 +146,17 @@
 	</div>
 	
 	
-	<!-- 게시판 정보 영역 -->
-	<div class="div_board d-flex mt-4">
+	<!-- 인기검색어 / 게시판 정보 영역  -->
+	<div class="div_infoBoard d-flex mt-4">
 		
 		<!-- 인기 검색어 영역 -->
 		<div class="div_searchRank">
 			<div class="div2_searchRank d-flex flex-column">
-				<div class="title_searchRank d-flex justify-content-start align-items-center"> 인기 검색어 </div>
-				<div class="list_searchRank d-flex flex-column">
+				<div class="title_searchRank d-flex justify-content-start align-items-center">
+					<p>&#x1F451;</p>
+					<p style="font-size:15px; margin-left:3px; color:#208EC9;">인기 검색어 </p>
+				</div>
+				<div class="list_searchRank d-flex flex-column px-3">
 					<a href="#"> 검색어 1 </a>
 					<a href="#"> 검색어 1 </a>
 					<a href="#"> 검색어 1 </a>
@@ -164,7 +167,282 @@
 		</div>
 		
 		
-		<div class="div_qna"></div>
-		<div class="div_study"></div>
+		<!-- 게시판 정보영역 -->
+		<div class="div_board d-flex flex-wrap">
+			<!-- Qna 영역 -->			
+			<div class="div_tbl_board d-flex flex-column">	
+					<!-- 테이블 제목 -->
+					<div class="title_board d-flex justify-content-start align-items-center">
+						<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F635;</p>
+						<a href="#" style="font-size:15px; margin-left:3px; color:white;">QnA </a>
+					</div>
+					<!-- 테이블 리스트 -->
+					<div class="list_board d-flex flex-column">
+						<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
+				        <!-- 이 div가 반복문 시작 -->
+				        <!-- 게시글 1개 영역 -->
+					    <div class="border-bottom py-3 px-3">
+					    	<!-- 작성 정보 -->
+					      	<div class="d-flex align-items-center mb-1">
+						        <!-- 작성자 프로필사진 -->
+						        <a href="#" class="writer_image_box border">
+						          <img src=""/>
+						        </a>
+						
+						        <!-- 작성자 닉네임 -->
+						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+						        <a href="#" class="writer_nickname ml-2">
+						         	 국모관리팀
+						        </a>
+						
+						        <!-- 작성자 활동점수 -->
+						        <div class="writer_point text-align-center ml-2">
+						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+						          <span>97</span>
+						        </div>
+						
+						        <!-- 작성일자 -->
+						        <div class="write_date ml-2">
+						          1일전
+						        </div>
+					        
+					        	<!-- 조회수,댓글수,추천수 -->
+					         	<div class="board_info_box d-flex justify-content-end align-items-center">
+						            <!-- 조회수 -->
+						            <div>
+						            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
+						             	<span>40</span>
+						           	</div>
+						
+						           	<!-- 댓글수 -->
+						           	<div class="ml-2">
+						             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
+						             	<span>20</span>
+						           	</div>
+						
+						           	<!-- 추천수 -->
+						           	<div class="ml-2">
+						             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
+						             	<span>30</span>
+						           	</div>
+				         		</div>
+				       		</div>
+	
+					       <!-- 글제목 -->
+					       <a href="#" class="subject align-items-center my-4">
+					         [중요알림] 국비의모든것 v0.0.1 오픈 안내
+					       </a>
+						</div>
+						<!-- 이 div가 반복문 끝 -->
+					</div>
+				</div>	
+	
+			<!-- study 영역 -->	
+			<div class="div_tbl_board d-flex flex-column">	
+				<!-- 테이블 제목 -->
+				<div class="title_board d-flex justify-content-start align-items-center">
+					<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F64B;</p>
+					<a href="#" style="font-size:15px; margin-left:3px; color:white;"> 스터디모집 </a>
+				</div>
+				<!-- 테이블 리스트 -->
+				<div class="list_board d-flex flex-column">
+					<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
+			        <!-- 이 div가 반복문 시작 -->
+			        <!-- 게시글 1개 영역 -->
+				    <div class="border-bottom py-3 px-3">
+				    	<!-- 작성 정보 -->
+				      	<div class="d-flex align-items-center mb-1">
+					        <!-- 작성자 프로필사진 -->
+					        <a href="#" class="writer_image_box border">
+					          <img src=""/>
+					        </a>
+					
+					        <!-- 작성자 닉네임 -->
+					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+					        <a href="#" class="writer_nickname ml-2">
+					         	 국모관리팀
+					        </a>
+					
+					        <!-- 작성자 활동점수 -->
+					        <div class="writer_point text-align-center ml-2">
+					          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+					          <span>97</span>
+					        </div>
+					
+					        <!-- 작성일자 -->
+					        <div class="write_date ml-2">
+					          1일전
+					        </div>
+				        
+				        	<!-- 조회수,댓글수,추천수 -->
+				         	<div class="board_info_box d-flex justify-content-end align-items-center">
+					            <!-- 조회수 -->
+					            <div>
+					            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
+					             	<span>40</span>
+					           	</div>
+					
+					           	<!-- 댓글수 -->
+					           	<div class="ml-2">
+					             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
+					             	<span>20</span>
+					           	</div>
+					
+					           	<!-- 추천수 -->
+					           	<div class="ml-2">
+					             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
+					             	<span>30</span>
+					           	</div>
+			         		</div>
+			       		</div>
+
+				       <!-- 글제목 -->
+				       <a href="#" class="subject align-items-center my-4">
+				         [중요알림] 국비의모든것 v0.0.1 오픈 안내
+				       </a>
+					</div>
+					<!-- 이 div가 반복문 끝 -->
+				</div>			
+			</div>
+			
+			<!-- 자유게시판 영역 -->			
+			<div class="div_tbl_board d-flex flex-column">	
+				<!-- 테이블 제목 -->
+				<div class="title_board d-flex justify-content-start align-items-center">
+				
+					<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F4AC;</p>
+					<a href="#" style="font-size:15px; margin-left:3px; color:white;"> 자유게시판 </a>
+				</div>
+				<!-- 테이블 리스트 -->
+				<div class="list_board d-flex flex-column">
+					<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
+			        <!-- 이 div가 반복문 시작 -->
+			        <!-- 게시글 1개 영역 -->
+				    <div class="border-bottom py-3 px-3">
+				    	<!-- 작성 정보 -->
+				      	<div class="d-flex align-items-center mb-1">
+					        <!-- 작성자 프로필사진 -->
+					        <a href="#" class="writer_image_box border">
+					          <img src=""/>
+					        </a>
+					
+					        <!-- 작성자 닉네임 -->
+					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+					        <a href="#" class="writer_nickname ml-2">
+					         	 국모관리팀
+					        </a>
+					
+					        <!-- 작성자 활동점수 -->
+					        <div class="writer_point text-align-center ml-2">
+					          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+					          <span>97</span>
+					        </div>
+					
+					        <!-- 작성일자 -->
+					        <div class="write_date ml-2">
+					          1일전
+					        </div>
+				        
+				        	<!-- 조회수,댓글수,추천수 -->
+				         	<div class="board_info_box d-flex justify-content-end align-items-center">
+					            <!-- 조회수 -->
+					            <div>
+					            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
+					             	<span>40</span>
+					           	</div>
+					
+					           	<!-- 댓글수 -->
+					           	<div class="ml-2">
+					             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
+					             	<span>20</span>
+					           	</div>
+					
+					           	<!-- 추천수 -->
+					           	<div class="ml-2">
+					             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
+					             	<span>30</span>
+					           	</div>
+			         		</div>
+			       		</div>
+
+				       <!-- 글제목 -->
+				       <a href="#" class="subject align-items-center my-4">
+				         [중요알림] 국비의모든것 v0.0.1 오픈 안내
+				       </a>
+					</div>
+					<!-- 이 div가 반복문 끝 -->
+				</div>	
+			
+			</div>	
+			
+			<!-- 후기 영역 -->
+			<div class="div_tbl_board d-flex flex-column">	
+				<!-- 테이블 제목 -->
+				<div class="title_board d-flex justify-content-start align-items-center">
+					<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F44D;</p>
+					<a href="#" style="font-size:15px; margin-left:3px; color:white;"> 후기/정보공유 </a>
+				</div>
+				<!-- 테이블 리스트 -->
+				<div class="list_board d-flex flex-column">
+					<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
+			        <!-- 이 div가 반복문 시작 -->
+			        <!-- 게시글 1개 영역 -->
+				    <div class="border-bottom py-3 px-3">
+				    	<!-- 작성 정보 -->
+				      	<div class="d-flex align-items-center mb-1">
+					        <!-- 작성자 프로필사진 -->
+					        <a href="#" class="writer_image_box border">
+					          <img src=""/>
+					        </a>
+					
+					        <!-- 작성자 닉네임 -->
+					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+					        <a href="#" class="writer_nickname ml-2">
+					         	 국모관리팀
+					        </a>
+					
+					        <!-- 작성자 활동점수 -->
+					        <div class="writer_point text-align-center ml-2">
+					          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+					          <span>97</span>
+					        </div>
+					
+					        <!-- 작성일자 -->
+					        <div class="write_date ml-2">
+					          1일전
+					        </div>
+				        
+				        	<!-- 조회수,댓글수,추천수 -->
+				         	<div class="board_info_box d-flex justify-content-end align-items-center">
+					            <!-- 조회수 -->
+					            <div>
+					            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
+					             	<span>40</span>
+					           	</div>
+					
+					           	<!-- 댓글수 -->
+					           	<div class="ml-2">
+					             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
+					             	<span>20</span>
+					           	</div>
+					
+					           	<!-- 추천수 -->
+					           	<div class="ml-2">
+					             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
+					             	<span>30</span>
+					           	</div>
+			         		</div>
+			       		</div>
+
+				       <!-- 글제목 -->
+				       <a href="#" class="subject align-items-center my-4">
+				         [중요알림] 국비의모든것 v0.0.1 오픈 안내
+				       </a>
+					</div>
+					<!-- 이 div가 반복문 끝 -->
+				</div>
+			</div>
+		</div>
 	</div>
+
 </div>

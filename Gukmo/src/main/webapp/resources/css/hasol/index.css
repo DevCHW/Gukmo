@@ -4,6 +4,12 @@
 	font-size:13px;
 }
 
+a {
+	padding: 0;
+}
+
+
+
 .carousel-inner {
 	width: 100%;
 	height: 200px;
@@ -20,9 +26,9 @@
  } 
 
 
-/* ========== 검색창 영역 CSS 시작 ========== */
+/* ----- 검색창 영역 CSS 시작 ----- */
   
-/* ------ input 영역 수정 ------ */
+/* input 영역 수정*/
 #searchWord {
 	width: 100%;
 	height: 40px;
@@ -33,8 +39,7 @@
 }
 
 
-/* ------ select 영역 수정 ------ */
-
+/* select 영역 수정 */
 .div_selectSearch select{
 	border:none;              /* select 태그에 적용된 style 없앰 */
 	-webkit-appearance: none; /* select 태그에 적용된 style 없앰 */
@@ -59,9 +64,6 @@
     border-right: none;
     border-radius: 100px 0 0 100px;
     z-index: 1;
-    /* z-index 태그들의 보여지는 순서 ex) 맨 앞으로 보내기, 뒤로 보내기 등등 같은 기능, 생략 시 자동으로 0
-       (현재 select 태그가 0 으로 설정됨)
-    */
 }
 
 /* select 내용물 자체를 감싸는 label (디자인된 select 내부 영역) */
@@ -90,26 +92,25 @@
     margin-left: 1.5em;
 }
 
-/* ========== 검색창 영역 CSS 끝 ========== */
 
 
 
 
-/* ========== 학원 정보 영역 CSS 시작 ========== */
+
+/* ----- 학원 정보 영역 CSS 시작 ----- */
+
 .div_academy {
-/*  	border: solid 1px grey; */
 	width:100%;
 }
 
 .div_card {	
-/*  	border: solid 1px blue; */
 	padding-left:0;
-
 }
 
 .card_1 .card:first-child {
 	margin:5px 0 5px 0;
 }
+
 .card_1 .card:not(.card:first-child) {
 	margin: 5px 0 5px 5px;
 }
@@ -150,59 +151,118 @@
 
 /* ========== 게시판 정보 영역 CSS 시작 ========== */
 
-.div_board {
-	border: solid 1px grey;
+div.div_infoBoard {
 	width:84%;
-	height: 800px;
 }
 
-
 /* 인기 검색어 영역 */
-.div_searchRank {
+div.div_searchRank {
 /* 	border: solid 1px blue; */
 	width:18%;
 	height: 300px;
-	margin: 0 3.7% 0 0.3%;
+	margin: 0 0.5% 0 0.3%;
 }
 
-.div2_searchRank {
+div.div2_searchRank {
 	height: 100%;
 }
-.title_searchRank {
-	height:15%;
-	font-size: 15pt;
-	font-weight: 500;
+div.title_searchRank {
+	height:45px;
 	border-radius: 5px 5px 0 0;
 	padding-left: 0.5em;
 	background-color:#F5F5F6;
 }
 
-.list_searchRank {
+div.title_searchRank p {
+	font-size: 15px;
+	font-weight: 500;
+	margin: 0;
+}
+
+div.list_searchRank {
 	border: solid 1px #E1E2E1;
 	border-radius: 0 0 5px 5px;
 	border-top:none;
 	padding: 0.5em;
 }
 
+div.list_searchRank a {
+	padding: 0.8em 0;
+	color: black;
+}
 
-.list_searchRank a {
-	margin: 0.9em 0.5em;
+/* ------------------------------------- */
 
+
+
+/* 게시글 CSS */
+
+a.writer_image_box{
+  width:15px;
+  height:15px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+div.writer_image_box > img{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+}
+
+div.write_date{
+  font-size:12px;
+  color : darkgray;
+}
+
+a.writer_nickname {
+	color:#424242
+}
+
+a.writer_nickname:hover {
+  color : #0090F9;
+  text-decoration: none;
 }
 
 
-.div_qna {
-	border: solid 1px red;
-	height: 300px;
-	width:37%;
-	margin-right: 3.7%;
+div.board_info_box{
+  /* color:#374151; */
+  color:#424242;
+  width:150px;
 }
 
-.div_study {
-	border: solid 1px green;
-	height: 300px;
-	width:37%;
-	margin-right:0.3%;
+
+
+
+/* 게시판 리스트 css */
+div.div_board {
+	width:82%;
 }
+
+div.div_tbl_board {
+	width:45%;
+	margin: 0 0.5% 3% 4.5%
+}
+
+.title_board {
+	height:45px;
+	border-radius: 5px 5px 0 0;
+	padding-left: 0.5em;
+	background-color:#208EC9;
+}
+
+.list_board {
+	border: solid 1px #208EC9;
+	border-radius: 0 0 5px 5px;
+	border-top:none;
+	padding: 0.5em;
+}
+
+a.subject {
+	font-size:16px;
+	font-weight:500;
+	color: black;
+}
+
 
 /* ========== 게시판 정보 영역 CSS 끝 ========= */
