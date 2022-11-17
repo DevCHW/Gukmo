@@ -26,6 +26,33 @@
 	</select>
 	
 	
+	<select id="statusCheck" parameterType="String" resultType="com.gukmo.board.model.MemberVO">
+		select * from tbl_member_login
+		where userid = #{userid}
+	</select>
+	
+	
+	<select id="getLastLoginday" parameterType="String" resultType="Integer">
+		select trunc(sysdate-login_date)
+		from tbl_login_record
+		where fk_userid = #{userid}
+		order by login_date desc
+	</select>
+	
+	<update id="editUserStatus_rest" parameterType="String">
+		update tbl_member_login set status='휴면' where userid = #{userid};
+	</update>
+	
+	
+	<select id="getLastUpdateDay" parameterType="String" resultType="Integer">
+		select trunc(sysdate-update_passwd_date)
+		from tbl_member_login
+		where userid = #{userid}
+	</select>
+	
+	
+	
+	
 	<!--=============== Login 끝 ============-->
 
 
