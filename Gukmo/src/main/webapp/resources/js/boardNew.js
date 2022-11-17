@@ -76,7 +76,7 @@ $(document).ready(function(){
 	    // 폼을 전송
 	    const frm = document.writerFrm;
 	    frm.method = "POST";
-	    frm.action = "<%= ctxPath%>/communityNewEnd.do";
+	    frm.action =  getContextPath()+"/communityNewEnd.do";
 	    //frm.submit();
     }); 
        

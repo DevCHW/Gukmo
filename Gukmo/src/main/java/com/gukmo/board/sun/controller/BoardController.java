@@ -43,7 +43,7 @@ public class BoardController {
 	
 	
 	// 게시판 글쓰기 페이지 요청
-	@RequestMapping(value="/community/communityNew.do" )
+	@RequestMapping(value="/community/new.do" )
 	// public ModelAndView requiredLogin_communityNew(HttpServletRequest request, HttpServletResponse response, ModelAndView mav){ // <== before Advice(로그인체크)
 	public ModelAndView communityNew(HttpServletRequest request, HttpServletResponse response, ModelAndView mav){
 		

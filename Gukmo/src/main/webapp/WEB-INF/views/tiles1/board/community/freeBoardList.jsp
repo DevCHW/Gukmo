@@ -147,7 +147,7 @@
          총&nbsp;<span style="font-weight: bold">1257&nbsp;</span>건
        </div>
 
-       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/communityNew.do'">
+       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
          글쓰기
        </button>
      </div>
