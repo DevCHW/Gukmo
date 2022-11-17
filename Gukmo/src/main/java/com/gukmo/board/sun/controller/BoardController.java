@@ -25,7 +25,7 @@ public class BoardController {
 	
 	
 	// 게시판 글목록 보기 페이지 요청
-	@RequestMapping(value="/boardlist.do")
+	@RequestMapping(value="/community/freeBoards.do")
 	public ModelAndView list(ModelAndView mav, HttpServletRequest request) {
 		List<BoardVO> boardList = null;
 		
@@ -40,7 +40,7 @@ public class BoardController {
 	}
 	
 	// 게시판 글쓰기 페이지 요청
-	@RequestMapping(value="/communityNew.do" )
+	@RequestMapping(value="/community/communityNew.do" )
 	public ModelAndView requiredLogin_communityNew(HttpServletRequest request, HttpServletResponse response, ModelAndView mav){
 		
 		// 카테고리 값 지정용
