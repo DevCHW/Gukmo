@@ -1,38 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원페이지</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-  <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <!-- title Icon -->
-  <link href="" rel="shortcut icon" type="image/x-icon">
-  <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="css/myInfo.css" />
-  
-  <!-- Optional JavaScript -->
-  <script type="text/javascript" src="jquery3.6.0/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
-  <!-- sweet alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <!-- toastr css라이브러리 -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-  <!-- toastr cdn 라이브러리 둘다 제이쿼리 밑에 있어야함 -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>  
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%
+	String ctxPath = request.getContextPath();
+%>
 
-  <!-- JqueryUI JS,CSS -->
-  <link rel="stylesheet" type="text/css" href="jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-  <script type="text/javascript" src="jquery-ui-1.13.1.custom/jquery-ui.min.js" ></script> 
-  <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="js/myInfo.js" ></script>
-</head>
-<body>
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/myInfo.css" />
+
+<%-- 직접만든 javascript --%>
+<script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/myInfo.js" ></script>
+
+
+
+
   <div class="container mt-4">
-    <!-- 사이드바 시작 -->
+    <%-- 사이드바 시작 --%>
     <div id="sidebar">
       <h5 id="sidebar_title">내 계정</h5>
       <ul>
@@ -41,23 +24,23 @@
         <li>활동 내역</li>
       </ul>
     </div>
-    <!-- 사이드바 끝 -->
+    <%-- 사이드바 끝 --%>
 
-    <!-- 내정보 시작 -->
+    <%-- 내정보 시작 --%>
     <div id="main">
       <h5>회원정보</h5>
       
-      <!-- 이름 -->
+      <%-- 이름 --%>
       <form action="" method="post">
         <div id="section1" class="justify-content-between mb-5">
           <div id="input_box" class="d-flex flex-column">
             <label for="" class="input_label">이름</label>
             <input type="text" id="username" name="username" class="border rounded pl-2" placeholder="이름을 입력해주세요">
-            <!-- 닉네임 -->
+            <%-- 닉네임 --%>
             <label for="" class="input_label mt-3">닉네임</label>
             <input type="text" id="nickname" name="nickname" class="border rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)">
           </div>
-          <!-- 프사 -->
+          <%-- 프사 --%>
           <div class="d-flex align-items-baseline">
             <div id="profile_img_box" class="border">
               <img src="../images/user-solid.svg"/>
@@ -83,7 +66,7 @@
             <span class="guide_content">유저가 만드는 다양한 컨텐츠를 뉴스레터로 받습니다.</span>
           </div>
 
-          <!-- 토글스위치 -->
+          <%-- 토글스위치 --%>
           <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>
@@ -109,9 +92,7 @@
 
 
     </div>
-    <!-- 내정보 끝 -->
+    <%-- 내정보 끝 --%>
 
 
   </div>
-</body>
-</html>

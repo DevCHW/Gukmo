@@ -1,39 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>유저 활동 내역</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-  <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <!-- title Icon -->
-  <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">
-  <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="css/activities.css" />
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%
+	String ctxPath = request.getContextPath();
+%>
+
+  <%-- 직접 만든 CSS --%>
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/activities.css" />
   
-  <!-- Optional JavaScript -->
-  <script type="text/javascript" src="jquery3.6.0/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
-  <!-- sweet alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <!-- toastr css라이브러리 -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-  <!-- toastr cdn 라이브러리 둘다 제이쿼리 밑에 있어야함 -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>  
+  <%-- 직접만든 javascript --%>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/Activities.js" ></script>
 
-  <!-- JqueryUI JS,CSS -->
-  <link rel="stylesheet" type="text/css" href="jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-  <script type="text/javascript" src="jquery-ui-1.13.1.custom/jquery-ui.min.js" ></script> 
-  <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="js/Activities.js" ></script>
-</head>
 
-<body>
   <div class="container mt-5">
-    <!-- 사이드바 시작 -->
+    <%-- 사이드바 시작 --%>
     <div id="sidebar">
       <h5 id="sidebar_title">내 계정</h5>
       <ul class="pl-3 pt-3">
@@ -42,15 +22,15 @@
         <li>활동 내역</li>
       </ul>
     </div>
-    <!-- 사이드바 끝 -->
+    <%-- 사이드바 끝 --%>
     <div id="main">
-      <!-- main_header -->
+      <%-- main_header --%>
       <div class="main_header border rounded">
-        <!-- top -->
+        <%-- top --%>
         <div class="d-flex">
           <div class="d-flex w-100 justify-content-between py-4 px-3 align-items-center">
             <div class="d-flex align-items-center">
-              <!-- 프사 -->
+              <%-- 프사 --%>
               <div id="profile_img_box" class="border">
                 <img src="images/user-solid.svg"/>
               </div>
@@ -67,7 +47,7 @@
           </div>
         </div>
 
-        <!-- bottom -->
+        <%-- bottom --%>
         <div id="navbar" class="d-flex border-top">
           <div class="filter mx-4 py-3">
             활동내역
@@ -79,9 +59,9 @@
       </div>
 
 
-      <!-- 활동내역 시작 -->
+      <%-- 활동내역 시작 --%>
       <div id="activities" class="mt-4">
-        <!-- 1 -->
+        <%-- 1 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -102,7 +82,7 @@
         </div>
 
 
-        <!-- 2 -->
+        <%-- 2 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -123,7 +103,7 @@
         </div>
 
 
-        <!-- 3 -->
+        <%-- 3 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -144,7 +124,7 @@
         </div>
 
 
-        <!-- 4 -->
+        <%-- 4 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -165,7 +145,7 @@
         </div>
 
 
-        <!-- 5 -->
+        <%-- 5 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -186,7 +166,7 @@
         </div>
 
 
-        <!-- 6 -->
+        <%-- 6 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -207,7 +187,7 @@
         </div>
 
 
-        <!-- 7 -->
+        <%-- 7 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -227,7 +207,7 @@
           </div>
         </div>
 
-        <!-- 8 -->
+        <%-- 8 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -247,7 +227,7 @@
           </div>
         </div>
 
-        <!-- 9 -->
+        <%-- 9 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -267,7 +247,7 @@
           </div>
         </div>
 
-        <!-- 10 -->
+        <%-- 10 --%>
         <div class="activity_box border-top border-bottom py-4">
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
@@ -289,14 +269,14 @@
       </div>
     </div>
 
-    <!----------------------------------- main 끝------------------------------------->
+    <%----------------------------------- main 끝-------------------------------------%>
   </div>
 
 
-  <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
+  <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
   <nav aria-label="...">
     <ul class="my pagination pagination-md justify-content-center mt-5">
-      <!-- 첫페이지로 이동버튼 -->
+      <%-- 첫페이지로 이동버튼 --%>
       <li class="page-item">
         <a class="page-link" href="#">
           <i class="fa-solid fa-angles-left"></i>
@@ -304,14 +284,14 @@
       </li>
       
       
-      <!-- 전페이지로 이동버튼 -->
+      <%-- 전페이지로 이동버튼 --%>
       <li class="page-item">
         <a class="page-link" href="#">
           <i class="fa-solid fa-angle-left"></i>
         </a>
       </li>
       
-      <!-- 페이지번호 시작-->
+      <%-- 페이지번호 시작--%>
       <li class="page-item active" aria-current="page">
         <a class="page-link" href="#">1</a>
       </c:if>
@@ -331,25 +311,25 @@
       <li class="page-item">
         <a class="page-link" href="#">5</a>
       </li>
-      <!-- 페이지번호 끝 -->
+      <%-- 페이지번호 끝 --%>
             
             
             
-      <!-- 다음페이지로 이동버튼 -->
+      <%-- 다음페이지로 이동버튼 --%>
       <li class="page-item">
         <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
       </li>
 
-      <!-- 맨 끝페이지로 이동버튼 -->
+      <%-- 맨 끝페이지로 이동버튼 --%>
       <li class="page-item">
         <a class="page-link" href="#"><i class="fas fa-solid fa-angles-right"></i></a>
       </li>
     </ul>
   </nav>
-  <!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
+  <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
 
 
-  <!-- 검색바시작 -->
+  <%-- 검색바시작 --%>
   <div id="search_area" class="d-flex mx-auto my-5">
     <div id="academy_search" class="d-flex m-auto rounded">
       <div id="input_keyword">
@@ -360,7 +340,7 @@
       </div>
     </div>
   </div>
-  <!-- 검색바 끝 -->
+  <%-- 검색바 끝 --%>
 
 
 </body>
