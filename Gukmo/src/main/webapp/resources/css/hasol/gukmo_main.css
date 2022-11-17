@@ -7,6 +7,8 @@ body {font-family: 'Noto Sans KR', sans-serif;}
 #mycontainer	{}
 #myheader		{ font-size: 13px; }
 #mycontent		{ }
+
+#mycontent input:focus{outline:none;}
 #mycontent input:not(#searchWord) {
 	border:solid 1px #E1E2E1;
 	border-radius:5px;

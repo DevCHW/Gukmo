@@ -13,6 +13,27 @@
 		where userid = #{userid}
 	</select>
 	
+	<select id="nicknameExistCheck" parameterType="String" resultType="Integer">
+		select count(nickname) from tbl_member
+		where nickname = #{nickname}
+	</select>
+	
+	<select id="emailExistCheck" parameterType="String" resultType="Integer">
+		select count(email) from tbl_member
+		where email = #{email}
+	</select>
+	
+	<insert id="insert_member_login" parameterType="com.gukmo.board.model.MemberVO">
+		insert into tbl_member_login(userid, passwd)
+		values(#{userid}, #{passwd})
+	</insert>
+	
+	<insert id="insert_member" parameterType="com.gukmo.board.model.MemberVO">
+		insert into tbl_member(fk_userid, email, email_acept, nickname)
+		values(#{userid}, #{email}, #{email_acept}, #{nickname})
+	</insert>
+	
+	
 	
 	<!--=============== Member 끝 ============-->
 	
@@ -23,6 +44,11 @@
 	<select id="userExistCheck" parameterType="HashMap" resultType="Integer">
 		select count(userid) from tbl_member_login
 		where userid = #{userid} and passwd = #{passwd}
+	</select>
+	
+	<select id="adminExistCheck" parameterType="HashMap" resultType="Integer">
+		select count(admin_id) from tbl_admin_login
+		where admin_id = #{userid} and passwd = #{passwd}
 	</select>
 	
 	
@@ -49,6 +75,40 @@
 		from tbl_member_login
 		where userid = #{userid}
 	</select>
+	
+	<select id="getUser" parameterType="String" resultType="com.gukmo.board.model.MemberVO">
+		select V.userid,
+		       nvl(V.email,C.email) email,
+		       nvl(V.email_acept,C.email_acept) email_acept,
+		       nvl(V.nickname,C.nickname) nickname,
+		       nvl(V.point,C.point) point,
+		       nvl(V.join_date,C.join_date) join_date,
+		       nvl(V.profile_image,C.profile_image) profile_image,
+		       C.academy_name,
+		       C.company_num,
+		       C.homepage,
+		       C.phone
+		from
+			(
+			select A.userid,email,email_acept,nickname,point,join_date,profile_image
+			from
+				(
+				select userid from tbl_member_login 
+				where userid = #{userid} 
+				)A
+				left join
+				tbl_member B
+				on A.userid = B.fk_userid
+			) V
+			left join
+			tbl_academy_member C
+		on V.userid = C.fk_userid
+	</select>
+	
+	<insert id="loginRecordSave" parameterType="HashMap">
+		insert into tbl_login_record(login_num, fk_userid, login_ip)
+		values(seq_login_record.nextval, #{userid}, #{client_ip})
+	</insert>
 	
 	
 	

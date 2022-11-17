@@ -1,3 +1,4 @@
+@charset "UTF-8";
 div#signup{
   min-width: 380px;
   width: 448px;
@@ -91,6 +92,13 @@ p.ok{
   display:none;
 }
 
+button#btn_email_certification{
+  background:white;
+  color:black;
+  font-size:x-small;
+  font-weight:bold;
+}
+
 
 
 button#btn_signup{
@@ -100,6 +108,12 @@ button#btn_signup{
   font-weight: bold;
   color:white;
 }
+
+div#email_error_area{
+  display:flex;
+  justify-content:end;
+}
+
 
 
 
@@ -163,3 +177,28 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 /* 토글스위치 끝 */
+
+
+
+
+/* Modal */
+button#btn_send_email{
+  font-size:small;
+}
+input#input_certificationCode{
+  height:40px;
+}
+input#input_certificationCode:focus{
+  outline: none;
+}
+input#input_certificationCode::placeholder{
+  font-size:small;
+  
+}
+div#certification_area{
+  display:none;
+}
+span#send_guide{
+  font-size:small;
+  color:gray;
+}

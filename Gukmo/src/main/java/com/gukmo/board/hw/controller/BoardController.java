@@ -19,14 +19,16 @@ public class BoardController {
 	/**
 	 * 스터디 게시판리스트 매핑
 	 */
-	@RequestMapping(value="/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
+	@RequestMapping(value="/community/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public ModelAndView login(ModelAndView mav) {
       
       mav.setViewName("board/community/studies.tiles1");
-      //   /WEB-INF/views/tiles1/login/login.jsp 파일을 생성한다.
+      //   /WEB-INF/views/tiles1/login/login.jsp 파일
       
       return mav;
    }
+	
+
 	
 	
 	

@@ -1,37 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원가입 페이지</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-  <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <!-- title Icon -->
-  <link href="" rel="shortcut icon" type="image/x-icon">
-  <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="css/signup.css" />
-  
-  <!-- Optional JavaScript -->
-  <script type="text/javascript" src="jquery3.6.0/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
-  <!-- sweet alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <!-- toastr css라이브러리 -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-  <!-- toastr cdn 라이브러리 둘다 제이쿼리 밑에 있어야함 -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>  
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	String ctxPath = request.getContextPath();
+%>
 
-  <!-- JqueryUI JS,CSS -->
-  <link rel="stylesheet" type="text/css" href="jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-  <script type="text/javascript" src="jquery-ui-1.13.1.custom/jquery-ui.min.js" ></script> 
-  <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="js/signup.js" ></script>
-</head>
-<body>
-  <div id="signup" class="d-flex flex-column mx-auto my-5">
+
+ <!-- 직접 만든 CSS -->
+ <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/signup.css" />
+ 
+ <!-- 직접만든 javascript -->
+ <script type="text/javascript" src="<%=ctxPath %>/resources/js/signup.js" ></script>
+ 
+ 
+ 
+ <div id="signup" class="d-flex flex-column mx-auto my-5">
     <!-- 로고 이미지 -->
     <div id="logo_img_box" class="m-auto">
       <img id="logo" src="" alt="로고 들어갈 곳">
@@ -66,7 +48,7 @@
 
     <!-- signupform 시작 -->
     <div id="signup_form">
-      <form action="" class="d-flex flex-column">
+      <form name="signup_form" class="d-flex flex-column">
         <!-- userid (unique,중복체크)-->
         <label for="userid" class="label_signup mt-3">아이디</label>
         <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디">
@@ -86,7 +68,11 @@
         <!-- email (unique,중복체크)-->
         <label for="email" class="label_signup mt-3">이메일</label>
         <input type="text" id="email" name="email" class="input_signup rounded pl-2" placeholder="example@google.com">
-        <p id="email_error" class="error">이메일 형식에 맞지 않습니다.<!-- 이미 가입된 이메일입니다. --></p>
+        <div id="email_error_area">
+          <p id="email_error" class="error"><!-- 이미 가입된 이메일입니다. --></p>
+          <p id="email_ok" class="ok">사용할 수 있는 이메일입니다.</p>
+          <button id="btn_email_certification" type="button" class="btn border rounded mt-2" data-toggle="modal" data-target="#email_certification" data-dismiss="modal">이메일 인증</button>
+        </div>
         
 
         <!-- username -->
@@ -97,9 +83,9 @@
         <!-- nickname (unique,중복체크)-->
         <label for="nickname" class="label_signup mt-3">닉네임</label>
         <input type="text" id="nickname" name="nickname" class="input_signup rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)">
-        <p id="nickname_error" class="error">중복된 닉네임입니다.</p>
+        <p id="nickname_error" class="error"></p>
         <p id="nickname_ok" class="ok">사용할 수 있는 닉네임입니다.</p>
-
+		
 
         <!-- email 수신동의 -->
         <div id="email_agreement" class="d-flex justify-content-between my-3">
@@ -110,6 +96,7 @@
             <span class="slider round"></span>
           </label>
         </div>
+        <input type="hidden" id="email_acept" name="email_acept" value="0"/>
       </form>
 
       <div class="my-3">
@@ -121,7 +108,7 @@
         로봇이아닙니다 넣을 자리
       </div>
 
-      <button id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
+      <button type="button" id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
 
 
 
@@ -129,7 +116,40 @@
     </div>
     <!-- signupform 끝 -->
 
-
   </div>
-</body>
-</html>
+
+
+<!-- 이메일인증 Modal -->
+  <div class="modal fade" id="email_certification">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal header -->
+        <div class="modal-header">
+          <h5 class="modal-title">이메일인증코드 발송</h5>
+          <button type="button" class="close email_certificationClose" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="d-flex flex-column mt-2">
+            <div>
+              <button id="btn_send_email" class="btn border rounded mr-1">인증번호 전송</button>
+            </div>
+            <span id="send_guide" class="mt-2"></span>
+            <div id="certification_area" class="align-items-center">
+              <input class="border rounded mt-2 pl-2" type="text" id="input_certificationCode" name="emailCertificationCode" placeholder="인증번호를 입력해주세요">
+              <div id="div_timer" class="mt-3 ml-4" style="color:red; font-size:14px; font-weight:bold;"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button id="btn_certification_complete" type="button" class="btn border">인증완료</button>
+          <button type="button" class="btn border email_certification_close" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>

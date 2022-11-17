@@ -4,7 +4,6 @@
 	font-size:13px;
 }
 
-
 .carousel-inner {
 	width: 100%;
 	height: 200px;
@@ -27,8 +26,11 @@
 	width: 100%;
 	height: 40px;
 	border-radius:0 100px 100px 0;
+	border:solid 1px #E1E2E1;
     border-left: none;
+    padding: 2px 5px;
 }
+
 
 /* --- select 태그 수정 --- */
 
@@ -59,7 +61,7 @@
     z-index: 1;
 }
 
-/* select 내용물 자체를 감싸는 div */
+/* select 내용물 자체를 감싸는 label */
 .selectSearch_div label {
     position:absolute;
     text-align:center;
