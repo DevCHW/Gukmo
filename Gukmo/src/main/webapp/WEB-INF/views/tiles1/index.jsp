@@ -242,7 +242,7 @@
 				<!-- 테이블 제목 -->
 				<div class="title_board d-flex justify-content-start align-items-center">
 					<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F64B;</p>
-					<a href="#" style="font-size:15px; margin-left:3px; color:white;"> 스터디모집 </a>
+					<a href="<%=ctxPath %>/community/studies.do" style="font-size:15px; margin-left:3px; color:white;"> 스터디모집 </a>
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
