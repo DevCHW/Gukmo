@@ -45,7 +45,7 @@
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
 
   <%-- *** ajax로 파일을 업로드할때 가장 널리 사용하는 방법 ==> ajaxForm *** --%>
-  <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery.form.min.js"></script>
+  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery.form.min.js"></script>
 
 </head>
 <body>
