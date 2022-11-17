@@ -1,6 +1,16 @@
+// js파일에서 contextPath를 알아내는 함수
+function getContextPath(){
+  let hostIndex = location.href.indexOf(location.host) + location.host.length;
+  let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
+  return contextPath;
+}
+
+
+
+
 $(document).ready(function(){
   
-	// ==== 스마트 에디터 구현 시작 ==== //
+	//	==== 스마트 에디터 구현 시작 ==== //
 	//전역변수
     var obj = [];
     
@@ -8,7 +18,7 @@ $(document).ready(function(){
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: obj,
         elPlaceHolder: "content",
-        sSkinURI: "/board/resources/smarteditor/SmartEditor2Skin.html",
+        sSkinURI: getContextPath()+"/resources/smarteditor/SmartEditor2Skin.html",
         htParams : {
             // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
             bUseToolbar : true,            
@@ -29,12 +39,20 @@ $(document).ready(function(){
     if(e.keyCode == 8 || e.keyCode == 43){  //hashtag 에서 백스페이스나 DElETE 키를 누른 경우
    }
     
-    // 등록 버튼을 클릭했을시
+    
+	// 등록 버튼을 클릭했을시
     $("button#btn_write").click(function() {
-    	
+    	alert('클릭함');
     	// ==== 스마트 에디터 구현 시작 ==== //
     	// id가 content인 textarea에 에디터에서 대입
     	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+    	
+    	// 카테고리 유효성 검사
+    	const detail_category = $("select#detail_category").val();
+    	if(detail_category == "") {
+    		alert("카테고리를 선택하세요!!");
+			return;
+    	}
     	
     	// 글제목 유효성 검사
 		const subject = $("input#subject").val().trim();
@@ -59,8 +77,11 @@ $(document).ready(function(){
 	    const frm = document.writerFrm;
 	    frm.method = "POST";
 	    frm.action = "<%= ctxPath%>/communityNewEnd.do";
-	    frm.submit();
-    });    
+	    //frm.submit();
+    }); 
+       
+    
+    
     
   });
 });

@@ -7,20 +7,11 @@
 	String ctxPath = request.getContextPath();
 %>   
 
-
-
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
 
 <!-- 직접만든 javascript -->
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/boardNew.js" ></script>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-	
-	});
-    
-</script>
 
 
   <div class="container">
@@ -33,9 +24,9 @@
 	  -->
 	  
       <!-- category -->
-      <label for="category" class="community_label">구분</label>
-      <select name="category" id="category" class="community_input pl-2 border rounded">
-        <option>구분을 선택해주세요</option>
+      <label for="detail_category" class="community_label">구분</label>
+      <select name="detail_category" id="detail_category" class="community_input pl-2 border rounded">
+        <option value="">구분을 선택해주세요</option>
         <option>스터디</option>
         <option>자유게시판</option>
         <option>Q&A</option>

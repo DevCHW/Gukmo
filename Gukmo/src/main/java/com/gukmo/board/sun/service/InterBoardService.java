@@ -9,5 +9,6 @@ public interface InterBoardService{
 	
 	// 게시판 글목록 보기 페이지 요청
 	List<BoardVO> boardList(Map<String, String> paraMap);
+
 	
 }
