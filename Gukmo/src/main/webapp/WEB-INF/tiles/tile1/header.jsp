@@ -26,7 +26,7 @@
                                 <a class="nav-link" href="#">국비학원</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">커뮤니티</a>
+                                <a class="nav-link" href="<%=ctxPath %>/boardlist.do">커뮤니티</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="#">공지사항</a>

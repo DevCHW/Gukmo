@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%-- ======= #28. tile2 중 footer 페이지 만들기  ======= --%>
+
 <!-- Footer -->
 <footer class="text-center text-lg-start text-muted border-top">
   <!-- Section: Links  -->
@@ -91,3 +93,25 @@
   <!-- Copyright -->
 </footer>
 <!-- Footer -->
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		var mycontent_height = $("div#mycontent").css("height");
+		var mysideinfo_height = $("div#mysideinfo").css("height");
+		
+	//	console.log("mycontent_height : " + mycontent_height);
+	//	console.log("mysideinfo_height : " + mysideinfo_height);
+		
+		if (mycontent_height > mysideinfo_height) {
+			$("div#mysideinfo").css({"height":mycontent_height});
+		}
+		
+		if (mysideinfo_height > mycontent_height) {
+			$("div#mycontent").css({"height":mysideinfo_height});
+		}
+		
+	});
+
+</script>

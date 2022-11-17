@@ -5,4 +5,18 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="sun">
+
+	<select id="boardList" parameterType="HashMap" resultType="com.gukmo.board.model.BoardVO">
+		select rno, board_num, nickname, category, detail_category, subject, content, write_date, views, profile_image
+		from 
+		(
+			select rownum rno, board_num, nickname, category, detail_category
+			      , subject, content, to_char(write_date, 'yyyy-mm-dd hh24:mi:ss') as write_date
+			      , views, profile_image
+			from tbl_board
+			where 1=1 and category = '커뮤니티' and detail_category = '자유게시판'
+			<!--  and lower(${searchType}) like '%'||lower(#{searchWord})||'%' -->
+		)v 
+	</select>
+	
 </mapper>
