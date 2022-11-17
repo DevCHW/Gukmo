@@ -11,8 +11,8 @@
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
 
 <!-- 직접만든 javascript -->
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/boardList.js" ></script>
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/freeBoardList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/freeBoardList.js" ></script>
 
    <div class="container mt-4">
      <div id="category" class="d-flex justify-content-center align-content-center">

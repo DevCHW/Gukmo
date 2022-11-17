@@ -10,9 +10,11 @@
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
 
-<!-- 직접만든 javascript -->
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/boardNew.js" ></script>
+<!-- 스마트 에디터  -->
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
+<!-- 직접만든 javascript -->
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/boardNew.js" ></script>
 
   <div class="container">
     <!-- 커뮤니티 작성 폼 시작 -->

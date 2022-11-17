@@ -57,7 +57,7 @@ public class BoardController {
 		return mav;
 	}
 
-//	@RequestMapping(value="/communityNewEnd.do", method= {RequestMethod.POST})
+//	@RequestMapping(value="/NewEnd.do", method= {RequestMethod.POST})
 ////	public ModelAndView pointPlus_communityNewEnd(Map<String, String> paraMap, ModelAndView mav, BoardVO boardvo) {  // <== After Advice(활동점수 올리기)
 //	public ModelAndView communityNewEnd(ModelAndView mav, BoardVO boardvo) {  
 //	
