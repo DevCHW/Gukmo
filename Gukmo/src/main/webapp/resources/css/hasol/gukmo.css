@@ -6,12 +6,21 @@ body {font-family: 'Noto Sans KR', sans-serif;}
 
 #mycontainer	{}
 #myheader		{ font-size: 13px; }
-#mycontent		{ }
 
+
+/* 모든 input focus 시 테두리 설정 제거 */
 #mycontent input:focus{outline:none;}
+
+/* 모든 input 테두리 회색에 둥글게 설정, #searchWord 선택자는 제외되므로 확인 필 */
 #mycontent input:not(#searchWord) {
 	border:solid 1px #E1E2E1;
 	border-radius:5px;
 }
+
+/* 모든 a 태그에 기본 디자인 설정 삭제 */
+#mycontent a {
+	text-decoration: none;
+}
+
 #myfooter		{ font-size:13px; }
 	

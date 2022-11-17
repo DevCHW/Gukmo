@@ -52,18 +52,18 @@
 <div class="container d-flex flex-column align-items-center">
 
     <!-- 검색창 영역 -->
-		<div class="searchBar d-flex my-5 col-9">
-			<div class="selectSearch_div">                 
-			    <label for="selectSearch">학원명</label>                           
-		        <select name="selectSearch" id="selectSearch">
-		            <option value="academy_name" selected>학원명</option>
-		            <option value="subject_name">과정명</option>
-		            <option value="board">게시글</option>
-		            <!-- <option value="academy_name">해시태그</option> -->			
-		        </select>
-			</div>
-			<input type="text" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
+	<div class="searchBar d-flex my-5 col-9">
+		<div class="div_selectSearch">                 
+		    <label for="selectSearch">학원명</label>                           
+	        <select name="selectSearch" id="selectSearch">
+	            <option value="academy_name" selected>학원명</option>
+	            <option value="subject_name">과정명</option>
+	            <option value="board">게시글</option>
+	            <!-- <option value="academy_name">해시태그</option> -->			
+	        </select>
 		</div>
+		<input type="text" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
+	</div>
 
 
 	<!-- 학원 정보 영역 -->
@@ -147,8 +147,23 @@
 	
 	
 	<!-- 게시판 정보 영역 -->
-	<div class="div_board d-flex">
-		<div class="search_rank col-3"></div>
+	<div class="div_board d-flex mt-4">
+		
+		<!-- 인기 검색어 영역 -->
+		<div class="div_searchRank">
+			<div class="div2_searchRank d-flex flex-column">
+				<div class="title_searchRank d-flex justify-content-start align-items-center"> 인기 검색어 </div>
+				<div class="list_searchRank d-flex flex-column">
+					<a href="#"> 검색어 1 </a>
+					<a href="#"> 검색어 1 </a>
+					<a href="#"> 검색어 1 </a>
+					<a href="#"> 검색어 1 </a>
+					<a href="#"> 검색어 1 </a>
+				</div>
+			</div>
+		</div>
+		
+		
 		<div class="div_qna"></div>
 		<div class="div_study"></div>
 	</div>
