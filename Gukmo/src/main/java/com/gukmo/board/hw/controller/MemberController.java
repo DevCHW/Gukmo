@@ -1,6 +1,7 @@
 package com.gukmo.board.hw.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,12 @@ public class MemberController {
 	
 	@Autowired
 	private InterMemberDAO dao;
+	
+	
+	//============================================================================ //
+	//============================= 회원가입 관련 시작 ================================== //
+	//============================================================================ //
+	
 	
 	
 	/**
@@ -106,6 +113,73 @@ public class MemberController {
 		
 		return "msg";
 	}
+	
+	
+	//=========================================================================== //
+	//============================= 회원가입 관련 끝=================================== //
+	//=========================================================================== //
+	
+	/**
+	 * 활동내역 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/member/activities.do", method= {RequestMethod.GET})
+	public String viewActivities(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "redirect:/index.do";
+		}
+		
+		
+		return "member/activities.tiles1";
+		// /WEB-INF/views/tiles1/member/activities.jsp 페이지.
+	}
+	
+	
+	
+	/**
+	 * 내계정 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/member/myId.do", method= {RequestMethod.GET})
+	public String viewMyId(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "redirect:/index.do";
+		}
+		
+		
+		return "member/myId.tiles1";
+		// /WEB-INF/views/tiles1/member/myId.tiles1.jsp 페이지.
+	}
+	
+	
+	
+	/**
+	 * 내정보 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/member/myInfo.do", method= {RequestMethod.GET})
+	public String viewMyInfo(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "redirect:/index.do";
+		}
+		return "/member/myInfo.tiles1";
+		// /WEB-INF/views/tiles1/member/myInfo.jsp 페이지.
+	}
+	
+	
+	
+	
+	
+	//============================================================================== //
+	//============================= 마이페이지 관련 시작=================================== //
+	//============================================================================== //
+	
+	
+	
+	
+	//============================================================================== //
+	//============================= 마이페이지 관련 시작=================================== //
+	//============================================================================== //
 	
 	
 	
