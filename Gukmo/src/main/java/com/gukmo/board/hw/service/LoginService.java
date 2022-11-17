@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gukmo.board.common.AES256;
+import com.gukmo.board.common.Sha256;
 import com.gukmo.board.hw.repository.InterLoginDAO;
 import com.gukmo.board.model.MemberVO;
 
@@ -14,11 +14,6 @@ import com.gukmo.board.model.MemberVO;
 public class LoginService implements InterLoginService{
 	@Autowired
 	InterLoginDAO dao;
-	
-	@Autowired
-	private AES256 aes;
-	
-	
 	
 	/**
 	 * 회원의 상태 체크하기(활동,정지,휴면,대기,비밀번호 변경시점 3개월)
@@ -65,6 +60,49 @@ public class LoginService implements InterLoginService{
 		}
 		return status;
 	}
+
+
+	/**
+	 * 회원 아이디,비밀번호 검사
+	 * @param 유저가 입력한 아이디, 유저가 입력한 비밀번호
+	 * @return 아이디,비밀번호를 맞게 입력하였다면 true, 아니라면 false 반환
+	 */
+	@Override
+	public boolean userExistCheck(Map<String, String> paraMap) {
+		paraMap.put("passwd",Sha256.encrypt(paraMap.get("passwd")));	//비밀번호 단방향 암호화해서 덮어씌우기
+		boolean userExist = dao.userExistCheck(paraMap);
+		return userExist;
+	}
+	
+	
+	
+	/**
+	 * 관리자 로그인 검사
+	 * @param 유저가 입력한 관리자아이디, 유저가 입력한 비밀번호
+	 * @return 관리자 아이디,비밀번호를 맞게 입력하였다면 true, 아니라면 false 반환
+	 */
+	@Override
+	public boolean adminExistCheck(Map<String, String> paraMap) {
+		paraMap.put("passwd",Sha256.encrypt(paraMap.get("passwd")));	//비밀번호 단방향 암호화해서 덮어씌우기
+		boolean userExist = dao.adminExistCheck(paraMap);
+		return userExist;
+	}
+
+	
+	
+	/**
+	 * 로그인 완료처리하기(로그인 기록테이블에 로그인 기록insert, user조회)
+	 * @param 유저아이디,클라이언트 ip(userid,client_ip)
+	 * @return MemberVO 타입 객체
+	 */
+	@Override
+	public MemberVO login_complete(Map<String, String> paraMap) {
+		dao.loginRecordSave(paraMap);	//로그인 기록테이블에 기록하기
+		return dao.getUser(paraMap.get("userid"));
+	}
+
+
+	
 	
 	
 	

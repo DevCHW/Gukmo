@@ -44,12 +44,11 @@ $(document).ready(function(){
 		  $("span#userid_error").css("display","none");
 		  $("span#passwd_error").css("display","none");
 		  $.ajax({	//아이디존재여부 검사
-			url:getContextPath()+"/idExist.do",
+			url:getContextPath()+"/member/idExistCheck.do",
 			type:"POST",
 			data:{"userid":userid},
 		    dataType:"JSON",
 		    success:function(json){	
-		    	alert(json.idExist);
 		    	if(!json.idExist){	//존재하지 않는 아이디라면
 		    		$("span#userid_error").text("존재하지 않는 아이디입니다.");
 		    		$("span#userid_error").css("display","block");
@@ -64,7 +63,12 @@ $(document).ready(function(){
 		    		    dataType:"JSON",
 		    		    success:function(json){	
 		    		    	if(json.userExist){ //로그인이 성공이라면
-		    		    		user_status(userid);
+		    		    		if(userid != 'admin'){	//관리자로 로그인하지 않았다면
+		    		    			user_status(userid);	//유저의 상태체크
+		    		    		}
+		    		    		else{
+		    		    			login();
+		    		    		}
 		    		    		return;
 		    		    	}
 		    		    	else{	//로그인이 실패했다면
@@ -100,7 +104,7 @@ $(document).ready(function(){
  * @returns
  */
 function user_status(userid){
-	$.ajax({	//아이디존재여부 검사
+	$.ajax({	
 		url:getContextPath()+"/statusCheck.do",
 		type:"POST",
 		data:{"userid":userid},
@@ -147,3 +151,4 @@ function login(){
 	frm.method = "POST";
 	frm.submit();
 }
+

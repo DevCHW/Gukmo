@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.hw.repository.InterLoginDAO;
 import com.gukmo.board.hw.service.InterLoginService;
+import com.gukmo.board.model.MemberVO;
 
 @Controller
 public class LoginController {
@@ -25,8 +26,7 @@ public class LoginController {
 	InterLoginDAO dao;
 	
 	/**
-	 * 로그인 페이지 get요청
-	 * @return login페이지
+	 * 로그인 페이지 url매핑
 	 */
 	@RequestMapping(value="/login.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public ModelAndView login(ModelAndView mav) {
@@ -53,8 +53,14 @@ public class LoginController {
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("passwd", passwd);
-		
-		boolean userExist = dao.userExistCheck(paraMap);
+		boolean userExist = false;
+		if("admin".equals(userid)) {	//사용자가 입력한 아이디가 admin이라면
+			userExist = service.adminExistCheck(paraMap);
+		}
+		else {
+			userExist = service.userExistCheck(paraMap);
+		}
+			
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userExist", userExist);
 		
@@ -88,19 +94,47 @@ public class LoginController {
 	
 	
 	/**
-	 * 로그인 완료처리하기
+	 * 로그인 완료처리하기(로그인기록테이블 insert해주기,MemberVO객체 세션에 저장)
 	 * @param 유저아이디, 비밀번호
-	 * @return 이전페이지로 이동(추후 구현예정),로그인기록테이블 insert해주기(추후구현예정) 현재는 index 페이지로 이동,
+	 * @return 이전페이지로 이동(추후 구현예정),(추후구현예정) 현재는 index 페이지로 이동,
 	 */
 	
 	@RequestMapping(value="/login.do",method= {RequestMethod.POST})
 	public String login_complete(HttpServletRequest request) {
-		String userid = request.getParameter("userid");
+		
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("userid",request.getParameter("userid"));
+		paraMap.put("client_ip",request.getRemoteAddr());
+		
+		
+		MemberVO user = null;
+		if("admin".equals(request.getParameter("userid"))) {	//관리자로 로그인하였다면
+			user = new MemberVO(request.getParameter("userid"), //아이디
+							    null, 							//비밀번호	
+							    "활동", 							//상태
+							    null, 							//마지막비밀번호변경일자
+							    null,							//이메일
+							    null, 							//이메일 수신동의
+							    "국비의모든것 관리팀",					//닉네임 
+							    "9999", 						//활동점수
+							    null, 							//가입일자
+							    null,							//프로필이미지
+							    null, 							//교육기관명
+							    null,  							//사업자번호
+							    null,							//홈페이지
+							    null);     						//연락처
+		}
+		else {	//관리자가 아닌회원으로 로그인하였다면
+			user = service.login_complete(paraMap);
+		}
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("userid", userid);
+		session.setAttribute("user", user);
+		
 		return "redirect:/index.do";
 	}
+	
+	
 	
 	
 	

@@ -1,5 +1,7 @@
 package com.gukmo.board.hw.repository;
 
+import com.gukmo.board.model.MemberVO;
+
 public interface InterMemberDAO {
 
 	/**
@@ -7,5 +9,37 @@ public interface InterMemberDAO {
 	 * @return 회원이 존재하면 true, 존재하지 않는다면 false를 반환한다.
 	 */
 	boolean idExistCheck(String userid);
+
+	
+	/**
+	 * 가입된 닉네임이 존재하는지 여부 검사
+	 * @return 가입된 닉네임이 존재하면 true, 존재하지 않는다면 false를 반환한다.
+	 */
+	boolean nicknameExistCheck(String nickname);
+
+	
+	/**
+	 * 가입된 이메일이 존재하는지 여부 검사
+	 * @return 가입된 이메일이 존재하면 true, 존재하지 않는다면 false를 반환한다.
+	 */
+	boolean emailExistCheck(String email);
+
+
+	/**
+	 * tbl_member_login에 insert하기
+	 * @param 유저가 입력한 회원정보가 들어있는 MemberVO 객체
+	 * @return 쿼리문 성공시 1 실패시 0
+	 */
+	int insert_member_login(MemberVO member);
+	
+	
+	/**
+	 * tbl_member에 insert하기
+	 * @param 유저가 입력한 회원정보가 들어있는 MemberVO 객체
+	 * @return 쿼리문 성공시 1 실패시 0
+	 */
+	int insert_member(MemberVO member);
+
+	
 
 }
