@@ -1,3 +1,4 @@
+@charset "UTF-8";
 div.container{
   font-size:small;
   display:flex;
@@ -8,7 +9,7 @@ h5{
   margin-bottom:24px;
 }
 
-/* 사이드바 시작 */
+/* �궗�씠�뱶諛� �떆�옉 */
 div#sidebar{
   border-right:solid 1px #EBEBEB;
   width:320px;
@@ -26,11 +27,11 @@ div#sidebar > ul {
 
 
 
-/* 사이드바 끝 */
+/* �궗�씠�뱶諛� �걹 */
 
 
 
-/* Main 시작 */
+/* Main �떆�옉 */
 
 div#main{
   width:100%;
@@ -107,7 +108,7 @@ div#input_box{
 
 
 
-/* Main 끝 */
+/* Main �걹 */
 
 
 span.guide_title{
@@ -181,7 +182,7 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* 토글스위치 끝 */
+/* �넗湲��뒪�쐞移� �걹 */
 
 
 
@@ -189,15 +190,15 @@ input:checked + .slider:before {
   div.container{
     display:block;
   }
-  /* 사이드바 */
+  /* �궗�씠�뱶諛� */
   div#sidebar{
     border-right:none;
     border-bottom:solid 1px #EBEBEB;
     width:100%;
   }
-  /* 사이드바 */
+  /* �궗�씠�뱶諛� */
 
-  /* 메인 */
+  /* 硫붿씤 */
   div#main{
     margin-top:24px;
     margin-left:0;
@@ -221,7 +222,7 @@ input:checked + .slider:before {
     width : 50px;
     height: 50px;
   }
-  /* 메인 */
+  /* 硫붿씤 */
 
 }
 

@@ -1,9 +1,10 @@
+@charset "UTF-8";
 div.container{
   display:flex;
 }
 
 
-/* 사이드바 시작 */
+/* �궗�씠�뱶諛� �떆�옉 */
 div#sidebar{
   border-right:solid 1px #EBEBEB;
   width:320px;
@@ -17,10 +18,10 @@ div#sidebar > ul {
   list-style: none;
   line-height: 36px;
 }
-/* 사이드바 끝 */
+/* �궗�씠�뱶諛� �걹 */
 
 
-/* main 시작 */
+/* main �떆�옉 */
 div#main{
   width:100%;
   margin-left:48px;
@@ -101,9 +102,9 @@ div.board{
 
 
 
-/* 페이지바 시작*/
+/* �럹�씠吏�諛� �떆�옉*/
 
-/* a태그 데코레이션 없애기 시작 */
+/* a�깭洹� �뜲肄붾젅�씠�뀡 �뾾�븷湲� �떆�옉 */
 a.page-link:link {
   color : black;
   text-decoration: none;
@@ -120,7 +121,7 @@ a.page-link:active {
   color : black;
   text-decoration: none;
 }
-/* a태그 데코레이션 없애기 끝 */ 
+/* a�깭洹� �뜲肄붾젅�씠�뀡 �뾾�븷湲� �걹 */ 
 
 
 .my.pagination > .active > a, 
@@ -135,9 +136,9 @@ a.page-link:active {
   color: white;
 }
 
-/* 페이지 바 끝 */
+/* �럹�씠吏� 諛� �걹 */
 
-/* 검색창 시작 */
+/* 寃��깋李� �떆�옉 */
 button#search{
   width:70px;
   height:100%;
@@ -156,7 +157,7 @@ div#search_btn{
   height:100%;
   border-left:solid 1px black;
 }
-/* 검색창 끝 */
+/* 寃��깋李� �걹 */
 
 
 
@@ -166,22 +167,22 @@ div#search_btn{
     display:block;
   }
   
-  /* 사이드바 시작*/
+  /* �궗�씠�뱶諛� �떆�옉*/
   div#sidebar{
     border-right:none;
     border-bottom:solid 1px #EBEBEB;
     width:100%;
   }
-  /* 사이드바 끝*/
+  /* �궗�씠�뱶諛� �걹*/
 
 
-  /* 메인 시작 */
+  /* 硫붿씤 �떆�옉 */
   div#main{
     margin-top:24px;
     margin-left:0;
   }
 
-  /* 메인 끝 */
+  /* 硫붿씤 �걹 */
 }
 
 @media screen and (max-width: 1000px){

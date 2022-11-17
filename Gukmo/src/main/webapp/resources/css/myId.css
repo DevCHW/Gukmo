@@ -1,3 +1,4 @@
+@charset "UTF-8";
 div.container{
   font-size:small;
   display:flex;
@@ -8,7 +9,7 @@ h5.guide_title{
   margin-bottom:24px;
 }
 
-/* 사이드바 시작 */
+/* �궗�씠�뱶諛� �떆�옉 */
 div#sidebar{
   border-right:solid 1px #EBEBEB;
   width:320px;
@@ -22,11 +23,11 @@ div#sidebar > ul {
   list-style: none;
   line-height: 36px;
 }
-/* 사이드바 끝 */
+/* �궗�씠�뱶諛� �걹 */
 
 
 
-/* main 시작 */
+/* main �떆�옉 */
 div#main{
   width:100%;
   margin-left:48px;
@@ -58,20 +59,20 @@ label[for='agreement']{
     display:block;
   }
   
-  /* 사이드바 시작*/
+  /* �궗�씠�뱶諛� �떆�옉*/
   div#sidebar{
     border-right:none;
     border-bottom:solid 1px #EBEBEB;
     width:100%;
   }
-  /* 사이드바 끝*/
+  /* �궗�씠�뱶諛� �걹*/
 
 
-  /* 메인 시작 */
+  /* 硫붿씤 �떆�옉 */
   div#main{
     margin-top:24px;
     margin-left:0;
   }
-  /* 메인 끝 */
+  /* 硫붿씤 �걹 */
 }
 
