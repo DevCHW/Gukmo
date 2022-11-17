@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* navbar �떆�옉*/
+/* navbar 시작*/
 div#nav{
   height: 60px;
 }
@@ -22,7 +22,7 @@ div#sort{
   font-size:small;
 }
 
-/* �젙�젹 紐⑤떖李� �떆�옉*/
+/* 정렬 모달창 시작*/
 div#mask{
   width: 100%; 
   height: 100%; 
@@ -48,12 +48,12 @@ div#sort_option > span{
   cursor:pointer;
 }
 
-/* �젙�젹 紐⑤떖李� �걹 */
+/* 정렬 모달창 끝 */
 
-/* navbar �걹*/
+/* navbar 끝*/
 
 
-/* filter �떆�옉*/
+/* filter 시작*/
 div#filter_area{
   height:60px;
 }
@@ -69,13 +69,13 @@ label{
 
 
 
-/* filter �걹 */
+/* filter 끝 */
 
 
 
 
 
-/****************** 寃뚯떆�뙋 �떆�옉 ****************/
+/****************** 게시판 시작 ****************/
 a.writer_image_box{
   width:20px;
   height:20px;
@@ -167,7 +167,7 @@ div.board_info_box{
   width:170px;
 }
 
-/****************** 寃뚯떆�뙋 �걹 ****************/
+/****************** 게시판 끝 ****************/
 
 div#total_cnt{
   font-size:small;
@@ -177,9 +177,9 @@ div#total_cnt{
 
 
 
-/* �럹�씠吏�諛� �떆�옉*/
+/* 페이지바 시작*/
 
-/* a�깭洹� �뜲肄붾젅�씠�뀡 �뾾�븷湲� �떆�옉 */
+/* a태그 데코레이션 없애기 시작 */
 a.page-link:link {
   color : black;
   text-decoration: none;
@@ -196,7 +196,7 @@ a.page-link:active {
   color : black;
   text-decoration: none;
 }
-/* a�깭洹� �뜲肄붾젅�씠�뀡 �뾾�븷湲� �걹 */ 
+/* a태그 데코레이션 없애기 끝 */ 
 
 
 .my.pagination > .active > a, 
@@ -211,7 +211,7 @@ a.page-link:active {
   color: white;
 }
 
-/* �럹�씠吏� 諛� �걹 */
+/* 페이지 바 끝 */
 
 
 /* button */
@@ -223,7 +223,7 @@ button#btn_write{
 }
 
 
-/* 寃��깋李� �떆�옉 */
+/* 검색창 시작 */
 
 
 div#search_area{
@@ -257,7 +257,7 @@ div#search_btn{
 
 
 
-/* 寃��깋李� �걹 */
+/* 검색창 끝 */
 
 
 @media screen and (max-width: 768px){

@@ -1,38 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원계정페이지</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-  <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <!-- title Icon -->
-  <link href="" rel="shortcut icon" type="image/x-icon">
-  <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="css/myId.css" />
-  
-  <!-- Optional JavaScript -->
-  <script type="text/javascript" src="jquery3.6.0/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
-  <!-- sweet alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <!-- toastr css라이브러리 -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-  <!-- toastr cdn 라이브러리 둘다 제이쿼리 밑에 있어야함 -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>  
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%
+	String ctxPath = request.getContextPath();
+%>
 
-  <!-- JqueryUI JS,CSS -->
-  <link rel="stylesheet" type="text/css" href="jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-  <script type="text/javascript" src="jquery-ui-1.13.1.custom/jquery-ui.min.js" ></script> 
-  <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="js/myId.js" ></script>
-</head>
-<body>
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/myId.css" />
+
+<%-- 직접만든 javascript --%>
+<script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/myId.js" ></script>
+
+
   <div class="container mt-4">
-    <!-- 사이드바 시작 -->
+    <%-- 사이드바 시작 --%>
     <div id="sidebar">
       <h5 id="sidebar_title">내 계정</h5>
       <ul>
@@ -41,15 +22,15 @@
         <li>활동 내역</li>
       </ul>
     </div>
-    <!-- 사이드바 끝 -->
+    <%-- 사이드바 끝 --%>
     <div id="main">
 
-      <!-- email -->
+      <%-- email --%>
       <h5 class="guide_title">이메일 정보</h5>
       <div class="d-flex justify-content-between mb-2">
         <input type="text" id="email" name="email" class="border rounded" placeholder="이메일을 입력해주세요">
         <button type="button" class="btn border rounded">
-          <!-- 이메일인증 모달 띄우기 -->
+          <%-- 이메일인증 모달 띄우기 --%>
           이메일인증
         </button>
       </div>
@@ -80,5 +61,3 @@
     </div>
 
   </div>
-</body>
-</html>
