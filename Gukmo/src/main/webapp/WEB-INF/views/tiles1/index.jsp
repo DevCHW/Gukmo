@@ -62,7 +62,7 @@
 		            <!-- <option value="academy_name">해시태그</option> -->			
 		        </select>
 			</div>
-			<input type="text" class="form-control" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
+			<input type="text" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
 		</div>
 
 
@@ -70,6 +70,7 @@
 	<div class="div_academy d-flex justify-content-between align-items-center" >
 		<i class="fa-solid fa-circle-left fa-3x" style="color:#208EC9;"></i>
 		
+		<!-- 나중에 반복문 짜야함 -->
 		<div class="div_card col-10">
 			<div class="card_1 d-flex">
 				<div class="card col-3">
@@ -148,7 +149,7 @@
 	<!-- 게시판 정보 영역 -->
 	<div class="div_board d-flex">
 		<div class="search_rank col-3"></div>
-		<div class="div_qna col-4"></div>
-		<div class="div_study col-4"></div>
+		<div class="div_qna"></div>
+		<div class="div_study"></div>
 	</div>
 </div>
