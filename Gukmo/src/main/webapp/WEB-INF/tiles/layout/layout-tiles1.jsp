@@ -22,7 +22,7 @@
   <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
   <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
   
   <!-- noto sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +45,7 @@
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
 
   <%-- *** ajax로 파일을 업로드할때 가장 널리 사용하는 방법 ==> ajaxForm *** --%>
-  <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery.form.min.js"></script>
+  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery.form.min.js"></script>
 
 </head>
 <body>

@@ -4,6 +4,7 @@
 
 .mainNav_bar {
     border-bottom: solid 1px #E1E2E1;
+    line-height:2.5em;
 }
 
 .mainNav {
@@ -16,6 +17,7 @@
 
 .main_left{
     display:flex;
+    align-text:center;
     width:60%;
 }
 

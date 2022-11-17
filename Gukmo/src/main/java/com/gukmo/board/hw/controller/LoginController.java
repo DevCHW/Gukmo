@@ -65,9 +65,10 @@ public class LoginController {
 	
 	
 	/**
-	 * 로그인되어질 회원의 상태 체크하기(정지,휴면,승인여부,비밀번호 변경시점 3개월)
+	 * 로그인되어질 회원의 상태 체크하기(정지,휴면,대기,비밀번호 변경시점 3개월)
 	 * @param 유저가 입력한 아이디
 	 * @return 활동중이라면 "활동" 정지회원이라면 "정지" 휴면회원이라면 "휴면" 승인대기라면 "대기"
+	 * 		      비밀번호 변경시점 3개월 이상이라면 "비밀번호 변경 권장"
 	 */
 	@ResponseBody
 	@RequestMapping(value="/statusCheck.do",method= {RequestMethod.POST})
@@ -98,8 +99,7 @@ public class LoginController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("userid", userid);
-		
-		return "index.tiles1";
+		return "redirect:/index.do";
 	}
 	
 	

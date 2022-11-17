@@ -5,7 +5,5 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="jhs">
-	<select id="select_member" resultType="com.gukmo.board.model.MemberDTO">
-		select * from tbl_member_login
-	</select>
+
 </mapper>
