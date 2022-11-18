@@ -4,6 +4,7 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
   <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/hyunwoo/activities.css" />
@@ -59,211 +60,55 @@
 
       <%-- 활동내역 시작 --%>
       <div id="activities" class="mt-4">
-        <%-- 1 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-             	스터디
+      
+        <c:forEach var="activity" items="${requestScope.activities}">
+          <%-- 1 --%>
+          <div class="activity_box border-top border-bottom py-4">
+            <div class="activity_title align-items-center">
+              <div class="d-flex align-items-center">
+              
+                <%-- 디테일 카테고리에 따라 링크 넣어줄 것.커서 포인터,링크걸기 --%>
+                <div class="detail_category border rounded-pill px-2 py-2">
+               		${activity.detail_category}
+                </div>
+                
+                <c:if test="${activity.division eq '댓글작성'}">
+                <div class="activity_content ml-2">
+                 	<span>${activity.nickname}</span>
+                 	<span>님의 게시물에 댓글을 달았습니다.</span>
+                </div>
+                </c:if>
+                
+                <c:if test="${activity.division eq '게시글작성'}">
+                <div class="activity_content ml-2">
+                 	에 글을 작성하였습니다.
+                </div>
+                </c:if>
+                
+                <c:if test="${activity.division eq '게시글좋아요'}">
+                <div class="activity_content ml-2">
+                 	<span>${activity.nickname}</span>
+                 	<span>님의 게시물을 추천하였습니다.</span>
+                </div>
+                </c:if>
+                
+                <c:if test="${activity.division eq '댓글좋아요'}">
+                <div class="activity_content ml-2">
+                 	<span>${activity.nickname}</span>
+                 	<span>님의 게시물에 달린 댓글을 추천하였습니다.</span>
+                </div>
+                </c:if>
+                
               </div>
-              <div class="activity_content ml-2">
-               	비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              	2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            	[자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-
-        <%-- 2 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                공지사항
-              </div>
-              <div class="activity_content ml-2">
-                관리자 님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-
-        <%-- 3 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                자유게시판
-              </div>
-              <div class="activity_content ml-2">
-                에 게시글을 작성하였습니다.
+              <div class="activity_date">
+                	${activity.activity_date}
               </div>
             </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
+            <div class="board mt-2">
+              	${activity.subject}
             </div>
           </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-
-        <%-- 4 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
-              </div>
-              <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-
-        <%-- 5 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
-              </div>
-              <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-
-        <%-- 6 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
-              </div>
-              <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-
-        <%-- 7 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
-              </div>
-              <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-        <%-- 8 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
-              </div>
-              <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-        <%-- 9 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
-              </div>
-              <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
-
-        <%-- 10 --%>
-        <div class="activity_box border-top border-bottom py-4">
-          <div class="activity_title align-items-center">
-            <div class="d-flex align-items-center">
-              <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
-              </div>
-              <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
-              </div>
-            </div>
-            <div class="activity_date">
-              2022-11-08 20:14:16
-            </div>
-          </div>
-          <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
-          </div>
-        </div>
+        </c:forEach>
       </div>
     </div>
 
