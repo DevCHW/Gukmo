@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.sun.repository.InterBoardDAO;
 import com.gukmo.board.sun.service.InterBoardService;
 
 
@@ -28,6 +29,9 @@ public class BoardController {
 	
 	@Autowired
 	private InterBoardService service;
+	
+	@Autowired
+	private InterBoardDAO bdao;
 	
 	@Autowired 
 	private FileManager fileManager;
@@ -74,7 +78,7 @@ public class BoardController {
 		String root = session.getServletContext().getRealPath("/");
 		String path = root + "resources"+File.separator+"photo_upload";
 		
-		System.out.println("~~~~ 확인용 path => " + path);
+		// System.out.println("~~~~ 확인용 path => " + path);
 		
 		File dir = new File(path);
 		if(!dir.exists()) {
@@ -84,7 +88,7 @@ public class BoardController {
 		try {
 			String filename = request.getHeader("file-name"); // 원본파일명
 			
-			System.out.println(">>> 확인용 filename ==> " + filename);
+			// System.out.println(">>> 확인용 filename ==> " + filename);
 			
 			InputStream is = request.getInputStream();
 			
@@ -113,14 +117,46 @@ public class BoardController {
 	}
 
 
+   // 게시판 글쓰기 등록
+	@RequestMapping(value="/community/newEnd.do", method= {RequestMethod.POST})
+	public ModelAndView pointPlus_communityNewEnd(Map<String, String> paraMap, ModelAndView mav, BoardVO boardvo) {  // <== After Advice(활동점수 올리기)
+		
+		int n = bdao.communityNew(boardvo);
+		
+		if(n==1) {
+			mav.setViewName("redirect:/community/freeBoards.do");
+			//  글쓰기가 성공되어지면 글목록을 보여주는 list.action 페이지로 이동시킨다.
+		}
+		else {
+//			mav.setViewName("board/error/add_error.tiles1");
+//			//  /WEB-INF/views/tiles1/board/error/add_error.jsp 파일을 생성한다.
+		}
+		
+		
+		// pointPlus After Advice(글쓰기 포인트) 
+		paraMap.put("fk_userid", boardvo.getFk_userid());
+		paraMap.put("point", "10");
+		
+		return mav;
+	}
 	
-//	@RequestMapping(value="/newEnd.do", method= {RequestMethod.POST})
-////	public ModelAndView pointPlus_communityNewEnd(Map<String, String> paraMap, ModelAndView mav, BoardVO boardvo) {  // <== After Advice(활동점수 올리기)
-//	public ModelAndView communityNewEnd(ModelAndView mav, BoardVO boardvo) {  
-//		int n = service.communityNew(boardvo);
-//	
-//	}
-//	
+	
+	
+	// 신고 페이지 요청
+	@RequestMapping(value="/community/report.do" )
+	// public ModelAndView report(HttpServletRequest request, HttpServletResponse response, ModelAndView mav){ // <== before Advice(로그인체크)
+	public ModelAndView report(HttpServletRequest request, HttpServletResponse response, ModelAndView mav){
+		
+		
+		// 카테고리 값 지정용
+		// String detail_category = request.getParameter("detail_category");
+		
+		// mav.addObject("detail_category", detail_category);
+		
+		mav.setViewName("/report");
+		
+		return mav;
+	}
 	
 	
 	

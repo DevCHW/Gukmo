@@ -25,11 +25,6 @@ public class BoardVO {
 	
 	private String commentCount;     // 댓글수 
 		
-	private String groupno;
-	private String fk_seq;
-		
-	private String depthno;
-	
 	private MultipartFile attach;
 	private String fileName;    // WAS(톰캣)에 저장될 파일명(2022103109271535243254235235234.png) 
 	private String orgFilename; // 진짜 파일명(강아지.png)  // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
@@ -180,30 +175,6 @@ public class BoardVO {
 
 	public void setCommentCount(String commentCount) {
 		this.commentCount = commentCount;
-	}
-
-	public String getGroupno() {
-		return groupno;
-	}
-
-	public void setGroupno(String groupno) {
-		this.groupno = groupno;
-	}
-
-	public String getFk_seq() {
-		return fk_seq;
-	}
-
-	public void setFk_seq(String fk_seq) {
-		this.fk_seq = fk_seq;
-	}
-
-	public String getDepthno() {
-		return depthno;
-	}
-
-	public void setDepthno(String depthno) {
-		this.depthno = depthno;
 	}
 
 	public MultipartFile getAttach() {
