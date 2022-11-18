@@ -14,3 +14,14 @@ $(document).ready(function(){
  
 });
 
+
+// 배너 
+
+
+/*// 검색창
+function goSearch (){
+	
+	$.ajax(){
+		url:"<%= ctxPath%>/"
+	}
+} */

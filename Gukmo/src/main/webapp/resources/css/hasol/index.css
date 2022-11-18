@@ -33,7 +33,7 @@ a {
 	width: 100%;
 	height: 40px;
 	border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
-	border:solid 1px #E1E2E1;
+	border:solid 3px #208EC9;
     border-left: none;
     padding: 2px 5px;
 }
@@ -60,7 +60,7 @@ a {
     position:relative;
     width:9.8em;
     height:em;
-    border:1px solid #E1E2E1;
+    border:3px solid #208EC9;
     border-right: none;
     border-radius: 100px 0 0 100px;
     z-index: 1;
@@ -74,7 +74,7 @@ a {
     top:0.7em;
     padding-right:1.2em;
     z-index: -1;
-    border-right: 1px solid #E1E2E1;
+    border-right: 3px solid #208EC9;
     cursor:pointer;
 }
 
@@ -88,7 +88,7 @@ a {
     height: 100%;      
     box-sizing: border-box;  
     font-weight: 600;
-    color:#E1E2E1;
+    color:#208EC9;
     margin-left: 1.5em;
 }
 
@@ -105,6 +105,10 @@ a {
 
 .div_card {	
 	padding-left:0;
+}
+
+.card:hover {
+	background-color:#BFEBFD;
 }
 
 .card_1 .card:first-child {
@@ -189,6 +193,16 @@ div.list_searchRank {
 div.list_searchRank a {
 	padding: 0.8em 0;
 	color: black;
+}
+
+
+.icon_arrow {
+	color:#F5F5F6;
+}
+
+.icon_arrow:hover {
+	color:#208EC9;
+	cursor:pointer;
 }
 
 /* ------------------------------------- */
