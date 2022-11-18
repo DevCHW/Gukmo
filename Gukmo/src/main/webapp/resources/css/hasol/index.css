@@ -30,11 +30,11 @@ a {
   
 /* input 영역 수정*/
 #searchWord {
-	width: 100%;
+	width: 80%;
 	height: 40px;
-	border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
 	border:solid 3px #208EC9;
     border-left: none;
+    border-right:none;
     padding: 2px 5px;
 }
 
@@ -58,7 +58,7 @@ a {
 /* select 태그 테두리를 만들기 위한 div (디자인된 select 외부 테두리 영역) */
 .div_selectSearch {
     position:relative;
-    width:9.8em;
+    width:8.7em;
     height:em;
     border:3px solid #208EC9;
     border-right: none;
@@ -92,8 +92,14 @@ a {
     margin-left: 1.5em;
 }
 
-
-
+/* 검색 버튼 css */
+#btn_search {
+	border:3px solid #208EC9;
+	border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
+	border-left:none;
+	background-color: white;
+	width: 8%;
+}
 
 
 

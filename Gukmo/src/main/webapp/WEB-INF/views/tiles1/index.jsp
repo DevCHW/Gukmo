@@ -63,6 +63,9 @@
 	        </select>
 		</div>
 		<input type="text" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
+		<button type="button" id="btn_search">
+          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
+        </button>
 	</div>
 
 
