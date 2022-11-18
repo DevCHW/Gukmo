@@ -28,6 +28,7 @@
 	order by join_date desc
 	) V
 	) D
+	where rnum between #{startRno} and #{endRno}
 	</select>
 	
 </mapper>

@@ -127,56 +127,7 @@
 
     <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
     <nav aria-label="...">
-      <ul class="my pagination pagination-md justify-content-center mt-5">
-        <!-- 첫페이지로 이동버튼 -->
-        <li class="page-item">
-          <a class="page-link" href="#">
-            <i class="fa-solid fa-angles-left"></i>
-          </a>
-        </li>
-        
-        
-        <!-- 전페이지로 이동버튼 -->
-        <li class="page-item">
-          <a class="page-link" href="#">
-            <i class="fa-solid fa-angle-left"></i>
-          </a>
-        </li>
-        
-        <!-- 페이지번호 시작-->
-        <li class="page-item active" aria-current="page">
-          <a class="page-link" href="#">1</a>
-        </li>
-        
-        <li class="page-item">
-          <a class="page-link" href="#">2</a>
-        </li>
-
-        <li class="page-item">
-          <a class="page-link" href="#">3</a>
-        </li>
-
-        <li class="page-item">
-          <a class="page-link" href="#">4</a>
-        </li>
-
-        <li class="page-item">
-          <a class="page-link" href="#">5</a>
-        </li>
-        <!-- 페이지번호 끝 -->
-              
-              
-              
-        <!-- 다음페이지로 이동버튼 -->
-        <li class="page-item">
-          <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
-        </li>
-
-        <!-- 맨 끝페이지로 이동버튼 -->
-        <li class="page-item">
-          <a class="page-link" href="#"><i class="fas fa-solid fa-angles-right"></i></a>
-        </li>
-      </ul>
+		${requestScope.pageBar}
     </nav>
 		<!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
   </div>
