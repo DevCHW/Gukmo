@@ -27,11 +27,22 @@ public class MemberController {
 	//============================================================================ //
 	//============================= 회원가입 관련 시작 ================================== //
 	//============================================================================ //
-	
+	/**
+	 * 이용약관페이지 url매핑
+	 */
+	@RequestMapping(value="/TOS.do", method= {RequestMethod.GET})
+	public String viewTOS(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "member/TOS.tiles1";
+			// /WEB-INF/views/tiles1/member/TOS.jsp 페이지.
+		}
+		return "redirect:/index.do";
+	}
 	
 	
 	/**
-	 * 회원가입페이지 url 매핑
+	 * 회원가입페이지 url매핑
 	 */
 	@RequestMapping(value="/signup.do", method= {RequestMethod.GET})
 	public String viewSignup(HttpServletRequest request) {
@@ -61,6 +72,8 @@ public class MemberController {
 		
 		return jsonObj.toString();
 	}
+	
+	
 	
 	/**
 	 * 가입된 닉네임이 존재하는지 여부 검사
@@ -119,6 +132,16 @@ public class MemberController {
 	//============================= 회원가입 관련 끝=================================== //
 	//=========================================================================== //
 	
+	
+	
+	
+	
+	
+	
+	//============================================================================== //
+	//============================= 마이페이지 관련 시작=================================== //
+	//============================================================================== //
+	
 	/**
 	 * 활동내역 페이지 GET요청시 페이지 보여주기
 	 */
@@ -128,7 +151,6 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
-		
 		
 		return "member/activities.tiles1";
 		// /WEB-INF/views/tiles1/member/activities.jsp 페이지.
@@ -166,15 +188,14 @@ public class MemberController {
 		// /WEB-INF/views/tiles1/member/myInfo.jsp 페이지.
 	}
 	
-	
-	
-	
-	
-	//============================================================================== //
-	//============================= 마이페이지 관련 시작=================================== //
-	//============================================================================== //
-	
-	
+	/**
+	 * 개인정보보호방침 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/policy/privacy.do", method= {RequestMethod.GET})
+	public String viewPrivacyPolicy(HttpServletRequest request) {
+		return "policy/privacy_policy.tiles1";
+		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
+	}
 	
 	
 	//============================================================================== //

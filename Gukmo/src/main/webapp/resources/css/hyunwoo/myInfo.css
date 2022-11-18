@@ -1,33 +1,14 @@
 @charset "UTF-8";
-div.container{
+div.container {
   font-size:small;
   display:flex;
   justify-content:space-between;
 }
+
 h5{
   font-weight: bold;
-  margin-bottom:24px;
 }
 
-/* 사이드바 시작 */
-div#sidebar{
-  border-right:solid 1px #EBEBEB;
-  width:320px;
-}
-h5#sidebar_title{
-  font-weight: bold;
-}
-div#sidebar > ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  line-height: 36px;
-}
-
-
-
-
-/* 사이드바 끝 */
 
 
 
@@ -40,7 +21,9 @@ div#main{
 
 div#section1{
   display:flex;
+  margin-top:24px;
 }
+
 
 input#username,
 input#nickname{
@@ -63,9 +46,6 @@ div#profile_img_box{
   height: 135px;
   position:relative;
   border-radius: 50%;
-  background-image:url('../images/user-solid.svg');
-  background-repeat:no-repeat;
-  background-size: cover;
 }
 
 div#profile_img_box > img{
@@ -109,7 +89,6 @@ div#input_box{
 
 
 /* Main 끝 */
-
 
 span.guide_title{
   font-size:14px;
@@ -190,13 +169,6 @@ input:checked + .slider:before {
   div.container{
     display:block;
   }
-  /* 사이드바 */
-  div#sidebar{
-    border-right:none;
-    border-bottom:solid 1px #EBEBEB;
-    width:100%;
-  }
-  /* 사이드바 */
 
   /* 메인 */
   div#main{

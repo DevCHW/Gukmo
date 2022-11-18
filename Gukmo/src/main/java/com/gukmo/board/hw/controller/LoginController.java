@@ -109,7 +109,9 @@ public class LoginController {
 		
 		MemberVO user = null;
 		if("admin".equals(request.getParameter("userid"))) {	//관리자로 로그인하였다면
-			user = new MemberVO(request.getParameter("userid"), //아이디
+			String userid = request.getParameter("userid");
+			dao.loginRecordSave(paraMap);						//로그인기록하기
+			user = new MemberVO(userid, 						//아이디
 							    null, 							//비밀번호	
 							    "활동", 							//상태
 							    null, 							//마지막비밀번호변경일자

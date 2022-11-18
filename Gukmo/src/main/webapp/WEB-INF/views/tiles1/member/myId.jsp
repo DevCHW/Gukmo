@@ -6,23 +6,23 @@
 %>
 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/myId.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/myId.css" />
 
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/myId.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/myId.js" ></script>
 
 
-  <div class="container mt-4">
-    <%-- 사이드바 시작 --%>
-    <div id="sidebar">
-      <h5 id="sidebar_title">내 계정</h5>
-      <ul>
-        <li>회원정보</li>
-        <li>계정</li>
-        <li>활동 내역</li>
-      </ul>
-    </div>
-    <%-- 사이드바 끝 --%>
+  <div class="container my-4">
+  
+    <%-------------------- 사이드바 시작 ----------------------%>
+        
+    <%-- sidebar 호출 --%>
+	<jsp:include page="/WEB-INF/views/tiles1/member/sidebar.jsp" />
+        
+        
+    <%-------------------- 사이드바 끝 ----------------------%>
+    
+    
     <div id="main">
 
       <%-- email --%>

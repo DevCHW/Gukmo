@@ -6,23 +6,21 @@
 %>
 
   <%-- 직접 만든 CSS --%>
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/activities.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/hyunwoo/activities.css" />
   
   <%-- 직접만든 javascript --%>
-  <script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/activities.js" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/activities.js" ></script>
 
 
-  <div class="container mt-5">
-    <%-- 사이드바 시작 --%>
-    <div id="sidebar">
-      <h5 id="sidebar_title">내 계정</h5>
-      <ul class="pl-3 pt-3">
-        <li>회원정보</li>
-        <li>계정</li>
-        <li>활동 내역</li>
-      </ul>
-    </div>
-    <%-- 사이드바 끝 --%>
+  <div class="container my-4">
+  	<%-------------------- 사이드바 시작 ----------------------%>
+        
+    <%-- sidebar 호출 --%>
+	<jsp:include page="/WEB-INF/views/tiles1/member/sidebar.jsp" />
+        
+        
+    <%-------------------- 사이드바 끝 ----------------------%>
+    
     <div id="main">
       <%-- main_header --%>
       <div class="main_header border rounded">
@@ -32,7 +30,7 @@
             <div class="d-flex align-items-center">
               <%-- 프사 --%>
               <div id="profile_img_box" class="border">
-                <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profileImage}"/>
+                <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
               </div>
       
               <div class="ml-4 py-1">
@@ -48,7 +46,7 @@
         </div>
 
         <%-- bottom --%>
-        <div id="navbar" class="d-flex border-top">
+        <div id="navbar" class="d-flex justify-content-center border-top">
           <div class="filter mx-4 py-3">
             	활동내역
           </div>
