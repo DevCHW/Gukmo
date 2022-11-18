@@ -4,6 +4,12 @@
 	font-size:13px;
 }
 
+a {
+	padding: 0;
+}
+
+
+
 .carousel-inner {
 	width: 100%;
 	height: 200px;
@@ -20,38 +26,37 @@
  } 
 
 
-/* ========== 검색창 영역 CSS 시작 ========== */
+/* ----- 검색창 영역 CSS 시작 ----- */
   
+/* input 영역 수정*/
 #searchWord {
 	width: 100%;
 	height: 40px;
-	border-radius:0 100px 100px 0;
+	border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
 	border:solid 1px #E1E2E1;
     border-left: none;
     padding: 2px 5px;
 }
 
 
-/* --- select 태그 수정 --- */
-
-/* select 태그에 적용된 style 없앰 */
-.selectSearch_div select{
-	border:none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
+/* select 영역 수정 */
+.div_selectSearch select{
+	border:none;              /* select 태그에 적용된 style 없앰 */
+	-webkit-appearance: none; /* select 태그에 적용된 style 없앰 */
+	-moz-appearance: none;    /* select 태그에 적용된 style 없앰 */
+	appearance: none;         /* select 태그에 적용된 style 없앰 */
 	position:relative;
-	filter:alpha(opacity=0);
-	opacity: 0;
-	width:6.2em;
-	height:70%;
-	margin-top:0.4em;
-	margin-left:1.3em;
-	cursor:pointer;
+	filter:alpha(opacity=0);  /* select 태그를 안 보이게 함 */
+	opacity: 0;               /* select 태그를 안 보이게 함 */
+	width:6.2em;              /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+	height:70%;               /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+	margin-top:0.4em;         /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+	margin-left:1.3em;        /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+	cursor:pointer;           /* cursor가 위치하면 pointer 로 변경*/
 }
 
-/* select 태그 테두리를 만들기 위한 div (겉 테두리) */
-.selectSearch_div {
+/* select 태그 테두리를 만들기 위한 div (디자인된 select 외부 테두리 영역) */
+.div_selectSearch {
     position:relative;
     width:9.8em;
     height:em;
@@ -61,9 +66,9 @@
     z-index: 1;
 }
 
-/* select 내용물 자체를 감싸는 label */
-.selectSearch_div label {
-    position:absolute;
+/* select 내용물 자체를 감싸는 label (디자인된 select 내부 영역) */
+.div_selectSearch label {
+    position:absolute;                 /*  select 위치나 크기 정도에 따라 움직여야해서 absolute로 위치 지정 */
     text-align:center;
     width:8em;
     top:0.7em;
@@ -74,8 +79,8 @@
 }
 
 /* select 의 화살표 이미지 바꾸기 위한 css */
-.selectSearch_div label:after {
-    content:"\f078";
+.div_selectSearch label:after {           /* label 바로 다음 영역에 위치*/
+    content:"\f078";                      /* fontawsome 사용 */
     font-family: "Font Awesome 6 Free";
     position: absolute;
     z-index: -1;
@@ -88,25 +93,24 @@
 }
 
 
-/* ========== 검색창 영역 CSS 끝 ========== */
 
 
 
 
-/* ========== 학원 정보 영역 CSS 시작 ========== */
+/* ----- 학원 정보 영역 CSS 시작 ----- */
+
 .div_academy {
-/*  	border: solid 1px grey; */
 	width:100%;
 }
 
 .div_card {	
-/*  	border: solid 1px blue; */
 	padding-left:0;
 }
 
 .card_1 .card:first-child {
 	margin:5px 0 5px 0;
 }
+
 .card_1 .card:not(.card:first-child) {
 	margin: 5px 0 5px 5px;
 }
@@ -145,27 +149,120 @@
 
 
 
-/* ========== 개인 정보 영역 CSS 시작 ========== */
+/* ========== 게시판 정보 영역 CSS 시작 ========== */
 
-.div_board {
-	border: solid 1px grey;
+div.div_infoBoard {
 	width:84%;
-	height: 800px;
 }
 
-.search_rank {
-	border: solid 1px blue;
+/* 인기 검색어 영역 */
+div.div_searchRank {
+/* 	border: solid 1px blue; */
+	width:18%;
 	height: 300px;
+	margin: 0 0.5% 0 0.3%;
 }
 
-.div_qna {
-	border: solid 1px red;
-	height: 300px;
+div.div2_searchRank {
+	height: 100%;
+}
+div.title_searchRank {
+	height:45px;
+	border-radius: 5px 5px 0 0;
+	padding-left: 0.5em;
+	background-color:#F5F5F6;
 }
 
-.div_study {
-	border: solid 1px green;
-	height: 300px;
+div.title_searchRank p {
+	font-size: 15px;
+	font-weight: 500;
+	margin: 0;
 }
 
-/* ========== 개인 정보 영역 CSS 끝 ========= */
+div.list_searchRank {
+	border: solid 1px #E1E2E1;
+	border-radius: 0 0 5px 5px;
+	border-top:none;
+	padding: 0.5em;
+}
+
+div.list_searchRank a {
+	padding: 0.8em 0;
+	color: black;
+}
+
+/* ------------------------------------- */
+
+
+
+/* 게시글 CSS */
+
+a.writer_image_box{
+  width:15px;
+  height:15px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+div.writer_image_box > img{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+}
+
+div.write_date{
+  font-size:12px;
+  color : darkgray;
+}
+
+a.writer_nickname {
+	color:#424242
+}
+
+a.writer_nickname:hover {
+  color : #0090F9;
+  text-decoration: none;
+}
+
+
+div.board_info_box{
+  /* color:#374151; */
+  color:#424242;
+  width:150px;
+}
+
+
+
+
+/* 게시판 리스트 css */
+div.div_board {
+	width:82%;
+}
+
+div.div_tbl_board {
+	width:45%;
+	margin: 0 0.5% 3% 4.5%
+}
+
+.title_board {
+	height:45px;
+	border-radius: 5px 5px 0 0;
+	padding-left: 0.5em;
+	background-color:#208EC9;
+}
+
+.list_board {
+	border: solid 1px #208EC9;
+	border-radius: 0 0 5px 5px;
+	border-top:none;
+	padding: 0.5em;
+}
+
+a.subject {
+	font-size:16px;
+	font-weight:500;
+	color: black;
+}
+
+
+/* ========== 게시판 정보 영역 CSS 끝 ========= */

@@ -22,10 +22,15 @@
   <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
   <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
   
-  <!-- 직접 만든 CSS 1 -->
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/style2.css" />
+  <!-- noto sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- 직접 만든 CSS -->
+  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo.css">
   
   <!-- title Icon -->
   <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">
@@ -40,7 +45,8 @@
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
 
   <%-- *** ajax로 파일을 업로드할때 가장 널리 사용하는 방법 ==> ajaxForm *** --%>
-  <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery.form.min.js"></script>
+  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery.form.min.js"></script>
+
 
 </head>
 <body>

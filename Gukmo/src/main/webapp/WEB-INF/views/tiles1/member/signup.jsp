@@ -6,10 +6,10 @@
 
 
  <%-- 직접 만든 CSS --%>
- <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/signup.css" />
+ <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/signup.css" />
  
  <%-- 직접만든 javascript --%>
- <script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/signup.js" ></script>
+ <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/signup.js" ></script>
  
  
  

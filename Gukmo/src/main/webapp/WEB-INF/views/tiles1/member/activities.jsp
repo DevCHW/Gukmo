@@ -6,23 +6,21 @@
 %>
 
   <%-- 직접 만든 CSS --%>
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/activities.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/hyunwoo/activities.css" />
   
   <%-- 직접만든 javascript --%>
-  <script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/Activities.js" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/activities.js" ></script>
 
 
-  <div class="container mt-5">
-    <%-- 사이드바 시작 --%>
-    <div id="sidebar">
-      <h5 id="sidebar_title">내 계정</h5>
-      <ul class="pl-3 pt-3">
-        <li>회원정보</li>
-        <li>계정</li>
-        <li>활동 내역</li>
-      </ul>
-    </div>
-    <%-- 사이드바 끝 --%>
+  <div class="container my-4">
+  	<%-------------------- 사이드바 시작 ----------------------%>
+        
+    <%-- sidebar 호출 --%>
+	<jsp:include page="/WEB-INF/views/tiles1/member/sidebar.jsp" />
+        
+        
+    <%-------------------- 사이드바 끝 ----------------------%>
+    
     <div id="main">
       <%-- main_header --%>
       <div class="main_header border rounded">
@@ -32,28 +30,28 @@
             <div class="d-flex align-items-center">
               <%-- 프사 --%>
               <div id="profile_img_box" class="border">
-                <img src="images/user-solid.svg"/>
+                <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
               </div>
       
               <div class="ml-4 py-1">
-                <h4 id="user_nickname">유저닉네임</h4>
-                <div id="point">활동점수&nbsp;<span>97</span></div>
+                <h4 id="user_nickname">${sessionScope.user.nickname}</h4>
+                <div id="point">활동점수&nbsp;<span>${sessionScope.user.point}</span></div>
               </div>
             </div>
   
             <button type="button" id="btn_go_myId" class="btn border rounded">
-              나의 계정
+              	나의 계정
             </button>
           </div>
         </div>
 
         <%-- bottom --%>
-        <div id="navbar" class="d-flex border-top">
+        <div id="navbar" class="d-flex justify-content-center border-top">
           <div class="filter mx-4 py-3">
-            활동내역
+            	활동내역
           </div>
           <div class="filter mx-4 py-3">
-            게시물
+            	게시물
           </div>
         </div>
       </div>
@@ -66,18 +64,18 @@
           <div class="activity_title align-items-center">
             <div class="d-flex align-items-center">
               <div class="detail_category border rounded-pill px-2 py-2">
-                스터디
+             	스터디
               </div>
               <div class="activity_content ml-2">
-                비전공자모래성님의 게시물에 댓글을 달았습니다.
+               	비전공자모래성님의 게시물에 댓글을 달았습니다.
               </div>
             </div>
             <div class="activity_date">
-              2022-11-08 20:14:16
+              	2022-11-08 20:14:16
             </div>
           </div>
           <div class="board mt-2">
-            [자바] 이클립스 파일에 있는 화살표
+            	[자바] 이클립스 파일에 있는 화살표
           </div>
         </div>
 
@@ -294,7 +292,6 @@
       <%-- 페이지번호 시작--%>
       <li class="page-item active" aria-current="page">
         <a class="page-link" href="#">1</a>
-      </c:if>
       
       <li class="page-item">
         <a class="page-link" href="#">2</a>

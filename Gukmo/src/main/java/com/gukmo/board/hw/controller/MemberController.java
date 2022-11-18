@@ -1,6 +1,7 @@
 package com.gukmo.board.hw.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,25 @@ public class MemberController {
 	private InterMemberDAO dao;
 	
 	
+	//============================================================================ //
+	//============================= 회원가입 관련 시작 ================================== //
+	//============================================================================ //
 	/**
-	 * 회원가입페이지 url 매핑
+	 * 이용약관페이지 url매핑
+	 */
+	@RequestMapping(value="/TOS.do", method= {RequestMethod.GET})
+	public String viewTOS(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "member/TOS.tiles1";
+			// /WEB-INF/views/tiles1/member/TOS.jsp 페이지.
+		}
+		return "redirect:/index.do";
+	}
+	
+	
+	/**
+	 * 회원가입페이지 url매핑
 	 */
 	@RequestMapping(value="/signup.do", method= {RequestMethod.GET})
 	public String viewSignup(HttpServletRequest request) {
@@ -54,6 +72,8 @@ public class MemberController {
 		
 		return jsonObj.toString();
 	}
+	
+	
 	
 	/**
 	 * 가입된 닉네임이 존재하는지 여부 검사
@@ -106,6 +126,81 @@ public class MemberController {
 		
 		return "msg";
 	}
+	
+	
+	//=========================================================================== //
+	//============================= 회원가입 관련 끝=================================== //
+	//=========================================================================== //
+	
+	
+	
+	
+	
+	
+	
+	//============================================================================== //
+	//============================= 마이페이지 관련 시작=================================== //
+	//============================================================================== //
+	
+	/**
+	 * 활동내역 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/member/activities.do", method= {RequestMethod.GET})
+	public String viewActivities(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "redirect:/index.do";
+		}
+		
+		return "member/activities.tiles1";
+		// /WEB-INF/views/tiles1/member/activities.jsp 페이지.
+	}
+	
+	
+	
+	/**
+	 * 내계정 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/member/myId.do", method= {RequestMethod.GET})
+	public String viewMyId(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "redirect:/index.do";
+		}
+		
+		
+		return "member/myId.tiles1";
+		// /WEB-INF/views/tiles1/member/myId.tiles1.jsp 페이지.
+	}
+	
+	
+	
+	/**
+	 * 내정보 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/member/myInfo.do", method= {RequestMethod.GET})
+	public String viewMyInfo(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
+			return "redirect:/index.do";
+		}
+		return "/member/myInfo.tiles1";
+		// /WEB-INF/views/tiles1/member/myInfo.jsp 페이지.
+	}
+	
+	/**
+	 * 개인정보보호방침 페이지 GET요청시 페이지 보여주기
+	 */
+	@RequestMapping(value="/policy/privacy.do", method= {RequestMethod.GET})
+	public String viewPrivacyPolicy(HttpServletRequest request) {
+		return "policy/privacy_policy.tiles1";
+		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
+	}
+	
+	
+	//============================================================================== //
+	//============================= 마이페이지 관련 시작=================================== //
+	//============================================================================== //
 	
 	
 	

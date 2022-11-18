@@ -21,6 +21,10 @@ $(document).ready(function(){
 	  }
 	});
 	
+	$("span#btn_signup").click(()=>{
+		location.href = getContextPath()+'/TOS.do';
+	});
+	
 	
 	//로그인버튼 클릭시 이벤트
 	$("button#btn_login").click(function(){
