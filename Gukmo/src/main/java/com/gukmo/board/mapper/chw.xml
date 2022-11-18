@@ -29,9 +29,27 @@
 	</insert>
 	
 	<insert id="insert_member" parameterType="com.gukmo.board.model.MemberVO">
-		insert into tbl_member(fk_userid, email, email_acept, nickname)
-		values(#{userid}, #{email}, #{email_acept}, #{nickname})
+		insert into tbl_member(fk_userid, email, email_acept, username, nickname)
+		values(#{userid}, #{email}, #{email_acept}, #{username}, #{nickname})
 	</insert>
+	
+	
+	<delete id="delete_member" parameterType="String">
+		delete from tbl_member_login where userid = #{userid}
+	</delete>
+	
+	<select id="getActivities" parameterType="String" resultType="com.gukmo.board.model.ActivityVO">
+		select activity_num,
+			   fk_userid,
+			   fk_board_num,
+			   to_char(activity_date,'yyyy-mm-dd hh:mm:ss') activity_date,
+			   subject,
+			   detail_category,
+			   division,
+			   nickname
+	    from tbl_activity
+	    where fk_userid = #{userid}
+	</select>
 	
 	
 	

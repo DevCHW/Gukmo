@@ -6,7 +6,7 @@ import java.util.List;
 import com.gukmo.board.model.HashtagVO;
 
 public class BoardVO {
-	private String BOARD_NUM;     	//게시글번호
+	private String board_num;     	//게시글번호
 	private String nickname;        //작성자닉네임
 	private String category;        //카테고리
 	private String detail_category; //상세카테고리
@@ -24,9 +24,9 @@ public class BoardVO {
 	protected BoardVO() {}
 	
 	//파라미터가있는 생성자만을 통해서 값 주입
-	public BoardVO(String bOARD_NUM, String nickname, String category, String detail_category, String subject,
+	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image) {
-		BOARD_NUM = bOARD_NUM;
+		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
 		this.detail_category = detail_category;
@@ -39,7 +39,7 @@ public class BoardVO {
 	
 	
 	public String getBOARD_NUM() {
-		return BOARD_NUM;
+		return board_num;
 	}
 	public String getNickname() {
 		return nickname;

@@ -1,5 +1,7 @@
 package com.gukmo.board.hw.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gukmo.board.common.Sha256;
 import com.gukmo.board.hw.repository.InterMemberDAO;
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 
 @Service
@@ -43,6 +46,32 @@ public class MemberService implements InterMemberService{
 		if(n==1) {	//tbl_member에 insert가 성공시
 			dao.insert_member(member);	//tbl_member에 insert
 		}
+	}
+
+	
+	
+	/**
+	 * 계정삭제하기
+	 */
+	@Override
+	public int memberDelete(String userid) {
+		int result = dao.memberDelete(userid);
+		
+		return result;
+	}
+
+
+
+	
+	/**
+	 * 로그인되어있는 유저의 활동내역 리스트 얻기
+	 * @param userid
+	 * @return 활동내역 리스트
+	 */
+	@Override
+	public List<ActivityVO> getActivities(String userid) {
+		List<ActivityVO> activities = dao.getActivities(userid);
+		return activities;
 	}
 	
 	

@@ -34,6 +34,14 @@ label[for='agreement']{
   top:3px;
 }
 
+/* error_msg */
+p.error{
+  color:red;
+  font-size:small;
+  display:none;
+}
+
+
 
 
 @media screen and (max-width: 768px){

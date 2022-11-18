@@ -104,7 +104,6 @@ $(document).ready(function(){
     send_email_click_cnt++;
 
     $("div#certification_area").css("display","flex");
-    $("button#btn_send_email").text("재전송");
     $("input#input_certificationCode").focus();
     $("span#send_guide").html(`입력하신 이메일 ${email}로 <br>
                               	인증번호를 전송하였습니다.`);
@@ -112,7 +111,11 @@ $(document).ready(function(){
     if($("button#btn_send_email").text() == "재전송"){  //재전송을 하였을 경우
       clearInterval(setTimer);  //타이머 정지
       time = 180;
+      setTimer = setInterval(timer,1000);
+      send_email(email);  //이메일 전송 메소드
+      return;
     }
+    $("button#btn_send_email").text("재전송");
     setTimer = setInterval(timer,1000);
     send_email(email);  //이메일 전송 메소드
   });
@@ -136,7 +139,7 @@ $(document).ready(function(){
         email_certification = false;
       }
     }
-  })
+  });
 
 
   //닉네임 칸 값 입력시 이벤트
