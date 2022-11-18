@@ -65,6 +65,8 @@ public interface InterLoginDAO {
 	 */
 	void loginRecordSave(Map<String, String> paraMap);
 
+	void adminLoginRecordSave(Map<String, String> paraMap);
+
 
 	
 

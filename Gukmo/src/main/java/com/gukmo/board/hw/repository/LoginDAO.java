@@ -126,6 +126,16 @@ public class LoginDAO implements InterLoginDAO{
 		gukmo_sql.insert("chw.loginRecordSave",paraMap);
 	}
 
+	/**
+	 * 관리자로그인 기록테이블에 로그인 기록하기
+	 * @param 관리자아이디, 클라이언트 ip
+	 */
+	@Override
+	public void adminLoginRecordSave(Map<String, String> paraMap) {
+		gukmo_sql.insert("chw.adminloginRecordSave",paraMap);
+		
+	}
+
 
 	
 

@@ -119,6 +119,11 @@
 		values(seq_login_record.nextval, #{userid}, #{client_ip})
 	</insert>
 	
+	<insert id="adminloginRecordSave" parameterType="HashMap">
+		insert into tbl_admin_login_record(admin_login_num, fk_admin_id, login_ip)
+		values(seq_admin_login_record.nextval, #{userid}, #{client_ip})
+	</insert>
+	
 	
 	
 	
@@ -128,6 +133,8 @@
 
 	
 	<!--=============== Board 시작 ============-->
+	
+	
 	
 	
 	<!--=============== Board 끝 ============-->
