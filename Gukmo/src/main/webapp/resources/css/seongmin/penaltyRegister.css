@@ -1,0 +1,140 @@
+div#penaltyRegister{
+  boarder : solid 1px gray;
+  width:60%;
+}
+
+
+.line{
+  display:flex;
+  flex-basis:100%;
+  align-items: center;
+  color:darkgray;
+  font-size:14px;
+  margin:8px 0px;
+}
+.line::before{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background-color: darkgray;
+  height: 1px;
+  font-size: 0px;
+  line-height: 0px;
+}
+.line::after{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background: darkgray;
+  height: 1px;
+  font-size:0px;
+  line-height: 0px;
+}
+
+
+
+/* input_signup */
+input.input_signup{
+  height:40px;
+  outline: none;
+  border:solid 1px #DEE2E6;
+}
+input.input_signup::placeholder{
+  font-size:small;
+}
+
+/* label_signup */
+label.label_signup{
+  margin-bottom:4px;
+  font-size:12px;
+}
+
+
+/* error_msg */
+p.error{
+  color:red;
+  font-size:small;
+  display:none;
+}
+
+
+
+/* ok_msg */
+p.ok{
+  color:blue;
+  font-size:small;
+  display:none;
+}
+
+
+
+button#btn_signup{
+  height:40px;
+  background-color: #14587D;
+  font-size:medium;
+  font-weight: bold;
+  color:white;
+}
+
+
+
+/* 토글스위치 */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 43px;
+  height: 23px;
+  vertical-align:middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* 토글스위치 끝 */
