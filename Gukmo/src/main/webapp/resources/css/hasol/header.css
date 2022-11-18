@@ -78,7 +78,6 @@
 	margin-right:15px;
 }
 
-
 /* 메뉴 a태그 색상 바꾸기 시작 */
 
 .my.mainCate > li > a.nav-link{
@@ -89,3 +88,17 @@
 	color: #208EC9;
 }
 /* 메뉴 a태그 색상 바꾸기 끝 */
+
+
+a.profile_image_box {
+	width:13px;
+	height:13px;
+	border-radius: 50%;
+	padding: 0;
+}
+
+a.profile_image_box img {
+	width:100%;
+  	height:100%;
+  	border-radius: 50%;
+}

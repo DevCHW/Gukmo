@@ -26,7 +26,7 @@
                                 <a class="nav-link" href="#">국비학원</a>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">커뮤니티</a>
+                                <a class="nav-link" href="<%=ctxPath %>/community/freeBoards.do">커뮤니티</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="#">공지사항</a>
@@ -40,16 +40,16 @@
                     <c:if test="${empty sessionScope.loginuser}">
 	                    <div class="non-login">
 	                        <button type="button" class="btn_login" id="login" onclick="location.href='<%=ctxPath %>/login.do'">로그인</button>
-	                        <button type="button" class="btn_regist" id="regist" onclick="location.href='<%=ctxPath %>/TOS.do'">회원가입</button>
+	                        <button type="button" class="btn_regist" id="regist" onclick="location.href='<%=ctxPath %>/signup.do'">회원가입</button>
 	                    </div>
                     </c:if>
                     <c:if test="${not empty sessionScope.loginuser}">
                     	<div class="login">
 							<i class="fa-regular fa-bookmark fa-lg"></i>
 							<i class="fa-solid fa-bell fa-lg"></i>
-		                	<a href="#">
-		                		<img src="" alt="profile">
-		                	</a>
+		                	<a href="#" class="profile_image_box border">
+						          <img src=""/>
+						    </a>
                 		</div>
                 	</c:if>
                 	<!-- 여긴 학원 계정인데, 학원 계정 체크 어떻게 했는지 값 몰라서 일단 주석 처리함 -->
