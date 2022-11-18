@@ -26,7 +26,7 @@
 
 <!-- 직접 만든 CSS 1 -->
 <link rel="stylesheet" type="text/css"
-	href="<%=ctxPath%>/resources/css/detail.css" />
+	href="<%=ctxPath%>/resources/css/gwangbin/detail.css" />
 
 <link rel="stylesheet" as="style" crossorigin
 	href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
@@ -39,7 +39,7 @@
 <script type="text/javascript"
 	src="<%=ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js"
 	charset="utf-8"></script>
-<script type="text/javascript" src="<%=ctxPath%>/resources/js/notice.js"></script>
+<script type="text/javascript" src="<%=ctxPath%>/resources/js/gwangbin/notice.js"></script>
 
 <%--  ===== 스피너 및 datepicker 를 사용하기 위해  jquery-ui 사용하기 ===== --%>
 <link rel="stylesheet" type="text/css"
