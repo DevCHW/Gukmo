@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+
+
 /* header */
 
 .mainNav_bar {
@@ -38,8 +40,10 @@
 }
 
 .main_right {
-	 style="width:40%;
-	 text-align: center;
+	width:20%;
+	text-align: center;
+	display:flex;
+	justify-content: end;
 }
 
 .main_right button {
@@ -67,17 +71,21 @@
 	background-color: #14587D;
 }
 
-.login > i,
-.login_academy > i {
+.my_icon {
+	font-size:17px;
 	color:#E1E2E1;
-	padding-right:30px;
+	margin-right:30px;
+	cursor:pointer
+}
+
+.my_icon:hover {
+	color: #208EC9;
 }
 
 .login_academy span {
 	color: grey;
 	margin-right:15px;
 }
-
 
 /* 메뉴 a태그 색상 바꾸기 시작 */
 
@@ -89,3 +97,83 @@
 	color: #208EC9;
 }
 /* 메뉴 a태그 색상 바꾸기 끝 */
+
+
+
+/* Dropdown Button */
+.dropbtn {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+  	border: none;
+  	display: flex;
+  	justify-content: center;
+  	align-content: center;
+  	cursor: pointer;
+  	margin: 0;
+  	padding: 0;
+}
+
+.dropbtn img {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: solid 1px grey;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+	float: right;
+	position: relative;
+	display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+
+.dropdown-content1 {
+	width:200px;
+	height:130px;
+}
+
+.dropdown-content1,
+.dropdown-content2
+ {
+	display: none;
+	position: absolute; top:40px; 
+	background-color: white;
+	border-radius:10px;
+	min-width: 179px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0;
+	z-index: 2;
+}
+
+.dropdown-content1 a:first-child {
+	width: 100%;
+	height: 40px;
+	background-color: #FAFAFA;
+	border-radius: 10px 10px 0 0;
+	text-align: start;
+	padding-left:15px;
+	border-bottom: solid 1px #E1E2E1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content1 a,
+.dropdown-content2 a {
+	color: black;
+	padding: 8px 15px;
+	text-decoration: none;
+	display: block;
+	margin:0;
+}
+
+.dropdown-content2 a:last-child {
+	border-top:	solid 1px #E1E2E1;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content2 a:hover {color: #208EC9; }
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
