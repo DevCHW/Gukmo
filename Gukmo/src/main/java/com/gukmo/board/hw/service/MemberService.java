@@ -36,7 +36,8 @@ public class MemberService implements InterMemberService{
 				 					   input_member.getAcademy_name(), 
 				 					   input_member.getCompany_num(), 
 				 					   input_member.getHomepage(), 
-				 					   input_member.getPhone());
+				 					   input_member.getPhone(),
+				 					   input_member.getUsername());
 		
 		int n = dao.insert_member_login(member);	//tbl_member_login에 insert
 		if(n==1) {	//tbl_member에 insert가 성공시

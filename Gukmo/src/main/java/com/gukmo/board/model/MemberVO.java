@@ -21,7 +21,11 @@ public class MemberVO {
 	private String homepage;			//홈페이지URL
 	private String phone;				//핸드폰번호
 	
-	
+	// 일반회원 field
+	private String username;				//회원 이름
+
+
+
 	// 기본 생성자 일부러 protected로 막음
 	protected MemberVO(){};
 	
@@ -29,7 +33,7 @@ public class MemberVO {
 	// 파라미터가있는 생성자로만 값 주입 가능, Setter도 막음
 	public MemberVO(String userid, String passwd, String status, String update_passwd_date, String email,
 					String email_acept, String nickname, String point, String join_date, String profile_image,
-					String academy_name, String company_num, String homepage, String phone) {
+					String academy_name, String company_num, String homepage, String phone, String username) {
 		this.userid = userid;
 		this.passwd = passwd;
 		this.status = status;
@@ -44,6 +48,7 @@ public class MemberVO {
 		this.company_num = company_num;
 		this.homepage = homepage;
 		this.phone = phone;
+		this.username = username;
 	}
 
 	// Getter
@@ -90,7 +95,10 @@ public class MemberVO {
 		return phone;
 	}
 
-
+	public String getUsername() {
+		return username;
+	}
+	
 	@Override
 	public String toString() {
 		return "MemberVO [userid=" + userid + ", passwd=" + passwd + ", status=" + status + ", update_passwd_date="

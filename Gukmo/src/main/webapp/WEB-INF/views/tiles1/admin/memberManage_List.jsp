@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+
    
 <%
 	String ctxPath = request.getContextPath();
@@ -87,24 +89,22 @@
           <th><input type="checkbox"/></th>
           <th>아이디</th>
           <th>이름</th>
+          <th>닉네임</th>
           <th>이메일</th>
-          <th>휴대전화</th>
           <th>가입일자</th>
         </tr>
       </thead>
       <tbody>
-        <c:if test="${not empty requestScope.empList}">
-          <c:forEach var="map" items="${requestScope.empList}">
+		<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status">
             <tr id = "">
               <td><input type="checkbox" id="chxAll"/></td>
-              <td style="cursor:pointer" onclick="memberDetail()"><span>${map.department_id}</span></td>
-              <td style="cursor:pointer" onclick="memberDetail()"><span>김성민</span></td>
-              <td style="cursor:pointer" onclick="memberDetail()"><span>zpzpr625@naver.com</span></td>
-              <td style="cursor:pointer" onclick="memberDetail()"><span>010-4939-7801</span></td>
-              <td style="cursor:pointer" onclick="memberDetail()"><span>2022-01-04</span></td>
+              <td style="cursor:pointer" onclick="memberDetail()"><span>${membervo.userid}</span></td>
+              <td style="cursor:pointer" onclick="memberDetail()"><span>${membervo.username}</span></td>
+              <td style="cursor:pointer" onclick="memberDetail()"><span>${membervo.nickname}</span></td>
+              <td style="cursor:pointer" onclick="memberDetail()"><span>${membervo.email}</span></td>
+              <td style="cursor:pointer" onclick="memberDetail()"><span>${membervo.join_date}</span></td>
             </tr>    
           </c:forEach>
-        </c:if>
     </tbody>
     </table>
     <!----------------------------------- 학원 리스트 테이블 끝 ------------------------------------->

@@ -29,6 +29,7 @@ public class memberManageService implements InterMemberManageService {
 	@Override
 	public List<MemberVO> memberList(Map<String, String> paraMap) {
 		List<MemberVO> memberList = dao.memberList(paraMap);
+		System.out.println(memberList);
 		return memberList;
 	}
 

@@ -16,16 +16,19 @@ public class MemberDAO implements InterMemberDAO {
 	@Resource
 	private SqlSessionTemplate gukmo_sql;
 
+	// 회원 관리 페이지의 총 페이지 수 알아오기
 	@Override
 	public int getTotalCount(Map<String, String> paraMap) {
 		int n = gukmo_sql.selectOne("ksm.getTotalCount", paraMap);
 		return n;
 	}
 
+	
+	// 회원 관리 페이지에 보여줄 회원 목록 리스트 뽑아오기
 	@Override
 	public List<MemberVO> memberList(Map<String, String> paraMap) {
-		// TODO Auto-generated method stub
-		return null;
+		List<MemberVO> memberList = gukmo_sql.selectList("ksm.memberList" ,paraMap);
+		return memberList;
 	}
 
 }

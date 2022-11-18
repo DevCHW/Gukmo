@@ -125,7 +125,8 @@ public class LoginController {
 							    null, 							//교육기관명
 							    null,  							//사업자번호
 							    null,							//홈페이지
-							    null);     						//연락처
+							    null,							//연락처
+							    null);     						// 회원 이름
 		}
 		else {	//관리자가 아닌회원으로 로그인하였다면
 			user = service.login_complete(paraMap);
