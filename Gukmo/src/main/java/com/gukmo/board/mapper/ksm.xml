@@ -5,4 +5,14 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="ksm">
+
+	<select id="getTotalCount" parameterType="HashMap" resultType="Integer">
+	    select count(*)
+	    from tbl_member
+	    <if test='searchType != "" and searchWord != "" '>
+	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    </if>
+	    
+	</select>
+	
 </mapper>
