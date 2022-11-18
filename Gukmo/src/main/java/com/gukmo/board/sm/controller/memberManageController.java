@@ -58,6 +58,34 @@ public class memberManageController {
 		 totalCount = service.getTotalCount(paraMap);
 		 System.out.println(totalCount);
 		 
+		 
+		 totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+
+		 if(str_currentShowPageNo == null) {
+			 // 게시판에 보여지는 초기화면 
+			 currentShowPageNo = 1;
+		 }
+		 else {
+		 
+			 try {
+				 currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+				 if( currentShowPageNo < 1 || currentShowPageNo > totalPage ) {
+					 currentShowPageNo = 1;
+				 }
+			 } catch(NumberFormatException e) {
+				 currentShowPageNo = 1;
+			 }
+		 
+		 }		 
+		 
+		 startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		 endRno = startRno + sizePerPage - 1;
+		 
+		 paraMap.put("startRno", String.valueOf(startRno));
+		 paraMap.put("endRno", String.valueOf(endRno));
+
+		 memberList = service.memberList(paraMap);
+		 
 		
 		
 		
