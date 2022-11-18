@@ -40,6 +40,8 @@
 </head>
 
 <body>
+
+
   <div class="container">
     
     <!-- navbar 시작 -->
@@ -181,16 +183,18 @@
 
 
   <!-- 검색바시작 -->
-    <div id="search_area" class="d-flex mx-auto my-5">
-      <div id="academy_search" class="d-flex m-auto rounded">
-        <div id="input_keyword">
-          <input type="text" id="searchWord" placeholder="교육기관 검색" id="keyword" class="pl-3" name="keyword">
-        </div>
-        <div id="search_btn">
-          <button type="button" class="btn btn-white" id="btn_search"><i class="fas fa-xl fa-thin fa-magnifying-glass"></i></button>
-        </div>
-      </div>
-    </div>
+    <form name="searchFrm" style="margin-top: 20px;">
+	    <div id="search_area" class="d-flex mx-auto my-5">
+	      <div id="academy_search" class="d-flex m-auto rounded">
+	        <div id="input_keyword">
+	          <input type="text" id="searchWord" placeholder="교육기관 검색" id="keyword" class="pl-3" name="keyword">
+	        </div>
+	        <div id="search_btn">
+	          <button type="button" class="btn btn-white" id="btn_search"><i class="fas fa-xl fa-thin fa-magnifying-glass"></i></button>
+	        </div>
+	      </div>
+	    </div>
+	</form>
     <!-- 검색바 끝 -->
 
 
