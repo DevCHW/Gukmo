@@ -4,46 +4,44 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<script type="text/javascript">
+	sessionStorage.setItem("user",${sessionScope.user});
+</script>
 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/myInfo.css" />
-
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/myInfo.css" />
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/js/myInfo.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/myInfo.js" ></script>
 
 
 
-
-  <div class="container mt-4">
-    <%-- 사이드바 시작 --%>
-    <div id="sidebar">
-      <h5 id="sidebar_title">내 계정</h5>
-      <ul>
-        <li>회원정보</li>
-        <li>계정</li>
-        <li>활동 내역</li>
-      </ul>
-    </div>
-    <%-- 사이드바 끝 --%>
+  <div class="container my-4">
+    <%-------------------- 사이드바 시작 ----------------------%>
+        
+    <%-- sidebar 호출 --%>
+	<jsp:include page="/WEB-INF/views/tiles1/member/sidebar.jsp" />
+        
+        
+    <%-------------------- 사이드바 끝 ----------------------%>
 
     <%-- 내정보 시작 --%>
     <div id="main">
       <h5>회원정보</h5>
       
       <%-- 이름 --%>
-      <form action="" method="post">
+      <form name="myInfoFrm">
         <div id="section1" class="justify-content-between mb-5">
           <div id="input_box" class="d-flex flex-column">
-            <label for="" class="input_label">이름</label>
+            <label for="username" class="input_label">이름</label>
             <input type="text" id="username" name="username" class="border rounded pl-2" placeholder="이름을 입력해주세요">
             <%-- 닉네임 --%>
-            <label for="" class="input_label mt-3">닉네임</label>
+            <label for="nickname" class="input_label mt-3">닉네임</label>
             <input type="text" id="nickname" name="nickname" class="border rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)">
           </div>
           <%-- 프사 --%>
           <div class="d-flex align-items-baseline">
             <div id="profile_img_box" class="border">
-              <img src="../images/user-solid.svg"/>
+              <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
               <div id="img_mask" class="justify-content-center align-items-center">
                 <span style="color:white; font-weight:bold;">이미지 변경</span>
               </div>

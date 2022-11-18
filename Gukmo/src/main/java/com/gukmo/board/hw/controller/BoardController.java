@@ -22,8 +22,8 @@ public class BoardController {
 	@RequestMapping(value="/community/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public ModelAndView login(ModelAndView mav) {
       
-      mav.setViewName("board/community/studies.tiles1");
-      //   /WEB-INF/views/tiles1/login/login.jsp 파일
+      mav.setViewName("board/community/study.tiles1");
+      //   /WEB-INF/views/tiles1/coummunity/study.jsp 파일
       
       return mav;
    }

@@ -59,14 +59,23 @@
 	
 	
 	<select id="getLastLoginday" parameterType="String" resultType="Integer">
-		select trunc(sysdate-login_date)
-		from tbl_login_record
-		where fk_userid = #{userid}
-		order by login_date desc
+		select T.*
+		from
+		(
+		select rownum R ,V.*
+		from
+			(
+			select trunc(sysdate-login_date) LastLoginday
+			from tbl_login_record
+			where fk_userid = #{userid}
+			order by LastLoginday desc
+			) V
+		) T
+		where R = 1
 	</select>
 	
 	<update id="editUserStatus_rest" parameterType="String">
-		update tbl_member_login set status='휴면' where userid = #{userid};
+		update tbl_member_login set status='휴면' where userid = #{userid}
 	</update>
 	
 	
