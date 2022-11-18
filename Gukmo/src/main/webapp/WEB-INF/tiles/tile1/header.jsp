@@ -9,6 +9,9 @@
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/header.css">
 
+<!-- 직접만든 javascript -->
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hasol/header.js" ></script>
+
 <!-- 상단 네비게이션 시작 -->
 	<haeder>
         <nav bar class="mainNav_bar ">
@@ -44,33 +47,52 @@
 	                    </div>
                     </c:if>
                     <c:if test="${not empty sessionScope.user}">
-                    	<div class="login">
-							<i class="fa-regular fa-bookmark fa-lg"></i>
-							<i class="fa-solid fa-bell fa-lg"></i>
-						    <div class="profile_image_box">
-							  <button class="profile_img">
-							  	<img src="">
-							  </button>
-							  <div class="dropdown-content">
-							    <a href="#">Link 1</a>
-							    <a href="#">Link 2</a>
-							    <a href="#">Link 3</a>
+                    	<div class="login d-flex align-items-center">
+							<a class="my_icon"><i class="fa-regular fa-bookmark fa-lg"  onclick="drop_content()"></i></a>
+
+							<div class="dropdown">
+								<a class="my_icon"><i class="fa-solid fa-bell fa-lg" class="my_icon" onclick="drop_content1()"></i></a>
+							  	<div id="myDropdown1" class="dropdown-content1 mt-1">
+							  		<a href="#">알림</a>
+<%-- 								    <c:if test="${empty sessionScope.userAlram}">
+								    	<p> 받으신 알림이 없습니다. </p>
+								    </c:if> --%>
+<%-- 								    <c:if test="${not empty sessionScope.userAlram}"> --%>
+							  		<div class="d-flex justify-content-center align-items-center">
+								    	<p> 받으신 알림이 없습니다. </p>
+<%-- 								    </c:if> --%>
+							    	</div>
+							  </div>
+							</div>
+							
+              				<div class="dropdown">
+              				  <div class="dropbtn" onclick="drop_content()"> 
+								  <p class="dropbtn" onclick="drop_content()">
+								  	<img src="<%= ctxPath%>/resources/images/user.PNG" class="dropbtn" onclick="drop_content2()">
+								  </p>
+							  </div>
+							  <div id="myDropdown2" class="dropdown-content2">
+							  	<div class="px-1 py-1">
+								    <a href="<%= ctxPath%>/member/myId.do">
+								  		<i class="fa-solid fa-user"></i>  
+								  		내 계정
+								  	</a>
+								    <a href="<%= ctxPath%>/member/myInfo.do">
+								    	<i class="fa-solid fa-gear"></i>
+								    	내 정보
+								    </a>
+								    <a href="<%= ctxPath%> /member/activities.do">
+								    	<i class="fa-solid fa-gear"></i>
+								    	활동내역
+								    </a>
+								    <a href="<%= ctxPath%>/logout.do ">로그아웃</a>
+							    </div>
 							  </div>
 							</div>
                 		</div>
+                		
+  
                 	</c:if>
-                	<!-- 여긴 학원 계정인데, 학원 계정 체크 어떻게 했는지 값 몰라서 일단 주석 처리함 -->
-                	<%--
-                	<c:if test="${sessionScope.loginuser == }">
-                    	<div class="login_academy">
-                    		<span> (학원 이름) 계정 접속 </span>
-							<i class="fa-regular fa-bookmark fa-lg"></i>
-							<i class="fa-solid fa-bell fa-lg"></i>
-		                	<a href="#">
-		                		<img src="" alt="profile">
-		                	</a>
-                		</div>
-                     --%>
                 </div>
             </nav>
         </nav>
