@@ -11,8 +11,23 @@
 	    from tbl_member
 	    <if test='searchType != "" and searchWord != "" '>
 	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>
-	    
+	    </if>	    
+	</select>
+	
+	<select id="memberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
+	select rnum, fk_userid as userid, email, email_acept, username, nickname, join_date, status, point
+	from
+	(
+	select rownum as rnum, fk_userid, email, email_acept, username, nickname, join_date, status, point
+	from 
+	(
+	select fk_userid, email, email_acept, username, nickname, join_date, status, point
+	from tbl_member M
+	left join tbl_member_login L
+	on fk_userid = userid
+	order by join_date desc
+	) V
+	) D
 	</select>
 	
 </mapper>
