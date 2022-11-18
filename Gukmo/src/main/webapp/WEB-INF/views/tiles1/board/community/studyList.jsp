@@ -5,10 +5,10 @@
 %>
  
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
 <!-- 직접만든 javascript -->
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/boardList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/studyList.js" ></script>
 
   <div class="container mt-4">
     <div id="category" class="d-flex justify-content-center align-content-center">
@@ -20,23 +20,16 @@
       <div class="mx-2 px-2 py-1 rounded active">수강/취업성공후기</div>
     </div>
 
-    <!-- 검색바시작 -->
-    <div id="search_area" class="d-flex mx-auto my-3 mt-4">
-      <div id="academy_search" class="d-flex m-auto rounded">
-        <div id="input_keyword">
-          <input type="text" id="searchWord" placeholder="스터디 내에서 검색" id="keyword" class="pl-3" name="keyword">
-        </div>
-        <div id="search_btn">
-          <button type="button" class="btn btn-white" id="btn_search">
-            <i class="fas fa-xl fa-thin fa-magnifying-glass ml-auto"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+     <!-- 검색창 영역 -->
+     <div class="searchBar d-flex mx-auto my-4">
+        <input type="text" id="searchWord" class="pl-2" placeholder="검색할 내용을 입력해 주세요!"/>
+        <button type="button" id="btn_search">
+          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
+        </button>
+     </div>
     <!-- 검색바 끝 -->
 
 
-    <!-- py-5 -->
     <!-- navbar 시작 -->
     <div id="nav" class="d-flex align-items-center py-2">
       <!-- 필터 시작 이곳에 자바스크립트로 필터 넣으세요. -->
