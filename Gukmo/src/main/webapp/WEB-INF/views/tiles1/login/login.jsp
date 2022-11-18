@@ -6,9 +6,9 @@
 %>
 
   <%-- 직접 만든 CSS --%>
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/hyunwoo/css/login.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/login.css" />
   <%-- 직접만든 javascript --%>
-  <script type="text/javascript" src="<%=ctxPath %>/resources/hyunwoo/resources/js/login.js" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/login.js" ></script>
   
   
   <form name="login_form" id="login_form">

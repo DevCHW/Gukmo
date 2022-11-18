@@ -1,25 +1,11 @@
 @charset "UTF-8";
 
 div.container{
+  font-size:small;
   display:flex;
+  justify-content:space-between;
 }
 
-
-/* 사이드바 시작 */
-div#sidebar{
-  border-right:solid 1px #EBEBEB;
-  width:320px;
-}
-h5#sidebar_title{
-  font-weight: bold;
-}
-div#sidebar > ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  line-height: 36px;
-}
-/* 사이드바 끝 */
 
 
 /* main 시작 */
@@ -167,15 +153,6 @@ div#search_btn{
   div.container{
     display:block;
   }
-  
-  /* 사이드바 시작*/
-  div#sidebar{
-    border-right:none;
-    border-bottom:solid 1px #EBEBEB;
-    width:100%;
-  }
-  /* 사이드바 끝*/
-
 
   /* 메인 시작 */
   div#main{
@@ -184,96 +161,6 @@ div#search_btn{
   }
 
   /* 메인 끝 */
-}
-
-@media screen and (max-width: 1000px){
-  div.activity_title{
-    display:block;
-  }
-  div.activity_date{
-    margin-left:0;
-  }
-}
-
-/* a�깭洹� �뜲肄붾젅�씠�뀡 �뾾�븷湲� �떆�옉 */
-a.page-link:link {
-  color : black;
-  text-decoration: none;
-}
-a.page-link:visited {
-  color : black;
-  text-decoration: none;
-}
-a.page-link:hover {
-  color : black;
-  text-decoration: none;
-}
-a.page-link:active {
-  color : black;
-  text-decoration: none;
-}
-/* a�깭洹� �뜲肄붾젅�씠�뀡 �뾾�븷湲� �걹 */ 
-
-
-.my.pagination > .active > a, 
-.my.pagination > .active > span, 
-.my.pagination > .active > a:hover, 
-.my.pagination > .active > span:hover, 
-.my.pagination > .active > a:focus, 
-.my.pagination > .active > span:focus {
-  z-index:0;
-  background: #14587D;
-  border-color:#14587D;
-  color: white;
-}
-
-/* �럹�씠吏� 諛� �걹 */
-
-/* 寃��깋李� �떆�옉 */
-button#search{
-  width:70px;
-  height:100%;
-}
-input#searchWord{
-  height:40px;
-  border:none;
-}
-input#searchWord:focus { 
-	outline: none; 
-}
-div#academy_search{
-  border:solid 1px black;
-}
-div#search_btn{
-  height:100%;
-  border-left:solid 1px black;
-}
-/* 寃��깋李� �걹 */
-
-
-
-
-@media screen and (max-width: 768px){
-  div.container{
-    display:block;
-  }
-  
-  /* �궗�씠�뱶諛� �떆�옉*/
-  div#sidebar{
-    border-right:none;
-    border-bottom:solid 1px #EBEBEB;
-    width:100%;
-  }
-  /* �궗�씠�뱶諛� �걹*/
-
-
-  /* 硫붿씤 �떆�옉 */
-  div#main{
-    margin-top:24px;
-    margin-left:0;
-  }
-
-  /* 硫붿씤 �걹 */
 }
 
 @media screen and (max-width: 1000px){

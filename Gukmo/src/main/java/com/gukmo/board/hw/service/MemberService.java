@@ -32,7 +32,7 @@ public class MemberService implements InterMemberService{
 				 					   input_member.getNickname(), 
 				 					   input_member.getPoint(), 
 				 					   input_member.getJoin_date(), 
-				 					   input_member.getProfile_image(),
+				 					   "user.PNG",
 				 					   input_member.getAcademy_name(), 
 				 					   input_member.getCompany_num(), 
 				 					   input_member.getHomepage(), 
