@@ -39,7 +39,7 @@
               </div>
             </div>
   
-            <button type="button" id="btn_go_myId" class="btn border rounded">
+            <button type="button" id="btn_go_myId" class="btn border rounded" onclick="location.href='<%=ctxPath %>/member/myId.do'">
               	나의 계정
             </button>
           </div>

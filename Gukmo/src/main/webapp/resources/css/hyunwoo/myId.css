@@ -49,3 +49,30 @@ label[for='agreement']{
   /* 메인 끝 */
 }
 
+
+
+
+
+/* Modal */
+button#btn_send_email{
+  font-size:small;
+}
+input#input_certificationCode{
+  height:40px;
+}
+input#input_certificationCode:focus{
+  outline: none;
+}
+input#input_certificationCode::placeholder{
+  font-size:small;
+  
+}
+div#certification_area{
+  display:none;
+}
+span#send_guide{
+  font-size:small;
+  color:gray;
+}
+
+
