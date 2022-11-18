@@ -8,22 +8,89 @@
 %>   
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
-
-<!-- 스마트 에디터  -->
-<script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
 <!-- 직접만든 javascript -->
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/boardNew.js" ></script>
 
+
+<script>
+ <%-- $(document).ready(function() {
+	//	==== 스마트 에디터 구현 시작 ==== //
+	//전역변수
+    var obj = [];
+    
+    //스마트에디터 프레임생성
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: obj,
+        elPlaceHolder: "content",
+        sSkinURI: "<%=ctxPath%>/resources/smarteditor/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseToolbar : true,            
+            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseVerticalResizer : true,    
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseModeChanger : true,
+        }
+    });
+    // ==== 스마트 에디터 구현 끝 ==== //
+	    
+	// 등록 버튼을 클릭했을시
+	    $("button#btn_write").click(function() {
+	    	
+	    	// ==== 스마트 에디터 구현 시작 ==== //
+	    	// id가 content인 textarea에 에디터에서 대입
+	    	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+	    	
+	    	// 카테고리 유효성 검사
+	    	const detail_category = $("select#detail_category").val();
+	    	if(detail_category == "") {
+	    		alert("카테고리를 선택하세요!!");
+				return;
+	    	}
+	    	
+	    	// 글제목 유효성 검사
+			const subject = $("input#subject").val().trim();
+			if(subject == "") {
+				alert("글제목을 입력하세요!!");
+				return;
+			}
+			
+			// 글내용 유효성 검사(스마트 에디터용)
+			var contentval = $("textarea#content").val();
+			contentval = contentval.replace(/&nbsp;/gi, "");
+		
+		    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
+		    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
+		            
+		    if(contentval.trim().length == 0) {
+		  	  alert("글내용을 입력하세요!!");
+		      return;
+		    }
+		    
+		    // 폼을 전송
+		    const frm = document.writerFrm;
+		    frm.method = "POST";
+		    frm.action = "<%=ctxPath%>/newEnd.do";
+		    frm.submit();
+	    }); 
+	       
+	 
+	 
+	 
+ }); --%>
+
+</script>
+
   <div class="container">
     <!-- 커뮤니티 작성 폼 시작 -->
     <form action="communityNewEnd" name="writerFrm" class="d-flex flex-column" enctype="multipart/form-data">
-	  <!-- 등록용 닉네임 -->
 	  
-	  <!--  
-	  		<input type="hidden" name="fk_userid" value="${sessionScope.loginuser.nickname}" />
-	  -->
+	  <!-- 등록용 닉네임 -->
+	  <input type="text" name="nickname" value="${sessionScope.user.nickname}" />
+	  
+	  
 	  
       <!-- category -->
       <label for="detail_category" class="community_label">구분</label>

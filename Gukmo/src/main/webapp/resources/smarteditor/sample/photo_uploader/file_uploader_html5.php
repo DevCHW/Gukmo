@@ -14,6 +14,7 @@
 	$file->size = $headers['file_size'];
 	$file->content = file_get_contents("php://input");
 	
+ 	$filemane_ext_temp = explode('.',$filename);
 	$filename_ext = strtolower(array_pop(explode('.',$file->name)));
 	$allow_file = array("jpg", "png", "bmp", "gif"); 
 	
