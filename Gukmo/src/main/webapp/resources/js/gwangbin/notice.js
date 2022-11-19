@@ -4,6 +4,7 @@ $(document).ready(function(){
 	
 	$("div#more_list").click(function(){
 		$("div#edit_delete_list").toggle();
+		alert("김성민이 짱이야 ^__^");
 	});
 	
 	$('span#like_button').click(function(){
