@@ -4,27 +4,16 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원 상세정보</title>
-
-  
-</head>
-
 <!--  직접 만든 css -->
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/memberDetail.css" />
 
 <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberDetail.js" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberDetail.js?ver=1" ></script>
 <body>
 
 	<div id="memberManage_container" class="container-fluid row mt-5">
 		<div class="col-1"></div>
-		<div class="col-10">
+		<div class="col-8">
 				<table id="register_table" class="container register_table">
 						<tr>
 							<td colspan="4" id="register_text">회원 상세정보</td>
@@ -37,8 +26,8 @@
 							<td class="font-weight-bold align-baseline w-25 pt-2">
 								아이디
 							</td>
-							<td>
-								${requestScope.mvo.userid}
+							<td id = "userid">
+								${requestScope.memberDetail.userid}
 							</td>
 						</tr>
 						<tr>
@@ -46,80 +35,72 @@
 								이름 
 							</td>
 							<td>
-								${requestScope.mvo.name}
+								${requestScope.memberDetail.username}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								주소 
+								닉네임
 							</td>
 							<td>
-								<span>${requestScope.mvo.address}</span>
+								${requestScope.memberDetail.nickname}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								휴대전화
+								이메일 주소
 							</td>
 							<td>
-								${requestScope.mvo.mobile }
+								${requestScope.memberDetail.email}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								이메일 
+								포인트 
 							</td>
 							<td>
-								${requestScope.mvo.email}
-							</td>
-						</tr>
-					</table>
-					
-					<hr style="border: none; background-color: black; height:1px;">
-					
-					<table id="register_table_2" class="container register_table mb-5">
-						<tr>
-							<td class="font-weight-bold align-baseline w-25">성별</td>
-							<td class="align-middle">
-								<c:if test="${requestScope.mvo.gender == '1'}">
-									남
-								</c:if>
-								<c:if test="${requestScope.mvo.gender == '2'}">
-									여
-								</c:if>
+								${requestScope.memberDetail.point}
 							</td>
 						</tr>
 						<tr>
-							<td class="font-weight-bold align-baseline">생년월일</td>
+							<td class="font-weight-bold align-baseline pt-2">
+								이메일 수신 동의 여부
+							</td>
 							<td>
-								${requestScope.mvo.birthday}
+								${requestScope.memberDetail.email_acept}
 							</td>
 						</tr>
 						<tr>
-							<td class="font-weight-bold align-baseline">회원등급</td>
+							<td class="font-weight-bold align-baseline pt-2">
+								계정 상태
+							</td>
 							<td>
-								${requestScope.mvo.grade_code}
+								${requestScope.memberDetail.status}
 							</td>
-						</tr>
+						</tr>	
+						
 						<tr>
-							<td class="font-weight-bold align-baseline">가입일자</td>
+							<td class="font-weight-bold align-baseline pt-2">
+								가입일자 
+							</td>
 							<td>
-								${requestScope.mvo.registerday}
+								${requestScope.memberDetail.join_date}
 							</td>
 						</tr>
-            <tr>
-              <button type="button" id="" onclick="block()">정지 등록</button>&nbsp;
-              <button type="button" id="" onclick="block_recovery()">정지 해제</button>&nbsp;
-              <button type="button" id="" onclick="sleep_recovery()">휴면 해제</button>
-            </tr>
-						<tr>
-							<td colspan="2" class="pt-5 pb-5">
-                <button type="button" id="cancel_btn" class="white" style="width:100%;" onclick="window.close()">닫기</button>
-              </td>
-						</tr>
-					</table>
+						<input type="hidden" id = "${requestScope.memberDetail.userid}" name="userid" />
+						<input type="hidden" id = "${requestScope.memberDetail.nickname}" name="nickname" />
+					</table>		
+			<div class="">
+	      	  <button type="button" class = "memberBlock" id="${requestScope.memberDetail.userid}" >정지 등록</button>&nbsp;
+	          <button type="button" id="" onclick="block_recovery">정지 해제</button>&nbsp;
+	          <button type="button" id="" onclick="sleep_recovery">휴면 해제</button>
+			</div>		
+			<br><br>
+			<div>
+			  <button type="button" id="" onclick="">뒤로 가기</button>
+			</div>					
 		</div>
-		<div class="col-1"></div>
+		
 
   </div>
       

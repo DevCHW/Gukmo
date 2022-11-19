@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gukmo.board.model.MemberVO;
+import com.gukmo.board.model.PenaltyVO;
 import com.gukmo.board.sm.repository.InterMemberDAO;
 
 @Service
@@ -29,8 +30,31 @@ public class memberManageService implements InterMemberManageService {
 	@Override
 	public List<MemberVO> memberList(Map<String, String> paraMap) {
 		List<MemberVO> memberList = dao.memberList(paraMap);
-		System.out.println(memberList);
+		// System.out.println(memberList);
 		return memberList;
 	}
+
+	// 회원 상세보기
+	@Override
+	public MemberVO getMemberDetail(Map<String, String> paraMap) {
+		MemberVO MemberDetail = dao.MemberDetail(paraMap);
+		return MemberDetail;
+	}
+
+	// 회원 정지 등록 완료 페이지
+	@Override
+	public int addPenalty(PenaltyVO pvo) {
+		int n = dao.addPenalty(pvo);
+		return n;
+	}
+
+	// tbl_member_login에 해당 회원 status 변경(정지)	
+	@Override
+	public int updateMemberStatus(String userid) {
+		int n = dao.updateMemberStatus(userid);
+		return n;
+	}
+	
+
 
 }

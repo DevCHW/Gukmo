@@ -6,6 +6,7 @@
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="ksm">
 
+	<!-- 회원관리 리스트 총 페이지 수 -->
 	<select id="getTotalCount" parameterType="HashMap" resultType="Integer">
 	    select count(*)
 	    from tbl_member
@@ -14,21 +15,47 @@
 	    </if>	    
 	</select>
 	
+	<!-- 회원관리 목록 페이지 요청 -->
 	<select id="memberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
-	select rnum, fk_userid as userid, email, email_acept, username, nickname, join_date, status, point
-	from
-	(
-	select rownum as rnum, fk_userid, email, email_acept, username, nickname, join_date, status, point
-	from 
-	(
-	select fk_userid, email, email_acept, username, nickname, join_date, status, point
-	from tbl_member M
-	left join tbl_member_login L
-	on fk_userid = userid
-	order by join_date desc
-	) V
-	) D
-	where rnum between #{startRno} and #{endRno}
+		select rnum, fk_userid as userid, email, email_acept, username, nickname, join_date, status, point
+		from
+		(
+		select rownum as rnum, fk_userid, email, email_acept, username, nickname, join_date, status, point
+		from 
+		(
+		select fk_userid, email, email_acept, username, nickname, join_date, status, point
+		from tbl_member M
+		left join tbl_member_login L
+		on fk_userid = userid
+		order by join_date desc
+		) V
+		) D
+		where rnum between #{startRno} and #{endRno}
 	</select>
+	
+	
+	<!-- 회원정보 상세보기 페이지 -->
+		<select id="getMemberDetail" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
+			select fk_userid as userid, email, email_acept, username, nickname, join_date, status, point, profile_image
+			from tbl_member M
+			left join tbl_member_login L
+			on fk_userid = userid
+		    where userid = #{userid}
+		</select>
+	
+	<!-- 회원정보 상세보기 페이지 -->
+		<insert id="addPenalty" parameterType="com.gukmo.board.model.PenaltyVO">
+		    insert into tbl_penalty
+		    values(seq_penalty.nextval, #{nickname}, #{simple_penalty_reason}, #{detail_penalty_reason}, sysdate, #{penalty_period} )
+		</insert>	
+		
+	<!-- 회원정보 상세보기 페이지 -->
+		<update id="updateMemberStatus" parameterType="String">
+		    update tbl_member_login
+		    set status = '정지'
+		    where userid = #{userid}
+    	</update>	
+		
+		
 	
 </mapper>
