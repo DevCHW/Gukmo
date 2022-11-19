@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
-
+a {
+	cursor:pointer;
+}
 
 /* header */
 
@@ -93,10 +95,14 @@
   z-index:0;
   color: black;
 }
-.my.mainCate > li > a.nav-link:hover {
+.my.mainCate > li > a.nav-link:hover{
 	color: #208EC9;
 }
 /* 메뉴 a태그 색상 바꾸기 끝 */
+
+.my.mainCate > div.adminMenu a {
+	color: #208EC9;
+}
 
 
 
@@ -136,7 +142,8 @@
 }
 
 .dropdown-content1,
-.dropdown-content2
+.dropdown-content2,
+.dropdown-content3
  {
 	display: none;
 	position: absolute; top:40px; 
@@ -160,7 +167,8 @@
 
 /* Links inside the dropdown */
 .dropdown-content1 a,
-.dropdown-content2 a {
+.dropdown-content2 a,
+.dropdown-content3 a {
 	color: black;
 	padding: 8px 15px;
 	text-decoration: none;
@@ -168,12 +176,15 @@
 	margin:0;
 }
 
-.dropdown-content2 a:last-child {
+.dropdown-content2 a:last-child:not(#admin_link){
 	border-top:	solid 1px #E1E2E1;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content2 a:hover {color: #208EC9; }
+.dropdown-content2 a:hover,
+.dropdown-content3 a:hover {color: #208EC9; }
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+

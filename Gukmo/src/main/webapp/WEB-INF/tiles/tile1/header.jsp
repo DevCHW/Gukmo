@@ -34,14 +34,17 @@
                             <li>
                                 <a class="nav-link" href="#">공지사항</a>
                             </li>
-                            <c:if test="${sessionScope.user.userid eq 'admin'}">
-	                            <li class="dropbtn">
-	                                <a id="adminMenu" class="nav-link" href="#">관리자 메뉴</a>	                                									
-	                            </li>
-	                              <div class="adminMenubar" style="position:absolute; left:565px; top:50px; display:block; z-index:1;">
-				        	        <a class="nav-link" href="/board/admin/memberManage_List.do">g 메뉴</a>
-				                    <a class="nav-link" href="#">관리자 메뉴</a>
-				                  </div>		                    	
+		                    <c:if test="${sessionScope.user.userid eq 'admin'}">
+	                        <div class="dropdown">
+	                        	<div class="adminMenu" >
+	                           		<a class="nav-link" onclick="drop_content3()">관리자 메뉴</a>	                                									
+							  	</div>
+							  	<div id="myDropdown3" class="dropdown-content2 mt-2">
+							    	<a href="<%=ctxPath %>admin/memberManage_List.do">g 메뉴</a>
+							    	<a href="#" id="admin_link">관리자 메뉴</a>
+							  	</div>
+							</div>	
+	                    	
 		                    </c:if>
                         </ul>
                     </nav>
@@ -57,7 +60,9 @@
                     </c:if>
                     <c:if test="${not empty sessionScope.user}">
                     	<div class="login d-flex align-items-center">
-							<a class="my_icon"><i class="fa-regular fa-bookmark fa-lg"  onclick="drop_content()"></i></a>
+							<a class="my_icon">
+								<i class="fa-regular fa-bookmark fa-lg"></i>
+							</a>
 
 							<div class="dropdown">
 								<a class="my_icon"><i class="fa-solid fa-bell fa-lg" class="my_icon" onclick="drop_content1()"></i></a>
@@ -75,8 +80,8 @@
 							</div>
 							
               				<div class="dropdown">
-              				  <div class="dropbtn" onclick="drop_content()"> 
-								  <p class="dropbtn" onclick="drop_content()">
+              				  <div class="dropbtn"> 
+								  <p class="dropbtn">
 								  	<img src="<%= ctxPath%>/resources/images/user.PNG" class="dropbtn" onclick="drop_content2()">
 								  </p>
 							  </div>
