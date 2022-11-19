@@ -34,6 +34,15 @@
                             <li>
                                 <a class="nav-link" href="#">공지사항</a>
                             </li>
+                            <c:if test="${sessionScope.user.userid eq 'admin'}">
+	                            <li class="dropbtn">
+	                                <a id="adminMenu" class="nav-link" href="#">관리자 메뉴</a>	                                									
+	                            </li>
+	                              <div class="adminMenubar" style="position:absolute; left:565px; top:50px; display:block; z-index:1;">
+				        	        <a class="nav-link" href="/board/admin/memberManage_List.do">g 메뉴</a>
+				                    <a class="nav-link" href="#">관리자 메뉴</a>
+				                  </div>		                    	
+		                    </c:if>
                         </ul>
                     </nav>
                 </div>
