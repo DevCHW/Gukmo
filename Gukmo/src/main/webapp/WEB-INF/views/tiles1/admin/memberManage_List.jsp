@@ -106,18 +106,26 @@
 
 
   <!-- 검색바시작 -->
-    <form name="searchFrm" style="margin-top: 20px;">
-	    <div id="search_area" class="d-flex mx-auto my-5">
-	      <div id="academy_search" class="d-flex m-auto rounded">
+    <form name="searchFrm" style="margin-top: 20px;">    	
+	    <div id="search_area" class="d-flex mr-3" style="justify-content:center">
+	       <div class= "d-flex rounded">
+	    	<select name="searchType" id="searchType" style="height:40px;">
+	           <option value="fk_userid" selected>아이디</option>
+	           <option value="nickname">닉네임</option>
+	        </select>
+    	  </div>
+	      <div id="academy_search" class="d-flex rounded">
 	        <div id="input_keyword">
-	          <input type="text" id="searchWord" placeholder="교육기관 검색" id="keyword" class="pl-3" name="keyword">
+	          <input type="text" id="searchWord" placeholder="검색" class="pl-3" name="searchWord" autocomplete="off">
+        	  <input type="text" style="display: none;" /> <%-- form 태그내에 input 태그가 오로지 1개 뿐일경우에는 엔터를 했을 경우 검색이 되어지므로 이것을 방지하고자 만든것이다. --%> 
 	        </div>
 	        <div id="search_btn">
-	          <button type="button" class="btn btn-white" id="btn_search"><i class="fas fa-xl fa-thin fa-magnifying-glass"></i></button>
+	          <button type="button" class="btn btn-white" id="btn_search" onclick="goSearch()"><i class="fas fa-xl fa-thin fa-magnifying-glass"></i></button>
 	        </div>
 	      </div>
 	    </div>
 	</form>
+	<br><br>
     <!-- 검색바 끝 -->
 
 

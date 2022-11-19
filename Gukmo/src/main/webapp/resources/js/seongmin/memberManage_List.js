@@ -1,3 +1,9 @@
+// js파일에서 contextPath를 알아내는 함수
+function getContextPath(){
+  let hostIndex = location.href.indexOf(location.host) + location.host.length;
+  let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
+  return contextPath;
+}
 
 $(document).ready(function(){
   // filter버튼 클릭횟수 count
@@ -53,6 +59,15 @@ $(document).ready(function(){
 	   var userid = $(this).attr('id');
 	   memberDetail(userid);
    });
+  
+	$("input#searchWord").keyup(function(e){
+		if(e.keyCode == 13) {
+			// 검색어에 엔터를 했을 경우
+			goSearch();
+		}
+	});
+	
+	
 }); //end of ready
 
   // 회원 리스트 클릭시
@@ -60,4 +75,14 @@ $(document).ready(function(){
     location.href= "memberDetail.do?userid="+userid;
   }//end of  function MemberDetail()
 
+  function goSearch() {
+	  
+		const frm = document.searchFrm;
+		frm.method = "GET";
+		frm.action = getContextPath()+"/admin/memberManage_List.do";
+		frm.submit();
+  }
 //Function Declaration
+  
+  
+  
