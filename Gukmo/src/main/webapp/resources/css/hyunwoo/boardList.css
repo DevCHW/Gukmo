@@ -77,13 +77,17 @@ label{
 
 /****************** 게시판 시작 ****************/
 a.writer_image_box{
+  position:relative;
+  padding:0;
+  margin:0;
   width:20px;
   height:20px;
   border-radius: 50%;
 }
 
 
-div.writer_image_box > img{
+a.writer_image_box > img{
+  position:absolute;
   width:100%;
   height:100%;
   border-radius: 50%;
