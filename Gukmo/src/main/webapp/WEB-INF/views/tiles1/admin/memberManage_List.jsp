@@ -109,8 +109,14 @@
     <form name="searchFrm" style="margin-top: 20px;">    	
 	    <div id="search_area" class="d-flex mr-3" style="justify-content:center">
 	       <div class= "d-flex rounded">
-	    	<select name="searchType" id="searchType" style="height:40px;">
-	           <option value="fk_userid" selected>아이디</option>
+	    	<select name="memberStatus" id="memberStatus" style="height:40px;">
+	           <option value="" selected>계정상태</option>
+	           <option value="활동">활동</option>
+	           <option value="정지">정지</option>
+	           <option value="휴면">휴면</option>
+	        </select>
+	        <select name="searchType" id="searchType" style="height:40px;">
+	           <option value="fk_userid">아이디</option>
 	           <option value="nickname">닉네임</option>
 	        </select>
     	  </div>
