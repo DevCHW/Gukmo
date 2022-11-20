@@ -22,395 +22,395 @@ import com.gukmo.board.sm.service.InterMemberManageService;
 
 @Controller
 public class adminController {
-	
-	@Autowired   // Type ì— ë”°ë¼ ì•Œì•„ì„œ Bean ì„ ì£¼ì…í•´ì¤€ë‹¤.
-	private InterMemberManageService service;
-	
-		
-	// íšŒì›ê´€ë¦¬ ëª©ë¡ í˜ì´ì§€ ìš”ì²­
-	@RequestMapping(value="/admin/memberManage_List.do", method= {RequestMethod.GET})  // ì˜¤ë¡œì§€ GET ë°©ì‹ë§Œ í—ˆë½í•˜ëŠ” ê²ƒì„.
-	public ModelAndView requredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-	    List<MemberVO> memberList = null;
-	    
-	    String searchType = request.getParameter("searchType");
-		String searchWord = request.getParameter("searchWord");
-		// System.out.println(searchType);
-		// System.out.println(searchWord);
-		
-		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
-		
-		 if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType)) ) {
-			searchType = "";
-		 }
-		
-		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
-		 	searchWord = "";
-		 }
-		 
-		 Map<String, String> paraMap = new HashMap<>();
-		 paraMap.put("searchType", searchType);
-		 paraMap.put("searchWord", searchWord);
+   
+   @Autowired   // Type ¿¡ µû¶ó ¾Ë¾Æ¼­ Bean À» ÁÖÀÔÇØÁØ´Ù.
+   private InterMemberManageService service;
+   
+      
+   // È¸¿ø°ü¸® ¸ñ·Ï ÆäÀÌÁö ¿äÃ»
+   @RequestMapping(value="/admin/memberManage_List.do", method= {RequestMethod.GET})  // ¿À·ÎÁö GET ¹æ½Ä¸¸ Çã¶ôÇÏ´Â °ÍÀÓ.
+   public ModelAndView requredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+       List<MemberVO> memberList = null;
+       
+       String searchType = request.getParameter("searchType");
+      String searchWord = request.getParameter("searchWord");
+      // System.out.println(searchType);
+      // System.out.println(searchWord);
+      
+      String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+      
+       if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType)) ) {
+         searchType = "";
+       }
+      
+       if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+          searchWord = "";
+       }
+       
+       Map<String, String> paraMap = new HashMap<>();
+       paraMap.put("searchType", searchType);
+       paraMap.put("searchWord", searchWord);
 
-		 
-		 // ë¨¼ì € ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜(totalCount)ë¥¼ êµ¬í•´ì™€ì•¼ í•œë‹¤.
-		 // ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜(totalCount)ëŠ” ê²€ìƒ‰ì¡°ê±´ì´ ìˆì„ ë•Œì™€ ì—†ì„ë•Œë¡œ ë‚˜ë‰˜ì–´ì§„ë‹¤.
-		 int totalCount = 0;           // ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜
-		 int sizePerPage = 10;         // í•œ í˜ì´ì§€ë‹¹ ë³´ì—¬ì¤„ ê²Œì‹œë¬¼ ê±´ìˆ˜ 
-		 int currentShowPageNo = 0;    // í˜„ì¬ ë³´ì—¬ì£¼ëŠ” í˜ì´ì§€ë²ˆí˜¸ë¡œì„œ, ì´ˆê¸°ì¹˜ë¡œëŠ” 1í˜ì´ì§€ë¡œ ì„¤ì •í•¨.
-		 int totalPage = 0;            // ì´ í˜ì´ì§€ìˆ˜(ì›¹ë¸Œë¼ìš°ì €ìƒì—ì„œ ë³´ì—¬ì¤„ ì´ í˜ì´ì§€ ê°œìˆ˜, í˜ì´ì§€ë°”)
-			
-		 int startRno = 0; // ì‹œì‘ í–‰ë²ˆí˜¸
-		 int endRno = 0;   // ë í–‰ë²ˆí˜¸
-		 
-		 // ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜(totalCount)
-		 totalCount = service.getTotalCount(paraMap);
-		 // System.out.println(totalCount);
-		 // 108
-		 
-		 totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+       
+       // ¸ÕÀú ÃÑ °Ô½Ã¹° °Ç¼ö(totalCount)¸¦ ±¸ÇØ¿Í¾ß ÇÑ´Ù.
+       // ÃÑ °Ô½Ã¹° °Ç¼ö(totalCount)´Â °Ë»öÁ¶°ÇÀÌ ÀÖÀ» ¶§¿Í ¾øÀ»¶§·Î ³ª´µ¾îÁø´Ù.
+       int totalCount = 0;           // ÃÑ °Ô½Ã¹° °Ç¼ö
+       int sizePerPage = 10;         // ÇÑ ÆäÀÌÁö´ç º¸¿©ÁÙ °Ô½Ã¹° °Ç¼ö 
+       int currentShowPageNo = 0;    // ÇöÀç º¸¿©ÁÖ´Â ÆäÀÌÁö¹øÈ£·Î¼­, ÃÊ±âÄ¡·Î´Â 1ÆäÀÌÁö·Î ¼³Á¤ÇÔ.
+       int totalPage = 0;            // ÃÑ ÆäÀÌÁö¼ö(À¥ºê¶ó¿ìÀú»ó¿¡¼­ º¸¿©ÁÙ ÃÑ ÆäÀÌÁö °³¼ö, ÆäÀÌÁö¹Ù)
+         
+       int startRno = 0; // ½ÃÀÛ Çà¹øÈ£
+       int endRno = 0;   // ³¡ Çà¹øÈ£
+       
+       // ÃÑ °Ô½Ã¹° °Ç¼ö(totalCount)
+       totalCount = service.getTotalCount(paraMap);
+       // System.out.println(totalCount);
+       // 108
+       
+       totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
 
-		 if(str_currentShowPageNo == null) {
-			 // ê²Œì‹œíŒì— ë³´ì—¬ì§€ëŠ” ì´ˆê¸°í™”ë©´ 
-			 currentShowPageNo = 1;
-		 }
-		 else {
-		 
-			 try {
-				 currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
-				 if( currentShowPageNo < 1 || currentShowPageNo > totalPage ) {
-					 currentShowPageNo = 1;
-				 }
-			 } catch(NumberFormatException e) {
-				 currentShowPageNo = 1;
-			 }
-		 
-		 }		 
-		 
-		 startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
-		 endRno = startRno + sizePerPage - 1;
-		 
-		 paraMap.put("startRno", String.valueOf(startRno));
-		 paraMap.put("endRno", String.valueOf(endRno));
+       if(str_currentShowPageNo == null) {
+          // °Ô½ÃÆÇ¿¡ º¸¿©Áö´Â ÃÊ±âÈ­¸é 
+          currentShowPageNo = 1;
+       }
+       else {
+       
+          try {
+             currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+             if( currentShowPageNo < 1 || currentShowPageNo > totalPage ) {
+                currentShowPageNo = 1;
+             }
+          } catch(NumberFormatException e) {
+             currentShowPageNo = 1;
+          }
+       
+       }       
+       
+       startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
+       endRno = startRno + sizePerPage - 1;
+       
+       paraMap.put("startRno", String.valueOf(startRno));
+       paraMap.put("endRno", String.valueOf(endRno));
 
-		 memberList = service.memberList(paraMap);
-		 System.out.println();
-		
-		 if( !"".equals(searchType) && !"".equals(searchWord) ) {
-			 mav.addObject("paraMap", paraMap);
-		 }
-		 
-			// === #121. í˜ì´ì§€ë°” ë§Œë“¤ê¸° === //
-			int blockSize = 10;
-			// blockSize ëŠ” 1ê°œ ë¸”ëŸ­(í† ë§‰)ë‹¹ ë³´ì—¬ì§€ëŠ” í˜ì´ì§€ë²ˆí˜¸ì˜ ê°œìˆ˜ì´ë‹¤.
-			/*
-				              1  2  3  4  5  6  7  8  9 10 [ë‹¤ìŒ][ë§ˆì§€ë§‰]  -- 1ê°œë¸”ëŸ­
-				[ë§¨ì²˜ìŒ][ì´ì „]  11 12 13 14 15 16 17 18 19 20 [ë‹¤ìŒ][ë§ˆì§€ë§‰]  -- 1ê°œë¸”ëŸ­
-				[ë§¨ì²˜ìŒ][ì´ì „]  21 22 23
-			*/
-			
-			int loop = 1;
-			int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+       memberList = service.memberList(paraMap);
+       System.out.println();
+      
+       if( !"".equals(searchType) && !"".equals(searchWord) ) {
+          mav.addObject("paraMap", paraMap);
+       }
+       
+         // === #121. ÆäÀÌÁö¹Ù ¸¸µé±â === //
+         int blockSize = 10;
+         // blockSize ´Â 1°³ ºí·°(Åä¸·)´ç º¸¿©Áö´Â ÆäÀÌÁö¹øÈ£ÀÇ °³¼öÀÌ´Ù.
+         /*
+                          1  2  3  4  5  6  7  8  9 10 [´ÙÀ½][¸¶Áö¸·]  -- 1°³ºí·°
+            [¸ÇÃ³À½][ÀÌÀü]  11 12 13 14 15 16 17 18 19 20 [´ÙÀ½][¸¶Áö¸·]  -- 1°³ºí·°
+            [¸ÇÃ³À½][ÀÌÀü]  21 22 23
+         */
+         
+         int loop = 1;
+         int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
 
-			String pageBar = "<ul class=\"my pagination pagination-md justify-content-center mt-5\">";
-			String url = "memberManage_List.do";
+         String pageBar = "<ul class=\"my pagination pagination-md justify-content-center mt-5\">";
+         String url = "memberManage_List.do";
 
-			// === [ë§¨ì²˜ìŒ][ì´ì „] ë§Œë“¤ê¸° === //
-			if(pageNo != 1) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
-			}		
-			
-			while( !(loop > blockSize || pageNo > totalPage) ) {
-				
-				if(pageNo == currentShowPageNo) {
-					pageBar += "<li class=\"page-item active\" aria-current=\"page\">"+pageNo+"</li>";  
-				}
-				else {
-					pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
-				}
-				loop++;
-				pageNo++;
-			}// end of while--------------------------
-			
-			// === [ë‹¤ìŒ][ë§ˆì§€ë§‰] ë§Œë“¤ê¸° === //
-			if( pageNo <= totalPage) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
-			}
-			
-			pageBar += "</ul>";
-			
-			mav.addObject("pageBar", pageBar);
-			mav.addObject("memberList", memberList);
+         // === [¸ÇÃ³À½][ÀÌÀü] ¸¸µé±â === //
+         if(pageNo != 1) {
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
+         }      
+         
+         while( !(loop > blockSize || pageNo > totalPage) ) {
+            
+            if(pageNo == currentShowPageNo) {
+               pageBar += "<li class=\"page-item active\" aria-current=\"page\">"+pageNo+"</li>";  
+            }
+            else {
+               pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
+            }
+            loop++;
+            pageNo++;
+         }// end of while--------------------------
+         
+         // === [´ÙÀ½][¸¶Áö¸·] ¸¸µé±â === //
+         if( pageNo <= totalPage) {
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
+         }
+         
+         pageBar += "</ul>";
+         
+         mav.addObject("pageBar", pageBar);
+         mav.addObject("memberList", memberList);
 
-			
-		mav.setViewName("admin/memberManage_List.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp íŒŒì¼ì„ ìƒì„±í•œë‹¤.
-		return mav;
-	}
-	
-	
-	
-	// íšŒì› ì •ë³´ ìƒì„¸ë³´ê¸° 
-	@RequestMapping(value="/admin/memberDetail.do", method= {RequestMethod.GET})  // ì˜¤ë¡œì§€ GET ë°©ì‹ë§Œ í—ˆë½í•˜ëŠ” ê²ƒì„.
-	public ModelAndView requredAdminLogin_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		Map<String, String> paraMap = new HashMap<>();
-		String userid = request.getParameter("userid");
-		paraMap.put("userid", userid);
-		
-		MemberVO memberDetail = service.getMemberDetail(paraMap);
-		
-		mav.addObject("memberDetail", memberDetail);
-		mav.setViewName("admin/memberDetail.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp íŒŒì¼ì„ ìƒì„±í•œë‹¤.
-		return mav;
-	}
-	
-	// íšŒì› ì •ì§€ ë“±ë¡ í˜ì´ì§€
-	@RequestMapping(value="/admin/penaltyRegister.do", method= {RequestMethod.GET})  // ì˜¤ë¡œì§€ GET ë°©ì‹ë§Œ í—ˆë½í•˜ëŠ” ê²ƒì„.
-	public ModelAndView requredAdminLogin_penaltyRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		
-		Map<String, String> paraMap = new HashMap<>();
-		String userid = request.getParameter("userid");
-		String nickname = request.getParameter("nickname");
-		
-		paraMap.put("userid", userid);
-		
-		request.setAttribute("userid", userid);
-		request.setAttribute("nickname", nickname);
-		
-	    mav.setViewName("admin/penaltyRegister.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp íŒŒì¼ì„ ìƒì„±í•œë‹¤.
-		return mav;
-	}	
-	
-	// íšŒì› ì •ì§€ ë“±ë¡ ì™„ë£Œ í˜ì´ì§€
-	@RequestMapping(value="/admin/penaltyRegisterResult.do", method= {RequestMethod.POST})  // ì˜¤ë¡œì§€ GET ë°©ì‹ë§Œ í—ˆë½í•˜ëŠ” ê²ƒì„.
-	public ModelAndView requredAdminLogin_penaltyRegisterResult(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, PenaltyVO pvo) {
-		
-		String userid = request.getParameter("userid");
-		Map<String,String> paraMap = new HashMap<>();
-		
-		// tbl_penaltyì— í•´ë‹¹ íšŒì› ì •ì§€ insert
-		int n = service.addPenalty(pvo);
-				
-		if(n == 1 ) {
-			
-			// tbl_member_loginì— í•´ë‹¹ íšŒì› status ë³€ê²½(ì •ì§€)
-			int n2 = service.updateMemberStatus(userid);
-			
-			if(n2 == 1) {
-				mav.setViewName("redirect:/admin/memberManage_List.do");
-			}
-		}
-		
-		
-		return mav;
-	}
+         
+      mav.setViewName("admin/memberManage_List.tiles1");
+         //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp ÆÄÀÏÀ» »ı¼ºÇÑ´Ù.
+      return mav;
+   }
+   
+   
+   
+   // È¸¿ø Á¤º¸ »ó¼¼º¸±â 
+   @RequestMapping(value="/admin/memberDetail.do", method= {RequestMethod.GET})  // ¿À·ÎÁö GET ¹æ½Ä¸¸ Çã¶ôÇÏ´Â °ÍÀÓ.
+   public ModelAndView requredAdminLogin_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      Map<String, String> paraMap = new HashMap<>();
+      String userid = request.getParameter("userid");
+      paraMap.put("userid", userid);
+      
+      MemberVO memberDetail = service.getMemberDetail(paraMap);
+      
+      mav.addObject("memberDetail", memberDetail);
+      mav.setViewName("admin/memberDetail.tiles1");
+         //   /WEB-INF/views/tiles1/admin/memberDetail.jsp ÆÄÀÏÀ» »ı¼ºÇÑ´Ù.
+      return mav;
+   }
+   
+   // È¸¿ø Á¤Áö µî·Ï ÆäÀÌÁö
+   @RequestMapping(value="/admin/penaltyRegister.do", method= {RequestMethod.GET})  // ¿À·ÎÁö GET ¹æ½Ä¸¸ Çã¶ôÇÏ´Â °ÍÀÓ.
+   public ModelAndView requredAdminLogin_penaltyRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      
+      Map<String, String> paraMap = new HashMap<>();
+      String userid = request.getParameter("userid");
+      String nickname = request.getParameter("nickname");
+      
+      paraMap.put("userid", userid);
+      
+      request.setAttribute("userid", userid);
+      request.setAttribute("nickname", nickname);
+      
+       mav.setViewName("admin/penaltyRegister.tiles1");
+         //   /WEB-INF/views/tiles1/admin/memberDetail.jsp ÆÄÀÏÀ» »ı¼ºÇÑ´Ù.
+      return mav;
+   }   
+   
+   // È¸¿ø Á¤Áö µî·Ï ¿Ï·á ÆäÀÌÁö
+   @RequestMapping(value="/admin/penaltyRegisterResult.do", method= {RequestMethod.POST})  // ¿À·ÎÁö GET ¹æ½Ä¸¸ Çã¶ôÇÏ´Â °ÍÀÓ.
+   public ModelAndView requredAdminLogin_penaltyRegisterResult(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, PenaltyVO pvo) {
+      
+      String userid = request.getParameter("userid");
+      Map<String,String> paraMap = new HashMap<>();
+      
+      // tbl_penalty¿¡ ÇØ´ç È¸¿ø Á¤Áö insert
+      int n = service.addPenalty(pvo);
+            
+      if(n == 1 ) {
+         
+         // tbl_member_login¿¡ ÇØ´ç È¸¿ø status º¯°æ(Á¤Áö)
+         int n2 = service.updateMemberStatus(userid);
+         
+         if(n2 == 1) {
+            mav.setViewName("redirect:/admin/memberManage_List.do");
+         }
+      }
+      
+      
+      return mav;
+   }
 
-	// ì •ì§€ í•´ì œ 
-	@ResponseBody
-	@RequestMapping(value="/admin/block_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String requredAdminLogin_block_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		
-		String userid = request.getParameter("userid");
+   // Á¤Áö ÇØÁ¦ 
+   @ResponseBody
+   @RequestMapping(value="/admin/block_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+   public String requredAdminLogin_block_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      
+      String userid = request.getParameter("userid");
 
-		Map<String, String> paraMap = new HashMap<>();		
-		paraMap.put("userid", userid);
-		
-		int n = service.block_recovery(paraMap);
-		JSONObject jsonObj = new JSONObject();
-		
-		if(n== 1) {
-			jsonObj.put("n", n);
-		}
-		
-		return jsonObj.toString(); // "{"n":1,"name":"ì„œì˜í•™"}" ë˜ëŠ” "{"n":0,"name":"ì„œì˜í•™"}"
-		
-	} //end of ì •ì§€ ëˆ„ë‚˜
-	
-	
-	// íœ´ë©´ > í™œë™
-	@ResponseBody
-	@RequestMapping(value="/admin/sleep_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String requredAdminLogin_sleep_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		
-		String userid = request.getParameter("userid");
+      Map<String, String> paraMap = new HashMap<>();      
+      paraMap.put("userid", userid);
+      
+      int n = service.block_recovery(paraMap);
+      JSONObject jsonObj = new JSONObject();
+      
+      if(n== 1) {
+         jsonObj.put("n", n);
+      }
+      
+      return jsonObj.toString(); // "{"n":1,"name":"¼­¿µÇĞ"}" ¶Ç´Â "{"n":0,"name":"¼­¿µÇĞ"}"
+      
+   } //end of Á¤Áö ´©³ª
+   
+   
+   // ÈŞ¸é > È°µ¿
+   @ResponseBody
+   @RequestMapping(value="/admin/sleep_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+   public String requredAdminLogin_sleep_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      
+      String userid = request.getParameter("userid");
 
-		Map<String, String> paraMap = new HashMap<>();		
-		paraMap.put("userid", userid);
-		
-		int n = service.sleep_recovery(paraMap);
-		JSONObject jsonObj = new JSONObject();
-		
-		if(n== 1) {
-			jsonObj.put("n", n);
-		}
-		
-		return jsonObj.toString(); // "{"n":1,"name":"ì„œì˜í•™"}" ë˜ëŠ” "{"n":0,"name":"ì„œì˜í•™"}"
-		
-	} //end of ì •ì§€ ëˆ„ë‚˜
-	
-	
-	// íšŒì›ê´€ë¦¬ ëª©ë¡ í˜ì´ì§€ ìš”ì²­
-	@RequestMapping(value="/admin/academyManage_List.do", method= {RequestMethod.GET})  // ì˜¤ë¡œì§€ GET ë°©ì‹ë§Œ í—ˆë½í•˜ëŠ” ê²ƒì„.
-	public ModelAndView requredAdminLogin_academyManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-	    List<MemberVO> academymemberList = null;
-	    
-	    String searchType = request.getParameter("searchType");
-		String searchWord = request.getParameter("searchWord");
-		// System.out.println(searchType);
-		// System.out.println(searchWord);
-		
-		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
-		
-		 if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType) && !"academy_name".equals(searchType)) ) {
-			searchType = "";
-		 }
-		
-		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
-		 	searchWord = "";
-		 }
-		 
-		 Map<String, String> paraMap = new HashMap<>();
-		 paraMap.put("searchType", searchType);
-		 paraMap.put("searchWord", searchWord);
+      Map<String, String> paraMap = new HashMap<>();      
+      paraMap.put("userid", userid);
+      
+      int n = service.sleep_recovery(paraMap);
+      JSONObject jsonObj = new JSONObject();
+      
+      if(n== 1) {
+         jsonObj.put("n", n);
+      }
+      
+      return jsonObj.toString(); // "{"n":1,"name":"¼­¿µÇĞ"}" ¶Ç´Â "{"n":0,"name":"¼­¿µÇĞ"}"
+      
+   } //end of Á¤Áö ´©³ª
+   
+   
+   // È¸¿ø°ü¸® ¸ñ·Ï ÆäÀÌÁö ¿äÃ»
+   @RequestMapping(value="/admin/academyManage_List.do", method= {RequestMethod.GET})  // ¿À·ÎÁö GET ¹æ½Ä¸¸ Çã¶ôÇÏ´Â °ÍÀÓ.
+   public ModelAndView requredAdminLogin_academyManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+       List<MemberVO> academymemberList = null;
+       
+       String searchType = request.getParameter("searchType");
+      String searchWord = request.getParameter("searchWord");
+      // System.out.println(searchType);
+      // System.out.println(searchWord);
+      
+      String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+      
+       if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType) && !"academy_name".equals(searchType)) ) {
+         searchType = "";
+       }
+      
+       if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+          searchWord = "";
+       }
+       
+       Map<String, String> paraMap = new HashMap<>();
+       paraMap.put("searchType", searchType);
+       paraMap.put("searchWord", searchWord);
 
-		 
-		 // ë¨¼ì € ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜(totalCount)ë¥¼ êµ¬í•´ì™€ì•¼ í•œë‹¤.
-		 // ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜(totalCount)ëŠ” ê²€ìƒ‰ì¡°ê±´ì´ ìˆì„ ë•Œì™€ ì—†ì„ë•Œë¡œ ë‚˜ë‰˜ì–´ì§„ë‹¤.
-		 int totalCount = 0;           // ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜
-		 int sizePerPage = 10;         // í•œ í˜ì´ì§€ë‹¹ ë³´ì—¬ì¤„ ê²Œì‹œë¬¼ ê±´ìˆ˜ 
-		 int currentShowPageNo = 0;    // í˜„ì¬ ë³´ì—¬ì£¼ëŠ” í˜ì´ì§€ë²ˆí˜¸ë¡œì„œ, ì´ˆê¸°ì¹˜ë¡œëŠ” 1í˜ì´ì§€ë¡œ ì„¤ì •í•¨.
-		 int totalPage = 0;            // ì´ í˜ì´ì§€ìˆ˜(ì›¹ë¸Œë¼ìš°ì €ìƒì—ì„œ ë³´ì—¬ì¤„ ì´ í˜ì´ì§€ ê°œìˆ˜, í˜ì´ì§€ë°”)
-			
-		 int startRno = 0; // ì‹œì‘ í–‰ë²ˆí˜¸
-		 int endRno = 0;   // ë í–‰ë²ˆí˜¸
-		 
-		 // ì´ ê²Œì‹œë¬¼ ê±´ìˆ˜(totalCount)
-		 totalCount = service.getTotalCount_academy(paraMap);
-		 request.setAttribute("totalCount", totalCount);
-		 // System.out.println(totalCount);
-		 // 108
-		 
-		 totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+       
+       // ¸ÕÀú ÃÑ °Ô½Ã¹° °Ç¼ö(totalCount)¸¦ ±¸ÇØ¿Í¾ß ÇÑ´Ù.
+       // ÃÑ °Ô½Ã¹° °Ç¼ö(totalCount)´Â °Ë»öÁ¶°ÇÀÌ ÀÖÀ» ¶§¿Í ¾øÀ»¶§·Î ³ª´µ¾îÁø´Ù.
+       int totalCount = 0;           // ÃÑ °Ô½Ã¹° °Ç¼ö
+       int sizePerPage = 10;         // ÇÑ ÆäÀÌÁö´ç º¸¿©ÁÙ °Ô½Ã¹° °Ç¼ö 
+       int currentShowPageNo = 0;    // ÇöÀç º¸¿©ÁÖ´Â ÆäÀÌÁö¹øÈ£·Î¼­, ÃÊ±âÄ¡·Î´Â 1ÆäÀÌÁö·Î ¼³Á¤ÇÔ.
+       int totalPage = 0;            // ÃÑ ÆäÀÌÁö¼ö(À¥ºê¶ó¿ìÀú»ó¿¡¼­ º¸¿©ÁÙ ÃÑ ÆäÀÌÁö °³¼ö, ÆäÀÌÁö¹Ù)
+         
+       int startRno = 0; // ½ÃÀÛ Çà¹øÈ£
+       int endRno = 0;   // ³¡ Çà¹øÈ£
+       
+       // ÃÑ °Ô½Ã¹° °Ç¼ö(totalCount)
+       totalCount = service.getTotalCount_academy(paraMap);
+       request.setAttribute("totalCount", totalCount);
+       // System.out.println(totalCount);
+       // 108
+       
+       totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
 
-		 if(str_currentShowPageNo == null) {
-			 // ê²Œì‹œíŒì— ë³´ì—¬ì§€ëŠ” ì´ˆê¸°í™”ë©´ 
-			 currentShowPageNo = 1;
-		 }
-		 else {
-		 
-			 try {
-				 currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
-				 if( currentShowPageNo < 1 || currentShowPageNo > totalPage ) {
-					 currentShowPageNo = 1;
-				 }
-			 } catch(NumberFormatException e) {
-				 currentShowPageNo = 1;
-			 }
-		 
-		 }		 
-		 
-		 startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
-		 endRno = startRno + sizePerPage - 1;
-		 
-		 paraMap.put("startRno", String.valueOf(startRno));
-		 paraMap.put("endRno", String.valueOf(endRno));
+       if(str_currentShowPageNo == null) {
+          // °Ô½ÃÆÇ¿¡ º¸¿©Áö´Â ÃÊ±âÈ­¸é 
+          currentShowPageNo = 1;
+       }
+       else {
+       
+          try {
+             currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+             if( currentShowPageNo < 1 || currentShowPageNo > totalPage ) {
+                currentShowPageNo = 1;
+             }
+          } catch(NumberFormatException e) {
+             currentShowPageNo = 1;
+          }
+       
+       }       
+       
+       startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
+       endRno = startRno + sizePerPage - 1;
+       
+       paraMap.put("startRno", String.valueOf(startRno));
+       paraMap.put("endRno", String.valueOf(endRno));
 
-		 academymemberList = service.academymemberList(paraMap);
-		
-		 if( !"".equals(searchType) && !"".equals(searchWord) ) {
-			 mav.addObject("paraMap", paraMap);
-		 }
-		 
-			// === #121. í˜ì´ì§€ë°” ë§Œë“¤ê¸° === //
-			int blockSize = 10;
-			// blockSize ëŠ” 1ê°œ ë¸”ëŸ­(í† ë§‰)ë‹¹ ë³´ì—¬ì§€ëŠ” í˜ì´ì§€ë²ˆí˜¸ì˜ ê°œìˆ˜ì´ë‹¤.
-			/*
-				              1  2  3  4  5  6  7  8  9 10 [ë‹¤ìŒ][ë§ˆì§€ë§‰]  -- 1ê°œë¸”ëŸ­
-				[ë§¨ì²˜ìŒ][ì´ì „]  11 12 13 14 15 16 17 18 19 20 [ë‹¤ìŒ][ë§ˆì§€ë§‰]  -- 1ê°œë¸”ëŸ­
-				[ë§¨ì²˜ìŒ][ì´ì „]  21 22 23
-			*/
-			
-			int loop = 1;
-			int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+       academymemberList = service.academymemberList(paraMap);
+      
+       if( !"".equals(searchType) && !"".equals(searchWord) ) {
+          mav.addObject("paraMap", paraMap);
+       }
+       
+         // === #121. ÆäÀÌÁö¹Ù ¸¸µé±â === //
+         int blockSize = 10;
+         // blockSize ´Â 1°³ ºí·°(Åä¸·)´ç º¸¿©Áö´Â ÆäÀÌÁö¹øÈ£ÀÇ °³¼öÀÌ´Ù.
+         /*
+                          1  2  3  4  5  6  7  8  9 10 [´ÙÀ½][¸¶Áö¸·]  -- 1°³ºí·°
+            [¸ÇÃ³À½][ÀÌÀü]  11 12 13 14 15 16 17 18 19 20 [´ÙÀ½][¸¶Áö¸·]  -- 1°³ºí·°
+            [¸ÇÃ³À½][ÀÌÀü]  21 22 23
+         */
+         
+         int loop = 1;
+         int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
 
-			String pageBar = "<ul class=\"my pagination pagination-md justify-content-center mt-5\">";
-			String url = "academyManage_List.do";
+         String pageBar = "<ul class=\"my pagination pagination-md justify-content-center mt-5\">";
+         String url = "academyManage_List.do";
 
-			// === [ë§¨ì²˜ìŒ][ì´ì „] ë§Œë“¤ê¸° === //
-			if(pageNo != 1) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
-			}		
-			
-			while( !(loop > blockSize || pageNo > totalPage) ) {
-				
-				if(pageNo == currentShowPageNo) {
-					pageBar += "<li class=\"page-item active\" aria-current=\"page\">"+pageNo+"</li>";  
-				}
-				else {
-					pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
-				}
-				loop++;
-				pageNo++;
-			}// end of while--------------------------
-			
-			// === [ë‹¤ìŒ][ë§ˆì§€ë§‰] ë§Œë“¤ê¸° === //
-			if( pageNo <= totalPage) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
-			}
-			
-			pageBar += "</ul>";
-			
-			mav.addObject("pageBar", pageBar);
-			mav.addObject("academymemberList", academymemberList);
+         // === [¸ÇÃ³À½][ÀÌÀü] ¸¸µé±â === //
+         if(pageNo != 1) {
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
+         }      
+         
+         while( !(loop > blockSize || pageNo > totalPage) ) {
+            
+            if(pageNo == currentShowPageNo) {
+               pageBar += "<li class=\"page-item active\" aria-current=\"page\">"+pageNo+"</li>";  
+            }
+            else {
+               pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
+            }
+            loop++;
+            pageNo++;
+         }// end of while--------------------------
+         
+         // === [´ÙÀ½][¸¶Áö¸·] ¸¸µé±â === //
+         if( pageNo <= totalPage) {
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
+            pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
+         }
+         
+         pageBar += "</ul>";
+         
+         mav.addObject("pageBar", pageBar);
+         mav.addObject("academymemberList", academymemberList);
 
-			
-		mav.setViewName("admin/academyManage_List.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp íŒŒì¼ì„ ìƒì„±í•œë‹¤.
-		return mav;
-	} // end of í•™ì›íšŒì› ë¦¬ìŠ¤íŠ¸ ë³´ê¸°
-	
-	// íšŒì› ì •ë³´ ìƒì„¸ë³´ê¸° 
-	@RequestMapping(value="/admin/aca_memberDetail.do", method= {RequestMethod.GET})  // ì˜¤ë¡œì§€ GET ë°©ì‹ë§Œ í—ˆë½í•˜ëŠ” ê²ƒì„.
-	public ModelAndView requredAdminLogin_aca_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		Map<String, String> paraMap = new HashMap<>();
-		String userid = request.getParameter("userid");
-		paraMap.put("userid", userid);
-		
-		MemberVO aca_memberDetail = service.getAcademyDetail(paraMap);
-		
-		mav.addObject("aca_memberDetail", aca_memberDetail);
-		mav.setViewName("admin/aca_memberDetail.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp íŒŒì¼ì„ ìƒì„±í•œë‹¤.
-		return mav;
-	}
+         
+      mav.setViewName("admin/academyManage_List.tiles1");
+         //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp ÆÄÀÏÀ» »ı¼ºÇÑ´Ù.
+      return mav;
+   } // end of ÇĞ¿øÈ¸¿ø ¸®½ºÆ® º¸±â
+   
+   // È¸¿ø Á¤º¸ »ó¼¼º¸±â 
+   @RequestMapping(value="/admin/aca_memberDetail.do", method= {RequestMethod.GET})  // ¿À·ÎÁö GET ¹æ½Ä¸¸ Çã¶ôÇÏ´Â °ÍÀÓ.
+   public ModelAndView requredAdminLogin_aca_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      Map<String, String> paraMap = new HashMap<>();
+      String userid = request.getParameter("userid");
+      paraMap.put("userid", userid);
+      
+      MemberVO aca_memberDetail = service.getAcademyDetail(paraMap);
+      
+      mav.addObject("aca_memberDetail", aca_memberDetail);
+      mav.setViewName("admin/aca_memberDetail.tiles1");
+         //   /WEB-INF/views/tiles1/admin/memberDetail.jsp ÆÄÀÏÀ» »ı¼ºÇÑ´Ù.
+      return mav;
+   }
 
-	
-	// íšŒì›ê°€ì… ìš”ì²­ ìŠ¹ì¸
-	@ResponseBody
-	@RequestMapping(value="/admin/Regi_agree.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String requredAdminLogin_Regi_agree(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		
-		String userid = request.getParameter("userid");
+   
+   // È¸¿ø°¡ÀÔ ¿äÃ» ½ÂÀÎ
+   @ResponseBody
+   @RequestMapping(value="/admin/Regi_agree.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+   public String requredAdminLogin_Regi_agree(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      
+      String userid = request.getParameter("userid");
 
-		Map<String, String> paraMap = new HashMap<>();		
-		paraMap.put("userid", userid);
-		
-		int n = service.Regi_agree(paraMap);
-		JSONObject jsonObj = new JSONObject();
-		
-		if(n== 1) {
-			jsonObj.put("n", n);
-		}
-		
-		return jsonObj.toString(); // "{"n":1,"name":"ì„œì˜í•™"}" ë˜ëŠ” "{"n":0,"name":"ì„œì˜í•™"}"
-		
-	} //end of ì •ì§€ ëˆ„ë‚˜
-	
-	
-	
+      Map<String, String> paraMap = new HashMap<>();      
+      paraMap.put("userid", userid);
+      
+      int n = service.Regi_agree(paraMap);
+      JSONObject jsonObj = new JSONObject();
+      
+      if(n== 1) {
+         jsonObj.put("n", n);
+      }
+      
+      return jsonObj.toString(); // "{"n":1,"name":"¼­¿µÇĞ"}" ¶Ç´Â "{"n":0,"name":"¼­¿µÇĞ"}"
+      
+   } //end of Á¤Áö ´©³ª
+   
+   
+   
 }

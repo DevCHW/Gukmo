@@ -1,45 +1,43 @@
 package com.gukmo.board.model;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Date;
+import java.util.List;
+
+import com.gukmo.board.common.MyUtil;
 
 public class BoardVO {
-
-	private String board_num;        // 글번호 
-	private String nickname;    	 // 작성자닉네임
-	private String category;         // 카테고리
-	private String detail_category;  // 상세카테고리
-	private String subject;      	 // 글제목 
-	private String content;          // 글내용
-	private String write_date;    	 // 작성일자
-	private String views;      	 	 // 조회수
-	private String profile_image;    // 작성자 프로필이미지명   1:사용가능한 글,  0:삭제된글 
+	private String board_num;     	//게시글번호
+	private String nickname;        //작성자닉네임
+	private String category;        //카테고리
+	private String detail_category; //상세카테고리
+	private String subject;         //제목
+	private String content;         //내용
+	private Date write_date;        //작성일자
+	private String views;           //조회수
+	private String profile_image;   //작성자 프로필이미지
+	private String comment_cnt;		//댓글수
+	private String like_cnt;		//좋아요 수
 	
-	// 좋아요
-	private String fk_userid;
-	private String fk_board_num;
 	
-	private String previousseq;      // 이전글번호
-	private String previoussubject;  // 이전글제목
-	private String nextseq;          // 다음글번호
-	private String nextsubject;      // 다음글제목
+	//select 용도
+	private String writer_point;	//작성자 활동점수
 	
-	private String commentCount;     // 댓글수 
-		
-	private String groupno;
-	private String fk_seq;
-		
-	private String depthno;
 	
-	private MultipartFile attach;
-	private String fileName;    // WAS(톰캣)에 저장될 파일명(2022103109271535243254235235234.png) 
-	private String orgFilename; // 진짜 파일명(강아지.png)  // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
-	private String fileSize;    // 파일크기 
-		
-    protected BoardVO() {}
-
+	// 해시태그VO리스트(연관관계에 있는 필드)
+	List<HashtagVO> hashtags;
+	
+	// 댓글VO리스트(연관관계에 있는 필드)
+	List<CommentVO> comment;
+	
+	
+	
+	//기본생성자 protected로 막기
+	protected BoardVO() {}
+	
+	//파라미터가있는 생성자만을 통해서 값 주입
 	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
-			String content, String write_date, String views, String profile_image, String fk_userid,
-			String fk_board_num) {
+			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
+			String writer_point, List<HashtagVO> hashtags, List<CommentVO> comment) {
 		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
@@ -49,10 +47,15 @@ public class BoardVO {
 		this.write_date = write_date;
 		this.views = views;
 		this.profile_image = profile_image;
-		this.fk_userid = fk_userid;
-		this.fk_board_num = fk_board_num;
+		this.comment_cnt = comment_cnt;
+		this.like_cnt = like_cnt;
+		this.writer_point = writer_point;
+		this.hashtags = hashtags;
+		this.comment = comment;
 	}
 
+
+	// Getter
 	public String getBoard_num() {
 		return board_num;
 	}
@@ -82,11 +85,7 @@ public class BoardVO {
 		return content;
 	}
 
-
-	public String getWrite_date() {
-		return write_date;
-	}
-
+	
 
 	public String getViews() {
 		return views;
@@ -98,74 +97,37 @@ public class BoardVO {
 	}
 
 
-	public String getFk_userid() {
-		return fk_userid;
+	public String getComment_cnt() {
+		return comment_cnt;
 	}
 
 
-	public String getFk_board_num() {
-		return fk_board_num;
-	}
-
-
-	public String getPreviousseq() {
-		return previousseq;
-	}
-
-
-	public String getPrevioussubject() {
-		return previoussubject;
-	}
-
-
-	public String getNextseq() {
-		return nextseq;
-	}
-
-
-	public String getNextsubject() {
-		return nextsubject;
-	}
-
-
-	public String getCommentCount() {
-		return commentCount;
-	}
-
-
-	public String getGroupno() {
-		return groupno;
-	}
-
-
-	public String getFk_seq() {
-		return fk_seq;
-	}
-
-
-	public String getDepthno() {
-		return depthno;
-	}
-
-
-	public MultipartFile getAttach() {
-		return attach;
-	}
-
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public String getOrgFilename() {
-		return orgFilename;
-	}
-
-
-	public String getFileSize() {
-		return fileSize;
+	public String getLike_cnt() {
+		return like_cnt;
 	}
 	
+	public String getWriter_point() {
+		return writer_point;
+	}
+
+
+	public List<HashtagVO> getHashtags() {
+		return hashtags;
+	}
+
+
+	public List<CommentVO> getComment() {
+		return comment;
+	}
+	
+	
+	public String getWrite_date() {
+		return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
+	}
+
+	
+	
+	
+	
+	
 }
-
-

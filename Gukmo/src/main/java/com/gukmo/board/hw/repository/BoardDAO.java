@@ -9,7 +9,8 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.gukmo.board.hw.controller.BoardVO;
+import com.gukmo.board.model.BoardVO;
+
 
 
 @Repository

@@ -46,16 +46,25 @@
 	
 	<!-- 회원의 활동내역리스트 얻어오기 -->
 	<select id="getActivities" parameterType="String" resultType="com.gukmo.board.model.ActivityVO">
-		select activity_num,
-			   fk_userid,
-			   fk_board_num,
-			   to_char(activity_date,'yyyy-mm-dd hh:mm:ss') activity_date,
-			   subject,
-			   detail_category,
-			   division,
-			   nickname
-	    from tbl_activity
-	    where fk_userid = #{userid}
+		select T.*
+		from
+		(
+			select V.*,rownum rno
+			from
+			(
+				select activity_num,
+					   fk_userid,
+					   fk_board_num,
+					   to_char(activity_date,'yyyy-mm-dd hh:mm:ss') activity_date,
+					   subject,
+					   detail_category,
+					   division,
+					   nickname
+			    from tbl_activity
+			    where fk_userid = #{userid}
+			) V
+		) T
+	    where rno between #{startRno} and #{endRno}
 	</select>
 	
 	<!-- 회원의 활동내역 총 갯수 얻기 -->
@@ -176,7 +185,7 @@
 	<!--=============== Board 시작 ============-->
 	
 	<!-- 스터디게시판 BoardVO 매핑 -->
-	<resultMap id="studies" type="com.gukmo.board.hw.controller.BoardVO">
+	<resultMap id="studies" type="com.gukmo.board.model.BoardVO">
 		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
 		<result property="nickname" column="nickname" />
 		<result property="category" column="category" />

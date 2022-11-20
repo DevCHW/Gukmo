@@ -3,7 +3,8 @@ package com.gukmo.board.hw.service;
 import java.util.List;
 import java.util.Map;
 
-import com.gukmo.board.hw.controller.BoardVO;
+import com.gukmo.board.model.BoardVO;
+
 
 public interface InterBoardService {
 
