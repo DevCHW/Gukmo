@@ -54,6 +54,49 @@ public class memberManageService implements InterMemberManageService {
 		int n = dao.updateMemberStatus(userid);
 		return n;
 	}
+
+	// 정지 해제 
+	@Override
+	public int block_recovery(Map<String, String> paraMap) {
+		int n = dao.block_recovery(paraMap);
+		return n;
+	}
+	
+	// 휴면 해제 
+	@Override
+	public int sleep_recovery(Map<String, String> paraMap) {
+		int n = dao.sleep_recovery(paraMap);
+		return n;
+	}
+
+	@Override
+	public int getTotalCount_academy(Map<String, String> paraMap) {
+		int n = dao.getTotalCount_academy(paraMap);
+		return n;	
+		
+	}
+
+	// 학원회원 관리 페이지에 보여줄 회원 목록 리스트 뽑아오기
+	@Override
+	public List<MemberVO> academymemberList(Map<String, String> paraMap) {
+		List<MemberVO> academymemberList = dao.academymemberList(paraMap);
+		// System.out.println(memberList);
+		return academymemberList;
+	}
+
+	// 학원회원 상세보기
+	@Override
+	public MemberVO getAcademyDetail(Map<String, String> paraMap) {
+		MemberVO aca_MemberDetail = dao.aca_MemberDetail(paraMap);
+		return aca_MemberDetail;
+	}
+
+	// 
+	@Override
+	public int Regi_agree(Map<String, String> paraMap) {
+		int n = dao.Regi_agree(paraMap);
+		return n;
+	}
 	
 
 

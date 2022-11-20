@@ -28,6 +28,7 @@ $(document).ready(function(){
 function penaltyWrite() {
 	var bool = confirm("정지 등록하시겠습니까?");
 	if(bool) {
+		alert("정지 등록이 완료되었습니다.");
 		var frm = document.penaltyForm;
 		frm.method = "post";
 		frm.action = getContextPath()+"/admin/penaltyRegisterResult.do";

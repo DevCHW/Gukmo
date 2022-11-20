@@ -56,7 +56,7 @@ function block_recovery(userid, nickname) {
 				  }
 				  else {
 					  alert("정지가 해제되었습니다.");
-					  location.href= "memberDetail.do?userid="+userid;
+					  location.href= "aca_memberDetail.do?userid="+userid;
 				  }
 			  },
 			  error: function(request, status, error){
@@ -89,7 +89,7 @@ function sleep_recovery(userid, nickname) {
 				  }
 				  else {
 					  alert("휴면이 해제되었습니다.");
-					  location.href= "memberDetail.do?userid="+userid;
+					  location.href= "aca_memberDetail.do?userid="+userid;
 				  }
 			  },
 			  error: function(request, status, error){
@@ -105,4 +105,34 @@ function sleep_recovery(userid, nickname) {
 	} //end of sleep_recovery()
 
 
+function Regi_agree(userid, nickname) {
+	  var bool = confirm("회원가입을 승인하시겠습니까?");
+	  if( bool == true) {
+		  $.ajax({
+			  url:getContextPath()+"/admin/Regi_agree.do",
+			  data:{"userid":userid
+				   ,"nickname":nickname},
+				   
+			  type:"POST",
+			  dataType:"JSON",
+			  success:function(json){
+				  const n = json.n;
+				  if(n==0) {
+					  alert("어허");
+				  }
+				  else {
+					  alert("회원가입 요청이 승인되었습니다.");
+					  location.href= "aca_memberDetail.do?userid="+userid;
+				  }
+			  },
+			  error: function(request, status, error){
+				  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			  }
+		  });
 
+	  }//end of if
+
+	  else {
+	    return false;
+	  }
+	} //end of sleep_recovery()
