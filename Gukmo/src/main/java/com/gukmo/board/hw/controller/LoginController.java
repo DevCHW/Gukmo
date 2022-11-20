@@ -117,20 +117,20 @@ public class LoginController {
 			String userid = request.getParameter("userid");
 			dao.adminLoginRecordSave(paraMap);					//관리자로그인기록하기
 			
-			user = new MemberVO(userid, 						//아이디
-							    null, 							//비밀번호	
-							    "활동", 							//상태
-							    null, 							//마지막비밀번호변경일자
-							    null,							//이메일
-							    null, 							//이메일 수신동의
-							    "국비의모든것 관리팀",					//닉네임 
-							    "9999", 						//활동점수
-							    null, 							//가입일자
-							    null,							//프로필이미지
-							    null, 							//교육기관명
-							    null,  							//사업자번호
-							    null,							//홈페이지
-							    null,							//연락처
+			user = new MemberVO(userid, 						// 아이디
+							    null, 							// 비밀번호	
+							    "활동", 							// 상태
+							    null, 							// 마지막비밀번호변경일자
+							    null,							// 이메일
+							    null, 							// 이메일 수신동의
+							    "국비의모든것 관리팀",					// 닉네임 
+							    "9999", 						// 활동점수
+							    null, 							// 가입일자
+							    null,							// 프로필이미지
+							    null, 							// 교육기관명
+							    null,  							// 사업자번호
+							    null,							// 홈페이지
+							    null,							// 연락처
 							    null);     						// 회원 이름
 		}
 		else {	//관리자가 아닌회원으로 로그인하였다면

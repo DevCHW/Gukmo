@@ -99,14 +99,6 @@ public class MemberVO {
 		return username;
 	}
 	
-	@Override
-	public String toString() {
-		return "MemberVO [userid=" + userid + ", passwd=" + passwd + ", status=" + status + ", update_passwd_date="
-				+ update_passwd_date + ", email=" + email + ", email_acept=" + email_acept + ", nickname=" + nickname
-				+ ", point=" + point + ", join_date=" + join_date + ", profile_image=" + profile_image
-				+ ", academy_name=" + academy_name + ", company_num=" + company_num + ", homepage=" + homepage
-				+ ", phone=" + phone + "]";
-	}
 	
 	
 	

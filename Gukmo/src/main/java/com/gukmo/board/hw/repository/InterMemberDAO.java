@@ -1,6 +1,7 @@
 package com.gukmo.board.hw.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
@@ -56,6 +57,15 @@ public interface InterMemberDAO {
 	 * @return 활동내역 리스트
 	 */
 	List<ActivityVO> getActivities(String userid);
+
+
+	
+	/**
+	 * 유저의 활동내역 총 갯수를 알아오기
+	 * @param 검색어,유저아이디
+	 * @return 활동내역 총 갯수
+	 */
+	int getTotalActivities(Map<String, String> paraMap);
 
 	
 

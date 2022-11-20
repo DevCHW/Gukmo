@@ -1,6 +1,8 @@
 package com.gukmo.board.hw.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -146,7 +148,7 @@ public class MemberController {
 	//============================================================================== //
 	
 	/**
-	 * 활동내역 페이지 GET요청시 페이지 보여주기
+	 * 활동내역 페이지 GET요청시 페이지 보여주기(페이징처리)
 	 */
 	@RequestMapping(value="/member/activities.do", method= {RequestMethod.GET})
 	public String viewActivities(HttpServletRequest request) {
@@ -154,8 +156,35 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
+		
+		
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
+		
+		Map<String, String> paraMap = new HashMap<>();
+		String str_page = request.getParameter("page");
+		String searchWord = request.getParameter("searchWord");
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("userid",userid);
+		
+		
+		int totalCount = 0;           // 총 게시물 건수
+		int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
+		int page = 0;    			  // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
+		int totalPage = 0;            // 총 페이지수(웹브라우저상에서 보여줄 총 페이지 개수, 페이지바)
+		int startRno = 0; 			  // 시작 행번호
+		int endRno = 0;   			  // 끝 행번호
+		
+		// 총 게시물 건수(totalCount)
+		totalCount = service.getTotalActivities(paraMap);
+		
+		//총 페이지 수
+		totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		
+		
+		
+		
+		
 		
 		List<ActivityVO> activities = service.getActivities(userid);
 		

@@ -5,7 +5,8 @@
 	String ctxPath = request.getContextPath();
 %>
 <script type="text/javascript">
-	sessionStorage.setItem("user",${sessionScope.user});
+	sessionStorage.setItem("username",'${sessionScope.user.username}');
+	sessionStorage.setItem("nickname",'${sessionScope.user.nickname}');
 </script>
 
 <%-- 직접 만든 CSS --%>
@@ -33,10 +34,10 @@
         <div id="section1" class="justify-content-between mb-5">
           <div id="input_box" class="d-flex flex-column">
             <label for="username" class="input_label">이름</label>
-            <input type="text" id="username" name="username" class="border rounded pl-2" placeholder="이름을 입력해주세요">
+            <input type="text" id="username" name="username" class="border rounded pl-2" value='${sessionScope.user.username}' placeholder="이름을 입력해주세요">
             <%-- 닉네임 --%>
             <label for="nickname" class="input_label mt-3">닉네임</label>
-            <input type="text" id="nickname" name="nickname" class="border rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)">
+            <input type="text" id="nickname" name="nickname" class="border rounded pl-2" value='${sessionScope.user.nickname}' placeholder="닉네임을 입력해주세요(10자이내)">
           </div>
           <%-- 프사 --%>
           <div class="d-flex align-items-baseline">
