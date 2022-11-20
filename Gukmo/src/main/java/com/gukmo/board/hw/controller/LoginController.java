@@ -29,9 +29,14 @@ public class LoginController {
 	 * 로그인 페이지 url매핑
 	 */
 	@RequestMapping(value="/login.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public ModelAndView login(ModelAndView mav) {
-      
-      mav.setViewName("login/login.tiles1");
+	public ModelAndView login(ModelAndView mav, HttpServletRequest request) {
+	  HttpSession session = request.getSession();
+	  if(session.getAttribute("user") != null) {	//로그인한 유저가 있다면
+		  mav.setViewName("redirect:/index.do");
+	  }
+	  else {										//로그인한 유저가 없다면
+		  mav.setViewName("login/login.tiles1");
+	  }
       //   /WEB-INF/views/tiles1/login/login.jsp 파일을 생성한다.
       
       return mav;
@@ -137,6 +142,24 @@ public class LoginController {
 		
 		return "redirect:/index.do";
 	}
+	
+	
+	
+	/**
+	 * 로그아웃 처리하기
+	 */
+	@RequestMapping(value="/logout.do")	//GET이나 POST 둘다 처리하기
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") != null) {	//로그인한 유저가 있다면
+			session.removeAttribute("user");
+			return "redirect:/index.do";
+		}
+		else {										//로그인한유저가 없다면
+			return "redirect:/index.do";
+		}
+	}
+	
 	
 	
 	
