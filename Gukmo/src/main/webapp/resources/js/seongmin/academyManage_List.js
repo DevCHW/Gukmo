@@ -55,9 +55,9 @@ $(document).ready(function(){
     
   }) //end of 전체선택 클릭시
 
-   $(document).on("click", ".memberDetail", function(){
+   $(document).on("click", ".aca_memberDetail", function(){
 	   var userid = $(this).attr('id');
-	   memberDetail(userid);
+	   aca_memberDetail(userid);
    });
   
 	$("input#searchWord").keyup(function(e){
@@ -71,15 +71,14 @@ $(document).ready(function(){
 }); //end of ready
 
   // 회원 리스트 클릭시
-  function memberDetail(userid) {
-    location.href= "memberDetail.do?userid="+userid;
+  function aca_memberDetail(userid) {
+    location.href= "aca_memberDetail.do?userid="+userid;
   }//end of  function MemberDetail()
 
-  function goSearch() {
-	  
+  function goSearch() {	  
 		const frm = document.searchFrm;
 		frm.method = "GET";
-		frm.action = getContextPath()+"/admin/memberManage_List.do";
+		frm.action = getContextPath()+"/admin/academyManage_List.do";
 		frm.submit();
   }
 //Function Declaration

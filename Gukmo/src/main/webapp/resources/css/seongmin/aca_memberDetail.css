@@ -1,0 +1,22 @@
+table#register_table, table#register_table_2{
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+div#memberManage_container{
+  padding-left:0; padding-right:0;
+  margin:0 auto;
+  border:solid 1px gray;
+  width:60%;
+  
+}
+
+
+.register_table{
+  font-size: 10pt;
+}
+
+
+table#register_table{
+  border: none;
+}

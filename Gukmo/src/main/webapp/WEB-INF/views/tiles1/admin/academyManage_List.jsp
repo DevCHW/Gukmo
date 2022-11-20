@@ -66,18 +66,19 @@
           <th>이메일</th>
           <th>학원 번호</th>
           <th>가입일자</th>
-          
+          <th>계정 상태</th>
         </tr>
       </thead>
       <tbody>
-		<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status">
-            <tr class = "memberDetail" id="${membervo.userid}">
-              <td style="cursor:pointer" ><span>${membervo.userid}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.username}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.nickname}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.email}</span></td>
-              <td style="cursor:pointer" "><span>${membervo.join_date}</span></td>
-              <td style="cursor:pointer" "><span>${membervo.status}</span></td>
+		<c:forEach var="acamembervo" items="${requestScope.academymemberList}" varStatus="status">
+            <tr class = "aca_memberDetail" id="${acamembervo.userid}">
+              <td style="cursor:pointer" ><span>${acamembervo.userid}</span></td>
+              <td style="cursor:pointer" ><span>${acamembervo.academy_name}</span></td>
+              <td style="cursor:pointer" ><span>${acamembervo.nickname}</span></td>
+              <td style="cursor:pointer" ><span>${acamembervo.email}</span></td>
+              <td style="cursor:pointer" ><span>${acamembervo.phone}</span></td>
+              <td style="cursor:pointer" "><span>${acamembervo.join_date}</span></td>
+              <td style="cursor:pointer" "><span>${acamembervo.status}</span></td>
             </tr>    
           </c:forEach>
     </tbody>
@@ -87,7 +88,7 @@
     <div class="d-flex justify-content-between">
 
       <div id="total_cnt">
-        총&nbsp;<span style="font-weight:bold;">1257&nbsp;</span>건
+        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
         <!-- 총 건수 변수 들어갈 곳-->
       </div>
 
