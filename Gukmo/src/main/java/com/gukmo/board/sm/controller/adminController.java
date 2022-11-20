@@ -7,10 +7,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.model.MemberVO;
@@ -18,13 +21,12 @@ import com.gukmo.board.model.PenaltyVO;
 import com.gukmo.board.sm.service.InterMemberManageService;
 
 @Controller
-public class memberManageController {
+public class adminController {
 	
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterMemberManageService service;
 	
-	
-	
+		
 	// 회원관리 목록 페이지 요청
 	@RequestMapping(value="/admin/memberManage_List.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
@@ -207,8 +209,53 @@ public class memberManageController {
 		
 		return mav;
 	}
-	
 
+	// 정지 해제 
+	@ResponseBody
+	@RequestMapping(value="/admin/block_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String requredAdminLogin_block_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String userid = request.getParameter("userid");
+
+		Map<String, String> paraMap = new HashMap<>();		
+		paraMap.put("userid", userid);
+		
+		int n = service.block_recovery(paraMap);
+		JSONObject jsonObj = new JSONObject();
+		
+		if(n== 1) {
+			jsonObj.put("n", n);
+		}
+		
+		return jsonObj.toString(); // "{"n":1,"name":"서영학"}" 또는 "{"n":0,"name":"서영학"}"
+		
+	} //end of 정지 누나
+	
+	
+	// 휴면 > 활동
+	@ResponseBody
+	@RequestMapping(value="/admin/sleep_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String requredAdminLogin_sleep_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String userid = request.getParameter("userid");
+
+		Map<String, String> paraMap = new HashMap<>();		
+		paraMap.put("userid", userid);
+		
+		int n = service.sleep_recovery(paraMap);
+		JSONObject jsonObj = new JSONObject();
+		
+		if(n== 1) {
+			jsonObj.put("n", n);
+		}
+		
+		return jsonObj.toString(); // "{"n":1,"name":"서영학"}" 또는 "{"n":0,"name":"서영학"}"
+		
+	} //end of 정지 누나
+	
+	
+	
+	
 	
 	
 }

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+      <title>학원 리스트 페이지</title>
+    
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
    
@@ -8,10 +11,10 @@
 	String ctxPath = request.getContextPath();
 %>
   <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/memberManage_List.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/academyManage_List.css" />
   
   <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberManage_List.js?ver=1" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/academyManage_List.js?ver=1" ></script>
 
 
 
@@ -51,18 +54,18 @@
 
     <hr>
 
-    <h4 style="font-weight:bold;">일반 회원 관리</h4>
+    <h4 style="font-weight:bold;">학원회원 관리</h4>
 
     <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
     <table class="table table-hover mt-2">
       <thead>
         <tr>
           <th>아이디</th>
-          <th>이름</th>
+          <th>학원명</th>
           <th>닉네임</th>
           <th>이메일</th>
+          <th>학원 번호</th>
           <th>가입일자</th>
-          <th>계정 상태</th>
           
         </tr>
       </thead>
@@ -112,6 +115,7 @@
 	    	<select name="searchType" id="searchType" style="height:40px;">
 	           <option value="fk_userid" selected>아이디</option>
 	           <option value="nickname">닉네임</option>
+	           <option value="academy_name">학원명</option>
 	        </select>
     	  </div>
 	      <div id="academy_search" class="d-flex rounded">
@@ -127,5 +131,4 @@
 	</form>
 	<br><br>
     <!-- 검색바 끝 -->
-
-
+    

@@ -22,5 +22,11 @@ public interface InterMemberManageService {
 
 	// tbl_member_login에 해당 회원 status 변경(정지)
 	int updateMemberStatus(String userid);
+	
+	// 정지 해제 
+	int block_recovery(Map<String, String> paraMap);
+
+	// 휴면 > 활동
+	int sleep_recovery(Map<String, String> paraMap);
 
 }

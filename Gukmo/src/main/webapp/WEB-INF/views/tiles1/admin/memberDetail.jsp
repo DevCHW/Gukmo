@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>   
+    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+    
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -66,9 +69,16 @@
 							<td class="font-weight-bold align-baseline pt-2">
 								이메일 수신 동의 여부
 							</td>
+							<c:if test="${requestScope.memberDetail.email_acept == 0}">
 							<td>
-								${requestScope.memberDetail.email_acept}
+								수신 거부
 							</td>
+							</c:if>
+							<c:if test="${requestScope.memberDetail.email_acept == 1}">
+							<td>
+								수신 동의
+							</td>
+							</c:if>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
@@ -91,20 +101,26 @@
 						<input type="hidden" id = "${requestScope.memberDetail.nickname}" name="nickname" />
 					</table>		
 			<div class="">
-	      	  <button type="button" class = "memberBlock" id="${requestScope.memberDetail.userid}" >정지 등록</button>&nbsp;
-	          <button type="button" id="" onclick="block_recovery">정지 해제</button>&nbsp;
-	          <button type="button" id="" onclick="sleep_recovery">휴면 해제</button>
-			</div>		
+			  <c:if test="${requestScope.memberDetail.status == '활동'}">
+		        <button type="button" class = "memberBlock" id="${requestScope.memberDetail.userid}" >정지 등록</button>&nbsp;
+		      </c:if>
+			  <c:if test="${requestScope.memberDetail.status == '정지'}">
+		        <button type="button" id="" class="block_recovery">정지 해제</button>&nbsp;
+		      </c:if>
+		      
+			  <c:if test="${requestScope.memberDetail.status == '휴면'}">
+	            <button type="button" id="" class="sleep_recovery">휴면 해제</button>
+			  </c:if>
+			</div>
+			
 			<br><br>
+			
 			<div>
 			  <button type="button" id="" onclick="">뒤로 가기</button>
-			</div>					
+			</div>		
+			<br>		
 		</div>
-		
-
+					
   </div>
-      
+      <br>
 
-
-</body>
-</html>

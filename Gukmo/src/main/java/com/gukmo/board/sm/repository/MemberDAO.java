@@ -52,4 +52,19 @@ public class MemberDAO implements InterMemberDAO {
 		return n;
 	}
 
+
+	// 정지 > 활동
+	@Override
+	public int block_recovery(Map<String, String> paraMap) {
+		int n = gukmo_sql.update("ksm.block_recovery", paraMap);
+		return n;
+	}
+
+	// 휴면 > 활동
+	@Override
+	public int sleep_recovery(Map<String, String> paraMap) {
+		int n = gukmo_sql.update("ksm.sleep_recovery", paraMap);
+		return n;
+	}
+
 }

@@ -40,8 +40,8 @@
 	                           		<a class="nav-link" onclick="drop_content3()">관리자 메뉴</a>	                                									
 							  	</div>
 							  	<div id="myDropdown3" class="dropdown-content2 mt-2">
-							    	<a href="<%=ctxPath %>/admin/memberManage_List.do">g 메뉴</a>
-							    	<a href="#" id="admin_link">관리자 메뉴</a>
+							    	<a href="<%=ctxPath %>/admin/memberManage_List.do">일반회원 관리</a>
+							    	<a href="<%=ctxPath %>/admin/academyManage_List.do">학원회원 관리</a>
 							  	</div>
 							</div>	
 	                    	

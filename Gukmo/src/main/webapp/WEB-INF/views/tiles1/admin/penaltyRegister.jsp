@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -53,8 +54,8 @@
             <option value="7">7 일</option>
             <option value="30">30 일</option>
             <option value="90">90 일</option>
-            <option value="365">1 년</option>
-            <option value="00">영구 정지</option>
+            <option value="150">150 일</option>
+            <option value="300">300 일</option>
           </select>
         </span>
       </form>

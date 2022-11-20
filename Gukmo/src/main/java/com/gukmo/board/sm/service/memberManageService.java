@@ -54,6 +54,20 @@ public class memberManageService implements InterMemberManageService {
 		int n = dao.updateMemberStatus(userid);
 		return n;
 	}
+
+	// 정지 해제 
+	@Override
+	public int block_recovery(Map<String, String> paraMap) {
+		int n = dao.block_recovery(paraMap);
+		return n;
+	}
+	
+	// 휴면 해제 
+	@Override
+	public int sleep_recovery(Map<String, String> paraMap) {
+		int n = dao.sleep_recovery(paraMap);
+		return n;
+	}
 	
 
 

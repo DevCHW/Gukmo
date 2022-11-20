@@ -49,16 +49,30 @@
 		    where userid = #{userid}
 		</select>
 	
-	<!-- 회원정보 상세보기 페이지 -->
+	<!-- 정지 테이블에 해당 회원 정지 등록(insert) -->
 		<insert id="addPenalty" parameterType="com.gukmo.board.model.PenaltyVO">
 		    insert into tbl_penalty
 		    values(seq_penalty.nextval, #{nickname}, #{simple_penalty_reason}, #{detail_penalty_reason}, sysdate, #{penalty_period} )
 		</insert>	
 		
-	<!-- 회원정보 상세보기 페이지 -->
+	<!-- 정지된 회원의 status 변경 (활동 > 정지로)-->
 		<update id="updateMemberStatus" parameterType="String">
 		    update tbl_member_login
 		    set status = '정지'
+		    where userid = #{userid}
+    	</update>	
+		
+	<!-- 정지된 회원의 status 변경 (정지 > 활동)-->
+		<update id="block_recovery" parameterType="HashMap">
+		    update tbl_member_login
+		    set status = '활동'
+		    where userid = #{userid}
+    	</update>	
+		
+	<!-- 정지된 회원의 status 변경 (휴면 > 활동)-->
+		<update id="sleep_recovery" parameterType="HashMap">
+		    update tbl_member_login
+		    set status = '활동'
 		    where userid = #{userid}
     	</update>	
 		
