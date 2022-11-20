@@ -63,6 +63,9 @@
 	        </select>
 		</div>
 		<input type="text" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
+		<button type="button" id="btn_search">
+          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
+        </button>
 	</div>
 
 
@@ -189,9 +192,9 @@
 					    	<!-- 작성 정보 -->
 					      	<div class="d-flex align-items-center mb-1">
 						        <!-- 작성자 프로필사진 -->
-						        <a href="#" class="writer_image_box border">
-						          <img src=""/>
-						        </a>
+						        <div href="#" class="writer_image_box border">
+						          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
+						        </div>
 						
 						        <!-- 작성자 닉네임 -->
 						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
@@ -257,9 +260,9 @@
 				    	<!-- 작성 정보 -->
 				      	<div class="d-flex align-items-center mb-1">
 					        <!-- 작성자 프로필사진 -->
-					        <a href="#" class="writer_image_box border">
-					          <img src=""/>
-					        </a>
+					        <div href="#" class="writer_image_box border">
+					          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
+					        </div>
 					
 					        <!-- 작성자 닉네임 -->
 					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
@@ -326,9 +329,9 @@
 				    	<!-- 작성 정보 -->
 				      	<div class="d-flex align-items-center mb-1">
 					        <!-- 작성자 프로필사진 -->
-					        <a href="#" class="writer_image_box border">
-					          <img src=""/>
-					        </a>
+					        <div href="#" class="writer_image_box border">
+					          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
+					        </div>
 					
 					        <!-- 작성자 닉네임 -->
 					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
@@ -395,9 +398,9 @@
 				    	<!-- 작성 정보 -->
 				      	<div class="d-flex align-items-center mb-1">
 					        <!-- 작성자 프로필사진 -->
-					        <a href="#" class="writer_image_box border">
-					          <img src=""/>
-					        </a>
+					        <div href="#" class="writer_image_box border ">
+					          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
+					        </div>
 					
 					        <!-- 작성자 닉네임 -->
 					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->

@@ -1,5 +1,7 @@
 package com.gukmo.board.hw.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gukmo.board.hw.repository.InterMemberDAO;
 import com.gukmo.board.hw.service.InterMemberService;
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 
 @Controller
@@ -151,7 +154,12 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String userid = user.getUserid();
 		
+		List<ActivityVO> activities = service.getActivities(userid);
+		
+		request.setAttribute("activities", activities);
 		return "member/activities.tiles1";
 		// /WEB-INF/views/tiles1/member/activities.jsp 페이지.
 	}
@@ -193,13 +201,34 @@ public class MemberController {
 	 */
 	@RequestMapping(value="/policy/privacy.do", method= {RequestMethod.GET})
 	public String viewPrivacyPolicy(HttpServletRequest request) {
-		return "policy/privacy_policy.tiles1";
+		return "/policy/privacy_policy.tiles1";
 		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
 	}
 	
+	/**
+	 * 계정삭제하기(POST가 맞는지 GET이 맞는지 고민해볼 것.)
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/delete.do", method= {RequestMethod.POST})
+	public String memberDelete(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String userid = user.getUserid();
+		int result = service.memberDelete(userid);
+		
+		if(result == 1) {
+			session.removeAttribute("user");
+		}
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		
+		return jsonObj.toString();
+		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
+	}
 	
 	//============================================================================== //
-	//============================= 마이페이지 관련 시작=================================== //
+	//============================= 마이페이지 관련 끝=================================== //
 	//============================================================================== //
 	
 	

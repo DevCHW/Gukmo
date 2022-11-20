@@ -8,6 +8,9 @@
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/myId.css" />
 
+<script type="text/javascript">
+  sessionStorage.setItem("email",'${sessionScope.user.email}');
+</script>
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/myId.js" ></script>
 
@@ -28,12 +31,13 @@
       <%-- email --%>
       <h5 class="guide_title">이메일 정보</h5>
       <div class="d-flex justify-content-between mb-2">
-        <input type="text" id="email" name="email" class="border rounded" placeholder="이메일을 입력해주세요">
-        <button type="button" class="btn border rounded">
+        <input type="text" id="email" name="email" class="border rounded pl-2" value="${sessionScope.user.email}" placeholder="이메일을 입력해주세요"/>
+        <button type="button" id="btn_email_certification" class="btn border rounded" data-toggle="modal" data-target="#email_certification" data-dismiss="modal" disabled>
           <%-- 이메일인증 모달 띄우기 --%>
           	이메일인증
         </button>
       </div>
+      <p id="email_error" class="error"></p>
       <span class="guide_content">
         	이메일 변경은 변경한 이메일로 인증 요청 메일이 발송되고 해당 이메일을 통해 인증을 정상적으로 완료한 후 최종적으로 반영됩니다.
       </span>
@@ -55,7 +59,7 @@
           <input type="checkbox" id="agreement" name="agreement" class="mr-1">
           <label for="agreement">계정 삭제에 관한 정책을 읽고 이에 동의합니다.</label>
         </div>
-        <button type="button" class="btn btn-danger border rounded">계정삭제</button>
+        <button type="button" id="btn_delete_member" class="btn btn-danger border rounded">계정삭제</button>
       </div>
 
     </div>

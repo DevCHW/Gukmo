@@ -29,9 +29,27 @@
 	</insert>
 	
 	<insert id="insert_member" parameterType="com.gukmo.board.model.MemberVO">
-		insert into tbl_member(fk_userid, email, email_acept, nickname)
-		values(#{userid}, #{email}, #{email_acept}, #{nickname})
+		insert into tbl_member(fk_userid, email, email_acept, username, nickname)
+		values(#{userid}, #{email}, #{email_acept}, #{username}, #{nickname})
 	</insert>
+	
+	
+	<delete id="delete_member" parameterType="String">
+		delete from tbl_member_login where userid = #{userid}
+	</delete>
+	
+	<select id="getActivities" parameterType="String" resultType="com.gukmo.board.model.ActivityVO">
+		select activity_num,
+			   fk_userid,
+			   fk_board_num,
+			   to_char(activity_date,'yyyy-mm-dd hh:mm:ss') activity_date,
+			   subject,
+			   detail_category,
+			   division,
+			   nickname
+	    from tbl_activity
+	    where fk_userid = #{userid}
+	</select>
 	
 	
 	
@@ -131,11 +149,75 @@
 
 
 
-	
 	<!--=============== Board 시작 ============-->
+	<resultMap id="studies" type="com.gukmo.board.hw.controller.BoardVO">
+		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="nickname" column="nickname" />
+		<result property="category" column="category" />
+		<result property="detail_category" column="detail_category" />
+		<result property="subject" column="subject" />
+		<result property="content" column="content" />
+		<result property="write_date" column="write_date" />
+		<result property="views" column="views" />
+		<result property="profile_image" column="profile_image" />
+		<result property="comment_cnt" column="comment_cnt" />
+		<result property="like_cnt" column="like_cnt" />
+		<result property="writer_point" column="writer_point" />
+		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+			<id property="hashtag_num" column="hashtag_num"/>
+			<result property="hashtag" column="hashtag"/>
+			<result property="fk_board_num" column="fk_board_num"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getStudies" parameterType="HashMap" resultMap="studies">
+		select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
+		      ,T.hashtag,T.writer_point
+		from
+		(
+		select rownum rno, V.*
+		from
+			(
+			select C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.content
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,D.point writer_point
+		    from
+				(
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				from
+				(select * from tbl_board where detail_category = '스터디') A
+				left join tbl_hashtag B
+				on A.board_num = B.fk_board_num
+				) C
+			left join
+			(select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
 	
 	
 	
+	<select id="getTotalStudiesCount" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from tbl_board
+		where detail_category='스터디'
+	</select>
 	
 	<!--=============== Board 끝 ============-->
 	

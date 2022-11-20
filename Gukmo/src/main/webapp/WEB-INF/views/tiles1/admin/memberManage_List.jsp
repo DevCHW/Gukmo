@@ -7,41 +7,14 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>일반회원 관리 페이지</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" type="text/css" href="bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-  <!-- Font Awesome 5 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <!-- title Icon -->
-  <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">
   <!-- 직접 만든 CSS -->
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/memberManage_List.css" />
   
-  <!-- Optional JavaScript -->
-  <script type="text/javascript" src="jquery3.6.0/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
-  <!-- sweet alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <!-- toastr css라이브러리 -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-  <!-- toastr cdn 라이브러리 둘다 제이쿼리 밑에 있어야함 -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>  
-
-  <!-- JqueryUI JS,CSS -->
-  <link rel="stylesheet" type="text/css" href="jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-  <script type="text/javascript" src="jquery-ui-1.13.1.custom/jquery-ui.min.js" ></script> 
   <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberManage_List.js" ></script>
-</head>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberManage_List.js?ver=1" ></script>
 
-<body>
+
+
 
 
   <div class="container">
@@ -70,7 +43,7 @@
             <a href="#">박휘순</a>
             <a href="#">무순</a>
             <a href="#">커밍순</a>
-            <a href="#">김삼순</a>
+            <a href="#">김asdfasdf</a>
           </div>
         </div>
       </div>
@@ -86,12 +59,13 @@
     <table class="table table-hover mt-2">
       <thead>
         <tr>
-          <th><input type="checkbox"/></th>
           <th>아이디</th>
           <th>이름</th>
           <th>닉네임</th>
           <th>이메일</th>
           <th>가입일자</th>
+          <th>휴면 여부</th>
+          
         </tr>
       </thead>
       <tbody>
@@ -149,7 +123,3 @@
     <!-- 검색바 끝 -->
 
 
-
-  
-</body>
-</html>

@@ -1,5 +1,8 @@
 package com.gukmo.board.hw.repository;
 
+import java.util.List;
+
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 
 public interface InterMemberDAO {
@@ -39,6 +42,20 @@ public interface InterMemberDAO {
 	 * @return 쿼리문 성공시 1 실패시 0
 	 */
 	int insert_member(MemberVO member);
+
+
+	/**
+	 * 계정삭제하기
+	 */
+	int memberDelete(String userid);
+
+
+	/**
+	 * 로그인되어있는 유저의 활동내역 리스트 얻기
+	 * @param userid
+	 * @return 활동내역 리스트
+	 */
+	List<ActivityVO> getActivities(String userid);
 
 	
 

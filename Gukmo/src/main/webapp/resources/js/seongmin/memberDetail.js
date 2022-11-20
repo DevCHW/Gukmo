@@ -1,16 +1,21 @@
 
 $(document).ready(function(){
- 
+	   var userid = $("input[name='userid']").attr('id');
+	   var nickname = $("input[name='nickname']").attr('id');
+
+	   $(document).on("click", ".memberBlock", function(){
+		   block(userid, nickname);
+	   });
 
 }); //end of ready
 
 //Function Declaration
 
 
-function block() {
+function block(userid, nickname) {
   var bool = confirm("정지 등록 페이지로 이동하시겠습니까?");
   if( bool == true) {
-    location.href="penaltyRegister.do";
+    location.href="penaltyRegister.do?userid="+userid+"&nickname="+nickname;
   } //end of if
 
   else {

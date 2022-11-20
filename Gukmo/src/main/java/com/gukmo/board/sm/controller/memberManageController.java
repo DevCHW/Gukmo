@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.model.MemberVO;
+import com.gukmo.board.model.PenaltyVO;
 import com.gukmo.board.sm.service.InterMemberManageService;
 
 @Controller
@@ -25,14 +27,17 @@ public class memberManageController {
 	
 	// 회원관리 목록 페이지 요청
 	@RequestMapping(value="/admin/memberManage_List.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView memberManageList(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<MemberVO> memberList = null;
 	    
-	    String searchType = request.getParameter("");
-		String searchWord = request.getParameter("");
+	    String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		// System.out.println(searchType);
+		// System.out.println(searchWord);
+		
 		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
 		
-		 if(searchType == null || (!"subject".equals(searchType) && !"name".equals(searchType)) ) {
+		 if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType)) ) {
 			searchType = "";
 		 }
 		
@@ -146,19 +151,64 @@ public class memberManageController {
 	
 	
 	
-	
+	// 회원 정보 상세보기 
 	@RequestMapping(value="/admin/memberDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView memberDetail(ModelAndView mav) {
-	      mav.setViewName("admin/memberDetail.tiles1");
+	public ModelAndView requredAdminLogin_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		Map<String, String> paraMap = new HashMap<>();
+		String userid = request.getParameter("userid");
+		paraMap.put("userid", userid);
+		
+		MemberVO memberDetail = service.getMemberDetail(paraMap);
+		
+		mav.addObject("memberDetail", memberDetail);
+		mav.setViewName("admin/memberDetail.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;
 	}
 	
+	// 회원 정지 등록 페이지
 	@RequestMapping(value="/admin/penaltyRegister.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView penaltyRegister(ModelAndView mav) {
-	      mav.setViewName("admin/penaltyRegister.tiles1");
+	public ModelAndView requredAdminLogin_penaltyRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		Map<String, String> paraMap = new HashMap<>();
+		String userid = request.getParameter("userid");
+		String nickname = request.getParameter("nickname");
+		
+		paraMap.put("userid", userid);
+		
+		request.setAttribute("userid", userid);
+		request.setAttribute("nickname", nickname);
+		
+	    mav.setViewName("admin/penaltyRegister.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;
 	}	
+	
+	// 회원 정지 등록 완료 페이지
+	@RequestMapping(value="/admin/penaltyRegisterResult.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
+	public ModelAndView requredAdminLogin_penaltyRegisterResult(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, PenaltyVO pvo) {
+		
+		String userid = request.getParameter("userid");
+		Map<String,String> paraMap = new HashMap<>();
+		
+		// tbl_penalty에 해당 회원 정지 insert
+		int n = service.addPenalty(pvo);
+				
+		if(n == 1 ) {
+			
+			// tbl_member_login에 해당 회원 status 변경(정지)
+			int n2 = service.updateMemberStatus(userid);
+			
+			if(n2 == 1) {
+				mav.setViewName("redirect:/admin/memberManage_List.do");
+			}
+		}
+		
+		
+		return mav;
+	}
+	
+
+	
 	
 }
