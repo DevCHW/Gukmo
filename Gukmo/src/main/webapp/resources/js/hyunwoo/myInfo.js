@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	
-  $("input#username").val(sessionStorage.getItem("user").username);
-  $("input#nickname").val(sessionStorage.getItem("user").nickname);
+//  $("input#username").val(sessionStorage.getItem("username"));
+//  $("input#nickname").val(sessionStorage.getItem("nickname"));
 
   //프로필이미지박스 hover시,마우스 아웃시
   $("div#profile_img_box").hover(function() {

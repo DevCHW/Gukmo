@@ -1,6 +1,7 @@
 package com.gukmo.board.hw.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -122,6 +123,20 @@ public class MemberDAO implements InterMemberDAO{
 	public List<ActivityVO> getActivities(String userid) {
 		List<ActivityVO> activities = gukmo_sql.selectList("chw.getActivities",userid);
 		return activities;
+	}
+
+
+	
+	
+	/**
+	 * 유저의 활동내역 총 갯수를 알아오기
+	 * @param 검색어,유저아이디
+	 * @return 활동내역 총 갯수
+	 */
+	@Override
+	public int getTotalActivities(Map<String, String> paraMap) {
+		int totalCount = gukmo_sql.selectOne("chw.getTotalActivities",paraMap);
+		return totalCount;
 	}
 	
 	

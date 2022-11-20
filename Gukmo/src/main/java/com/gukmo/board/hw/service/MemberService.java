@@ -1,6 +1,7 @@
 package com.gukmo.board.hw.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,20 @@ public class MemberService implements InterMemberService{
 	public List<ActivityVO> getActivities(String userid) {
 		List<ActivityVO> activities = dao.getActivities(userid);
 		return activities;
+	}
+
+
+
+	
+	/**
+	 * 유저의 활동내역 총 갯수를 알아오기
+	 * @param 검색어,유저아이디
+	 * @return 활동내역 총 갯수
+	 */
+	@Override
+	public int getTotalActivities(Map<String, String> paraMap) {
+		int totalCount = dao.getTotalActivities(paraMap);
+		return totalCount;
 	}
 	
 	

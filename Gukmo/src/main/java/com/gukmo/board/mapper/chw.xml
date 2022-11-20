@@ -8,36 +8,43 @@
 	
 	<!--=============== Member 시작 ============-->
 	
+	
+	<!-- 아이디 중복검사 -->
 	<select id="idExistCheck" parameterType="String" resultType="Integer">
 		select count(userid) from tbl_member_login
 		where userid = #{userid}
 	</select>
 	
+	<!-- 닉네임중복검사 -->
 	<select id="nicknameExistCheck" parameterType="String" resultType="Integer">
 		select count(nickname) from tbl_member
 		where nickname = #{nickname}
 	</select>
 	
+	<!-- 이메일중복검사 -->
 	<select id="emailExistCheck" parameterType="String" resultType="Integer">
 		select count(email) from tbl_member
 		where email = #{email}
 	</select>
 	
+	<!-- 멤버로그인테이블에 회원가입정보 insert -->
 	<insert id="insert_member_login" parameterType="com.gukmo.board.model.MemberVO">
 		insert into tbl_member_login(userid, passwd)
 		values(#{userid}, #{passwd})
 	</insert>
 	
+	<!-- 멤버테이블에 회원가입정보 insert -->
 	<insert id="insert_member" parameterType="com.gukmo.board.model.MemberVO">
 		insert into tbl_member(fk_userid, email, email_acept, username, nickname)
 		values(#{userid}, #{email}, #{email_acept}, #{username}, #{nickname})
 	</insert>
 	
-	
+	<!-- 멤버로그인테이블에서 회원정보 다 삭제 -->
 	<delete id="delete_member" parameterType="String">
 		delete from tbl_member_login where userid = #{userid}
 	</delete>
 	
+	<!-- 회원의 활동내역리스트 얻어오기 -->
 	<select id="getActivities" parameterType="String" resultType="com.gukmo.board.model.ActivityVO">
 		select activity_num,
 			   fk_userid,
@@ -51,6 +58,13 @@
 	    where fk_userid = #{userid}
 	</select>
 	
+	<!-- 회원의 활동내역 총 갯수 얻기 -->
+	<select id="getTotalActivities" parameterType="HashMap" resultType="Integer">
+		select count(*)
+	    from tbl_activity
+	    where fk_userid = #{userid} 
+	</select>
+	
 	
 	
 	<!--=============== Member 끝 ============-->
@@ -59,23 +73,27 @@
 	
 	<!--=============== Login 시작 ============-->
 	
+	<!-- 로그인 성공여부 검사 -->
 	<select id="userExistCheck" parameterType="HashMap" resultType="Integer">
 		select count(userid) from tbl_member_login
 		where userid = #{userid} and passwd = #{passwd}
 	</select>
 	
+	<!-- 어드민 로그인 성공여부 검사 -->
 	<select id="adminExistCheck" parameterType="HashMap" resultType="Integer">
 		select count(admin_id) from tbl_admin_login
 		where admin_id = #{userid} and passwd = #{passwd}
 	</select>
 	
 	
+	<!-- 회원의 상태 얻기 -->
 	<select id="statusCheck" parameterType="String" resultType="com.gukmo.board.model.MemberVO">
 		select * from tbl_member_login
 		where userid = #{userid}
 	</select>
 	
 	
+	<!-- 회원의 마지막로그인날짜 얻기 -->
 	<select id="getLastLoginday" parameterType="String" resultType="Integer">
 		select T.*
 		from
@@ -92,17 +110,20 @@
 		where R = 1
 	</select>
 	
+	<!-- 회원의 상태 휴면으로 수정하기 -->
 	<update id="editUserStatus_rest" parameterType="String">
 		update tbl_member_login set status='휴면' where userid = #{userid}
 	</update>
 	
 	
+	<!-- 회원의 마지막비밀번호 변경날짜 얻기 -->
 	<select id="getLastUpdateDay" parameterType="String" resultType="Integer">
 		select trunc(sysdate-update_passwd_date)
 		from tbl_member_login
 		where userid = #{userid}
 	</select>
 	
+	<!-- 회원객체 하나 얻기 -->
 	<select id="getUser" parameterType="String" resultType="com.gukmo.board.model.MemberVO">
 		select V.userid,
 		       nvl(V.email,C.email) email,
@@ -111,14 +132,15 @@
 		       nvl(V.point,C.point) point,
 		       nvl(V.join_date,C.join_date) join_date,
 		       nvl(V.profile_image,C.profile_image) profile_image,
+		       nvl(V.username,C.username) username,
 		       C.academy_name,
 		       C.company_num,
 		       C.homepage,
 		       C.phone
 		from
 			(
-			select A.userid,email,email_acept,nickname,point,join_date,profile_image
-			from
+				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username
+				from
 				(
 				select userid from tbl_member_login 
 				where userid = #{userid} 
@@ -132,11 +154,13 @@
 		on V.userid = C.fk_userid
 	</select>
 	
+	<!-- 로그인테이블에 로그인기록하기 -->
 	<insert id="loginRecordSave" parameterType="HashMap">
 		insert into tbl_login_record(login_num, fk_userid, login_ip)
 		values(seq_login_record.nextval, #{userid}, #{client_ip})
 	</insert>
 	
+	<!-- 관리자로그인테이블에 로그인기록하기 -->
 	<insert id="adminloginRecordSave" parameterType="HashMap">
 		insert into tbl_admin_login_record(admin_login_num, fk_admin_id, login_ip)
 		values(seq_admin_login_record.nextval, #{userid}, #{client_ip})
@@ -150,6 +174,8 @@
 
 
 	<!--=============== Board 시작 ============-->
+	
+	<!-- 스터디게시판 BoardVO 매핑 -->
 	<resultMap id="studies" type="com.gukmo.board.hw.controller.BoardVO">
 		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
 		<result property="nickname" column="nickname" />
@@ -170,6 +196,8 @@
 		</collection>
 	</resultMap>
 	
+	
+	<!-- 스터디게시판 리스트 얻기 -->
 	<select id="getStudies" parameterType="HashMap" resultMap="studies">
 		select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
 		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
@@ -212,7 +240,7 @@
 	</select>
 	
 	
-	
+	<!-- 스터디게시판 총 갯수 얻기 -->
 	<select id="getTotalStudiesCount" parameterType="HashMap" resultType="Integer">
 		select count(*)
 		from tbl_board
