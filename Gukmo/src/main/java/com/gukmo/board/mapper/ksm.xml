@@ -9,8 +9,13 @@
 	<!-- 회원관리 리스트 총 페이지 수 -->
 	<select id="getTotalCount" parameterType="HashMap" resultType="Integer">
 	    select count(*)
-	    from tbl_member
-	    where 1 = 1 
+	    from tbl_member M
+	    left join tbl_member_login L
+	    on fk_userid = userid
+	    where 1 = 1
+	    <if test='memberStatus != "" '>
+	      and status = #{memberStatus}
+	    </if>	    
 	    <if test='searchType != "" and searchWord != "" '>
 	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
 	    </if>	    
@@ -28,10 +33,18 @@
 		from tbl_member M
 		left join tbl_member_login L
 		on fk_userid = userid
-		where 1 = 1
-	    <if test='searchType != "" and searchWord != "" '>
-	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    		
+	    <if test='memberStatus != "" '>
+	      where status = #{memberStatus}
+	    	<if test='searchType != "" and searchWord != "" '>
+	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    	</if>
+	    </if>	    
+	    <if test='memberStatus == "" '>
+	    	where 1 = 1
+		    <if test='searchType != "" and searchWord != "" '>
+		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+		    </if>	    		
+	    </if>
 		order by join_date desc
 		) V
 		) D
@@ -85,10 +98,15 @@
 	<!-- 회원관리 리스트 총 페이지 수 -->
 	<select id="getTotalCount_academy" parameterType="HashMap" resultType="Integer">
 	    select count(*)
-	    from tbl_academy_member
+	    from tbl_academy_member A
+	    left join tbl_member_login L
+	    on fk_userid = userid
 	    where 1 = 1 
+	    <if test='memberStatus != "" '>
+	      and status = #{memberStatus}
+	    </if>	    
 	    <if test='searchType != "" and searchWord != "" '>
-	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	      and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
 	    </if>	    
 	</select>
 		
@@ -105,10 +123,18 @@
 		from tbl_academy_member M
 		left join tbl_member_login L
 		on fk_userid = userid
-		where 1 = 1
-	    <if test='searchType != "" and searchWord != "" '>
-	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    		
+	    <if test='memberStatus != "" '>
+	      where status = #{memberStatus}
+	    	<if test='searchType != "" and searchWord != "" '>
+	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    	</if>
+	    </if>	    
+	    <if test='memberStatus == "" '>
+	    	where 1 = 1
+		    <if test='searchType != "" and searchWord != "" '>
+		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+		    </if>	    		
+	    </if>
 		order by join_date desc
 		) V
 		) D
