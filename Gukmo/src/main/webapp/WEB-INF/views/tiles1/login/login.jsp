@@ -15,7 +15,7 @@
   
     <div id="login" class="d-flex flex-column mx-auto my-5">
 
-      <div id="logo_img_box" class="m-auto">
+      <div id="logo_img_box" class="m-auto" style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/index.do'">
         <img id="logo" src="" alt="로고 들어갈 곳">
       </div>
 
@@ -65,7 +65,7 @@
 
 
       <%-- findId --%>
-      <div id="find_id" class="ml-auto my-4">계정찾기</div>
+      <div id="find_id" class="ml-auto my-4" onclick="location.href='<%=ctxPath%>/member/findId.do'">계정찾기</div>
 
       <%-- btn_login --%>
       <button id="btn_login" type="button" class="btn border rounded">로그인</button>

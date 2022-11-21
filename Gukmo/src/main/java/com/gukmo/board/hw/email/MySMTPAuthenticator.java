@@ -1,4 +1,4 @@
-package com.gukmo.board.common;
+package com.gukmo.board.hw.email;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;

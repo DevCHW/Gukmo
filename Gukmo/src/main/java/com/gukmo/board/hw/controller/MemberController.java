@@ -133,6 +133,16 @@ public class MemberController {
 	}
 	
 	
+	/**
+	 * 계정찾기 페이지 GET 요청시 매핑
+	 */
+	@RequestMapping(value="/member/findId.do", method= {RequestMethod.GET})
+	public String viewfindId(HttpServletRequest request) {
+		return "member/findId.tiles1";
+		// /WEB-INF/views/tiles1/member/findId.jsp 페이지.
+	}
+	
+	
 	//=========================================================================== //
 	//============================= 회원가입 관련 끝=================================== //
 	//=========================================================================== //
@@ -350,8 +360,51 @@ public class MemberController {
 		jsonObj.put("result", result);
 		
 		return jsonObj.toString();
-		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
 	}
+	
+	
+	
+	/**
+	 * 계정찾기이메일 전송
+	 */
+	@ResponseBody
+	@RequestMapping(value="/sendEmailByMyId.do", method= {RequestMethod.POST})
+	public String sendEmailByMyId(HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		String jsonObj = service.sendEmailByMyId(email,request);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	/**
+	 * 계정찾기이후 이메일에서 계정찾기 링크를 클릭하면 나오는 비밀번호 변경페이지 매핑
+	 */
+	@RequestMapping(value="/member/changePwd.do", method= {RequestMethod.GET})
+	public String viewChangePwd(HttpServletRequest request) {
+		HttpSession session = request.getSession(true);
+		
+		String uuid = (String) session.getAttribute("uuid");
+		String email = request.getParameter("email");
+		
+		if(request.getParameter("uuid").equals(uuid)) {	//uuid가 http 헤더에 있는것과 세션에 있는값이 같다면,
+			
+			return "/member/changePwd.tiles1";
+		}
+		else { //uuid가 url에 있는것과 http헤더에 있는것이 다르다면
+			String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
+			String loc = "javascript:history.go(-1)";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+		}
+			
+		return "msg"; 
+		// /WEB-INF/views/tiles1/member/changePwd.jsp 페이지.
+	}
+	
+	
 	
 	//============================================================================== //
 	//============================= 마이페이지 관련 끝=================================== //

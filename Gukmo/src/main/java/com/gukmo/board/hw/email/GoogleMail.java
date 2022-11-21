@@ -1,4 +1,4 @@
-package com.gukmo.board.common;
+package com.gukmo.board.hw.email;
 
 import java.util.Properties;
 
@@ -6,9 +6,11 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class GoogleMail{
-	public void sendmail(String recipient, String certificationCode) throws Exception {
+	public void sendmail(String recipient,String subject,String message) throws Exception {
         
         // 1. 정보를 담기 위한 객체
         Properties prop = new Properties(); 
@@ -44,21 +46,20 @@ public class GoogleMail{
         // 메일의 내용을 담기 위한 객체생성
         MimeMessage msg = new MimeMessage(ses);
 
-        // 제목 설정
-        String subject = "본인이메일 인증코드 발송";
+        // 이메일 제목 넣기
         msg.setSubject(subject);
                 
         // 보내는 사람의 메일주소
         String sender = "jsangyeong194@gmail.com";
         Address fromAddr = new InternetAddress(sender);
         msg.setFrom(fromAddr);
-                
+        
         // 받는 사람의 메일주소
         Address toAddr = new InternetAddress(recipient);
         msg.addRecipient(Message.RecipientType.TO, toAddr);
                 
         // 메시지 본문의 내용과 형식, 캐릭터 셋 설정
-        msg.setContent("발송된 인증코드 : <span style='font-size:14pt; color:red;'>"+certificationCode+"</span>", "text/html;charset=UTF-8");
+        msg.setContent(message, "text/html;charset=UTF-8");
                 
         // 메일 발송하기
         Transport.send(msg);

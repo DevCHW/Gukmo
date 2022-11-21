@@ -3,6 +3,8 @@ package com.gukmo.board.hw.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 
@@ -37,6 +39,14 @@ public interface InterMemberService {
 	 * @return 활동내역 총 갯수
 	 */
 	int getTotalActivities(Map<String, String> paraMap);
+
+
+	/**
+	 * 계정찾기 메일 보내기
+	 * @param 사용자의 이메일
+	 * @return 이메일 성공여부가 담겨있는 JSON형식 String
+	 */
+	String sendEmailByMyId(String email,HttpServletRequest request);
 
 
 }

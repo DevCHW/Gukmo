@@ -1,0 +1,57 @@
+@charset "UTF-8";
+div#findIdFrm{
+  font-size:small;
+}
+
+div#findIdFrm{
+  min-width: 380px;
+  width: 448px;
+}
+
+div#logo_img_box{
+  cursor: pointer;
+  width:70px;
+  height:70px;
+  border:solid 1px gray;
+}
+img#logo{
+  width:100%;
+  height:100%;
+}
+
+
+button#btn_close,
+button#btn_findMyId{
+  width:48%;
+  font-weight: bold;
+}
+button#btn_findMyId{
+  background-color:#14587D;
+  color:white;
+}
+
+
+label[for='email']{
+  font-size:x-small;
+}
+
+input#email{
+  height:40px;
+}
+
+input#email::placeholder{
+  font-size:small;
+}
+
+div#findMyIdError{
+  background-color:#F0F6FA;
+  color:#991B1B;
+  font-weight: bold;
+}
+
+div#findMyIdError{
+  display:none;
+}
+
+
+
