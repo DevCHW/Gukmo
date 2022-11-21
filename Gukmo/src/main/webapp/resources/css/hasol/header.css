@@ -1,14 +1,15 @@
 @charset "UTF-8";
 
 a {
-	cursor:pointer;
+   cursor:pointer;
 }
 
-/* header */
+
+/* mainNav_bar */
 
 .mainNav_bar {
     border-bottom: solid 1px #E1E2E1;
-    line-height:2.5em;
+    line-height:40px;
 }
 
 .mainNav {
@@ -19,14 +20,18 @@ a {
 }
 
 
+
+/* 이미지와 카테고리 영역 */
+
 .main_left{
     display:flex;
     align-text:center;
-    width:60%;
+    width:70%;
+    height:100%;
 }
 
 .mainCate {
-    height: 100%;
+   height:100%;
     list-style:none;
     display: flex;
     align-items: center;
@@ -41,143 +46,171 @@ a {
     padding: 0 20px;
 }
 
-.main_right {
-	width:20%;
-	text-align: center;
-	display:flex;
-	justify-content: end;
+/* 메뉴 a태그 색상 바꾸기 */
+.mainCate > li > a.nav-link:not(.adminMenu){
+   color: black;
+}
+.mainCate > li > a.nav-link:hover:not(.adminMenu) {
+   color: #208EC9;
 }
 
-.main_right button {
+/* 관리자 로그인 시 메뉴 a 태그 색상 수정 */
+.adminMenu {
+   color: #208EC9;
+}
+
+
+
+/* ------------------------------------------------- */
+
+
+
+/* 마이페이지와 로그인 등 영역 */
+
+.main_right {
+   width:30%;
+   height: 100%;
+   display:flex;
+   justify-content: end;
+   align-items: center;
+}
+
+/* 비로그인 시 버튼 디자인 */
+.non-login {
+   width:200px;
+}
+
+.main_right > .non-login button {
     border-radius: 40px;
     border: solid 1px #E1E2E1;
     width: 90px;
-    height: 35px;
+    line-height: 35px;
     font-weight: 400;
+    text-align: center;
 }
 
 .btn_login {
     margin-right: 10px;
     background-color: white;
 }
+.btn_login:hover {
+   background-color: #F5F5F6;
+}
 
 .btn_regist {
-	background-color: #208EC9;
-	color:white;
-}
-
-.btn_login:hover {
-	background-color: #F5F5F6;
+   background-color: #208EC9;
+   color:white;
 }
 .btn_regist:hover {
-	background-color: #14587D;
+   background-color: #14587D;
 }
 
-.my_icon {
-	font-size:17px;
-	color:#E1E2E1;
-	margin-right:30px;
-	cursor:pointer
+
+/* 로그인 시 아이콘 디자인 */
+.login {
+   width:150px;
+   height:100%;
 }
 
-.my_icon:hover {
-	color: #208EC9;
+.login_icon {
+   font-size:17px;
+   color:#E1E2E1;
+   cursor:pointer
 }
 
-.login_academy span {
-	color: grey;
-	margin-right:15px;
-}
-
-/* 메뉴 a태그 색상 바꾸기 시작 */
-
-.my.mainCate > li > a.nav-link{
-  z-index:0;
-  color: black;
-}
-.my.mainCate > li > a.nav-link:hover{
-	color: #208EC9;
-}
-/* 메뉴 a태그 색상 바꾸기 끝 */
-
-.my.mainCate > div.adminMenu a {
-	color: #208EC9;
+.login_icon:hover {
+   color: #208EC9;
 }
 
 
 
 /* Dropdown Button */
 .dropbtn {
-	width: 35px;
-	height: 35px;
-	border-radius: 50%;
-  	border: none;
-  	display: flex;
-  	justify-content: center;
-  	align-content: center;
-  	cursor: pointer;
-  	margin: 0;
-  	padding: 0;
+   width: 35px;
+   height: 35px;
+   border-radius: 50%;
+     border: none;
+     display: flex;
+     justify-content: center;
+     align-content: center;
+     cursor: pointer;
+     margin: 0;
+     padding: 0;
 }
 
 .dropbtn img {
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	border: solid 1px grey;
+   width: 100%;
+   height: 100%;
+   border-radius: 50%;
+   border: solid 1px grey;
 }
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-	float: right;
-	position: relative;
-	display: inline-block;
+   float: right;
+   position: relative;
+   display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
 
+
+/* Dropdown 내용물 (Hidden by Default) */
+/* 알람 dropcontent */
 .dropdown-content1 {
-	width:200px;
-	height:130px;
-}
-
-.dropdown-content1,
-.dropdown-content2,
-.dropdown-content3
- {
-	display: none;
-	position: absolute; top:40px; 
-	background-color: white;
-	border-radius:10px;
-	min-width: 179px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   width:350px;
+   height:200px;
+   display: none;
+   position: absolute; top:40px;
+   background-color: white;
+   border-radius:10px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     right: 0;
-	z-index: 2;
+   z-index: 2;
 }
 
 .dropdown-content1 a:first-child {
-	width: 100%;
-	height: 40px;
-	background-color: #FAFAFA;
-	border-radius: 10px 10px 0 0;
-	text-align: start;
-	padding-left:15px;
-	border-bottom: solid 1px #E1E2E1;
+   width: 100%;
+   line-height: 30px;
+   background-color: #FAFAFA;
+   border-radius: 10px 10px 0 0;
+   text-align: start;
+   padding-left: 15px;
+   border-bottom: solid 1px #E1E2E1;
+   font-weight:500;
 }
+
+.dropdown-content1 a:not(.dropdown-content1 a:last-child) {
+   border-bottom: solid 1px #E1E2E1;
+}
+
+
+/* 프로필과 관리자 dropcontent */
+.dropdown-content2,
+.dropdown-content3 {
+   display: none;
+   position: absolute; top:40px; 
+   background-color: white;
+   border-radius:10px;
+   min-width: 179px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0;
+   z-index: 2;
+}
+
 
 /* Links inside the dropdown */
 .dropdown-content1 a,
 .dropdown-content2 a,
 .dropdown-content3 a {
-	color: black;
-	padding: 8px 15px;
-	text-decoration: none;
-	display: block;
-	margin:0;
+   color: black;
+   padding: 8px 15px;
+   text-decoration: none;
+   display: block;
+   margin:0;
 }
 
 .dropdown-content2 a:last-child:not(#admin_link){
-	border-top:	solid 1px #E1E2E1;
+   border-top:   solid 1px #E1E2E1;
 }
 
 /* Change color of dropdown links on hover */
@@ -186,5 +219,4 @@ a {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
-
 
