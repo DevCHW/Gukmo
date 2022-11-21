@@ -1,19 +1,19 @@
 @charset "UTF-8";
 
 *{
-	font-size:13px;
+   font-size:13px;
 }
 
 a {
-	padding: 0;
+   padding: 0;
 }
 
 
 
 .carousel-inner {
-	width: 100%;
-	height: 200px;
-	overflow:hidden;
+   width: 100%;
+   height: 200px;
+   overflow:hidden;
 }
 
 .carousel-inner img {
@@ -30,10 +30,16 @@ a {
   
 /* input 영역 수정*/
 #searchWord {
+<<<<<<< HEAD
 	width: 80%;
 	height: 40px;
 	border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
 	border:solid 3px #208EC9;
+=======
+   width: 80%;
+   height: 40px;
+   border:solid 3px #208EC9;
+>>>>>>> refs/remotes/origin/johs
     border-left: none;
     border-right:none;
     padding: 2px 5px;
@@ -42,18 +48,18 @@ a {
 
 /* select 영역 수정 */
 .div_selectSearch select{
-	border:none;              /* select 태그에 적용된 style 없앰 */
-	-webkit-appearance: none; /* select 태그에 적용된 style 없앰 */
-	-moz-appearance: none;    /* select 태그에 적용된 style 없앰 */
-	appearance: none;         /* select 태그에 적용된 style 없앰 */
-	position:relative;
-	filter:alpha(opacity=0);  /* select 태그를 안 보이게 함 */
-	opacity: 0;               /* select 태그를 안 보이게 함 */
-	width:6.2em;              /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
-	height:70%;               /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
-	margin-top:0.4em;         /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
-	margin-left:1.3em;        /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
-	cursor:pointer;           /* cursor가 위치하면 pointer 로 변경*/
+   border:none;              /* select 태그에 적용된 style 없앰 */
+   -webkit-appearance: none; /* select 태그에 적용된 style 없앰 */
+   -moz-appearance: none;    /* select 태그에 적용된 style 없앰 */
+   appearance: none;         /* select 태그에 적용된 style 없앰 */
+   position:relative;
+   filter:alpha(opacity=0);  /* select 태그를 안 보이게 함 */
+   opacity: 0;               /* select 태그를 안 보이게 함 */
+   width:6.2em;              /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+   height:70%;               /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+   margin-top:0.4em;         /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+   margin-left:1.3em;        /* 추후 script 에서 select 가 선택/작동될 영역을 설정 */
+   cursor:pointer;           /* cursor가 위치하면 pointer 로 변경*/
 }
 
 /* select 태그 테두리를 만들기 위한 div (디자인된 select 외부 테두리 영역) */
@@ -95,11 +101,11 @@ a {
 
 /* 검색 버튼 css */
 #btn_search {
-	border:3px solid #208EC9;
-	border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
-	border-left:none;
-	background-color: white;
-	width: 8%;
+   border:3px solid #208EC9;
+   border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
+   border-left:none;
+   background-color: white;
+   width: 50px;
 }
 
 
@@ -107,53 +113,53 @@ a {
 /* ----- 학원 정보 영역 CSS 시작 ----- */
 
 .div_academy {
-	width:100%;
+   width:100%;
 }
 
-.div_card {	
-	padding-left:0;
+.div_card {   
+   padding-left:0;
 }
 
 .card:hover {
-	background-color:#BFEBFD;
+   background-color:#BFEBFD;
 }
 
 .card_1 .card:first-child {
-	margin:5px 0 5px 0;
+   margin:5px 0 5px 0;
 }
 
 .card_1 .card:not(.card:first-child) {
-	margin: 5px 0 5px 5px;
+   margin: 5px 0 5px 5px;
 }
 
 .card_2 .card:first-child {
-	margin:0 0 5px 0;
+   margin:0 0 5px 0;
 }
 
 .card_2 .card:not(.card:first-child) {
-	margin: 0 0 5px 5px;
+   margin: 0 0 5px 5px;
 }
 
 .card-body {
-	padding:0.5em;
+   padding:0.5em;
 }
 
 .card-title {
-	margin: 0.2em 0 0.3em 0;
+   margin: 0.2em 0 0.3em 0;
 }
 .card p:not(.card-link) {
-	margin:0;
+   margin:0;
 }
 
 .card-sub-text {
-	color:lightgrey;
-	font-size:8px;
+   color:lightgrey;
+   font-size:8px;
 }
 .card-link {
-	margin: 0.3em 0 0 0 ;
-	padiing: 0;
-	float:right;
-	color:#208EC9;
+   margin: 0.3em 0 0 0 ;
+   padiing: 0;
+   float:right;
+   color:#208EC9;
 }
 
 /* ========== 학원 정보 영역 CSS 끝 ========== */
@@ -163,53 +169,53 @@ a {
 /* ========== 게시판 정보 영역 CSS 시작 ========== */
 
 div.div_infoBoard {
-	width:84%;
+   width:84%;
 }
 
 /* 인기 검색어 영역 */
 div.div_searchRank {
-/* 	border: solid 1px blue; */
-	width:18%;
-	height: 300px;
-	margin: 0 0.5% 0 0.3%;
+/*    border: solid 1px blue; */
+   width:18%;
+   height: 300px;
+   margin: 0 0.5% 0 0.3%;
 }
 
 div.div2_searchRank {
-	height: 100%;
+   height: 100%;
 }
 div.title_searchRank {
-	height:45px;
-	border-radius: 5px 5px 0 0;
-	padding-left: 0.5em;
-	background-color:#F5F5F6;
+   height:45px;
+   border-radius: 5px 5px 0 0;
+   padding-left: 0.5em;
+   background-color:#F5F5F6;
 }
 
 div.title_searchRank p {
-	font-size: 15px;
-	font-weight: 500;
-	margin: 0;
+   font-size: 15px;
+   font-weight: 500;
+   margin: 0;
 }
 
 div.list_searchRank {
-	border: solid 1px #E1E2E1;
-	border-radius: 0 0 5px 5px;
-	border-top:none;
-	padding: 0.5em;
+   border: solid 1px #E1E2E1;
+   border-radius: 0 0 5px 5px;
+   border-top:none;
+   padding: 0.5em;
 }
 
 div.list_searchRank a {
-	padding: 0.8em 0;
-	color: black;
+   padding: 0.8em 0;
+   color: black;
 }
 
 
 .icon_arrow {
-	color:#F5F5F6;
+   color:#F5F5F6;
 }
 
 .icon_arrow:hover {
-	color:#208EC9;
-	cursor:pointer;
+   color:#208EC9;
+   cursor:pointer;
 }
 
 /* ------------------------------------- */
@@ -225,9 +231,9 @@ div.writer_image_box{
 }
 
 div.writer_image_box img{
-	width: 100%;
-	height: 100%;
-	border-radius: 70%;
+   width: 100%;
+   height: 100%;
+   border-radius: 70%;
 }
 
 div.write_date{
@@ -236,7 +242,7 @@ div.write_date{
 }
 
 a.writer_nickname {
-	color:#424242
+   color:#424242
 }
 
 a.writer_nickname:hover {
@@ -256,32 +262,32 @@ div.board_info_box{
 
 /* 게시판 리스트 css */
 div.div_board {
-	width:82%;
+   width:82%;
 }
 
 div.div_tbl_board {
-	width:45%;
-	margin: 0 0.5% 3% 4.5%
+   width:45%;
+   margin: 0 0.5% 3% 4.5%
 }
 
 .title_board {
-	height:45px;
-	border-radius: 5px 5px 0 0;
-	padding-left: 0.5em;
-	background-color:#208EC9;
+   height:45px;
+   border-radius: 5px 5px 0 0;
+   padding-left: 0.5em;
+   background-color:#208EC9;
 }
 
 .list_board {
-	border: solid 1px #208EC9;
-	border-radius: 0 0 5px 5px;
-	border-top:none;
-	padding: 0.5em;
+   border: solid 1px #208EC9;
+   border-radius: 0 0 5px 5px;
+   border-top:none;
+   padding: 0.5em;
 }
 
 a.subject {
-	font-size:16px;
-	font-weight:500;
-	color: black;
+   font-size:16px;
+   font-weight:500;
+   color: black;
 }
 
 

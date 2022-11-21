@@ -1,24 +1,32 @@
 
+$(document).ready(function(){
+   
+});
 
 
 
-// 프로필 클릭 이벤트
-function drop_content1() {
-  document.getElementById("myDropdown1").classList.toggle("show");
+
+// --------- 드랍 버튼 함수 -----------
+
+// 알람 드랍  함수
+function drop_alarm() {
+  document.getElementById("alarm_dropContent").classList.toggle("show");
 }
 
-function drop_content2() {
-	  document.getElementById("myDropdown2").classList.toggle("show");
-	}
+// 프로필 드랍 함수
+function drop_profile() {
+     document.getElementById("profile_dropContent").classList.toggle("show");
+   }
 
-function drop_content3() {
-	  document.getElementById("myDropdown3").classList.toggle("show");
-	}
+// 관리자 드랍 함수
+function drop_admin() {
+     document.getElementById("admin_dropContent").classList.toggle("show");
+   }
 
-//Close the dropdown menu if the user clicks outside of it
+//알람 드랍  함수: 외부 누르면 닫힘
 window.onclick = function(event) {
-  if (!event.target.matches('.my_icon')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content1");
+  if (!event.target.matches('.alarm_drop')) {
+    var dropdowns = document.getElementById('alarm_dropContent');
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
@@ -30,10 +38,10 @@ window.onclick = function(event) {
 }
 
 
-//Close the dropdown menu if the user clicks outside of it
+// 프로필 드랍 함수: 외부 누르면 닫힘
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content2");
+    var dropdowns = document.getElementById('profile_dropContent');
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
@@ -44,10 +52,10 @@ window.onclick = function(event) {
   }
 }
 
-//Close the dropdown menu if the user clicks outside of it
+// 관리자 드랍 함수: 외부 누르면 닫힘
 window.onclick = function(event) {
   if (!event.target.matches('.adminMenu')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content3");
+    var dropdowns = document.getElementById('admin_dropContent');
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
