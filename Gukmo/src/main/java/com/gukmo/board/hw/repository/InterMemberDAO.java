@@ -67,6 +67,14 @@ public interface InterMemberDAO {
 	 */
 	int getTotalActivities(Map<String, String> paraMap);
 
+
+	/**
+	 * 이메일 값으로 회원 아이디 알아내기
+	 * @param email
+	 * @return
+	 */
+	String getMyID(String email);
+
 	
 
 }

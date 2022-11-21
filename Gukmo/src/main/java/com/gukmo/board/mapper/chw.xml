@@ -74,6 +74,12 @@
 	    where fk_userid = #{userid} 
 	</select>
 	
+	<!-- 이메일 값으로 userid 알아내기 -->
+	<select id="getMyID" parameterType="String" resultType="String">
+		select userid from tbl_member
+		where email = #{email}
+	</select>
+	
 	
 	
 	<!--=============== Member 끝 ============-->
