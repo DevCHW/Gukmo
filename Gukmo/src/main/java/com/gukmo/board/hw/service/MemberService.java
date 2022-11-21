@@ -169,6 +169,19 @@ public class MemberService implements InterMemberService{
 
         return buffer.toString();
     }
+
+
+
+    /**
+	 * 이메일 값으로 회원 아이디 알아내기
+	 * @param email
+	 * @return
+	 */
+	@Override
+	public String getMyID(String email) {
+		String userid = dao.getMyID(email);
+		return userid;
+	}
 	
 	
 	

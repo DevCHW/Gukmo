@@ -138,6 +138,19 @@ public class MemberDAO implements InterMemberDAO{
 		int totalCount = gukmo_sql.selectOne("chw.getTotalActivities",paraMap);
 		return totalCount;
 	}
+
+
+
+	/**
+	 * 이메일 값으로 회원 아이디 알아내기
+	 * @param email
+	 * @return
+	 */
+	@Override
+	public String getMyID(String email) {
+		String userid = gukmo_sql.selectOne("chw.getMyID",email);
+		return userid;
+	}
 	
 	
 }

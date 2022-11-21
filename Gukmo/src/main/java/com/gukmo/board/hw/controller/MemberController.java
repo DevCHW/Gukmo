@@ -389,7 +389,9 @@ public class MemberController {
 		String email = request.getParameter("email");
 		
 		if(request.getParameter("uuid").equals(uuid)) {	//uuid가 http 헤더에 있는것과 세션에 있는값이 같다면,
+			String userid = service.getMyID(email);	//이메일 값으로 유저아이디 알아내기
 			
+			request.setAttribute("userid", userid);
 			return "/member/changePwd.tiles1";
 		}
 		else { //uuid가 url에 있는것과 http헤더에 있는것이 다르다면

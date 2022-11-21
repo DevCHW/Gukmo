@@ -49,4 +49,14 @@ public interface InterMemberService {
 	String sendEmailByMyId(String email,HttpServletRequest request);
 
 
+	/**
+	 * 이메일 값으로 회원 아이디 알아내기
+	 * @param email
+	 * @return
+	 */
+	String getMyID(String email);
+
+
+
+
 }
