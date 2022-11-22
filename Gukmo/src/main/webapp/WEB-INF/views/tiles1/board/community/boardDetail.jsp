@@ -3,6 +3,9 @@
 	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -133,13 +136,13 @@
         <!-- 이전글 a태그 href에 ?num=이전글번호-->
         <div id="previous" class="my-2">
           <span>이전글 |</span>
-          <a href="?num=1">이전글제목 들어갈 곳</a>
+          <a href="?num=1">${requestScope.boardvo.previoussubject}</a>
         </div>
   
         <!-- 다음글 a태그 href에 ?num=다음글번호-->
         <div id="next" class="my-2">
           <span>다음글 |</span>
-          <a href="#">다음글제목 들어갈 곳</a>
+          <a href="#">${requestScope.boardvo.nextsubject}</a>
         </div>
       </div>
     </div>

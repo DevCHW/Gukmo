@@ -42,7 +42,7 @@ public class BoardVO {
 	//파라미터가있는 생성자만을 통해서 값 주입
 	public BoardVO(String board_num, String nickname, String dcategory, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
-			String writer_point, List<HashtagVO> hashtags, List<CommentVO> comment) {
+			String writer_point, List<HashtagVO> hashtags, List<CommentVO> comment, String previousseq, String previoussubject, String nextseq, String nextsubject) {
 		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
@@ -57,6 +57,10 @@ public class BoardVO {
 		this.writer_point = writer_point;
 		this.hashtags = hashtags;
 		this.comment = comment;
+		this.previousseq = previousseq;
+		this.previoussubject = previoussubject;
+		this.nextseq = nextseq;
+		this.nextsubject = nextsubject;
 	}
 
 
