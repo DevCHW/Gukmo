@@ -10,27 +10,44 @@
 		select rno, board_num, nickname, category, detail_category, subject, content, write_date, views, profile_image
 		from 
 		(
-			select rownum rno, board_num, nickname, category, detail_category
-			      , subject, content, to_char(write_date, 'yyyy-mm-dd hh24:mi:ss') as write_date
-			      , views, profile_image
-			from tbl_board
-			where 1=1 and category = '커뮤니티' and detail_category = '자유게시판'
-			<!--  and lower(${searchType}) like '%'||lower(#{searchWord})||'%' -->
-			order by board_num desc
+		from 
+		(
+		select board_num, nickname, category, detail_category
+		      , subject, content, to_char(write_date, 'yyyy-mm-dd hh24:mi:ss') as write_date
+		      , views, profile_image
+		from tbl_board
+		where 1=1 and category = '커뮤니티' and detail_category = '자유게시판'
+		<!--  and lower(${searchType}) like '%'||lower(#{searchWord})||'%' -->
+		order by board_num desc
 		)v 
+		)
 		order by rno
 	</select>
 	
 	
 	<insert id="communityNew" parameterType="com.gukmo.board.model.BoardVO">
 		insert into tbl_board
-		values(seq_board.nextval, #{nickname}, '커뮤니티', #{detail_category}, #{subject}, #{content}, default, default, #{profile_image})
+		values(seq_board.nextval, #{nickname}, '커뮤니티', #{detail_category}, #{subject}, #{content}, default, default, #{profile_image},default,default)
 	</insert>
 	
 	
 	<update id="pointPlus" parameterType="HashMap">
 	    update tbl_member set point = point + to_number(#{point})
-	    where userid = #{fk_userid}
+	    where nickname = #{boardvo.nickname}
 	</update>
+	
+	
+	<insert id="activityLog" parameterType="HashMap">
+		insert into tbl_activity (activity_num, fk_userid, fk_board_num, activity_date, subject, detail_category, division, nickname)
+		values(seq_activity.nextval, #{fk_userid}, #{board_num}, default, #{boardvo.subject}, #{boardvo.detail_category}, #{division}, #{boardvo.nickname})
+	</insert>
+	
+	
+	<select id="getCurrentBoardnum" parameterType="String" resultType="Integer">
+		select max(board_num)
+		from tbl_board
+		where nickname = #{nickname}
+	</select>
+	
 	
 </mapper>

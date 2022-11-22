@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.sun.repository.InterBoardDAO;
 import com.gukmo.board.sun.service.InterBoardService;
 
@@ -119,11 +120,27 @@ public class BoardController {
 
    // 게시판 글쓰기 등록
 	@RequestMapping(value="/community/newEnd.do", method= {RequestMethod.POST})
-	public ModelAndView pointPlus_communityNewEnd(Map<String, String> paraMap, ModelAndView mav, BoardVO boardvo) {  // <== After Advice(활동점수 올리기)
+	public ModelAndView pointPlusActivityLog_communityNewEnd(Map<String, Object> paraMap, BoardVO boardvo, HttpServletRequest request, ModelAndView mav) {  // <== After Advice(활동점수 올리기)
 		
 		int n = bdao.communityNew(boardvo);
 		
 		if(n==1) {
+			
+			// pointPlusActivityLog After Advice(포인트 업데이트, 활동내역 등록하기) 
+			HttpSession session = request.getSession();
+			MemberVO user = (MemberVO)session.getAttribute("user");
+			String userid = user.getUserid();
+			String nickname = user.getNickname();
+			
+			int board_num = bdao.getCurrentBoardnum(nickname);// 지금 등록된 글번호 가져오기(겹침방지)
+			System.out.println(board_num);
+			
+			paraMap.put("fk_userid", userid);// 포인트, 활동내역용
+			paraMap.put("board_num", board_num);// 활동내역용(지금 등록된 글번호)
+			paraMap.put("boardvo", boardvo); // 활동내역용
+			paraMap.put("division", "게시글작성");// 활동내역용
+			paraMap.put("point", 10); // 포인트용			
+			
 			mav.setViewName("redirect:/community/freeBoards.do");
 			//  글쓰기가 성공되어지면 글목록을 보여주는 list.action 페이지로 이동시킨다.
 		}
@@ -132,10 +149,7 @@ public class BoardController {
 //			//  /WEB-INF/views/tiles1/board/error/add_error.jsp 파일을 생성한다.
 		}
 		
-		
-		// pointPlus After Advice(글쓰기 포인트) 
-		paraMap.put("fk_userid", boardvo.getFk_userid());
-		paraMap.put("point", "10");
+
 		
 		return mav;
 	}

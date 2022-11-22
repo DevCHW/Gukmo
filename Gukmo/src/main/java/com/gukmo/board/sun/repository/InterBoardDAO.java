@@ -14,7 +14,13 @@ public interface InterBoardDAO {
 	int communityNew(BoardVO boardvo);
 
 	// 글쓰기, 댓글 작성시 활동 점수 올리기
-	void pointPlus(Map<String, String> paraMap);
+	int pointPlus(Map<String, Object> paraMap);
+	
+	// 글쓰기, 댓글 작성시 활동내역에 등록하기
+	int activityLog(Map<String, Object> paraMap);
+
+	// 지금 등록된 글번호 가져오기
+	int getCurrentBoardnum(String nickname);
 	
 	
 }

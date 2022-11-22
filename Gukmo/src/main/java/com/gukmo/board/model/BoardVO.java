@@ -35,7 +35,7 @@ public class BoardVO {
 	protected BoardVO() {}
 	
 	//파라미터가있는 생성자만을 통해서 값 주입
-	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
+	public BoardVO(String board_num, String nickname, String dcategory, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
 			String writer_point, List<HashtagVO> hashtags, List<CommentVO> comment) {
 		this.board_num = board_num;
