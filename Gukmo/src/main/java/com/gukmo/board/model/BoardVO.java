@@ -18,6 +18,11 @@ public class BoardVO {
 	private String comment_cnt;		//댓글수
 	private String like_cnt;		//좋아요 수
 	
+	private String previousseq;      // 이전글번호
+	private String previoussubject;  // 이전글제목
+	private String nextseq;          // 다음글번호
+	private String nextsubject;      // 다음글제목	
+	
 	
 	//select 용도
 	private String writer_point;	//작성자 활동점수
@@ -123,6 +128,38 @@ public class BoardVO {
 	
 	public String getWrite_date() {
 		return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
+	}
+
+	public String getPreviousseq() {
+		return previousseq;
+	}
+
+	public void setPreviousseq(String previousseq) {
+		this.previousseq = previousseq;
+	}
+
+	public String getPrevioussubject() {
+		return previoussubject;
+	}
+
+	public void setPrevioussubject(String previoussubject) {
+		this.previoussubject = previoussubject;
+	}
+
+	public String getNextseq() {
+		return nextseq;
+	}
+
+	public void setNextseq(String nextseq) {
+		this.nextseq = nextseq;
+	}
+
+	public String getNextsubject() {
+		return nextsubject;
+	}
+
+	public void setNextsubject(String nextsubject) {
+		this.nextsubject = nextsubject;
 	}
 
 	

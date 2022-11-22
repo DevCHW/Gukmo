@@ -25,7 +25,7 @@
          </a>
 
          <!-- Links -->
-         <nav>
+         <nav><!--  -->
             <ul class="mainCate">
                <li>
                   <a class="nav-link" href="#">국비학원</a>
