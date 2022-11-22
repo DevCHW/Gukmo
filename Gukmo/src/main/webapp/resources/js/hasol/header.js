@@ -1,24 +1,66 @@
 
+$(document).ready(function(){
+   
+	 $('.alarm_drop').click(function(event){
+         event.stopPropagation();
+          $("#alarm_dropContent").toggle();
+     });
+	 
+     $("#alarm_dropContent").on("click", function (event) {
+         event.stopPropagation();
+     });
+     
+     $('.dropbtn').click(function(event){
+         event.stopPropagation();
+          $("#profile_dropContent").toggle();
+     });
+	 
+     $("#profile_dropContent").on("click", function (event) {
+         event.stopPropagation();
+     });
+     
+     
+     $('.adminMenu').click(function(event){
+         event.stopPropagation();
+          $("#admin_dropContent").toggle();
+     });
+	 
+     $("#admin_dropContent").on("click", function (event) {
+         event.stopPropagation();
+     });
+     
+     
+     
+}); // end of $(document).ready(function() ---------------------------------------
+
+$(document).on("click", function () {
+    $("#alarm_dropContent").hide();
+});
+
+$(document).on("click", function () {
+    $("#profile_dropContent").hide();
+});
+
+$(document).on("click", function () {
+    $("#admin_dropContent").hide();
+});
 
 
 
-// 프로필 클릭 이벤트
-function drop_content1() {
-  document.getElementById("myDropdown1").classList.toggle("show");
-}
 
-function drop_content2() {
-	  document.getElementById("myDropdown2").classList.toggle("show");
-	}
+// --------- 드랍 버튼 함수 -----------
 
-function drop_content3() {
-	  document.getElementById("myDropdown3").classList.toggle("show");
-	}
 
-//Close the dropdown menu if the user clicks outside of it
+
+// 관리자 드랍 함수
+function drop_admin() {
+     document.getElementById("admin_dropContent").classList.toggle("show");
+   }
+
+//알람 드랍  함수: 외부 누르면 닫힘
 window.onclick = function(event) {
-  if (!event.target.matches('.my_icon')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content1");
+  if (!event.target.matches('.alarm_drop')) {
+    var dropdowns = document.getElementById('alarm_dropContent');
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
@@ -30,10 +72,10 @@ window.onclick = function(event) {
 }
 
 
-//Close the dropdown menu if the user clicks outside of it
+// 프로필 드랍 함수: 외부 누르면 닫힘
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content2");
+    var dropdowns = document.getElementById('profile_dropContent');
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
@@ -44,10 +86,10 @@ window.onclick = function(event) {
   }
 }
 
-//Close the dropdown menu if the user clicks outside of it
+// 관리자 드랍 함수: 외부 누르면 닫힘
 window.onclick = function(event) {
   if (!event.target.matches('.adminMenu')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content3");
+    var dropdowns = document.getElementById('admin_dropContent');
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
