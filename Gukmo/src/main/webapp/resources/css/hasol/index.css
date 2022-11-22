@@ -31,15 +31,15 @@ a {
 /* input 영역 수정*/
 #searchWord {
 <<<<<<< HEAD
+   width: 80%;
+   height: 40px;
+   border:solid 3px #208EC9;
+=======
 	width: 80%;
 	height: 40px;
 	border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
 	border:solid 3px #208EC9;
-=======
-   width: 80%;
-   height: 40px;
-   border:solid 3px #208EC9;
->>>>>>> refs/remotes/origin/johs
+>>>>>>> refs/remotes/origin/main
     border-left: none;
     border-right:none;
     padding: 2px 5px;
