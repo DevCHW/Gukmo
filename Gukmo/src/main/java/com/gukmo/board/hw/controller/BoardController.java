@@ -51,9 +51,9 @@ public class BoardController {
 		if(!"".equals(searchWord) ) {
 			request.setAttribute("paraMap", paraMap);
 		}
-		
+		String url = "studies.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,searchWord);
+		String pageBar = getPageBar(page,totalPage, url,searchWord);
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -92,8 +92,9 @@ public class BoardController {
 		if(!"".equals(searchWord) ) {
 			request.setAttribute("paraMap", paraMap);
 		}
+		String url = "questions.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,searchWord);
+		String pageBar = getPageBar(page,totalPage,url,searchWord);
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -133,8 +134,9 @@ public class BoardController {
 		if(!"".equals(searchWord) ) {
 			request.setAttribute("paraMap", paraMap);
 		}
+		String url = "hobbies.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,searchWord);
+		String pageBar = getPageBar(page,totalPage,url,searchWord);
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -171,8 +173,9 @@ public class BoardController {
 		if(!"".equals(searchWord) ) {
 			request.setAttribute("paraMap", paraMap);
 		}
+		String url = "reviews.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,searchWord);
+		String pageBar = getPageBar(page,totalPage,url,searchWord);
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -203,7 +206,7 @@ public class BoardController {
     * @param searchWord(검색어)
     * @return pageBar
     */
-   private String getPageBar(int page, int totalPage, String searchWord) {
+   private String getPageBar(int page, int totalPage,String url, String searchWord) {
 		// 페이지바 만들기 
 		int blockSize = 5;
 		// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 개수이다.
@@ -213,7 +216,6 @@ public class BoardController {
 		int pageNo = ((page - 1)/blockSize) * blockSize + 1;
 		
 		String pageBar = "<ul class='my pagination pagination-md justify-content-center mt-5'>";
-		String url = "studies.do";
 		
 		// === [<<][<] 만들기 === //
 		if(pageNo != 1) {
