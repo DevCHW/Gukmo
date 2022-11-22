@@ -13,6 +13,10 @@
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hasol/header.js" ></script>
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/johs
 <!-- 네비게이션 시작 -->
 <nav bar class="mainNav_bar">
    <nav class="navbar navbar-expand-lg bg-white mainNav" >
@@ -124,4 +128,59 @@
         </div>
     </nav>
 </nav>
+<<<<<<< HEAD
      
+=======
+     
+=======
+                    <!-- Links -->
+                    <nav style="width:70%;">
+                        <ul class="my mainCate">
+                            <li>
+                                <a class="nav-link" href="#">국비학원</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="<%=ctxPath %>/community/freeBoards.do">커뮤니티</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="#">공지사항</a>
+                            </li>
+                            <c:if test="${sessionScope.user.userid eq 'admin'}">
+	                            <li class="dropbtn">
+	                                <a id="adminMenu" class="nav-link" href="#">관리자 메뉴</a>	                                									
+	                            </li>
+	                              <div class="adminMenubar" style="position:absolute; left:565px; top:50px; display:block; z-index:1;">
+				        	        <a class="nav-link" href="/board/admin/memberManage_List.do">g 메뉴</a>
+				                    <a class="nav-link" href="#">관리자 메뉴</a>
+				                  </div>		                    	
+		                    </c:if>
+                        </ul>
+                    </nav>
+                </div>
+                
+                <!-- login -->
+                <div class="main_right">
+                    <c:if test="${empty sessionScope.user}">
+	                    <div class="non-login">
+	                        <button type="button" class="btn_login" id="login" onclick="location.href='<%=ctxPath %>/login.do'">로그인</button>
+	                        <button type="button" class="btn_regist" id="regist" onclick="location.href='<%=ctxPath %>/signup.do'">회원가입</button>
+	                    </div>
+                    </c:if>
+                    <c:if test="${not empty sessionScope.loginuser}">
+                    	<div class="login">
+							<i class="fa-regular fa-bookmark fa-lg"></i>
+							<i class="fa-solid fa-bell fa-lg"></i>
+		                	<a href="#" class="profile_image_box border">
+						          <img src=""/>
+						    </a>
+                		</div>
+                		
+  
+                	</c:if>
+                </div>
+            </nav>
+        </nav>
+        
+    </haeder>    
+>>>>>>> refs/remotes/origin/main
+>>>>>>> refs/remotes/origin/johs
