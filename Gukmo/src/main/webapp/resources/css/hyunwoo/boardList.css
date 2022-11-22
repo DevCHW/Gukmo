@@ -1,18 +1,8 @@
 @charset "UTF-8";
 /* navbar 시작*/
-div#nav{
+div#sort_area{
   height: 60px;
 }
-
-div#category > div.active{
-  background-color: #0090F9;
-  color:white;
-}
-div#category > div{
-  cursor:pointer;
-  font-weight:bold;
-}
-
 
 div#sort{
   cursor:pointer;
@@ -49,28 +39,6 @@ div#sort_option > span{
 }
 
 /* 정렬 모달창 끝 */
-
-/* navbar 끝*/
-
-
-/* filter 시작*/
-div#filter_area{
-  height:60px;
-}
-
-div#btn_filter{
-  width:40px;
-  cursor: pointer;
-}
-
-label{
-  font-size:small;
-}
-
-
-
-/* filter 끝 */
-
 
 
 
@@ -227,41 +195,7 @@ button#btn_write{
 }
 
 
-/* ----- 검색창 영역 CSS 시작 ----- */
 
-div.searchBar{
-	width:70%;
-}
-#searchWord {
-   width: 100%;
-   height: 40px;
-   border-radius:100px 100px 100px 100px;    /* border 동그란 정도 설정 */
-   border:solid 2px #208EC9;
-   padding: 2px 5px;
-}
-
-
-/* input 영역 수정*/
-#searchWord {
-   width: 80%;
-   height: 40px;
-   border:solid 3px #208EC9;
-    border-radius: 100px 0 0 100px;
-    border-right:none;
-    padding: 2px 5px;
-}
-
-/* 검색 버튼 css */
-#btn_search {
-   border:3px solid #208EC9;
-   border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
-   border-left:none;
-   background-color: white;
-   width: 8%;
-}
-
-
-/* 검색창 끝 */
 
 
 @media screen and (max-width: 768px){

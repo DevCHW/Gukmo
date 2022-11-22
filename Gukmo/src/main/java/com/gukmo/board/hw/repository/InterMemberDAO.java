@@ -56,7 +56,7 @@ public interface InterMemberDAO {
 	 * @param userid
 	 * @return 활동내역 리스트
 	 */
-	List<ActivityVO> getActivities(String userid);
+	List<ActivityVO> getActivities(Map<String, String> paraMap);
 
 
 	

@@ -17,7 +17,7 @@ public class BoardService implements InterBoardService{
 
 	/**
 	 * study 게시판을 보여주기 위한 BoardVO 리스트 가져오기
-	 * @param paraMap(검색어,시작rownum,끝rownum)
+	 * @param paraMap(검색어)
 	 * @return BoardVO리스트
 	 */
 	@Override
@@ -29,7 +29,7 @@ public class BoardService implements InterBoardService{
 	
 	
 	/**
-	 * 총 게시물 건수(totalCount) 구하기
+	 * 총 게시물 건수(totalCount) 구하기(스터디게시판)
 	 * @param paraMap(검색어)
 	 * @return (총 게시물 건수) 를 반환한다. totalCount
 	 */
@@ -37,6 +37,87 @@ public class BoardService implements InterBoardService{
 	public int getTotalStudiesCount(Map<String, String> paraMap) {
 		int totalCount = dao.getTotalStudiesCount(paraMap);
 		return totalCount;
+	}
+
+
+
+	/**
+	 * 총 게시물 건수(totalCount) 구하기(QnA게시판)
+	 * @param paraMap(검색어)
+	 * @return (총 게시물 건수) 를 반환한다. totalCount
+	 */
+	@Override
+	public int getTotalQuestionsCount(Map<String, String> paraMap) {
+		int totalCount = dao.getTotalQuestionsCount(paraMap);
+		return totalCount;
+	}
+	
+	
+	
+	/**
+	 * QnA 게시판을 보여주기 위한 BoardVO 리스트 가져오기
+	 * @param paraMap(검색어,시작rownum,끝rownum)
+	 * @return BoardVO리스트
+	 */
+	@Override
+	public List<BoardVO> getQuestions(Map<String, String> paraMap) {
+		List<BoardVO> questions = dao.getQuestions(paraMap);
+		return questions;
+	}
+
+
+
+	
+	/**
+	 * 총 게시물 건수(totalCount) 구하기(취미모임 게시판)
+	 * @param paraMap(검색어)
+	 * @return (총 게시물 건수) 를 반환한다. totalCount
+	 */
+	@Override
+	public int getTotalHobbiesCount(Map<String, String> paraMap) {
+		int totalCount = dao.getTotalHobbiesCount(paraMap);
+		return totalCount;
+	}
+
+
+
+	/**
+	 * 취미모임 게시판을 보여주기 위한 BoardVO 리스트 가져오기
+	 * @param paraMap(검색어,시작rownum,끝rownum)
+	 * @return BoardVO리스트
+	 */
+	@Override
+	public List<BoardVO> getHobbies(Map<String, String> paraMap) {
+		List<BoardVO> hobbies = dao.getHobbies(paraMap);
+		return hobbies;
+	}
+
+
+
+	
+	/**
+	 * 총 게시물 건수(totalCount) 구하기(수강/취업성공후기 게시판)
+	 * @param paraMap(검색어)
+	 * @return (총 게시물 건수) 를 반환한다. totalCount
+	 */
+	@Override
+	public int getTotalReviewsCount(Map<String, String> paraMap) {
+		int totalCount = dao.getTotalReviewsCount(paraMap);
+		return totalCount;
+	}
+
+
+
+	
+	/**
+	 * 수강/취업성공후기 게시판을 보여주기 위한 BoardVO 리스트 가져오기
+	 * @param paraMap(검색어,시작rownum,끝rownum)
+	 * @return BoardVO리스트
+	 */
+	@Override
+	public List<BoardVO> getReviews(Map<String, String> paraMap) {
+		List<BoardVO> reviews = dao.getReviews(paraMap);
+		return reviews;
 	}
 
 	
