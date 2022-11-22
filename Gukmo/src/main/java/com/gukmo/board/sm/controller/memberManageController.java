@@ -34,12 +34,18 @@ public class memberManageController {
 	    
 	    String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
+		String memberStatus = request.getParameter("memberStatus");
 		// System.out.println(searchType);
 		// System.out.println(searchWord);
+		// System.out.println(memberStatus);
 		
 		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
 		
-		 if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType)) ) {
+		if(memberStatus == null) {
+			memberStatus = "";	
+		}
+		
+		 if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType) && !"username".equals(searchType)) ) {
 			searchType = "";
 		 }
 		
@@ -50,6 +56,7 @@ public class memberManageController {
 		 Map<String, String> paraMap = new HashMap<>();
 		 paraMap.put("searchType", searchType);
 		 paraMap.put("searchWord", searchWord);
+		 paraMap.put("memberStatus", memberStatus);
 
 		 
 		 // 먼저 총 게시물 건수(totalCount)를 구해와야 한다.
@@ -64,6 +71,7 @@ public class memberManageController {
 		 
 		 // 총 게시물 건수(totalCount)
 		 totalCount = service.getTotalCount(paraMap);
+		 request.setAttribute("totalCount", totalCount);
 		 // System.out.println(totalCount);
 		 // 108
 		 
@@ -93,7 +101,7 @@ public class memberManageController {
 		 paraMap.put("endRno", String.valueOf(endRno));
 
 		 memberList = service.memberList(paraMap);
-		 System.out.println();
+		 // System.out.println();
 		
 		 if( !"".equals(searchType) && !"".equals(searchWord) ) {
 			 mav.addObject("paraMap", paraMap);
@@ -116,8 +124,8 @@ public class memberManageController {
 
 			// === [맨처음][이전] 만들기 === //
 			if(pageNo != 1) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
 			}		
 			
 			while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -126,7 +134,7 @@ public class memberManageController {
 					pageBar += "<li class=\"page-item active\" aria-current=\"page\">"+pageNo+"</li>";  
 				}
 				else {
-					pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
+					pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
 				}
 				loop++;
 				pageNo++;
@@ -134,8 +142,8 @@ public class memberManageController {
 			
 			// === [다음][마지막] 만들기 === //
 			if( pageNo <= totalPage) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
 			}
 			
 			pageBar += "</ul>";
@@ -259,10 +267,16 @@ public class memberManageController {
 	    
 	    String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
+		String memberStatus = request.getParameter("memberStatus");
+		
 		// System.out.println(searchType);
 		// System.out.println(searchWord);
 		
 		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+		
+		if(memberStatus == null) {
+			memberStatus = "";
+		}
 		
 		 if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType) && !"academy_name".equals(searchType)) ) {
 			searchType = "";
@@ -275,6 +289,7 @@ public class memberManageController {
 		 Map<String, String> paraMap = new HashMap<>();
 		 paraMap.put("searchType", searchType);
 		 paraMap.put("searchWord", searchWord);
+		 paraMap.put("memberStatus", memberStatus);
 
 		 
 		 // 먼저 총 게시물 건수(totalCount)를 구해와야 한다.
@@ -341,8 +356,8 @@ public class memberManageController {
 
 			// === [맨처음][이전] 만들기 === //
 			if(pageNo != 1) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'><i class=\"fa-solid fa-angles-left\"></i></a></li>";
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'><i class=\"fa-solid fa-angles-left\"></i></a></li>"; 
 			}		
 			
 			while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -351,7 +366,7 @@ public class memberManageController {
 					pageBar += "<li class=\"page-item active\" aria-current=\"page\">"+pageNo+"</li>";  
 				}
 				else {
-					pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
+					pageBar += "<li class=\"page-item active\" aria-current=\"page\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";        
 				}
 				loop++;
 				pageNo++;
@@ -359,8 +374,8 @@ public class memberManageController {
 			
 			// === [다음][마지막] 만들기 === //
 			if( pageNo <= totalPage) {
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
-				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'><i class=\"fa-solid fa-angle-right\"></i></a></li>";
+				pageBar += "<li class=\"page-item\"><a class=\"page-link\" href='"+url+"?memberStatus="+memberStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'><i class=\"fas fa-solid fa-angles-right\"></i></a></li>";
 			}
 			
 			pageBar += "</ul>";
