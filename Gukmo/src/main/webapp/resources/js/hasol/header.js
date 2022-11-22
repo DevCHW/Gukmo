@@ -1,6 +1,48 @@
 
 $(document).ready(function(){
    
+	 $('.alarm_drop').click(function(event){
+         event.stopPropagation();
+          $("#alarm_dropContent").toggle();
+     });
+	 
+     $("#alarm_dropContent").on("click", function (event) {
+         event.stopPropagation();
+     });
+     
+     $('.dropbtn').click(function(event){
+         event.stopPropagation();
+          $("#profile_dropContent").toggle();
+     });
+	 
+     $("#profile_dropContent").on("click", function (event) {
+         event.stopPropagation();
+     });
+     
+     
+     $('.adminMenu').click(function(event){
+         event.stopPropagation();
+          $("#admin_dropContent").toggle();
+     });
+	 
+     $("#admin_dropContent").on("click", function (event) {
+         event.stopPropagation();
+     });
+     
+     
+     
+}); // end of $(document).ready(function() ---------------------------------------
+
+$(document).on("click", function () {
+    $("#alarm_dropContent").hide();
+});
+
+$(document).on("click", function () {
+    $("#profile_dropContent").hide();
+});
+
+$(document).on("click", function () {
+    $("#admin_dropContent").hide();
 });
 
 
@@ -8,15 +50,7 @@ $(document).ready(function(){
 
 // --------- 드랍 버튼 함수 -----------
 
-// 알람 드랍  함수
-function drop_alarm() {
-  document.getElementById("alarm_dropContent").classList.toggle("show");
-}
 
-// 프로필 드랍 함수
-function drop_profile() {
-     document.getElementById("profile_dropContent").classList.toggle("show");
-   }
 
 // 관리자 드랍 함수
 function drop_admin() {
