@@ -5,4 +5,158 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="ksm">
+
+	<!-- 회원관리 리스트 총 페이지 수 -->
+	<select id="getTotalCount" parameterType="HashMap" resultType="Integer">
+	    select count(*)
+	    from tbl_member M
+	    left join tbl_member_login L
+	    on fk_userid = userid
+	    where 1 = 1
+	    <if test='memberStatus != "" '>
+	      and status = #{memberStatus}
+	    </if>	    
+	    <if test='searchType != "" and searchWord != "" '>
+	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    </if>	    
+	</select>
+	
+	<!-- 회원관리 목록 페이지 요청 -->
+	<select id="memberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
+		select rnum, fk_userid as userid, email, email_acept, username, nickname, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point
+		from
+		(
+		select rownum as rnum, fk_userid, email, email_acept, username, nickname, join_date, status, point
+		from 
+		(
+		select fk_userid, email, email_acept, username, nickname, join_date, status, point
+		from tbl_member M
+		left join tbl_member_login L
+		on fk_userid = userid
+	    <if test='memberStatus != "" '>
+	      where status = #{memberStatus}
+	    	<if test='searchType != "" and searchWord != "" '>
+	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    	</if>
+	    </if>	    
+	    <if test='memberStatus == "" '>
+	    	where 1 = 1
+		    <if test='searchType != "" and searchWord != "" '>
+		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+		    </if>	    		
+	    </if>
+		order by join_date desc
+		) V
+		) D
+		where rnum between #{startRno} and #{endRno}
+		
+	</select>
+	
+	
+	<!-- 회원정보 상세보기 페이지 -->
+		<select id="getMemberDetail" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
+			select fk_userid as userid, email, email_acept, username, nickname, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point, profile_image
+			from tbl_member M
+			left join tbl_member_login L
+			on fk_userid = userid
+		    where userid = #{userid}
+		</select>
+	
+	<!-- 정지 테이블에 해당 회원 정지 등록(insert) -->
+		<insert id="addPenalty" parameterType="com.gukmo.board.model.PenaltyVO">
+		    insert into tbl_penalty
+		    values(seq_penalty.nextval, #{nickname}, #{simple_penalty_reason}, #{detail_penalty_reason}, sysdate, #{penalty_period} )
+		</insert>	
+		
+	<!-- 정지된 회원의 status 변경 (활동 > 정지로)-->
+		<update id="updateMemberStatus" parameterType="String">
+		    update tbl_member_login
+		    set status = '정지'
+		    where userid = #{userid}
+    	</update>	
+		
+	<!-- 정지된 회원의 status 변경 (정지 > 활동)-->
+		<update id="block_recovery" parameterType="HashMap">
+		    update tbl_member_login
+		    set status = '활동'
+		    where userid = #{userid}
+    	</update>	
+		
+	<!-- 정지된 회원의 status 변경 (휴면 > 활동)-->
+		<update id="sleep_recovery" parameterType="HashMap">
+		    update tbl_member_login
+		    set status = '활동'
+		    where userid = #{userid}
+    	</update>	
+		
+	<!-- 일반회원 관리 끝 -->
+	
+	
+	<!-- @@@@@@@@@@ 학원회원 관리 시작 @@@@@@@@@@  -->
+	
+	
+	<!-- 회원관리 리스트 총 페이지 수 -->
+	<select id="getTotalCount_academy" parameterType="HashMap" resultType="Integer">
+	    select count(*)
+	    from tbl_academy_member A
+	    left join tbl_member_login L
+	    on fk_userid = userid
+	    where 1 = 1 
+	    <if test='memberStatus != "" '>
+	      and status = #{memberStatus}
+	    </if>	    
+	    <if test='searchType != "" and searchWord != "" '>
+	      and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    </if>	    
+	</select>
+		
+		
+	<!-- 회원관리 목록 페이지 요청 -->
+	<select id="academymemberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
+		select rnum, fk_userid as userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point, profile_image
+		from
+		(
+		select rownum as rnum, fk_userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, join_date, status, point, profile_image
+		from 
+		(
+		select fk_userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, join_date, status, point, profile_image
+		from tbl_academy_member M
+		left join tbl_member_login L
+		on fk_userid = userid
+	    <if test='memberStatus != "" '>
+	      where status = #{memberStatus}
+	    	<if test='searchType != "" and searchWord != "" '>
+	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    	</if>
+	    </if>	    
+	    <if test='memberStatus == "" '>
+	    	where 1 = 1
+		    <if test='searchType != "" and searchWord != "" '>
+		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+		    </if>	    		
+	    </if>
+		order by join_date desc
+		) V
+		) D
+		where rnum between #{startRno} and #{endRno}		
+	</select>
+		
+	<!-- 학원회원정보 상세보기 페이지 -->
+		<select id="aca_MemberDetail" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
+			select fk_userid as userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point, profile_image
+			from tbl_academy_member M
+			left join tbl_member_login L
+			on fk_userid = userid
+		    where userid = #{userid}
+		</select>
+		
+	<!-- 회원가입 요청 승인 (대기 > 활동)-->
+		<update id="Regi_agree" parameterType="HashMap">
+		    update tbl_member_login
+		    set status = '활동'
+		    where userid = #{userid}
+    	</update>	
+		
+		
+	
 </mapper>

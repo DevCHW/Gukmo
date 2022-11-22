@@ -15,7 +15,7 @@
  
  <div id="signup" class="d-flex flex-column mx-auto my-5">
     <%-- 로고 이미지 --%>
-    <div id="logo_img_box" class="m-auto">
+    <div id="logo_img_box" class="m-auto" style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/index.do'">
       <img id="logo" src="" alt="로고 들어갈 곳">
     </div>
 

@@ -1,10 +1,14 @@
 package com.gukmo.board.hw.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 
 
@@ -96,6 +100,56 @@ public class MemberDAO implements InterMemberDAO{
 	public int insert_member(MemberVO member) {
 		int result = gukmo_sql.insert("chw.insert_member",member);
 		return result;
+	}
+
+
+	/**
+	 * 계정삭제하기
+	 */
+	@Override
+	public int memberDelete(String userid) {
+		int result = gukmo_sql.delete("chw.delete_member",userid);
+		return result;
+	}
+
+
+
+	/**
+	 * 로그인되어있는 유저의 활동내역 리스트 얻기
+	 * @param userid
+	 * @return 활동내역 리스트
+	 */
+	@Override
+	public List<ActivityVO> getActivities(String userid) {
+		List<ActivityVO> activities = gukmo_sql.selectList("chw.getActivities",userid);
+		return activities;
+	}
+
+
+	
+	
+	/**
+	 * 유저의 활동내역 총 갯수를 알아오기
+	 * @param 검색어,유저아이디
+	 * @return 활동내역 총 갯수
+	 */
+	@Override
+	public int getTotalActivities(Map<String, String> paraMap) {
+		int totalCount = gukmo_sql.selectOne("chw.getTotalActivities",paraMap);
+		return totalCount;
+	}
+
+
+
+	/**
+	 * 이메일 값으로 회원 아이디 알아내기
+	 * @param email
+	 * @return
+	 */
+	@Override
+	public String getMyID(String email) {
+		String userid = gukmo_sql.selectOne("chw.getMyID",email);
+		return userid;
 	}
 	
 	

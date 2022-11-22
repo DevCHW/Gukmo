@@ -77,13 +77,17 @@ label{
 
 /****************** 게시판 시작 ****************/
 a.writer_image_box{
+  position:relative;
+  padding:0;
+  margin:0;
   width:20px;
   height:20px;
   border-radius: 50%;
 }
 
 
-div.writer_image_box > img{
+a.writer_image_box > img{
+  position:absolute;
   width:100%;
   height:100%;
   border-radius: 50%;
@@ -223,38 +227,38 @@ button#btn_write{
 }
 
 
-/* 검색창 시작 */
+/* ----- 검색창 영역 CSS 시작 ----- */
+
+div.searchBar{
+	width:70%;
+}
+#searchWord {
+   width: 100%;
+   height: 40px;
+   border-radius:100px 100px 100px 100px;    /* border 동그란 정도 설정 */
+   border:solid 2px #208EC9;
+   padding: 2px 5px;
+}
 
 
-div#search_area{
-  width:400px;
-}
-button#search{
-  margin-left:auto;
-  width:100%;
-  height:100%;
-}
-input#searchWord{
-  height:40px;
-  border:none;
-}
-input#searchWord::placeholder{
-  font-size:small;
-}
-input#searchWord:focus { 
-	outline: none; 
-}
-div#academy_search{
-  width:100%;
-  border:solid 1px black;
-}
-div#search_btn{
-  margin-left:auto;
-  width:70px;
-  height:100%;
-  border-left:solid 1px black;
+/* input 영역 수정*/
+#searchWord {
+   width: 80%;
+   height: 40px;
+   border:solid 3px #208EC9;
+    border-radius: 100px 0 0 100px;
+    border-right:none;
+    padding: 2px 5px;
 }
 
+/* 검색 버튼 css */
+#btn_search {
+   border:3px solid #208EC9;
+   border-radius:0 100px 100px 0;    /* border 동그란 정도 설정 */
+   border-left:none;
+   background-color: white;
+   width: 8%;
+}
 
 
 /* 검색창 끝 */

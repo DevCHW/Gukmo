@@ -8,22 +8,20 @@
 %>   
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
-
-<!-- 스마트 에디터  -->
-<script type="text/javascript" src="<%=request.getContextPath() %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seonwoo/boardNew.css" />
 
 <!-- 직접만든 javascript -->
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/boardNew.js" ></script>
 
   <div class="container">
     <!-- 커뮤니티 작성 폼 시작 -->
-    <form action="communityNewEnd" name="writerFrm" class="d-flex flex-column" enctype="multipart/form-data">
-	  <!-- 등록용 닉네임 -->
+    <form name="writerFrm" class="d-flex flex-column" enctype="multipart/form-data">
 	  
-	  <!--  
-	  		<input type="hidden" name="fk_userid" value="${sessionScope.loginuser.nickname}" />
-	  -->
+	  <!-- 등록용 닉네임 -->
+	  <input type="hidden" name="nickname" value="${sessionScope.user.nickname}" />
+	  <input type="hidden" name="profile_image" value="${sessionScope.user.profile_image}" />
+	  
+	  
 	  
       <!-- category -->
       <label for="detail_category" class="community_label">구분</label>
@@ -53,13 +51,13 @@
 
       <!-- content -->
       <label for="content" class="community_label mt-3">본문</label>
-      <textarea name="content" id="content" class="px-2 py-2 border rounded" cols="30" rows="15" placeholder="추후 네이버스마트에디터 구현예정,input,select,textarea태그에 박스쉐도우 넣기"></textarea>
+      <textarea name="content" id="content" class="px-2 py-2 border rounded" cols="30" rows="15"></textarea>
     </form>
     <!-- 커뮤니티 작성 폼 끝 -->
 
     <!-- 수정일 경우에는 등록 대신 수정버튼 태그라이브러리로 구현예정 -->
     <div id="btn_wrapper" class="d-flex justify-content-end mt-3">
       <button id="btn_write" type="button" class="btn border rounded">등록</button>
-      <button id="btn_cancle" type="button" class="btn border rounded ml-3">취소</button>
+      <button id="btn_cancle" type="button" class="btn border rounded ml-3" onclick="javascript:history.back()">취소</button>
     </div>
   </div>

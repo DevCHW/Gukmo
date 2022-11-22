@@ -1,5 +1,9 @@
 package com.gukmo.board.hw.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gukmo.board.hw.repository.InterMemberDAO;
 import com.gukmo.board.hw.service.InterMemberService;
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 
 @Controller
@@ -128,6 +133,16 @@ public class MemberController {
 	}
 	
 	
+	/**
+	 * 계정찾기 페이지 GET 요청시 매핑
+	 */
+	@RequestMapping(value="/member/findId.do", method= {RequestMethod.GET})
+	public String viewfindId(HttpServletRequest request) {
+		return "member/findId.tiles1";
+		// /WEB-INF/views/tiles1/member/findId.jsp 페이지.
+	}
+	
+	
 	//=========================================================================== //
 	//============================= 회원가입 관련 끝=================================== //
 	//=========================================================================== //
@@ -143,7 +158,7 @@ public class MemberController {
 	//============================================================================== //
 	
 	/**
-	 * 활동내역 페이지 GET요청시 페이지 보여주기
+	 * 활동내역 페이지 GET요청시 페이지 보여주기(페이징처리)
 	 */
 	@RequestMapping(value="/member/activities.do", method= {RequestMethod.GET})
 	public String viewActivities(HttpServletRequest request) {
@@ -151,6 +166,135 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
+		
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String userid = user.getUserid();
+		
+		Map<String, String> paraMap = new HashMap<>();
+		String str_page = request.getParameter("page");
+		String searchWord = request.getParameter("searchWord");
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("userid",userid);
+		
+		
+		int totalCount = 0;           // 총 게시물 건수
+		int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
+		int page = 0;    			  // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
+		int totalPage = 0;            // 총 페이지수(웹브라우저상에서 보여줄 총 페이지 개수, 페이지바)
+		int startRno = 0; 			  // 시작 행번호
+		int endRno = 0;   			  // 끝 행번호
+		
+		// 총 게시물 건수(totalCount)
+		totalCount = service.getTotalActivities(paraMap);
+		
+		//총 페이지 수
+		totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		
+		//총 페이지 수
+		totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		
+		if(str_page == null) {	//쿼리스트링에 페이지가 없다면
+			 // 게시판에 보여지는 초기화면 
+			 page = 1;
+		 }
+		 else {
+			 try {
+				 page = Integer.parseInt(str_page);
+				 if( page < 1) {	//페이지가 1페이지보다 작은경우
+					 page = 1;
+				 }
+				 else if(page > totalPage) { //페이지가 총페이지보다 큰 경우
+					 page = totalPage;
+				 }
+			 } catch(NumberFormatException e) {	//페이지번호에 글자를 써서 들어올 경우 오류방지
+				 page = 1;
+			 }//end of try-catch
+		 
+		 }
+		
+		startRno = ((page - 1) * sizePerPage) + 1;
+		endRno = startRno + sizePerPage - 1;
+		 
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno", String.valueOf(endRno));
+		
+		
+		List<ActivityVO> activities = service.getActivities(userid);
+		// 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
+		
+		// 검색대상 컬럼과 검색어를 뷰단 페이지에서 유지시키기 위한 조건
+		if(!"".equals(searchWord) ) {
+			request.setAttribute("paraMap", paraMap);
+		}
+		
+		// 페이지바 만들기 
+		int blockSize = 5;
+		// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 개수이다.
+		
+		int loop = 1;
+		
+		int pageNo = ((page - 1)/blockSize) * blockSize + 1;
+		
+		String pageBar = "<ul class='my pagination pagination-md justify-content-center mt-5'>";
+		String url = "member/activities.do";
+		
+		// === [<<][<] 만들기 === //
+		if(pageNo != 1) {
+			//[<<]
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page=1'>" + 
+					   "    <i class='fa-solid fa-angles-left'></i>" + 
+					   "  </a>" + 
+					   "</li>";
+			//[<]
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+(pageNo-1)+"'>" + 
+					   "    <i class='fa-solid fa-angle-left'></i>" + 
+					   "  </a>" + 
+					   "</li>"; 
+		}
+		
+		while( !(loop > blockSize || pageNo > totalPage) ) {
+			
+			if(pageNo == page) {	//페이지번호가 현재페이지번호와 같다면 .active
+				pageBar += "<li class='page-item active' aria-current='page'>" + 
+						   "  <a class='page-link' href='#'>"+pageNo+"</a>" + 
+						   "</li>";  
+			}
+			
+			else {	//페이지번호가 현재페이지번호랑 다르다면 .active 뺌
+				pageBar += "<li class='page-item'>" + 
+						   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+pageNo+"'>"+pageNo+"</a>" + 
+						   "</li>";        
+			}
+			
+			loop++;
+			pageNo++;
+		}// end of while--------------------------
+		
+		// === [>][>>] 만들기 === //
+		if( pageNo <= totalPage) {
+			//[>]
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+pageNo+"'>"+
+					   "    <i class='fa-solid fa-angle-right'></i>"+
+					   "  </a>" + 
+					   "</li>";
+			
+			//[>>] 
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+totalPage+"'>"+
+					   "    <i class='fas fa-solid fa-angles-right'></i>"+
+					   "  </a>" + 
+					   "</li>";
+		}
+		
+		pageBar += "</ul>";
+		
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("totalCount", totalCount);
+		request.setAttribute("activities",activities);
 		
 		return "member/activities.tiles1";
 		// /WEB-INF/views/tiles1/member/activities.jsp 페이지.
@@ -193,13 +337,79 @@ public class MemberController {
 	 */
 	@RequestMapping(value="/policy/privacy.do", method= {RequestMethod.GET})
 	public String viewPrivacyPolicy(HttpServletRequest request) {
-		return "policy/privacy_policy.tiles1";
+		return "/policy/privacy_policy.tiles1";
 		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
 	}
 	
+	/**
+	 * 계정삭제하기(POST가 맞는지 GET이 맞는지 고민해볼 것.)
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/delete.do", method= {RequestMethod.POST})
+	public String memberDelete(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String userid = user.getUserid();
+		int result = service.memberDelete(userid);
+		
+		if(result == 1) {
+			session.removeAttribute("user");
+		}
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
+	/**
+	 * 계정찾기이메일 전송
+	 */
+	@ResponseBody
+	@RequestMapping(value="/sendEmailByMyId.do", method= {RequestMethod.POST})
+	public String sendEmailByMyId(HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		String jsonObj = service.sendEmailByMyId(email,request);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	/**
+	 * 계정찾기이후 이메일에서 계정찾기 링크를 클릭하면 나오는 비밀번호 변경페이지 매핑
+	 */
+	@RequestMapping(value="/member/changePwd.do", method= {RequestMethod.GET})
+	public String viewChangePwd(HttpServletRequest request) {
+		HttpSession session = request.getSession(true);
+		
+		String uuid = (String) session.getAttribute("uuid");
+		String email = request.getParameter("email");
+		
+		if(request.getParameter("uuid").equals(uuid)) {	//uuid가 http 헤더에 있는것과 세션에 있는값이 같다면,
+			String userid = service.getMyID(email);	//이메일 값으로 유저아이디 알아내기
+			
+			request.setAttribute("userid", userid);
+			return "/member/changePwd.tiles1";
+		}
+		else { //uuid가 url에 있는것과 http헤더에 있는것이 다르다면
+			String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
+			String loc = "javascript:history.go(-1)";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+		}
+			
+		return "msg"; 
+		// /WEB-INF/views/tiles1/member/changePwd.jsp 페이지.
+	}
+	
+	
 	
 	//============================================================================== //
-	//============================= 마이페이지 관련 시작=================================== //
+	//============================= 마이페이지 관련 끝=================================== //
 	//============================================================================== //
 	
 	

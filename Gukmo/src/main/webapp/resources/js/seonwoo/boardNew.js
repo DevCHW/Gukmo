@@ -5,9 +5,6 @@ function getContextPath(){
   return contextPath;
 }
 
-
-
-
 $(document).ready(function(){
   
 	//	==== 스마트 에디터 구현 시작 ==== //
@@ -29,20 +26,21 @@ $(document).ready(function(){
         }
     });
     // ==== 스마트 에디터 구현 끝 ==== //
-    
 	
-  $("input#hashtag").keyup(e=>{
-    if(e.keyCode == 13) { // hashtag에서 엔터를 쳤을 경우
-      $(`<li>${$("input#hashtag").val()}<span>x</span></li>`).insertBefore("input#hashtag")
-      $("input#hashtag").val("");
-    }
-    if(e.keyCode == 8 || e.keyCode == 43){  //hashtag 에서 백스페이스나 DElETE 키를 누른 경우
-   }
+	
+   $("input#hashtag").keyup(e=>{
+     if(e.keyCode == 13) { // hashtag에서 엔터를 쳤을 경우
+       $(`<li>${$("input#hashtag").val()}<span>x</span></li>`).insertBefore("input#hashtag")
+       $("input#hashtag").val("");
+     }
+     if(e.keyCode == 8 || e.keyCode == 43){  //hashtag 에서 백스페이스나 DElETE 키를 누른 경우
+     }
+   });
     
-    
+  
 	// 등록 버튼을 클릭했을시
     $("button#btn_write").click(function() {
-    	alert('클릭함');
+    	
     	// ==== 스마트 에디터 구현 시작 ==== //
     	// id가 content인 textarea에 에디터에서 대입
     	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
@@ -76,12 +74,8 @@ $(document).ready(function(){
 	    // 폼을 전송
 	    const frm = document.writerFrm;
 	    frm.method = "POST";
-	    frm.action =  getContextPath()+"/communityNewEnd.do";
-	    //frm.submit();
-    }); 
-       
+	    frm.action = getContextPath()+"/community/newEnd.do";
+	    frm.submit();
+	});
     
-    
-    
-  });
 });

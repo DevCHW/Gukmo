@@ -34,6 +34,14 @@ label[for='agreement']{
   top:3px;
 }
 
+/* error_msg */
+p.error{
+  color:red;
+  font-size:small;
+  display:none;
+}
+
+
 
 
 @media screen and (max-width: 768px){
@@ -48,4 +56,31 @@ label[for='agreement']{
   }
   /* 메인 끝 */
 }
+
+
+
+
+
+/* Modal */
+button#btn_send_email{
+  font-size:small;
+}
+input#input_certificationCode{
+  height:40px;
+}
+input#input_certificationCode:focus{
+  outline: none;
+}
+input#input_certificationCode::placeholder{
+  font-size:small;
+  
+}
+div#certification_area{
+  display:none;
+}
+span#send_guide{
+  font-size:small;
+  color:gray;
+}
+
 

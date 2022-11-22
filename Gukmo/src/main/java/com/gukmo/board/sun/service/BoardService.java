@@ -23,5 +23,13 @@ public class BoardService implements InterBoardService{
 		return boardList;
 	}
 
+	
+	// 글쓰기, 댓글 작성시 활동 점수 올리기
+	@Override
+	public void pointPlus(Map<String, String> paraMap) {
+		dao.pointPlus(paraMap);
+	}
+
+
 
 }

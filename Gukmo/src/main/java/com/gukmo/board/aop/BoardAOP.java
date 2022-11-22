@@ -1,6 +1,7 @@
 package com.gukmo.board.aop;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,12 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
+import com.gukmo.board.sun.service.InterBoardService;
 
 
 
@@ -54,8 +58,7 @@ public class BoardAOP {
 		
 	}
 	
-	/*  게시물 등록하면 활동 점수가 올라가는 after
-	 	
+	// 글쓰기, 댓글 작성시 활동 점수 올리기 after
 	@Pointcut("execution(public * com.gukmo..*Controller.pointPlus_*(..) )")
 	public void pointPlus() {}
 	
@@ -71,7 +74,7 @@ public class BoardAOP {
 		service.pointPlus(paraMap);
 	}
  
-	 */
+	 
 		
 	
 }

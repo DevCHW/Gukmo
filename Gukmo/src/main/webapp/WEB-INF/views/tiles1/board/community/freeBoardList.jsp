@@ -8,7 +8,7 @@
 %>   
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardList.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
 <!-- 직접만든 javascript -->
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>

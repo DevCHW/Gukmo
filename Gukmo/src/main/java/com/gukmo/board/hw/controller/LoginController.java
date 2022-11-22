@@ -29,9 +29,14 @@ public class LoginController {
 	 * 로그인 페이지 url매핑
 	 */
 	@RequestMapping(value="/login.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public ModelAndView login(ModelAndView mav) {
-      
-      mav.setViewName("login/login.tiles1");
+	public ModelAndView login(ModelAndView mav, HttpServletRequest request) {
+	  HttpSession session = request.getSession();
+	  if(session.getAttribute("user") != null) {	//로그인한 유저가 있다면
+		  mav.setViewName("redirect:/index.do");
+	  }
+	  else {										//로그인한 유저가 없다면
+		  mav.setViewName("login/login.tiles1");
+	  }
       //   /WEB-INF/views/tiles1/login/login.jsp 파일을 생성한다.
       
       return mav;
@@ -112,20 +117,21 @@ public class LoginController {
 			String userid = request.getParameter("userid");
 			dao.adminLoginRecordSave(paraMap);					//관리자로그인기록하기
 			
-			user = new MemberVO(userid, 						//아이디
-							    null, 							//비밀번호	
-							    "활동", 							//상태
-							    null, 							//마지막비밀번호변경일자
-							    null,							//이메일
-							    null, 							//이메일 수신동의
-							    "국비의모든것 관리팀",					//닉네임 
-							    "9999", 						//활동점수
-							    null, 							//가입일자
-							    null,							//프로필이미지
-							    null, 							//교육기관명
-							    null,  							//사업자번호
-							    null,							//홈페이지
-							    null);     						//연락처
+			user = new MemberVO(userid, 						// 아이디
+							    null, 							// 비밀번호	
+							    "활동", 							// 상태
+							    null, 							// 마지막비밀번호변경일자
+							    null,							// 이메일
+							    null, 							// 이메일 수신동의
+							    "국비의모든것 관리팀",					// 닉네임 
+							    "9999", 						// 활동점수
+							    null, 							// 가입일자
+							    null,							// 프로필이미지
+							    null, 							// 교육기관명
+							    null,  							// 사업자번호
+							    null,							// 홈페이지
+							    null,							// 연락처
+							    null);     						// 회원 이름
 		}
 		else {	//관리자가 아닌회원으로 로그인하였다면
 			user = service.login_complete(paraMap);
@@ -136,6 +142,24 @@ public class LoginController {
 		
 		return "redirect:/index.do";
 	}
+	
+	
+	
+	/**
+	 * 로그아웃 처리하기
+	 */
+	@RequestMapping(value="/logout.do")	//GET이나 POST 둘다 처리하기
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") != null) {	//로그인한 유저가 있다면
+			session.removeAttribute("user");
+			return "redirect:/index.do";
+		}
+		else {										//로그인한유저가 없다면
+			return "redirect:/index.do";
+		}
+	}
+	
 	
 	
 	

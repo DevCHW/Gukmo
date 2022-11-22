@@ -16,7 +16,21 @@
 			from tbl_board
 			where 1=1 and category = '커뮤니티' and detail_category = '자유게시판'
 			<!--  and lower(${searchType}) like '%'||lower(#{searchWord})||'%' -->
+			order by board_num desc
 		)v 
+		order by rno
 	</select>
+	
+	
+	<insert id="communityNew" parameterType="com.gukmo.board.model.BoardVO">
+		insert into tbl_board
+		values(seq_board.nextval, #{nickname}, '커뮤니티', #{detail_category}, #{subject}, #{content}, default, default, #{profile_image})
+	</insert>
+	
+	
+	<update id="pointPlus" parameterType="HashMap">
+	    update tbl_member set point = point + to_number(#{point})
+	    where userid = #{fk_userid}
+	</update>
 	
 </mapper>
