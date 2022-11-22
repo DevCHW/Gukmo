@@ -4,12 +4,17 @@ a {
    cursor:pointer;
 }
 
+p {
+	margin: 0;
+}
 
 /* mainNav_bar */
 
 .mainNav_bar {
+	display:flex;
+	align-content: center;
     border-bottom: solid 1px #E1E2E1;
-    line-height:40px;
+    height:60px;
 }
 
 .mainNav {
@@ -37,7 +42,8 @@ a {
     align-items: center;
     color: black;
     font-weight: 400;
-    padding:0;
+    padding: 0;
+    margin: 0;
 }
 
 .mainCate > li {             
@@ -124,7 +130,7 @@ a {
 
 
 
-/* Dropdown Button */
+/* 로그인 시 버튼의 Dropdown 기능 */
 .dropbtn {
    width: 35px;
    height: 35px;
@@ -157,17 +163,18 @@ a {
 /* Dropdown 내용물 (Hidden by Default) */
 /* 알람 dropcontent */
 .dropdown-content1 {
-   width:350px;
-   height:200px;
+   width:340px;
+   height:250px;
    display: none;
    position: absolute; top:40px;
    background-color: white;
    border-radius:10px;
    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    right: 0;
+   right: 0;
    z-index: 2;
 }
 
+/* 알람 dropcontent 의 title */
 .dropdown-content1 a:first-child {
    width: 100%;
    line-height: 30px;
@@ -179,8 +186,33 @@ a {
    font-weight:500;
 }
 
-.dropdown-content1 a:not(.dropdown-content1 a:last-child) {
-   border-bottom: solid 1px #E1E2E1;
+/* 알람 dropcontent 밑줄 설정 */
+.div_alarm_content > .alarm_content:not(.alarm_content:first-child) {
+   border-top: solid 1px #E1E2E1;
+}
+
+.alarm_content {
+	padding: 10px 0;
+	cursor: pointer;
+}
+
+.alarm_content:hover > .alarm_text {
+	text-decoration: underline;
+}
+
+.alarm_info {
+	width: 100%;
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.like, .reple {
+    color: #208EC9;
+}
+
+.declare {
+	color: red;
 }
 
 
@@ -203,7 +235,7 @@ a {
 .dropdown-content2 a,
 .dropdown-content3 a {
    color: black;
-   padding: 8px 15px;
+   padding: 8px 18px;
    text-decoration: none;
    display: block;
    margin:0;
@@ -220,24 +252,4 @@ a {
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 
-
-
-a.profile_image_box {
-	width:13px;
-	height:13px;
-	border-radius: 50%;
-	padding: 0;
-}
-
-a.profile_image_box img {
-	width:100%;
-  	height:100%;
-  	border-radius: 50%;
-}
->>>>>>> refs/remotes/origin/main
->>>>>>> refs/remotes/origin/johs
