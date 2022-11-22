@@ -17,42 +17,43 @@
 <!-- 배너 영역 -->
 <div id="demo" class="carousel slide" data-ride="carousel" >
 
-	  <!-- Indicators -->
-	  <ul class="carousel-indicators">
-	    <li data-target="#demo" data-slide-to="0" class="active"></li>
-	    <li data-target="#demo" data-slide-to="1"></li>
-	    <li data-target="#demo" data-slide-to="2"></li>
-	  </ul>
-	
-	  <!-- The slideshow -->
-	  <div class="carousel-inner">
-	    <div class="carousel-item active">
-	      <img src="<%= ctxPath %>/resources/images/main/fake_main_banner01.png" alt="">
-	    </div>
-	    <div class="carousel-item">
-	      <img src="<%= ctxPath %>/resources/images/main/fake_main_banner02.png" alt="">
-	    </div>
-	    <div class="carousel-item">
-	      <img src="<%= ctxPath %>/resources/images/main/fake_main_banner03.png" alt="">
-	    </div>
-	  </div>
-	
-	  <!-- Left and right controls -->
-	  <a class="carousel-control-prev" href="#demo" data-slide="prev">
-	    <span class="carousel-control-prev-icon"></span>
-	  </a>
-	  <a class="carousel-control-next" href="#demo" data-slide="next">
-	    <span class="carousel-control-next-icon"></span>
-	  </a>
-	
+     <!-- Indicators -->
+     <ul class="carousel-indicators">
+       <li data-target="#demo" data-slide-to="0" class="active"></li>
+       <li data-target="#demo" data-slide-to="1"></li>
+       <li data-target="#demo" data-slide-to="2"></li>
+     </ul>
+   
+     <!-- The slideshow -->
+     <div class="carousel-inner">
+       <div class="carousel-item active">
+         <img src="<%= ctxPath %>/resources/images/main/fake_main_banner01.png" alt="">
+       </div>
+       <div class="carousel-item">
+         <img src="<%= ctxPath %>/resources/images/main/fake_main_banner02.png" alt="">
+       </div>
+       <div class="carousel-item">
+         <img src="<%= ctxPath %>/resources/images/main/fake_main_banner03.png" alt="">
+       </div>
+     </div>
+   
+     <!-- Left and right controls -->
+     <a class="carousel-control-prev" href="#demo" data-slide="prev">
+       <span class="carousel-control-prev-icon"></span>
+     </a>
+     <a class="carousel-control-next" href="#demo" data-slide="next">
+       <span class="carousel-control-next-icon"></span>
+     </a>
+   
 </div>
+
 
 
 
 <div class="container d-flex flex-column align-items-center">
 
     <!-- 검색창 영역 -->
-	<div class="searchBar d-flex my-5 col-9">
+	<div class="searchBar d-flex mt-5 col-9">
 		<div class="div_selectSearch">                 
 		    <label for="selectSearch">학원명</label>                           
 	        <select name="selectSearch" id="selectSearch">
@@ -64,20 +65,54 @@
 		</div>
 		<input type="text" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
 		<button type="button" id="btn_search">
-          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
+          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9; font-size:20px;"></i>
         </button>
 	</div>
+	
+	<!-- 해시태그 -->
+	<div class="hashtag col-9 mt-1">
+		<a href ="#">#해시태그</a>
+		<a href ="#">#해시태그</a>
+		<a href ="#">#해시태그</a>
+	</div>
+	
 
 
 	<!-- 학원 정보 영역 -->
-	<div class="div_academy d-flex justify-content-between align-items-center" >
-		<i class="fa-solid fa-circle-left fa-3x icon_arrow"></i>
+	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
-		<!-- 나중에 반복문 짜야함 -->
-		<div class="div_card col-10">
-			<div class="card_1 d-flex">
-<%-- 				<c:forEach var="curriculumVO" item="${requestScope.curriculumList}" varStatus="status">
-				
+		<div class="academy_titel col-10 px-2 mt-5 mb-1 d-flex justify-content-between">
+			<span>현재 모집 중인 학원</span>
+			<a> 더 보기 </a>
+		</div>
+		
+		<div class="w-100 d-flex justify-content-between align-items-center flex-row">
+			<i class="fa-solid fa-circle-left fa-3x icon_arrow"></i>
+			
+			<!-- 나중에 반복문 짜야함 -->
+			<div class="div_card col-10">
+
+				<div class="card_1 d-flex">
+	<%-- 				<c:forEach var="curriculumVO" item="${requestScope.curriculumList}" varStatus="status">
+					
+						<div class="card col-3">
+						  <div class="card-body" onclick="location.href='#'">
+						    <h4 class="card-title">쌍용강북교육센터</h4>
+						    <p class="card-text">빅데이터 전문가 과정</p>
+						    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+						    <p class="card-link">D-1</p>
+						  </div>
+						</div>
+					
+					</c:forEach> --%>
+					<div class="card col-3 first_card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
 					<div class="card col-3">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
@@ -86,70 +121,53 @@
 					    <p class="card-link">D-1</p>
 					  </div>
 					</div>
-				
-				</c:forEach> --%>
-				<div class="card col-3">
-				  <div class="card-body" onclick="location.href='#'">
-				    <h4 class="card-title">쌍용강북교육센터</h4>
-				    <p class="card-text">빅데이터 전문가 과정</p>
-				    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-				    <p class="card-link">D-1</p>
-				  </div>
-				</div>
-				<div class="card col-3">
-				  <div class="card-body" onclick="location.href='#'">
-				    <h4 class="card-title">쌍용강북교육센터</h4>
-				    <p class="card-text">빅데이터 전문가 과정</p>
-				    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-				    <p class="card-link">D-1</p>
-				  </div>
-				</div>
-				<div class="card col-3">
-				  <div class="card-body" onclick="location.href='#'">
-				    <h4 class="card-title">쌍용강북교육센터</h4>
-				    <p class="card-text">빅데이터 전문가 과정</p>
-				    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-				    <p class="card-link">D-1</p>
-				  </div>
-				</div>
-			</div>	
-			<div class="card_2 d-flex">
-				<div class="card col-3">
-				  <div class="card-body" onclick="location.href='#'">
-				    <h4 class="card-title">쌍용강북교육센터</h4>
-				    <p class="card-text">빅데이터 전문가 과정</p>
-				    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-				    <p class="card-link">D-1</p>
-				  </div>
-				</div>
-				<div class="card col-3">
-				  <div class="card-body" onclick="location.href='#'">
-				    <h4 class="card-title">쌍용강북교육센터</h4>
-				    <p class="card-text">빅데이터 전문가 과정</p>
-				    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-				    <p class="card-link">D-1</p>
-				  </div>
-				</div>
-				<div class="card col-3">
-				  <div class="card-body" onclick="location.href='#'">
-				    <h4 class="card-title">쌍용강북교육센터</h4>
-				    <p class="card-text">빅데이터 전문가 과정</p>
-				    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-				    <p class="card-link">D-1</p>
-				  </div>
-				</div>
-				<div class="card col-3">
-				  <div class="card-body" onclick="location.href='#'">
-				    <h4 class="card-title">쌍용강북교육센터</h4>
-				    <p class="card-text">빅데이터 전문가 과정</p>
-				    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-				    <p class="card-link">D-1</p>
-				  </div>
+					<div class="card col-3">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+				</div>	
+				<div class="card_2 d-flex">
+					<div class="card col-3 first_card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card col-3">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card col-3">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card col-3">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
 				</div>
 			</div>
+			
+			<a><i class="fa-solid fa-circle-right fa-3x icon_arrow" ></i></a>
 		</div>
-		
-		<a><i class="fa-solid fa-circle-right fa-3x icon_arrow" ></i></a>
 	</div>
 	
 	
