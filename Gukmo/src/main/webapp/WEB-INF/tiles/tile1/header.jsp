@@ -41,11 +41,11 @@
                      <c:if test="${sessionScope.user.userid eq 'admin'}">
                      	<div class="dropdown">
                         	<div class="adminMenu" >
-                            	<a class="nav-link adminMenu" onclick="drop_admin()">관리자 메뉴</a>                                                              
+                            	<a class="nav-link adminMenu">관리자 메뉴</a>                                                              
                           	</div>
                           	<div id="admin_dropContent" class="dropdown-content2 mt-2">
-                            	<a href="<%=ctxPath %>/admin/memberManage_List.do">일반회원 관리</a>
-                            	<a href="<%=ctxPath %>/admin/academyManage_List.do">학원회원 관리</a>
+                            	<a href="<%=ctxPath %>/admin/memberManage_List.do" onclick="member_controll()">일반회원 관리</a>
+                            	<a href="<%=ctxPath %>/admin/academyManage_List.do" onclick="academy_controll()">학원회원 관리</a>
                           	</div>
                      </div>   
                           
@@ -78,7 +78,7 @@
             <!-- 알림 -->      
             <div class="dropdown">
                <a class="login_icon alarm_drop">
-                  <i class="fa-solid fa-bell fa-lg alarm_drop" onclick="drop_alarm()"></i>
+                  <i class="fa-solid fa-bell fa-lg alarm_drop"></i>
                </a>
                <div id="alarm_dropContent" class="dropdown-content1 mt-1">
                   <a href="#">알림</a>
@@ -99,23 +99,23 @@
             <!-- 프로필 drop -->
                 <div class="dropdown">
                    <div class="dropbtn"> 
-                    <img src="<%= ctxPath%>/resources/images/user.PNG" class="dropbtn" onclick="drop_profile()">
+                    <img src="<%= ctxPath%>/resources/images/user.PNG" class="dropbtn">
                </div>
                <div id="profile_dropContent" class="dropdown-content2">
                   <div class="px-1 py-1">
-                        <a href="<%= ctxPath%>/member/myId.do">
+                        <a href="<%= ctxPath%>/member/myId.do" onclick="my_account()">
                         <i class="fa-solid fa-user"></i>  
                         내 계정
                      </a>
-                       <a href="<%= ctxPath%>/member/myInfo.do">
+                       <a href="<%= ctxPath%>/member/myInfo.do" onclick="my_info()">
                           <i class="fa-solid fa-gear"></i>
                           내 정보
                        </a>
-                       <a href="<%= ctxPath%> /member/activities.do">
+                       <a href="<%= ctxPath%> /member/activities.do"  onclick="activity_details()">
                           <i class="fa-solid fa-gear"></i>
                           활동내역
                        </a>
-                       <a href="<%= ctxPath%>/logout.do ">로그아웃</a>
+                       <a href="<%= ctxPath%>/logout.do">로그아웃</a>
                   </div>
                </div>
             </div>

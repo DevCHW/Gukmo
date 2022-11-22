@@ -1,101 +1,93 @@
 
 $(document).ready(function(){
    
+	 ///////////// 알림 토글 시작 /////////////////	
 	 $('.alarm_drop').click(function(event){
          event.stopPropagation();
           $("#alarm_dropContent").toggle();
+          $("#profile_dropContent").hide();
+          $("#admin_dropContent").hide();
      });
 	 
      $("#alarm_dropContent").on("click", function (event) {
          event.stopPropagation();
-     });
+     });     
+     ///////////// 알림 토글 끝 /////////////////
      
+     
+     ///////////// 프로필 메뉴 토글 시작 ///////////
      $('.dropbtn').click(function(event){
          event.stopPropagation();
           $("#profile_dropContent").toggle();
+          $("#alarm_dropContent").hide();
+          $("#admin_dropContent").hide();
      });
 	 
      $("#profile_dropContent").on("click", function (event) {
          event.stopPropagation();
      });
+     ///////////// 프로필 메뉴 토글 끝 ////////////
      
      
+     ///////////// 관리자 메뉴 토글 끝 ////////////
      $('.adminMenu').click(function(event){
          event.stopPropagation();
           $("#admin_dropContent").toggle();
+          $("#profile_dropContent").hide();
+          $("#alarm_dropContent").hide();
      });
 	 
      $("#admin_dropContent").on("click", function (event) {
          event.stopPropagation();
      });
-     
+     ///////////// 관리자 메뉴 토글 끝 ////////////
      
      
 }); // end of $(document).ready(function() ---------------------------------------
 
-$(document).on("click", function () {
-    $("#alarm_dropContent").hide();
-});
+	////// 드롭다운박스 외부클릭시 닫히는 함수 ////////
+	$(document).on("click", function () {
+	    $("#alarm_dropContent").hide();
+	    $("#profile_dropContent").hide();
+	    $("#admin_dropContent").hide();
+	});
+	//////////////////////////////////////
+	
+	
+	////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 시작 ////////
+	function member_controll() {
+		$("#admin_dropContent").hide();
+	}
+	
+	function academy_controll() {
+		$("#admin_dropContent").hide();
+	}
+	
+	
+	
+	function my_account() {
+		$("#profile_dropContent").hide();
+	}
+	
+	function my_info() {
+		$("#profile_dropContent").hide();
+	}
+	
+	function activity_details() {
+		$("#profile_dropContent").hide();
+	}
+	////// 드롭박스 href 링크로 이동할때 드롭박스 닫히게 하기 끝 ////////
+	
+	
+	/*  알림있을때 부분 jsp 완성되면 위와같이 알림리스트 클릭했을때 드롭박스 닫히게 수정하기 !!
+	 
+	function member_controll() {
+		$("#admin_dropContent").hide();
+	}
+	
+	*/
+	
+	
+	
 
-$(document).on("click", function () {
-    $("#profile_dropContent").hide();
-});
 
-$(document).on("click", function () {
-    $("#admin_dropContent").hide();
-});
-
-
-
-
-// --------- 드랍 버튼 함수 -----------
-
-
-
-// 관리자 드랍 함수
-function drop_admin() {
-     document.getElementById("admin_dropContent").classList.toggle("show");
-   }
-
-//알람 드랍  함수: 외부 누르면 닫힘
-window.onclick = function(event) {
-  if (!event.target.matches('.alarm_drop')) {
-    var dropdowns = document.getElementById('alarm_dropContent');
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-
-// 프로필 드랍 함수: 외부 누르면 닫힘
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementById('profile_dropContent');
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-// 관리자 드랍 함수: 외부 누르면 닫힘
-window.onclick = function(event) {
-  if (!event.target.matches('.adminMenu')) {
-    var dropdowns = document.getElementById('admin_dropContent');
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
