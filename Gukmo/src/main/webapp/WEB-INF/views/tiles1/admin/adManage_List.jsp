@@ -51,7 +51,7 @@
 
     <hr>
 
-    <h4 style="font-weight:bold;">일반 회원 관리</h4>
+    <h4 style="font-weight:bold;">광고현황 관리</h4>
 
     <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
     <table class="table table-hover mt-2">
@@ -98,8 +98,8 @@
         <!-- 총 건수 변수 들어갈 곳-->
       </div>
 
-      <button type="button" id="btn_write" class="btn border-0 rounded">
-        +교육기관 등록
+      <button type="button" id="" class="btn border-0 rounded" onclick="ad_insert()">
+        + 광고 등록
       </button>
     </div>
 
@@ -119,12 +119,12 @@
     <form name="searchFrm" style="margin-top: 20px;">    	
 	    <div id="search_area" class="d-flex mr-3" style="justify-content:center">
 	       <div class= "d-flex rounded">
-	    	<select name="division" id="division" style="height:40px;">
+	    	<select class = "mx-2" name="division" id="division" style="height:40px;">
 	           <option value="" selected>구분</option>
 	           <option value="메인">메인</option>
 	           <option value="게시판">게시판</option>
 	        </select>
-	    	<select name="searchType" id="searchType" style="height:40px;">
+	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
 	           <option value="client_name" selected>고객명</option>
 	           <option value="client_phone">고객 번호</option>
 	        </select>

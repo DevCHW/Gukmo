@@ -35,7 +35,7 @@ public class memberManageController {
 
 	// 회원관리 목록 페이지 요청
 	@RequestMapping(value="/admin/memberManage_List.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<MemberVO> memberList = null;
 	    
 	    String searchType = request.getParameter("searchType");
@@ -167,7 +167,7 @@ public class memberManageController {
 	
 	// 회원 정보 상세보기 
 	@RequestMapping(value="/admin/memberDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredAdminLogin_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		Map<String, String> paraMap = new HashMap<>();
 		String userid = request.getParameter("userid");
 		paraMap.put("userid", userid);
@@ -186,7 +186,7 @@ public class memberManageController {
 
 	// 회원관리 목록 페이지 요청
 	@RequestMapping(value="/admin/academyManage_List.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_academyManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredAdminLogin_academyManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<MemberVO> academymemberList = null;
 	    
 	    String searchType = request.getParameter("searchType");
@@ -315,7 +315,7 @@ public class memberManageController {
 	
 	// 회원 정보 상세보기 
 	@RequestMapping(value="/admin/aca_memberDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_aca_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredAdminLogin_aca_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		Map<String, String> paraMap = new HashMap<>();
 		String userid = request.getParameter("userid");
 		paraMap.put("userid", userid);
@@ -332,7 +332,7 @@ public class memberManageController {
 	// 회원가입 요청 승인
 	@ResponseBody
 	@RequestMapping(value="/admin/Regi_agree.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String requredAdminLogin_Regi_agree(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public String requiredAdminLogin_Regi_agree(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		String userid = request.getParameter("userid");
 
@@ -358,7 +358,7 @@ public class memberManageController {
 
 	// 회원 정지 등록 페이지
 	@RequestMapping(value="/admin/penaltyRegister.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_penaltyRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredAdminLogin_penaltyRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		String userid = request.getParameter("userid");
@@ -376,7 +376,7 @@ public class memberManageController {
 	
 	// 회원 정지 등록 완료 페이지
 	@RequestMapping(value="/admin/penaltyRegisterResult.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_penaltyRegisterResult(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, PenaltyVO pvo) {
+	public ModelAndView requiredAdminLogin_penaltyRegisterResult(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, PenaltyVO pvo) {
 		
 		String userid = request.getParameter("userid");
 		Map<String,String> paraMap = new HashMap<>();
@@ -401,7 +401,7 @@ public class memberManageController {
 	// 정지 해제 
 	@ResponseBody
 	@RequestMapping(value="/admin/block_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String requredAdminLogin_block_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public String requiredAdminLogin_block_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		String userid = request.getParameter("userid");
 
@@ -423,7 +423,7 @@ public class memberManageController {
 	// 휴면 > 활동
 	@ResponseBody
 	@RequestMapping(value="/admin/sleep_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String requredAdminLogin_sleep_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public String requiredAdminLogin_sleep_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		String userid = request.getParameter("userid");
 
@@ -449,7 +449,7 @@ public class memberManageController {
 	
 	// 광고관리 목록 페이지 요청
 	@RequestMapping(value="/admin/adManage_List.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_adManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredAdminLogin_adManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<AdVO> adList = null;
 	    
 	    String searchType = request.getParameter("searchType");
@@ -579,7 +579,7 @@ public class memberManageController {
 	
 	// 광고 관련 정보 상세보기 
 	@RequestMapping(value="/admin/adDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requredAdminLogin_adDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredAdminLogin_adDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		Map<String, String> paraMap = new HashMap<>();
 		String advertisement_num = request.getParameter("advertisement_num");
 		paraMap.put("advertisement_num", advertisement_num);
@@ -590,7 +590,39 @@ public class memberManageController {
 		mav.setViewName("admin/adDetail.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;
-	}	
+	}// 광고 관련 정보 상세보기 끝
+	
+	
+	// 광고 등록 페이지
+	@RequestMapping(value="/admin/adRegister.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	public ModelAndView requiredAdminLogin_adRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		Map<String, String> paraMap = new HashMap<>();
+				
+	    mav.setViewName("admin/adRegister.tiles1");
+	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+		return mav;
+	} // end of adRegister
+
+
+	// 회원 정지 등록 완료 페이지
+	@RequestMapping(value="/admin/adRegisterResult.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
+	public ModelAndView requiredAdminLogin_adRegisterResult(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, AdVO advo) {
+		
+		Map<String,String> paraMap = new HashMap<>();
+		
+		// tbl_penalty에 해당 회원 정지 insert
+		int n = service_ad.addAd(advo);
+				
+		if(n == 1 ) {			
+				mav.setViewName("redirect:/admin/adManage_List.do");
+		}
+		
+		
+		
+		return mav;
+	}
+	
 	
 	
 	

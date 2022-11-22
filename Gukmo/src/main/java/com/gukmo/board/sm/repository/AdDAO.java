@@ -37,4 +37,11 @@ public class AdDAO implements InterAdDAO {
 		return adDetail;
 	}
 
+	// 광고 등록
+	@Override
+	public int addAd(AdVO advo) {
+		int n = gukmo_sql.insert("ksm.addAd", advo);
+		return n;
+	}
+
 }

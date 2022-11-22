@@ -42,4 +42,11 @@ public class AdManageService implements InterAdManageService {
 		return adDetail;
 	}
 
+	// 광고 등록
+	@Override
+	public int addAd(AdVO advo) {
+		int n = dao.addAd(advo);
+		return n;
+	}
+
 }

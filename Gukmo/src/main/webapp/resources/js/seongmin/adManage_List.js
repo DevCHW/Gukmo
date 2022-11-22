@@ -61,6 +61,7 @@ $(document).ready(function(){
 	   adDetail(advertisement_num);
    });
   
+ 
 	$("input#searchWord").keyup(function(e){
 		if(e.keyCode == 13) {
 			// 검색어에 엔터를 했을 경우
@@ -82,6 +83,10 @@ $(document).ready(function(){
 		frm.method = "GET";
 		frm.action = getContextPath()+"/admin/adManage_List.do";
 		frm.submit();
+  }
+  
+  function ad_insert() {
+	location.href= "adRegister.do";
   }
 //Function Declaration
   

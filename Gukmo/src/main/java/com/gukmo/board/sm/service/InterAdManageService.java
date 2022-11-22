@@ -16,4 +16,7 @@ public interface InterAdManageService {
 	// 광고 관련 정보 상세보기 
 	AdVO getAdDetail(Map<String, String> paraMap);
 
+	// 광고 등록
+	int addAd(AdVO advo);
+
 }

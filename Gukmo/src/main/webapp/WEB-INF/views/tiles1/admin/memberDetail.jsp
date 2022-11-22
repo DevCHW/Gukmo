@@ -109,6 +109,7 @@
 		      </c:if>
 		      
 			  <c:if test="${requestScope.memberDetail.status == '휴면'}">
+	            <button type="button" class = "memberBlock" id="${requestScope.memberDetail.userid}" >정지 등록</button>&nbsp;
 	            <button type="button" id="" class="sleep_recovery">휴면 해제</button>
 			  </c:if>
 			</div>

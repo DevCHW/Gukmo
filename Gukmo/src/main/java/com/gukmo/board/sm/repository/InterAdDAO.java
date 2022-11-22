@@ -16,4 +16,7 @@ public interface InterAdDAO {
 	// 광고 관련 정보 상세보기 
 	AdVO adDetail(Map<String, String> paraMap);
 
+	// 광고 등록
+	int addAd(AdVO advo);
+
 }
