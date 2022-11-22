@@ -120,8 +120,8 @@ public class MemberDAO implements InterMemberDAO{
 	 * @return 활동내역 리스트
 	 */
 	@Override
-	public List<ActivityVO> getActivities(String userid) {
-		List<ActivityVO> activities = gukmo_sql.selectList("chw.getActivities",userid);
+	public List<ActivityVO> getActivities(Map<String, String> paraMap) {
+		List<ActivityVO> activities = gukmo_sql.selectList("chw.getActivities",paraMap);
 		return activities;
 	}
 

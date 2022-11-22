@@ -80,8 +80,8 @@ public class MemberService implements InterMemberService{
 	 * @return 활동내역 리스트
 	 */
 	@Override
-	public List<ActivityVO> getActivities(String userid) {
-		List<ActivityVO> activities = dao.getActivities(userid);
+	public List<ActivityVO> getActivities(Map<String, String> paraMap) {
+		List<ActivityVO> activities = dao.getActivities(paraMap);
 		return activities;
 	}
 
@@ -149,6 +149,9 @@ public class MemberService implements InterMemberService{
 	
 	
 	
+	
+	
+	// == 유틸 메소드 == //
 	
 	
 	/**

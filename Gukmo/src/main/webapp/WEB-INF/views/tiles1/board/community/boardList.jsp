@@ -9,44 +9,32 @@
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/studyList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
 
   <div class="container mt-4">
   
     <%-------------------- communityNavbar 시작 ----------------------%>
-        
+    
     <%-- communityNavbar 호출 --%>
 	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/communityNav.jsp" />
         
-        
     <%-------------------- communityNavbar 끝 ----------------------%>
 
-     <%-- 검색창 영역 --%>
-     <div class="searchBar d-flex mx-auto my-4">
-        <input type="text" id="searchWord" class="pl-2" placeholder="검색할 내용을 입력해 주세요!"/>
-        <button type="button" id="btn_search">
-          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
-        </button>
-     </div>
-    <%-- 검색바 끝 --%>
+
+
+     <%-------------------- 검색창 영역 시작 ----------------------%>
+     
+     <%-- 검색창 호출 --%>
+     <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/searchBar.jsp" />
+     
+     <%-------------------- 검색창 영역 끝 ----------------------%>
 
 
     
-    <div id="nav" class="d-flex align-items-center py-2">
-      <%-- 필터 시작 이곳에 자바스크립트로 필터 넣으세요. --%>
-      <div id="filter_area" class="d-flex align-items-end">
-        
-      </div>
-      <%-- filter_area --%>
-
-      
+    <div id="sort_area" class="d-flex align-items-center py-2">
       <div class="d-flex ml-auto">
-        <div id="btn_filter" class="d-flex justify-content-center align-items-center border rounded">
-          <i class="fa-solid fa-filter"></i>
-        </div>
-  
         <div id="mask"></div>
-        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
+        <div id="sort" class="d-flex border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
           <span id=current_sort>최신순</span>
           <div id="sort_option" class="border rounded px-3 py-2">
@@ -150,8 +138,8 @@
         총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
       </div>
 
-      <button type="button" id="btn_write" class="btn border-0 rounded">
-        +스터디 등록
+      <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
+        <i class="fa-sharp fa-solid fa-plus"></i><span>글쓰기</span>
       </button>
     </div>
 
@@ -163,4 +151,5 @@
       ${requestScope.pageBar}
     </nav>
 	<%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
+	
   </div>

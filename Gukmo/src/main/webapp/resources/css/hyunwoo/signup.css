@@ -202,3 +202,10 @@ span#send_guide{
   font-size:small;
   color:gray;
 }
+
+
+@media screen and (max-width: 768px){
+  div#signup{
+    width: 360px;
+  }
+}
