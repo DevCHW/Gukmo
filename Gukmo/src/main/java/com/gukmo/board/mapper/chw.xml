@@ -425,6 +425,67 @@
 	</select>
 	
 	
+	
+	
+	<!-- 공지사항 총 갯수 얻기 -->
+	<select id="getTotalNoticesCount" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from tbl_board
+		where category='공지사항'
+	</select>
+	
+	
+	<!-- 공지사항 리스트 얻기 -->
+	<select id="getNotices" parameterType="HashMap" resultMap="boardList">
+		select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
+		      ,T.hashtag,T.writer_point
+		from
+		(
+		select rownum rno, V.*
+		from
+			(
+			select C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.content
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,D.point writer_point
+		    from
+				(
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				from
+				(select * from tbl_board where category = '공지사항') A
+				left join tbl_hashtag B
+				on A.board_num = B.fk_board_num
+				) C
+			left join
+			(select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	<!-- 글번호를 가지고 게시글하나에대한 정보 가져오기 -->
+	<select id="getBoard" parameterType="Integer" resultType="com.gukmo.board.model.BoardVO">
+		select * from tbl_board
+		where board_num = ${boardNum}
+	</select>
+	
+	
 	<!--=============== Board 끝 ============-->
 	
 	

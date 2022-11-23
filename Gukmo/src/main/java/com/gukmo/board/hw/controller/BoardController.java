@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.gukmo.board.common.FileManager;
 import com.gukmo.board.hw.service.InterBoardService;
 import com.gukmo.board.model.BoardVO;
 
@@ -22,8 +23,12 @@ public class BoardController {
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterBoardService service;
 	
+	
+	@Autowired
+	private FileManager fileManager;
+	
 	/**
-	 * 스터디 게시판리스트 매핑
+	 * 스터디 게시판리스트 페이지 GET요청 매핑
 	 */
 	@RequestMapping(value="/community/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewStudies(HttpServletRequest request) {
@@ -67,7 +72,7 @@ public class BoardController {
 
 
 	/**
-	 * QnA 게시판리스트 매핑
+	 * QnA 게시판리스트 페이지 GET요청 매핑
 	 */
 	@RequestMapping(value="/community/questions.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewQuestions(HttpServletRequest request) {
@@ -101,7 +106,12 @@ public class BoardController {
 		request.setAttribute("boardList",questions);
   
 		return "board/community/boardList.tiles1";
-   }
+    }
+	
+	
+	
+	
+	
 	
 	
 	
@@ -109,7 +119,7 @@ public class BoardController {
 	
 	
 	/**
-	 * 취미모임 게시판리스트 매핑
+	 * 취미모임 게시판리스트 페이지 GET요청 매핑
 	 */
 	@RequestMapping(value="/community/hobbies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewHobbies(HttpServletRequest request) {
@@ -143,12 +153,12 @@ public class BoardController {
 		request.setAttribute("boardList",hobbies);
   
 		return "board/community/boardList.tiles1";
-   }
+    }
 	
 	
 	
 	/**
-	 * 수강/취업후기 게시판리스트 매핑
+	 * 수강/취업후기 게시판리스트 페이지 GET요청 매핑
 	 */
 	@RequestMapping(value="/community/reviews.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewReviews(HttpServletRequest request) {
@@ -186,6 +196,66 @@ public class BoardController {
 	
 	
 	
+	/**
+	 * 공지사항 리스트 페이지 GET요청 매핑
+	 */
+	@RequestMapping(value="/notices.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
+	public String viewNotices(HttpServletRequest request) {
+		Map<String, String> paraMap = new HashMap<>();
+		String str_page = request.getParameter("page");
+		String searchWord = request.getParameter("searchWord");
+		paraMap.put("searchWord", searchWord);
+		
+		// 총 게시물 건수(totalCount)구하기
+		int totalCount = service.getTotalNoticesCount(paraMap);
+		int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
+		//총 페이지 수 계산하기 (총페이지수/한페이지당 보여줄 게시물 건수)의 올림처리
+		int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		int page = getPage(str_page,totalPage);	//현재페이지번호 구하기(예외처리 포함)
+		
+		// 시작행번호,끝 행번호 구하기(맵에 담아서 반환)
+		paraMap = getRno(page,sizePerPage,paraMap);
+		 
+		List<BoardVO> notices = service.getNotices(paraMap);
+		// 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
+		// 검색대상 컬럼과 검색어를 뷰단 페이지에서 유지시키기 위한 조건
+		if(!"".equals(searchWord) ) {
+			request.setAttribute("paraMap", paraMap);
+		}
+		String url = "reviews.do";
+		//페이지바 얻기
+		String pageBar = getPageBar(page,totalPage,url,searchWord);
+		
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("totalCount", totalCount);
+		request.setAttribute("noticeList",notices);
+  
+		return "board/notice/noticeList.tiles1";
+   }
+	
+	
+	
+	
+	
+	/**
+	 * 글 상세보기 페이지 GET요청 매핑
+	 */
+	@RequestMapping(value="/detail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
+	public String viewDetail(HttpServletRequest request) {
+      String str_boardNum = request.getParameter("num");
+      
+      try {
+    	  // 글번호로 게시글 하나(BoardVO)를 가져온다음 request에 담기
+    	  request.setAttribute("board",service.getBoard(Integer.parseInt(str_boardNum)));
+      } catch(NumberFormatException e) {	//글번호를 한글로 썼을 때 메인페이지로 이동
+    	  return "redirect:/index.do";
+      }//end of try-catch--
+      
+      return "board/community/boardDetail.tiles1";
+	}
+	
+	
+	
 	
 	
 	
@@ -201,9 +271,7 @@ public class BoardController {
 	
    /**
     * 페이지바 만들기 메소드
-    * @param page(현재 페이지번호)
-    * @param totalPage(총페이지 수)
-    * @param searchWord(검색어)
+    * @param page(현재 페이지번호),totalPage(총페이지 수),반응할url,searchWord(검색어)
     * @return pageBar
     */
    private String getPageBar(int page, int totalPage,String url, String searchWord) {
@@ -276,10 +344,13 @@ public class BoardController {
    
    
    
+   
+   
+   
+   
    /**
     * 페이지 번호 예외처리하기
-    * @param str_page(쿼리스트링으로 날아온 페이지)
-    * @param totalPage
+    * @param str_page(쿼리스트링으로 날아온 페이지),totalPage(총페이지수)
     * @return page(현재 페이지번호)
     */
    private int getPage(String str_page,int totalPage) {

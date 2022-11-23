@@ -114,6 +114,42 @@ public class BoardDAO implements InterBoardDAO{
 		List<BoardVO> reviews = gukmo_sql.selectList("chw.getReviews",paraMap);
 		return reviews;
 	}
+
+
+	/**
+	 * 총 게시물 건수(totalCount) 구하기(공지사항 게시판)
+	 * @param paraMap(검색어)
+	 * @return (총 게시물 건수) 를 반환한다. totalCount
+	 */
+	@Override
+	public int getTotalNoticesCount(Map<String, String> paraMap) {
+		int totalCount = gukmo_sql.selectOne("chw.getTotalNoticesCount",paraMap);
+		return totalCount;
+	}
+
+
+	/**
+	 * 공지사항 게시판을 보여주기 위한 BoardVO 리스트 가져오기
+	 * @param paraMap(검색어,시작rownum,끝rownum)
+	 * @return BoardVO리스트
+	 */
+	@Override
+	public List<BoardVO> getNotices(Map<String, String> paraMap) {
+		List<BoardVO> notices = gukmo_sql.selectList("chw.getNotices",paraMap);
+		return notices;
+	}
+
+
+	/**
+	 * 글번호를 가지고 게시글하나에대한 정보 가져오기
+	 * @param boardNum(글번호)
+	 * @return BoardVO
+	 */
+	@Override
+	public BoardVO getBoard(int boardNum) {
+		BoardVO board = gukmo_sql.selectOne("chw.getBoard",boardNum);
+		return board;
+	}
 	
 	
 }

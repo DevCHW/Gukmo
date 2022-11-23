@@ -81,7 +81,7 @@
       </div>
 
       <%-- 글제목 --%>
-      <a href="#" class="subject align-items-center my-2">
+      <a href="<%=ctxPath %>/detail.do?num=${boardvo.board_num} " class="subject align-items-center my-2">
         ${boardvo.subject}
       </a>
 
