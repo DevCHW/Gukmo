@@ -213,7 +213,7 @@ public class MemberService implements InterMemberService{
 	@Override
 	public int editMyInfo(MemberVO member,Map<String,String> paraMap) {
 		String path = paraMap.get("path");
-		String currentProfileImage = member.getProfile_image();
+		String currentProfileImage = paraMap.get("profile_image");
 		
 		paraMap.put("userid",member.getUserid());
 		paraMap.put("nickname",member.getNickname());

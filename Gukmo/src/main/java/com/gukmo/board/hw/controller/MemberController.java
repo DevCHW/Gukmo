@@ -494,8 +494,10 @@ public class MemberController {
 				newFileName = fileManager.doFileUpload(bytes, realFileName, path);
 				
 				Map<String,String> paraMap = new HashMap<>();
+				MemberVO loginUser = (MemberVO)session.getAttribute("user");
 				paraMap.put("path",path);
 				paraMap.put("newFileName",newFileName);
+				paraMap.put("profile_image",loginUser.getProfile_image());
 				
 				//프로필이미지 첨부가 있는경우 회원정보 수정
 				result = service.editMyInfo(member,paraMap);
