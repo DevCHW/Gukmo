@@ -294,22 +294,7 @@ public class BoardController {
 	
 	
 	
-	/**
-	 * 글 상세보기 페이지 GET요청 매핑
-	 */
-	@RequestMapping(value="/detail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public String viewDetail(HttpServletRequest request) {
-      String str_boardNum = request.getParameter("num");
-      
-      try {
-    	  // 글번호로 게시글 하나(BoardVO)를 가져온다음 request에 담기
-    	  request.setAttribute("board",service.getBoard(Integer.parseInt(str_boardNum)));
-      } catch(NumberFormatException e) {	//글번호를 한글로 썼을 때 메인페이지로 이동
-    	  return "redirect:/index.do";
-      }//end of try-catch--
-      
-      return "board/community/boardDetail.tiles1";
-	}
+	
 	
 	
 	
