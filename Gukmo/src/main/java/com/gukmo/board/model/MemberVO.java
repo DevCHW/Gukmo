@@ -1,5 +1,7 @@
 package com.gukmo.board.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberVO {
 	// 로그인 관련
 	private String userid;				//유저아이디
@@ -22,14 +24,16 @@ public class MemberVO {
 	private String phone;				//핸드폰번호
 	
 	// 일반회원 field
-	private String username;				//회원 이름
+	private String username;			//회원 이름
 
-
+	
+	
 
 	// 기본 생성자 일부러 protected로 막음
 	protected MemberVO(){};
 	
-	
+
+
 	// 파라미터가있는 생성자로만 값 주입 가능, Setter도 막음
 	public MemberVO(String userid, String passwd, String status, String update_passwd_date, String email,
 					String email_acept, String nickname, String point, String join_date, String profile_image,
@@ -67,8 +71,8 @@ public class MemberVO {
 	public String getEmail() {
 		return email;
 	}
-	public String getEmail_acept() {
-		return email_acept;
+	public int getEmail_acept() {
+		return Integer.parseInt(email_acept);
 	}
 	public String getNickname() {
 		return nickname;
@@ -98,6 +102,19 @@ public class MemberVO {
 	public String getUsername() {
 		return username;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "MemberVO [userid=" + userid + ", passwd=" + passwd + ", status=" + status + ", update_passwd_date="
+				+ update_passwd_date + ", email=" + email + ", email_acept=" + email_acept + ", nickname=" + nickname
+				+ ", point=" + point + ", join_date=" + join_date + ", profile_image=" + profile_image
+				+ ", academy_name=" + academy_name + ", company_num=" + company_num + ", homepage=" + homepage
+				+ ", phone=" + phone + ", username=" + username + "]";
+	}
+	
+	
 	
 	
 	

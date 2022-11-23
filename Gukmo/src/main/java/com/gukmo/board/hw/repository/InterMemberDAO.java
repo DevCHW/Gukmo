@@ -83,6 +83,28 @@ public interface InterMemberDAO {
 	 */
 	int editPasswd(Map<String, String> paraMap);
 
+
+
+	/**
+	 * 프사첨부를 안했을경우 회원정보 수정
+	 */
+	int editMyInfoWithOutFile(MemberVO member);
+
+
+	/**
+	 * 프로필사진을 첨부했을 때 회원정보수정
+	 */
+	int editMyInfo(Map<String,String> paraMap);
+
+
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	MemberVO getUser(String userid);
+
+
 	
 
 }

@@ -91,6 +91,24 @@
 	
 	
 	
+	
+	
+	<!-- 프사첨부를 안했을경우 회원정보 수정 -->
+	<update id="editMyInfoWithOutFile" parameterType="com.gukmo.board.model.MemberVO">
+		update tbl_member set email_acept=${email_acept},nickname=#{nickname},username=#{username}
+		where fk_userid = #{userid}
+	</update>
+	
+	
+	<!-- 프사첨부를 했을경우 회원정보 수정 -->
+	<update id="editMyInfo" parameterType="HashMap">
+		update tbl_member set email_acept=#{email_acept,jdbcType=INTEGER},nickname=#{nickname},username=#{username},profile_image=#{newFileName}
+		where fk_userid = #{userid}
+	</update>
+	
+	
+	
+	
 	<!--=============== Member 끝 ============-->
 	
 	
