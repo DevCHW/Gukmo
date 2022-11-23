@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gukmo.board.common.FileManager;
 import com.gukmo.board.common.Sha256;
 import com.gukmo.board.hw.email.GoogleMail;
 import com.gukmo.board.hw.repository.InterMemberDAO;
@@ -28,7 +29,10 @@ public class MemberService implements InterMemberService{
 	private InterMemberDAO dao;
 	
 	@Autowired
-	GoogleMail mail;
+	private GoogleMail mail;
+	
+	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
+	private FileManager fileManager;
 	
 	/**
 	 * 일반회원 가입하기
@@ -42,7 +46,7 @@ public class MemberService implements InterMemberService{
 				 					   input_member.getStatus(), 
 				 					   input_member.getUpdate_passwd_date(), 
 				 					   input_member.getEmail(),
-				 					   input_member.getEmail_acept(), 
+				 					   input_member.getEmail_acept()+"", 
 				 					   input_member.getNickname(), 
 				 					   input_member.getPoint(), 
 				 					   input_member.getJoin_date(), 
@@ -198,6 +202,54 @@ public class MemberService implements InterMemberService{
 
         return buffer.toString();
     }
+
+
+
+    /**
+	 * 프로필사진을 첨부했을 때 회원정보수정
+	 * @param member
+	 * @param profileImage
+	 */
+	@Override
+	public int editMyInfo(MemberVO member,Map<String,String> paraMap) {
+		String path = paraMap.get("path");
+		String currentProfileImage = member.getProfile_image();
+		
+		paraMap.put("userid",member.getUserid());
+		paraMap.put("nickname",member.getNickname());
+		paraMap.put("username",member.getUsername());
+		paraMap.put("email_acept",member.getEmail_acept()+"");
+		
+		// 프로필이미지 파일 지워주기
+		if( !"user.PNG".equals(currentProfileImage) ) {
+			fileManager.doFileDelete(currentProfileImage, path);
+		}
+		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
+		return result1;
+	}
+
+
+	/**
+	 * 프사첨부를 안했을경우 회원정보 수정
+	 */
+	@Override
+	public int editMyInfoWithOutNoFile(MemberVO member) {
+		return dao.editMyInfoWithOutFile(member);	// 멤버테이블에서 정보 업데이트하기
+	}
+
+
+
+	
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	@Override
+	public MemberVO getUser(String userid) {
+		MemberVO user = dao.getUser(userid);
+		return user;
+	}
 
 
 

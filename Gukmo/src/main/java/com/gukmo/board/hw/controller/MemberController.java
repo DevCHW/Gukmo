@@ -1,5 +1,6 @@
 package com.gukmo.board.hw.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.gukmo.board.common.FileManager;
 import com.gukmo.board.hw.repository.InterMemberDAO;
 import com.gukmo.board.hw.service.InterMemberService;
 import com.gukmo.board.model.ActivityVO;
@@ -27,6 +31,11 @@ public class MemberController {
 	
 	@Autowired
 	private InterMemberDAO dao;
+	
+	@Autowired
+	private FileManager fileManager;
+	
+	
 	
 	
 	//============================================================================ //
@@ -117,7 +126,7 @@ public class MemberController {
 	@RequestMapping(value="/member/save.do", method= {RequestMethod.POST})
 	public String saveMember(MemberVO input_member,HttpServletRequest request) throws Throwable {
 		if(input_member.getAcademy_name() != null) {	//교육기관회원 가입인경우
-			System.out.println("교육기관회원 가입입니다.");
+			System.out.println("교육기관회원 가입입니다.");	//이곳에 교육기관회원가입 코딩
 		}
 		else {	//일반회원 가입인 경우
 			service.saveNormalMember(input_member);
@@ -133,14 +142,9 @@ public class MemberController {
 	}
 	
 	
-	/**
-	 * 계정찾기 페이지 GET 요청시 매핑
-	 */
-	@RequestMapping(value="/member/findId.do", method= {RequestMethod.GET})
-	public String viewfindId(HttpServletRequest request) {
-		return "member/findId.tiles1";
-		// /WEB-INF/views/tiles1/member/findId.jsp 페이지.
-	}
+	
+	
+	
 	
 	
 	//=========================================================================== //
@@ -156,6 +160,17 @@ public class MemberController {
 	//============================================================================== //
 	//============================= 마이페이지 관련 시작=================================== //
 	//============================================================================== //
+	
+	/**
+	 * 계정찾기 페이지 GET 요청시 매핑
+	 */
+	@RequestMapping(value="/member/findId.do", method= {RequestMethod.GET})
+	public String viewfindId(HttpServletRequest request) {
+		return "member/findId.tiles1";
+		// /WEB-INF/views/tiles1/member/findId.jsp 페이지.
+	}
+	
+	
 	
 	/**
 	 * 활동내역 페이지 GET요청시 페이지 보여주기(페이징처리)
@@ -311,8 +326,6 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
-		
-		
 		return "member/myId.tiles1";
 		// /WEB-INF/views/tiles1/member/myId.tiles1.jsp 페이지.
 	}
@@ -426,7 +439,7 @@ public class MemberController {
 	/**
 	 * 계정찾기 비밀번호 변경 해주기
 	 */
-	@RequestMapping(value="/member/editPasswd.do", method= {RequestMethod.POST})
+	@RequestMapping(value="/member/editPasswd.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String editPasswd(HttpServletRequest request) {
 		String userid = request.getParameter("userid");
 		String passwd = request.getParameter("passwd");
@@ -449,6 +462,59 @@ public class MemberController {
 		request.setAttribute("loc", loc);
 		return "msg"; 
 	}
+	
+	
+	/**
+	 * 내정보 변경 해주기
+	 */
+	@ResponseBody
+	@RequestMapping(value="member/infoChange.do", method= {RequestMethod.POST})
+	public String editMyInfo(MemberVO member,MultipartFile profile_image, MultipartHttpServletRequest mrequest) {
+		int result = 0;
+		
+		HttpSession session = mrequest.getSession();
+		if( profile_image!=null && !profile_image.isEmpty() ) { //프로필이미지를 첨부하였을 경우
+			
+			
+			String root = session.getServletContext().getRealPath("/");
+			
+			String path = root+"resources"+ File.separator +"images";
+			
+			String newFileName = "";
+			// WAS(톰캣)의 디스크에 저장될 파일명 
+			byte[] bytes = null;
+			// 첨부파일의 내용물을 담는 변수
+			try {
+				// 첨부파일의 내용물을 읽어오기
+				bytes = profile_image.getBytes();
+				
+				//유저가 업로드한 프로필이미지명
+				String realFileName = profile_image.getOriginalFilename();
+				// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
+				newFileName = fileManager.doFileUpload(bytes, realFileName, path);
+				
+				Map<String,String> paraMap = new HashMap<>();
+				paraMap.put("path",path);
+				paraMap.put("newFileName",newFileName);
+				
+				//프로필이미지 첨부가 있는경우 회원정보 수정
+				result = service.editMyInfo(member,paraMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {	//프로필이미지 첨부가 없는경우 회원정보 수정
+			result = service.editMyInfoWithOutNoFile(member);
+		}
+		
+		session.removeAttribute("user");
+		MemberVO user = service.getUser(member.getUserid());
+		session.setAttribute("user", user);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		return jsonObj.toString();
+	}
+	
 	
 	
 	
