@@ -244,13 +244,23 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = '스터디') A
+				(select * from tbl_board where detail_category = '스터디' 
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort != ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -306,7 +316,11 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = 'QnA') A
+				(select * from tbl_board where detail_category = 'QnA'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
@@ -359,7 +373,11 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = '취미모임') A
+				(select * from tbl_board where detail_category = '취미모임'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
@@ -378,7 +396,7 @@
 	<select id="getTotalReviewsCount" parameterType="HashMap" resultType="Integer">
 		select count(*)
 		from tbl_board
-		where detail_category='수강/취업성공후기'
+		where detail_category='수강/취업후기'
 	</select>
 	
 	
@@ -412,7 +430,11 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = '수강/취업후기') A
+				(select * from tbl_board where detail_category = '수강/취업후기'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
@@ -465,7 +487,11 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where category = '공지사항') A
+				(select * from tbl_board where category = '공지사항'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C

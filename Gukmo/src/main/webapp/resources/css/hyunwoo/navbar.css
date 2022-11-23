@@ -9,3 +9,9 @@ div#category div{
   cursor:pointer;
   font-weight:bold;
 }
+
+@media screen and (max-width: 768px){
+  div#category{
+    font-size:14px;
+  }
+}

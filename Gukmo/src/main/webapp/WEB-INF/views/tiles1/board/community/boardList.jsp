@@ -8,6 +8,11 @@
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
+<script type="text/javascript">
+  sessionStorage.setItem("page","${requestScope.page}");
+  sessionStorage.setItem("searchWord","${requestScope.searchWord}");
+</script>
+
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
 

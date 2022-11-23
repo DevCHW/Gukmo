@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+	
   // filter버튼 클릭횟수 count
   let filter_click_cnt = 0;
   
@@ -17,6 +18,29 @@ $(document).ready(function(){
     $("div#mask").hide();
   });
   
+  //정렬옵션 클릭시 이벤트
+  $("div#sort_option span").click(e=>{
+    const target = $(e.currentTarget);
+    let sort = target.text();
+    
+    switch (sort) {
+	case "최신순":
+		sort = "write_date";
+		break;
+	case "댓글순":
+		sort = "comment_cnt";	
+		break;
+	case "추천순":
+		sort = "like_cnt";
+		break;
+	case "조회순":
+		sort = "views";
+		break;
+	}//end of switch-case---
+    $("span#current_sort").text(sort);
+    
+    location.href="?page="+sessionStorage.getItem("page")+"&searchWord="+sessionStorage.getItem("searchWord")+"&sort="+sort;
+  });
 });
 
 

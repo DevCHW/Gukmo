@@ -27,6 +27,7 @@ public class BoardController {
 	@Autowired
 	private FileManager fileManager;
 	
+	
 	/**
 	 * 스터디 게시판리스트 페이지 GET요청 매핑
 	 */
@@ -34,8 +35,17 @@ public class BoardController {
 	public String viewStudies(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
-		String searchWord = request.getParameter("searchWord");
+		String searchWord = "";
+		if(request.getParameter("searchWord") != null) {
+		  searchWord = request.getParameter("searchWord");
+		}
+		String sort = "";
+		if(request.getParameter("sort") != null) {
+			sort = request.getParameter("sort");
+		}
+		
 		paraMap.put("searchWord", searchWord);
+		paraMap.put("sort", sort);
 		
 		
 		// 총 게시물 건수(totalCount)구하기
@@ -60,6 +70,8 @@ public class BoardController {
 		//페이지바 얻기
 		String pageBar = getPageBar(page,totalPage, url,searchWord);
 		
+		request.setAttribute("page",page);
+		request.setAttribute("searchWord",searchWord);
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",studies);
@@ -78,8 +90,16 @@ public class BoardController {
 	public String viewQuestions(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
-		String searchWord = request.getParameter("searchWord");
+		String searchWord = "";
+		if(request.getParameter("searchWord") != null) {
+		  searchWord = request.getParameter("searchWord");
+		}
+		String sort = "";
+		if(request.getParameter("sort") != null) {
+			sort = request.getParameter("sort");
+		}
 		paraMap.put("searchWord", searchWord);
+		paraMap.put("sort", sort);
 		
 		// 총 게시물 건수(totalCount)구하기
 		int totalCount = service.getTotalQuestionsCount(paraMap);
@@ -125,8 +145,17 @@ public class BoardController {
 	public String viewHobbies(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
-		String searchWord = request.getParameter("searchWord");
+		String searchWord = "";
+		if(request.getParameter("searchWord") != null) {
+		  searchWord = request.getParameter("searchWord");
+		}
+		String sort = "";
+		if(request.getParameter("sort") != null) {
+			sort = request.getParameter("sort");
+		}
+				
 		paraMap.put("searchWord", searchWord);
+		paraMap.put("sort", sort);
 		
 		// 총 게시물 건수(totalCount)구하기
 		int totalCount = service.getTotalHobbiesCount(paraMap);
@@ -164,8 +193,16 @@ public class BoardController {
 	public String viewReviews(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
-		String searchWord = request.getParameter("searchWord");
+		String searchWord = "";
+		if(request.getParameter("searchWord") != null) {
+		  searchWord = request.getParameter("searchWord");
+		}
+		String sort = "";
+		if(request.getParameter("sort") != null) {
+			sort = request.getParameter("sort");
+		}
 		paraMap.put("searchWord", searchWord);
+		paraMap.put("sort", sort);
 		
 		// 총 게시물 건수(totalCount)구하기
 		int totalCount = service.getTotalReviewsCount(paraMap);
@@ -203,8 +240,16 @@ public class BoardController {
 	public String viewNotices(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
-		String searchWord = request.getParameter("searchWord");
+		String searchWord = "";
+		if(request.getParameter("searchWord") != null) {
+		  searchWord = request.getParameter("searchWord");
+		}
+		String sort = "";
+		if(request.getParameter("sort") != null) {
+			sort = request.getParameter("sort");
+		}
 		paraMap.put("searchWord", searchWord);
+		paraMap.put("sort", sort);
 		
 		// 총 게시물 건수(totalCount)구하기
 		int totalCount = service.getTotalNoticesCount(paraMap);
