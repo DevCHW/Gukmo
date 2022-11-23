@@ -220,7 +220,7 @@ public class MemberController {
 		paraMap.put("endRno", String.valueOf(endRno));
 		
 		
-		List<ActivityVO> activities = service.getActivities(userid);
+		List<ActivityVO> activities = service.getActivities(paraMap);
 		// 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
 		
 		// 검색대상 컬럼과 검색어를 뷰단 페이지에서 유지시키기 위한 조건

@@ -18,9 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
+import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.sun.service.InterBoardService;
-
-
 
 @Aspect     
 @Component  
@@ -58,23 +57,29 @@ public class BoardAOP {
 		
 	}
 	
-	// 글쓰기, 댓글 작성시 활동 점수 올리기 after
-	@Pointcut("execution(public * com.gukmo..*Controller.pointPlus_*(..) )")
-	public void pointPlus() {}
+	// 글쓰기, 댓글 작성시 활동 점수 update, 활동기록 insert (after)
+	@Pointcut("execution(public * com.gukmo..*Controller.pointPlusActivityLog_*(..) )")
+	public void pointPlusActivityLog() {}
 	
 	@Autowired  
 	private InterBoardService service;
 	
 	@SuppressWarnings("unchecked")
-	@After("pointPlus()")
-	public void pointPlus(JoinPoint joinpoint) {
+	@After("pointPlusActivityLog()")
+	public void pointPlusActivityLog(JoinPoint joinpoint) {
 		
-		Map<String, String> paraMap = (Map<String, String>) joinpoint.getArgs()[0];   
+		Map<String, Object> paraMap = (Map<String, Object>) joinpoint.getArgs()[0];
 		
-		service.pointPlus(paraMap);
+		int n = service.pointPlusActivityLog(paraMap);
+		System.out.println("aop 확인용 : " + n);
+		
+		if(n == 2) {
+			System.out.println("aop 성공");
+		}
+	
 	}
  
 	 
-		
-	
+
+
 }

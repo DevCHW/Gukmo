@@ -29,14 +29,32 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public int communityNew(BoardVO boardvo) {
 		int n = gukmo_sql.insert("sun.communityNew", boardvo);
+		System.out.println("");
 		return n;
 	}
 
 	
 	// 글쓰기, 댓글 작성시 활동 점수 올리기
 	@Override
-	public void pointPlus(Map<String, String> paraMap) {
-		gukmo_sql.update("sun.pointPlus", paraMap);
+	public int pointPlus(Map<String, Object> paraMap) {
+		int n = gukmo_sql.update("sun.pointPlus", paraMap);
+		System.out.println("");
+		return n;
+	}
+
+
+	// 글쓰기, 댓글 작성시 활동내역에 등록하기
+	@Override
+	public int activityLog(Map<String, Object> paraMap) {
+		int n = gukmo_sql.update("sun.activityLog", paraMap);
+		return n;
+	}
+
+	// 지금 등록된 글번호 가져오기
+	@Override
+	public int getCurrentBoardnum(String nickname) {
+		int board_num = gukmo_sql.selectOne("sun.getCurrentBoardnum", nickname);
+		return board_num;
 	}
 	
 }
