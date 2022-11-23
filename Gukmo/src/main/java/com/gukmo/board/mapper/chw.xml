@@ -77,9 +77,17 @@
 	
 	<!-- 이메일 값으로 userid 알아내기 -->
 	<select id="getMyID" parameterType="String" resultType="String">
-		select userid from tbl_member
+		select fk_userid from tbl_member
 		where email = #{email}
 	</select>
+	
+	
+	
+	<!-- 계정찾기이후 이메일에서 계정찾기 링크를 클릭하면 나오는 비밀번호 변경페이지 매핑 -->
+	<update id="editPasswd" parameterType="HashMap">
+		update tbl_member_login set passwd = #{passwd}
+		where userid = #{userid}
+	</update>
 	
 	
 	
@@ -258,7 +266,7 @@
 			<if test='sort != ""'>
 			order by #{sort} desc
 			</if>
-			<if test='sort != ""'>
+			<if test='sort == ""'>
 			order by write_date desc
 			</if>
 			) V
@@ -327,6 +335,12 @@
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -384,6 +398,12 @@
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -441,6 +461,12 @@
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -498,6 +524,12 @@
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}

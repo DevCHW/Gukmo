@@ -151,6 +151,19 @@ public class MemberDAO implements InterMemberDAO{
 		String userid = gukmo_sql.selectOne("chw.getMyID",email);
 		return userid;
 	}
+
+
+
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부 result
+	 */
+	@Override
+	public int editPasswd(Map<String, String> paraMap) {
+		int result = gukmo_sql.update("chw.editPasswd",paraMap);
+		return result;
+	}
 	
 	
 }

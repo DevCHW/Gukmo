@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+
+div#changePwdFrm{
+  font-size:small;
+}
+
+div#changePwdFrm input{
+  height:40px;
+  outline:none;
+  border:solid 1px #DEE2E6;
+}
+
+div#changePwdFrm input::placeholder{
+  font-size:small;
+}
+
+div#changePwdFrm{
+  min-width: 380px;
+  width: 448px;
+}
+
+div#logo_img_box{
+  cursor: pointer;
+  width:70px;
+  height:70px;
+  border:solid 1px gray;
+}
+img#logo{
+  width:100%;
+  height:100%;
+}
+
+p.error{
+  color:red;
+  font-size:small;
+  display:none;
+}
+
+
+
+button#btn_update_passwd{
+  height:40px;
+  background-color: #14587D;
+  font-size:medium;
+  font-weight: bold;
+  color:white;
+}

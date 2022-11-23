@@ -381,30 +381,76 @@ public class MemberController {
 	/**
 	 * 계정찾기이후 이메일에서 계정찾기 링크를 클릭하면 나오는 비밀번호 변경페이지 매핑
 	 */
-	@RequestMapping(value="/member/changePwd.do", method= {RequestMethod.GET})
+	@RequestMapping(value="/changePwd.do", method= {RequestMethod.GET})
 	public String viewChangePwd(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		
-		String uuid = (String) session.getAttribute("uuid");
-		String email = request.getParameter("email");
-		
-		if(request.getParameter("uuid").equals(uuid)) {	//uuid가 http 헤더에 있는것과 세션에 있는값이 같다면,
-			String userid = service.getMyID(email);	//이메일 값으로 유저아이디 알아내기
-			
-			request.setAttribute("userid", userid);
-			return "/member/changePwd.tiles1";
-		}
-		else { //uuid가 url에 있는것과 http헤더에 있는것이 다르다면
+		try {
+			if(session != null) {	//세션이 null이 아니라면
+				if(request.getParameter("uuid").equals((String) session.getAttribute("uuid").toString())) {	//uuid가 http 헤더에 있는것과 세션에 있는값이 같다면,
+					String email = request.getParameter("email");
+					String userid = service.getMyID(email);	//이메일 값으로 유저아이디 알아내기
+					
+					request.setAttribute("userid", userid);
+					return "changePwd";
+				} else { 	//uuid가 url에 있는것과 http헤더에 있는것이 다르다면
+					String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
+					String loc = "javascript:history.go(-1)";
+					
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+				}
+			} else {	//세션이 null 이라면
+				String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
+				String loc = "javascript:history.go(-1)";
+				
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+			}
+			return "msg"; 
+		} catch(NullPointerException e) {
 			String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
 			String loc = "javascript:history.go(-1)";
-			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
-		}
+			return "msg";
+		}//end of try-catch--
 			
-		return "msg"; 
+		
 		// /WEB-INF/views/tiles1/member/changePwd.jsp 페이지.
 	}
+	
+	
+		
+		
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 */
+	@RequestMapping(value="/member/editPasswd.do", method= {RequestMethod.POST})
+	public String editPasswd(HttpServletRequest request) {
+		String userid = request.getParameter("userid");
+		String passwd = request.getParameter("passwd");
+		Map<String,String> paraMap = new HashMap<>();
+		
+		paraMap.put("userid", userid);
+		paraMap.put("passwd", passwd);
+		int result = service.editPasswd(paraMap);	//DB에 가서 비밀번호 변경하기.
+		String message ="";
+		String loc = "";
+		if(result == 1) {
+			message = "비밀번호 수정이 완료되었습니다!";
+			loc = request.getContextPath()+"/index.do";
+		}
+		else {
+			message = "비밀번호 변경에 실패하였습니다. 다시 시도해주세요!";
+			loc = request.getContextPath()+"/index.do";
+		}
+		request.setAttribute("message", message);
+		request.setAttribute("loc", loc);
+		return "msg"; 
+	}
+	
+	
 	
 	
 	

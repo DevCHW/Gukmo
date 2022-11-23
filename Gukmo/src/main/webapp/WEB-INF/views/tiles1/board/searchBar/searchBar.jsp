@@ -11,16 +11,28 @@
 <%-- 직접만든 javascript --%>
 <script type="text/javascript">
   $(document).ready(function(){
-	  let url = window.document.location.href;
-	  url = url.substr(27);
-	    
-	  if(url.indexOf("?") != -1){
-	    url = url.substr(0,url.indexOf("?"));
-	  }
-		
+	  let sort= "${requestScope.sort}";
+	  switch (sort) {
+		case "write_date":
+			sort = "최신순";
+			break;
+		case "comment_cnt":
+			sort = "댓글순";	
+			break;
+		case "like_cnt":
+			sort = "추천순";
+			break;
+		case "views":
+			sort = "조회순";
+			break;
+		default :
+			sort = "최신순";
+			break;
+	  }//end of switch-case---
+	  
 	  //검색버튼 클릭이벤트
 	  $("button#btn_search").click(function(){
-	    location.href="?page=1&sort=${requestScope.sort}&searchWord="+$("input#searchWord").val();
+	    location.href="?page=1&sort="+sort+"&searchWord="+$("input#searchWord").val();
 	  });
 	  
 	  //검색창에서 엔터눌렀을 시

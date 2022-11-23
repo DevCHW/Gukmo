@@ -57,6 +57,14 @@ public interface InterMemberService {
 	String getMyID(String email);
 
 
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부
+	 */
+	int editPasswd(Map<String, String> paraMap);
+
+
 
 
 }

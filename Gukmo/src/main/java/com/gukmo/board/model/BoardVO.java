@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gukmo.board.common.MyUtil;
 
+
 public class BoardVO {
 	private String board_num;     	//게시글번호
 	private String nickname;        //작성자닉네임

@@ -125,7 +125,7 @@ public class MemberService implements InterMemberService{
         session.setMaxInactiveInterval(60*3);	//180초(3분)으로 설정함
         
 		// 이메일에 보낼 메세지(계정을찾을수있는 링크 보내주기)
-		String message = "<a href='http://localhost:9090"+request.getContextPath()+"/member/changePwd.do?email="+email+"&uuid="+uuid+"'>"
+		String message = "<a href='http://localhost:9090"+request.getContextPath()+"/changePwd.do?email="+email+"&uuid="+uuid+"'>"
 					   +   "계정을 찾으시려면 클릭하세요. 이 링크는 3분뒤 만료됩니다. "
 					   + "</a>";
 		try {
@@ -144,6 +144,32 @@ public class MemberService implements InterMemberService{
 		
 		return jsonObj.toString();
 	}
+	
+	/**
+	 * 이메일 값으로 회원 아이디 알아내기
+	 * @param email
+	 * @return
+	 */
+	@Override
+	public String getMyID(String email) {
+		String userid = dao.getMyID(email);
+		return userid;
+	}
+
+
+
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부 result
+	 */
+	@Override
+	public int editPasswd(Map<String, String> paraMap) {
+		paraMap.put("passwd", Sha256.encrypt(paraMap.get("passwd"))); //암호화 해서 다시 넣기
+		int result = dao.editPasswd(paraMap);
+		return result;
+	}
+		
 	
 	
 	
@@ -175,17 +201,7 @@ public class MemberService implements InterMemberService{
 
 
 
-    /**
-	 * 이메일 값으로 회원 아이디 알아내기
-	 * @param email
-	 * @return
-	 */
-	@Override
-	public String getMyID(String email) {
-		String userid = dao.getMyID(email);
-		return userid;
-	}
-	
+   
 	
 	
 

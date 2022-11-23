@@ -43,6 +43,8 @@ public class BoardController {
 		if(request.getParameter("sort") != null) {
 			sort = request.getParameter("sort");
 		}
+		sort = getSort(sort);
+		
 		
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("sort", sort);
@@ -68,10 +70,11 @@ public class BoardController {
 		}
 		String url = "studies.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage, url,searchWord);
+		String pageBar = getPageBar(page,totalPage, url,searchWord,request.getParameter("sort"));
 		
 		request.setAttribute("page",page);
 		request.setAttribute("searchWord",searchWord);
+		request.setAttribute("sort",sort);
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",studies);
@@ -81,6 +84,11 @@ public class BoardController {
 	
 	
 	
+
+	
+
+
+
 
 
 	/**
@@ -98,6 +106,7 @@ public class BoardController {
 		if(request.getParameter("sort") != null) {
 			sort = request.getParameter("sort");
 		}
+		sort = getSort(sort);
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("sort", sort);
 		
@@ -119,7 +128,7 @@ public class BoardController {
 		}
 		String url = "questions.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,url,searchWord);
+		String pageBar = getPageBar(page,totalPage,url,searchWord,request.getParameter("sort"));
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -153,6 +162,7 @@ public class BoardController {
 		if(request.getParameter("sort") != null) {
 			sort = request.getParameter("sort");
 		}
+		sort = getSort(sort);
 				
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("sort", sort);
@@ -175,7 +185,7 @@ public class BoardController {
 		}
 		String url = "hobbies.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,url,searchWord);
+		String pageBar = getPageBar(page,totalPage,url,searchWord,request.getParameter("sort"));
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -201,6 +211,7 @@ public class BoardController {
 		if(request.getParameter("sort") != null) {
 			sort = request.getParameter("sort");
 		}
+		sort = getSort(sort);
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("sort", sort);
 		
@@ -222,7 +233,7 @@ public class BoardController {
 		}
 		String url = "reviews.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,url,searchWord);
+		String pageBar = getPageBar(page,totalPage,url,searchWord,request.getParameter("sort"));
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -248,6 +259,7 @@ public class BoardController {
 		if(request.getParameter("sort") != null) {
 			sort = request.getParameter("sort");
 		}
+		sort = getSort(sort);
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("sort", sort);
 		
@@ -269,7 +281,7 @@ public class BoardController {
 		}
 		String url = "reviews.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,url,searchWord);
+		String pageBar = getPageBar(page,totalPage,url,searchWord,request.getParameter("sort"));
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -319,7 +331,7 @@ public class BoardController {
     * @param page(현재 페이지번호),totalPage(총페이지 수),반응할url,searchWord(검색어)
     * @return pageBar
     */
-   private String getPageBar(int page, int totalPage,String url, String searchWord) {
+   private String getPageBar(int page, int totalPage,String url, String searchWord,String sort) {
 		// 페이지바 만들기 
 		int blockSize = 5;
 		// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 개수이다.
@@ -334,13 +346,13 @@ public class BoardController {
 		if(pageNo != 1) {
 			//[<<]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page=1'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page=1&sort="+sort+"'>" + 
 					   "    <i class='fa-solid fa-angles-left'></i>" + 
 					   "  </a>" + 
 					   "</li>";
 			//[<]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+(pageNo-1)+"'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+(pageNo-1)+"&sort="+sort+"'>" + 
 					   "    <i class='fa-solid fa-angle-left'></i>" + 
 					   "  </a>" + 
 					   "</li>"; 
@@ -356,7 +368,7 @@ public class BoardController {
 			
 			else {	//페이지번호가 현재페이지번호랑 다르다면 .active 뺌
 				pageBar += "<li class='page-item'>" + 
-						   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+pageNo+"'>"+pageNo+"</a>" + 
+						   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+pageNo+"&sort="+sort+"'>"+pageNo+"</a>" + 
 						   "</li>";        
 			}
 			
@@ -368,14 +380,14 @@ public class BoardController {
 		if( pageNo <= totalPage) {
 			//[>]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+pageNo+"'>"+
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+pageNo+"&sort="+sort+"'>"+
 					   "    <i class='fa-solid fa-angle-right'></i>"+
 					   "  </a>" + 
 					   "</li>";
 			
 			//[>>] 
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+totalPage+"'>"+
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&page="+totalPage+"&sort="+sort+"'>"+
 					   "    <i class='fas fa-solid fa-angles-right'></i>"+
 					   "  </a>" + 
 					   "</li>";
@@ -442,6 +454,33 @@ public class BoardController {
    // ============================================================================== //
 	
 	
+   
+   
+   /**
+	 * 리퀘스트에 담겨있는 sort
+	 * @param sort
+	 * @return 오라클 필드명과 매칭시킨 정렬조건 sort를 반환한다.
+	 */
+	private String getSort(String sort) {
+		switch (sort) {
+			case "최신순":
+				sort = "write_date";
+				break;
+			case "댓글순":
+				sort = "comment_cnt";	
+				break;
+			case "추천순":
+				sort = "like_cnt";
+				break;
+			case "조회순":
+				sort = "views";
+				break;
+			default :
+				sort = "write_date";
+				break;
+		}//end of switch-case---
+		return sort;
+	}
 
 	
 	

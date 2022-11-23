@@ -11,6 +11,7 @@
 <script type="text/javascript">
   sessionStorage.setItem("page","${requestScope.page}");
   sessionStorage.setItem("searchWord","${requestScope.searchWord}");
+  sessionStorage.setItem("sort","${requestScope.sort}");
 </script>
 
 <%-- 직접만든 javascript --%>
@@ -41,7 +42,7 @@
         <div id="mask"></div>
         <div id="sort" class="d-flex border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <span id=current_sort>최신순</span>
+          <span id=current_sort></span>
           <div id="sort_option" class="border rounded px-3 py-2">
             <span>최신순</span>
             <span>추천순</span>
