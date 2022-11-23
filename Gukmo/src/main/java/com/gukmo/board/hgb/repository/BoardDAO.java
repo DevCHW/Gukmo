@@ -1,6 +1,7 @@
 package com.gukmo.board.hgb.repository;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,15 +17,21 @@ public class BoardDAO implements InterBoardDAO{
 	
 	
 	@Resource
-	private SqlSessionTemplate gukmo_sql;
+	private SqlSessionTemplate gukmo_sql;	
 
-	// === 글조회수 증가와 함께 글1개를 조회를 해주는 것 === //
-	// (먼저, 로그인을 한 상태에서 다른 사람의 글을 조회할 경우에는 글조회수 컬럼의 값을 1증가 해야 한다)
+	// 글1개 조회하기
 	@Override
 	public BoardVO getView(Map<String, String> paraMap) {
-		// TODO Auto-generated method stub
-		return null;
+		BoardVO boardvo = gukmo_sql.selectOne("board.getView", paraMap);
+		return boardvo;
 	}
+
+	// 글조회수 1증가 하기 
+	@Override
+	public void setAddReadCount(String board_num) {
+		gukmo_sql.update("board.setAddReadCount", board_num);
+	}
+
 	
 	
 }
