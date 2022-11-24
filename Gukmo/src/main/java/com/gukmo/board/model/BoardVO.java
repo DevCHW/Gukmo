@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gukmo.board.common.MyUtil;
 
+
 public class BoardVO {
 	private String board_num;     	//게시글번호
 	private String nickname;        //작성자닉네임
@@ -40,9 +41,10 @@ public class BoardVO {
 	protected BoardVO() {}
 	
 	//파라미터가있는 생성자만을 통해서 값 주입
-	public BoardVO(String board_num, String nickname, String dcategory, String detail_category, String subject,
+	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
-			String writer_point, List<HashtagVO> hashtags, List<CommentVO> comment, String previousseq, String previoussubject, String nextseq, String nextsubject) {
+			String previousseq, String previoussubject, String nextseq, String nextsubject, String writer_point,
+			List<HashtagVO> hashtags, List<CommentVO> comment) {
 		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
@@ -54,21 +56,24 @@ public class BoardVO {
 		this.profile_image = profile_image;
 		this.comment_cnt = comment_cnt;
 		this.like_cnt = like_cnt;
-		this.writer_point = writer_point;
-		this.hashtags = hashtags;
-		this.comment = comment;
 		this.previousseq = previousseq;
 		this.previoussubject = previoussubject;
 		this.nextseq = nextseq;
 		this.nextsubject = nextsubject;
+		this.writer_point = writer_point;
+		this.hashtags = hashtags;
+		this.comment = comment;
 	}
 
 
+	
+	
+	
+	
 	// Getter
 	public String getBoard_num() {
 		return board_num;
 	}
-
 
 	public String getNickname() {
 		return nickname;
@@ -138,33 +143,21 @@ public class BoardVO {
 		return previousseq;
 	}
 
-	public void setPreviousseq(String previousseq) {
-		this.previousseq = previousseq;
-	}
 
 	public String getPrevioussubject() {
 		return previoussubject;
 	}
 
-	public void setPrevioussubject(String previoussubject) {
-		this.previoussubject = previoussubject;
-	}
 
 	public String getNextseq() {
 		return nextseq;
 	}
 
-	public void setNextseq(String nextseq) {
-		this.nextseq = nextseq;
-	}
 
 	public String getNextsubject() {
 		return nextsubject;
 	}
 
-	public void setNextsubject(String nextsubject) {
-		this.nextsubject = nextsubject;
-	}
 
 	
 	

@@ -5,4 +5,37 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="hgb">
+
+<!-- BoardList를 보여주기 위한 BoardVO 매핑 -->
+   <resultMap id="boardList" type="com.gukmo.board.model.BoardVO">
+      <id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+      <result property="nickname" column="nickname" />
+      <result property="category" column="category" />
+      <result property="detail_category" column="detail_category" />
+      <result property="subject" column="subject" />
+      <result property="content" column="content" />
+      <result property="write_date" column="write_date" />
+      <result property="views" column="views" />
+      <result property="profile_image" column="profile_image" />
+      <result property="comment_cnt" column="comment_cnt" />
+      <result property="like_cnt" column="like_cnt" />
+      <result property="writer_point" column="writer_point" />
+      <result property="previousseq" column="previousseq" />      
+      <result property="previoussubject" column="previoussubject" />
+      <result property="nextseq" column="nextseq" />
+      <result property="nextsubject" column="nextsubject" />
+      <collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+         <id property="hashtag_num" column="hashtag_num"/>
+         <result property="hashtag" column="hashtag"/>
+         <result property="fk_board_num" column="fk_board_num"/>
+      </collection>
+   </resultMap>
+       
+	
+	<!-- === (파일첨부가 있는 댓글 및 답변글쓰기 게시판에서) 글1개 조회하기 === -->
+	<!-- 글번호를 가지고 게시글하나에대한 정보 가져오기 -->
+	<select id="getView" parameterType="Integer" resultType="com.gukmo.board.model.BoardVO">
+		select * from tbl_board
+	</select>
+   
 </mapper>

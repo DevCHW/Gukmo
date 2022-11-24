@@ -151,6 +151,58 @@ public class MemberDAO implements InterMemberDAO{
 		String userid = gukmo_sql.selectOne("chw.getMyID",email);
 		return userid;
 	}
+
+
+
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부 result
+	 */
+	@Override
+	public int editPasswd(Map<String, String> paraMap) {
+		int result = gukmo_sql.update("chw.editPasswd",paraMap);
+		return result;
+	}
+
+
+
+
+
+	/**
+	 * 프사첨부를 안했을경우 회원정보 수정
+	 */
+	@Override
+	public int editMyInfoWithOutFile(MemberVO member) {
+		int result = gukmo_sql.update("chw.editMyInfoWithOutFile",member);
+		return result;
+	}
+
+
+
+	/**
+	 * 프로필사진을 첨부했을 때 회원정보수정
+	 */
+	@Override
+	public int editMyInfo(Map<String,String> paraMap) {
+		int result = gukmo_sql.update("chw.editMyInfo",paraMap);
+		return result;
+	}
+
+
+
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	@Override
+	public MemberVO getUser(String userid) {
+		MemberVO user = gukmo_sql.selectOne("chw.getUser",userid);
+		return user;
+	}
+
+
 	
 	
 }

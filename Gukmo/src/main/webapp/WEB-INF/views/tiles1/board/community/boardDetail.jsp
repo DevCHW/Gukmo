@@ -32,9 +32,14 @@
 
 <body>
   <div class="container my-5">
+  
+    <c:if test="${empty requestScope.boardvo}">
+	    <div style="padding: 50px 0; font-size: 16pt; color: red;">존재하지 않습니다</div>
+	</c:if>
 
+    <c:if test="${not empty requestScope.boardvo}">
     <div class="line my-4">
-      <div>커뮤니티&nbsp;</div><span>/</span><div>&nbsp;자유게시판</div>
+      <div>${requestScope.boardvo.category}커뮤니티&nbsp;</div><span>/</span><div>&nbsp;${requestScope.boardvo.detail_category}자유게시판</div>
     </div>
 
 
@@ -50,7 +55,7 @@
 
       <div id="writer_profile_body" class="d-flex flex-column w-100 px-2 py-1">
         <!-- 작성자 닉네임 들어가면 해당 유저의 활동내역을 볼수 있는 페이지로 이동-->
-        <div id="board_writer_nickname" class="pl-2">글 작성자 닉네임</div>
+        <div id="board_writer_nickname" class="pl-2">${requestScope.boardvo.nickname}글 작성자 닉네임</div>
 
         <!-- 활동점수,작성일자,조회수 영역-->
         <div class="d-flex">
@@ -94,11 +99,12 @@
     <!-------------------- 글 본문 시작 ------------------>
     <div id="content_area" class="d-flex flex-column py-2">
       <div id="subject" class="mt-3">
-        <h2>글제목이 들어갈 곳</h2>
+        <h2>${requestScope.boardvo.subject}글제목</h2>
       </div>
 
 
       <div id="content" class="mt-3">
+   <%-- 
         글내용이 들어갈 곳<br>
         글내용이 들어갈 곳<br>
         글내용이 들어갈 곳<br>
@@ -106,6 +112,9 @@
         글내용이 들어갈 곳<br>
         글내용이 들어갈 곳<br>
         글내용이 들어갈 곳<br>
+    --%>
+    ${requestScope.boardvo.content} 글내용    
+        
       </div>
 
       <div class="d-flex justify-content-between mt-4">
@@ -113,9 +122,9 @@
         <!-- 해시태그 반복문 시작-->
         <div id="hashtags">
           <!-- 1 -->
-          <span class="hashtag mx-2">#<span>해시태그1</span></span>
+          <span class="hashtag mx-2">#<span>${requestScope.boardvo.hashtag}해시태그</span></span>
           <!-- 2 -->
-          <span class="hashtag mx-2">#<span>해시태그2</span></span>
+          <span class="hashtag mx-2">#<span>${requestScope.boardvo.hashtag}해시태그</span></span>
         </div>
         <!-- 해시태그 반복문 끝 -->
 
@@ -147,7 +156,7 @@
       </div>
     </div>
     <!---------------------- 이전글,다음글 영역 끝 ---------------------->
-
+    </c:if>
 
 
 

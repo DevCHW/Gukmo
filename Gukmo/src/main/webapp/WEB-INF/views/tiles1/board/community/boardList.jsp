@@ -8,6 +8,12 @@
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
+<script type="text/javascript">
+  sessionStorage.setItem("page","${requestScope.page}");
+  sessionStorage.setItem("searchWord","${requestScope.searchWord}");
+  sessionStorage.setItem("sort","${requestScope.sort}");
+</script>
+
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
 
@@ -36,7 +42,7 @@
         <div id="mask"></div>
         <div id="sort" class="d-flex border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <span id=current_sort>최신순</span>
+          <span id=current_sort></span>
           <div id="sort_option" class="border rounded px-3 py-2">
             <span>최신순</span>
             <span>추천순</span>
@@ -81,7 +87,7 @@
       </div>
 
       <%-- 글제목 --%>
-      <a href="#" class="subject align-items-center my-2">
+      <a href="<%=ctxPath %>/detail.do?num=${boardvo.board_num} " class="subject align-items-center my-2">
         ${boardvo.subject}
       </a>
 

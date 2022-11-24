@@ -9,44 +9,34 @@
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/studyList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
 
   <div class="container mt-4">
   
     <%-------------------- communityNavbar 시작 ----------------------%>
-        
+    
     <%-- communityNavbar 호출 --%>
-	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/communityNav.jsp" />
-        
+	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/noticeNav.jsp" />
         
     <%-------------------- communityNavbar 끝 ----------------------%>
 
-     <%-- 검색창 영역 --%>
-     <div class="searchBar d-flex mx-auto my-4">
-        <input type="text" id="searchWord" class="pl-2" placeholder="검색할 내용을 입력해 주세요!"/>
-        <button type="button" id="btn_search">
-          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
-        </button>
-     </div>
-    <%-- 검색바 끝 --%>
+
+
+     <%-------------------- 검색창 영역 시작 ----------------------%>
+     
+     <%-- 검색창 호출 --%>
+     <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/searchBar.jsp" />
+     
+     <%-------------------- 검색창 영역 끝 ----------------------%>
 
 
     
-    <div id="nav" class="d-flex align-items-center py-2">
-      <%-- 필터 시작 이곳에 자바스크립트로 필터 넣으세요. --%>
-      <div id="filter_area" class="d-flex align-items-end">
-        
-      </div>
-      <%-- filter_area --%>
-
-      
+    
+    <%-- 정렬버튼 --%>
+    <div id="sort_area" class="d-flex align-items-center py-2">
       <div class="d-flex ml-auto">
-        <div id="btn_filter" class="d-flex justify-content-center align-items-center border rounded">
-          <i class="fa-solid fa-filter"></i>
-        </div>
-  
         <div id="mask"></div>
-        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
+        <div id="sort" class="d-flex border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
           <span id=current_sort>최신순</span>
           <div id="sort_option" class="border rounded px-3 py-2">
@@ -58,55 +48,55 @@
         </div>
       </div>
     </div>
-    <%-- 필터 끝 --%>
+    <%-- 정렬버튼 --%>
 
 
 
     <%------------------------------------- 게시판 리스트 시작 -------------------------------------%>
 	
     <%-- 게시글 반복문 시작 --%>
-    <c:forEach var="boardvo" items="${requestScope.boardList}">
+    <c:forEach var="notice" items="${requestScope.noticeList}">
     
     <div class="border-top px-2 py-2">
       <div class="d-flex align-items-center my-2">
         <%-- 작성자 프로필사진 --%>
         <a href="#" class="writer_image_box border">
-          <img src="<%=ctxPath %>/resources/images/${boardvo.profile_image}"/>
+          <img src="<%=ctxPath %>/resources/images/${notice.profile_image}"/>
         </a>
 
         <%-- 작성자 닉네임 --%>
         <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
         <a href="#" class="writer_nickname ml-2">
-         	 ${boardvo.nickname }
+         	 ${notice.nickname }
         </a>
 
         <%-- 작성자 활동점수 --%>
         <div class="writer_point ml-2">
           <i class="fa-solid fa-bolt"></i>
-          <span>${boardvo.writer_point}</span>
+          <span>${notice.writer_point}</span>
         </div>
 
         <%-- 작성일자 --%>
         <div class="write_date ml-2">
-          ${boardvo.write_date}
+          ${notice.write_date}
         </div>
       </div>
 
       <%-- 글제목 --%>
       <a href="#" class="subject align-items-center my-2">
-        ${boardvo.subject}
+        ${notice.subject}
       </a>
 
       <div class="d-flex justify-content-between align-items-center my-2">
         <div class="d-flex align-items-center">
           <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 변수 말고 아예 값 박아도 됨--%>
           <div class="detail_category border rounded px-2 py-1">
-          	  ${boardvo.detail_category}
+          	  ${notice.detail_category}
           </div>
           <div class="hashtag ml-1">
             <%-- 해시태그 리스트 들어갈 곳--%>
             <%-- 해시태그리스트 반복문시작 --%>
-            <c:forEach var="hashtag" items="${boardvo.hashtags}">
+            <c:forEach var="hashtag" items="${notice.hashtags}">
             <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
             </c:forEach>
             <%-- 해시태그리스트 반복문 끝--%>
@@ -118,19 +108,19 @@
           <%-- 조회수 --%>
           <div>
             <i class="fa-solid fa-eye"></i>
-            <span>${boardvo.views}</span>
+            <span>${notice.views}</span>
           </div>
 
           <%-- 댓글수 --%>
           <div class="ml-2">
             <i class="fa-solid fa-comment-dots"></i>
-            <span>${boardvo.comment_cnt}</span>
+            <span>${notice.comment_cnt}</span>
           </div>
 
           <%-- 추천수 --%>
           <div class="ml-2">
             <i class="fa-solid fa-heart"></i>
-            <span>${boardvo.like_cnt}</span>
+            <span>${notice.like_cnt}</span>
           </div>
         </div>
       </div>
@@ -149,10 +139,12 @@
         <%-- 총 건수 변수 들어갈 곳--%>
         총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
       </div>
-
-      <button type="button" id="btn_write" class="btn border-0 rounded">
-        +스터디 등록
-      </button>
+		
+	  <c:if test="${sessionScope.user.userid == 'admin'}">
+        <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
+          <i class="fa-sharp fa-solid fa-plus"></i><span>공지사항 작성</span>
+        </button>
+      </c:if>
     </div>
 
 
@@ -163,4 +155,5 @@
       ${requestScope.pageBar}
     </nav>
 	<%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
+	
   </div>

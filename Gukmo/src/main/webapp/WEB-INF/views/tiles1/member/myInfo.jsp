@@ -30,7 +30,7 @@
       <h5>회원정보</h5>
       
       <%-- 이름 --%>
-      <form name="myInfoFrm">
+      <form name="myInfoFrm" enctype="multipart/form-data">
         <div id="section1" class="justify-content-between mb-5">
           <div id="input_box" class="d-flex flex-column">
             <label for="username" class="input_label">이름</label>
@@ -42,7 +42,7 @@
           <%-- 프사 --%>
           <div class="d-flex align-items-baseline">
             <div id="profile_img_box" class="border">
-              <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+              <img id="profile_img" src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
               <div id="img_mask" class="justify-content-center align-items-center">
                 <span style="color:white; font-weight:bold;">이미지 변경</span>
               </div>
@@ -67,9 +67,12 @@
 
           <%-- 토글스위치 --%>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" id="email_agreement" name="email_agreement">
             <span class="slider round"></span>
           </label>
+          <input type="hidden" id="email_acept" name="email_acept" value="${sessionScope.user.email_acept}"/>
+          <input type="hidden" name="userid" value="${sessionScope.user.userid }"/>
+          <input type="hidden" name="profile_image" value="${sessionScope.user.profile_image} "/>
         </div>
 
         <hr>

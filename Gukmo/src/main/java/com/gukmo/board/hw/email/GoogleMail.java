@@ -16,7 +16,7 @@ public class GoogleMail{
         Properties prop = new Properties(); 
         
         // 2. SMTP(Simple Mail Transfer Protocoal) 서버의 계정 설정
-           //    Google Gmail 과 연결할 경우 Gmail 의 email 주소를 지정 
+        //    Google Gmail 과 연결할 경우 Gmail 의 email 주소를 지정 
         prop.put("mail.smtp.user", "jsangyeong194@gmail.com");
             
         

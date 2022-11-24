@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 
@@ -55,6 +56,40 @@ public interface InterMemberService {
 	 * @return
 	 */
 	String getMyID(String email);
+
+
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부
+	 */
+	int editPasswd(Map<String, String> paraMap);
+
+	
+	
+	/**
+	 * 먼저 있던 프로필 이미지 파일 지우고, 멤버정보 수정해주고,새로운 프로필이미지 넣기, 
+	 * @param member
+	 * @param profileImage
+	 */
+	int editMyInfo(MemberVO member,Map<String,String> paraMap);
+
+
+	/**
+	 * 프사첨부를 안했을경우 회원정보 수정
+	 * @param member
+	 * @param userid
+	 * @return
+	 */
+	int editMyInfoWithOutNoFile(MemberVO member);
+
+
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	MemberVO getUser(String userid);
 
 
 

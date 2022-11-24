@@ -77,9 +77,35 @@
 	
 	<!-- 이메일 값으로 userid 알아내기 -->
 	<select id="getMyID" parameterType="String" resultType="String">
-		select userid from tbl_member
+		select fk_userid from tbl_member
 		where email = #{email}
 	</select>
+	
+	
+	
+	<!-- 계정찾기이후 이메일에서 계정찾기 링크를 클릭하면 나오는 비밀번호 변경페이지 매핑 -->
+	<update id="editPasswd" parameterType="HashMap">
+		update tbl_member_login set passwd = #{passwd}
+		where userid = #{userid}
+	</update>
+	
+	
+	
+	
+	
+	<!-- 프사첨부를 안했을경우 회원정보 수정 -->
+	<update id="editMyInfoWithOutFile" parameterType="com.gukmo.board.model.MemberVO">
+		update tbl_member set email_acept=${email_acept},nickname=#{nickname},username=#{username}
+		where fk_userid = #{userid}
+	</update>
+	
+	
+	<!-- 프사첨부를 했을경우 회원정보 수정 -->
+	<update id="editMyInfo" parameterType="HashMap">
+		update tbl_member set email_acept=#{email_acept,jdbcType=INTEGER},nickname=#{nickname},username=#{username},profile_image=#{newFileName}
+		where fk_userid = #{userid}
+	</update>
+	
 	
 	
 	
@@ -244,13 +270,23 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = '스터디') A
+				(select * from tbl_board where detail_category = '스터디' 
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -306,13 +342,23 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = 'QnA') A
+				(select * from tbl_board where detail_category = 'QnA'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -359,13 +405,23 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = '취미모임') A
+				(select * from tbl_board where detail_category = '취미모임'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
@@ -378,7 +434,7 @@
 	<select id="getTotalReviewsCount" parameterType="HashMap" resultType="Integer">
 		select count(*)
 		from tbl_board
-		where detail_category='수강/취업성공후기'
+		where detail_category='수강/취업후기'
 	</select>
 	
 	
@@ -412,16 +468,97 @@
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where detail_category = '수강/취업후기') A
+				(select * from tbl_board where detail_category = '수강/취업후기'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
 				left join tbl_hashtag B
 				on A.board_num = B.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
 			) V
 		) T
 		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	
+	<!-- 공지사항 총 갯수 얻기 -->
+	<select id="getTotalNoticesCount" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from tbl_board
+		where category='공지사항'
+	</select>
+	
+	
+	<!-- 공지사항 리스트 얻기 -->
+	<select id="getNotices" parameterType="HashMap" resultMap="boardList">
+		select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
+		      ,T.hashtag,T.writer_point
+		from
+		(
+		select rownum rno, V.*
+		from
+			(
+			select C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.content
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,D.point writer_point
+		    from
+				(
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				from
+				(select * from tbl_board where category = '공지사항'
+				<if test='searchWord != ""'>
+				  and subject like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				) A
+				left join tbl_hashtag B
+				on A.board_num = B.fk_board_num
+				) C
+			left join
+			(select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			<if test='sort != ""'>
+			order by #{sort} desc
+			</if>
+			<if test='sort == ""'>
+			order by write_date desc
+			</if>
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	<!-- 글번호를 가지고 게시글하나에대한 정보 가져오기 -->
+	<select id="getBoard" parameterType="Integer" resultType="com.gukmo.board.model.BoardVO">
+		select * from tbl_board
+		where board_num = ${boardNum}
 	</select>
 	
 	
