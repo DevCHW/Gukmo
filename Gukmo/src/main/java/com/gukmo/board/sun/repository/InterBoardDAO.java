@@ -21,6 +21,9 @@ public interface InterBoardDAO {
 
 	// 지금 등록된 글번호 가져오기
 	int getCurrentBoardnum(String nickname);
+
+	// 총 게시물 건수
+	int getTotalCount(Map<String, String> paraMap);
 	
 	
 }

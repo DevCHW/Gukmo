@@ -20,7 +20,7 @@ public class BoardDAO implements InterBoardDAO{
 	// 게시판 글목록 보기 페이지 요청
 	@Override
 	public List<BoardVO> boardList(Map<String, String> paraMap) {
-		List<BoardVO> boardList = gukmo_sql.selectList("sun.boardList");
+		List<BoardVO> boardList = gukmo_sql.selectList("sun.boardList", paraMap);
 		return boardList;
 	}
 
@@ -38,7 +38,6 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public int pointPlus(Map<String, Object> paraMap) {
 		int n = gukmo_sql.update("sun.pointPlus", paraMap);
-		System.out.println("");
 		return n;
 	}
 
@@ -55,6 +54,13 @@ public class BoardDAO implements InterBoardDAO{
 	public int getCurrentBoardnum(String nickname) {
 		int board_num = gukmo_sql.selectOne("sun.getCurrentBoardnum", nickname);
 		return board_num;
+	}
+
+
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int totalCount = gukmo_sql.selectOne("sun.getTotalCount", paraMap);
+		return totalCount;
 	}
 	
 }

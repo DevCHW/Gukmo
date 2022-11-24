@@ -19,8 +19,8 @@
     }
     
     switch (url) {
-	  case "/community/freeboards.do" :	//보고있는 페이지가 "자유게시판"일 경우 .active 추가
-		  $("div#freeboards").addClass("active");
+	  case "/community/freeBoards.do" :	//보고있는 페이지가 "자유게시판"일 경우 .active 추가
+		  $("div#freeBoards").addClass("active");
 		  break;
 	  case "/community/questions.do" : //보고있는 페이지가 "Q&A"일 경우 .active 추가
 		  $("div#questions").addClass("active");
@@ -41,8 +41,8 @@
 		const target = $(e.currentTarget);
 		const id = target.attr("id");
 		switch (id) {
-		  case "freeboards" :	
-			  location.href="<%=ctxPath%>/community/freeboards.do";
+		  case "freeBoards" :	
+			  location.href="<%=ctxPath%>/community/freeBoards.do";
 			  break;
 		  case "questions" :	
 			  location.href="<%=ctxPath%>/community/questions.do";
@@ -64,7 +64,7 @@
 
 
 <div id="category" class="d-flex justify-content-center align-content-center">
-  <div id="freeboards" class="detail-category mx-2 px-2 py-1 rounded">자유게시판</div>
+  <div id="freeBoards" class="detail-category mx-2 px-2 py-1 rounded">자유게시판</div>
   <div id="questions" class="detail-category mx-2 px-2 py-1 rounded">Q&A</div>
   <div id="studies" class="detail-category mx-2 px-2 py-1 rounded">스터디</div>
   <div id="hobbies" class="detail-category mx-2 px-2 py-1 rounded">취미모임</div>

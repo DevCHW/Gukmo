@@ -13,6 +13,9 @@ public interface InterBoardService{
 	// 글쓰기, 댓글 작성시 활동 점수 update, 활동기록 insert (after)
 	int pointPlusActivityLog(Map<String, Object> paraMap);
 
+	// 총 게시물 건수 
+	int getTotalCount(Map<String, String> paraMap);
+
 
 	
 }
