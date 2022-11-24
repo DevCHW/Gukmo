@@ -8,10 +8,10 @@
 	String ctxPath = request.getContextPath();
 %>
   <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/adManage_List.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/report_List.css" />
   
   <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/adManage_List.js?ver=1" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/report_List.js?ver=1" ></script>
 
 
 
@@ -51,42 +51,32 @@
 
     <hr>
 
-    <h4 style="font-weight:bold;">광고현황 관리</h4>
+    <h4 style="font-weight:bold;">신고 현황 관리</h4>
 
     <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
     <table class="table table-hover mt-2">
       <thead>
         <tr>
-          <th>구분</th>
-          <th>고객명</th>
-          <th>고객 번호</th>
-          <th>광고 시작일</th>
-          <th>광고 기간</th>
-          <th>광고 상태</th>
+          <th>신고 분류</th>
+          <th>신고자 닉네임</th>
+          <th>피신고자 닉네임</th>
+          <th>신고 사유</th>
+          <th>신고 사유 상세</th>
+          <th>신고 날짜</th>
         </tr>
       </thead>
-      <tbody>
-		<c:forEach var="advo" items="${requestScope.adList}" varStatus="status">
-            <tr class = "adDetail" id="${advo.advertisement_num}">
-              <td style="cursor:pointer" ><span>${advo.division}</span></td>
-              <td style="cursor:pointer" ><span>${advo.client_name}</span></td>
-              <td style="cursor:pointer" ><span>${advo.client_phone}</span></td>
-              <td style="cursor:pointer" ><span>${advo.start_date}</span></td>
-              <td style="cursor:pointer" "><span>${advo.period}일	</span></td>
-              <td style="cursor:pointer" ">
-	              <span>
-	                <c:if test="${advo.status == 0}">
-	                  	광고중
-	                </c:if>
-	                <c:if test="${advo.status == 1}">
-	                  	광고중 아님
-	                </c:if>
-	              
-	              </span>
-              </td>
+        <tbody>
+		  <c:forEach var="rvo" items="${requestScope.reportList}" varStatus="status">
+            <tr class = "reportDetail" id="${rvo.report_num}">
+              <td style="cursor:pointer"><span>${rvo.report_type}</span></td>
+              <td style="cursor:pointer" ><span>${rvo.report_nickname}</span></td>
+              <td style="cursor:pointer" ><span>${rvo.reported_nickname}</span></td>
+              <td style="cursor:pointer" ><span>${rvo.simple_report_reason}</span></td>
+              <td style="cursor:pointer"><span>asdf</span></td>
+              <td style="cursor:pointer"><span>${rvo.report_date}</span></td>
             </tr>    
           </c:forEach>
-    </tbody>
+       </tbody>
     </table>
     <!----------------------------------- 학원 리스트 테이블 끝 ------------------------------------->
 
@@ -97,7 +87,7 @@
         <!-- 총 건수 변수 들어갈 곳-->
       </div>
 
-      <button type="button" id="" class="btn border-0 rounded" onclick="ad_insert()">
+      <button type="button" id="" class="btn border-0 rounded" onclick="">
         + 광고 등록
       </button>
     </div>
@@ -118,14 +108,14 @@
     <form name="searchFrm" style="margin-top: 20px;">    	
 	    <div id="search_area" class="d-flex mr-3" style="justify-content:center">
 	       <div class= "d-flex rounded">
-	    	<select class = "mx-2" name="division" id="division" style="height:40px;">
-	           <option value="" selected>구분</option>
-	           <option value="메인">메인</option>
-	           <option value="게시판">게시판</option>
+	    	<select class = "mx-2" name="report_type" id="report_type" style="height:40px;">
+	           <option value="" selected>신고 분류</option>
+	           <option value="게시글">게시글</option>
+	           <option value="댓글">댓글</option>
 	        </select>
 	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
-	           <option value="client_name" selected>고객명</option>
-	           <option value="client_phone">고객 번호</option>
+	           <option value="report_nickname" selected>신고자</option>
+	           <option value="reported_nickname">신고 받은 자</option>
 	        </select>
     	  </div>
 	      <div id="academy_search" class="d-flex rounded">

@@ -10,5 +10,5 @@ public class IndexController {
 	@RequestMapping(value="/index.do")
 	public String hello_gukmo(HttpServletRequest request) {
 		return "index.tiles1";
-	}
-}
+	} 
+}                                           
