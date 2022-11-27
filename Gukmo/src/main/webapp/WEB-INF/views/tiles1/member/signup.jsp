@@ -8,6 +8,8 @@
  <%-- 직접 만든 CSS --%>
  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/signup.css" />
  
+ <%-- Google reCAPTCHA v2 --%>
+ <script src="https://www.google.com/recaptcha/api.js"></script>
  <%-- 직접만든 javascript --%>
  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/signup.js" ></script>
  
@@ -104,9 +106,10 @@
       </div>
 
       <%-- Google reCAPTCHA --%>
-      <div class="g-recaptcha border" data-sitekey="6LfdNbgZAAAAAI3otR4Gh5yysu..." data-callback="recaptcha">
-        로봇이아닙니다 넣을 자리
+      <div class="d-flex justify-content-center">
+        <div class="g-recaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
       </div>
+      <button type="button" id="captchaTest">리캡챠 테스트 콘솔로그로 결과출력</button>
 
       <button type="button" id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
 
