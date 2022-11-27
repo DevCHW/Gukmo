@@ -8,10 +8,10 @@
 %>
 
 <!--  직접 만든 css -->
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/memberDetail.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/reportDetail.css" />
 
 <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberDetail.js?ver=1" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/reportDetail.js?ver=1" ></script>
 <body>
 
 	<div id="memberManage_container" class="container-fluid row mt-5">
@@ -19,7 +19,7 @@
 		<div class="col-8">
 				<table id="register_table" class="container register_table">
 						<tr>
-							<td colspan="4" id="register_text">회원 상세정보</td>
+							<td colspan="4" id="register_text">신고내역 상세</td>
 						</tr>
 						<tr>
 							<td colspan="4" id="necessary_index" class="text-right">
@@ -27,80 +27,73 @@
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline w-25 pt-2">
-								아이디
+								신고번호
 							</td>
 							<td id = "userid">
-								${requestScope.memberDetail.userid}
+								${requestScope.reportDetail.report_num}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								이름 
+								신고 분류 
 							</td>
 							<td>
-								${requestScope.memberDetail.username}
+								${requestScope.reportDetail.report_type}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								닉네임
+								신고 글 번호
 							</td>
 							<td>
-								${requestScope.memberDetail.nickname}
+								${requestScope.reportDetail.fk_num}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								이메일 주소
+								신고자
 							</td>
 							<td>
-								${requestScope.memberDetail.email}
+								${requestScope.reportDetail.report_nickname}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								포인트 
+								신고 받은 자 
 							</td>
 							<td>
-								${requestScope.memberDetail.point}
+								${requestScope.reportDetail.reported_nickname}
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								이메일 수신 동의 여부
+								신고 사유
 							</td>
-							<c:if test="${requestScope.memberDetail.email_acept == 0}">
 							<td>
-								수신 거부
+								${requestScope.reportDetail.simple_report_reason}
 							</td>
-							</c:if>
-							<c:if test="${requestScope.memberDetail.email_acept == 1}">
-							<td>
-								수신 동의
-							</td>
-							</c:if>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								계정 상태
+								신고 사유 상세
 							</td>
 							<td>
-								${requestScope.memberDetail.status}
+								${requestScope.reportDetail.detail_report_reason}
 							</td>
 						</tr>	
 						
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								가입일자 
+								신고 날짜 
 							</td>
 							<td>
-								${requestScope.memberDetail.join_date}
+								${requestScope.reportDetail.report_date}
 							</td>
 						</tr>
-						<input type="hidden" id = "${requestScope.memberDetail.userid}" name="userid" />
-						<input type="hidden" id = "${requestScope.memberDetail.nickname}" name="nickname" />
+						<input type="hidden" id = "${requestScope.reportDetail.report_num}" name="report_num" />
+						<input type="hidden" id = "${requestScope.memberDetail.fk_num}" name="fk_num" />
 					</table>		
-			<div class="">
+<%-- 			<div class="">
 			  <c:if test="${requestScope.memberDetail.status == '활동'}">
 		        <button type="button" class = "memberBlock" id="${requestScope.memberDetail.userid}" >정지 등록</button>&nbsp;
 		      </c:if>
@@ -113,7 +106,7 @@
 	            <button type="button" id="" class="sleep_recovery">휴면 해제</button>
 			  </c:if>
 			</div>
-			
+ --%>			
 			<br><br>
 			
 			<div>

@@ -42,6 +42,7 @@ public class MemberDAO implements InterMemberDAO {
 		return MemberDetail;
 	}
 
+	// 정지 등록하기
 	@Override
 	public int addPenalty(PenaltyVO pvo) {
 		int n = gukmo_sql.insert("ksm.addPenalty", pvo);

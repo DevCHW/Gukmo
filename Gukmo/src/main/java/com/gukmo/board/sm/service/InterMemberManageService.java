@@ -48,4 +48,7 @@ public interface InterMemberManageService {
 	// 회원가입 요청 승인
 	int Regi_agree(Map<String, String> paraMap);
 
+	// ======== 학원 회원 끝 ========//
+	
+
 }

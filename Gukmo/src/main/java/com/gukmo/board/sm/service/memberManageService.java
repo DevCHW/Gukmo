@@ -19,6 +19,8 @@ public class memberManageService implements InterMemberManageService {
 	// Type 에 따라 Spring 컨테이너가 알아서 bean 으로 등록된 com.spring.board.model.BoardDAO 의 bean 을  dao 에 주입시켜준다. 
     // 그러므로 dao 는 null 이 아니다.
 	
+
+	
 	// 회원 관리 페이지의 총 페이지 수 알아오기
 	@Override
 	public int getTotalCount(Map<String, String> paraMap) {
@@ -69,6 +71,7 @@ public class memberManageService implements InterMemberManageService {
 		return n;
 	}
 
+	// 학원 총페이지수 알아오기
 	@Override
 	public int getTotalCount_academy(Map<String, String> paraMap) {
 		int n = dao.getTotalCount_academy(paraMap);
@@ -91,13 +94,13 @@ public class memberManageService implements InterMemberManageService {
 		return aca_MemberDetail;
 	}
 
-	// 
+	// 학원 회원가입 승인 
 	@Override
 	public int Regi_agree(Map<String, String> paraMap) {
 		int n = dao.Regi_agree(paraMap);
 		return n;
 	}
-	
+
 
 
 }

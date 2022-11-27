@@ -8,10 +8,10 @@
 	String ctxPath = request.getContextPath();
 %>
   <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/memberManage_List.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/adManage_List.css" />
   
   <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberManage_List.js?ver=1" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/adManage_List.js?ver=1" ></script>
 
 
 
@@ -51,30 +51,39 @@
 
     <hr>
 
-    <h4 style="font-weight:bold;">일반 회원 관리</h4>
+    <h4 style="font-weight:bold;">광고현황 관리</h4>
 
     <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
     <table class="table table-hover mt-2">
       <thead>
         <tr>
-          <th>아이디</th>
-          <th>이름</th>
-          <th>닉네임</th>
-          <th>이메일</th>
-          <th>가입일자</th>
-          <th>계정 상태</th>
-          
+          <th>구분</th>
+          <th>고객명</th>
+          <th>고객 번호</th>
+          <th>광고 시작일</th>
+          <th>광고 기간</th>
+          <th>광고 상태</th>
         </tr>
       </thead>
       <tbody>
-		<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status">
-            <tr class = "memberDetail" id="${membervo.userid}">
-              <td style="cursor:pointer" ><span>${membervo.userid}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.username}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.nickname}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.email}</span></td>
-              <td style="cursor:pointer" "><span>${membervo.join_date}</span></td>
-              <td style="cursor:pointer" "><span>${membervo.status}</span></td>
+		<c:forEach var="advo" items="${requestScope.adList}" varStatus="status">
+            <tr class = "adDetail" id="${advo.advertisement_num}">
+              <td style="cursor:pointer" ><span>${advo.division}</span></td>
+              <td style="cursor:pointer" ><span>${advo.client_name}</span></td>
+              <td style="cursor:pointer" ><span>${advo.client_phone}</span></td>
+              <td style="cursor:pointer" ><span>${advo.start_date}</span></td>
+              <td style="cursor:pointer" "><span>${advo.period}일	</span></td>
+              <td style="cursor:pointer" ">
+	              <span>
+	                <c:if test="${advo.status == 0}">
+	                  	광고중
+	                </c:if>
+	                <c:if test="${advo.status == 1}">
+	                  	광고중 아님
+	                </c:if>
+	              
+	              </span>
+              </td>
             </tr>    
           </c:forEach>
     </tbody>
@@ -88,8 +97,8 @@
         <!-- 총 건수 변수 들어갈 곳-->
       </div>
 
-      <button type="button" id="btn_write" class="btn border-0 rounded">
-        +교육기관 등록
+      <button type="button" id="" class="btn border-0 rounded" onclick="ad_insert()">
+        + 광고 등록
       </button>
     </div>
 
@@ -109,16 +118,14 @@
     <form name="searchFrm" style="margin-top: 20px;">    	
 	    <div id="search_area" class="d-flex mr-3" style="justify-content:center">
 	       <div class= "d-flex rounded">
-	    	<select class = "mx-2" name="memberStatus" id="memberStatus" style="height:40px;">
-	           <option value="" selected>계정 상태</option>
-	           <option value="활동">활동</option>
-	           <option value="정지">정지</option>
-	           <option value="휴면">휴면</option>
+	    	<select class = "mx-2" name="division" id="division" style="height:40px;">
+	           <option value="" selected>구분</option>
+	           <option value="메인">메인</option>
+	           <option value="게시판">게시판</option>
 	        </select>
 	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
-	           <option value="fk_userid" selected>아이디</option>
-	           <option value="username">이름</option>
-	           <option value="nickname">닉네임</option>
+	           <option value="client_name" selected>고객명</option>
+	           <option value="client_phone">고객 번호</option>
 	        </select>
     	  </div>
 	      <div id="academy_search" class="d-flex rounded">

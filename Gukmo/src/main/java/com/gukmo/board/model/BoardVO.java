@@ -156,6 +156,22 @@ public class BoardVO {
 		return nextsubject;
 	}
 
+	
+	
+	
+	// 확인용 toString Override
+	@Override
+	public String toString() {
+		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
+				+ ", detail_category=" + detail_category + ", subject=" + subject + ", content=" + content
+				+ ", write_date=" + write_date + ", views=" + views + ", profile_image=" + profile_image
+				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
+				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
+				+ ", writer_point=" + writer_point + ", hashtags=" + hashtags + ", comment=" + comment + "]";
+	}
+	
+	
+
 
 	
 	
