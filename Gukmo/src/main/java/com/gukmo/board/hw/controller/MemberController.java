@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gukmo.board.common.FileManager;
+import com.gukmo.board.common.RecaptchaConfig;
 import com.gukmo.board.hw.repository.InterMemberDAO;
 import com.gukmo.board.hw.service.InterMemberService;
 import com.gukmo.board.model.ActivityVO;
@@ -139,6 +140,26 @@ public class MemberController {
 		request.setAttribute("loc", loc);
 		
 		return "msg";
+	}
+	
+	
+	/**
+	 * reCAPTCHA(로봇이아닙니다) 인증하기
+	 * @return 인증 성공시 0 실패시 1 에러시 -1
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/member/verifyRecaptcha.do", method = RequestMethod.POST)
+	public int VerifyRecaptcha(HttpServletRequest request) {
+	    RecaptchaConfig.setSecretKey("6LdO7zkjAAAAACYEyYOQ0PquIol3BtmcbcGY9PFI");
+	    String gRecaptchaResponse = request.getParameter("recaptcha");
+	    try {
+	       if(RecaptchaConfig.verify(gRecaptchaResponse))
+	          return 0; // 성공
+	       else return 1; // 실패
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return -1; //에러
+	    }
 	}
 	
 	
