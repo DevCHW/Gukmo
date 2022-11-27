@@ -51,13 +51,14 @@ public class BoardController {
 //		}//end of try-catch--
 		
 		
-		
+		/*
 		int board_num = 4;// 글번호(해시태그 있는 글번호 임시 설정)
 		BoardVO board= service.getBoardDetail(board_num);	//하나의 글 불러오기
 		
 		System.out.println(board);
 		request.setAttribute("board", board);
 		
+		*/
 		return "board/community/boardDetail.tiles1";  		
 	}
 	
