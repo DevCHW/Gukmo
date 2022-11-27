@@ -104,6 +104,9 @@ public class MemberController {
 		return jsonObj.toString();
 	}
 	
+	
+	
+	
 	/**
 	 * 가입된 이메일이 존재하는지 여부 검사
 	 * @return 가입된 이메일이 존재하면 true, 존재하지 않는다면 false를 반환한다.
@@ -354,6 +357,9 @@ public class MemberController {
 		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
 	}
 	
+	
+	
+	
 	/**
 	 * 계정삭제하기(POST가 맞는지 GET이 맞는지 고민해볼 것.)
 	 */
@@ -464,6 +470,8 @@ public class MemberController {
 	}
 	
 	
+	
+	
 	/**
 	 * 내정보 변경 해주기
 	 */
@@ -473,6 +481,7 @@ public class MemberController {
 		int result = 0;
 		
 		HttpSession session = mrequest.getSession();
+		Map<String,String> paraMap = new HashMap<>();
 		if( profile_image!=null && !profile_image.isEmpty() ) { //프로필이미지를 첨부하였을 경우
 			
 			
@@ -493,11 +502,13 @@ public class MemberController {
 				// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
 				newFileName = fileManager.doFileUpload(bytes, realFileName, path);
 				
-				Map<String,String> paraMap = new HashMap<>();
+				
 				MemberVO loginUser = (MemberVO)session.getAttribute("user");
 				paraMap.put("path",path);
 				paraMap.put("newFileName",newFileName);
 				paraMap.put("profile_image",loginUser.getProfile_image());
+				paraMap.put("before_nickname",mrequest.getParameter("before_nickname"));
+				
 				
 				//프로필이미지 첨부가 있는경우 회원정보 수정
 				result = service.editMyInfo(member,paraMap);
@@ -519,6 +530,23 @@ public class MemberController {
 	
 	
 	
+	/**
+	 * 내가쓴 게시물 목록 가져오기
+	 */
+	@ResponseBody
+	@RequestMapping(value="member/myBoard.do", method= {RequestMethod.GET})
+	public String editMyInfo(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO loginUser = (MemberVO)session.getAttribute("user");
+		String nickname = loginUser.getNickname();
+		
+		ActivityVO activities = service.getActivitiesByBoard(nickname);	// 내가 글작성한 게시물 활동내역 가져오기
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("activities", activities);
+		return jsonObj.toString();
+	}
+	
 	
 	
 	
@@ -530,6 +558,39 @@ public class MemberController {
 	
       
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	

@@ -47,7 +47,7 @@
                 <span style="color:white; font-weight:bold;">이미지 변경</span>
               </div>
             </div>
-            <button id="btn_change" class="btn btn-white border rounded ml-3">변경</button>
+            <button type="button" id="btn_change" class="btn btn-white border rounded ml-3">변경</button>
           </div>
         </div>
 
@@ -73,6 +73,7 @@
           <input type="hidden" id="email_acept" name="email_acept" value="${sessionScope.user.email_acept}"/>
           <input type="hidden" name="userid" value="${sessionScope.user.userid }"/>
           <input type="hidden" name="profile_image" value="${sessionScope.user.profile_image} "/>
+          <input type="hidden" name="benickname" value="${sessionScope.user.nickname }"/>  
         </div>
 
         <hr>

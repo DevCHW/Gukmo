@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.gukmo.board.common.MyUtil;
 
-
 public class BoardVO {
 	private String board_num;     	//게시글번호
 	private String nickname;        //작성자닉네임
@@ -23,7 +22,6 @@ public class BoardVO {
 	private String previoussubject;  // 이전글제목
 	private String nextseq;          // 다음글번호
 	private String nextsubject;      // 다음글제목	
-	
 	
 	//select 용도
 	private String writer_point;	//작성자 활동점수

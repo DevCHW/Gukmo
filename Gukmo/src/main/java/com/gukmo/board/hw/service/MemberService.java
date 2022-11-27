@@ -225,6 +225,7 @@ public class MemberService implements InterMemberService{
 			fileManager.doFileDelete(currentProfileImage, path);
 		}
 		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
+		
 		return result1;
 	}
 
@@ -233,8 +234,10 @@ public class MemberService implements InterMemberService{
 	 * 프사첨부를 안했을경우 회원정보 수정
 	 */
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public int editMyInfoWithOutNoFile(MemberVO member) {
-		return dao.editMyInfoWithOutFile(member);	// 멤버테이블에서 정보 업데이트하기
+		int result = dao.editMyInfoWithOutFile(member);	// 멤버테이블에서 정보 업데이트하기
+		return result; 
 	}
 
 
@@ -252,8 +255,18 @@ public class MemberService implements InterMemberService{
 	}
 
 
+	
+	/**
+	 * 내가 글작성한 게시물 활동내역 가져오기
+	 * @param nickname
+	 * @return
+	 */
+	@Override
+	public ActivityVO getActivitiesByBoard(String nickname) {
+		ActivityVO activities = dao.getActivitiesByBoard(nickname);
+		return activities;
+	}
 
-   
 	
 	
 
