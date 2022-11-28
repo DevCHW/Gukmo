@@ -21,7 +21,7 @@
   <div class="container my-5"> 
 
     <div class="line my-4">
-      <div>카테고리 &nbsp;</div><span>/</span><div>&nbsp;카테고리</div>   <%-- ${requestScope.board.detail_category} --%>
+      <div>${requestScope.board.category}&nbsp;</div><span>/</span><div>&nbsp;${requestScope.board.detail_category}</div>   <%-- ${requestScope.board.detail_category} --%>
     </div>
 
 
@@ -37,7 +37,7 @@
 
       <div id="writer_profile_body" class="d-flex flex-column w-100 px-2 py-1">
         <%-- 작성자 닉네임 들어가면 해당 유저의 활동내역을 볼수 있는 페이지로 이동--%>
-        <div id="board_writer_nickname" class="pl-2">닉네임</div>
+        <div id="board_writer_nickname" class="pl-2">${requestScope.board.nickname}</div>
 
         <%-- 활동점수,작성일자,조회수 영역--%>
         <div class="d-flex">
@@ -70,58 +70,31 @@
         <span id="btn_more" class="border rounded px-2 py-1">&#8230;
           <div id="update_or_delete" class="border rounded px-3 py-2">
             <span>수정하기</span>
-            <span data-toggle="modal" data-target="#myModal" data-dismiss="modal">삭제하기</span>
+            <span id="board_delete">삭제하기</span>
           </div>
         </span>
       </div>
     </div>
     <%-- 글 상세보기 페이지 머리부분 --%>
-    
-    
-    <%-- 삭제하기 모달시작  --%>
-				<div class="modal fade" id="myModal" role="dialog">
-					<div class="modal-dialog modal-sm" style="margin-top: 250px;">
-						<div class="modal-content">
-						    
-							
-							<div class="modal-body" style="margin: 10px; display: flex;">
-                             <p style="font-size:25px; line-height: 50px; margin-right: 20px;">&#127760;</p>
-							<div style="display: block;">
-								<h2 style="margin-bottom: 12px;">게시물 삭제</h2>
-								<p style="color: #9ca3af;">정말로 삭제하시겠습니까?</p>
-							</div>
-							</div>
-							<div class="modal-footer"
-								style="border-top: none; background-color: #FAFAFA">
-								<button type="button" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-500 px-3 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-400 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm" style="background-color: #0090f9;">
-								확인</button>
-								
-								<button type="button" data-dismiss="modal" class="inline-flex w-full justify-center rounded-md border border-gray-500/30 bg-white px-3 py-2 text-base font-medium shadow-sm hover:bg-gray-100 focus:outline-none dark:border-gray-500/70 dark:bg-gray-700 dark:hover:bg-gray-600 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm">
-								취소</button>
-							</div>
-						</div>
-					</div>
-				</div>
-	<%-- 삭제하기 모달 끝 --%>
+
 
 
     <%-------------------- 글 본문 시작 ------------------%>
     <div id="content_area" class="d-flex flex-column py-2">
       <div id="subject" class="mt-3">
-        <h2>글제목</h2>
+        <h2>${requestScope.board.subject}</h2>
       </div>
 
 	  <%-- 글내용 --%>
-      <div id="content" class="mt-3">글내용 </div>
+      <div id="content" class="mt-3">${requestScope.board.content} </div>
 
       <div class="d-flex justify-content-between mt-4">
 
-        <%-- 해시태그 반복문 시작--%>
-        <div id="hashtags">
-          <%-- 1 --%>
-          <span class="hashtag mx-2">#<span>해시태그1</span></span>
-        </div>
-        <%-- 해시태그 반복문 끝 --%>
+        	<%-- 해시태그리스트 반복문시작 --%>
+            <c:forEach var="hashtag" items="${board.hashtags}">
+            <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+            </c:forEach>
+            <%-- 해시태그리스트 반복문 끝--%>
 
         <div id="board_like">
           <%-- 게시글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
@@ -139,13 +112,13 @@
         <%-- 이전글 a태그 href에 ?num=이전글번호--%>
         <div id="previous" class="my-2">
           <span>이전글 |</span>
-          <a href="?num=1"></a>
+          <a href="?num=1">이전글 제목</a>
         </div>
   
         <%-- 다음글 a태그 href에 ?num=다음글번호--%>
         <div id="next" class="my-2">
           <span>다음글 |</span>
-          <a href="#"></a>
+          <a href="#">다음글 제목</a>
         </div>
       </div>
     </div>

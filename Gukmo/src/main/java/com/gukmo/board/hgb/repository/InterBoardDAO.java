@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 public interface InterBoardDAO {
 
@@ -25,11 +26,14 @@ public interface InterBoardDAO {
 
 
 	/**
-	 * 상세카테고리 알아오기
+	 * 해시태그 알아오기
 	 * @param 글번호 board_num
 	 * @return 하나의 글번호에 해시태그
 	 */
-	String getHashtag(int board_num);
+	
+
+
+	
 
 	
 

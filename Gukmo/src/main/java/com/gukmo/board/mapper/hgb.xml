@@ -27,13 +27,66 @@
          <result property="fk_board_num" column="fk_board_num"/>
       </collection>
       
+      <!--  
+      <collection property="comments" column="comment_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.CommentVO">
+         <id property="comment_num" column="comment_num"/>         
+         <result property="comment_num" column="comment_num"/>
+         <result property="content" column="content"/>
+         <result property="nickname" column="nickname"/>
+         <result property="parent_write_nickname" column="parent_write_nickname"/>
+         <result property="board_num" column="board_num"/>
+         <result property="fk_comment_num" column="fk_comment_num"/>
+         <result property="write_date" column="write_date"/>
+      </collection>
+      -->
    </resultMap>
        
 	<!-- 하나의 글 불러오기 -->
 	<select id="getBoardDetail" parameterType="HashMap" resultMap="boardvoMap">
-		   select *
+		<!--    select *
 		from tbl_board
 		where board_num = #{board_num} and detail_category = #{detail_category}
+		--> 
+		
+select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
+		      ,T.hashtag,T.writer_point
+		from
+		(
+		select *
+		from
+			(
+			select C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.content
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,D.point writer_point
+		    from
+				(
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				from
+				(select * from tbl_board where board_num = #{board_num} 
+				
+				) A
+				left join tbl_hashtag B
+				on A.board_num = B.fk_board_num
+				) C
+			left join
+			(select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			) V
+		) T
 	</select>
 	
 	<!-- 상세카테고리 알아오기 -->
@@ -42,6 +95,8 @@
 		from tbl_board
 		where board_num = #{board_num}
 	</select>
+	
+	<!-- 해시태그 알아오기 -->
 	
 	
 	

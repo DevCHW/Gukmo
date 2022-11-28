@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 
 @Repository
@@ -47,17 +48,12 @@ public class BoardDAO implements InterBoardDAO{
 	}
 
 
-
 	/**
-	 * 상세카테고리 알아오기
+	 * 해시태그 알아오기
 	 * @param 글번호 board_num
 	 * @return 하나의 글번호에 해시태그
 	 */
-	@Override
-	public String getHashtag(int board_num) {
-		List<BoardVO> hashtagList = gukmo_sql.selectList("hgb.getHashtag",board_num);
-		return null;
-	}
+	
 
 
 
