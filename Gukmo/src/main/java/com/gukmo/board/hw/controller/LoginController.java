@@ -106,10 +106,11 @@ public class LoginController {
 	
 	@RequestMapping(value="/login.do",method= {RequestMethod.POST})
 	public String login_complete(HttpServletRequest request) {
-		
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid",request.getParameter("userid"));
 		paraMap.put("client_ip",request.getRemoteAddr());
+		System.out.println("확인용 userid = " + paraMap.get("userid"));
+		System.out.println("확인용 client_ip = " + paraMap.get("client_ip"));
 		
 		
 		MemberVO user = null;
@@ -131,7 +132,10 @@ public class LoginController {
 							    null,  							// 사업자번호
 							    null,							// 홈페이지
 							    null,							// 연락처
-							    null);     						// 회원 이름
+							    null,							// 회원 이름
+							    "0",
+							    "0",
+							    "0");     					// 소셜로그인 여부
 		}
 		else {	//관리자가 아닌회원으로 로그인하였다면
 			user = service.login_complete(paraMap);

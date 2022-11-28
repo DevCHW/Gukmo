@@ -8,7 +8,12 @@ function getContextPath(){
 
 
 
+
+
 $(document).ready(function(){
+	Kakao.init("7643955cb5fbab2b0481e4b321cff247");
+	// ================ 카카오 로그인 끝 ================== //
+	
 	$("input#userid").keydown(function(e){	//아이디에서 값 입력시 이벤트
 	  if(e.keyCode == 13){	//엔터를 했을 경우
 		$("button#btn_login").trigger("click");  
@@ -95,7 +100,13 @@ $(document).ready(function(){
 			}
 		});//end of ajax
 	  }
-	});
+	});//end of Event--
+	
+	
+	// 카카오로그인 버튼 클릭시 이벤트
+	$("div#kakao_login").click(function(){
+		kakaoLogin(); 	
+	});//end of Event--
   
 });//end of $(document).ready(function(){})
 
@@ -154,5 +165,98 @@ function login(){
 	frm.action = getContextPath()+"/login.do";
 	frm.method = "POST";
 	frm.submit();
-}
+}//end of method--
+
+
+
+/**
+ * 카카오로그인 객체 보내기
+ * @param response
+ * @returns
+ */
+function kakaoLoginPro(response){
+  const userInfo = {userid:response.id,email:response.kakao_account.email,profile_image:response.properties.profile_image,nickname:response.properties.nickname,email_acept:'0'
+		  		 ,username:response.properties.nickname,flag:'kakao'}
+  $.ajax({
+	type : 'POST',
+	url : getContextPath()+'/kakaoLoginPro.do',
+	data : userInfo,
+	dataType : 'json',
+	success : function(data){
+		console.log(data)
+		if(data.JavaData == "YES"){
+			$("input#userid").val(data.userid);
+			login();
+			
+		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
+			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
+		}else{
+			alert("로그인에 실패했습니다");
+		}
+		
+	},
+	error: function(xhr, status, error){
+		alert("로그인에 실패했습니다."+error);
+	}
+  });//end of ajax
+}//end of method---
+
+
+
+
+/**
+ * 카카오로그인창 띄우기
+ */
+function kakaoLogin(){
+	Kakao.Auth.login({
+		success: function (response) {
+		Kakao.API.request({
+			url: '/v2/user/me',
+			success: function (response) {
+				console.log(response);
+				kakaoLoginPro(response);
+			},
+			fail: function (error) {
+				console.log(error)
+			},
+		})
+	},
+		fail: function (error) {
+			console.log(error)
+		},
+	});
+}//end of method--
+
+
+
+/**
+ * 소셜로그인 회원가입시키기
+ */
+function userSnsRegisterPro(userInfo){
+  $.ajax({
+	type : 'POST',
+	url : getContextPath()+'/userSnsRegisterPro.do',
+	data : userInfo,
+	dataType : 'json',
+	success : function(data){
+		console.log(data)
+		if(data.JavaData == "YES"){
+			$("input#userid").val(data.userid);
+			login();
+		}else{
+			alert("로그인에 실패했습니다");
+		}
+		
+	},
+	error: function(xhr, status, error){
+		alert("로그인에 실패했습니다."+error);
+	}
+  });//end of ajax
+}//end of method---
+
+
+
+
+
+
 

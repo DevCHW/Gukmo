@@ -55,7 +55,10 @@ public class MemberService implements InterMemberService{
 				 					   input_member.getCompany_num(), 
 				 					   input_member.getHomepage(), 
 				 					   input_member.getPhone(),
-				 					   input_member.getUsername());
+				 					   input_member.getUsername(),
+									   "0",
+									   "0",
+									   "0");
 		
 		int n = dao.insert_member_login(member);	//tbl_member_login에 insert
 		if(n==1) {	//tbl_member에 insert가 성공시
@@ -183,26 +186,6 @@ public class MemberService implements InterMemberService{
 	
 	// == 유틸 메소드 == //
 	
-	
-	/**
-	 * 인증코드 난수 발생(추후 회원가입할때 이메일로 인증코드 발생시킬 때 구현하기)
-	 * @param 난수를 발생시킬 사이즈
-	 * @return 사이즈만큼의 자릿수를가진 난수
-	 */
-    private String getAuthKey(int size) {
-        Random random = new Random();
-        
-        StringBuffer buffer = new StringBuffer();
-        int num = 0;
-
-        while(buffer.length() < size) {
-            num = random.nextInt(10);
-            buffer.append(num);
-        }
-
-        return buffer.toString();
-    }
-
 
 
     /**
