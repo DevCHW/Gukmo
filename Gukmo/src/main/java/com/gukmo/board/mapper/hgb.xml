@@ -20,6 +20,11 @@
       <result property="comment_cnt" column="comment_cnt" />
       <result property="like_cnt" column="like_cnt" />
       <result property="writer_point" column="writer_point" />
+      <result property="previoussubject" column="previoussubject" />
+      <result property="previousseq" column="previousseq" />
+      <result property="nextseq" column="nextseq" />
+      <result property="nextsubject" column="nextsubject" />
+      
       <!-- HashtagVO -->
       <collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
          <id property="hashtag_num" column="hashtag_num"/>
@@ -48,9 +53,9 @@
 		where board_num = #{board_num} and detail_category = #{detail_category}
 		--> 
 		
-select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+		        	select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
 		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-		      ,T.hashtag,T.writer_point
+		      ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject
 		from
 		(
 		select *
@@ -71,12 +76,20 @@ select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
 		          ,C.hashtag
 		          ,C.fk_board_num
 		          ,D.point writer_point
+                  ,C.previousseq
+                  ,C.previoussubject
+                  ,C.nextseq
+                  ,C.nextsubject
 		    from
 				(
-				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				select lag(A.board_num, 1) over(order by A.board_num desc) AS previousseq
+		          , lag(A.subject, 1) over(order by A.board_num desc) AS previoussubject
+                  , lead(A.board_num, 1) over(order by A.board_num desc) AS nextseq
+		          , lead(A.subject, 1) over(order by A.board_num desc) AS nextsubject
+                  ,A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where board_num = #{board_num} 
+				(select * from tbl_board where 1=1
 				
 				) A
 				left join tbl_hashtag B
@@ -87,6 +100,7 @@ select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
 			on C.nickname = D.nickname
 			) V
 		) T
+        where board_num = #{board_num}
 	</select>
 	
 	<!-- 상세카테고리 알아오기 -->
