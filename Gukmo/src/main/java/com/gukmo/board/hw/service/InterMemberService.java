@@ -92,6 +92,14 @@ public interface InterMemberService {
 	MemberVO getUser(String userid);
 
 
+	/**
+	 * 
+	 * @param nickname
+	 * @return
+	 */
+	ActivityVO getActivitiesByBoard(String nickname);
+
+
 
 
 }

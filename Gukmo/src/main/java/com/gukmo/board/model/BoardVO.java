@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.gukmo.board.common.MyUtil;
 
-
 public class BoardVO {
 	private String board_num;     	//게시글번호
 	private String nickname;        //작성자닉네임
@@ -23,7 +22,6 @@ public class BoardVO {
 	private String previoussubject;  // 이전글제목
 	private String nextseq;          // 다음글번호
 	private String nextsubject;      // 다음글제목	
-	
 	
 	//select 용도
 	private String writer_point;	//작성자 활동점수
@@ -157,6 +155,22 @@ public class BoardVO {
 	public String getNextsubject() {
 		return nextsubject;
 	}
+
+	
+	
+	
+	// 확인용 toString Override
+	@Override
+	public String toString() {
+		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
+				+ ", detail_category=" + detail_category + ", subject=" + subject + ", content=" + content
+				+ ", write_date=" + write_date + ", views=" + views + ", profile_image=" + profile_image
+				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
+				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
+				+ ", writer_point=" + writer_point + ", hashtags=" + hashtags + ", comment=" + comment + "]";
+	}
+	
+	
 
 
 	

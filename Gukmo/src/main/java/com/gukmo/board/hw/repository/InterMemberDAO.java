@@ -105,6 +105,16 @@ public interface InterMemberDAO {
 	MemberVO getUser(String userid);
 
 
+	/**
+	 * 내가 글작성한 게시물 활동내역 가져오기
+	 * @param nickname
+	 * @return
+	 */
+	ActivityVO getActivitiesByBoard(String nickname);
+
+
+
+
 	
 
 }
