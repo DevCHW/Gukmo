@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.gukmo.board.hgb.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 import com.gukmo.board.common.FileManager;
 
 
@@ -33,7 +34,8 @@ public class BoardService implements InterBoardService{
 	public BoardVO getBoardDetail(int board_num) {
 		
 		//상세카테고리 알아오기
-		String detail_category = dao.getCategory(board_num);
+		String detail_category = dao.getCategory(board_num);				
+		
 		Map<String,String> paraMap = new HashMap<>();
 		
 		paraMap.put("board_num", board_num+"");
@@ -42,9 +44,14 @@ public class BoardService implements InterBoardService{
 		BoardVO board = dao.getBoardDetail(paraMap);
 		return board;
 	}
-	
 
 
+
+	/**
+	 * 해시태그 불러오기
+	 * @param 글번호 board_num
+	 * @return BoardVO
+	 */
 	
 	
 	

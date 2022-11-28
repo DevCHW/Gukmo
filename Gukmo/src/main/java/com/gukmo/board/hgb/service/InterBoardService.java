@@ -21,4 +21,12 @@ public interface InterBoardService {
 	BoardVO getBoardDetail(int board_num);
 
 	
+	/**
+	 * 해시태그 불러오기
+	 * @param 글번호 board_num
+	 * @return BoardVO
+	 */
+	
+
+	
 }

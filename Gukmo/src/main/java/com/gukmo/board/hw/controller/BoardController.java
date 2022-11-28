@@ -78,7 +78,7 @@ public class BoardController {
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",studies);
-  
+				
 		return "board/community/boardList.tiles1";
     }
 	
