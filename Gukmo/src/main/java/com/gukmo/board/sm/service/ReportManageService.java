@@ -40,4 +40,11 @@ public class ReportManageService implements InterReportManageService {
 		
 	}
 
+	// 신고받은 자 아이디값 알아오기
+	@Override
+	public String getReportedId(String reportedNickname) {
+		String getReportedId = dao.getReportedId(reportedNickname);
+		return getReportedId;
+	}
+
 }

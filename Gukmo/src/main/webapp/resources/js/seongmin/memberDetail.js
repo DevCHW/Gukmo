@@ -6,9 +6,13 @@ function getContextPath(){
 }
 
 $(document).ready(function(){
+	   $(".tab-pane").hide();
+	   $("#nav-memberDetail").show();
+	   
 	   var userid = $("input[name='userid']").attr('id');
 	   var nickname = $("input[name='nickname']").attr('id');
 
+	   
 	   $(document).on("click", ".memberBlock", function(){
 		   block(userid, nickname);
 	   });
@@ -21,7 +25,21 @@ $(document).ready(function(){
 		   sleep_recovery(userid, nickname);
 	   });
 	   
-
+	   $(document).on("click", ".nav-link", function(){
+		   var getId = $(this).attr('id');
+		   getId = getId.substring(0, getId.length-4);
+		   // alert(getId);
+		   $(".tab-pane").hide();
+		   $("#"+getId).show();
+	   });
+	   
+	   // 해당 리스트 클릭시 해당 board_num의 게시글로 이동
+	   $(document).on("click", ".goView", function(){
+		   var board_num = $(this).attr('id');
+		   location.href= getContextPath()+"/detail.do?num="+board_num;
+	   });
+	   
+	   
 }); //end of ready
 
 //Function Declaration

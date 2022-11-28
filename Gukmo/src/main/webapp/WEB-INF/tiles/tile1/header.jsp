@@ -40,11 +40,13 @@
 					<c:if test="${sessionScope.user.userid eq 'admin'}">
 						<div class="dropdown">
 							<div class="adminMenu">
-								<a class="nav-link adminMenu" onclick="drop_admin()">관리자 메뉴</a>
+								<a class="nav-link adminMenu" onclick="">관리자 메뉴</a>
 							</div>
 							<div id="admin_dropContent" class="dropdown-content2 mt-2">
-								<a href="<%=ctxPath%>/admin/memberManage_List.do">일반회원 관리</a> <a
-									href="<%=ctxPath%>/admin/academyManage_List.do">학원회원 관리</a>
+								<a href="<%=ctxPath%>/admin/memberManage_List.do">일반회원 관리</a> 
+								<a href="<%=ctxPath%>/admin/academyManage_List.do">학원회원 관리</a>
+								<a href="<%=ctxPath%>/admin/adManage_List.do">광고현황 관리</a>
+								<a href="<%=ctxPath%>/admin/reportManage_List.do">신고현황 관리</a>
 							</div>
 						</div>
 					</c:if>

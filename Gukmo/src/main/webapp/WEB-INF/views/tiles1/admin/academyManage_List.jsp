@@ -10,6 +10,23 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		if( ${not empty requestScope.paraMap} ) {
+
+			$("select#memberStatus").val("${requestScope.paraMap.memberStatus}");
+			$("select#searchType").val("${requestScope.paraMap.searchType}");
+			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+
+		}
+	}); // end of $(document).ready(function(){})------------------
+	
+</script>
+
+
   <!-- 직접 만든 CSS -->
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/academyManage_List.css" />
   
@@ -118,6 +135,7 @@
 	           <option value="활동">활동</option>
 	           <option value="정지">정지</option>
 	           <option value="휴면">휴면</option>
+	           <option value="대기">대기</option>
 	        </select>
 	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
 	           <option value="fk_userid" selected>아이디</option>

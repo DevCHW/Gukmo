@@ -16,4 +16,7 @@ public interface InterReportDAO {
 	// 신고내역 상세보기
 	ReportVO reportDetail(Map<String, String> paraMap);
 
+	// 신고받은 자 아이디 값 불러오기
+	String getReportedId(String reportedNickname);
+
 }

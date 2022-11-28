@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
@@ -23,6 +25,7 @@ import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sm.service.InterAdManageService;
 import com.gukmo.board.sm.service.InterMemberManageService;
 import com.gukmo.board.sm.service.InterReportManageService;
+import com.gukmo.board.common.MyUtil;
 
 @Controller
 public class memberManageController {
@@ -42,6 +45,7 @@ public class memberManageController {
 	@RequestMapping(value="/admin/memberManage_List.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<MemberVO> memberList = null;
+	    
 	    
 	    String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
@@ -94,10 +98,17 @@ public class memberManageController {
 		 if( !"".equals(searchType) && !"".equals(searchWord) ) {
 			 mav.addObject("paraMap", paraMap);
 		 }
-		 			
+
+		// 특정 글 본 뒤에 뒤로가기 클릭시 검색조건 유지한 페이지로 이동하려고.
+		String gobackURL = com.gukmo.board.common.MyUtil.getCurrentURL(request);
+		// System.out.println(gobackURL);
+		
+		mav.addObject("gobackURL", gobackURL.replaceAll("&", " "));
+
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("memberList", memberList);
 
+		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);			
 		mav.setViewName("admin/memberManage_List.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
@@ -113,9 +124,12 @@ public class memberManageController {
 		String userid = request.getParameter("userid");
 		paraMap.put("userid", userid);
 		
-		MemberVO memberDetail = service.getMemberDetail(paraMap);
+		MemberVO memberDetail = service.getMemberDetail(paraMap);	
+		List<ActivityVO> actList = service.getActList(paraMap);
 		
 		mav.addObject("memberDetail", memberDetail);
+		
+		mav.addObject("actList", actList);
 		mav.setViewName("admin/memberDetail.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;
@@ -184,6 +198,7 @@ public class memberManageController {
 		mav.addObject("academymemberList", academymemberList);
 
 			
+		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);
 		mav.setViewName("admin/academyManage_List.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
@@ -384,6 +399,7 @@ public class memberManageController {
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("adList", adList);
 
+		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);
 		mav.setViewName("admin/adManage_List.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
@@ -497,7 +513,8 @@ public class memberManageController {
 		 }
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("reportList", reportList);
-
+		
+		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);
 		mav.setViewName("admin/report_List.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
@@ -515,7 +532,13 @@ public class memberManageController {
 		
 		ReportVO reportDetail = service_report.getreportDetail(paraMap);
 		
+		String reportedNickname = reportDetail.getReported_nickname();
+		
+		String reportedId = service_report.getReportedId(reportedNickname);
+
+		request.setAttribute("reportedId", reportedId);		
 		mav.addObject("reportDetail", reportDetail);
+		
 		mav.setViewName("admin/reportDetail.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;

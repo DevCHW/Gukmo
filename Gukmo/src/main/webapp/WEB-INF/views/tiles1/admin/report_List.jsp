@@ -3,10 +3,28 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
-   
+
 <%
 	String ctxPath = request.getContextPath();
 %>
+
+
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		if( ${not empty requestScope.paraMap} ) {
+
+			$("select#report_type").val("${requestScope.paraMap.memberStatus}");
+			$("select#searchType").val("${requestScope.paraMap.searchType}");
+			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+
+		}
+	}); // end of $(document).ready(function(){})------------------
+	
+</script>
+
   <!-- 직접 만든 CSS -->
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/report_List.css" />
   

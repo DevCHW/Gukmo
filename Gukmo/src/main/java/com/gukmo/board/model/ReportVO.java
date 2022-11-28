@@ -9,7 +9,7 @@ public class ReportVO {
 	private String detail_report_reason;
 	private String report_date;
 	private String report_type;
-	
+	private String userid;
 	
 	protected ReportVO() {};
 	
@@ -17,7 +17,7 @@ public class ReportVO {
 	
 	public ReportVO(String report_num, String fk_num
 					, String report_nickname, String reported_nickname
-					, String simple_report_reason, String detail_report_reason, String report_date, String report_type) {
+					, String simple_report_reason, String detail_report_reason, String report_date, String report_type, String userid) {
 		
 		this.report_num = report_num;
 		this.fk_num = fk_num;
@@ -27,6 +27,7 @@ public class ReportVO {
 		this.detail_report_reason = detail_report_reason;
 		this.report_date = report_date;
 		this.report_type = report_type;
+		this.userid = userid;
 	}
 
 	
@@ -63,6 +64,17 @@ public class ReportVO {
 		return report_date;
 	}
 	
+	public String getUserid() {
+		return userid;
+	}
+
+
+	// id값 가져오기 위한
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	
+
 	
 	
 	

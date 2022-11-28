@@ -16,4 +16,7 @@ public interface InterReportManageService {
 	// 신고 내역 상세보기
 	ReportVO getreportDetail(Map<String, String> paraMap);
 
+	// 신고받은 자 아이디값 알아오기
+	String getReportedId(String reportedNickname);
+
 }

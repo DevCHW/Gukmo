@@ -20,3 +20,7 @@ div#memberManage_container{
 table#register_table{
   border: none;
 }
+
+table#activity_table{
+  border: none;
+}

@@ -30,15 +30,19 @@
         
         <label for="client_name" class="label_signup mt-3">클라이언트 명</label>
         <input type="text" id="client_name" name="client_name" style="width:300px;" class="input_signup rounded pl-2" placeholder="" />
-
+		<div id="client_name_error" class="error"></div>
+		
         <label for="client_phone" class="label_signup mt-3">클라이언트 번호</label>
         <input type="text" id="client_phone" name="client_phone" style="width:300px;" class="input_signup rounded pl-2" placeholder="" />
+		<div id="client_phone_error" class="error"></div>
 
         <label for="file_name" class="label_signup mt-3">파일명</label>
         <input type="text" id="file_name" name="file_name" style="width:300px;" class="input_signup rounded pl-2" placeholder="" />
+		<div id="file_name_error" class="error"></div>
 
         <label for="url" class="label_signup mt-3">URL 주소</label>
         <input type="text" id="url" name="url" style="width:300px;" class="input_signup rounded pl-2" placeholder="" />
+		<div id="url_error" class="error"></div>
 
         <label for="start_date" class="label_signup mt-3">게시 날짜</label>
         <input type="text" id="start_date" name="start_date" style="width:300px;" class="input_signup rounded pl-2" placeholder="오늘" readonly/>
@@ -55,6 +59,7 @@
             <option value="300">300 일</option>
           </select>
         </span>
+ 		<div id="period_error" class="error"></div>
       </form>
 
       <div class="my-3">

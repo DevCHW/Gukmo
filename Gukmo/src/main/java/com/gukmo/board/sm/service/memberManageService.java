@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 import com.gukmo.board.sm.repository.InterMemberDAO;
@@ -99,6 +100,13 @@ public class memberManageService implements InterMemberManageService {
 	public int Regi_agree(Map<String, String> paraMap) {
 		int n = dao.Regi_agree(paraMap);
 		return n;
+	}
+
+	// 회원관리에서 해당 회원의 활동 내역 가져오기
+	@Override
+	public List<ActivityVO> getActList(Map<String, String> paraMap) {
+		List<ActivityVO> ActList = dao.getActList(paraMap);
+		return ActList;
 	}
 
 

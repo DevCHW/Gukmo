@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 
@@ -100,10 +101,19 @@ public class MemberDAO implements InterMemberDAO {
 	}
 
 
+	// 
 	@Override
 	public int Regi_agree(Map<String, String> paraMap) {
 		int n = gukmo_sql.update("ksm.Regi_agree", paraMap);
 		return n;
+	}
+
+
+	// 특정 회원의 활동 내역 리스트 불러오기
+	@Override
+	public List<ActivityVO> getActList(Map<String, String> paraMap) {
+		List<ActivityVO> ActList = gukmo_sql.selectList("ksm.getActList", paraMap);
+		return ActList;
 	}
 
 }

@@ -17,8 +17,8 @@ $(document).ready(function(){
 		   block_recovery(userid, nickname);
 	   });
 	   
-	   $(document).on("click", ".sleep_recovery", function(){
-		   sleep_recovery(userid, nickname);
+	   $(document).on("click", ".Regi_agree", function(){
+		   Regi_agree(userid, nickname);
 	   });
 	   
 

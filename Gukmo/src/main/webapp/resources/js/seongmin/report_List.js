@@ -55,7 +55,7 @@ $(document).ready(function(){
     
   }) //end of 전체선택 클릭시
 
-  	// 해당 광고 클릭시
+  	// 해당 신고내역 클릭시
    $(document).on("click", ".reportDetail", function(){
 	   var report_num = $(this).attr('id');
 	   reportDetail(report_num);

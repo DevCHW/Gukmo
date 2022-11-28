@@ -36,6 +36,12 @@ public class ReportDAO implements InterReportDAO {
 		ReportVO reportDetail = gukmo_sql.selectOne("ksm.getReportDetail", paraMap);
 		return reportDetail;
 	}
+
+	@Override
+	public String getReportedId(String reportedNickname) {
+		String ReportedId = gukmo_sql.selectOne("ksm.getReportedId", reportedNickname);
+		return ReportedId;
+	}
 	
 
 }

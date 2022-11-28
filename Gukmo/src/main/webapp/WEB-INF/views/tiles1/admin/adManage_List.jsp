@@ -7,6 +7,23 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		if( ${not empty requestScope.paraMap} ) {
+
+			$("select#division").val("${requestScope.paraMap.memberStatus}");
+			$("select#searchType").val("${requestScope.paraMap.searchType}");
+			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+
+		}
+	}); // end of $(document).ready(function(){})------------------
+	
+</script>
+
+
   <!-- 직접 만든 CSS -->
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/adManage_List.css" />
   

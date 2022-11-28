@@ -90,23 +90,20 @@
 								${requestScope.reportDetail.report_date}
 							</td>
 						</tr>
-						<input type="hidden" id = "${requestScope.reportDetail.report_num}" name="report_num" />
-						<input type="hidden" id = "${requestScope.memberDetail.fk_num}" name="fk_num" />
+						<input type="hidden" id = "${requestScope.reportDetail.report_nickname}" name="report_nickname" />
+						<input type="hidden" id = "${requestScope.reportDetail.reported_nickname}" name="reported_nickname" />
+						<input type="hidden" id = "${requestScope.reportedId}" name="reportedId" />
 					</table>		
-<%-- 			<div class="">
-			  <c:if test="${requestScope.memberDetail.status == '활동'}">
-		        <button type="button" class = "memberBlock" id="${requestScope.memberDetail.userid}" >정지 등록</button>&nbsp;
-		      </c:if>
-			  <c:if test="${requestScope.memberDetail.status == '정지'}">
-		        <button type="button" id="" class="block_recovery">정지 해제</button>&nbsp;
-		      </c:if>
-		      
-			  <c:if test="${requestScope.memberDetail.status == '휴면'}">
-	            <button type="button" class = "memberBlock" id="${requestScope.memberDetail.userid}" >정지 등록</button>&nbsp;
-	            <button type="button" id="" class="sleep_recovery">휴면 해제</button>
-			  </c:if>
+ 			<div class="">
+ 			  <c:if test="${requestScope.reportDetail.report_type == '게시글'}">
+		        <button type="button" class = "goView" onclick="javascript:location.href='<%= ctxPath%>/detail.do?num='+${requestScope.reportDetail.fk_num}">해당 게시글로 이동</button>&nbsp;
+ 			  </c:if>
+ 			  <c:if test="${requestScope.reportDetail.report_type == '댓글'}">
+		        <button type="button" class = "goView" id="${requestScope.reportDetail.fk_num}" >해당 댓글로 이동</button>&nbsp;
+ 			  </c:if>
+		        <button type="button" id="" class="memberBlock" >정지 등록</button>&nbsp;
 			</div>
- --%>			
+			
 			<br><br>
 			
 			<div>

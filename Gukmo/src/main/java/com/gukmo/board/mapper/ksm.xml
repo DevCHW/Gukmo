@@ -274,25 +274,45 @@
 		where rnum between #{startRno} and #{endRno}		
 	</select>
 
-		<!-- 신고 관련 내용 상세보기 -->
-		<select id="getReportDetail" parameterType="HashMap" resultType="com.gukmo.board.model.ReportVO">
-			select rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, to_char(report_date, 'yyyy-mm-dd') as report_date, report_type
-			from 
-			(
-			select rownum as rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-			from 
-			(
-			select report_num, fk_board_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-			from tbl_board_report
-			union all
-			select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-			from tbl_comment_report
-			) V
-			) D
-			where report_num = #{report_num}
-		</select>
+	<!-- 신고 관련 내용 상세보기 -->
+	<select id="getReportDetail" parameterType="HashMap" resultType="com.gukmo.board.model.ReportVO">
+		select rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, to_char(report_date, 'yyyy-mm-dd') as report_date, report_type
+		from 
+		(
+		select rownum as rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
+		from 
+		(
+		select report_num, fk_board_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
+		from tbl_board_report
+		union all
+		select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
+		from tbl_comment_report
+		) V
+		) D
+		where report_num = #{report_num}
+	</select>
 
-
-
+	<!-- 신고 받은 회원의 아이디값 알아오기  -->
+	<select id="getReportedId" parameterType="String" resultType="String">
+		select fk_userid, nickname
+		from
+		(
+		select fk_userid, nickname
+		from tbl_member
+		union all
+		select fk_userid, nickname
+		from tbl_academy_member
+		)
+		where nickname = #{reportedNickname}	
+	</select>
+	
+	<!-- 활동내역 리스트 불러오기 -->
+	<select id="getActList" parameterType="HashMap" resultType="com.gukmo.board.model.ActivityVO">
+        select activity_num, fk_userid, fk_board_num, to_char(activity_date, 'yyyy-mm-dd') as activity_date, subject, detail_category, division, nickname
+        from tbl_activity 
+        where fk_userid = #{userid}	
+	</select>
+	
+	
 	
 </mapper>
