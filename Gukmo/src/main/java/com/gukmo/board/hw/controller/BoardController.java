@@ -26,68 +26,7 @@ public class BoardController {
 	
 	@Autowired
 	private FileManager fileManager;
-<<<<<<< HEAD
-=======
 	
-	
-	/**
-	 * 스터디 게시판리스트 페이지 GET요청 매핑
-	 */
-	@RequestMapping(value="/community/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public String viewStudies(HttpServletRequest request) {
-		Map<String, String> paraMap = new HashMap<>();
-		String str_page = request.getParameter("page");
-		String searchWord = "";
-		if(request.getParameter("searchWord") != null) {
-		  searchWord = request.getParameter("searchWord");
-		}
-		String sort = "";
-		if(request.getParameter("sort") != null) {
-			sort = request.getParameter("sort");
-		}
-		sort = getSort(sort);
-		
-		
-		paraMap.put("searchWord", searchWord);
-		paraMap.put("sort", sort);
-		
-		
-		// 총 게시물 건수(totalCount)구하기
-		int totalCount = service.getTotalStudiesCount(paraMap);
-		int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
-		//총 페이지 수 계산하기 (총페이지수/한페이지당 보여줄 게시물 건수)의 올림처리
-		int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
-		
-		int page = getPage(str_page,totalPage);	//현재페이지번호 구하기(예외처리 포함)
-		
-		// 시작행번호,끝 행번호 구하기(맵에 담아서 반환)
-		paraMap = getRno(page,sizePerPage,paraMap); 
-		 
-		List<BoardVO> studies = service.getStudies(paraMap);
-		// 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
-		 
-		// 검색대상 컬럼과 검색어를 뷰단 페이지에서 유지시키기 위한 조건
-		if(!"".equals(searchWord) ) {
-			request.setAttribute("paraMap", paraMap);
-		}
-		String url = "studies.do";
-		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage, url,searchWord,request.getParameter("sort"));
-		
-		request.setAttribute("page",page);
-		request.setAttribute("searchWord",searchWord);
-		request.setAttribute("sort",sort);
-		request.setAttribute("pageBar", pageBar);
-		request.setAttribute("totalCount", totalCount);
-		request.setAttribute("boardList",studies);
-				
-		return "board/community/boardList.tiles1";
-    }
-	
-	
-	
->>>>>>> refs/remotes/origin/hgb
-
 	
 	
 	
