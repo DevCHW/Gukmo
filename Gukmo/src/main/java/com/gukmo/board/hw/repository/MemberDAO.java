@@ -205,6 +205,17 @@ public class MemberDAO implements InterMemberDAO{
 	}
 
 
+
+	@Override
+	public ActivityVO getActivitiesByBoard(String nickname) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
 	
 	
 }
