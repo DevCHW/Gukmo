@@ -1,5 +1,6 @@
 package com.gukmo.board.model;
 
+
 public class MemberVO {
 	// 로그인 관련
 	private String userid;				//유저아이디
@@ -22,18 +23,20 @@ public class MemberVO {
 	private String phone;				//핸드폰번호
 	
 	// 일반회원 field
-	private String username;				//회원 이름
-
+	private String username;			//회원 이름
+	private String kakao;				//카카오연동여부
+	private String naver;				//네이버연동여부
+	private String google;				//구글연동여부
 
 
 	// 기본 생성자 일부러 protected로 막음
 	protected MemberVO(){};
 	
-	
-	// 파라미터가있는 생성자로만 값 주입 가능, Setter도 막음
+	//파라미터가 있는 생성자로만 값 주입
 	public MemberVO(String userid, String passwd, String status, String update_passwd_date, String email,
-					String email_acept, String nickname, String point, String join_date, String profile_image,
-					String academy_name, String company_num, String homepage, String phone, String username) {
+			String email_acept, String nickname, String point, String join_date, String profile_image,
+			String academy_name, String company_num, String homepage, String phone, String username, String kakao,
+			String naver, String google) {
 		this.userid = userid;
 		this.passwd = passwd;
 		this.status = status;
@@ -49,7 +52,11 @@ public class MemberVO {
 		this.homepage = homepage;
 		this.phone = phone;
 		this.username = username;
+		this.kakao = kakao;
+		this.naver = naver;
+		this.google = google;
 	}
+
 
 	// Getter
 	public String getUserid() {
@@ -67,8 +74,8 @@ public class MemberVO {
 	public String getEmail() {
 		return email;
 	}
-	public String getEmail_acept() {
-		return email_acept;
+	public int getEmail_acept() {
+		return Integer.parseInt(email_acept);
 	}
 	public String getNickname() {
 		return nickname;
@@ -98,6 +105,36 @@ public class MemberVO {
 	public String getUsername() {
 		return username;
 	}
+	
+	public String getKakao() {
+		return kakao;
+	}
+
+	public String getNaver() {
+		return naver;
+	}
+
+	public String getGoogle() {
+		return google;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "MemberVO [userid=" + userid + ", passwd=" + passwd + ", status=" + status + ", update_passwd_date="
+				+ update_passwd_date + ", email=" + email + ", email_acept=" + email_acept + ", nickname=" + nickname
+				+ ", point=" + point + ", join_date=" + join_date + ", profile_image=" + profile_image
+				+ ", academy_name=" + academy_name + ", company_num=" + company_num + ", homepage=" + homepage
+				+ ", phone=" + phone + ", username=" + username + ", kakao=" + kakao + ", naver=" + naver + ", google="
+				+ google + "]";
+	}
+	
+
+
+
+	
+	
 	
 	
 	

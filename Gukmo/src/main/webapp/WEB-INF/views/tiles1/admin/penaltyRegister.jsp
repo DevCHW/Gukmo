@@ -40,6 +40,7 @@
 
         <div style="">
           <textarea name="detail_penalty_reason" id="detail_penalty_reason" class="requiredInfo form-control" style="width:450px; height:250px;"></textarea>
+          <div id = "detail_penalty_reason_error"></div>
         </div>
 
         <!-- 정지 시작일 -->
@@ -58,6 +59,7 @@
             <option value="300">300 일</option>
           </select>
         </span>
+        <div id = "penalty_period_error"></div>
       </form>
 
       <div class="my-3">

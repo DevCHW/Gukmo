@@ -7,115 +7,102 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		if( ${not empty requestScope.paraMap} ) {
+
+			$("select#memberStatus").val("${requestScope.paraMap.memberStatus}");
+			$("select#searchType").val("${requestScope.paraMap.searchType}");
+			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+
+		}
+	}); // end of $(document).ready(function(){})------------------
+	
+</script>
+
+
   <!-- 직접 만든 CSS -->
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/memberManage_List.css" />
   
   <!-- 직접만든 javascript -->
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberManage_List.js?ver=1" ></script>
 
+	<div id="container" class="container-fluid row mt-5">
+	  <div class="col-2">
+		  <jsp:include page="/WEB-INF/views/tiles1/admin/sidebar_admin.jsp" />
+	  </div>
+		
+	  <div class="col-9">	  
 
-
-  <div class="container">
-    
-    <!-- navbar 시작 -->
-    <div id="nav" class="d-flex align-items-center mt-2">
-      <!-- 필터 시작 -->
-      <div id="filter_area" class="d-flex align-items-center mt-2">
-        
-      </div>
-      <!-- filter_area -->
-
-      
-      <div class="d-flex ml-auto">
-        <div id="btn_filter" class="d-flex justify-content-center align-items-center border rounded">
-          <i class="fa-solid fa-filter"></i>
-        </div>
-  
-        <div id="mask"></div>
-        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
-          <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <span>최신순</span>
-          <div id="sort_option" class="border rounded pl-3 pt-2">
-            <a href="#">최신순</a>
-            <a href="#">인기순</a>
-            <a href="#">박휘순</a>
-            <a href="#">무순</a>
-            <a href="#">커밍순</a>
-            <a href="#">김asdfasdf</a>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    <!-- 필터 끝 -->
-
-    <hr>
-
-    <h4 style="font-weight:bold;">일반 회원 관리</h4>
-
-    <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
-    <table class="table table-hover mt-2">
-      <thead>
-        <tr>
-          <th>아이디</th>
-          <th>이름</th>
-          <th>닉네임</th>
-          <th>이메일</th>
-          <th>가입일자</th>
-          <th>계정 상태</th>
-          
-        </tr>
-      </thead>
-      <tbody>
-		<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status">
-            <tr class = "memberDetail" id="${membervo.userid}">
-              <td style="cursor:pointer" ><span>${membervo.userid}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.username}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.nickname}</span></td>
-              <td style="cursor:pointer" ><span>${membervo.email}</span></td>
-              <td style="cursor:pointer" "><span>${membervo.join_date}</span></td>
-              <td style="cursor:pointer" "><span>${membervo.status}</span></td>
-            </tr>    
-          </c:forEach>
-    </tbody>
-    </table>
-    <!----------------------------------- 학원 리스트 테이블 끝 ------------------------------------->
-
-    <div class="d-flex justify-content-between">
-
-      <div id="total_cnt">
-        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
-        <!-- 총 건수 변수 들어갈 곳-->
-      </div>
-
-      <button type="button" id="btn_write" class="btn border-0 rounded">
-        +교육기관 등록
-      </button>
-    </div>
-
-
-
-
-
-    <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
-    <nav aria-label="...">
-		${requestScope.pageBar}
-    </nav>
-		<!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
-  </div>
-
+		
+		    <h4 style="font-weight:bold;">일반 회원 관리</h4>
+		
+		    <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
+		    <table class="table table-hover mt-2">
+		      <thead>
+		        <tr>
+		          <th>아이디</th>
+		          <th>이름</th>
+		          <th>닉네임</th>
+		          <th>이메일</th>
+		          <th>가입일자</th>
+		          <th>계정 상태</th>
+		          
+		        </tr>
+		      </thead>
+		      <tbody>
+				<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status">
+		            <tr class = "memberDetail" id="${membervo.userid}">
+		              <td style="cursor:pointer" ><span>${membervo.userid}</span></td>
+		              <td style="cursor:pointer" ><span>${membervo.username}</span></td>
+		              <td style="cursor:pointer" ><span>${membervo.nickname}</span></td>
+		              <td style="cursor:pointer" ><span>${membervo.email}</span></td>
+		              <td style="cursor:pointer" "><span>${membervo.join_date}</span></td>
+		              <td style="cursor:pointer" "><span>${membervo.status}</span></td>
+		            </tr>    
+		          </c:forEach>
+		    </tbody>
+		    </table>
+		    <!----------------------------------- 학원 리스트 테이블 끝 ------------------------------------->
+		
+		    <div class="d-flex justify-content-between">
+		
+		      <div id="total_cnt">
+		        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
+		        <!-- 총 건수 변수 들어갈 곳-->
+		      </div>
+		
+		      <button type="button" id="btn_write" class="btn border-0 rounded">
+		        +교육기관 등록
+		      </button>
+		    </div>
+		
+		
+		
+		
+		
+		    <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
+		    <nav aria-label="...">
+				${requestScope.pageBar}
+		    </nav>
+				<!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
+		  </div>
+		</div>
 
   <!-- 검색바시작 -->
     <form name="searchFrm" style="margin-top: 20px;">    	
 	    <div id="search_area" class="d-flex mr-3" style="justify-content:center">
 	       <div class= "d-flex rounded">
-	    	<select name="memberStatus" id="memberStatus" style="height:40px;">
+	    	<select class = "mx-2" name="memberStatus" id="memberStatus" style="height:40px;">
 	           <option value="" selected>계정 상태</option>
 	           <option value="활동">활동</option>
 	           <option value="정지">정지</option>
 	           <option value="휴면">휴면</option>
 	        </select>
-	    	<select name="searchType" id="searchType" style="height:40px;">
+	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
 	           <option value="fk_userid" selected>아이디</option>
 	           <option value="username">이름</option>
 	           <option value="nickname">닉네임</option>

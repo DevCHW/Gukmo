@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 import com.gukmo.board.sm.repository.InterMemberDAO;
@@ -18,6 +19,8 @@ public class memberManageService implements InterMemberManageService {
 	private InterMemberDAO dao;
 	// Type 에 따라 Spring 컨테이너가 알아서 bean 으로 등록된 com.spring.board.model.BoardDAO 의 bean 을  dao 에 주입시켜준다. 
     // 그러므로 dao 는 null 이 아니다.
+	
+
 	
 	// 회원 관리 페이지의 총 페이지 수 알아오기
 	@Override
@@ -69,6 +72,7 @@ public class memberManageService implements InterMemberManageService {
 		return n;
 	}
 
+	// 학원 총페이지수 알아오기
 	@Override
 	public int getTotalCount_academy(Map<String, String> paraMap) {
 		int n = dao.getTotalCount_academy(paraMap);
@@ -91,13 +95,34 @@ public class memberManageService implements InterMemberManageService {
 		return aca_MemberDetail;
 	}
 
-	// 
+	// 학원 회원가입 승인 
 	@Override
 	public int Regi_agree(Map<String, String> paraMap) {
 		int n = dao.Regi_agree(paraMap);
 		return n;
 	}
-	
+
+	// 회원관리에서 해당 회원의 활동 내역 가져오기
+	@Override
+	public List<ActivityVO> getActList(Map<String, String> paraMap) {
+		List<ActivityVO> ActList = dao.getActList(paraMap);
+		return ActList;
+	}
+
+	 // 활동 내역 총 페이지수 알아오기
+	@Override
+	public int getTotalActCount(Map<String, String> paraMap) {
+		int totalActCount = dao.getTotalActCount(paraMap);
+		return totalActCount;
+	}
+
+	// 멤버 디테일에서 검색 조건에 맞는 활동내역 리스트 불러오기
+	@Override
+	public List<ActivityVO> getDetailActList(Map<String, String> paraMap) {
+		List<ActivityVO> DetailActList = dao.getDetailActList(paraMap);
+		return DetailActList;
+	}
+
 
 
 }

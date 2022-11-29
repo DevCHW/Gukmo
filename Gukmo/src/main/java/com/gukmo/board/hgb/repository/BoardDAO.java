@@ -1,6 +1,7 @@
 package com.gukmo.board.hgb.repository;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -9,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 
 @Repository
@@ -16,15 +18,45 @@ public class BoardDAO implements InterBoardDAO{
 	
 	
 	@Resource
-	private SqlSessionTemplate gukmo_sql;
+	private SqlSessionTemplate gukmo_sql;	
 
-	// === 글조회수 증가와 함께 글1개를 조회를 해주는 것 === //
-	// (먼저, 로그인을 한 상태에서 다른 사람의 글을 조회할 경우에는 글조회수 컬럼의 값을 1증가 해야 한다)
+
+
+	/**
+	 * 하나의 글 불러오기
+	 * @param 글번호 board_num,상세카테고리 detaiL_category가 들어있는 Map
+	 * @return BoardVO
+	 */
 	@Override
-	public BoardVO getView(Map<String, String> paraMap) {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardVO getBoardDetail(Map<String,String> paraMap) {
+		BoardVO board = gukmo_sql.selectOne("hgb.getBoardDetail",paraMap);
+		return board;
 	}
-	
+
+
+
+
+	/**
+	 * 상세카테고리 알아오기
+	 * @param 글번호 board_num
+	 * @return 하나의 글번호에 대한상세카테고리
+	 */	
+	@Override
+	public String getCategory(int board_num) {
+		String detail_category = gukmo_sql.selectOne("hgb.getCategory",board_num);
+		return detail_category;
+	}
+
+
+
+	// === 글삭제 하기 === //
+	@Override
+	public int del(Map<String, String> paraMap) {
+		int n = gukmo_sql.delete("hgb.del", paraMap);
+		return n;
+	}
+
+
+
 	
 }

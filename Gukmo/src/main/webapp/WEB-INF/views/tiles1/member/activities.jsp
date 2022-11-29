@@ -5,6 +5,7 @@
 	String ctxPath = request.getContextPath();
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
   <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/hyunwoo/activities.css" />
@@ -31,7 +32,12 @@
             <div class="d-flex align-items-center">
               <%-- 프사 --%>
               <div id="profile_img_box" class="border">
-                <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+              	<c:if test="${sessionScope.user.kakao == '0' || fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
+                  <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+                </c:if>
+                <c:if test="${sessionScope.user.kakao != '0' && fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
+             	   <img src="${sessionScope.user.profile_image}"/>
+                </c:if>
               </div>
       
               <div class="ml-4 py-1">

@@ -44,9 +44,10 @@ public class MemberDAO implements InterMemberDAO{
 	 */
 	@Override
 	public boolean nicknameExistCheck(String nickname) {
-		int nickname_cnt = gukmo_sql.selectOne("chw.nicknameExistCheck",nickname);
+		int nickname_cnt1 = gukmo_sql.selectOne("chw.nicknameExistCheck1",nickname);	//일반회원
+		int nickname_cnt2 = gukmo_sql.selectOne("chw.nicknameExistCheck2",nickname);
 		boolean nicknameExist = false;
-		if(nickname_cnt > 0) {	//해당닉네임이 존재한다면
+		if(nickname_cnt1+nickname_cnt2 > 0) {	//해당닉네임이 존재한다면
 			nicknameExist = true;
 		}
 		else {					//해당닉네임이 존재하지 않는다면
@@ -66,9 +67,10 @@ public class MemberDAO implements InterMemberDAO{
 	 */
 	@Override
 	public boolean emailExistCheck(String email) {
-		int email_cnt = gukmo_sql.selectOne("chw.emailExistCheck",email);
+		int email_cnt1 = gukmo_sql.selectOne("chw.emailExistCheck1",email);
+		int email_cnt2 = gukmo_sql.selectOne("chw.emailExistCheck2",email);
 		boolean emailExist = false;
-		if(email_cnt > 0) {	//해당이메일이 존재한다면
+		if(email_cnt1+email_cnt2 > 0) {	//해당이메일이 존재한다면
 			emailExist = true;
 		}
 		else {				//해당이메일이 존재하지 않는다면
@@ -151,6 +153,69 @@ public class MemberDAO implements InterMemberDAO{
 		String userid = gukmo_sql.selectOne("chw.getMyID",email);
 		return userid;
 	}
+
+
+
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부 result
+	 */
+	@Override
+	public int editPasswd(Map<String, String> paraMap) {
+		int result = gukmo_sql.update("chw.editPasswd",paraMap);
+		return result;
+	}
+
+
+
+
+
+	/**
+	 * 프사첨부를 안했을경우 회원정보 수정
+	 */
+	@Override
+	public int editMyInfoWithOutFile(MemberVO member) {
+		int result = gukmo_sql.update("chw.editMyInfoWithOutFile",member);
+		return result;
+	}
+
+
+
+	/**
+	 * 프로필사진을 첨부했을 때 회원정보수정
+	 */
+	@Override
+	public int editMyInfo(Map<String,String> paraMap) {
+		int result = gukmo_sql.update("chw.editMyInfo",paraMap);
+		return result;
+	}
+
+
+
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	@Override
+	public MemberVO getUser(String userid) {
+		MemberVO user = gukmo_sql.selectOne("chw.getUser",userid);
+		return user;
+	}
+
+
+
+	@Override
+	public ActivityVO getActivitiesByBoard(String nickname) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
 	
 	
 }

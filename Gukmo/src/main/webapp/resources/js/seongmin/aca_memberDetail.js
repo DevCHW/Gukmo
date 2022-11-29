@@ -6,6 +6,8 @@ function getContextPath(){
 }
 
 $(document).ready(function(){
+	   $(".tab-pane").hide();
+
 	   var userid = $("input[name='userid']").attr('id');
 	   var nickname = $("input[name='nickname']").attr('id');
 
@@ -17,10 +19,13 @@ $(document).ready(function(){
 		   block_recovery(userid, nickname);
 	   });
 	   
-	   $(document).on("click", ".sleep_recovery", function(){
-		   sleep_recovery(userid, nickname);
+	   $(document).on("click", ".Regi_agree", function(){
+		   Regi_agree(userid, nickname);
 	   });
 	   
+	   $(document).on("click", "#actList_btn", function(){
+			   $("#actList").toggle();
+	   });	   
 
 }); //end of ready
 

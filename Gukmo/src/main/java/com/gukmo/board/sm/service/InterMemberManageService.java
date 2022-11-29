@@ -3,6 +3,7 @@ package com.gukmo.board.sm.service;
 import java.util.List;
 import java.util.Map;
 
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 
@@ -47,5 +48,17 @@ public interface InterMemberManageService {
 
 	// 회원가입 요청 승인
 	int Regi_agree(Map<String, String> paraMap);
+
+	// 특정 회원의 활동 내역 리스트 불러오기
+	List<ActivityVO> getActList(Map<String, String> paraMap);
+
+	 // 활동 내역 총 페이지수 알아오기
+	int getTotalActCount(Map<String, String> paraMap);
+
+	// 멤버 디테일에서 검색 조건에 맞는 활동내역 리스트 불러오기
+	List<ActivityVO> getDetailActList(Map<String, String> paraMap);
+
+	// ======== 학원 회원 끝 ========//
+	
 
 }

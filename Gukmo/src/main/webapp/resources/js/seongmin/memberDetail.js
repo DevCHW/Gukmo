@@ -6,9 +6,11 @@ function getContextPath(){
 }
 
 $(document).ready(function(){
+	   
 	   var userid = $("input[name='userid']").attr('id');
 	   var nickname = $("input[name='nickname']").attr('id');
 
+	   
 	   $(document).on("click", ".memberBlock", function(){
 		   block(userid, nickname);
 	   });
@@ -21,7 +23,26 @@ $(document).ready(function(){
 		   sleep_recovery(userid, nickname);
 	   });
 	   
-
+	   $(document).on("click", "#actList_btn", function(){
+		   $("#actList").toggle();
+	   });
+	   
+	   // 해당 리스트 클릭시 해당 board_num의 게시글로 이동
+	   $(document).on("click", ".goView", function(){
+		   var board_num = $(this).attr('id');
+		   location.href= getContextPath()+"/detail.do?num="+board_num;
+	   });
+	   
+		$("input#searchWord").keyup(function(e){
+			if(e.keyCode == 13) {
+				var userid = $("input[name='userid']").attr('id');
+				// 검색어에 엔터를 했을 경우
+				goSearch(userid);
+			}
+		});
+		
+		
+	   
 }); //end of ready
 
 //Function Declaration
@@ -104,5 +125,12 @@ function sleep_recovery(userid, nickname) {
 	  }
 	} //end of sleep_recovery()
 
-
+// 검색어 입력시
+function goSearch(userid) {
+	alert(userid);
+	const frm = document.searchFrm;
+	frm.method = "GET";
+	frm.action = getContextPath()+"/admin/memberDetail.do?userid="+userid;
+	frm.submit();
+}
 

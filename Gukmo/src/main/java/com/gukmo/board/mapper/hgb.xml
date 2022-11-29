@@ -5,4 +5,121 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="hgb">
+
+<!-- BoardList를 보여주기 위한 BoardVO 매핑 -->
+   <resultMap id="boardvoMap" type="com.gukmo.board.model.BoardVO">
+      <id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+      <result property="nickname" column="nickname" />
+      <result property="category" column="category" />
+      <result property="detail_category" column="detail_category" />
+      <result property="subject" column="subject" />
+      <result property="content" column="content" />
+      <result property="write_date" column="write_date" />
+      <result property="views" column="views" />
+      <result property="profile_image" column="profile_image" />
+      <result property="comment_cnt" column="comment_cnt" />
+      <result property="like_cnt" column="like_cnt" />
+      <result property="writer_point" column="writer_point" />
+      <result property="previoussubject" column="previoussubject" />
+      <result property="previousseq" column="previousseq" />
+      <result property="nextseq" column="nextseq" />
+      <result property="nextsubject" column="nextsubject" />
+      
+      <!-- HashtagVO -->
+      <collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+         <id property="hashtag_num" column="hashtag_num"/>
+         <result property="hashtag" column="hashtag"/>
+         <result property="fk_board_num" column="fk_board_num"/>
+      </collection>
+      
+      <!--  
+      <collection property="comments" column="comment_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.CommentVO">
+         <id property="comment_num" column="comment_num"/>         
+         <result property="comment_num" column="comment_num"/>
+         <result property="content" column="content"/>
+         <result property="nickname" column="nickname"/>
+         <result property="parent_write_nickname" column="parent_write_nickname"/>
+         <result property="board_num" column="board_num"/>
+         <result property="fk_comment_num" column="fk_comment_num"/>
+         <result property="write_date" column="write_date"/>
+      </collection>
+      -->
+   </resultMap>
+       
+	<!-- 하나의 글 불러오기 -->
+	<select id="getBoardDetail" parameterType="HashMap" resultMap="boardvoMap">
+		<!--    select *
+		from tbl_board
+		where board_num = #{board_num} and detail_category = #{detail_category}
+		--> 
+		
+		        	select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
+		      ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject
+		from
+		(
+		select *
+		from
+			(
+			select C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.content
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,D.point writer_point
+                  ,C.previousseq
+                  ,C.previoussubject
+                  ,C.nextseq
+                  ,C.nextsubject
+		    from
+				(
+				select lag(A.board_num, 1) over(order by A.board_num desc) AS previousseq
+		          , lag(A.subject, 1) over(order by A.board_num desc) AS previoussubject
+                  , lead(A.board_num, 1) over(order by A.board_num desc) AS nextseq
+		          , lead(A.subject, 1) over(order by A.board_num desc) AS nextsubject
+                  ,A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				from
+				(select * from tbl_board where 1=1
+				
+				) A
+				left join tbl_hashtag B
+				on A.board_num = B.fk_board_num
+				) C
+			left join
+			(select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			) V
+		) T
+        where board_num = #{board_num}
+	</select>
+	
+	<!-- 상세카테고리 알아오기 -->
+	<select id="getCategory" parameterType="Integer" resultType="String">
+		select detail_category
+		from tbl_board
+		where board_num = #{board_num}
+	</select>
+	
+	
+	<!-- === 1개글 삭제하기 === -->
+	<delete id="del" parameterType="HashMap">
+	    delete from tbl_board
+	    where board_num = #{board_num}
+	</delete>
+	
+	
+	
+	
+ 		
+   
 </mapper>

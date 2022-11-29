@@ -11,6 +11,10 @@ div#memberManage_container{
   
 }
 
+.contents {
+	font-size:20pt;
+}
+
 
 .register_table{
   font-size: 10pt;
@@ -18,5 +22,9 @@ div#memberManage_container{
 
 
 table#register_table{
+  border: none;
+}
+
+table#activity_table{
   border: none;
 }

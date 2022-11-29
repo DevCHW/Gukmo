@@ -144,6 +144,7 @@ $(document).ready(function(){
 
   //닉네임 칸 값 입력시 이벤트
   $("input#nickname").keyup(()=>{
+	
 	const nickname = $("input#nickname").val();
 	
     nickname_ok = false;
@@ -157,11 +158,14 @@ $(document).ready(function(){
 
   //가입하기 버튼 클릭시 이벤트
   $("button#btn_signup").click(()=>{
+	
+	
     if($("input#username").val().trim() == ""){ //이름 칸에 값을입력하지 않았다면
       alert("이름을 입력해주세요");
       $("input#username").focus();
     }
     else{ //이름을 입력했다면
+      reCAPTCHA();
       const frm = document.signup_form;
 	
       frm.action = getContextPath()+"/member/save.do";
@@ -178,6 +182,16 @@ $(document).ready(function(){
     	$("input#email_acept").val("1");
     }
   });
+  
+  
+  $("button#captchaTest").click(function(){
+	  reCAPTCHA();
+	  alert(recaptcha_ok);
+  });
+  
+  
+  
+  
 
 
 });//end of $(document).ready(function(){})---
@@ -512,3 +526,36 @@ function test_all(){
     $("button#btn_signup").css("color","");
   }
 }//end of method----
+
+
+
+/**
+ * reCAPTCHA v2 사용하기
+ * @returns
+ */
+function reCAPTCHA(){
+	$.ajax({
+        url: getContextPath()+'/member/verifyRecaptcha.do',
+        type: 'post',
+        data: {
+            recaptcha: $("#g-recaptcha-response").val()
+        },
+        success: function(data) {
+            switch (data) {
+                case 0:
+                    console.log("자동 가입 방지 봇 통과");
+                    recaptcha_ok = true;
+            		break;
+                case 1:
+                    alert("자동 가입 방지 봇 통과 후 시도해주세요");
+                    recaptcha_ok = false;
+                    break;
+                default:
+                    alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다. [Error bot Code : " + Number(data) + "]");
+                	recaptcha_ok = false;
+               		break;
+            }
+        }
+    });//end of $.ajax({})
+	
+}//end of method-----

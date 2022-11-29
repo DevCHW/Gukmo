@@ -75,8 +75,7 @@ $(document).ready(function(){
     location.href= "memberDetail.do?userid="+userid;
   }//end of  function MemberDetail()
 
-  function goSearch() {
-	  
+  function goSearch() {	  
 		const frm = document.searchFrm;
 		frm.method = "GET";
 		frm.action = getContextPath()+"/admin/memberManage_List.do";

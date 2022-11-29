@@ -1,6 +1,7 @@
 package com.gukmo.board.common;
 
 import java.util.Date;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -74,6 +75,28 @@ public class MyUtil {
 		}
 		return msg;
 	}
+	
+	
+	
+	
+	/**
+	 * 난수 발생 (회원가입할때 이메일로 보낼 인증코드),(닉네임생성시 난수발생시켜서 더하기)
+	 * @param 난수를 발생시킬 사이즈
+	 * @return 사이즈만큼의 자릿수를가진 난수
+	 */
+	public static String getAuthKey(int size) {
+        Random random = new Random();
+        
+        StringBuffer buffer = new StringBuffer();
+        int num = 0;
+
+        while(buffer.length() < size) {
+            num = random.nextInt(10);
+            buffer.append(num);
+        }
+
+        return buffer.toString();
+    }
 	
 	
 	

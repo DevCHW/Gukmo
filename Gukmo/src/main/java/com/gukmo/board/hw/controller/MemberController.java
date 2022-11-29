@@ -1,5 +1,6 @@
 package com.gukmo.board.hw.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.gukmo.board.common.FileManager;
+import com.gukmo.board.common.RecaptchaConfig;
 import com.gukmo.board.hw.repository.InterMemberDAO;
 import com.gukmo.board.hw.service.InterMemberService;
 import com.gukmo.board.model.ActivityVO;
@@ -27,6 +32,11 @@ public class MemberController {
 	
 	@Autowired
 	private InterMemberDAO dao;
+	
+	@Autowired
+	private FileManager fileManager;
+	
+	
 	
 	
 	//============================================================================ //
@@ -95,6 +105,9 @@ public class MemberController {
 		return jsonObj.toString();
 	}
 	
+	
+	
+	
 	/**
 	 * 가입된 이메일이 존재하는지 여부 검사
 	 * @return 가입된 이메일이 존재하면 true, 존재하지 않는다면 false를 반환한다.
@@ -117,7 +130,7 @@ public class MemberController {
 	@RequestMapping(value="/member/save.do", method= {RequestMethod.POST})
 	public String saveMember(MemberVO input_member,HttpServletRequest request) throws Throwable {
 		if(input_member.getAcademy_name() != null) {	//교육기관회원 가입인경우
-			System.out.println("교육기관회원 가입입니다.");
+			System.out.println("교육기관회원 가입입니다.");	//이곳에 교육기관회원가입 코딩
 		}
 		else {	//일반회원 가입인 경우
 			service.saveNormalMember(input_member);
@@ -134,13 +147,28 @@ public class MemberController {
 	
 	
 	/**
-	 * 계정찾기 페이지 GET 요청시 매핑
+	 * reCAPTCHA(로봇이아닙니다) 인증하기
+	 * @return 인증 성공시 0 실패시 1 에러시 -1
 	 */
-	@RequestMapping(value="/member/findId.do", method= {RequestMethod.GET})
-	public String viewfindId(HttpServletRequest request) {
-		return "member/findId.tiles1";
-		// /WEB-INF/views/tiles1/member/findId.jsp 페이지.
+	@ResponseBody
+	@RequestMapping(value = "/member/verifyRecaptcha.do", method = RequestMethod.POST)
+	public int VerifyRecaptcha(HttpServletRequest request) {
+	    RecaptchaConfig.setSecretKey("6LdO7zkjAAAAACYEyYOQ0PquIol3BtmcbcGY9PFI");
+	    String gRecaptchaResponse = request.getParameter("recaptcha");
+	    try {
+	       if(RecaptchaConfig.verify(gRecaptchaResponse))
+	          return 0; // 성공
+	       else return 1; // 실패
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return -1; //에러
+	    }
 	}
+	
+	
+	
+	
+	
 	
 	
 	//=========================================================================== //
@@ -156,6 +184,17 @@ public class MemberController {
 	//============================================================================== //
 	//============================= 마이페이지 관련 시작=================================== //
 	//============================================================================== //
+	
+	/**
+	 * 계정찾기 페이지 GET 요청시 매핑
+	 */
+	@RequestMapping(value="/member/findId.do", method= {RequestMethod.GET})
+	public String viewfindId(HttpServletRequest request) {
+		return "member/findId.tiles1";
+		// /WEB-INF/views/tiles1/member/findId.jsp 페이지.
+	}
+	
+	
 	
 	/**
 	 * 활동내역 페이지 GET요청시 페이지 보여주기(페이징처리)
@@ -311,8 +350,6 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
-		
-		
 		return "member/myId.tiles1";
 		// /WEB-INF/views/tiles1/member/myId.tiles1.jsp 페이지.
 	}
@@ -340,6 +377,9 @@ public class MemberController {
 		return "/policy/privacy_policy.tiles1";
 		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
 	}
+	
+	
+	
 	
 	/**
 	 * 계정삭제하기(POST가 맞는지 GET이 맞는지 고민해볼 것.)
@@ -381,30 +421,153 @@ public class MemberController {
 	/**
 	 * 계정찾기이후 이메일에서 계정찾기 링크를 클릭하면 나오는 비밀번호 변경페이지 매핑
 	 */
-	@RequestMapping(value="/member/changePwd.do", method= {RequestMethod.GET})
+	@RequestMapping(value="/changePwd.do", method= {RequestMethod.GET})
 	public String viewChangePwd(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		
-		String uuid = (String) session.getAttribute("uuid");
-		String email = request.getParameter("email");
-		
-		if(request.getParameter("uuid").equals(uuid)) {	//uuid가 http 헤더에 있는것과 세션에 있는값이 같다면,
-			String userid = service.getMyID(email);	//이메일 값으로 유저아이디 알아내기
-			
-			request.setAttribute("userid", userid);
-			return "/member/changePwd.tiles1";
-		}
-		else { //uuid가 url에 있는것과 http헤더에 있는것이 다르다면
+		try {
+			if(session != null) {	//세션이 null이 아니라면
+				if(request.getParameter("uuid").equals((String) session.getAttribute("uuid").toString())) {	//uuid가 http 헤더에 있는것과 세션에 있는값이 같다면,
+					String email = request.getParameter("email");
+					String userid = service.getMyID(email);	//이메일 값으로 유저아이디 알아내기
+					
+					request.setAttribute("userid", userid);
+					return "changePwd";
+				} else { 	//uuid가 url에 있는것과 http헤더에 있는것이 다르다면
+					String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
+					String loc = "javascript:history.go(-1)";
+					
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+				}
+			} else {	//세션이 null 이라면
+				String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
+				String loc = "javascript:history.go(-1)";
+				
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+			}
+			return "msg"; 
+		} catch(NullPointerException e) {
 			String message = "계정을 찾을 수 있는 시간을 초과하였습니다. 계정찾기를 다시 시도해주세요";
 			String loc = "javascript:history.go(-1)";
-			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
-		}
+			return "msg";
+		}//end of try-catch--
 			
-		return "msg"; 
+		
 		// /WEB-INF/views/tiles1/member/changePwd.jsp 페이지.
 	}
+	
+	
+		
+		
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 */
+	@RequestMapping(value="/member/editPasswd.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String editPasswd(HttpServletRequest request) {
+		String userid = request.getParameter("userid");
+		String passwd = request.getParameter("passwd");
+		Map<String,String> paraMap = new HashMap<>();
+		
+		paraMap.put("userid", userid);
+		paraMap.put("passwd", passwd);
+		int result = service.editPasswd(paraMap);	//DB에 가서 비밀번호 변경하기.
+		String message ="";
+		String loc = "";
+		if(result == 1) {
+			message = "비밀번호 수정이 완료되었습니다!";
+			loc = request.getContextPath()+"/index.do";
+		}
+		else {
+			message = "비밀번호 변경에 실패하였습니다. 다시 시도해주세요!";
+			loc = request.getContextPath()+"/index.do";
+		}
+		request.setAttribute("message", message);
+		request.setAttribute("loc", loc);
+		return "msg"; 
+	}
+	
+	
+	
+	
+	/**
+	 * 내정보 변경 해주기
+	 */
+	@ResponseBody
+	@RequestMapping(value="member/infoChange.do", method= {RequestMethod.POST})
+	public String editMyInfo(MemberVO member,MultipartFile profile_image, MultipartHttpServletRequest mrequest) {
+		int result = 0;
+		
+		HttpSession session = mrequest.getSession();
+		Map<String,String> paraMap = new HashMap<>();
+		if( profile_image!=null && !profile_image.isEmpty() ) { //프로필이미지를 첨부하였을 경우
+			
+			
+			String root = session.getServletContext().getRealPath("/");
+			
+			String path = root+"resources"+ File.separator +"images";
+			
+			String newFileName = "";
+			// WAS(톰캣)의 디스크에 저장될 파일명 
+			byte[] bytes = null;
+			// 첨부파일의 내용물을 담는 변수
+			try {
+				// 첨부파일의 내용물을 읽어오기
+				bytes = profile_image.getBytes();
+				
+				//유저가 업로드한 프로필이미지명
+				String realFileName = profile_image.getOriginalFilename();
+				// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
+				newFileName = fileManager.doFileUpload(bytes, realFileName, path);
+				
+				
+				MemberVO loginUser = (MemberVO)session.getAttribute("user");
+				paraMap.put("path",path);
+				paraMap.put("newFileName",newFileName);
+				paraMap.put("profile_image",loginUser.getProfile_image());
+				paraMap.put("before_nickname",mrequest.getParameter("before_nickname"));
+				
+				
+				//프로필이미지 첨부가 있는경우 회원정보 수정
+				result = service.editMyInfo(member,paraMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {	//프로필이미지 첨부가 없는경우 회원정보 수정
+			result = service.editMyInfoWithOutNoFile(member);
+		}
+		
+		session.removeAttribute("user");
+		MemberVO user = service.getUser(member.getUserid());
+		session.setAttribute("user", user);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		return jsonObj.toString();
+	}
+	
+	
+	
+	/**
+	 * 내가쓴 게시물 목록 가져오기
+	 */
+	@ResponseBody
+	@RequestMapping(value="member/myBoard.do", method= {RequestMethod.GET})
+	public String editMyInfo(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO loginUser = (MemberVO)session.getAttribute("user");
+		String nickname = loginUser.getNickname();
+		
+		ActivityVO activities = service.getActivitiesByBoard(nickname);	// 내가 글작성한 게시물 활동내역 가져오기
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("activities", activities);
+		return jsonObj.toString();
+	}
+	
 	
 	
 	
@@ -416,6 +579,39 @@ public class MemberController {
 	
       
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	

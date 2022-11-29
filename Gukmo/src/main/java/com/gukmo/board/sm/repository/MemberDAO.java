@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 
@@ -42,6 +43,7 @@ public class MemberDAO implements InterMemberDAO {
 		return MemberDetail;
 	}
 
+	// 정지 등록하기
 	@Override
 	public int addPenalty(PenaltyVO pvo) {
 		int n = gukmo_sql.insert("ksm.addPenalty", pvo);
@@ -99,10 +101,35 @@ public class MemberDAO implements InterMemberDAO {
 	}
 
 
+	// 
 	@Override
 	public int Regi_agree(Map<String, String> paraMap) {
 		int n = gukmo_sql.update("ksm.Regi_agree", paraMap);
 		return n;
+	}
+
+
+	// 특정 회원의 활동 내역 리스트 불러오기
+	@Override
+	public List<ActivityVO> getActList(Map<String, String> paraMap) {
+		List<ActivityVO> ActList = gukmo_sql.selectList("ksm.getActList", paraMap);
+		return ActList;
+	}
+
+
+	 // 활동 내역 총 페이지수 알아오기
+	@Override
+	public int getTotalActCount(Map<String, String> paraMap) {
+		int totalActCount = gukmo_sql.selectOne("ksm.getTotalActCount", paraMap);
+		return totalActCount;
+	}
+
+
+	// 멤버 디테일에서 검색 조건에 맞는 활동내역 리스트 불러오기
+	@Override
+	public List<ActivityVO> getDetailActList(Map<String, String> paraMap) {
+		List<ActivityVO> detailActList = gukmo_sql.selectList("ksm.getDetailActList", paraMap);
+		return detailActList;
 	}
 
 }

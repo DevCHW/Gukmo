@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.sun.service.InterBoardService;
 
 @Aspect     
@@ -77,7 +78,43 @@ public class BoardAOP {
 			System.out.println("aop 성공");
 		}
 	
-	}
+	} //end of pointPlusActivityLog
+	
+	
+	@Pointcut("execution(public * com.gukmo..*Controller.requiredAdminLogin_*(..) )")
+	public void requiredAdminLogin() {}
+	
+	@Before("requiredAdminLogin()")
+	public void adminLoginCheck(JoinPoint joinpoint) {
+		
+		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
+		HttpServletResponse response = (HttpServletResponse) joinpoint.getArgs()[1]; 
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("user");
+		String userid = loginuser.getUserid();
+		
+		if(session.getAttribute("user") == null || !"admin".equalsIgnoreCase(userid)) {
+			String message = "관리자 이외에는 접근 불가능합니다.";
+			String loc = request.getContextPath()+"/login.do";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			
+			// 로그인 성공후 로그인 하기전 페이지로 돌아가는 작업
+			String url = MyUtil.getCurrentURL(request);
+			session.setAttribute("goBackURL", url);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp"); 
+			
+			try {
+				dispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}//end of adminLoginCheck
  
 	 
 

@@ -1,5 +1,24 @@
 
 $(document).ready(function(){
+	let sort = sessionStorage.getItem("sort");
+	switch (sort) {
+		case "write_date":
+			sort = "최신순";
+			break;
+		case "comment_cnt":
+			sort = "댓글순";	
+			break;
+		case "like_cnt":
+			sort = "추천순";
+			break;
+		case "views":
+			sort = "조회순";
+			break;
+		default :
+			sort = "최신순";
+			break;
+	}//end of switch-case---
+	$("span#current_sort").text(sort);
   // filter버튼 클릭횟수 count
   let filter_click_cnt = 0;
   
@@ -17,6 +36,14 @@ $(document).ready(function(){
     $("div#mask").hide();
   });
   
+  //정렬옵션 클릭시 이벤트
+  $("div#sort_option span").click(e=>{
+    const target = $(e.currentTarget);
+    sort = target.text();
+    
+    
+    location.href="?page="+sessionStorage.getItem("page")+"&searchWord="+sessionStorage.getItem("searchWord")+"&sort="+sort;
+  });
 });
 
 

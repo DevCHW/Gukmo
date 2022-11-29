@@ -2,9 +2,9 @@ package com.gukmo.board.model;
 
 
 public class ActivityVO {
-	private int activity_num;     
+	private String activity_num;     
 	private String fk_userid;      
-	private int fk_board_num;     
+	private String fk_board_num;     
 	private String activity_date;       
 	private String subject;         
 	private String detail_category;
@@ -16,7 +16,7 @@ public class ActivityVO {
 	protected ActivityVO() {}
 
 	//파라미터가 있는 생성자로만 값 주입 가능, Setter로 변경 불가
-	public ActivityVO(int activity_num, String fk_userid, int fk_board_num, String activity_date,
+	public ActivityVO(String activity_num, String fk_userid, String fk_board_num, String activity_date,
 			String subject, String detail_category, String division) {
 		this.activity_num = activity_num;
 		this.fk_userid = fk_userid;
@@ -28,7 +28,7 @@ public class ActivityVO {
 	}
 	
 	
-	public int getActivity_num() {
+	public String getActivity_num() {
 		return activity_num;
 	}
 
@@ -36,7 +36,7 @@ public class ActivityVO {
 		return fk_userid;
 	}
 
-	public int getFk_board_num() {
+	public String getFk_board_num() {
 		return fk_board_num;
 	}
 

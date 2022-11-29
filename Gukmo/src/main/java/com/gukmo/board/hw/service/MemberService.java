@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gukmo.board.common.FileManager;
 import com.gukmo.board.common.Sha256;
 import com.gukmo.board.hw.email.GoogleMail;
 import com.gukmo.board.hw.repository.InterMemberDAO;
@@ -28,7 +29,10 @@ public class MemberService implements InterMemberService{
 	private InterMemberDAO dao;
 	
 	@Autowired
-	GoogleMail mail;
+	private GoogleMail mail;
+	
+	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
+	private FileManager fileManager;
 	
 	/**
 	 * 일반회원 가입하기
@@ -42,7 +46,7 @@ public class MemberService implements InterMemberService{
 				 					   input_member.getStatus(), 
 				 					   input_member.getUpdate_passwd_date(), 
 				 					   input_member.getEmail(),
-				 					   input_member.getEmail_acept(), 
+				 					   input_member.getEmail_acept()+"", 
 				 					   input_member.getNickname(), 
 				 					   input_member.getPoint(), 
 				 					   input_member.getJoin_date(), 
@@ -51,7 +55,10 @@ public class MemberService implements InterMemberService{
 				 					   input_member.getCompany_num(), 
 				 					   input_member.getHomepage(), 
 				 					   input_member.getPhone(),
-				 					   input_member.getUsername());
+				 					   input_member.getUsername(),
+									   "0",
+									   "0",
+									   "0");
 		
 		int n = dao.insert_member_login(member);	//tbl_member_login에 insert
 		if(n==1) {	//tbl_member에 insert가 성공시
@@ -125,7 +132,7 @@ public class MemberService implements InterMemberService{
         session.setMaxInactiveInterval(60*3);	//180초(3분)으로 설정함
         
 		// 이메일에 보낼 메세지(계정을찾을수있는 링크 보내주기)
-		String message = "<a href='http://localhost:9090"+request.getContextPath()+"/member/changePwd.do?email="+email+"&uuid="+uuid+"'>"
+		String message = "<a href='http://localhost:9090"+request.getContextPath()+"/changePwd.do?email="+email+"&uuid="+uuid+"'>"
 					   +   "계정을 찾으시려면 클릭하세요. 이 링크는 3분뒤 만료됩니다. "
 					   + "</a>";
 		try {
@@ -145,37 +152,7 @@ public class MemberService implements InterMemberService{
 		return jsonObj.toString();
 	}
 	
-	
-	
-	
-	
-	
-	
-	// == 유틸 메소드 == //
-	
-	
 	/**
-	 * 인증코드 난수 발생(추후 회원가입할때 이메일로 인증코드 발생시킬 때 구현하기)
-	 * @param 난수를 발생시킬 사이즈
-	 * @return 사이즈만큼의 자릿수를가진 난수
-	 */
-    private String getAuthKey(int size) {
-        Random random = new Random();
-        
-        StringBuffer buffer = new StringBuffer();
-        int num = 0;
-
-        while(buffer.length() < size) {
-            num = random.nextInt(10);
-            buffer.append(num);
-        }
-
-        return buffer.toString();
-    }
-
-
-
-    /**
 	 * 이메일 값으로 회원 아이디 알아내기
 	 * @param email
 	 * @return
@@ -185,7 +162,94 @@ public class MemberService implements InterMemberService{
 		String userid = dao.getMyID(email);
 		return userid;
 	}
+
+
+
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부 result
+	 */
+	@Override
+	public int editPasswd(Map<String, String> paraMap) {
+		paraMap.put("passwd", Sha256.encrypt(paraMap.get("passwd"))); //암호화 해서 다시 넣기
+		int result = dao.editPasswd(paraMap);
+		return result;
+	}
+		
 	
+	
+	
+	
+	
+	
+	
+	// == 유틸 메소드 == //
+	
+
+
+    /**
+	 * 프로필사진을 첨부했을 때 회원정보수정
+	 * @param member
+	 * @param profileImage
+	 */
+	@Override
+	public int editMyInfo(MemberVO member,Map<String,String> paraMap) {
+		String path = paraMap.get("path");
+		String currentProfileImage = paraMap.get("profile_image");
+		
+		paraMap.put("userid",member.getUserid());
+		paraMap.put("nickname",member.getNickname());
+		paraMap.put("username",member.getUsername());
+		paraMap.put("email_acept",member.getEmail_acept()+"");
+		
+		// 프로필이미지 파일 지워주기
+		if( !"user.PNG".equals(currentProfileImage) ) {
+			fileManager.doFileDelete(currentProfileImage, path);
+		}
+		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
+		
+		return result1;
+	}
+
+
+	/**
+	 * 프사첨부를 안했을경우 회원정보 수정
+	 */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int editMyInfoWithOutNoFile(MemberVO member) {
+		int result = dao.editMyInfoWithOutFile(member);	// 멤버테이블에서 정보 업데이트하기
+		return result; 
+	}
+
+
+
+	
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	@Override
+	public MemberVO getUser(String userid) {
+		MemberVO user = dao.getUser(userid);
+		return user;
+	}
+
+
+	
+	/**
+	 * 내가 글작성한 게시물 활동내역 가져오기
+	 * @param nickname
+	 * @return
+	 */
+	@Override
+	public ActivityVO getActivitiesByBoard(String nickname) {
+		ActivityVO activities = dao.getActivitiesByBoard(nickname);
+		return activities;
+	}
+
 	
 	
 

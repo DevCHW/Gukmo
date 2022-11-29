@@ -4,6 +4,10 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <script type="text/javascript">
 	sessionStorage.setItem("username",'${sessionScope.user.username}');
 	sessionStorage.setItem("nickname",'${sessionScope.user.nickname}');
@@ -30,7 +34,7 @@
       <h5>회원정보</h5>
       
       <%-- 이름 --%>
-      <form name="myInfoFrm">
+      <form name="myInfoFrm" enctype="multipart/form-data">
         <div id="section1" class="justify-content-between mb-5">
           <div id="input_box" class="d-flex flex-column">
             <label for="username" class="input_label">이름</label>
@@ -42,12 +46,17 @@
           <%-- 프사 --%>
           <div class="d-flex align-items-baseline">
             <div id="profile_img_box" class="border">
-              <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+              <c:if test="${sessionScope.user.kakao == '0' || fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
+                <img id="profile_img" src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+              </c:if>
+               <c:if test="${sessionScope.user.kakao != '0' && fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
+             	  <img id="profile_img" src="${sessionScope.user.profile_image}"/>
+               </c:if>
               <div id="img_mask" class="justify-content-center align-items-center">
                 <span style="color:white; font-weight:bold;">이미지 변경</span>
               </div>
             </div>
-            <button id="btn_change" class="btn btn-white border rounded ml-3">변경</button>
+            <button type="button" id="btn_change" class="btn btn-white border rounded ml-3">변경</button>
           </div>
         </div>
 
@@ -67,9 +76,13 @@
 
           <%-- 토글스위치 --%>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" id="email_agreement" name="email_agreement">
             <span class="slider round"></span>
           </label>
+          <input type="hidden" id="email_acept" name="email_acept" value="${sessionScope.user.email_acept}"/>
+          <input type="hidden" name="userid" value="${sessionScope.user.userid }"/>
+          <input type="hidden" name="profile_image" value="${sessionScope.user.profile_image} "/>
+          <input type="hidden" name="benickname" value="${sessionScope.user.nickname }"/>  
         </div>
 
         <hr>

@@ -75,6 +75,46 @@ public interface InterMemberDAO {
 	 */
 	String getMyID(String email);
 
+
+	/**
+	 * 계정찾기 비밀번호 변경 해주기
+	 * @param email,passwd 인풋값
+	 * @return 성공여부 result
+	 */
+	int editPasswd(Map<String, String> paraMap);
+
+
+
+	/**
+	 * 프사첨부를 안했을경우 회원정보 수정
+	 */
+	int editMyInfoWithOutFile(MemberVO member);
+
+
+	/**
+	 * 프로필사진을 첨부했을 때 회원정보수정
+	 */
+	int editMyInfo(Map<String,String> paraMap);
+
+
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	MemberVO getUser(String userid);
+
+
+	/**
+	 * 내가 글작성한 게시물 활동내역 가져오기
+	 * @param nickname
+	 * @return
+	 */
+	ActivityVO getActivitiesByBoard(String nickname);
+
+
+
+
 	
 
 }

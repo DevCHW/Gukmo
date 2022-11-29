@@ -9,8 +9,87 @@ function getContextPath(){
 let btn_comment_toggle_click_cnt = 0;
 
 $(document).ready(function(){
+	
+	// === 스마트 에디터 구현 시작 === 
+	//전역변수
+    var obj = [];
+    var obj2 = [];
+    
+    //스마트에디터 프레임생성
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: obj,
+        elPlaceHolder: "write_comment",
+        sSkinURI: getContextPath()+"/resources/smarteditor/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseToolbar : true,            
+            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseVerticalResizer : true,    
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseModeChanger : true,
+        }
+    });
+    // === 스마트 에디터 구현 끝 === 
+    
+    
+    
+    $("button#go_comment").click(function(){
+    	
+    	alert("dd");
+		
+		// === 스마트 에디터 구현 시작 === 
+		// id가 content인 textarea에 에디터에서 대입
+        obj.getById["write_comment"].exec("UPDATE_CONTENTS_FIELD", []);
+	    //- === 스마트 에디터 구현 끝 === 
+		
+		// 글제목 유효성 검사
+		const write_comment = $("textarea#write_comment").val().trim();
+		if(write_comment == "") {
+			alert("글제목을 입력하세요!!");
+			return;
+		}
+		
+		
+		
+	
+	
+	    // === 글내용 유효성 검사(스마트 에디터 사용 할 경우) 시작 === 
+	    var write_comment_val = $("textarea#write_comment").val();
+	        
+	 // 글내용 유효성 검사 하기 
+     // alert(contentval); // content에  공백만 여러개를 입력하여 쓰기할 경우 알아보는것.
+     // <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p> 이라고 나온다.
+     
+	    write_comment_val = write_comment_val.replace(/&nbsp;/gi, ""); // 공백을 "" 으로 변환
+     /*    
+	         대상문자열.replace(/찾을 문자열/gi, "변경할 문자열");
+	     ==> 여기서 꼭 알아야 될 점은 나누기(/)표시안에 넣는 찾을 문자열의 따옴표는 없어야 한다는 점입니다. 
+	                  그리고 뒤의 gi는 다음을 의미합니다.
+	
+	 	 g : 전체 모든 문자열을 변경 global
+	 	 i : 영문 대소문자를 무시, 모두 일치하는 패턴 검색 ignore
+	*/ 
+  //   alert(contentval);
+  //   <p>             </p>
+     
+	    write_comment_val = write_comment_val.substring(write_comment_val.indexOf("<p>")+3);   // "             </p>"
+	    write_comment_val = write_comment_val.substring(0, write_comment_val.indexOf("</p>")); // "             "
+              
+       if(write_comment_val.trim().length == 0) {
+    	   alert("글내용을 입력하세요!!");
+           return;
+       }
+	   // === 글내용 유효성 검사(스마트 에디터 사용 할 경우) 끝 === 
+	
+		
+	   // 폼(form)을 전송(submit)
+	   const frm = document.addFrm;
+	   frm.method = "POST";
+	   frm.action = "<%= ctxPath%>/addEnd.action";
+	   frm.submit();
+	});
 
-
+    //////////////////////////////////////////////////////////////////////////////////
 
   //게시글에 [...]클릭시 이벤트
   $("span#btn_more").click(()=>{
@@ -28,6 +107,21 @@ $(document).ready(function(){
     $("div#mask").hide();
   });//end of Event--
   
+  
+  // [...]클릭후, 삭제버튼 클릭시 이벤트
+  $("span#board_delete").click(()=>{
+	  if(confirm('정말 삭제하시겠습니까?')) {
+		  
+		  alert("삭제백단");
+		  
+		  location.href='<%= request.getContextPath()%>/del_board.do?board_num=${requestScope.board.board_num}'
+		  
+		  return true;
+	  }  
+			
+		else 
+			return false;
+  });//end of Event--
 
 
   //대댓글 쓰기 버튼 클릭시 이벤트
