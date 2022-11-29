@@ -70,7 +70,7 @@
         <span id="btn_more" class="border rounded px-2 py-1">&#8230;
           <div id="update_or_delete" class="border rounded px-3 py-2">
             <span>수정하기</span>
-            <span id="board_delete">삭제하기</span>
+            <span id="board_delete" onclick="del_board(${request.board.board_num})">삭제하기</span>
           </div>
         </span>
       </div>
