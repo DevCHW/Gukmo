@@ -15,15 +15,27 @@
 		where userid = #{userid}
 	</select>
 	
-	<!-- 닉네임중복검사 -->
-	<select id="nicknameExistCheck" parameterType="String" resultType="Integer">
+	<!-- 닉네임중복검사1 -->
+	<select id="nicknameExistCheck1" parameterType="String" resultType="Integer">
 		select count(nickname) from tbl_member
 		where nickname = #{nickname}
 	</select>
 	
+	<!-- 닉네임중복검사2 -->
+	<select id="nicknameExistCheck2" parameterType="String" resultType="Integer">
+		select count(nickname) from tbl_academy_member
+		where nickname = #{nickname}
+	</select>
+	
 	<!-- 이메일중복검사 -->
-	<select id="emailExistCheck" parameterType="String" resultType="Integer">
+	<select id="emailExistCheck1" parameterType="String" resultType="Integer">
 		select count(email) from tbl_member
+		where email = #{email}
+	</select>
+	
+	<!-- 이메일중복검사 -->
+	<select id="emailExistCheck2" parameterType="String" resultType="Integer">
+		select count(email) from tbl_academy_member
 		where email = #{email}
 	</select>
 	
@@ -171,13 +183,16 @@
 		       nvl(V.join_date,C.join_date) join_date,
 		       nvl(V.profile_image,C.profile_image) profile_image,
 		       nvl(V.username,C.username) username,
+		       V.kakao,
+		       V.naver,
+		       V.google,
 		       C.academy_name,
 		       C.company_num,
 		       C.homepage,
 		       C.phone
 		from
 			(
-				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username
+				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver
 				from
 				(
 				select userid from tbl_member_login 
@@ -206,6 +221,54 @@
 	
 	
 	<!--=============== Login 끝 ============-->
+
+
+
+
+
+
+
+	<!--=============== APILogin 시작 ============-->
+	
+	
+	<!-- 카카오로 로그인 체크하기 -->
+	<select id="kakaoConnectionCheck" parameterType="HashMap" resultType="HashMap">
+		select kakao,email,nickname from tbl_member
+		where email = #{email} 
+	</select>
+	
+	<!-- 카카오연동유저로 바꾸기(update)  -->
+	<update id="setKakaoConnection" parameterType="HashMap">
+		update tbl_member set kakao = '1'
+		where email = #{email}
+	</update>
+	
+	
+	<!-- 멤버로그인테이블에 회원가입정보 insert -->
+	<insert id="social_insert_member_login" parameterType="HashMap">
+		insert into tbl_member_login(userid, passwd)
+		values(#{userid}, #{passwd})
+	</insert>
+	
+	<!-- 멤버테이블에 회원가입정보 insert -->
+	<insert id="social_insert_member" parameterType="HashMap">
+		insert into tbl_member(fk_userid, email, email_acept, profile_image,username, nickname, kakao, naver, google)
+		values(#{userid}, #{email}, #{email_acept}, #{profile_image}, #{nickname}, #{nickname},#{kakao},#{naver},#{google})
+	</insert>
+	
+	
+	<!-- 이메일 값으로 유저아이디 알아내기 -->
+	<select id="getUserid" parameterType="String" resultType="String">
+		select fk_userid from tbl_member
+		where email = #{email} 
+	</select>
+	
+	
+	<!--=============== APILogin 끝 ============-->
+
+
+
+
 
 
 

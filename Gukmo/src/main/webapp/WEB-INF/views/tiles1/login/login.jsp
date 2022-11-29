@@ -5,6 +5,8 @@
 	String ctxPath = request.getContextPath();
 %>
 
+  <%-- 카카오 로그인 --%>
+  <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
   <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/login.css" />
   <%-- 직접만든 javascript --%>
@@ -71,4 +73,8 @@
       <button id="btn_login" type="button" class="btn border rounded">로그인</button>
       <div class="mx-auto my-4">아직 회원이 아니신가요?&nbsp;<span id="btn_signup">회원가입</span></div>
     </div>
+    
+    
+    <%-- 어느소셜로그인인지 체크 --%>
+    <input type="hidden" name="flag" id="flag"/>
   </form>
