@@ -33,94 +33,65 @@
 
 
 
-  <div class="container">
-    
-    <!-- navbar 시작 -->
-    <div id="nav" class="d-flex align-items-center mt-2">
-      <!-- 필터 시작 -->
-      <div id="filter_area" class="d-flex align-items-center mt-2">
-        
-      </div>
-      <!-- filter_area -->
+	<div id="container" class="container-fluid row mt-5">
+	  <div class="col-2">
+		  <jsp:include page="/WEB-INF/views/tiles1/admin/sidebar_admin.jsp" />
+	  </div>
+		
+	  <div class="col-9">	  
 
-      
-      <div class="d-flex ml-auto">
-        <div id="btn_filter" class="d-flex justify-content-center align-items-center border rounded">
-          <i class="fa-solid fa-filter"></i>
-        </div>
-  
-        <div id="mask"></div>
-        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
-          <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <span>최신순</span>
-          <div id="sort_option" class="border rounded pl-3 pt-2">
-            <a href="#">최신순</a>
-            <a href="#">인기순</a>
-            <a href="#">박휘순</a>
-            <a href="#">무순</a>
-            <a href="#">커밍순</a>
-            <a href="#">김asdfasdf</a>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    <!-- 필터 끝 -->
-
-    <hr>
-
-    <h4 style="font-weight:bold;">신고 현황 관리</h4>
-
-    <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
-    <table class="table table-hover mt-2">
-      <thead>
-        <tr>
-          <th>신고 분류</th>
-          <th>신고자 닉네임</th>
-          <th>피신고자 닉네임</th>
-          <th>신고 사유</th>
-          <th>신고 사유 상세</th>
-          <th>신고 날짜</th>
-        </tr>
-      </thead>
-        <tbody>
-		  <c:forEach var="rvo" items="${requestScope.reportList}" varStatus="status">
-            <tr class = "reportDetail" id="${rvo.report_num}">
-              <td style="cursor:pointer"><span>${rvo.report_type}</span></td>
-              <td style="cursor:pointer" ><span>${rvo.report_nickname}</span></td>
-              <td style="cursor:pointer" ><span>${rvo.reported_nickname}</span></td>
-              <td style="cursor:pointer" ><span>${rvo.simple_report_reason}</span></td>
-              <td style="cursor:pointer"><span>asdf</span></td>
-              <td style="cursor:pointer"><span>${rvo.report_date}</span></td>
-            </tr>    
-          </c:forEach>
-       </tbody>
-    </table>
-    <!----------------------------------- 학원 리스트 테이블 끝 ------------------------------------->
-
-    <div class="d-flex justify-content-between">
-
-      <div id="total_cnt">
-        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
-        <!-- 총 건수 변수 들어갈 곳-->
-      </div>
-
-      <button type="button" id="" class="btn border-0 rounded" onclick="">
-        + 광고 등록
-      </button>
-    </div>
-
-
-
-
-
-    <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
-    <nav aria-label="...">
-		${requestScope.pageBar}
-    </nav>
-		<!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
-  </div>
-
+	    <h4 style="font-weight:bold;">신고 현황 관리</h4>
+	
+	    <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
+	    <table class="table table-hover mt-2">
+	      <thead>
+	        <tr>
+	          <th>신고 분류</th>
+	          <th>신고자 닉네임</th>
+	          <th>피신고자 닉네임</th>
+	          <th>신고 사유</th>
+	          <th>신고 사유 상세</th>
+	          <th>신고 날짜</th>
+	        </tr>
+	      </thead>
+	        <tbody>
+			  <c:forEach var="rvo" items="${requestScope.reportList}" varStatus="status">
+	            <tr class = "reportDetail" id="${rvo.report_num}">
+	              <td style="cursor:pointer"><span>${rvo.report_type}</span></td>
+	              <td style="cursor:pointer" ><span>${rvo.report_nickname}</span></td>
+	              <td style="cursor:pointer" ><span>${rvo.reported_nickname}</span></td>
+	              <td style="cursor:pointer" ><span>${rvo.simple_report_reason}</span></td>
+	              <td style="cursor:pointer"><span>asdf</span></td>
+	              <td style="cursor:pointer"><span>${rvo.report_date}</span></td>
+	            </tr>    
+	          </c:forEach>
+	       </tbody>
+	    </table>
+	    <!----------------------------------- 학원 리스트 테이블 끝 ------------------------------------->
+	
+	    <div class="d-flex justify-content-between">
+	
+	      <div id="total_cnt">
+	        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
+	        <!-- 총 건수 변수 들어갈 곳-->
+	      </div>
+	
+	      <button type="button" id="" class="btn border-0 rounded" onclick="">
+	        + 광고 등록
+	      </button>
+	    </div>
+	
+	
+	
+	
+	
+	    <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
+	    <nav aria-label="...">
+			${requestScope.pageBar}
+	    </nav>
+			<!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
+	  </div>
+	</div>
 
   <!-- 검색바시작 -->
     <form name="searchFrm" style="margin-top: 20px;">    	

@@ -124,12 +124,63 @@ public class memberManageController {
 		String userid = request.getParameter("userid");
 		paraMap.put("userid", userid);
 		
+	    String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		String memberStatus = request.getParameter("division");				
+
+		String str_page = request.getParameter("page");
+		
+		if(memberStatus == null) {
+			memberStatus = "";	
+		}
+		
+		 if(searchType == null || (!"detail_category".equals(searchType) && !"subject".equals(searchType) ) ) {
+			searchType = "";
+		 }
+		
+		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+		 	searchWord = "";
+		 }
+		
+		 paraMap.put("searchType", searchType);
+		 paraMap.put("searchWord", searchWord);
+		 paraMap.put("memberStatus", memberStatus);
+		
+		 // 활동 내역 총 페이지수 알아오기
+		 int totalCount = service.getTotalActCount(paraMap);           // 총 게시물 건수
+		 int sizePerPage = 5;         // 한 페이지당 보여줄 게시물 건수 
+		 int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		 int page = getPage(str_page,totalPage);    // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
+		
+		 paraMap = getRno(page,sizePerPage,paraMap);
+		 String url = "memberDetail.do";
+		
+		 List<ActivityVO> detailActList = service.getDetailActList(paraMap);
+		 
+		Map<String,String> pageMap = new HashMap<>();
+		pageMap.put("searchWord",searchWord);
+		pageMap.put("searchType",searchType);
+		pageMap.put("memberStatus",memberStatus);
+		pageMap.put("keyWord", "division");
+		pageMap.put("userid", userid);
+		 
+		String pageBar = getDetailPageBar(page,totalPage,url,pageMap);
+		
+		 if( !"".equals(searchType) && !"".equals(searchWord) ) {
+			 mav.addObject("paraMap", paraMap);
+		 }
+	
+		
 		MemberVO memberDetail = service.getMemberDetail(paraMap);	
-		List<ActivityVO> actList = service.getActList(paraMap);
+		// List<ActivityVO> actList = service.getActList(paraMap);
 		
-		mav.addObject("memberDetail", memberDetail);
-		
-		mav.addObject("actList", actList);
+		request.setAttribute("paraMap", paraMap);
+		request.setAttribute("totalCount", totalCount);			
+
+		// mav.addObject("actList", actList);
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("actList", detailActList);
+		mav.addObject("memberDetail", memberDetail);		
 		mav.setViewName("admin/memberDetail.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;
@@ -211,6 +262,9 @@ public class memberManageController {
 		Map<String, String> paraMap = new HashMap<>();
 		String userid = request.getParameter("userid");
 		paraMap.put("userid", userid);
+		List<ActivityVO> actList = service.getActList(paraMap);
+		
+		mav.addObject("actList", actList);
 		
 		MemberVO aca_memberDetail = service.getAcademyDetail(paraMap);
 		
@@ -638,7 +692,77 @@ public class memberManageController {
 	      return pageBar;
 	    }//end of getPageBar(){}---
 	   
-
+	   
+	   // 상세보기에서 활동 내역에 관한 페이지바 만들기 
+	   private String getDetailPageBar(int page, int totalPage, String url, Map<String,String> pageMap) {
+		      // 페이지바 만들기 
+		      int blockSize = 5;
+		      // blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 개수이다.
+		      
+		      int loop = 1;
+		      
+		      int pageNo = ((page - 1)/blockSize) * blockSize + 1;
+		      
+		      String pageBar = "<ul class='my pagination pagination-md justify-content-center mt-5'>";
+		      
+		      // === [<<][<] 만들기 === //
+		      if(pageNo != 1) {
+		         //[<<]
+		         pageBar += "<li class='page-item'>" + 
+		                  "  <a class='page-link' href='"+url+"?userid="+pageMap.get("userid")+"&"+pageMap.get("keyWord")+"="+pageMap.get("memberStatus")+"&searchType="+pageMap.get("searchType")+"&searchWord="+pageMap.get("searchWord")+"&page=1'>" + 
+		                  "    <i class='fa-solid fa-angles-left'></i>" + 
+		                  "  </a>" + 
+		                  "</li>";
+		         //[<]
+		         pageBar += "<li class='page-item'>" + 
+		                  "  <a class='page-link' href='"+url+"?userid="+pageMap.get("userid")+"&"+pageMap.get("memberStatus")+"&searchType="+pageMap.get("searchType")+"&searchWord="+pageMap.get("searchWord")+"&page="+(pageNo-1)+"'>" + 
+		                  "    <i class='fa-solid fa-angle-left'></i>" + 
+		                  "  </a>" + 
+		                  "</li>"; 
+		      }
+		      
+		      while( !(loop > blockSize || pageNo > totalPage) ) {
+		         
+		         if(pageNo == page) {   //페이지번호가 현재페이지번호와 같다면 .active
+		            pageBar += "<li class='page-item active' aria-current='page'>" + 
+		                     "  <a class='page-link' href='#'>"+pageNo+"</a>" + 
+		                     "</li>";  
+		         }
+		         
+		         else {   //페이지번호가 현재페이지번호랑 다르다면 .active 뺌
+		            pageBar += "<li class='page-item'>" + 
+		                     "  <a class='page-link' href='"+url+"?userid="+pageMap.get("userid")+"&"+pageMap.get("keyWord")+"="+pageMap.get("memberStatus")+"&searchType="+pageMap.get("searchType")+"&searchWord="+pageMap.get("searchWord")+"&page="+pageNo+"'>"+pageNo+"</a>" + 
+		                     "</li>";        
+		         }
+		         
+		         loop++;
+		         pageNo++;
+		      }// end of while--------------------------
+		      
+		      // === [>][>>] 만들기 === //
+		      if( pageNo <= totalPage) {
+		         //[>]
+		         pageBar += "<li class='page-item'>" + 
+		                  "  <a class='page-link' href='"+url+"?userid="+pageMap.get("userid")+"&"+pageMap.get("keyWord")+"="+pageMap.get("memberStatus")+"&searchType="+pageMap.get("searchType")+"&searchWord="+pageMap.get("searchWord")+"&page="+pageNo+"'>"+
+		                  "    <i class='fa-solid fa-angle-right'></i>"+
+		                  "  </a>" + 
+		                  "</li>";
+		         
+		         //[>>] 
+		         pageBar += "<li class='page-item'>" + 
+		                  "  <a class='page-link' href='"+url+"?userid="+pageMap.get("userid")+"&"+pageMap.get("keyWord")+"="+pageMap.get("memberStatus")+"&searchType="+pageMap.get("searchType")+"&searchWord="+pageMap.get("searchWord")+"&page="+totalPage+"'>"+
+		                  "    <i class='fas fa-solid fa-angles-right'></i>"+
+		                  "  </a>" + 
+		                  "</li>";
+		      }
+		      
+		      pageBar += "</ul>";
+		      
+		      return pageBar;
+		    }//end of getPageBar(){}---	   
+	   
+	   
+	   
 	   
 	   /**
 	    * 페이지 번호 예외처리하기
@@ -681,7 +805,7 @@ public class memberManageController {
 	      return paraMap;
 	   }
 	   
-	
+	   
 	   
 	   
 	   

@@ -6,6 +6,8 @@ function getContextPath(){
 }
 
 $(document).ready(function(){
+	   $(".tab-pane").hide();
+
 	   var userid = $("input[name='userid']").attr('id');
 	   var nickname = $("input[name='nickname']").attr('id');
 
@@ -21,6 +23,9 @@ $(document).ready(function(){
 		   Regi_agree(userid, nickname);
 	   });
 	   
+	   $(document).on("click", "#actList_btn", function(){
+			   $("#actList").toggle();
+	   });	   
 
 }); //end of ready
 

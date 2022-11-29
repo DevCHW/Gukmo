@@ -12,11 +12,13 @@
 
 <!-- 직접만든 javascript -->
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/reportDetail.js?ver=1" ></script>
-<body>
 
-	<div id="memberManage_container" class="container-fluid row mt-5">
-		<div class="col-1"></div>
-		<div class="col-8">
+	<div id="container" class="container-fluid row mt-5">
+	  <div class="col-2">
+		  <jsp:include page="/WEB-INF/views/tiles1/admin/sidebar_admin.jsp" />
+	  </div>
+		
+	  <div class="col-9 main">	  
 				<table id="register_table" class="container register_table">
 						<tr>
 							<td colspan="4" id="register_text">신고내역 상세</td>

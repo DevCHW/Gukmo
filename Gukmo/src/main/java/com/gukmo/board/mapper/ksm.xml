@@ -313,6 +313,54 @@
         where fk_userid = #{userid}	
 	</select>
 	
+	<!-- 활동내역 총 페이지수 알아오기 -->
+	<select id="getTotalActCount" parameterType="HashMap" resultType="Integer">
+	    select count(*)
+	    from tbl_activity
+	    where fk_userid = #{userid}
+	    <if test='memberStatus != "" '>
+	      and division = #{memberStatus}
+	    </if>	    
+	    <if test='searchType != "" and searchWord != "" '>
+	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    </if>	    
+	</select>	
+	
+	
+	<!-- 활동내역 리스트 불러오기 -->
+	<select id="getDetailActList" parameterType="HashMap" resultType="com.gukmo.board.model.ActivityVO">
+        select rnum, activity_num, fk_userid, fk_board_num, activity_date, subject, detail_category, division, nickname
+        from 
+        (
+        select rownum as rnum, activity_num, fk_userid, fk_board_num, activity_date, subject, detail_category, division, nickname
+        from 
+        (
+        select activity_num, fk_userid, fk_board_num, to_char(activity_date, 'yyyy-mm-dd') as activity_date, subject, detail_category, division, nickname
+        from tbl_activity 
+        where fk_userid = #{userid}
+		<if test='memberStatus != "" '>
+	      and division = #{memberStatus}
+	    	<if test='searchType != "" and searchWord != "" '>
+	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    	</if>
+	    </if>	    
+	    <if test='memberStatus == "" '>
+		    <if test='searchType != "" and searchWord != "" '>
+		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+		    </if>	    		
+	    </if>
+		order by activity_date desc
+		) V        
+		) D
+		where rnum between #{startRno} and #{endRno}
+		
+	</select>
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>
