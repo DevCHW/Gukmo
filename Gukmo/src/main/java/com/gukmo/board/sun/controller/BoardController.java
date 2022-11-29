@@ -4,6 +4,7 @@ package com.gukmo.board.sun.controller;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
@@ -47,6 +49,7 @@ public class BoardController {
 		 String searchWord = request.getParameter("searchWord");
 		 String sortType = request.getParameter("sortType");
 		 String str_page = request.getParameter("page");
+		 String detail_category = "자유게시판";
 		 
 		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
 		 	searchWord = "";
@@ -58,7 +61,7 @@ public class BoardController {
 		 
 		 paraMap.put("searchWord", searchWord);
 		 paraMap.put("sortType", sortType);
-		 paraMap.put("detail_category", "자유게시판");
+		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
 		 int totalCount = service.getTotalCount(paraMap);    
@@ -88,8 +91,9 @@ public class BoardController {
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
 		request.setAttribute("sortType",sortType);
+		request.setAttribute("detail_category",detail_category);
 		
-		return "board/community/freeBoardList.tiles1";
+		return "board/community/communityList.tiles1";
 	}
 	
 	
@@ -103,6 +107,7 @@ public class BoardController {
 		 String searchWord = request.getParameter("searchWord");
 		 String sortType = request.getParameter("sortType");
 		 String str_page = request.getParameter("page");
+		 String detail_category = "QnA";
 		 
 		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
 		 	searchWord = "";
@@ -114,8 +119,7 @@ public class BoardController {
 		 
 		 paraMap.put("searchWord", searchWord);
 		 paraMap.put("sortType", sortType);
-		 paraMap.put("detail_category", "QnA");
-		 System.out.println("" );
+		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
 		 int totalCount = service.getTotalCount(paraMap);    
@@ -145,8 +149,9 @@ public class BoardController {
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
 		request.setAttribute("sortType",sortType);
+		request.setAttribute("detail_category",detail_category);
 		
-		return "board/community/freeBoardList.tiles1";
+		return "board/community/communityList.tiles1";
    }
 	
 	
@@ -159,6 +164,7 @@ public class BoardController {
 		String searchWord = request.getParameter("searchWord");
 		String sortType = request.getParameter("sortType");
 		String str_page = request.getParameter("page");
+		String detail_category = "스터디";
 		
 		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
 			searchWord = "";
@@ -170,7 +176,7 @@ public class BoardController {
 		
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("sortType", sortType);
-		paraMap.put("detail_category", "스터디");
+		paraMap.put("detail_category", detail_category);
 		
 		// 총 게시물 건수
 		int totalCount = service.getTotalCount(paraMap);    
@@ -200,8 +206,9 @@ public class BoardController {
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
 		request.setAttribute("sortType",sortType);
+		request.setAttribute("detail_category",detail_category);
 		
-		return "board/community/freeBoardList.tiles1";
+		return "board/community/communityList.tiles1";
 	}
 	
 	
@@ -213,6 +220,7 @@ public class BoardController {
 		 String searchWord = request.getParameter("searchWord");
 		 String sortType = request.getParameter("sortType");
 		 String str_page = request.getParameter("page");
+		 String detail_category = "취미모임";
 		 
 		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
 		 	searchWord = "";
@@ -224,7 +232,7 @@ public class BoardController {
 		 
 		 paraMap.put("searchWord", searchWord);
 		 paraMap.put("sortType", sortType);
-		 paraMap.put("detail_category", "취미모임");
+		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
 		 int totalCount = service.getTotalCount(paraMap);    
@@ -254,8 +262,9 @@ public class BoardController {
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
 		request.setAttribute("sortType",sortType);
+		request.setAttribute("detail_category",detail_category);
 		
-		return "board/community/freeBoardList.tiles1";
+		return "board/community/communityList.tiles1";
    }
 	
 	
@@ -269,6 +278,7 @@ public class BoardController {
 		 String searchWord = request.getParameter("searchWord");
 		 String sortType = request.getParameter("sortType");
 		 String str_page = request.getParameter("page");
+		 String detail_category = "수강/취업후기";
 		 
 		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
 		 	searchWord = "";
@@ -280,7 +290,7 @@ public class BoardController {
 		 
 		 paraMap.put("searchWord", searchWord);
 		 paraMap.put("sortType", sortType);
-		 paraMap.put("detail_category", "수강/취업후기");
+		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
 		 int totalCount = service.getTotalCount(paraMap);    
@@ -310,12 +320,13 @@ public class BoardController {
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
 		request.setAttribute("sortType",sortType);
+		request.setAttribute("detail_category",detail_category);
 		
-		return "board/community/freeBoardList.tiles1";
+		return "board/community/communityList.tiles1";
    }
 	
 	
-	
+	/////////////////////////////////////// 커뮤니티 리스트 출력 //////////////////////////////////////
 	
 	
 	
@@ -383,37 +394,136 @@ public class BoardController {
 	@RequestMapping(value="/community/newEnd.do", method= {RequestMethod.POST})
 	public ModelAndView pointPlusActivityLog_communityNewEnd(Map<String, Object> paraMap, BoardVO boardvo, HttpServletRequest request, ModelAndView mav) {  // <== After Advice(활동점수 올리기)
 		
-		int n = bdao.communityNew(boardvo);
+		int n = service.communityNew(boardvo);
 		
 		if(n==1) {
+			
+			String board_num = boardvo.getBoard_num();
+
+			// 해시태그 리스트 만들기
+			String str_hashTag = request.getParameter("str_hashTag");
+			if(str_hashTag != null) {
+				// System.out.println("str_해시태그" + str_hashTag);
+				List<String> hashTags = Arrays.asList(str_hashTag.split(","));
+				// 해시태그 처리 시작
+				boolean success = service.saveTag(hashTags, board_num);
+				if(success) {
+					System.out.println("해시태그 처리 함수 구동 성공");
+				}
+				else {
+					System.out.println("해시태그 처리 함수 구동 실패");
+				}
+			}
 			
 			// pointPlusActivityLog After Advice(포인트 업데이트, 활동내역 등록하기) 
 			HttpSession session = request.getSession();
 			MemberVO user = (MemberVO)session.getAttribute("user");
 			String userid = user.getUserid();
-			String nickname = user.getNickname();
-			
-			int board_num = bdao.getCurrentBoardnum(nickname);// 지금 등록된 글번호 가져오기(겹침방지)
-			System.out.println(board_num);
 			
 			paraMap.put("fk_userid", userid);// 포인트, 활동내역용
-			paraMap.put("board_num", board_num);// 활동내역용(지금 등록된 글번호)
+		    paraMap.put("board_num", board_num);// 활동내역용(지금 등록된 글번호)
 			paraMap.put("boardvo", boardvo); // 활동내역용
 			paraMap.put("division", "게시글작성");// 활동내역용
-			paraMap.put("point", 10); // 포인트용			
+			paraMap.put("point", 10); // 포인트용		
 			
 			mav.setViewName("redirect:/community/freeBoards.do");
-			//  글쓰기가 성공되어지면 글목록을 보여주는 list.action 페이지로 이동시킨다.
 		}
-		else {
+		else { // 글쓰기 실패시
 //			mav.setViewName("board/error/add_error.tiles1");
 //			//  /WEB-INF/views/tiles1/board/error/add_error.jsp 파일을 생성한다.
 		}
-		
-
-		
 		return mav;
 	}
+	
+	
+	
+	// 게시글 수정페이지 요청
+	@RequestMapping(value="/community/edit.do", method= {RequestMethod.GET})
+	public String requiredLogin_communityEdit(HttpServletRequest request, HttpServletResponse response) { 
+			
+		// 글 수정해야 할 글번호 가져오기
+		String board_num = request.getParameter("board_num");
+		
+		// 글 내용 가져오기
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("board_num", board_num);
+		BoardVO boardvo = service.getBoardDetail(paraMap);
+		
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		if( !user.getNickname().equals(boardvo.getNickname()) ) {
+			request.setAttribute("message","다른 사용자의 글은 수정이 불가합니다.");
+			request.setAttribute("loc","javascript:history.back()");
+			
+			return "msg";
+		}
+		else {
+			// 자신의 글을 수정할 경우
+			request.setAttribute("boardvo",boardvo);
+			return "board/community/communityEdit.tiles1";
+		}
+	}
+	
+	
+	// 게시글 수정 완료 요청
+	@RequestMapping(value="/community/edit.do", method= {RequestMethod.POST})
+	public String communityEditEnd(HttpServletRequest request, BoardVO boardvo) { 
+			
+		int n = service.edit(boardvo);
+		
+		if(n==0) {
+			request.setAttribute("message", "다시 시도해 주세요.");
+			request.setAttribute("loc", "javascript:history.back()");
+		}
+		else {
+			request.setAttribute("message", "글 수정 성공!!");
+			request.setAttribute("loc", request.getContextPath()+"/view.do?board_num="+boardvo.getBoard_num());
+		}
+		
+		return "msg";
+	}
+	
+	
+	// 글삭제 요청
+	@RequestMapping(value="/community/del.do")
+	public String requiredLogin_del(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		// 삭제해야 할 글번호 가져오기
+		String board_num = request.getParameter("board_num");
+		
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("board_num", board_num);
+		BoardVO boardvo = service.getBoardDetail(paraMap);
+		
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		if( !user.getNickname().equals(boardvo.getNickname()) ) {
+			
+			request.setAttribute("message", "다른 사용자의 글은 삭제가 불가합니다.");
+			request.setAttribute("loc", "javascript:history.back()");
+		}
+		else {// 본인 글을 삭제하는 경우
+			int n = service.del(paraMap);
+			
+			if(n==0) {
+				request.setAttribute("message", "글 삭제 실패!!");
+				request.setAttribute("loc", "javascript:history.back()");
+			}
+			else {
+				request.setAttribute("message", "글 삭제 성공!!");
+				request.setAttribute("loc", request.getContextPath()+"/community/freeBoards.do");
+			}
+		}
+		return "msg";
+		
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -432,6 +542,8 @@ public class BoardController {
 		
 		return mav;
 	}
+	
+	 
 	
 	
 	

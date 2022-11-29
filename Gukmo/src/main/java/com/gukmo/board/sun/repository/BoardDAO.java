@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 
 @Repository
@@ -29,7 +30,7 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public int communityNew(BoardVO boardvo) {
 		int n = gukmo_sql.insert("sun.communityNew", boardvo);
-		System.out.println("");
+		System.out.println("글등록 성공 디에이오" + n);
 		return n;
 	}
 
@@ -49,18 +50,67 @@ public class BoardDAO implements InterBoardDAO{
 		return n;
 	}
 
-	// 지금 등록된 글번호 가져오기
-	@Override
-	public int getCurrentBoardnum(String nickname) {
-		int board_num = gukmo_sql.selectOne("sun.getCurrentBoardnum", nickname);
-		return board_num;
-	}
-
-
+    // 게시물 총 수 들고오기
 	@Override
 	public int getTotalCount(Map<String, String> paraMap) {
 		int totalCount = gukmo_sql.selectOne("sun.getTotalCount", paraMap);
 		return totalCount;
+	}
+
+	
+	// tbl_hashtag에 존재하는지 찾기
+	@Override
+	public HashtagVO findHashtag(String hashTag) {
+		HashtagVO findResult = gukmo_sql.selectOne("sun.findHashtag", hashTag);
+		return findResult;
+	}
+
+
+	// tbl_hashtag에 해시태그 추가
+	@Override
+	public void saveHashTag(String hashTag) {
+		gukmo_sql.insert("sun.saveHashTag", hashTag);
+		System.out.println("1해시태그 추가 성공 일까 디에이오");
+	}
+
+
+	// tbl_hashtag에 카운트 올리기
+	@Override
+	public void upHashTagCount(int hashtag_num) {
+		gukmo_sql.update("sun.upHashTagCount", hashtag_num);
+		System.out.println("2해시태그 카운트 성공 일까 디에이오");
+	}
+
+
+	// tbl_hashtag_board_map 에 insert하기
+	@Override
+	public int hashtagBoardMapping(Map<String, Object> paraMap) {
+		int n = gukmo_sql.insert("sun.hashtagBoardMapping", paraMap);
+		System.out.println("3해시태그 mapping dao" + n);
+		return n;
+	}
+
+	
+	// 특정 게시글 내용 가져오기
+	@Override
+	public BoardVO getBoardDetail(Map<String, String> paraMap) {
+		BoardVO boardvo = gukmo_sql.selectOne("sun.getBoardDetail", paraMap);
+		return boardvo;
+	}
+
+	// 게시글 수정
+	@Override
+	public int edit(BoardVO boardvo) {
+		int n = gukmo_sql.update("sun.edit", boardvo);
+		return n;
+	}
+
+
+	// 게시글 삭제
+	@Override
+	public int del(Map<String, String> paraMap) {
+		int n = gukmo_sql.delete("sun.del", paraMap);
+		return n;
 	}
 	
 }

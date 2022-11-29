@@ -35,7 +35,7 @@ public class BoardAOP {
 		HttpServletResponse response = (HttpServletResponse) joinpoint.getArgs()[1]; 
 		
 		HttpSession session = request.getSession();
-		if(session.getAttribute("loginuser") == null) {
+		if(session.getAttribute("user") == null) {
 			String message = "먼저 로그인 하세요";
 			String loc = request.getContextPath()+"/login.do";
 			

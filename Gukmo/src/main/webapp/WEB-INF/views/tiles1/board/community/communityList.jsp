@@ -7,14 +7,14 @@
 	String ctxPath = request.getContextPath();
 %>   
 
-<!-- 직접 만든 CSS -->
+<%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/searchBar.css" />
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/navbar.css" />
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
 
-<!-- 직접만든 javascript -->
+<%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/freeBoardList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/communityList.js" ></script>
 
   <div class="container mt-4">
   
@@ -69,10 +69,10 @@
     <%-- 필터 끝 --%>
 
 
-     <!------------------------------------- 게시판 리스트 시작 ------------------------------------->
+     <%------------------------------------- 게시판 리스트 시작 -------------------------------------%>
 
      <c:forEach var="boardvo" items="${requestScope.boardList}">
-     <!-- 이 div가 반복문 시작 -->
+     <%-- 이 div가 반복문 시작 --%>
       <div class="border-top px-2 py-2">
         <div class="d-flex align-items-center my-2">
          <%-- 작성자 프로필사진 --%>
@@ -80,54 +80,54 @@
           <img src="<%=ctxPath %>/resources/images/${boardvo.profile_image}"/>
         </a>
         
-     	<!-- 작성자 닉네임 -->
-        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+     	<%-- 작성자 닉네임 --%>
+        <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
         <a href="#" class="writer_nickname ml-2"> ${boardvo.nickname} </a>
 
-         <!-- 작성자 활동점수 -->
+         <%-- 작성자 활동점수 --%>
          <div class="writer_point ml-2">
            <i class="fa-solid fa-bolt"></i>
            <span>${boardvo.writer_point}</span>
          </div>
 
-         <!-- 작성일자 -->
+         <%-- 작성일자 --%>
          <div class="write_date ml-2">${boardvo.write_date}</div>
        </div>
 
-       <!-- 글제목 -->
-       <a href="<%=ctxPath %>/freeBoard.do?board_num=${boardvo.board_num}" class="subject align-items-center my-2">
+       <%-- 글제목 --%>
+       <a href="<%=ctxPath %>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-2">
          ${boardvo.subject}
        </a>
 
        <div class="d-flex justify-content-between align-items-center my-2">
          <div class="d-flex align-items-center">
-           <!-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 -->
+           <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 --%>
            <div class="detail_category border rounded px-2 py-1">${boardvo.detail_category}</div>
            <div class="hashtag ml-1">
-             <!-- 해시태그 리스트 들어갈 곳-->
-             <!-- 해시태그리스트 반복문시작 -->
+             <%-- 해시태그 리스트 들어갈 곳--%>
+             <%-- 해시태그리스트 반복문시작 --%>
              <c:forEach var="hashtag" items="${boardvo.hashtags}">
             	<a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
              </c:forEach>
-             <!-- 해시태그리스트 반복문 끝-->
+             <%-- 해시태그리스트 반복문 끝--%>
            </div>
          </div>
 
-         <!-- 조회수,댓글수,추천수 -->
+         <%-- 조회수,댓글수,추천수 --%>
          <div class="board_info_box d-flex justify-content-end">
-           <!-- 조회수 -->
+           <%-- 조회수 --%>
            <div>
              <i class="fa-solid fa-eye"></i>
              <span>${boardvo.views}</span>
            </div>
 
-           <!-- 댓글수 -->
+           <%-- 댓글수 --%>
            <div class="ml-2">
              <i class="fa-solid fa-comment-dots"></i>
              <span>${boardvo.comment_cnt}</span>
            </div>
 
-           <!-- 추천수 -->
+           <%-- 추천수 --%>
            <div class="ml-2">
              <i class="fa-solid fa-heart"></i>
              <span>${boardvo.like_cnt}</span>
@@ -139,24 +139,24 @@
     
 
          
-     <!-- 이 div가 반복문 끝 -->
+     <%-- 이 div가 반복문 끝 --%>
 
-     <!----------------------------------- 게시판 리스트 끝 ------------------------------------->
+     <%----------------------------------- 게시판 리스트 끝 -------------------------------------%>
 
      <div class="d-flex border-top pt-3 justify-content-between">
        <div id="total_cnt">
-         <!-- 총 건수 변수 들어갈 곳-->
+         <%-- 총 건수 변수 들어갈 곳--%>
          	총&nbsp;<span style="font-weight: bold">${requestScope.totalCount}&nbsp;</span>건
        </div>
 
-       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
+       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do?detailC=${requestScope.detail_category}'">
              글쓰기
        </button>
      </div>
 
-     <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
+     <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
       <nav aria-label="...">
       ${requestScope.pageBar}
       </nav>
-     <!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
+     <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
    </div>
