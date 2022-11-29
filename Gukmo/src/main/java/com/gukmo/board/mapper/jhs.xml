@@ -6,7 +6,87 @@
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="jhs">
 
-	<select id="select_member" resultType="com.gukmo.board.model.MemberVO">
-		select * from tbl_member_login
+<!-- 	<select id="getMainBanner_advo" resultType="String">
+		select advertisement_num, file_name, url, start_date, period, status
+		from tbl_advertisement
+		where division = '메인'
+		order by advertisement_num
+	</select> -->
+	
+<!-- 	<select id="getCurriList" resultType="com.gukmo.board.model.CurriculumVO">
+		select B.board_num as board_num, academy_name, subject,
+			   to_char(curriculum_start_date, 'yyyy-mm-dd') as c_start_date, curriculum_period
+		from tbl_board B join tbl_curriculum C
+		on B.board_num = C.fk_board_num		
+	</select> -->
+	
+	
+	<select id ="getFreeBoardList" resultType="com.gukmo.board.model.BoardVO">
+		select board_num,nickname, point as writer_point , profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from
+		(
+		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from tbl_board B join tbl_member M
+		on B.nickname = M.nickname
+		where detail_category = '자유게시판' 
+		order by write_date desc
+		)
+		where rownum between 1 and 5
 	</select>
+	
+	<select id ="getStudyBoardList" resultType="com.gukmo.board.model.BoardVO">
+		select board_num,nickname, point as writer_point, profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from
+		(
+		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from tbl_board B join tbl_member M
+		on B.nickname = M.nickname
+		where detail_category = '스터디' 
+		order by write_date desc
+		)
+		where rownum between 1 and 5
+	</select>
+	
+	<select id ="getQnaBoardList" resultType="com.gukmo.board.model.BoardVO">
+		select board_num,nickname, point, profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from
+		(
+		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from tbl_board B join tbl_member M
+		on B.nickname = M.nickname
+		where detail_category = 'QnA' 
+		order by write_date desc
+		)
+		where rownum between 1 and 5
+	</select>
+	
+	<select id ="getReviewBoardList" resultType="com.gukmo.board.model.BoardVO">
+		select board_num,nickname, point as writer_point, profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from
+		(
+		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
+		       detail_category , subject,
+		       content , write_date, views, comment_cnt, like_cnt
+		from tbl_board B join tbl_member M
+		on B.nickname = M.nickname
+		where detail_category = '수강/취업후기' 
+		order by write_date desc
+		)
+		where rownum between 1 and 5
+	</select>
+	
 </mapper>

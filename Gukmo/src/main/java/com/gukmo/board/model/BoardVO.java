@@ -26,7 +26,8 @@ public class BoardVO {
 	
 	
 	//select 용도
-	private String writer_point;	//작성자 활동점수
+	private String point;	//작성자 활동점수
+	// 하솔: writer_point 였는데, DB 에는 point로 등록된 것 같아서 수정함.
 	
 	
 	// 해시태그VO리스트(연관관계에 있는 필드)
@@ -60,7 +61,7 @@ public class BoardVO {
 		this.previoussubject = previoussubject;
 		this.nextseq = nextseq;
 		this.nextsubject = nextsubject;
-		this.writer_point = writer_point;
+		this.point = writer_point;
 		this.hashtags = hashtags;
 		this.comment = comment;
 	}
@@ -120,8 +121,8 @@ public class BoardVO {
 		return like_cnt;
 	}
 	
-	public String getWriter_point() {
-		return writer_point;
+	public String getPoint() {
+		return point;
 	}
 
 
@@ -159,7 +160,11 @@ public class BoardVO {
 	}
 
 
-	
+	// setter
+	public void setWrite_date(Date write_date) {
+		this.write_date = write_date;
+	}
+
 	
 	
 	

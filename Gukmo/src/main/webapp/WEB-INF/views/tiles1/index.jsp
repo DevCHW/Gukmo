@@ -5,6 +5,7 @@
 %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/hasol/index.css?after">
@@ -17,7 +18,7 @@
 <!-- 배너 영역 -->
 <div id="demo" class="carousel slide" data-ride="carousel" >
 
-     <!-- Indicators -->
+<!-- Indicators -->
      <ul class="carousel-indicators">
        <li data-target="#demo" data-slide-to="0" class="active"></li>
        <li data-target="#demo" data-slide-to="1"></li>
@@ -25,7 +26,7 @@
      </ul>
    
      <!-- The slideshow -->
-     <div class="carousel-inner">
+     <div class="carousel-inner" style="height:200px;">
        <div class="carousel-item active">
          <img src="<%= ctxPath %>/resources/images/main/fake_main_banner01.png" alt="">
        </div>
@@ -77,35 +78,22 @@
 	</div>
 	
 
-
 	<!-- 학원 정보 영역 -->
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
-		<div class="academy_titel col-10 px-2 mt-5 mb-1 d-flex justify-content-between">
+		<div class="academy_titel w-100 px-2 mt-5 mb-1 d-flex justify-content-between">
 			<span>현재 모집 중인 학원</span>
 			<a> 더 보기 </a>
 		</div>
 		
-		<div class="w-100 d-flex justify-content-between align-items-center flex-row">
-			<i class="fa-solid fa-circle-left fa-3x icon_arrow"></i>
-			
-			<!-- 나중에 반복문 짜야함 -->
-			<div class="div_card col-10">
-
-				<div class="card_1 d-flex">
-	<%-- 				<c:forEach var="curriculumVO" item="${requestScope.curriculumList}" varStatus="status">
-					
-						<div class="card col-3">
-						  <div class="card-body" onclick="location.href='#'">
-						    <h4 class="card-title">쌍용강북교육센터</h4>
-						    <p class="card-text">빅데이터 전문가 과정</p>
-						    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-						    <p class="card-link">D-1</p>
-						  </div>
-						</div>
-					
-					</c:forEach> --%>
-					<div class="card col-3 first_card">
+		<!-- 배너 영역 -->
+		<div id="div_academy_content" class="carousel slide w-100" data-ride="carousel" >
+		   
+		     <!-- The slideshow -->
+		     <div class="carousel-inner px-2">
+		       <div class="carousel-item active ">
+		         <div class="card_1 d-flex">
+					<div class="card first_card">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
 					    <p class="card-text">빅데이터 전문가 과정</p>
@@ -113,7 +101,7 @@
 					    <p class="card-link">D-1</p>
 					  </div>
 					</div>
-					<div class="card col-3">
+					<div class="card">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
 					    <p class="card-text">빅데이터 전문가 과정</p>
@@ -121,7 +109,15 @@
 					    <p class="card-link">D-1</p>
 					  </div>
 					</div>
-					<div class="card col-3">
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
 					    <p class="card-text">빅데이터 전문가 과정</p>
@@ -131,7 +127,7 @@
 					</div>
 				</div>	
 				<div class="card_2 d-flex">
-					<div class="card col-3 first_card">
+					<div class="card first_card">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
 					    <p class="card-text">빅데이터 전문가 과정</p>
@@ -139,7 +135,7 @@
 					    <p class="card-link">D-1</p>
 					  </div>
 					</div>
-					<div class="card col-3">
+					<div class="card">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
 					    <p class="card-text">빅데이터 전문가 과정</p>
@@ -147,7 +143,7 @@
 					    <p class="card-link">D-1</p>
 					  </div>
 					</div>
-					<div class="card col-3">
+					<div class="card">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
 					    <p class="card-text">빅데이터 전문가 과정</p>
@@ -155,7 +151,7 @@
 					    <p class="card-link">D-1</p>
 					  </div>
 					</div>
-					<div class="card col-3">
+					<div class="card">
 					  <div class="card-body" onclick="location.href='#'">
 					    <h4 class="card-title">쌍용강북교육센터</h4>
 					    <p class="card-text">빅데이터 전문가 과정</p>
@@ -165,17 +161,165 @@
 					</div>
 				</div>
 			</div>
-			
-			<a><i class="fa-solid fa-circle-right fa-3x icon_arrow" ></i></a>
+		       <div class="carousel-item">
+		       	<div class="card_1 d-flex">
+					<div class="card first_card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용22강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+				</div>	
+				<div class="card_2  d-flex">
+					<div class="card first_card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+				</div>
+		       </div>
+		       <div class="carousel-item">
+		         <div class="card_1  d-flex">
+					<div class="card first_card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용33강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+				</div>	
+				<div class="card_2  d-flex">
+					<div class="card first_card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-body" onclick="location.href='#'">
+					    <h4 class="card-title">쌍용강북교육센터</h4>
+					    <p class="card-text">빅데이터 전문가 과정</p>
+					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
+					    <p class="card-link">D-1</p>
+					  </div>
+					</div>
+				</div>
+		       </div>
+		     </div>
+		   
+		     <!-- Left and right controls -->
+		     <a class="carousel-control-prev icon_prev" href="#div_academy_content" data-slide="prev">
+		       <i class="fa-solid fa-circle-left fa-5x icon_arrow"></i>
+		     </a>
+		     <a class="carousel-control-next icon_next" href="#div_academy_content" data-slide="next">
+		       <i class="fa-solid fa-circle-right fa-5x icon_arrow"></i>
+		     </a>
+		   
 		</div>
-	</div>
+		
 	
 	
 	<!-- 인기검색어 / 게시판 정보 영역  -->
-	<div class="div_infoBoard d-flex mt-4">
+	<div class="div_infoBoard my-5 w-100 d-flex ">
 		
 		<!-- 인기 검색어 영역 -->
-		<div class="div_searchRank">
+		<div class="div_searchRank col-3" style="padding:0 0 0 2px;">
 			<div class="div2_searchRank d-flex flex-column">
 				<div class="title_searchRank d-flex justify-content-start align-items-center">
 					<p>&#x1F451;</p>
@@ -203,62 +347,61 @@
 					</div>
 					<!-- 테이블 리스트 -->
 					<div class="list_board d-flex flex-column">
-						<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
-				        <!-- 이 div가 반복문 시작 -->
-				        <!-- 게시글 1개 영역 -->
-					    <div class="border-bottom py-3 px-3">
+						
+						<!-- 게시글 1개 영역 -->
+						<c:forEach var="boardvo" items="${requestScope.qnaBoardList}">
+					    <div class="border-bottom py-2 px-2">
 					    	<!-- 작성 정보 -->
-					      	<div class="d-flex align-items-center mb-1">
-						        <!-- 작성자 프로필사진 -->
-						        <div href="#" class="writer_image_box border">
-						          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
-						        </div>
+					      	<div class="d-flex justify-content-between align-items-center mb-1">
+						        <div class="d-flex" style="width:180px;">
+							        <!-- 작성자 프로필사진 -->
+							        <div class="writer_image_box">
+							          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
+							        </div>
 						
-						        <!-- 작성자 닉네임 -->
-						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-						        <a href="#" class="writer_nickname ml-2">
-						         	 국모관리팀
-						        </a>
+							        <!-- 작성자 닉네임 -->
+							        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+							        <a href="#" class="writer_nickname ml-2">
+							         	 ${boardvo.nickname}
+							        </a>
 						
-						        <!-- 작성자 활동점수 -->
-						        <div class="writer_point text-align-center ml-2">
-						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-						          <span>97</span>
-						        </div>
-						
-						        <!-- 작성일자 -->
-						        <div class="write_date ml-2">
-						          1일전
-						        </div>
-					        
+							        <!-- 작성자 활동점수 -->
+							        <div class="writer_point text-align-center ml-2">
+							          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+							          <span>${boardvo.point}</span>
+							        </div>
+							
+							        <!-- 작성일자 -->
+							        <div class="write_date ml-2"> ${boardvo.write_date}</div>
+					        	</div>
 					        	<!-- 조회수,댓글수,추천수 -->
 					         	<div class="board_info_box d-flex justify-content-end align-items-center">
 						            <!-- 조회수 -->
 						            <div>
 						            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
-						             	<span>40</span>
+						             	<span>${boardvo.views}</span>
 						           	</div>
 						
 						           	<!-- 댓글수 -->
 						           	<div class="ml-2">
 						             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
-						             	<span>20</span>
+						             	<span>${boardvo.comment_cnt}</span>
 						           	</div>
 						
 						           	<!-- 추천수 -->
 						           	<div class="ml-2">
 						             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
-						             	<span>30</span>
+						             	<span>${boardvo.like_cnt}</span>
 						           	</div>
 				         		</div>
 				       		</div>
 	
 					       <!-- 글제목 -->
-					       <a href="#" class="subject align-items-center my-4">
-					         [중요알림] 국비의모든것 v0.0.1 오픈 안내
+					       <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+					         ${boardvo.subject}
 					       </a>
 						</div>
-						<!-- 이 div가 반복문 끝 -->
+						</c:forEach>
 					</div>
 				</div>	
 	
@@ -271,62 +414,61 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
-					<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
-			        <!-- 이 div가 반복문 시작 -->
-			        <!-- 게시글 1개 영역 -->
-				    <div class="border-bottom py-3 px-3">
+					
+					<!-- 게시글 1개 영역 -->
+					<c:forEach var="boardvo" items="${requestScope.studyBoardList}">
+				    <div class="border-bottom py-2 px-2">
 				    	<!-- 작성 정보 -->
-				      	<div class="d-flex align-items-center mb-1">
-					        <!-- 작성자 프로필사진 -->
-					        <div href="#" class="writer_image_box border">
-					          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
-					        </div>
+				      	<div class="d-flex justify-content-between align-items-center mb-1">
+					        <div class="d-flex" style="width:180px;">
+						        <!-- 작성자 프로필사진 -->
+						        <div class="writer_image_box">
+						          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
+						        </div>
 					
-					        <!-- 작성자 닉네임 -->
-					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-					        <a href="#" class="writer_nickname ml-2">
-					         	 국모관리팀
-					        </a>
+						        <!-- 작성자 닉네임 -->
+						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+						        <a href="#" class="writer_nickname ml-2">
+						         	 ${boardvo.nickname}
+						        </a>
 					
-					        <!-- 작성자 활동점수 -->
-					        <div class="writer_point text-align-center ml-2">
-					          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-					          <span>97</span>
-					        </div>
-					
-					        <!-- 작성일자 -->
-					        <div class="write_date ml-2">
-					          1일전
-					        </div>
-				        
+						        <!-- 작성자 활동점수 -->
+						        <div class="writer_point text-align-center ml-2">
+						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+						          <span>${boardvo.point}</span>
+						        </div>
+						
+						        <!-- 작성일자 -->
+						        <div class="write_date ml-2"> ${boardvo.write_date}</div>
+				        	</div>
 				        	<!-- 조회수,댓글수,추천수 -->
 				         	<div class="board_info_box d-flex justify-content-end align-items-center">
 					            <!-- 조회수 -->
 					            <div>
 					            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
-					             	<span>40</span>
+					             	<span>${boardvo.views}</span>
 					           	</div>
 					
 					           	<!-- 댓글수 -->
 					           	<div class="ml-2">
 					             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
-					             	<span>20</span>
+					             	<span>${boardvo.comment_cnt}</span>
 					           	</div>
 					
 					           	<!-- 추천수 -->
 					           	<div class="ml-2">
 					             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
-					             	<span>30</span>
+					             	<span>${boardvo.like_cnt}</span>
 					           	</div>
 			         		</div>
 			       		</div>
 
-				       <!-- 글제목 -->
-				       <a href="#" class="subject align-items-center my-4">
-				         [중요알림] 국비의모든것 v0.0.1 오픈 안내
-				       </a>
+				        <!-- 글제목 -->
+				        <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+				          ${boardvo.subject}
+				        </a>
 					</div>
-					<!-- 이 div가 반복문 끝 -->
+					</c:forEach>
 				</div>			
 			</div>
 			
@@ -340,62 +482,60 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
-					<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
-			        <!-- 이 div가 반복문 시작 -->
-			        <!-- 게시글 1개 영역 -->
-				    <div class="border-bottom py-3 px-3">
+					<!-- 게시글 1개 영역 -->
+					<c:forEach var="boardvo" items="${requestScope.freeBoardList}">
+				    <div class="border-bottom py-2 px-2">
 				    	<!-- 작성 정보 -->
-				      	<div class="d-flex align-items-center mb-1">
-					        <!-- 작성자 프로필사진 -->
-					        <div href="#" class="writer_image_box border">
-					          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
-					        </div>
+				      	<div class="d-flex justify-content-between align-items-center mb-1">
+					        <div class="d-flex" style="width:180px;">
+						        <!-- 작성자 프로필사진 -->
+						        <div class="writer_image_box">
+						          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
+						        </div>
 					
-					        <!-- 작성자 닉네임 -->
-					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-					        <a href="#" class="writer_nickname ml-2">
-					         	 국모관리팀
-					        </a>
+						        <!-- 작성자 닉네임 -->
+						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+						        <a href="#" class="writer_nickname ml-2">
+						         	 ${boardvo.nickname}
+						        </a>
 					
-					        <!-- 작성자 활동점수 -->
-					        <div class="writer_point text-align-center ml-2">
-					          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-					          <span>97</span>
-					        </div>
-					
-					        <!-- 작성일자 -->
-					        <div class="write_date ml-2">
-					          1일전
-					        </div>
-				        
+						        <!-- 작성자 활동점수 -->
+						        <div class="writer_point text-align-center ml-2">
+						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+						          <span>${boardvo.point}</span>
+						        </div>
+						
+						        <!-- 작성일자 -->
+						        <div class="write_date ml-2"> ${boardvo.write_date}</div>
+				        	</div>
 				        	<!-- 조회수,댓글수,추천수 -->
 				         	<div class="board_info_box d-flex justify-content-end align-items-center">
 					            <!-- 조회수 -->
 					            <div>
 					            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
-					             	<span>40</span>
+					             	<span>${boardvo.views}</span>
 					           	</div>
 					
 					           	<!-- 댓글수 -->
 					           	<div class="ml-2">
 					             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
-					             	<span>20</span>
+					             	<span>${boardvo.comment_cnt}</span>
 					           	</div>
 					
 					           	<!-- 추천수 -->
 					           	<div class="ml-2">
 					             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
-					             	<span>30</span>
+					             	<span>${boardvo.like_cnt}</span>
 					           	</div>
 			         		</div>
 			       		</div>
 
-				       <!-- 글제목 -->
-				       <a href="#" class="subject align-items-center my-4">
-				         [중요알림] 국비의모든것 v0.0.1 오픈 안내
-				       </a>
+				        <!-- 글제목 -->
+				        <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+				          ${boardvo.subject}
+				        </a>
 					</div>
-					<!-- 이 div가 반복문 끝 -->
+					</c:forEach>
 				</div>	
 			
 			</div>	
@@ -409,65 +549,61 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
-					<%-- <c:forEach var="boardvo" items="${requestScope.boardList}"> --%>
-			        <!-- 이 div가 반복문 시작 -->
-			        <!-- 게시글 1개 영역 -->
-				    <div class="border-bottom py-3 px-3">
+					<!-- 게시글 1개 영역 -->
+					<c:forEach var="boardvo" items="${requestScope.reviewBoardList}">
+				    <div class="border-bottom py-2 px-2">
 				    	<!-- 작성 정보 -->
-				      	<div class="d-flex align-items-center mb-1">
-					        <!-- 작성자 프로필사진 -->
-					        <div href="#" class="writer_image_box border ">
-					          <img src="<%= ctxPath%>/resources/images/user.PNG"/>
-					        </div>
+				      	<div class="d-flex justify-content-between align-items-center mb-1">
+					        <div class="d-flex" style="width:180px;">
+						        <!-- 작성자 프로필사진 -->
+						        <div class="writer_image_box">
+						          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
+						        </div>
 					
-					        <!-- 작성자 닉네임 -->
-					        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-					        <a href="#" class="writer_nickname ml-2">
-					         	 국모관리팀
-					        </a>
+						        <!-- 작성자 닉네임 -->
+						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
+						        <a href="#" class="writer_nickname ml-2">
+						         	 ${boardvo.nickname}
+						        </a>
 					
-					        <!-- 작성자 활동점수 -->
-					        <div class="writer_point text-align-center ml-2">
-					          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-					          <span>97</span>
-					        </div>
-					
-					        <!-- 작성일자 -->
-					        <div class="write_date ml-2">
-					          1일전
-					        </div>
-				        
+						        <!-- 작성자 활동점수 -->
+						        <div class="writer_point text-align-center ml-2">
+						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
+						          <span>${boardvo.point}</span>
+						        </div>
+						
+						        <!-- 작성일자 -->
+						        <div class="write_date ml-2"> ${boardvo.write_date}</div>
+				        	</div>
 				        	<!-- 조회수,댓글수,추천수 -->
 				         	<div class="board_info_box d-flex justify-content-end align-items-center">
 					            <!-- 조회수 -->
 					            <div>
 					            	<i class="fa-solid fa-eye"style="font-size:10px;"></i>
-					             	<span>40</span>
+					             	<span>${boardvo.views}</span>
 					           	</div>
 					
 					           	<!-- 댓글수 -->
 					           	<div class="ml-2">
 					             	<i class="fa-solid fa-comment-dots" style="font-size:10px;"></i>
-					             	<span>20</span>
+					             	<span>${boardvo.comment_cnt}</span>
 					           	</div>
 					
 					           	<!-- 추천수 -->
 					           	<div class="ml-2">
 					             	<i class="fa-solid fa-heart" style="font-size:10px;"></i>
-					             	<span>30</span>
+					             	<span>${boardvo.like_cnt}</span>
 					           	</div>
 			         		</div>
 			       		</div>
-
-				       <!-- 글제목 -->
-				       <a href="#" class="subject align-items-center my-4">
-				         [중요알림] 국비의모든것 v0.0.1 오픈 안내
-				       </a>
+				        <!-- 글제목 -->
+				        <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+				          ${boardvo.subject}
+				        </a>
 					</div>
-					<!-- 이 div가 반복문 끝 -->
+					</c:forEach>
 				</div>
 			</div>
 		</div>
 	</div>
-
 </div>

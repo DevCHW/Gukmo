@@ -126,7 +126,7 @@ public class LoginController {
 							    "국비의모든것 관리팀",					// 닉네임 
 							    "9999", 						// 활동점수
 							    null, 							// 가입일자
-							    null,							// 프로필이미지
+							    "user.PNG",							// 프로필이미지
 							    null, 							// 교육기관명
 							    null,  							// 사업자번호
 							    null,							// 홈페이지
