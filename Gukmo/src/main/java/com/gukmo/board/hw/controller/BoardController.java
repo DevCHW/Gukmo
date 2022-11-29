@@ -25,7 +25,7 @@ public class BoardController {
 	/**
 	 * 스터디 게시판리스트 매핑
 	 */
-	@RequestMapping(value="/community/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
+	//@RequestMapping(value="/community/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewStudies(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
@@ -69,7 +69,7 @@ public class BoardController {
 	/**
 	 * QnA 게시판리스트 매핑
 	 */
-	@RequestMapping(value="/community/questions.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
+	//@RequestMapping(value="/community/questions.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewQuestions(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
@@ -111,7 +111,7 @@ public class BoardController {
 	/**
 	 * 취미모임 게시판리스트 매핑
 	 */
-	@RequestMapping(value="/community/hobbies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
+	//@RequestMapping(value="/community/hobbies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewHobbies(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
@@ -150,7 +150,7 @@ public class BoardController {
 	/**
 	 * 수강/취업후기 게시판리스트 매핑
 	 */
-	@RequestMapping(value="/community/reviews.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
+	//@RequestMapping(value="/community/reviews.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public String viewReviews(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String str_page = request.getParameter("page");
