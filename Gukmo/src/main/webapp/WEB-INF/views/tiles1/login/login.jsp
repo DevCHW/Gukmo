@@ -5,6 +5,8 @@
 	String ctxPath = request.getContextPath();
 %>
 
+  <%-- 구글 로그인 --%>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <%-- 카카오 로그인 --%>
   <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
   <%-- 직접 만든 CSS --%>
@@ -39,11 +41,11 @@
           <svg viewBox="-1 -1 17 16" fill="#6B7280" xmlns="http://www.w3.org/2000/svg"><path d="M9.88343 0V7.06382L5.13527 0H0V14H5.11657V6.93618L9.8666 14H15V0H9.88343Z" fill="#6B7280"></path></svg>
         </div>
 
-        <%-- facebook --%>
-        <div id="facebook_login" class="sns_login d-flex justify-content-center align-items-center border rounded">
-          <svg class="h-5 w-5" aria-hidden="true" fill="#6B7280" viewBox="0 0 20 20" style=""><path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd" style=""></path></svg>
-        </div>
+        <%-- google --%>
+        <div id="buttonDiv"></div> 
       </div>
+      
+	    
 
 
       <%-- login_input --%>
@@ -77,4 +79,8 @@
     
     <%-- 어느소셜로그인인지 체크 --%>
     <input type="hidden" name="flag" id="flag"/>
+    
+    
+    
+    
   </form>

@@ -46,10 +46,10 @@
           <%-- 프사 --%>
           <div class="d-flex align-items-baseline">
             <div id="profile_img_box" class="border">
-              <c:if test="${sessionScope.user.kakao == '0' || fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
+              <c:if test="${requestScope.imageDivision != 'http'}">
                 <img id="profile_img" src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
               </c:if>
-               <c:if test="${sessionScope.user.kakao != '0' && fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
+               <c:if test="${requestScope.imageDivision == 'http'}">
              	  <img id="profile_img" src="${sessionScope.user.profile_image}"/>
                </c:if>
               <div id="img_mask" class="justify-content-center align-items-center">
