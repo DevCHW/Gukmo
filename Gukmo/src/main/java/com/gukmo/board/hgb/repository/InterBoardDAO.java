@@ -25,12 +25,9 @@ public interface InterBoardDAO {
 	String getCategory(int board_num);
 
 
-	/**
-	 * 해시태그 알아오기
-	 * @param 글번호 board_num
-	 * @return 하나의 글번호에 해시태그
-	 */
-	
+	// === 글삭제 하기 === //
+	int del(Map<String, String> paraMap);
+
 
 
 	

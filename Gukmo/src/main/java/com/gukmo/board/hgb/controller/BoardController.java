@@ -66,6 +66,35 @@ public class BoardController {
 		return "board/community/boardDetail.tiles1";  		
 	}
 	
+	
+	
+	
+	
+	// === 글삭제 하기 === //
+	@RequestMapping(value="/del_board.do")
+	public ModelAndView delEnd(ModelAndView mav, HttpServletRequest request) {
+		
+		String board_num = request.getParameter("board_num");
+		
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("board_num", board_num);				
+		
+		int n = service.del(paraMap);
+		
+		if(n==0) {
+			mav.addObject("message", "글 삭제 실패!!");
+			mav.addObject("loc", "javascript:history.back()");
+		}
+		else {
+			mav.addObject("message", "글 삭제 성공!!");
+			mav.addObject("loc", request.getContextPath()+"/index.do");
+		}
+		
+		mav.setViewName("msg");
+		
+		return mav;
+	}
+	
 	 
 
 }

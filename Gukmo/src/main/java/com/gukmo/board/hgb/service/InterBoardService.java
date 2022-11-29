@@ -20,6 +20,9 @@ public interface InterBoardService {
 	 */
 	BoardVO getBoardDetail(int board_num);
 
+	// === 글삭제 하기 === //
+	int del(Map<String, String> paraMap);
+
 	
 	/**
 	 * 해시태그 불러오기

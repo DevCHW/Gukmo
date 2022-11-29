@@ -110,9 +110,16 @@ $(document).ready(function(){
   
   // [...]클릭후, 삭제버튼 클릭시 이벤트
   $("span#board_delete").click(()=>{
-	  if(confirm('정말 삭제하시겠습니까?'))   
-			return true;
-		else  
+	  if(confirm('정말 삭제하시겠습니까?')) {
+		  
+		  alert("삭제백단");
+		  
+		  location.href='<%= request.getContextPath()%>/del_board.do?board_num=${requestScope.board.board_num}'
+		  
+		  return true;
+	  }  
+			
+		else 
 			return false;
   });//end of Event--
 
