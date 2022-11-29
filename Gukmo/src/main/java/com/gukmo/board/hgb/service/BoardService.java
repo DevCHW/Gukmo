@@ -46,12 +46,17 @@ public class BoardService implements InterBoardService{
 	}
 
 
+	// === 글삭제 하기 === //
+	@Override
+	public int del(Map<String, String> paraMap) {
+		
+		int n = dao.del(paraMap);
+		
+		return n;
+	}
 
-	/**
-	 * 해시태그 불러오기
-	 * @param 글번호 board_num
-	 * @return BoardVO
-	 */
+
+
 	
 	
 	

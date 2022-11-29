@@ -110,7 +110,12 @@
 		where board_num = #{board_num}
 	</select>
 	
-	<!-- 해시태그 알아오기 -->
+	
+	<!-- === 1개글 삭제하기 === -->
+	<delete id="del" parameterType="HashMap">
+	    delete from tbl_board
+	    where board_num = #{board_num}
+	</delete>
 	
 	
 	
