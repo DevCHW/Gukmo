@@ -233,13 +233,25 @@
 	
 	<!-- 카카오로 로그인 체크하기 -->
 	<select id="kakaoConnectionCheck" parameterType="HashMap" resultType="HashMap">
-		select kakao,email,nickname from tbl_member
+		select naver,google,kakao,email,nickname from tbl_member
 		where email = #{email} 
 	</select>
 	
 	<!-- 카카오연동유저로 바꾸기(update)  -->
 	<update id="setKakaoConnection" parameterType="HashMap">
 		update tbl_member set kakao = '1'
+		where email = #{email}
+	</update>
+	
+	<!-- 네이버연동유저로 바꾸기(update)  -->
+	<update id="setNaverConnection" parameterType="HashMap">
+		update tbl_member set naver = '1'
+		where email = #{email}
+	</update>
+	
+	<!-- 구글연동유저로 바꾸기(update)  -->
+	<update id="setGoogleConnection" parameterType="HashMap">
+		update tbl_member set google = '1'
 		where email = #{email}
 	</update>
 	

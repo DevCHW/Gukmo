@@ -365,6 +365,9 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String imageDivision = user.getProfile_image().substring(0, 4);
+		request.setAttribute("imageDivision", imageDivision);
 		return "/member/myInfo.tiles1";
 		// /WEB-INF/views/tiles1/member/myInfo.jsp 페이지.
 	}
