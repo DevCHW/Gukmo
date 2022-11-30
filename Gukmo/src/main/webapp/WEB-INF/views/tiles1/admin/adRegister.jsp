@@ -14,12 +14,12 @@
   <div id="penaltyRegister" class="d-flex flex-column mx-auto my-5">
 
     <div class="line my-4">
-      신고에 필요한 정보를 입력하세요.
+      광고 등록에 필요한 정보를 입력하세요.
     </div>
 
     <!-- signupform 시작 -->
     <div id="adForm">
-      <form name="adForm" class="d-flex flex-column">
+      <form name="adForm" class="d-flex flex-column" enctype="multipart/form-data">
          <label for="division" class="label_signup mt-3">광고 분류</label>
         <span class="pt-2 mr-2">
           <select id= "division" name="division" class="mt-1">
@@ -37,7 +37,7 @@
 		<div id="client_phone_error" class="error"></div>
 
         <label for="file_name" class="label_signup mt-3">파일명</label>
-        <input type="text" id="file_name" name="file_name" style="width:300px;" class="input_signup rounded pl-2" placeholder="" />
+        <input type="file" id="attach" name="attach" style="border:none;" class="input_signup pl-2" placeholder="" />
 		<div id="file_name_error" class="error"></div>
 
         <label for="url" class="label_signup mt-3">URL 주소</label>
@@ -48,7 +48,7 @@
         <input type="text" id="start_date" name="start_date" style="width:300px;" class="input_signup rounded pl-2" placeholder="오늘" readonly/>
 
         <span class="pt-2 mr-2">
-          <select id="period" name = "period" class="mt-1">
+          <select id="period" name = "period" class="mt-1" onchange="periodCheck()">
             <option value="" selected>광고 게시 기간을 선택하세요.</option>
             <option value="7">7 일</option>
             <option value="30">15 일</option>

@@ -1,5 +1,8 @@
 package com.gukmo.board.sm.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.model.ActivityVO;
@@ -25,6 +30,7 @@ import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sm.service.InterAdManageService;
 import com.gukmo.board.sm.service.InterMemberManageService;
 import com.gukmo.board.sm.service.InterReportManageService;
+import com.gukmo.board.common.FileManager;
 import com.gukmo.board.common.MyUtil;
 
 @Controller
@@ -38,7 +44,10 @@ public class memberManageController {
 
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterReportManageService service_report;
-
+	
+	// === #155. 파일업로드 및 다운로드를 해주는 FileManager 클래스 의존객체 주입하기(DI : Dependency Injection) ===   
+	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
+	private FileManager fileManager;
 	// ============= 일반회원 관리 시작 ============= //
 
 	// 회원관리 목록 페이지 요청
@@ -491,11 +500,65 @@ public class memberManageController {
 
 	// 광고 등록 완료 페이지
 	@RequestMapping(value="/admin/adRegisterResult.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requiredAdminLogin_adRegisterResult(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, AdVO advo) {
-		
+	public ModelAndView adRegisterResult(MultipartHttpServletRequest mrequest, HttpServletResponse response, ModelAndView mav, AdVO advo) {
+
+		MultipartFile attach = advo.getAttach();
 		Map<String,String> paraMap = new HashMap<>();
+
+		// WAS 의 webapp 의 절대경로를 알아와야 한다.
+		HttpSession session = mrequest.getSession();
+		String root = session.getServletContext().getRealPath("/");
+		// System.out.println(root);
+		String path = root+"resources"+ File.separator +"files";
+		// path 가 첨부파일이 저장될 WAS(톰캣)의 폴더가 된다.
 		
-		// tbl_penalty에 해당 회원 정지 insert
+		String newFileName = "";
+		// WAS(톰캣)의 디스크에 저장될 파일명 
+		
+		byte[] bytes = null;
+		// 첨부파일의 내용물을 담는 것
+		
+		long fileSize = 0;
+		// 첨부파일의 크기 
+	
+		try {
+			bytes = attach.getBytes();
+			// 첨부파일의 내용물을 읽어오는 것
+			
+			String originalFilename = attach.getOriginalFilename();
+			// attach.getOriginalFilename() 이 첨부파일명의 파일명(예: 강아지.png) 이다. 
+			// System.out.println("~~~~ 확인용 originalFilename => " + originalFilename); 
+		//	~~~~ 확인용 originalFilename => LG_싸이킹청소기_사용설명서.pdf
+			
+			newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
+			           // 첨부되어진 파일을 업로드 하도록 하는 것이다.  
+			
+		//	System.out.println(">>> 확인용 newFileName => " + newFileName);
+			// >>> 확인용 newFileName => 202210281521341200152368627000.pdf
+			
+		/*
+		   3. BoardVO boardvo 에 fileName 값과 orgFilename 값과 fileSize 값을 넣어주기
+		*/	
+			advo.setFilename(newFileName);
+			// WAS(톰캣)에 저장된 파일명(202210281521341200152368627000.pdf)
+			
+			advo.setOrgFilename(originalFilename);
+			// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
+			// 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
+			// LG_싸이킹청소기_사용설명서.pdf
+			
+			fileSize = attach.getSize(); // 첨부파일의 크기(단위는 byte임)
+			advo.setFilesize(String.valueOf(fileSize));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	// === !!! 첨부파일이 있는 경우 작업 끝 !!! === //
+
+		 
+		
+		// tbl_advertisement에 해당 광고 insert
 		int n = service_ad.addAd(advo);
 				
 		if(n == 1 ) {			
@@ -599,7 +662,65 @@ public class memberManageController {
 	}// 광고 관련 정보 상세보기 끝
 	
 	
+	// 광고 상세에서 파일 다운로드하는 메소드
+	@RequestMapping(value="/admin/download.do")
+	public void  download(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> paraMap = new HashMap<>();
+		String advertisement_num = request.getParameter("advertisement_num");
+		paraMap.put("advertisement_num", advertisement_num);
+		
+		AdVO advo = service_ad.getAdDetail(paraMap);
+
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = null;
+		
+		
+		
+		try {
+			Integer.parseInt(advertisement_num);
+
+		     if(advo == null || (advo != null && advo.getFilename() == null ) ) {
+		    	 out = response.getWriter();
+				 // out 은 웹브라우저에 기술하는 대상체라고 생각하자.
+					
+				 out.println("<script type='text/javascript'>alert('존재하지 않는 글번호 이거나 첨부파일 없으므로 파일다운로드가 불가합니다.'); history.back();</script>"); 
+				 return; // 종료
+		     }
+		     else {
+			
+				
+				String filename = advo.getFilename();
+				String orgfilename = advo.getOrgfilename();
+				
+				HttpSession session = request.getSession();
+				String root = session.getServletContext().getRealPath("/");
+		 
+				 String path = root+"resources"+ File.separator +"files";
 	
+				 boolean flag = false;  // file 다운로드 성공, 실패를 알려주는 용도
+				 flag = fileManager.doFileDownload(filename, orgfilename, path, response);
+	
+				 if(!flag) {
+					 // 다운로드가 실패할 경우 메시지를 띄워준다.
+					 out = response.getWriter();
+					 // out 은 웹브라우저에 기술하는 대상체라고 생각하자.
+						
+					 out.println("<script type='text/javascript'>alert('파일다운로드가 실패되었습니다.'); history.back();</script>"); 
+				 }
+		     }
+		     
+		} catch(NumberFormatException | IOException e) {
+			try {
+				out = response.getWriter();
+				// out 은 웹브라우저에 기술하는 대상체라고 생각하자.
+				
+				out.println("<script type='text/javascript'>alert('파일다운로드가 불가합니다.'); history.back();</script>");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+	}
 	
 	
 	

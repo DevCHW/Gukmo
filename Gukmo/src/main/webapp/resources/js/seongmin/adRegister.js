@@ -8,24 +8,86 @@ function getContextPath(){
 
 $(document).ready(function(){
   
+	$("input#client_name").keyup(e => {
+		if($("input#client_name").val().trim() == "") {
+			$("input#client_name").focus();
+		    $("div#client_name_error").text("클라이언트 명을 입력하세요.");
+		    $("div#client_name_error").css('color','red');
+		    return false;
+		}
+		else {
+		    $("div#client_name_error").text("");
+		    $("div#client_name_error").css('color','');		
+		}
+		
+	});
+	
+	$("input#client_phone").keyup(e=>{
+		if($("input#client_phone").val().trim() == "") {
+			$("input#client_phone").focus();
+		    $("div#client_phone_error").text("클라이언트 번호를 입력하세요.");
+		    $("div#client_phone_error").css('color','red');
+		    return false;
+		}
+		else {
+		    $("div#client_phone_error").text("");
+		    $("div#client_phone_error").css('color','');		
+		}
+
+	});
+	
+	
+	$("input#attach").keyup(e=>{
+		if($("input#attach").val() == "") {
+			$("input#file_name").focus();
+		    $("div#file_name_error").text("파일을 선택하세요.");
+		    $("div#file_name_error").css('color','red');
+		    return false;
+		}
+		else {
+		    $("div#file_name_error").text("");
+		    $("div#file_name_error").css('color','');		
+		}
+
+	});
+	
+	$("input#url").keyup(e=>{
+		if($("input#url").val().trim() == "") {
+			$("input#url").focus();
+		    $("div#url_error").text("URL 주소를 입력하세요.");
+		    $("div#url_error").css('color','red');
+		    return false;
+		}
+		else {
+		    $("div#url_error").text("");
+		    $("div#url_error").css('color','');		
+		}
+		
+	});
+
+
+
 	
 	
   $("#showPeriodInput").hide();
 
-  $('select[name="penalty_period"]').change(function() {
-    var result = $("select[name=penalty_period]").val();
-    if (result == 'type6') {
-      $('#showPeriodInput').show();
-      alert("데이터 피커 등록해서 날짜 선택하도록");
-    } else {
-      $("#showPeriodInput").hide();
 
-    }
-
-  }); 
 
   
 });//end of $(document).ready(function(){})---
+
+function periodCheck() {
+	if($("select#period").val() == "") {
+	    $("div#period_error").text("광고 게시 기간을 선택하세요.");
+	    $("div#period_error").css('color','red');
+	    return false;
+	}
+	else {
+	    $("div#period_error").text("");
+	    $("div#period_error").css('color','');		
+	}
+}
+
 
 function adWrite() {
 	
@@ -55,9 +117,9 @@ function adWrite() {
 	}
 		
 	// 파일명 입력하지 않았을 때
-	if($("input#file_name").val().trim() == "") {
+	if($("input#attach").val().trim() == "") {
 		$("input#file_name").focus();
-	    $("div#file_name_error").text("파일명을 입력하세요.");
+	    $("div#file_name_error").text("파일을 선택하세요.");
 	    $("div#file_name_error").css('color','red');
 	    return false;
 	}

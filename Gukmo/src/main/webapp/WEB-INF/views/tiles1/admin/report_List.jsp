@@ -76,9 +76,6 @@
 	        <!-- 총 건수 변수 들어갈 곳-->
 	      </div>
 	
-	      <button type="button" id="" class="btn border-0 rounded" onclick="">
-	        + 광고 등록
-	      </button>
 	    </div>
 	
 	
@@ -103,7 +100,8 @@
 	           <option value="댓글">댓글</option>
 	        </select>
 	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
-	           <option value="report_nickname" selected>신고자</option>
+	           <option value="" selected>소분류</option>
+	           <option value="report_nickname">신고자</option>
 	           <option value="reported_nickname">신고 받은 자</option>
 	        </select>
     	  </div>

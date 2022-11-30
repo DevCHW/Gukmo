@@ -98,7 +98,7 @@
 					</table>		
  			<div class="">
  			  <c:if test="${requestScope.reportDetail.report_type == '게시글'}">
-		        <button type="button" class = "goView" onclick="javascript:location.href='<%= ctxPath%>/detail.do?num='+${requestScope.reportDetail.fk_num}">해당 게시글로 이동</button>&nbsp;
+		        <button type="button" class = "goView" onclick="javascript:location.href='<%= ctxPath%>/detail.do?boardNum='+${requestScope.reportDetail.fk_num}">해당 게시글로 이동</button>&nbsp;
  			  </c:if>
  			  <c:if test="${requestScope.reportDetail.report_type == '댓글'}">
 		        <button type="button" class = "goView" id="${requestScope.reportDetail.fk_num}" >해당 댓글로 이동</button>&nbsp;

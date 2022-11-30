@@ -112,7 +112,8 @@
 	           <option value="게시판">게시판</option>
 	        </select>
 	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
-	           <option value="client_name" selected>고객명</option>
+	           <option value="" selected>소분류</option>
+	           <option value="client_name">고객명</option>
 	           <option value="client_phone">고객 번호</option>
 	        </select>
     	  </div>

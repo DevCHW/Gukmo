@@ -12,6 +12,7 @@
 
 	$(document).ready(function(){
 
+		
 		if( ${not empty requestScope.paraMap} ) {
 
 			$("select#memberStatus").val("${requestScope.paraMap.memberStatus}");
@@ -56,12 +57,21 @@
 		      <tbody>
 				<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status">
 		            <tr class = "memberDetail" id="${membervo.userid}">
-		              <td style="cursor:pointer" ><span>${membervo.userid}</span></td>
-		              <td style="cursor:pointer" ><span>${membervo.username}</span></td>
-		              <td style="cursor:pointer" ><span>${membervo.nickname}</span></td>
-		              <td style="cursor:pointer" ><span>${membervo.email}</span></td>
-		              <td style="cursor:pointer" "><span>${membervo.join_date}</span></td>
-		              <td style="cursor:pointer" "><span>${membervo.status}</span></td>
+		              <td style="cursor:pointer">
+			              <span id="">
+			              	<c:if test="${membervo.userid.length() >= 10}" >
+			              		${membervo.userid.substring(0, 10)}...
+			              	</c:if>
+			              	<c:if test="${membervo.userid.length() < 10}" >
+			              		${membervo.userid}
+			              	</c:if>
+			              </span>
+		              </td>
+		              <td style="cursor:pointer"><span>${membervo.username}</span></td>
+		              <td style="cursor:pointer"><span>${membervo.nickname}</span></td>
+		              <td style="cursor:pointer"><span>${membervo.email}</span></td>
+		              <td style="cursor:pointer"><span>${membervo.join_date}</span></td>
+		              <td style="cursor:pointer"><span>${membervo.status}</span></td>
 		            </tr>    
 		          </c:forEach>
 		    </tbody>
@@ -75,9 +85,6 @@
 		        <!-- 총 건수 변수 들어갈 곳-->
 		      </div>
 		
-		      <button type="button" id="btn_write" class="btn border-0 rounded">
-		        +교육기관 등록
-		      </button>
 		    </div>
 		
 		
@@ -103,7 +110,8 @@
 	           <option value="휴면">휴면</option>
 	        </select>
 	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
-	           <option value="fk_userid" selected>아이디</option>
+	           <option value="" selected>소분류</option>
+	           <option value="fk_userid">아이디</option>
 	           <option value="username">이름</option>
 	           <option value="nickname">닉네임</option>
 	        </select>

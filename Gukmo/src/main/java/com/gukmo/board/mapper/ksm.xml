@@ -180,10 +180,10 @@
 	
 	<!-- 광고리스트 불러오기 -->
 	<select id="adList" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
-       select  rnum, advertisement_num, division, client_name, client_phone, file_name, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status
+       select rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status
         from
         (
-        select rownum as rnum, advertisement_num, division, client_name, client_phone, file_name, url, start_date, period, status
+        select rownum as rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, start_date, period, status
         from tbl_advertisement       
         <if test='memberStatus != "" '>
 	      where division = #{memberStatus}
@@ -204,15 +204,15 @@
 
 	<!-- 광고 관련 상세보기 페이지 -->
 		<select id="getAdDetail" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
-	        select advertisement_num, division, client_name, client_phone, file_name, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status
+	        select advertisement_num, division, client_name, client_phone, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status, filename, filesize
 	        from tbl_advertisement       
 			where advertisement_num = #{advertisement_num}
 		</select>
 		
 	<!-- 광고 테이블에 해당 광고 등록(insert) -->
 		<insert id="addAd" parameterType="com.gukmo.board.model.AdVO">
-		    insert into tbl_advertisement
-		    values(seq_advertisement.nextval, #{division}, #{client_name}, #{client_phone}, #{file_name}, #{url}, sysdate, #{period}, default)
+		    insert into tbl_advertisement (advertisement_num, division, client_name, client_phone, url, start_date, period, status, filename, orgfilename, filesize)
+		    values(seq_advertisement.nextval, #{division}, #{client_name}, #{client_phone}, #{url}, sysdate, #{period}, default, #{filename}, #{orgfilename}, #{filesize})
 		</insert>	
 
 	<!-- @@@@@@@@@@ 광고 관리 끝 @@@@@@@@@@  -->
