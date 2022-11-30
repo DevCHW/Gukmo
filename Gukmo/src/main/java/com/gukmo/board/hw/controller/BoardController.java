@@ -36,7 +36,7 @@ public class BoardController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		String searchWord = request.getParameter("searchWord");
-		String sort = getSort(request.getParameter("sort"));
+		String sort = request.getParameter("sort");
 		String str_page = request.getParameter("page");
 		String category = "공지사항";
 		String detail_category = "공지사항";
@@ -44,10 +44,11 @@ public class BoardController {
 		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
 			searchWord = "";
 		}
-		System.out.println(searchWord);
 		
-		if(sort == null ||sort == "") {
+		if(sort == null || sort.trim() == "") {	//sort 값이 없다면
 			sort = "write_date";
+		} else {								//sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+			sort = getSort(sort);
 		}
 		
 		paraMap.put("searchWord", searchWord);
@@ -69,12 +70,29 @@ public class BoardController {
 		
 		List<BoardVO> notices = service.getNotices(paraMap); // 글목록 가져오기
 		
-		
 		String url = "notices.do";
+		//정렬기준 넣기
+		switch (sort) {
+			case "write_date":
+				sort = "최신순";
+				break;
+			case "comment_cnt":
+				sort = "댓글순";	
+				break;
+			case "like_cnt":
+				sort = "추천순";
+				break;
+			case "views":
+				sort = "조회순";
+				break;
+			default :
+				sort = "최신순";
+				break;
+		}//end of switch-case---
+		
 		//페이지바 얻기
-		
-		
 		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
+		
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
@@ -306,7 +324,8 @@ public class BoardController {
 	 * @return 오라클 필드명과 매칭시킨 정렬조건 sort를 반환한다.
 	 */
 	private String getSort(String sort) {
-		switch (sort) {
+		if(sort != null) {
+			switch (sort.trim()) {
 			case "최신순":
 				sort = "write_date";
 				break;
@@ -319,10 +338,16 @@ public class BoardController {
 			case "조회순":
 				sort = "views";
 				break;
-			default :
+			default: 
 				sort = "write_date";
 				break;
-		}//end of switch-case---
+				
+			}//end of switch-case---
+			
+		}
+		else {
+			sort = "write_date";
+		}
 		return sort;
 	}
 

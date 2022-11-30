@@ -48,7 +48,7 @@
     
     <!-- 검색창 영역 -->
    <div class="searchBar d-flex my-3 justify-content-center">
-     <input type="text" id="searchWord" class="pl-3" placeholder="검색어를 입력해주세요"></input>
+     <input type="text" id="searchWord" class="pl-3" value="${requestScope.searchWord}" placeholder="검색어를 입력해주세요"></input>
      <button type="button" id="btn_search">
        <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
      </button>
