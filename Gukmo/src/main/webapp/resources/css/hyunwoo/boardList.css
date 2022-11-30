@@ -194,8 +194,10 @@ button#btn_write{
   width:136px;
 }
 
-
-
+/* 정렬  */
+div#sort_option > span:hover {
+  color: #14587D;
+}
 
 
 @media screen and (max-width: 768px){

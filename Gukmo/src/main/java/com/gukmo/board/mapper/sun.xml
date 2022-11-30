@@ -6,31 +6,94 @@
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="sun">
 
-	<select id="boardList" parameterType="HashMap" resultType="com.gukmo.board.model.BoardVO">
-		select rno, board_num, nickname, category, detail_category, subject, content, write_date, views, profile_image
+	<!--=============== Board 시작 ============-->
+	
+	<!-- BoardList를 보여주기 위한 BoardVO 매핑 -->
+	<resultMap id="boardList" type="com.gukmo.board.model.BoardVO">
+		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="nickname" column="nickname" />
+		<result property="category" column="category" />
+		<result property="detail_category" column="detail_category" />
+		<result property="subject" column="subject" />
+		<result property="content" column="content" />
+		<result property="write_date" column="write_date" />
+		<result property="views" column="views" />
+		<result property="profile_image" column="profile_image" />
+		<result property="comment_cnt" column="comment_cnt" />
+		<result property="like_cnt" column="like_cnt" />
+		<result property="writer_point" column="writer_point" />
+		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+			<id property="hashtag_num" column="hashtag_num"/>
+			<result property="hashtag" column="hashtag"/>
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 게시판 리스트 얻기 -->
+	<select id="boardList" parameterType="HashMap" resultMap="boardList">
+		select rno, board_num, b.nickname, category, detail_category, subject, content, write_date, views, profile_image, comment_cnt, like_cnt, point as writer_point
+			   ,hashtag_num, hashtag
 		from 
 		(
-		from 
-		(
-		select board_num, nickname, category, detail_category
-		      , subject, content, to_char(write_date, 'yyyy-mm-dd hh24:mi:ss') as write_date
-		      , views, profile_image
-		from tbl_board
-		where 1=1 and category = '커뮤니티' and detail_category = '자유게시판'
-		<!--  and lower(${searchType}) like '%'||lower(#{searchWord})||'%' -->
-		order by board_num desc
-		)v 
-		)
-		order by rno
+		    select rno, board_num, nickname, category, detail_category, subject, content, write_date, views, profile_image, comment_cnt, like_cnt
+		    ,hashtag_num, hashtag
+		    from 
+		    (
+		        select dense_rank() over(order by v.board_num desc) as rno, v.board_num, nickname, category, detail_category, subject, content, write_date, views, profile_image, comment_cnt, like_cnt
+		        	   ,h.hashtag_num, h.hashtag
+		        from 
+		        (	
+		            select board_num, nickname, category, detail_category
+		                  , subject, content, write_date
+		                  , views, profile_image, comment_cnt, like_cnt
+		            from tbl_board
+		            where 1=1 
+		            and category = '커뮤니티' and detail_category = #{detail_category}
+		            <if test='searchWord != "" '>
+		            and (subject like '%'||lower(#{searchWord})||'%'
+		            or content like '%'||lower(#{searchWord})||'%')
+			    	</if>
+		            order by write_date desc
+		        )v left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
+    			on v.board_num = h.fk_board_num
+		    )
+		 where rno between #{startRno} and #{endRno}
+		) b left join (select nickname, point from tbl_member) m on b.nickname = m.nickname
+		order by #{sortType} desc
 	</select>
 	
 	
-	<insert id="communityNew" parameterType="com.gukmo.board.model.BoardVO">
+	<insert id="communityNew" parameterType="com.gukmo.board.model.BoardVO" useGeneratedKeys="true"
+            keyProperty="board_num" keyColumn="board_num" ><!-- insert 후 해당 글번호 가져오기  -->
 		insert into tbl_board
 		values(seq_board.nextval, #{nickname}, '커뮤니티', #{detail_category}, #{subject}, #{content}, default, default, #{profile_image},default,default)
 	</insert>
 	
-	
+	<select id="findHashtag" parameterType="String" resultType="com.gukmo.board.model.HashtagVO">
+        select *
+        from tbl_hashtag2
+        where hashtag = #{hashtag}
+    </select>
+    
+    <insert id="saveHashTag" parameterType="String" >
+        insert into tbl_hashtag2(hashtag_num, hashtag)
+        values (seq_hashtag.nextval, #{hashtag})
+    </insert>
+    
+	<update id="upHashTagCount" parameterType="Integer">
+        update tbl_hashtag2
+        set hashtag_cnt = hashtag_cnt + 1
+        where hashtag_num=#{hashtag_num}
+    </update>
+
+
+   <insert id="hashtagBoardMapping" parameterType="HashMap" >
+        insert into tbl_hashtag_board_map(hashtag_num, fk_board_num)
+        values (#{hashtag_num}, #{fk_board_num})
+    </insert>
+    
+    
+    
 	<update id="pointPlus" parameterType="HashMap">
 	    update tbl_member set point = point + to_number(#{point})
 	    where nickname = #{boardvo.nickname}
@@ -43,11 +106,88 @@
 	</insert>
 	
 	
-	<select id="getCurrentBoardnum" parameterType="String" resultType="Integer">
-		select max(board_num)
+	<select id="getTotalCount" parameterType="HashMap" resultType="Integer">
+		select count(*)
 		from tbl_board
-		where nickname = #{nickname}
+		where detail_category = #{detail_category}
+        <if test='searchWord != "" '>
+        and (subject like '%'||lower(#{searchWord})||'%'
+        or content like '%'||lower(#{searchWord})||'%')
+   		</if>
 	</select>
 	
 	
+	
+	<!-- getBoardDetail를 보여주기 위한 BoardVO 매핑 -->
+	<resultMap id="board" type="com.gukmo.board.model.BoardVO">
+		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="nickname" column="nickname" />
+		<result property="category" column="category" />
+		<result property="detail_category" column="detail_category" />
+		<result property="subject" column="subject" />
+		<result property="content" column="content" />
+		<result property="write_date" column="write_date" />
+		<result property="views" column="views" />
+		<result property="profile_image" column="profile_image" />
+		<result property="comment_cnt" column="comment_cnt" />
+		<result property="like_cnt" column="like_cnt" />
+		<result property="writer_point" column="writer_point" />
+		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+			<id property="hashtag_num" column="hashtag_num"/>
+			<result property="hashtag" column="hashtag"/>
+		</collection>
+	</resultMap>
+	
+	
+	
+	<select id="getBoardDetail" parameterType="HashMap" resultMap="boardList">
+	 select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+    ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
+    ,T.hashtag,T.writer_point
+	from
+	(
+	select *
+	from
+	 (
+	 select C.board_num
+	        ,C.nickname
+	        ,C.category
+	        ,C.detail_category
+	        ,C.subject
+	        ,C.content
+	        ,C.write_date
+	        ,C.views
+	        ,C.profile_image
+	        ,C.comment_cnt
+	        ,C.like_cnt
+	        ,C.hashtag_num
+	        ,C.hashtag
+	        ,D.point writer_point
+	  from
+	    (
+	    select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+	      ,h.hashtag_num,h.hashtag
+	    from (select * from tbl_board where board_num = 640) A
+	    left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag2 a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
+	    on a.board_num = h.fk_board_num
+	    ) C
+	 left join
+	 (select point,nickname from tbl_member) D
+	 on C.nickname = D.nickname
+	 ) V
+	) T
+	</select>
+	
+	
+	<update id="edit" parameterType="com.gukmo.board.model.BoardVO">
+	    update tbl_board set subject = #{subject}
+                           , content = #{content}
+        where board_num = #{board_num}
+	</update>
+	
+	
+	<delete id="del" parameterType="HashMap">
+	    delete from tbl_board
+	    where board_num = #{board_num}
+	</delete>
 </mapper>

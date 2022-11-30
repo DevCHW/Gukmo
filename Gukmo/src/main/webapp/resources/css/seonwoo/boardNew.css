@@ -54,7 +54,7 @@ ul#hashtag_list{
 ul#hashtag_list > li{
   display:inline-block;
   font-size:small;
-  height:100%;
+  padding-left: 8px;
 }
 
 

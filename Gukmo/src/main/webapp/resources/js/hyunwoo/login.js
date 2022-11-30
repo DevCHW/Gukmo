@@ -9,10 +9,23 @@ function getContextPath(){
 
 
 
+window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: "1009243602481-q3hk5769gab0ucfqbsf3r1abj4cg8av5.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+	  document.getElementById("buttonDiv"),
+	  { theme: "outline", size: "large" ,width:"130"}  // customization attributes
+	);
+    google.accounts.id.prompt();
+    // One Tap 기능을 사용하지 않기 때문에 주석처리하였다.
+  };
 
 $(document).ready(function(){
+	// 카카오 로그인 초기화
 	Kakao.init("7643955cb5fbab2b0481e4b321cff247");
-	// ================ 카카오 로그인 끝 ================== //
+	
 	
 	$("input#userid").keydown(function(e){	//아이디에서 값 입력시 이벤트
 	  if(e.keyCode == 13){	//엔터를 했을 경우
@@ -104,9 +117,22 @@ $(document).ready(function(){
 	
 	
 	// 카카오로그인 버튼 클릭시 이벤트
-	$("div#kakao_login").click(function(){
+	$("div#kakao_login").click(()=>{
 		kakaoLogin(); 	
 	});//end of Event--
+	
+	
+	// 네이버로그인 버튼 클릭시 이벤트
+	$("div#naver_login").click(()=>{
+		const url = viewNaverLoginFrm();
+		location.href = url;
+	});//end of Event--
+	
+	$(document).on('click', '#google_login' , function(){
+		alert("잡힘?");
+		$("#container > div > div.nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb > div").trigger("click");
+	});
+	
   
 });//end of $(document).ready(function(){})
 
@@ -256,7 +282,83 @@ function userSnsRegisterPro(userInfo){
 
 
 
+/**
+ * 네이버 로그인 폼 띄우기
+ * @return 네이버로그인 폼 URL 을 반환한다.
+ */
+function viewNaverLoginFrm(){
+	let url=getContextPath()+"/login.do";
+	$.ajax({
+		type : 'get',
+		url : getContextPath()+'/naverLogin.do',
+		dataType : 'json',
+		async:false,
+		success : function(json){
+			url = json.naverUrl;
+		},
+		error: function(status, error){
+			alert("네이버로그인이 현재 불안정한 상태입니다. 다시 시도해주세요"+error);
+		}
+	  });//end of ajax
+	return url;
+}//end of method--
 
 
 
 
+//구글로그인 핸들러
+function handleCredentialResponse(response) {
+	const responsePayload = parseJwt(response.credential);
+//	  console.log("ID: " + responsePayload.sub);
+//    console.log('Full Name: ' + responsePayload.name);
+//    console.log('Given Name: ' + responsePayload.given_name);
+//    console.log('Family Name: ' + responsePayload.family_name);
+//    console.log("Image URL: " + responsePayload.picture);
+//    console.log("Email: " + responsePayload.email);
+    
+    const userInfo = {userid:responsePayload.sub,
+    				  email:responsePayload.email,
+    				  profile_image:responsePayload.picture,
+    				  nickname:responsePayload.given_name,
+    				  email_acept:'0',
+    				  username:responsePayload.name,
+    				  flag:'google'}
+    $.ajax({
+		type : 'post',
+		url : getContextPath()+'/googleLoginPro.do',
+		data : userInfo,
+		dataType : 'json',
+		async:false,
+		success : function(data){
+		  console.log(data)
+		  if(data.JavaData == "YES"){
+			$("input#userid").val(data.userid);
+			login();
+				
+		  }else if(data.JavaData == "register"){// 회원가입을 해야하는경우
+			 userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
+		  }else{
+		    alert("로그인에 실패했습니다");
+		  }
+		},
+		error: function(xhr, status, error){
+			alert("로그인에 실패했습니다."+error);
+		}
+	});//end of ajax
+}//end of method--
+
+
+
+/**
+ * 구글로그인 유저정보JWT 파싱하기
+ * @param token
+ */
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};

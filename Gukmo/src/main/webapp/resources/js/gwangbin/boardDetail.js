@@ -108,13 +108,7 @@ $(document).ready(function(){
   });//end of Event--
   
   
-  // [...]클릭후, 삭제버튼 클릭시 이벤트
-  $("span#board_delete").click(()=>{
-	  if(confirm('정말 삭제하시겠습니까?'))   
-			return true;
-		else  
-			return false;
-  });//end of Event--
+  
 
 
   //대댓글 쓰기 버튼 클릭시 이벤트
@@ -172,3 +166,26 @@ $(document).ready(function(){
     alert(target.text()); //클릭한 해시태그 값
   });
 });//end of $(document).ready(function(){})---
+
+
+
+
+
+
+
+
+//[...]클릭후, 삭제버튼 클릭시 이벤트
+function del_board(board_num){
+	  if(confirm('정말 삭제하시겠습니까?')) {
+		  
+		  alert("삭제백단");
+		  
+		  location.href="del_board.do?board_num="+board_num;
+		  
+		  
+		  return true;
+	  }  
+			
+		else 
+			return false;
+};//end of Event--

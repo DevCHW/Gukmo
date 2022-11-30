@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 public interface InterBoardDAO {
 
@@ -19,8 +20,30 @@ public interface InterBoardDAO {
 	// 글쓰기, 댓글 작성시 활동내역에 등록하기
 	int activityLog(Map<String, Object> paraMap);
 
-	// 지금 등록된 글번호 가져오기
-	int getCurrentBoardnum(String nickname);
+	// 총 게시물 건수
+	int getTotalCount(Map<String, String> paraMap);
+
+	// tbl_hashtag에 존재 찾기
+	HashtagVO findHashtag(String hashTag);
+	
+	// tbl_hashtag에 해시태그 추가
+	void saveHashTag(String hashTag);
+
+	// tbl_hashtag에 카운트 올리기
+	void upHashTagCount(int hashtag_num);
+
+	// tbl_hashtag_board_map 에 insert하기
+	int hashtagBoardMapping(Map<String, Object> paraMap);
+
+	// 특정 게시글 내용 가져오기
+	BoardVO getBoardDetail(Map<String, String> paraMap);
+
+	// 게시글 수정
+	int edit(BoardVO boardvo);
+
+	// 게시글 삭제
+	int del(Map<String, String> paraMap);
+
 	
 	
 }

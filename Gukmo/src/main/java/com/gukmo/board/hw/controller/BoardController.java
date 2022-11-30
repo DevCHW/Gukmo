@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,73 +29,82 @@ public class BoardController {
 	private FileManager fileManager;
 	
 	
-	
-	
 	/**
-	 * 공지사항 리스트 페이지 GET요청 매핑
+	 * 국비학원 페이지 매핑
 	 */
-	@RequestMapping(value="/notices.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public String viewNotices(HttpServletRequest request) {
+	@RequestMapping(value="academy/academies.do", method= {RequestMethod.GET})
+	public String viewAcademy(HttpServletRequest request) {
+		
 		Map<String, String> paraMap = new HashMap<>();
+		String searchWord = request.getParameter("searchWord");
+		String sort = request.getParameter("sort");
 		String str_page = request.getParameter("page");
-		String searchWord = "";
-		if(request.getParameter("searchWord") != null) {
-		  searchWord = request.getParameter("searchWord");
+		String category = "국비학원";
+		String detail_category = "국비학원";
+		
+		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+			searchWord = "";
 		}
-		String sort = "";
-		if(request.getParameter("sort") != null) {
-			sort = request.getParameter("sort");
+		
+		if(sort == null ||sort == "") {
+			sort = "write_date";
 		}
-		sort = getSort(sort);
+		
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("sort", sort);
+		paraMap.put("category",category);
+		paraMap.put("detail_category", detail_category);
 		
-		// 총 게시물 건수(totalCount)구하기
-		int totalCount = service.getTotalNoticesCount(paraMap);
-		int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
-		//총 페이지 수 계산하기 (총페이지수/한페이지당 보여줄 게시물 건수)의 올림처리
-		int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
-		int page = getPage(str_page,totalPage);	//현재페이지번호 구하기(예외처리 포함)
+		// 총 게시물 건수
+		int totalCount = service.getTotalAcademyCount(paraMap);    
+		// 한 페이지당 보여줄 게시물 건수 
+		int sizePerPage = 10;         
+		// 총 페이지수(웹브라우저상에서 보여줄 총 페이지 개수, 페이지바)
+		int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );            
+		//현재페이지번호 구하기(예외처리 포함)
+		int page = getPage(str_page,totalPage);	
 		
 		// 시작행번호,끝 행번호 구하기(맵에 담아서 반환)
-		paraMap = getRno(page,sizePerPage,paraMap);
-		 
-		List<BoardVO> notices = service.getNotices(paraMap);
-		// 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
-		// 검색대상 컬럼과 검색어를 뷰단 페이지에서 유지시키기 위한 조건
+		paraMap = getRno(page,sizePerPage,paraMap); 
+		
+		List<BoardVO> academyList = service.getAcademyList(paraMap); // 글목록 가져오기
+		
+		// 검색어를 뷰단 페이지에서 유지시키기 위한 것
 		if(!"".equals(searchWord) ) {
 			request.setAttribute("paraMap", paraMap);
 		}
-		String url = "reviews.do";
+		
+		String url = "academy/academies.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage,url,searchWord,request.getParameter("sort"));
+		
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("totalCount", totalCount);
-		request.setAttribute("noticeList",notices);
-  
-		return "board/notice/noticeList.tiles1";
-   }
+		request.setAttribute("academyList",academyList);
+		request.setAttribute("searchWord",searchWord);
+		request.setAttribute("sort",sort);
+		request.setAttribute("detail_category",detail_category);
+		
+		
+		return "board/academy/academyList.tiles1";
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 교육과정페이지 매핑
+	 */
+	@RequestMapping(value="/academy/curricula.do", method= {RequestMethod.GET})
+	public String view(HttpServletRequest request) {
+		return "board/academy/curriculumList.tiles1";
+	}
+
 	
 	
 	
 	
 	
    // ============================================================================== //
-   // ==================================== 페이징처리 유틸 =============================== //
+   // ==================================== 페이징처리 유틸 시작 =============================== //
    // ============================================================================== //
 	
    /**
@@ -221,7 +231,7 @@ public class BoardController {
    
    
    // ============================================================================== //
-   // ==================================== 페이징처리 유틸 =============================== //
+   // ==================================== 페이징처리 유틸 끝 =============================== //
    // ============================================================================== //
 	
 	

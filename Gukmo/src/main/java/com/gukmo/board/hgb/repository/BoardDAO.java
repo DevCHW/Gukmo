@@ -48,12 +48,13 @@ public class BoardDAO implements InterBoardDAO{
 	}
 
 
-	/**
-	 * 해시태그 알아오기
-	 * @param 글번호 board_num
-	 * @return 하나의 글번호에 해시태그
-	 */
-	
+
+	// === 글삭제 하기 === //
+	@Override
+	public int del(Map<String, String> paraMap) {
+		int n = gukmo_sql.delete("hgb.del", paraMap);
+		return n;
+	}
 
 
 

@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seonwoo/boardNew.css" />
 
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/communityNew.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/communityEdit.js" ></script>
 
   <div class="container">
     <%-- 커뮤니티 작성 폼 시작 --%>
@@ -36,7 +36,7 @@
 
       <%-- subject --%>
       <label for="subject" class="community_label mt-3">제목</label>
-      <input type="text" id="subject" name="subject" class="community_input border rounded pl-2" placeholder="제목을 입력하세요">
+      <input type="text" id="subject" name="subject" class="community_input border rounded pl-2" value="${requestScope.boardvo.subject}" placeholder="제목을 입력하세요">
 
 
 
@@ -44,21 +44,23 @@
       <label for="hashtag" class="community_label mt-3">태그</label>
       <div id="hashtag_box" class="border rounded pl-2">
         <ul id="hashtag_list" class="d-flex align-items-center">
-          <input type="text" id="hashtag" name="hashtag" class="border-0" placeholder="태그를 설정하세요(최대 5개)">
+          <c:forEach var="hashtag" items="${requestScope.boardvo.hashtags}" varStatus="status">
+          <li class='tag-item'>${hashtag.hashtag}<span class='del-btn' idx='${status.count}'>x</span></li>
+		  </c:forEach>      
+          <input type="text" id="hashtag" name="hashtag" class="border-0" placeholder="태그를 설정하세요(최대 5개)" >
         </ul>
       </div>
       
       
-      
       <%-- content --%>
       <label for="content" class="community_label mt-3">본문</label>
-      <textarea name="content" id="content" class="px-2 py-2 border rounded" cols="30" rows="15"></textarea>
+      <textarea name="content" id="content" class="px-2 py-2 border rounded" cols="30" rows="15">${requestScope.boardvo.content}</textarea>
     </form>
     <%-- 커뮤니티 작성 폼 끝 --%>
 
     <%-- 수정일 경우에는 등록 대신 수정버튼 태그라이브러리로 구현예정 --%>
     <div id="btn_wrapper" class="d-flex justify-content-end mt-3">
-      <button id="btn_write" type="button" class="btn border rounded">등록</button>
+      <button id="btn_write" type="button" class="btn border rounded">수정</button>
       <button id="btn_cancle" type="button" class="btn border rounded ml-3" onclick="javascript:history.back()">취소</button>
     </div>
   </div>
