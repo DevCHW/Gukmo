@@ -22,7 +22,7 @@
     <%-------------------- communityNavbar 시작 ----------------------%>
     
     <%-- communityNavbar 호출 --%>
-	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/communityNav.jsp" />
+	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/academyNav.jsp" />
         
     <%-------------------- communityNavbar 끝 ----------------------%>
 
@@ -59,7 +59,7 @@
     <%------------------------------------- 게시판 리스트 시작 -------------------------------------%>
 	
     <%-- 게시글 반복문 시작 --%>
-    <c:forEach var="boardvo" items="${requestScope.boardList}">
+    <c:forEach var="boardvo" items="${requestScope.academyList}">
     
     <div class="border-top px-2 py-2">
       <div class="d-flex align-items-center my-2">

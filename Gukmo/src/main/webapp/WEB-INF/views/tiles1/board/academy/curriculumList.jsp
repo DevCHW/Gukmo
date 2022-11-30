@@ -22,7 +22,7 @@
     <%-------------------- communityNavbar 시작 ----------------------%>
     
     <%-- communityNavbar 호출 --%>
-	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/communityNav.jsp" />
+	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/academyNav.jsp" />
         
     <%-------------------- communityNavbar 끝 ----------------------%>
 

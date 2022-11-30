@@ -42,10 +42,10 @@ public class BoardController {
 	@RequestMapping(value="/detail.do")
 	public String viewBoardDetail(HttpServletRequest request) {
 //		나중에 주석 풀기
-		String str_board_num = request.getParameter("board_num");
-		int board_num = 0;
+		String str_board_num = request.getParameter("boardNum");
+		int boardNum = 0;
 		try {
-			board_num = Integer.parseInt(str_board_num); 
+			boardNum = Integer.parseInt(str_board_num); 
 		} catch (NullPointerException e) {
 			return "redirect:index.do";
 		}//end of try-catch--
@@ -55,7 +55,7 @@ public class BoardController {
 		
 		
 //		int board_num = 3;// 글번호(해시태그 있는 글번호 임시 설정)
-		BoardVO board= service.getBoardDetail(board_num);	//하나의 글 불러오기
+		BoardVO board= service.getBoardDetail(boardNum);	//하나의 글 불러오기
 		
 		System.out.println(board);
 		request.setAttribute("board", board);

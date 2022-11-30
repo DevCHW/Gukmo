@@ -35,8 +35,24 @@ public class APILoginService implements InterAPILoginService{
 	public void setKakaoConnection(Map<String, Object> paramMap) {
 		dao.setKakaoConnection(paramMap);
 	}
-
-
+	
+	/**
+	 * 네이버연동유저로 바꾸기(update)
+	 */
+	@Override
+	public void setNaverConnection(Map<String, Object> apiJson) {
+		dao.setNaverConnection(apiJson);
+	}
+	
+	/**
+	 * 네이버연동유저로 바꾸기(update)
+	 */
+	@Override
+	public void setGoogleConnection(Map<String, Object> paramMap) {
+		dao.setGoogleConnection(paramMap);
+	}
+	
+	
 	
 	/**
 	 * 닉네임 중복검사하기
@@ -56,13 +72,13 @@ public class APILoginService implements InterAPILoginService{
 
 
 	/**
-	 * 카카오로그인일 경우 회원가입시키기
+	 * 카카오로그인,네이버로그인,구글로그인일 경우 회원가입시키기
 	 * @return 회원가입 성공 true 실패 false 반환
 	 */
 	@Override
-	public boolean userKakaoRegisterPro(Map<String, Object> paramMap) {
+	public boolean userRegisterPro(Map<String, Object> paramMap) {
 		paramMap.put("passwd", Sha256.encrypt("qwe"+MyUtil.getAuthKey(10)));
-		int result = dao.userKakaoRegisterPro(paramMap);
+		int result = dao.userRegisterPro(paramMap);
 		if(result == 1) {	//회원가입시키기 성공시
 			return true;
 		} else {	//회원가입시키기 실패시
@@ -70,30 +86,10 @@ public class APILoginService implements InterAPILoginService{
 		}
 		
 	}
-
+	
 
 	
-	/**
-	 * 구글로그인일 경우 회원가입시키기
-	 * @return 회원가입 성공 true 실패 false 반환
-	 */
-	@Override
-	public boolean userGoogleRegisterPro(Map<String, Object> paramMap) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
 	
-	/**
-	 * 네이버로그인일 경우 회원가입시키기
-	 * @return 회원가입 성공 true 실패 false 반환
-	 */
-	@Override
-	public boolean userNaverRegisterPro(Map<String, Object> paramMap) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 
 	/**
@@ -104,6 +100,23 @@ public class APILoginService implements InterAPILoginService{
 		String userid = dao.getUserid(email);
 		return userid;
 	}
+
+
+
+	/**
+	 * 회원정보얻기
+	 * @param 회원아이디
+	 * @return 회원정보
+	 */
+	@Override
+	public MemberVO getUser(String userid) {
+		MemberVO user = dao.getUser(userid);
+		return user;
+	}
+
+
+	
+
 
 	
 	

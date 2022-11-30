@@ -45,5 +45,31 @@ public class BoardDAO implements InterBoardDAO{
 
 
 	
+	/**
+	 * 총 게시물 건수(totalCount) 구하기(국비학원 게시판)
+	 * @param paraMap(검색어)
+	 * @return (총 게시물 건수) 를 반환한다. totalCount
+	 */
+	@Override
+	public int getTotalAcademyCount(Map<String, String> paraMap) {
+		int totalCount = gukmo_sql.selectOne("chw.getTotalAcademyCount",paraMap);
+		return totalCount;
+	}
+
+
+	
+	/**
+	 * 국비학원 게시판을 보여주기 위한 BoardVO 리스트 가져오기
+	 * @param paraMap(검색어,시작rownum,끝rownum,정렬)
+	 * @return BoardVO리스트
+	 */
+	@Override
+	public List<BoardVO> getAcademyList(Map<String, String> paraMap) {
+		List<BoardVO> academyList = gukmo_sql.selectList("chw.getAcademyList",paraMap);
+		return academyList;
+	}
+
+
+	
 	
 }
