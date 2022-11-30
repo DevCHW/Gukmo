@@ -54,8 +54,8 @@
 		            or content like '%'||lower(#{searchWord})||'%')
 			    	</if>
 		            order by write_date desc
-		        )v left join (select a.hashtag_num, hashtag, board_num from tbl_hashtag2 a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
-    			on v.board_num = h.board_num
+		        )v left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
+    			on v.board_num = h.fk_board_num
 		    )
 		 where rno between #{startRno} and #{endRno}
 		) b left join (select nickname, point from tbl_member) m on b.nickname = m.nickname
@@ -71,17 +71,17 @@
 	
 	<select id="findHashtag" parameterType="String" resultType="com.gukmo.board.model.HashtagVO">
         select *
-        from tbl_hashtag2
+        from tbl_hashtag
         where hashtag = #{hashtag}
     </select>
     
     <insert id="saveHashTag" parameterType="String" >
-        insert into tbl_hashtag2(hashtag_num, hashtag)
+        insert into tbl_hashtag(hashtag_num, hashtag)
         values (seq_hashtag.nextval, #{hashtag})
     </insert>
     
 	<update id="upHashTagCount" parameterType="Integer">
-        update tbl_hashtag2
+        update tbl_hashtag
         set hashtag_cnt = hashtag_cnt + 1
         where hashtag_num=#{hashtag_num}
     </update>
@@ -168,8 +168,8 @@
 	    select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 	      ,h.hashtag_num,h.hashtag
 	    from (select * from tbl_board where board_num = 640) A
-	    left join (select a.hashtag_num, hashtag, board_num from tbl_hashtag2 a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
-	    on a.board_num = h.board_num
+	    left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
+	    on a.board_num = h.fk_board_num
 	    ) C
 	 left join
 	 (select point,nickname from tbl_member) D
