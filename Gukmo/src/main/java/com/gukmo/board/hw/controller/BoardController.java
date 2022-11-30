@@ -28,6 +28,69 @@ public class BoardController {
 	@Autowired
 	private FileManager fileManager;
 	
+	/**
+	 * 국비학원 페이지 매핑
+	 */
+	@RequestMapping(value="/notices.do", method= {RequestMethod.GET})
+	public String viewNotice(HttpServletRequest request) {
+		
+		Map<String, String> paraMap = new HashMap<>();
+		String searchWord = request.getParameter("searchWord");
+		String sort = getSort(request.getParameter("sort"));
+		String str_page = request.getParameter("page");
+		String category = "공지사항";
+		String detail_category = "공지사항";
+		
+		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+			searchWord = "";
+		}
+		System.out.println(searchWord);
+		
+		if(sort == null ||sort == "") {
+			sort = "write_date";
+		}
+		
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("sort", sort);
+		paraMap.put("category",category);
+		paraMap.put("detail_category", detail_category);
+		
+		// 총 게시물 건수
+		int totalCount = service.getTotalNoticesCount(paraMap);    
+		// 한 페이지당 보여줄 게시물 건수 
+		int sizePerPage = 10;         
+		// 총 페이지수(웹브라우저상에서 보여줄 총 페이지 개수, 페이지바)
+		int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );            
+		//현재페이지번호 구하기(예외처리 포함)
+		int page = getPage(str_page,totalPage);	
+		
+		// 시작행번호,끝 행번호 구하기(맵에 담아서 반환)
+		paraMap = getRno(page,sizePerPage,paraMap); 
+		
+		List<BoardVO> notices = service.getNotices(paraMap); // 글목록 가져오기
+		
+		
+		String url = "notices.do";
+		//페이지바 얻기
+		
+		
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
+		
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("totalCount", totalCount);
+		request.setAttribute("noticeList",notices);
+		request.setAttribute("searchWord",searchWord);
+		request.setAttribute("sort",sort);
+		request.setAttribute("detail_category",detail_category);
+		
+		
+		return "board/notice/noticeList.tiles1";
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * 국비학원 페이지 매핑

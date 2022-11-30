@@ -381,7 +381,7 @@
 				  and subject like '%'|| lower(#{searchWord}) ||'%'
 				</if>
 				) A
-				left join tbl_hashtag B
+				left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
 				on A.board_num = B.fk_board_num
 				) C
 			left join
