@@ -63,7 +63,13 @@ $(document).ready(function(){
 	$("input#searchWord").keyup(function(e){
 		if(e.keyCode == 13) {
 			// 검색어에 엔터를 했을 경우
-			goSearch();
+			if($("select#searchType").val() == "" && $("input#searchWord").val() != "" ) {
+				alert("소분류를 선택하세요.");
+				return;
+			}
+			else {
+				goSearch();
+			}
 		}
 	});
 	
@@ -75,11 +81,17 @@ $(document).ready(function(){
     location.href= "memberDetail.do?userid="+userid;
   }//end of  function MemberDetail()
 
-  function goSearch() {	  
-		const frm = document.searchFrm;
-		frm.method = "GET";
-		frm.action = getContextPath()+"/admin/memberManage_List.do";
-		frm.submit();
+  function goSearch() {
+		if($("select#searchType").val() == "" && $("input#searchWord").val() != "" ) {
+			alert("소분류를 선택하세요.");
+			return;
+		}
+		else {
+			const frm = document.searchFrm;
+			frm.method = "GET";
+			frm.action = getContextPath()+"/admin/memberManage_List.do";
+			frm.submit();
+		}
   }
 //Function Declaration
   

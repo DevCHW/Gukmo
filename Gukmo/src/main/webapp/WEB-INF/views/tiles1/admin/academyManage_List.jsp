@@ -61,7 +61,16 @@
 	      <tbody>
 			<c:forEach var="acamembervo" items="${requestScope.academymemberList}" varStatus="status">
 	            <tr class = "aca_memberDetail" id="${acamembervo.userid}">
-	              <td style="cursor:pointer" ><span>${acamembervo.userid}</span></td>
+	              <td style="cursor:pointer" >
+		              <span id="">
+		              	<c:if test="${acamembervo.userid.length() >= 12}" >
+		              		${acamembervo.userid.substring(0, 11)}...
+		              	</c:if>
+		              	<c:if test="${acamembervo.userid.length() < 12}" >
+		              		${acamembervo.userid}
+		              	</c:if>
+		              </span>
+	              </td>
 	              <td style="cursor:pointer" ><span>${acamembervo.academy_name}</span></td>
 	              <td style="cursor:pointer" ><span>${acamembervo.nickname}</span></td>
 	              <td style="cursor:pointer" ><span>${acamembervo.email}</span></td>
@@ -81,9 +90,6 @@
 	        <!-- 총 건수 변수 들어갈 곳-->
 	      </div>
 	
-	      <button type="button" id="btn_write" class="btn border-0 rounded">
-	        +교육기관 등록
-	      </button>
 	    </div>
 
 
@@ -111,7 +117,8 @@
 	           <option value="대기">대기</option>
 	        </select>
 	    	<select class = "mx-2" name="searchType" id="searchType" style="height:40px;">
-	           <option value="fk_userid" selected>아이디</option>
+	           <option value="" selected>소분류</option>
+	           <option value="fk_userid" >아이디</option>
 	           <option value="nickname">닉네임</option>
 	           <option value="academy_name">학원명</option>
 	        </select>

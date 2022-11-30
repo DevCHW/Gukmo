@@ -37,7 +37,13 @@
 	                <div id="division">광고 구분 : &nbsp;<span>${requestScope.adDetail.division}</span></div>
 	                <div id="client_name">클라이언트 명 : &nbsp;<span>${requestScope.adDetail.client_name}</span></div>
 	                <div id="client_phone">클라이언트 번호 : &nbsp;<span>${requestScope.adDetail.client_phone}</span></div>
-	                <div id="client_phone">파일명 : &nbsp;<span>${requestScope.adDetail.file_name}</span></div>
+	                <div id="client_phone">첨부파일 : &nbsp;
+		                <span>
+		                	<a href="<%= ctxPath %>/admin/download.do?advertisement_num=${requestScope.adDetail.advertisement_num}">
+		                		${requestScope.adDetail.orgfilename}
+		                	</a>
+		                </span>
+	                </div>
 	                <div id="url">URL : &nbsp;<span>${requestScope.adDetail.url}</span></div>
 	                <div id="start_date">광고 게시 날짜 : &nbsp;<span>${requestScope.adDetail.start_date}</span></div>
 	                <div id="period">광고 기간 : &nbsp;<span>${requestScope.adDetail.period}</span></div>
