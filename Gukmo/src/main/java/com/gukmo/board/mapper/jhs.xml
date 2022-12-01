@@ -21,6 +21,8 @@
 	</select> -->
 	
 	
+	
+	<!-- 메인 게시판 영역 -->
 	<select id ="getFreeBoardList" resultType="com.gukmo.board.model.BoardVO">
 		select board_num,nickname, point as writer_point , profile_image,
 		       detail_category , subject,
@@ -37,6 +39,7 @@
 		)
 		where rownum between 1 and 5
 	</select>
+	
 	
 	<select id ="getStudyBoardList" resultType="com.gukmo.board.model.BoardVO">
 		select board_num,nickname, point as writer_point, profile_image,
@@ -55,8 +58,9 @@
 		where rownum between 1 and 5
 	</select>
 	
+	
 	<select id ="getQnaBoardList" resultType="com.gukmo.board.model.BoardVO">
-		select board_num,nickname, point, profile_image,
+		select board_num,nickname, point as writer_point, profile_image,
 		       detail_category , subject,
 		       content , write_date, views, comment_cnt, like_cnt
 		from
@@ -71,6 +75,7 @@
 		)
 		where rownum between 1 and 5
 	</select>
+	
 	
 	<select id ="getReviewBoardList" resultType="com.gukmo.board.model.BoardVO">
 		select board_num,nickname, point as writer_point, profile_image,
@@ -88,5 +93,57 @@
 		)
 		where rownum between 1 and 5
 	</select>
+	
+	
+	
+	<!-- 검색창 영역 -->
+	<!-- 해시태그 검색용 mapping -->
+	<resultMap id="searchList" type="com.gukmo.board.model.BoardVO">
+		<id property="board_num" column="board_num"/>
+		<result property="subject" column="subject"/>
+		<result property="content" column="content"/>
+		<result property="write_date" column="write_date"/>
+		<collection property="hashtags" column="hashtag" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+			<id property="hashtag" column="hashtag"/>
+		</collection>
+	</resultMap>
+	
+	<select id ="getTotalCnt" parameterType="HashMap" resultType="int">
+		select count(*)
+		from(
+		    select dense_rank() OVER (order by B.board_num desc) rno,
+		           board_num, subject, content, hashtag, B.write_date as write_date         
+		    from tbl_board B left join tbl_hashtag_board_map HM
+		    on B.board_num = HM.fk_board_num left join tbl_hashtag H
+		    on HM.hashtag_num = H.hashtag_num
+			where 1 = 1
+				<if test= 'searchWord != ""'>
+				and subject like '%'||lower(#{searchWord})||'%'
+			    or content like '%'||lower(#{searchWord})||'%'
+			    or hashtag like '%'||lower(#{searchWord})||'%'
+			   </if>
+		)V
+	</select>
+	
+	
+
+	<select id = "getSearchList" parameterType="HashMap" resultMap="searchList">
+		select board_num, subject, content, hashtag, write_date
+		from(
+		    select dense_rank() OVER (order by B.board_num desc) rno,
+		           board_num, subject, content, hashtag, B.write_date as write_date         
+		    from tbl_board B left join tbl_hashtag_board_map HM
+		    on B.board_num = HM.fk_board_num left join tbl_hashtag H
+		    on HM.hashtag_num = H.hashtag_num
+			where 1 = 1
+				<if test= 'searchWord != ""'>
+				and subject like '%'||lower(#{searchWord})||'%'
+			    or content like '%'||lower(#{searchWord})||'%'
+			    or hashtag like '%'||lower(#{searchWord})||'%'
+			   </if>
+		)V
+		where rno between #{startRno} and #{endRno}
+	</select>
+
 	
 </mapper>

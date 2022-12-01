@@ -26,9 +26,7 @@ public class BoardVO {
 	
 	
 	//select 용도
-	private String point;	//작성자 활동점수
-	// 하솔: writer_point 였는데, DB 에는 point로 등록된 것 같아서 수정함.
-	
+	private String writer_point;	//작성자 활동점수	
 	
 	// 해시태그VO리스트(연관관계에 있는 필드)
 	List<HashtagVO> hashtags;
@@ -36,7 +34,7 @@ public class BoardVO {
 	// 댓글VO리스트(연관관계에 있는 필드)
 	List<CommentVO> comment;
 	
-	
+
 	
 	//기본생성자 protected로 막기
 	protected BoardVO() {}
@@ -61,20 +59,32 @@ public class BoardVO {
 		this.previoussubject = previoussubject;
 		this.nextseq = nextseq;
 		this.nextsubject = nextsubject;
-		this.point = writer_point;
+		this.writer_point = writer_point;
 		this.hashtags = hashtags;
 		this.comment = comment;
 	}
 
+	
 
 	
-	
+
+
+	@Override
+	public String toString() {
+		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
+				+ ", detail_category=" + detail_category + ", subject=" + subject + ", content=" + content
+				+ ", write_date=" + write_date + ", views=" + views + ", profile_image=" + profile_image
+				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
+				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
+				+ ", writer_point=" + writer_point + ", hashtags=" + hashtags + ", comment=" + comment + "]";
+	}
 	
 	
 	// Getter
 	public String getBoard_num() {
 		return board_num;
 	}
+
 
 	public String getNickname() {
 		return nickname;
@@ -121,8 +131,8 @@ public class BoardVO {
 		return like_cnt;
 	}
 	
-	public String getPoint() {
-		return point;
+	public String getWriter_point() {
+		return writer_point;
 	}
 
 
@@ -159,11 +169,6 @@ public class BoardVO {
 		return nextsubject;
 	}
 
-
-	// setter
-	public void setWrite_date(Date write_date) {
-		this.write_date = write_date;
-	}
 
 	
 	

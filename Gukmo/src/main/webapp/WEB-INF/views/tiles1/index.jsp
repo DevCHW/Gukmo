@@ -50,34 +50,24 @@
 
 
 
-
 <div class="container d-flex flex-column align-items-center">
 
     <!-- 검색창 영역 -->
-	<div class="searchBar d-flex mt-5 col-9">
-		<div class="div_selectSearch">                 
-		    <label for="selectSearch">학원명</label>                           
-	        <select name="selectSearch" id="selectSearch">
-	            <option value="academy_name" selected>학원명</option>
-	            <option value="subject_name">과정명</option>
-	            <option value="board">게시글</option>
-	            <option value="hashtag">해시태그</option>
-	        </select>
-		</div>
-		<input type="text" id="searchWord" placeholder="검색할 내용을 입력해 주세요!"></input>
+	<form name="searchFrm" class="searchBar d-flex justify-content-center mt-5 col-9">
+		<input type="text" id="searchWord" name="searchWord" placeholder="검색할 내용을 입력해 주세요!" ></input>
 		<button type="button" id="btn_search">
           <i class="fa-solid fa-magnifying-glass" style="color:#208EC9; font-size:20px;"></i>
         </button>
-	</div>
+	</form>
 	
 	<!-- 해시태그 -->
-	<div class="hashtag col-9 mt-1">
-		<a href ="#">#해시태그</a>
+	<div class="hashtag col-7 mt-1 d-flex justify-content-center">
+		<a href ="#" class="first_hashtag">#해시태그</a>
 		<a href ="#">#해시태그</a>
 		<a href ="#">#해시태그</a>
 	</div>
 	
-
+:
 	<!-- 학원 정보 영역 -->
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
@@ -368,7 +358,7 @@
 							        <!-- 작성자 활동점수 -->
 							        <div class="writer_point text-align-center ml-2">
 							          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-							          <span>${boardvo.point}</span>
+							          <span>${boardvo.writer_point}</span>
 							        </div>
 							
 							        <!-- 작성일자 -->
@@ -435,7 +425,7 @@
 						        <!-- 작성자 활동점수 -->
 						        <div class="writer_point text-align-center ml-2">
 						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-						          <span>${boardvo.point}</span>
+						          <span>${boardvo.writer_point}</span>
 						        </div>
 						
 						        <!-- 작성일자 -->
@@ -502,7 +492,7 @@
 						        <!-- 작성자 활동점수 -->
 						        <div class="writer_point text-align-center ml-2">
 						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-						          <span>${boardvo.point}</span>
+						          <span>${boardvo.writer_point}</span>
 						        </div>
 						
 						        <!-- 작성일자 -->
@@ -569,7 +559,7 @@
 						        <!-- 작성자 활동점수 -->
 						        <div class="writer_point text-align-center ml-2">
 						          <i class="fa-solid fa-bolt" style="font-size:8px;"></i>
-						          <span>${boardvo.point}</span>
+						          <span>${boardvo.writer_point}</span>
 						        </div>
 						
 						        <!-- 작성일자 -->
@@ -606,4 +596,5 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>

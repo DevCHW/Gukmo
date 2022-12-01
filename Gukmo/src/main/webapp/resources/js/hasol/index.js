@@ -8,17 +8,14 @@ function getContextPath(){
 
 
 $(document).ready(function(){
-	
-	showSlides();
-	
-	// 검색창 select 기능 구현
-    let select = $('.selectSearch_div select');
-    
-    select.change(function(){
-    	
-        let select_name = $(this).children('option:selected').text();
-        $(this).siblings("label").text(select_name);
-    });
+
+	// 검색어 엔터 이벤트
+	$("input#searchWord").keydown(function(e){
+		if(e.keyCode == 13){
+			goSearch();
+		}
+	});
+
  
 });
 
@@ -83,25 +80,15 @@ function func_openBanner() {
 
 */
 
-// 검색창
-/*function goSearch (){
+// 검색
+function goSearch (){
 	
-	let selectSearch = $("#selectSearch").val();
-	let searchWord = $("searchWord").val();
-	
-	$.ajax(){
-		url:getContextPath()+"/getSearch.do",
-		data: { "selectSearch": selectSearch,
-				"searchWord": searchWord
-			
-		}
-	}
-	}
-	*/
-
-
-// 학원 정보 불러오기
-function getAcademy_info(){
+	const frm = document.searchFrm;
+	frm.method="GET";
+	frm.action= getContextPath()+"/main_search.do"
+	frm.submit();
 	
 }
+
+
 
