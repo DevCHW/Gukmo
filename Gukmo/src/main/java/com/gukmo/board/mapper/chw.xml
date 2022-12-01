@@ -324,7 +324,6 @@
 		<result property="category" column="category" />
 		<result property="detail_category" column="detail_category" />
 		<result property="subject" column="subject" />
-		<result property="content" column="content" />
 		<result property="write_date" column="write_date" />
 		<result property="views" column="views" />
 		<result property="profile_image" column="profile_image" />
@@ -334,7 +333,6 @@
 		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
 			<id property="hashtag_num" column="hashtag_num"/>
 			<result property="hashtag" column="hashtag"/>
-			<result property="fk_board_num" column="fk_board_num"/>
 		</collection>
 	</resultMap>
 	
@@ -348,20 +346,20 @@
 	
 	<!-- 공지사항 리스트 얻기 -->
 	<select id="getNotices" parameterType="HashMap" resultMap="boardList">
-		select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
-		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-		      ,T.hashtag,T.writer_point
-		from
-		(
-		select rownum rno, V.*
+		select V.*
 		from
 			(
-			select C.board_num
+			<if test='sort == ""'>
+			select DENSE_RANK() OVER (ORDER BY C.board_num desc) rno
+			</if>
+			<if test='sort != ""'>
+			select DENSE_RANK() OVER (ORDER BY C.${sort} desc,C.board_num desc) rno
+			</if>
+                  ,C.board_num
 		          ,C.nickname
 		          ,C.category
 		          ,C.detail_category
 		          ,C.subject
-		          ,C.content
 		          ,C.write_date
 		          ,C.views
 		          ,C.profile_image
@@ -373,29 +371,25 @@
 		          ,D.point writer_point
 		    from
 				(
-				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
-				(select * from tbl_board where category = '공지사항'
-				<if test='searchWord != ""'>
-				  and subject like '%'|| lower(#{searchWord}) ||'%'
-				</if>
-				) A
-				left join tbl_hashtag B
+					(
+					select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
+					from tbl_board where category = '공지사항'
+					<if test='searchWord != ""'>
+					  and subject like '%'|| lower(#{searchWord}) ||'%'
+					</if>
+					) A
+				left join 
+					(select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
 				on A.board_num = B.fk_board_num
 				) C
 			left join
-			(select point,nickname from tbl_member) D
+                (select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
-			<if test='sort != ""'>
-			order by #{sort} desc
-			</if>
-			<if test='sort == ""'>
-			order by write_date desc
-			</if>
 			) V
-		) T
-		where rno between #{startRno} and #{endRno}
+        where rno between #{startRno} and #{endRno}
 	</select>
 	
 	
