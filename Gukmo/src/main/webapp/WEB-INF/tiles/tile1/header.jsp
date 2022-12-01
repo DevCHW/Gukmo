@@ -24,8 +24,8 @@
 			<!-- Brand/logo -->
 			<a
 				class="navbar-brand d-flex justify-content-start align-items-center"
-				href="<%=ctxPath%>/index.do" style="width: 100px;"> <img
-				src="" alt="logo">
+				href="<%=ctxPath%>/index.do" style="width: 100px;"> <img src=""
+				alt="logo">
 			</a>
 
 			<!-- Links -->
@@ -87,29 +87,30 @@
 								<!-- 알림 내용이 없을 경우 -->
 								<!-- <p>받으신 알림이 없습니다.</p> -->
 
-								<!-- 알림 내용이 있을 경우 (반복문) -->								
-								<div class="alarm_content" onclick="location.href='<%=ctxPath%>/community/questions.do'">
+								<!-- 알림 내용이 있을 경우 (반복문) -->
+								<div class="alarm_content"
+									onclick="location.href='<%=ctxPath%>/community/questions.do'">
 									<div class="alarm_info">
-										<span class="like">좋아요 </span>
-										<span>11:53</span>
+										<span class="like">좋아요 </span> <span>11:53</span>
 									</div>
-									<p class="alarm_text"> [안녕하세요. 질문이...] 글이 좋아요(1)를 받았습니다. </p>
+									<p class="alarm_text">[안녕하세요. 질문이...] 글이 좋아요(1)를 받았습니다.</p>
 								</div>
-								
-								<div class="alarm_content" onclick="location.href='<%=ctxPath%>/community/questions.do'">
+
+								<div class="alarm_content"
+									onclick="location.href='<%=ctxPath%>/community/questions.do'">
 									<div class="alarm_info">
-										<span class="reple"> 댓글 </span>
-										<span>11:53</span>
+										<span class="reple"> 댓글 </span> <span>11:53</span>
 									</div>
-									<p class="alarm_text"> [와 그거 정말 좋은 기능...] 댓글에 댓글(4)이 달렸습니다. </p>
+									<p class="alarm_text">[와 그거 정말 좋은 기능...] 댓글에 댓글(4)이 달렸습니다.
+									</p>
 								</div>
-								
-								<div class="alarm_content" onclick="location.href='<%=ctxPath%>/community/questions.do'">
+
+								<div class="alarm_content"
+									onclick="location.href='<%=ctxPath%>/community/questions.do'">
 									<div class="alarm_info">
-										<span class="declare"> 신고 </span>
-										<span>2022.11.22</span>
+										<span class="declare"> 신고 </span> <span>2022.11.22</span>
 									</div>
-									<p class="alarm_text"> [암튼 좀 짜증나네요.] 글에 신고(1)가 접수되었습니다. </p>
+									<p class="alarm_text">[암튼 좀 짜증나네요.] 글에 신고(1)가 접수되었습니다.</p>
 								</div>
 
 							</div>
@@ -118,18 +119,21 @@
 					<!-- 프로필 drop -->
 					<div class="dropdown">
 						<div class="dropbtn">
-							<img src="<%=ctxPath%>/resources/images/user.PNG"
-								class="dropbtn" onclick="drop_profile()">
+							<img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}" class="dropbtn"
+								onclick="drop_profile()"/>
 						</div>
 						<div id="profile_dropContent" class="dropdown-content2">
 							<div class="px-1 py-1">
-								<a href="<%=ctxPath%>/member/myId.do"> <i
-									class="fa-solid fa-user"></i> 내 계정
-								</a> <a href="<%=ctxPath%>/member/myInfo.do"> <i
-									class="fa-solid fa-gear"></i> 내 정보
-								</a> <a href="<%=ctxPath%> /member/activities.do"> <i
-									class="fa-solid fa-gear"></i> 활동내역
-								</a> <a href="<%=ctxPath%>/logout.do ">로그아웃</a>
+								<a href="<%=ctxPath%>/member/myId.do">
+									<i class="fa-solid fa-user"></i> 내 계정
+								</a>
+								<a href="<%=ctxPath%>/member/myInfo.do">
+									<i class="fa-solid fa-gear"></i> 내 정보
+								</a>
+								<a href="<%=ctxPath%> /member/activities.do">
+									<i class="fa-solid fa-gear"></i> 활동내역
+								</a>
+								<a href="<%=ctxPath%>/logout.do ">로그아웃</a>
 							</div>
 						</div>
 					</div>

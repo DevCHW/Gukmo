@@ -88,6 +88,16 @@ $(document).ready(function(){
 	*/
 	
 	
-	
+	// 구글 로그아웃 함수
+	function signOut() {
+	   if(gapi.auth2 != undefined){
+	      let auth2 = gapi.auth2.getAuthInstance();
+	      auth2.signOut().then(function () {
+	      console.log('User signed out.');
+	     });
+	   }
+	   
+	   location.href= getContextPath()+"/logout.do";
+	}
 
 

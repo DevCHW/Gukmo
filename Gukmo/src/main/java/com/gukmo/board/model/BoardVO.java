@@ -24,8 +24,7 @@ public class BoardVO {
 	private String nextsubject;      // 다음글제목	
 	
 	//select 용도
-	private String writer_point;	//작성자 활동점수
-	
+	private String writer_point;	//작성자 활동점수	
 	
 	// 해시태그VO리스트(연관관계에 있는 필드)
 	List<HashtagVO> hashtags;
@@ -33,7 +32,7 @@ public class BoardVO {
 	// 댓글VO리스트(연관관계에 있는 필드)
 	List<CommentVO> comment;
 	
-	
+
 	
 	//기본생성자 protected로 막기
 	protected BoardVO() {}
@@ -63,8 +62,8 @@ public class BoardVO {
 		this.comment = comment;
 	}
 
-
 	
+
 	
 	
 	
@@ -72,6 +71,7 @@ public class BoardVO {
 	public String getBoard_num() {
 		return board_num;
 	}
+
 
 	public String getNickname() {
 		return nickname;
@@ -158,22 +158,8 @@ public class BoardVO {
 
 	
 	
-	
-	// 확인용 toString Override
-	@Override
-	public String toString() {
-		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
-				+ ", detail_category=" + detail_category + ", subject=" + subject + ", content=" + content
-				+ ", write_date=" + write_date + ", views=" + views + ", profile_image=" + profile_image
-				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
-				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
-				+ ", writer_point=" + writer_point + ", hashtags=" + hashtags + ", comment=" + comment + "]";
-	}
-	
-	
 
 
-	
 	
 	
 	
