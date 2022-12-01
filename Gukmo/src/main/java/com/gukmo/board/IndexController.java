@@ -29,7 +29,7 @@ public class IndexController {
     public ModelAndView hello_gukmo(ModelAndView mav, HttpServletRequest request) {
     	
     	
-    	// 오늘 날짜 값 불러오기
+    	//    오늘 날짜 값 불러오기
     	Date currentTime = new Date();
     	SimpleDateFormat date = new SimpleDateFormat("yyyy-dd-mm");
 		String today = date.format(currentTime);
