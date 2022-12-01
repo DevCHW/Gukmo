@@ -32,7 +32,7 @@
 		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
 		       detail_category , subject,
 		       content , write_date, views, comment_cnt, like_cnt
-		from tbl_board B join tbl_member M
+		from tbl_board B left join tbl_member M
 		on B.nickname = M.nickname
 		where detail_category = '자유게시판' 
 		order by write_date desc
@@ -50,7 +50,7 @@
 		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
 		       detail_category , subject,
 		       content , write_date, views, comment_cnt, like_cnt
-		from tbl_board B join tbl_member M
+		from tbl_board B left join tbl_member M
 		on B.nickname = M.nickname
 		where detail_category = '스터디' 
 		order by write_date desc
@@ -68,7 +68,7 @@
 		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
 		       detail_category , subject,
 		       content , write_date, views, comment_cnt, like_cnt
-		from tbl_board B join tbl_member M
+		from tbl_board B left join tbl_member M
 		on B.nickname = M.nickname
 		where detail_category = 'QnA' 
 		order by write_date desc
@@ -86,7 +86,7 @@
 		select board_num, B.nickname as nickname, M.point as point, M.profile_image as profile_image,
 		       detail_category , subject,
 		       content , write_date, views, comment_cnt, like_cnt
-		from tbl_board B join tbl_member M
+		from tbl_board B left join tbl_member M
 		on B.nickname = M.nickname
 		where detail_category = '수강/취업후기' 
 		order by write_date desc

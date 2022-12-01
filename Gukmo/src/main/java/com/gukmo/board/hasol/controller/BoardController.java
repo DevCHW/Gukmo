@@ -66,7 +66,7 @@ public class BoardController {
 		paraMap.put("searchWord", searchWord);
 		
 		int totalCnt = 0; // 총 게시물 건 수
-		int sizePerpage = 20; // 한 페이지 당 보여줄 게시글 건 수
+		int sizePerpage = 10; // 한 페이지 당 보여줄 게시글 건 수
 		int currentPageNo = 0; // 현재 보고 있는 페이지 번호
 		int totalPage = 0; // 총 페이지 수(== 페이징 바)
 		
@@ -79,6 +79,7 @@ public class BoardController {
 		
 		// 총 페이지 수(== 페이징 바)
 		totalPage= (int)Math.ceil(((double)totalCnt/sizePerpage));		
+		System.out.println("totalPage:" + totalPage);
 		
 		// 현재 보고 있는 페이지 1로 초기화
 		if(str_currentPageNo == null) { currentPageNo = 1; } // 초기화면
@@ -101,7 +102,7 @@ public class BoardController {
 		paraMap.put("endRno", String.valueOf(endRno));
 		
 		List<BoardVO> searchList = service.getSearchList(paraMap);
-		System.out.println("searchList:" + searchList.toString() );
+		// System.out.println("searchList:" + searchList.toString() );
 		
 
 		// 검색어 유지용

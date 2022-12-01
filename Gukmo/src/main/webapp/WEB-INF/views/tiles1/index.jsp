@@ -67,7 +67,7 @@
 		<a href ="#">#해시태그</a>
 	</div>
 	
-:
+
 	<!-- 학원 정보 영역 -->
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
@@ -343,7 +343,7 @@
 					    <div class="border-bottom py-2 px-2">
 					    	<!-- 작성 정보 -->
 					      	<div class="d-flex justify-content-between align-items-center mb-1">
-						        <div class="d-flex" style="width:180px;">
+						        <div class="d-flex" style="width:190px;">
 							        <!-- 작성자 프로필사진 -->
 							        <div class="writer_image_box">
 							          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
