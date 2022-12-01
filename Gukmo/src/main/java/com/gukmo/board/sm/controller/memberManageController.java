@@ -508,7 +508,7 @@ public class memberManageController {
 		// WAS 의 webapp 의 절대경로를 알아와야 한다.
 		HttpSession session = mrequest.getSession();
 		String root = session.getServletContext().getRealPath("/");
-		// System.out.println(root);
+		System.out.println(root);
 		String path = root+"resources"+ File.separator +"files";
 		// path 가 첨부파일이 저장될 WAS(톰캣)의 폴더가 된다.
 		
@@ -697,6 +697,7 @@ public class memberManageController {
 		 
 				 String path = root+"resources"+ File.separator +"files";
 	
+				 
 				 boolean flag = false;  // file 다운로드 성공, 실패를 알려주는 용도
 				 flag = fileManager.doFileDownload(filename, orgfilename, path, response);
 	

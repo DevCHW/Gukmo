@@ -36,7 +36,7 @@
         <input type="text" id="client_phone" name="client_phone" style="width:300px;" class="input_signup rounded pl-2" placeholder="" />
 		<div id="client_phone_error" class="error"></div>
 
-        <label for="file_name" class="label_signup mt-3">파일명</label>
+        <label for="filename" class="label_signup mt-3">파일명</label>
         <input type="file" id="attach" name="attach" style="border:none;" class="input_signup pl-2" placeholder="" />
 		<div id="file_name_error" class="error"></div>
 
