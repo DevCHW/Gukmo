@@ -109,7 +109,7 @@
 	</resultMap>
 	
 	<select id ="getTotalCnt" parameterType="HashMap" resultType="int">
-		select count(*)
+		select count(rno)
 		from(
 		    select dense_rank() OVER (order by B.board_num desc) rno,
 		           board_num, subject, content, hashtag, B.write_date as write_date         

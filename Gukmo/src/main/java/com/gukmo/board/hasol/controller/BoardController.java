@@ -75,11 +75,11 @@ public class BoardController {
 		
 		// 총 게시물 건 수(totalCnt)
 		totalCnt = service.getTotalCnt(paraMap);
-		 System.out.println("totalCnt:" + totalCnt);
+		//System.out.println("totalCnt:" + totalCnt);
 		
 		// 총 페이지 수(== 페이징 바)
 		totalPage= (int)Math.ceil(((double)totalCnt/sizePerpage));		
-		System.out.println("totalPage:" + totalPage);
+		//System.out.println("totalPage:" + totalPage);
 		
 		// 현재 보고 있는 페이지 1로 초기화
 		if(str_currentPageNo == null) { currentPageNo = 1; } // 초기화면
@@ -197,6 +197,7 @@ public class BoardController {
 
 		pageBar +="</ul>";
 		
+		mav.addObject("totalCnt", totalCnt);
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("searchList", searchList);
 		mav.setViewName("board/main_search/searchPage.tiles1");
