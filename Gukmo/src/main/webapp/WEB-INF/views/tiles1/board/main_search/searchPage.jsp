@@ -37,13 +37,14 @@
 	</div>
 	
 	<div class="div_searchList w-100 mt-3 d-flex flex-column justify-content-start">
+		<span> 검색 결과 총 ${requestScope.totalCnt}</span>
 		<c:forEach var="boardvo" items="${requestScope.searchList}">
-		<div class="div_searchResult my-3">
+		<div class="div_searchResult my-3 col-8">
 			<div class="subject"> 
 				<a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}">${boardvo.subject}</a>
 				<span class="write_date">${boardvo.write_date}</span>
 			</div> 
-			<div class="content">
+			<div class="content pb-2">
 				<a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}">${boardvo.content}</a>
 			</div>	
 			<div class="hashtag">
