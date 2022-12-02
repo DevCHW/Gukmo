@@ -1,7 +1,6 @@
 package com.gukmo.board.hgb.repository;
 
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,7 +9,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gukmo.board.model.BoardVO;
-import com.gukmo.board.model.HashtagVO;
 
 
 @Repository

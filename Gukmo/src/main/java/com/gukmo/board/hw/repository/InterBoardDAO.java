@@ -40,5 +40,30 @@ public interface InterBoardDAO {
 	 */
 	List<BoardVO> getAcademyList(Map<String, String> paraMap);
 
+
+	
+
+	/**
+	 * 총 게시물 건수(totalCount) 구하기(교육과정 게시판)
+	 * @param paraMap(검색어)
+	 * @return (총 게시물 건수) 를 반환한다. totalCount
+	 */
+	int getTotalCurriculumCount(Map<String, String> paraMap);
+
+	
+	
+	/**
+	 * 교육과정 게시판을 보여주기 위한 BoardVO 리스트 가져오기
+	 * @param paraMap(검색어,시작rownum,끝rownum,정렬)
+	 * @return BoardVO리스트
+	 */
+	List<BoardVO> getCurriculumList(Map<String, String> paraMap);
+
+	
+	// 글번호로 상세카테고리 알아내기
+	String getDetailCategory(int boardNum);
+
+
+	BoardVO getAcademyDetail(Map<String, String> paraMap);
 	
 }

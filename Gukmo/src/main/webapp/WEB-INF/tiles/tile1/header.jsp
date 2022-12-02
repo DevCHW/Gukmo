@@ -5,6 +5,7 @@
 %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet"
@@ -31,10 +32,10 @@
 			<!-- Links -->
 			<nav>
 				<ul class="mainCate">
-					<li><a class="nav-link" href="#">국비학원</a></li>
+					<li><a class="nav-link" href="<%=ctxPath%>/academy/academies.do">국비학원</a></li>
 					<li><a class="nav-link"
 						href="<%=ctxPath%>/community/freeBoards.do">커뮤니티</a></li>
-					<li><a class="nav-link" href="#">공지사항</a></li>
+					<li><a class="nav-link" href="<%=ctxPath%>/notices.do">공지사항</a></li>
 
 					<!-- 관리자로 로그인 했을 경우 추가 메뉴 -->
 					<c:if test="${sessionScope.user.userid eq 'admin'}">
@@ -118,8 +119,12 @@
 					<!-- 프로필 drop -->
 					<div class="dropdown">
 						<div class="dropbtn">
-							<img src="<%=ctxPath%>/resources/images/user.PNG"
-								class="dropbtn" onclick="drop_profile()">
+							<c:if test="${fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
+			                  <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}" onclick="drop_profile()"/>
+			                </c:if>
+			                <c:if test="${fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
+			             	   <img src="${sessionScope.user.profile_image}" onclick="drop_profile()"/>
+			                </c:if>
 						</div>
 						<div id="profile_dropContent" class="dropdown-content2">
 							<div class="px-1 py-1">
@@ -127,7 +132,7 @@
 									class="fa-solid fa-user"></i> 내 계정
 								</a> <a href="<%=ctxPath%>/member/myInfo.do"> <i
 									class="fa-solid fa-gear"></i> 내 정보
-								</a> <a href="<%=ctxPath%> /member/activities.do"> <i
+								</a> <a href="<%=ctxPath%>/member/activities.do"> <i
 									class="fa-solid fa-gear"></i> 활동내역
 								</a> <a href="<%=ctxPath%>/logout.do ">로그아웃</a>
 							</div>

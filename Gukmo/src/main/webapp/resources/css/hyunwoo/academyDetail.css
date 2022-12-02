@@ -1,0 +1,296 @@
+div.container{
+  font-size:small;
+}
+
+
+div.container a:link {
+  color : black;
+  text-decoration: none;
+}
+div.container a:visited {
+  color : black;
+  text-decoration: none;
+}
+div.container a:hover {
+  color : #0090F9;
+  text-decoration: none;
+}
+div.container a:active {
+  color : black;
+  text-decoration: none;
+}
+
+/* 카테고리 표시영역 시작*/
+.line{
+  display:flex;
+  flex-basis:100%;
+  align-items: center;
+  color:darkgray;
+  font-size:14px;
+  margin:8px 0px;
+}
+
+.line::before{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background-color: darkgray;
+  height: 1px;
+  font-size: 0px;
+  line-height: 0px;
+}
+.line::after{
+  content:"";
+  flex-grow:1;
+  margin:0px 16px;
+  background: darkgray;
+  height: 1px;
+  font-size:0px;
+  line-height: 0px;
+}
+/* 카테고리 표시영역 끝*/
+
+
+
+/* 게시판 본문영역 시작 */
+div#board_writer_nickname{
+  font-size:18px;
+}
+div#writer_profile_image_box{
+  width:55px;
+  height: 55px;
+  border-radius:50%;
+  position:relative;
+}
+div#writer_profile_image_box > img{
+  width:100%;
+  height: 100%;
+  border-radius:50%;
+  position:absolute;
+}
+
+div#report_edit_delete_area{
+  width:70px;
+}
+
+div#hashtags{
+  font-size:small;
+  color:#0090F9;
+}
+
+span.hashtag{
+  cursor:pointer;
+}
+span.hashtag > span:hover{
+  border-bottom:solid 1px #0090F9;
+}
+
+div#board_like{
+  cursor: pointer;
+}
+
+div#report_edit_delete_area > span{
+  cursor:pointer;
+}
+
+span#btn_more{
+  cursor:pointer;
+  position:relative;
+  font-size:small;
+}
+
+div#mask{
+  width: 100%; 
+  height: 100%; 
+  position: fixed; 
+  top: 0; left: 0; 
+  opacity: 0; 
+  z-index: 2; 
+  display: none;
+}
+div#update_or_delete{
+  position: absolute;
+  top: 40px;
+  right:0;
+  background-color: white;
+  z-index: 3;
+  width:160px;
+  line-height: 30px;
+  display: none;
+}
+div#update_or_delete > span{
+  cursor:pointer;
+}
+
+/* 게시판 본문영역 끝 */
+
+
+
+
+
+/* 이전글,다음글 영역 시작 */
+div#previous_next_area{
+  height:80px;
+  background-color: #F5F5F6;
+  font-size:medium;
+}
+
+
+
+/* 이전글,다음글 영역 끝 */
+
+
+
+
+
+/* 광고영역 시작 */
+
+div#advertisement_box{
+  width:100%;
+  height:140px;
+  position:relative;
+}
+div#advertisement_box > img{
+  width:100%;
+  height:100%;
+  position:absolute;
+}
+/* 광고영역 끝 */
+
+
+
+
+
+
+
+/* 댓글 쓰기 영역 시작 */
+textarea{
+  width:100%;
+  outline:none;
+}
+
+
+div.login_user_profile_img_box{
+  width: 40px;
+  height: 40px;
+  position:relative;
+  border-radius: 50%;
+}
+div.login_user_profile_img_box > img{
+  width:100%;
+  height:100%;
+  position:absolute;
+  border-radius: 50%;
+}
+/* 댓글 쓰기 영역 끝 */
+
+
+
+
+
+
+/* 댓글 리스트 영역 시작 */
+div.comment_writer_profile_img_box{
+  width:40px;
+  height:40px;
+  position:relative;
+  border-radius: 50%;
+}
+div.comment_writer_profile_img_box > img{
+  width:100%;
+  height:100%;
+  position:absolute;
+  border-radius: 50%;
+}
+
+div.comment_writer_nickname{
+  font-size:17px;
+}
+
+div.comment_area{
+  border-bottom:solid 1px #EBEBEB;
+}
+
+div.btn_write_comment{
+  color:black;
+  cursor:pointer;
+}
+
+div.btn_write_comment:hover{
+  color:#0090F9;
+}
+
+div.comment_like{
+  cursor: pointer;
+  width:60px;
+}
+
+div.big_comment_like{
+  cursor: pointer;
+  width:60px;
+}
+
+
+
+div.btn_comment_toggle{
+  cursor:pointer;
+  color:#74ADE5;
+}
+
+div.big_comment_show{
+  display:none;
+}
+
+
+/* 댓글 리스트 영역 끝 */
+
+
+
+
+/* 대댓글 영역 시작*/
+div.big_comment_writer_profile_img_box{
+  width:40px;
+  height:40px;
+  position:relative;
+  border-radius: 50%;
+}
+div.big_comment_writer_profile_img_box img{
+  width:100%;
+  height:100%;
+  position:absolute;
+  border-radius: 50%;
+}
+
+div.big_comment_write_area{
+  border-left:solid 2px #E5E7EB;
+  width:95%;
+  display:none;
+}
+
+div.big_comment_area{
+  border-left:solid 2px #E5E7EB;
+  width:95%;
+}
+
+
+
+div.big_comment_writer_nickname{
+  font-size:17px;
+}
+
+
+div.big_comment_writer_profile_img_box{
+  width:40px;
+  height:40px;
+  position:relative;
+  border-radius: 50%;
+}
+div.big_comment_writer_profile_img_box > img{
+  width:100%;
+  height:100%;
+  position:absolute;
+  border-radius: 50%;
+}
+
+
+/* 대댓글 영역 끝 */
