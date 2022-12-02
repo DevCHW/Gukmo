@@ -23,25 +23,38 @@ public class BoardVO {
 	private String nextseq;          // 다음글번호
 	private String nextsubject;      // 다음글제목	
 	
-	//select 용도
-	private String writer_point;	//작성자 활동점수	
+	//select 용도(TBL_MEMBER)
+	private String writer_point;	//작성자 활동점수
 	
+	//select 용도(TBL_ACADEMY)
+	private AcademyVO academy;
+	
+	//select 용도(TBL_CURRICULUM)
+	private CurriculumVO curriculum;
+	
+    
 	// 해시태그VO리스트(연관관계에 있는 필드)
 	List<HashtagVO> hashtags;
+	
 	
 	// 댓글VO리스트(연관관계에 있는 필드)
 	List<CommentVO> comment;
 	
-
+	
 	
 	//기본생성자 protected로 막기
 	protected BoardVO() {}
+
 	
-	//파라미터가있는 생성자만을 통해서 값 주입
+	
+	
+	
+	
+	//파라미터가 있는 생성자
 	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
 			String previousseq, String previoussubject, String nextseq, String nextsubject, String writer_point,
-			List<HashtagVO> hashtags, List<CommentVO> comment) {
+			AcademyVO academy, CurriculumVO curriculum, List<HashtagVO> hashtags, List<CommentVO> comment) {
 		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
@@ -58,30 +71,19 @@ public class BoardVO {
 		this.nextseq = nextseq;
 		this.nextsubject = nextsubject;
 		this.writer_point = writer_point;
+		this.academy = academy;
+		this.curriculum = curriculum;
 		this.hashtags = hashtags;
 		this.comment = comment;
 	}
 
-	
-
-	
 
 
-	@Override
-	public String toString() {
-		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
-				+ ", detail_category=" + detail_category + ", subject=" + subject + ", content=" + content
-				+ ", write_date=" + write_date + ", views=" + views + ", profile_image=" + profile_image
-				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
-				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
-				+ ", writer_point=" + writer_point + ", hashtags=" + hashtags + ", comment=" + comment + "]";
-	}
-	
-	
-	// Getter
+
 	public String getBoard_num() {
 		return board_num;
 	}
+
 
 
 	public String getNickname() {
@@ -89,9 +91,11 @@ public class BoardVO {
 	}
 
 
+
 	public String getCategory() {
 		return category;
 	}
+
 
 
 	public String getDetail_category() {
@@ -99,20 +103,29 @@ public class BoardVO {
 	}
 
 
+
 	public String getSubject() {
 		return subject;
 	}
+
 
 
 	public String getContent() {
 		return content;
 	}
 
-	
+
+
+    public String getWrite_date() {
+    	return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
+	}
+
+
 
 	public String getViews() {
 		return views;
 	}
+
 
 
 	public String getProfile_image() {
@@ -120,37 +133,23 @@ public class BoardVO {
 	}
 
 
+
 	public String getComment_cnt() {
 		return comment_cnt;
 	}
 
 
+
 	public String getLike_cnt() {
 		return like_cnt;
 	}
-	
-	public String getWriter_point() {
-		return writer_point;
-	}
 
 
-	public List<HashtagVO> getHashtags() {
-		return hashtags;
-	}
-
-
-	public List<CommentVO> getComment() {
-		return comment;
-	}
-	
-	
-	public String getWrite_date() {
-		return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
-	}
 
 	public String getPreviousseq() {
 		return previousseq;
 	}
+
 
 
 	public String getPrevioussubject() {
@@ -158,19 +157,66 @@ public class BoardVO {
 	}
 
 
+
 	public String getNextseq() {
 		return nextseq;
 	}
+
 
 
 	public String getNextsubject() {
 		return nextsubject;
 	}
 
+
+
+	public String getWriter_point() {
+		return writer_point;
+	}
+
+
+
+	public AcademyVO getAcademy() {
+		return academy;
+	}
+
+
+
+	public CurriculumVO getCurriculum() {
+		return curriculum;
+	}
+
+
+
+	public List<HashtagVO> getHashtags() {
+		return hashtags;
+	}
+
+
+
+	public List<CommentVO> getComment() {
+		return comment;
+	}
+	
+
+	
+
+	
 	
 	
 
 
+
+	
+	
+	
+	
+	
+	
+	
+
+
+	
 	
 	
 	

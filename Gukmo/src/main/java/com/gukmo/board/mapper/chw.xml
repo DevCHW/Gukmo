@@ -336,6 +336,56 @@
 		</collection>
 	</resultMap>
 	
+	
+	
+	<!-- 학원List,교육과정List를 보여주기 위한 BoardVO 매핑 -->
+	<resultMap id="board" type="com.gukmo.board.model.BoardVO">
+		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="nickname" column="nickname" />
+		<result property="category" column="category" />
+		<result property="detail_category" column="detail_category" />
+		<result property="subject" column="subject" />
+		<result property="write_date" column="write_date" />
+		<result property="views" column="views" />
+		<result property="profile_image" column="profile_image" />
+		<result property="comment_cnt" column="comment_cnt" />
+		<result property="like_cnt" column="like_cnt" />
+		<result property="writer_point" column="writer_point" />
+		<association property="academy"  column="fk_board_num" javaType="com.gukmo.board.model.AcademyVO" resultMap="academy"/>
+		<association property="curriculum"  column="curriculum" javaType="com.gukmo.board.model.CurriculumVO" resultMap="curriculum"/>
+		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+			<id property="hashtag_num" column="hashtag_num"/>
+			<result property="hashtag" column="hashtag"/>
+		</collection>
+	</resultMap>
+	
+	<!-- association 으로 선언된 AcademyVO 매핑 -->
+	<resultMap id="academy" type="com.gukmo.board.model.AcademyVO">
+		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="representative_name" column="representative_name" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="jurisdiction" column="jurisdiction" />
+		<result property="homepage" column="homepage" />
+		<result property="academy_image" column="academy_image" />
+	</resultMap>
+	
+	
+	<!-- association 으로 선언된 AcademyVO 매핑 -->
+	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
+		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="core_technology" column="core_technology" />
+		<result property="academy_name" column="academy_name" />
+		<result property="curriculum_start_date" column="curriculum_start_date" />
+	</resultMap>
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 공지사항 총 갯수 얻기 -->
 	<select id="getTotalNoticesCount" parameterType="HashMap" resultType="Integer">
 		select count(*)
@@ -401,25 +451,25 @@
 	<select id="getTotalAcademyCount" parameterType="HashMap" resultType="Integer">
 		select count(*)
 		from tbl_board
-		where category='공지사항'
+		where category = #{category} and detail_category = #{detail_category}
 	</select>
 	
 	<!-- 국비학원게시물 리스트 얻기 -->
-	<select id="getAcademyList" parameterType="HashMap" resultMap="boardList">
-		select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
-		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-		      ,T.hashtag,T.writer_point
-		from
-		(
-		select rownum rno, V.*
+	<select id="getAcademyList" parameterType="HashMap" resultMap="board">
+		select V.*
 		from
 			(
-			select C.board_num
+			<if test='sort == ""'>
+			select DENSE_RANK() OVER (ORDER BY C.board_num desc) rno
+			</if>
+			<if test='sort != ""'>
+			select DENSE_RANK() OVER (ORDER BY C.${sort} desc,C.board_num desc) rno
+			</if>
+                  ,C.board_num
 		          ,C.nickname
 		          ,C.category
 		          ,C.detail_category
 		          ,C.subject
-		          ,C.content
 		          ,C.write_date
 		          ,C.views
 		          ,C.profile_image
@@ -428,34 +478,167 @@
 		          ,C.hashtag_num
 		          ,C.hashtag
 		          ,C.fk_board_num
+		          ,C.representative_name
+		          ,C.address
+		          ,C.phone
+		          ,C.jurisdiction
+		          ,C.homepage
+		          ,C.academy_image
 		          ,D.point writer_point
 		    from
 				(
-				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
-				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+					  ,B.hashtag_num,B.hashtag
+					  ,E.*
 				from
-				(select * from tbl_board where category = '공지사항'
-				<if test='searchWord != ""'>
-				  and subject like '%'|| lower(#{searchWord}) ||'%'
-				</if>
-				) A
-				left join tbl_hashtag B
+					(
+					select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
+					from tbl_board 
+					where category = #{category} and detail_category = #{detail_category}
+					<if test='searchWord != ""'>
+					  and subject like '%'|| lower(#{searchWord}) ||'%'
+					</if>
+					) A
+				left join 
+					(select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
 				on A.board_num = B.fk_board_num
+				left join 
+					(select * from tbl_academy) E
+                on A.board_num = E.fk_board_num
 				) C
 			left join
-			(select point,nickname from tbl_member) D
+                (select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
-			<if test='sort != ""'>
-			order by #{sort} desc
-			</if>
-			<if test='sort == ""'>
-			order by write_date desc
-			</if>
 			) V
-		) T
-		where rno between #{startRno} and #{endRno}
+        where rno between #{startRno} and #{endRno}
 	</select>
 	
+	
+	<!-- 상세카테고리 알아오기 -->
+	<select id="getDetailCategory" parameterType="Integer" resultType="String">
+		select detail_category
+		from tbl_board
+		where board_num = #{board_num}
+	</select>
+	
+	
+	<!-- 학원상세 하나 알아오기 -->
+	<select id="getAcademyDetail" parameterType="HashMap" resultMap="board">
+		select V.*
+		from
+			(
+			select C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,C.representative_name
+		          ,C.address
+		          ,C.phone
+		          ,C.jurisdiction
+		          ,C.homepage
+		          ,C.academy_image
+		          ,D.point writer_point
+		    from
+				(
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+					  ,B.hashtag_num,B.hashtag
+					  ,E.*
+				from
+					(
+					select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
+					from tbl_board 
+					where category = #{category} and detail_category = #{detail_category}
+						  and board_num = #{board_num}
+					) A
+				left join 
+					(select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
+				on A.board_num = B.fk_board_num
+				left join 
+					(select * from tbl_academy) E
+                on A.board_num = E.fk_board_num
+				) C
+			left join
+                (select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			) V
+	</select>
+	
+	
+	
+	<!-- 교육과정 총 갯수 얻기 -->
+	<select id="getTotalCurriculumCount" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from tbl_board
+		where category='국비학원' and detail_category = #{detail_category}
+	</select>
+	
+	
+	
+	
+	<!-- 교육과정게시물 리스트 얻기 -->
+	<select id="getCurriculumList" parameterType="HashMap" resultMap="board">
+		select V.*
+		from
+			(
+			<if test='sort == ""'>
+			select DENSE_RANK() OVER (ORDER BY C.board_num desc) rno
+			</if>
+			<if test='sort != ""'>
+			select DENSE_RANK() OVER (ORDER BY C.${sort} desc,C.board_num desc) rno
+			</if>
+                  ,C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,C.core_technology
+		          ,C.academy_name
+		          ,C.curriculum_start_date
+		          ,C.curriculum_end_date
+		    from
+				(
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+					  ,B.hashtag_num,B.hashtag
+					  ,E.*
+				from
+					(
+					select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
+					from tbl_board 
+					where category = #{category} and detail_category = #{detail_category}
+					<if test='searchWord != ""'>
+					  and subject like '%'|| lower(#{searchWord}) ||'%'
+					</if>
+					) A
+				left join 
+					(select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
+				on A.board_num = B.fk_board_num
+				left join 
+					(select * from tbl_curriculum) E
+                on A.board_num = E.fk_board_num
+				) C
+			left join
+                (select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			) V
+        where rno between #{startRno} and #{endRno}
+	</select>
 	
 	
 	

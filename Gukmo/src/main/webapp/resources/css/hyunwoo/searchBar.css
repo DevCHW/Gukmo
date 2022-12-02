@@ -6,7 +6,7 @@
 /* input 영역 수정*/
 #searchWord {
    width: 70%;
-   height: 40px;
+   height: 50px;
    border: solid 3px #208EC9;
    border-right: none;
    border-radius: 100px 0 0 100px; /* border 동그란 정도 설정 */
