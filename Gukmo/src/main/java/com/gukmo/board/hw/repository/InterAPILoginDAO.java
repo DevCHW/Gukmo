@@ -29,6 +29,11 @@ public interface InterAPILoginDAO {
 	void setGoogleConnection(Map<String, Object> paramMap);
 	
 	/**
+	 * 페이스북연동유저로 바꾸기(update)
+	 */
+	void setFacebookConnection(Map<String, Object> paramMap);
+	
+	/**
 	 * 닉네임 중복검사하기
 	 * @return 닉네임이 존재하면 1, 존재하지 않는다면 0
 	 */
@@ -54,6 +59,9 @@ public interface InterAPILoginDAO {
 	 * @return 회원정보
 	 */
 	MemberVO getUser(String userid);
+
+
+	
 
 
 	

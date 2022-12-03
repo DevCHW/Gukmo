@@ -44,14 +44,12 @@ public class BoardVO {
 	
 	//기본생성자 protected로 막기
 	protected BoardVO() {}
-	
-
 
 
 	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
 			String previousseq, String previoussubject, String nextseq, String nextsubject, String writer_point,
-			AcademyVO academy, List<HashtagVO> hashtags, List<CommentVO> comment) {
+			AcademyVO academy, CurriculumVO curriculum, List<HashtagVO> hashtags, List<CommentVO> comment) {
 		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
@@ -69,28 +67,22 @@ public class BoardVO {
 		this.nextsubject = nextsubject;
 		this.writer_point = writer_point;
 		this.academy = academy;
+		this.curriculum = curriculum;
 		this.hashtags = hashtags;
 		this.comment = comment;
 	}
 
 
-
-
-
-
-
-
-
-
-
-	// Getter
 	public String getBoard_num() {
 		return board_num;
 	}
 
+
+
 	public String getNickname() {
 		return nickname;
 	}
+
 
 
 	public String getCategory() {
@@ -98,9 +90,11 @@ public class BoardVO {
 	}
 
 
+
 	public String getDetail_category() {
 		return detail_category;
 	}
+
 
 
 	public String getSubject() {
@@ -108,15 +102,23 @@ public class BoardVO {
 	}
 
 
+
 	public String getContent() {
 		return content;
 	}
 
-	
+
+
+   public String getWrite_date() {
+      return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
+   }
+
+
 
 	public String getViews() {
 		return views;
 	}
+
 
 
 	public String getProfile_image() {
@@ -124,39 +126,23 @@ public class BoardVO {
 	}
 
 
+
 	public String getComment_cnt() {
 		return comment_cnt;
 	}
 
 
+
 	public String getLike_cnt() {
 		return like_cnt;
 	}
-	
-	public String getWriter_point() {
-		return writer_point;
-	}
 
 
-	public List<HashtagVO> getHashtags() {
-		return hashtags;
-	}
 
-
-	public List<CommentVO> getComment() {
-		return comment;
-	}
-	
-	
-	public String getWrite_date() {
-		return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
-	}
-
-	
-	//select 용도
 	public String getPreviousseq() {
 		return previousseq;
 	}
+
 
 
 	public String getPrevioussubject() {
@@ -164,23 +150,54 @@ public class BoardVO {
 	}
 
 
+
 	public String getNextseq() {
 		return nextseq;
 	}
 
 
+
 	public String getNextsubject() {
 		return nextsubject;
 	}
-	
-	
+
+
+
+	public String getWriter_point() {
+		return writer_point;
+	}
+
+
+
 	public AcademyVO getAcademy() {
 		return academy;
 	}
 
 
 
+	public CurriculumVO getCurriculum() {
+		return curriculum;
+	}
 
+
+
+	public List<HashtagVO> getHashtags() {
+		return hashtags;
+	}
+
+
+
+	public List<CommentVO> getComment() {
+		return comment;
+	}
+	
+
+
+
+	
+	
+	
+	
 	@Override
 	public String toString() {
 		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
@@ -188,16 +205,9 @@ public class BoardVO {
 				+ ", write_date=" + write_date + ", views=" + views + ", profile_image=" + profile_image
 				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
 				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
-				+ ", writer_point=" + writer_point + ", academy=" + academy + ", hashtags=" + hashtags + ", comment="
-				+ comment + "]";
+				+ ", writer_point=" + writer_point + ", academy=" + academy + ", curriculum=" + curriculum
+				+ ", hashtags=" + hashtags + ", comment=" + comment + "]";
 	}
-	
-	
-	
-	
-	
-	
-
 
 
 	

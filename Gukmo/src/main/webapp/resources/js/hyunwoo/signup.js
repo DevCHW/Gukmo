@@ -11,7 +11,9 @@ let passwd_ok = false;
 let email_ok = false;
 let nickname_ok = false;
 let recaptcha_ok = false;
-let email_certification = true;
+let username_ok = false;
+let email_certification = false;
+
 
 // 타이머 관련 field
 let time = 180;
@@ -23,14 +25,13 @@ let certificationCode;
 
 
 
-
 $(document).ready(function(){
   //가입하기 버튼 비활성화
   $("button#btn_signup").attr("disabled",true);
   $("button#btn_signup").css("background","#EBEBEB");
   $("button#btn_signup").css("color","white");
 
-  //이메인인증 버튼 비활성화
+  //이메일인증 버튼 비활성화
   $("button#btn_email_certification").attr("disabled",true); //이메일인증 버튼 비활성화
   $("button#btn_email_certification").css("background","#EBEBEB");
   $("button#btn_email_certification").css("color","white");
@@ -51,7 +52,7 @@ $(document).ready(function(){
       userid_exist_check(userid); //아이디 중복검사
     }
     test_all();
-  });
+  });//end of Event---
 
   //비밀번호 값 입력시 이벤트처리
   $("input#passwd").keyup(e => {
@@ -62,15 +63,21 @@ $(document).ready(function(){
       test_passwd_check(); //비밀번호 칸과 비밀번호확인칸 값이 같은지 확인
     };
     test_all(); 
-  });
+  });//end of Event---
 
+  
+  
+  
   //비밀번호 확인 값 입력시 이벤트처리
   $("input#passwd_check").keyup(e => {
     passwd_ok = false;
     test_passwd_check(); //비밀번호 칸과 비밀번호확인칸 값이 같은지 확인
     test_all();
-  });
+  });//end of Event---
 
+  
+  
+  
   //이메일 값 입력시 이벤트처리
   $("input#email").keyup(e => {
     $("button#btn_email_certification").attr("disabled",true); //이메일인증 버튼 비활성화
@@ -83,11 +90,13 @@ $(document).ready(function(){
       email_exist_check(email);	//이메일 중복검사
     }; 
     test_all();
-  });
+  });//end of Event---
 
+  
+  
+  
   //이메일 인증 버튼 클릭시 이벤트
   $("button#btn_email_certification").click(()=>{
-    email_certification = false;
     $("button#btn_send_email").text("인증번호 전송");
     $("span#send_guide").html("");
     $("div#certification_area").css("display","none");
@@ -95,7 +104,7 @@ $(document).ready(function(){
     clearInterval(setTimer);  //타이머 정지
     time = 180;
     test_all();
-  });
+  });//end of Event---
   
 
   //이메일 인증번호 전송 버튼 클릭시 이벤트처리
@@ -112,34 +121,55 @@ $(document).ready(function(){
       clearInterval(setTimer);  //타이머 정지
       time = 180;
       setTimer = setInterval(timer,1000);
-      send_email(email);  //이메일 전송 메소드
+      sendCertificationCode(email);  //이메일인증코드 전송 메소드
+      alert("인증코드를 재발송 하였습니다. 메일을 확인해주세요");
       return;
     }
     $("button#btn_send_email").text("재전송");
     setTimer = setInterval(timer,1000);
-    send_email(email);  //이메일 전송 메소드
-  });
+    sendCertificationCode(email);  //이메일인증코드 전송 메소드
+  });//end of Event---
 
+  
+  
+  
   //이메일 인증완료버튼 클릭시 이벤트
   $("button#btn_certification_complete").click(()=>{
+	email_certification = false;
     if(!(send_email_click_cnt > 0)){ // 이메일 전송버튼을 누른적이 없다면
       alert("인증코드를 전송하세요")
     }
     else{ //이메일 전송버튼을 누른적이 있다면
       if(certificationCode == $("input#input_certificationCode").val()){  //이메일 인증성공시
+    	email_certification = true;
         alert("이메일인증 성공!");
-        email_certification = true;
         $("button#btn_email_certification").attr("disabled",true); //이메일인증 버튼 비활성화
         $("button#btn_email_certification").css("background","#EBEBEB");
         $("button#btn_email_certification").css("color","white");
+        
+        alert("email_certification트리거전 : " + email_certification);
+        $("button[data-dismiss='modal']").trigger("click");	//이메일인증 모달창 닫기
+        test_all();
       }
       else{ //이메일 인증실패시
-        alert(`이메일인증 실패!<br>
-              입력하신 인증번호를 다시한번 확인해주세요`);
+        alert(`이메일인증 실패!<br>입력하신 인증번호를 다시한번 확인해주세요`);
         email_certification = false;
       }
     }
-  });
+  });//end of Event---
+  
+  
+  
+  //이름 칸 값 입력시 이벤트
+  $("input#username").keyup(()=>{
+	const username = $("input#username").val();
+	username_ok = false;
+	
+    if(test_username(username)){  //유효성검사 통과시
+    	test_all();
+    }
+  });//end of Event---
+  
 
 
   //닉네임 칸 값 입력시 이벤트
@@ -153,26 +183,26 @@ $(document).ready(function(){
       nickname_exist_check(nickname);  //중복검사
     }
     test_all();
-  });
+  });//end of Event---
 
 
   //가입하기 버튼 클릭시 이벤트
   $("button#btn_signup").click(()=>{
-	
-	
-    if($("input#username").val().trim() == ""){ //이름 칸에 값을입력하지 않았다면
-      alert("이름을 입력해주세요");
-      $("input#username").focus();
-    }
-    else{ //이름을 입력했다면
       reCAPTCHA();
-      const frm = document.signup_form;
-	
-      frm.action = getContextPath()+"/member/save.do";
-      frm.method = "POST";
-      frm.submit();
-    }
-  });
+      if(recaptcha_ok){	//자동가입방지를 통과했다면
+	    const frm = document.signup_form;
+		
+        frm.action = getContextPath()+"/member/save.do";
+        frm.method = "POST";
+        frm.submit();
+      }
+      else{	//자동가입방지 봇을 통과하지 못했다면
+    	alert("자동가입방지 봇 통과 후 가입해주세요");
+      }
+  });//end of Event---
+  
+  
+  
   
   //이메일 수신동의 토글스위치 값 변경시 이벤트
   $("input#email_agreement").change(()=>{
@@ -181,18 +211,29 @@ $(document).ready(function(){
     }else{	//이메일수신동의 체크해제시
     	$("input#email_acept").val("1");
     }
-  });
-  
-  
-  $("button#captchaTest").click(function(){
-	  reCAPTCHA();
-	  alert(recaptcha_ok);
-  });
+  });//end of Event---
   
   
   
   
-
+  //유효성검사 잘 개발하였는지 테스트
+//  $("button#btn_test").click(()=>{
+//	 console.log("");
+//	 console.log("==========================");
+//	 console.log("=========================="); 
+//	 console.log("userid_ok : " + userid_ok); 
+//	 console.log("passwd_ok : " + passwd_ok); 
+//	 console.log("email_ok : " + email_ok); 
+//	 console.log("nickname_ok : " + nickname_ok); 
+//	 console.log("recaptcha_ok : " + recaptcha_ok); 
+//	 console.log("username_ok : " + username_ok); 
+//	 console.log("email_certification : " + email_certification); 
+//	 console.log("==========================");
+//	 console.log("==========================");
+//	 console.log("");
+//  });
+  
+  
 
 });//end of $(document).ready(function(){})---
 
@@ -263,7 +304,7 @@ function userid_exist_check(userid){
     
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
-      toastr["error"]("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });// end of $.ajax({})---
 }//end of method----
@@ -377,7 +418,7 @@ function email_exist_check(email){
       else{	//이메일이 존재하지 않는다면
         $("input#email").css("border","");  //빨간색 테두리 없애기
         $("p#email_error").text("");
-        $("p#email_error").css("display","");  //에러문구 없애기
+        $("p#email_error").css("display","none");  //에러문구 없애기
         $("label[for='email']").css("color","");  //라벨 빨간색 없애기
         $("p#email_ok").css("display","block");
         
@@ -390,7 +431,7 @@ function email_exist_check(email){
     
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
-      toastr["error"]("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });// end of $.ajax({})---
 }//end of method----
@@ -401,27 +442,25 @@ function email_exist_check(email){
  * 이메일 인증번호 전송하기
  * @param 사용자가 입력한 email 값
  */
-function send_email(email){
-  $.ajax({ 
-    url:getContextPath()+"/member/sendEmail.do", 
-    data:{"email": email},
-    type:"post",
-    dataType:"json",
-    success:function(json){
-      if(json.sendMailSuccess){	//이메일 전송에 성공했다면
-        certificationCode = json.certificationCode;
-      }
-      else{	//이메일 전송에 실패했다면
-        $("span#send_guide").html("입력하신 이메일로 전송을 실패했습니다.입력하신 이메일을 다시한번 확인해주세요");
-      }
-    },//end of success
-    
-    //success 대신 error가 발생하면 실행될 코드 
-    error: function(request,status,error){
-      toastr["error"]("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
-}//end of method----
+function sendCertificationCode(email){
+	$.ajax({ 
+	  url:getContextPath()+"/sendEmailCertificationCode.do", 
+	  data:{"email": email},
+	  type:"post",
+	  dataType:"json",
+	  success:function(json){
+	    if(json.sendMailSuccess){	//이메일 전송에 성공했다면
+	      certificationCode = json.certificationCode;
+	    } else {	//이메일 전송에 실패했다면
+	      $("span#send_guide").html("입력하신 이메일로 전송을 실패했습니다.입력하신 이메일을 다시한번 확인해주세요");
+	    }
+	  },//end of success
+	  //success 대신 error가 발생하면 실행될 코드 
+	  error: function(request,status,error){
+	  	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	  }
+    });//end of $.ajax({})---
+}//end of method---
 
 
 
@@ -481,10 +520,39 @@ function nickname_exist_check(nickname){
     
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
-      toastr["error"]("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      alert["error"]("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });// end of $.ajax({})---
 }//end of method----
+
+
+
+/**
+ * 유저이름 유효성검사(특수문자,영어,숫자 사용 금지2~10자)
+ * @param 사용자가 입력한 유저이름 값
+ * @returns 검사를 통과하면 true, 통과하지 못하면 false
+ */
+function test_username(username){
+  const regExp = /^[가-힣]{2,15}$/; 
+  
+  if(!(regExp.test(username))){	//유효성검사를 통과못하면
+    $("input#username").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
+    $("p#username_error").css("display","block");  //에러문구(비밀번호 칸)
+    $("label[for='username']").css("color","red");  //라벨 빨간색(비밀번호 칸)
+    username_ok = false;
+    return false;
+  }
+  else{ //유효성검사를 통과한다면 
+    $("input#username").css("border","");  //빨간색 테두리없애기
+    $("p#username_error").css("display","none");  //에러문구 없애기
+    $("label[for='username']").css("color","");  //라벨 빨간색 없애기
+    username_ok = true;
+    return true;
+  }
+}// end of method---
+
+
+
 
 
 
@@ -497,7 +565,6 @@ const timer = function timer(){
     $("button#btn_certification_complete").css("background-color","#EBEBEB");
     $("button#btn_certification_complete").css("color","white");
     email_certification = false;
-    agree_check();
   }
   else{ //타임이 0보다 크다면
     let minute = parseInt(time/60);
@@ -514,8 +581,10 @@ const timer = function timer(){
 /**
  * 모든 유효성 검사 통과시 회원가입 버튼을 활성화시키기
  */
+
 function test_all(){
-  if(!userid_ok || !passwd_ok || !email_ok || !nickname_ok) { // 유효성검사를 하나라도 통과하지 못했다면
+  if(!userid_ok || !passwd_ok || !email_ok || !nickname_ok ||
+     !email_certification || !username_ok) { // 유효성검사를 하나라도 통과하지 못했다면
     $("button#btn_signup").attr("disabled",true);
     $("button#btn_signup").css("background","#EBEBEB");
     $("button#btn_signup").css("color","white");
@@ -540,6 +609,7 @@ function reCAPTCHA(){
         data: {
             recaptcha: $("#g-recaptcha-response").val()
         },
+        async:false,
         success: function(data) {
             switch (data) {
                 case 0:
@@ -547,11 +617,11 @@ function reCAPTCHA(){
                     recaptcha_ok = true;
             		break;
                 case 1:
-                    alert("자동 가입 방지 봇 통과 후 시도해주세요");
+                    console.log("자동 가입 방지 봇 통과 후 시도해주세요");
                     recaptcha_ok = false;
                     break;
                 default:
-                    alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다. [Error bot Code : " + Number(data) + "]");
+                    console.log("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다. [Error bot Code : " + Number(data) + "]");
                 	recaptcha_ok = false;
                		break;
             }
@@ -559,3 +629,7 @@ function reCAPTCHA(){
     });//end of $.ajax({})
 	
 }//end of method-----
+
+
+
+

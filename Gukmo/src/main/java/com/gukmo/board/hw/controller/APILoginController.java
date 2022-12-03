@@ -160,6 +160,40 @@ public class APILoginController {
 	
 	
 	
+	/**
+	 * 페이스북로그인 유저정보 받기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/facebookLoginPro.do", method=RequestMethod.POST)
+	public Map<String, Object> facebookLoginPro(@RequestParam Map<String,Object> paramMap,HttpSession session) throws SQLException, Exception {
+		System.out.println("확인용 페이스북로그인 날아온 유저정보 :" + paramMap);
+		
+		Map <String, Object> resultMap = new HashMap<String, Object>();
+		
+		//소셜로그인연동회원인지 체크
+		Map<String, Object> facebookConnectionCheck = service.kakaoConnectionCheck(paramMap);	
+		System.out.println("소셜로그인연동회원인지 체크하는 값 정보 : " + facebookConnectionCheck);
+		
+		String userid = service.getUserid(String.valueOf(paramMap.get("email")));
+		if(facebookConnectionCheck == null) { //신규회원이라면 회원가입시키기(insert)
+			resultMap.put("JavaData", "register");
+			
+		}else if("0".equals(facebookConnectionCheck.get("FACEBOOK")) && facebookConnectionCheck.get("EMAIL") != null) { //기존회원이지만 카카오로그인을 시도하였다면
+			System.out.println("페이스북연동회원으로 전환");
+			service.setFacebookConnection(paramMap);	//카카오로그인회원으로 업데이트(update)
+			
+			resultMap.put("userid",userid);	//로그인에 필요한 유저아이디 반환
+			resultMap.put("JavaData", "YES");
+			
+		}else{	//기존 카카오연동회원이라면
+			resultMap.put("userid",userid);	//로그인에 필요한 유저아이디 반환
+			resultMap.put("JavaData", "YES");
+		}
+		return resultMap;
+	}
+	
+	
+	
 	
 	
 	
@@ -178,26 +212,36 @@ public class APILoginController {
 			paramMap.put("kakao", "1");
 			paramMap.put("naver", "0");
 			paramMap.put("google", "0");
+			paramMap.put("facebook", "0");
 			paramMap.put("userid","kakao"+paramMap.get("userid"));
 			break;
 		case "naver":
 			paramMap.put("kakao", "0");
 			paramMap.put("naver", "1");
 			paramMap.put("google", "0");
+			paramMap.put("facebook", "0");
 			paramMap.put("userid","naver"+paramMap.get("userid"));
 			break;
 		case "google":
 			paramMap.put("kakao", "0");
 			paramMap.put("naver", "0");
 			paramMap.put("google", "1");
+			paramMap.put("facebook", "0");
 			paramMap.put("userid","google"+paramMap.get("userid"));
+			break;
+		case "facebook":
+			paramMap.put("kakao", "0");
+			paramMap.put("naver", "0");
+			paramMap.put("google", "0");
+			paramMap.put("facebook", "1");
+			paramMap.put("userid","facebook"+paramMap.get("userid"));
 			break;
 		}//end of switch-case---
 		
 		
 		String nickname = (String) paramMap.get("nickname");
 		
-		// 중복하지않는 닉네임 생성하기
+		// 닉네임이 중복이라면 중복하지않는 닉네임 생성하기
 		if(service.nicknameExist(nickname)) {	
 			while(!service.nicknameExist(nickname)) {	//닉네임이 중복하지 않을때까지
 				nickname = flag+MyUtil.getAuthKey(10);	

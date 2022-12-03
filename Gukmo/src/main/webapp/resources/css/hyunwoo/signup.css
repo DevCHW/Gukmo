@@ -17,16 +17,6 @@ img#logo{
   height:100%;
 }
 
-/* sns회원가입 시작 */
-div.sns_signup{
-  cursor: pointer;
-  height:38px;
-  width: 30%;
-}
-svg{
-  width: 20px;
-  height: 20px;
-}
 
 /* sns회원가입 끝 */
 
@@ -111,7 +101,6 @@ button#btn_signup{
 
 div#email_error_area{
   display:flex;
-  justify-content:end;
 }
 
 

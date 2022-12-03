@@ -22,43 +22,77 @@
 	  <input type="hidden" name="profile_image" value="${sessionScope.user.profile_image}" />
 	  <input type="hidden" id="str_hashTag" name="str_hashTag" value=""/>
 	  
-      <%-- 지역선택 --%>
-      <div class="d-flex align-items-center my-2">
-        <label for="detail_category" class="academy_label">지역</label>
-        <select name="" id="" class="academy_input pl-2 border rounded">
-      	  <option>서울</option>
-        </select>
-      </div>
-
+      
 
       <%-- 학원명 --%>
       <div class="d-flex align-items-center my-2">
         <label for="subject" class="academy_label mt-3">학원명</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2" placeholder="제목을 입력하세요">
+        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="제목을 입력하세요">
       </div>
       
       <%-- 대표자명 --%>
       <div class="d-flex align-items-center my-2">
         <label for="subject" class="academy_label mt-3">대표자명</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2" placeholder="제목을 입력하세요">
+        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="제목을 입력하세요">
       </div>
+      
+      
+      <%-- 지역 선택 --%>
+      
+      <div class="d-flex">
+        <label for="subject" class="academy_label mt-3">지역선택</label>
+        <div data-toggle="dropdown">
+           <div id="location2" class="d-flex border rounded justify-content-center align-items-center mr-3">
+           	 <i class="fa-solid fa-location-dot mr-2"></i>
+           	 <span>지역을 선택해주세요</span>
+           </div>
+        </div>
+        
+         <div id="big_location" class="dropdown-menu" class="border rounded px-3 py-2">
+            <span class='dropdown-item big_location_element'>서울</span>
+            <span class="dropdown-item big_location_element">부산</span>
+            <span class="dropdown-item big_location_element">대구</span>
+            <span class="dropdown-item big_location_element">인천</span>
+            <span class="dropdown-item big_location_element">광주</span>
+            <span class="dropdown-item big_location_element">대전</span>
+            <span class="dropdown-item big_location_element">울산</span>
+            <span class="dropdown-item big_location_element">세종</span>
+            <span class="dropdown-item big_location_element">경기</span>
+            <span class="dropdown-item big_location_element">강원</span>
+            <span class="dropdown-item big_location_element">충북</span>
+         </div>
+         
+         <div>
+           <div id="abc" data-toggle="dropdown">
+             <div id="location3" class="d-flex border rounded justify-content-center align-items-center">
+             	 <i class="fa-solid fa-location-dot mr-2"></i>
+             	 <span>지역 소분류</span>
+             </div>
+           </div>
+           
+           <div id="small_location2" class="dropdown-menu" class="border rounded px-3 py-2">
+           </div>
+         </div>
+      </div>
+      
+      
       
       <%-- 학원 주소 --%>
       <div class="d-flex align-items-center my-2">
-        <label for="subject" class="academy_label mt-3">학원 주소</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2" placeholder="제목을 입력하세요">
+        <label for="subject" class="academy_label mt-3">상세주소</label>
+        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="상세주소를 입력하세요">
       </div>
       
       <%-- 관할 노동사무소 --%>
       <div class="d-flex align-items-center my-2">
         <label for="subject" class="academy_label mt-3">관할 노동사무소</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2" placeholder="제목을 입력하세요">
+        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="제목을 입력하세요">
       </div>
       
       <%-- 홈페이지URL --%>
       <div class="d-flex align-items-center my-2">
         <label for="subject" class="academy_label mt-3">홈페이지 URL</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2" placeholder="제목을 입력하세요">
+        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="제목을 입력하세요">
       </div>
       
       <%-- 학원이미지 --%>

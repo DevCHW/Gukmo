@@ -25,6 +25,12 @@ public interface InterAPILoginService {
 	void setGoogleConnection(Map<String, Object> paramMap);
 	
 	/**
+	 * 구글연동유저로 바꾸기(update)
+	 */
+	void setFacebookConnection(Map<String, Object> paramMap);
+	
+	
+	/**
 	 * 닉네임 중복검사하기
 	 * @return 닉네임이 존재하면 true, 존재하지 않는다면 false
 	 */
@@ -52,6 +58,8 @@ public interface InterAPILoginService {
 	 * @return 회원정보
 	 */
 	MemberVO getUser(String userid);
+
+	
 
 	
 

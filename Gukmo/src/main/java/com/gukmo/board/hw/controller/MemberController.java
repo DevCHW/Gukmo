@@ -167,6 +167,22 @@ public class MemberController {
 	
 	
 	
+	/**
+	 * 회원가입이메일 인증코드 전송
+	 */
+	@ResponseBody
+	@RequestMapping(value="/sendEmailCertificationCode.do", method= {RequestMethod.POST})
+	public String sendEmailCertificationCode(HttpServletRequest request) {
+		
+		String email = request.getParameter("email");
+		//인증코드 발송
+		String jsonObj = service.sendEmailCertificationCode(email,request);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
 	
 	
 	

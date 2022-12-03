@@ -9,11 +9,12 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <%-- 카카오 로그인 --%>
   <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
+  <%-- 페이스북 로그인 --%>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v10.0&appId=5826169730780578" nonce="SiOBIhLG"></script>
   <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/login.css" />
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/login.js" ></script>
-  
   
   <form name="login_form" id="login_form">
   
@@ -30,19 +31,40 @@
     
       <%-- sns_login --%>
       <span>SNS로그인</span>
-      <div id="sns_login" class="d-flex justify-content-between">
+      <div id="sns_login" class="d-flex mt-2">
         <%-- kakao --%>
-        <div id="kakao_login" class="sns_login d-flex justify-content-center align-items-center border rounded">
-          <svg viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg" style=""><g clip-path="url(#clip0_1394_6217)"><path d="M11 0C4.92473 0 0 4.04523 0 9.03544C0 12.2837 2.08683 15.1299 5.2182 16.7227C4.98798 17.6156 4.38507 19.9561 4.26426 20.457C4.11553 21.0787 4.48366 21.0705 4.72471 20.9029C4.9139 20.772 7.73926 18.7767 8.95819 17.9152C9.6198 18.017 10.3019 18.0709 11 18.0709C17.0753 18.0709 22 14.0251 22 9.03544C22 4.04582 17.0753 0 11 0Z" fill="#6B7280" style=""></path><path d="M6.57195 6.37451H3.35566C3.05306 6.37451 2.80859 6.62911 2.80859 6.94293C2.80859 7.25674 3.05363 7.51134 3.35566 7.51134H4.40135V11.5151C4.40135 11.6608 4.45834 11.8041 4.55863 11.9077C4.65665 12.0107 4.79398 12.0699 4.93474 12.0699H5.05156C5.19175 12.0699 5.32851 12.0107 5.4271 11.9077C5.52739 11.8041 5.58438 11.6614 5.58438 11.5151V7.51134H6.57195C6.87454 7.51134 7.11958 7.25674 7.11958 6.94293C7.11958 6.62911 6.87454 6.37451 6.57195 6.37451Z" fill="white"></path><path d="M14.3034 11.0004H12.8075V6.9114C12.8075 6.57035 12.542 6.29443 12.2143 6.29443C11.8866 6.29443 11.6211 6.57035 11.6211 6.9114V11.319C11.6211 11.3533 11.6251 11.3853 11.6302 11.4179C11.6245 11.4498 11.6211 11.483 11.6211 11.5162C11.6211 11.8016 11.8428 12.0325 12.1174 12.0325H14.3034C14.5787 12.0325 14.7998 11.8016 14.7998 11.5162C14.7998 11.2308 14.5781 11.0004 14.3034 11.0004Z" fill="white"></path><path d="M19.0842 11.1881L17.4174 8.91329L18.9235 7.34778C19.1275 7.1364 19.1275 6.79239 18.9235 6.58042C18.7195 6.36845 18.389 6.36845 18.1844 6.58042L16.3198 8.51777V6.9114C16.3198 6.57035 16.0543 6.29443 15.7266 6.29443C15.3989 6.29443 15.1328 6.57035 15.1328 6.9114V11.4546C15.1328 11.7956 15.3984 12.0716 15.7266 12.0716C16.0548 12.0716 16.3198 11.7962 16.3198 11.4546V10.0531L16.6589 9.70138L18.2357 11.8513C18.4112 12.0946 18.7446 12.145 18.9788 11.9608C19.213 11.7779 19.2603 11.4321 19.0842 11.1881Z" fill="white"></path><path d="M11.1745 11.3357L9.57146 6.77887C9.57146 6.77887 9.56747 6.77532 9.56633 6.77355C9.46375 6.49585 9.168 6.29395 8.81525 6.29395C8.42376 6.29395 8.10008 6.54263 8.03568 6.86769C8.02486 6.89197 8.01403 6.91624 8.00491 6.94229L6.42868 11.3357C6.33124 11.624 6.47712 11.939 6.7535 12.0403C7.03045 12.1415 7.33419 11.9899 7.43163 11.7022L7.7046 10.8934H9.89856L10.1709 11.7022C10.2684 11.9899 10.5721 12.1415 10.8491 12.0403C11.126 11.939 11.2719 11.624 11.1745 11.3357ZM8.05278 9.86016L8.79018 7.67413C8.79873 7.67413 8.80557 7.6765 8.81411 7.6765L9.55094 9.86016H8.05335H8.05278Z" fill="white" style=""></path></g><defs><clipPath id="clip0_1394_6217"><rect width="22" height="21" fill="white"></rect></clipPath></defs></svg>
+        <div id="kakao_login" class="sns_login d-flex justify-content-center align-items-center mr-3">
+          <img src="<%=ctxPath %>/resources/images/login/카카오로그인.PNG" class="rounded">
         </div>
       
         <%-- naver --%>
-        <div id="naver_login" class="sns_login d-flex justify-content-center align-items-center border rounded">
-          <svg viewBox="-1 -1 17 16" fill="#6B7280" xmlns="http://www.w3.org/2000/svg"><path d="M9.88343 0V7.06382L5.13527 0H0V14H5.11657V6.93618L9.8666 14H15V0H9.88343Z" fill="#6B7280"></path></svg>
+        <div id="naver_login" class="sns_login d-flex justify-content-center align-items-center mr-3">
+          <img src="<%=ctxPath %>/resources/images/login/네이버로그인.png">
+        </div>
+        
+        
+        <%-- facebook --%>
+        <div id="facebook_login" class="sns_login d-flex justify-content-center align-items-center mr-3"onclick="fnFbCustomLogin();">
+          <img src="<%=ctxPath %>/resources/images/login/페이스북로그인.svg">
         </div>
 
         <%-- google --%>
-        <div id="buttonDiv"></div> 
+        <div id="google_login" class="sns_login d-flex justify-content-center align-items-center mr-3">
+          <div id="g_id_onload"
+           data-client_id="1009243602481-q3hk5769gab0ucfqbsf3r1abj4cg8av5.apps.googleusercontent.com"
+           data-callback="handleCredentialResponse">
+          </div>
+          <div class="g_id_signin"
+             data-type="icon"
+             data-size="large"
+             data-logo_alignment="left">
+          </div>
+        </div>
+        
+        
+        
+        
+        
       </div>
       
 	    

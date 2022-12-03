@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gukmo.board.common.FileManager;
+import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.common.Sha256;
 import com.gukmo.board.hw.email.GoogleMail;
 import com.gukmo.board.hw.repository.InterMemberDAO;
@@ -176,43 +177,8 @@ public class MemberService implements InterMemberService{
 		int result = dao.editPasswd(paraMap);
 		return result;
 	}
-		
 	
 	
-	
-	
-	
-	
-	
-	// == 유틸 메소드 == //
-	
-
-
-    /**
-	 * 프로필사진을 첨부했을 때 회원정보수정
-	 * @param member
-	 * @param profileImage
-	 */
-	@Override
-	public int editMyInfo(MemberVO member,Map<String,String> paraMap) {
-		String path = paraMap.get("path");
-		String currentProfileImage = paraMap.get("profile_image");
-		
-		paraMap.put("userid",member.getUserid());
-		paraMap.put("nickname",member.getNickname());
-		paraMap.put("username",member.getUsername());
-		paraMap.put("email_acept",member.getEmail_acept()+"");
-		
-		// 프로필이미지 파일 지워주기
-		if( !"user.PNG".equals(currentProfileImage) ) {
-			fileManager.doFileDelete(currentProfileImage, path);
-		}
-		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
-		
-		return result1;
-	}
-
-
 	/**
 	 * 프사첨부를 안했을경우 회원정보 수정
 	 */
@@ -250,6 +216,92 @@ public class MemberService implements InterMemberService{
 		return activities;
 	}
 
+
+	/**
+	 * 회원가입이메일 인증코드 전송
+	 * @param 사용자의 이메일
+	 * @return 이메일 성공여부가 담겨있는 JSON형식 String
+	 */
+	@Override
+	public String sendEmailCertificationCode(String email, HttpServletRequest request) {
+		boolean sendMailSuccess = false; // 메일이 정상적으로 전송되었는지 유무를 알아오기 위한 용도
+		
+		// 이메일 제목 설정
+        String subject = "[국비의모든것] 회원가입을 환영합니다.";
+        
+        // 이메일인증코드 생성(10자리의 난수)
+        String certificationCode = MyUtil.getAuthKey(10);
+        
+		// 이메일에 보낼 메세지(계정을찾을수있는 링크 보내주기)
+		String message = "<div style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 540px; height: 600px; border-top: 4px solid #208EC9; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">"
+						   +"<h1 style='margin: 0; padding: 0 5px; font-size: 28px; font-weight: 400;'>"
+						   +"<span style='font-size: 20px; margin: 0 0 10px 3px; font-weight:bold;'>국비의모든것</span><br />"
+						   +"<span style='color: #208EC9;'>메일인증</span> 안내입니다."
+						   +"</h1>"
+						   +"<p style='font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;'>"
+						      +"안녕하세요.<br />"  
+						      +"국비의모든것에 가입해 주셔서 진심으로 감사드립니다.<br />" 
+						      +"아래 <b style='color: #208EC9;'>인증코드</b> 를 복사하여 회원가입 페이지로 돌아가서 <br/>회원가입을 완료해주세요.<br />"  
+						      +"감사합니다."
+						   +"</p>"
+						   + "<div style='border:solid 1px #208EC9; font-size:20px; border-radius:10px; text-align:center; font-weight:bold;'>"
+						   + "&nbsp;<span style='color:#208EC9;'>인증코드&nbsp;:&nbsp;</span>"
+						     + "<span style='color: red; text-decoration: none;'>"
+						       + "<p style='display: inline-block; width: 210px; height: 45px; margin: 30px 5px 40px; line-height: 45px; vertical-align: middle; font-size: 16px;'>"
+						         + certificationCode
+						       + "</p>"
+						     + "</span>"
+						   + "</div>"
+						 + "</div>";
+		try {
+			mail.sendmail(email, subject, message);
+			sendMailSuccess = true;	//메일 전송했음을 기록함.
+			
+		} catch(Exception e) {	//메일 전송이 실패한 경우
+			sendMailSuccess = false;	//메일 전송 실패했음을 기록함.
+		}//end of try-catch()----
+		
+		//제이슨 객체생성
+		JSONObject jsonObj = new JSONObject();
+		//제이슨에 값 담기
+		jsonObj.put("sendMailSuccess", sendMailSuccess);
+		jsonObj.put("certificationCode", certificationCode);
+		jsonObj.put("message", message);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	/**
+	 * 프로필사진을 첨부했을 때 회원정보수정
+	 * @param member
+	 * @param profileImage
+	 */
+	@Override
+	public int editMyInfo(MemberVO member,Map<String,String> paraMap) {
+		String path = paraMap.get("path");
+		String currentProfileImage = paraMap.get("profile_image");
+		
+		paraMap.put("userid",member.getUserid());
+		paraMap.put("nickname",member.getNickname());
+		paraMap.put("username",member.getUsername());
+		paraMap.put("email_acept",member.getEmail_acept()+"");
+		
+		// 프로필이미지 파일 지워주기
+		if( !"user.PNG".equals(currentProfileImage) ) {
+			fileManager.doFileDelete(currentProfileImage, path);
+		}
+		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
+		
+		return result1;
+	}
+
+		
+	
+	
+	
+	
+	
 	
 	
 
