@@ -180,8 +180,7 @@ function del_board(board_num){
 		  
 		  alert("삭제백단");
 		  
-		  location.href="del_board.do?board_num="+board_num;
-		  
+		  location.href="del_board.do?board_num="+board_num;		  
 		  
 		  return true;
 	  }  

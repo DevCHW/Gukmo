@@ -87,13 +87,13 @@
                   , lead(A.board_num, 1) over(order by A.board_num desc) AS nextseq
 		          , lead(A.subject, 1) over(order by A.board_num desc) AS nextsubject
                   ,A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
-				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				  ,hashtag_num,fk_board_num,hashtag
 				from
 				(select * from tbl_board where 1=1
 				
 				) A
-				left join tbl_hashtag B
-				on A.board_num = B.fk_board_num
+				left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
+                on a.board_num = h.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
