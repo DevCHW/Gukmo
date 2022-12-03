@@ -25,6 +25,59 @@ input#hashtag::placeholder{
 }
 
 
+/* 지역 선택창 */
+div#location,
+div#small_location{
+  cursor:pointer;
+  position:relative;
+  height: 40px;
+  width:150px;
+  font-size:small;
+}
+
+
+/* 정렬 모달창 시작*/
+div#mask,
+div#small_mask{
+  width: 100%; 
+  height: 100%; 
+  position: fixed; 
+  top: 0; left: 0; 
+  opacity: 0; 
+  z-index: 2; 
+  display: none;
+}
+
+div#location_option,
+div#small_location_option{
+  position: absolute;
+  top:50px;
+  right:0;
+  background-color: white;
+  z-index: 3;
+  width:160px;
+  line-height: 30px;
+  display: none;
+}
+
+div#location_option > span,
+div#small_location_option > span{
+  cursor:pointer;
+}
+
+
+/* 지역선택창2 */
+div#location2,
+div#location3{
+  cursor:pointer;
+  position:relative;
+  height: 40px;
+  width:150px;
+  font-size:small;
+}
+
+
+
 
 /* placeholder */
 input.community_input::placeholder{

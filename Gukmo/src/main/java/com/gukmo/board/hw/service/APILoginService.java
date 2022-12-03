@@ -45,11 +45,19 @@ public class APILoginService implements InterAPILoginService{
 	}
 	
 	/**
-	 * 네이버연동유저로 바꾸기(update)
+	 * 구글연동유저로 바꾸기(update)
 	 */
 	@Override
 	public void setGoogleConnection(Map<String, Object> paramMap) {
 		dao.setGoogleConnection(paramMap);
+	}
+	
+	/**
+	 * 페이스북연동유저로 바꾸기(update)
+	 */
+	@Override
+	public void setFacebookConnection(Map<String, Object> paramMap) {
+		dao.setFacebookConnection(paramMap);
 	}
 	
 	
@@ -113,6 +121,9 @@ public class APILoginService implements InterAPILoginService{
 		MemberVO user = dao.getUser(userid);
 		return user;
 	}
+
+
+	
 
 
 	

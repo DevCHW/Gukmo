@@ -248,7 +248,7 @@
 	
 	<!-- 카카오로 로그인 체크하기 -->
 	<select id="kakaoConnectionCheck" parameterType="HashMap" resultType="HashMap">
-		select naver,google,kakao,email,nickname from tbl_member
+		select naver,google,kakao,email,facebook,nickname from tbl_member
 		where email = #{email} 
 	</select>
 	
@@ -270,6 +270,12 @@
 		where email = #{email}
 	</update>
 	
+	<!-- 페이스북연동유저로 바꾸기(update)  -->
+	<update id="setFacebookConnection" parameterType="HashMap">
+		update tbl_member set facebook = '1'
+		where email = #{email}
+	</update>
+	
 	
 	<!-- 멤버로그인테이블에 회원가입정보 insert -->
 	<insert id="social_insert_member_login" parameterType="HashMap">
@@ -279,8 +285,8 @@
 	
 	<!-- 멤버테이블에 회원가입정보 insert -->
 	<insert id="social_insert_member" parameterType="HashMap">
-		insert into tbl_member(fk_userid, email, email_acept, profile_image,username, nickname, kakao, naver, google)
-		values(#{userid}, #{email}, #{email_acept}, #{profile_image}, #{nickname}, #{nickname},#{kakao},#{naver},#{google})
+		insert into tbl_member(fk_userid, email, email_acept, profile_image,username, nickname, kakao, naver, google,facebook)
+		values(#{userid}, #{email}, #{email_acept}, #{profile_image}, #{nickname}, #{nickname},#{kakao},#{naver},#{google},#{facebook})
 	</insert>
 	
 	
@@ -352,7 +358,7 @@
 		<result property="like_cnt" column="like_cnt" />
 		<result property="writer_point" column="writer_point" />
 		<association property="academy"  column="fk_board_num" javaType="com.gukmo.board.model.AcademyVO" resultMap="academy"/>
-		<association property="curriculum"  column="curriculum" javaType="com.gukmo.board.model.CurriculumVO" resultMap="curriculum"/>
+		<association property="curriculum"  column="fk_board_num" javaType="com.gukmo.board.model.CurriculumVO" resultMap="curriculum"/>
 		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
 			<id property="hashtag_num" column="hashtag_num"/>
 			<result property="hashtag" column="hashtag"/>

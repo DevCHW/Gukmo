@@ -1,3 +1,4 @@
+
 package com.gukmo.board.model;
 
 import java.util.Date;
@@ -45,12 +46,7 @@ public class BoardVO {
 	//기본생성자 protected로 막기
 	protected BoardVO() {}
 
-	
-	
-	
-	
-	
-	//파라미터가 있는 생성자
+
 	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
 			String previousseq, String previoussubject, String nextseq, String nextsubject, String writer_point,
@@ -76,8 +72,6 @@ public class BoardVO {
 		this.hashtags = hashtags;
 		this.comment = comment;
 	}
-
-
 
 
 	public String getBoard_num() {
@@ -116,9 +110,9 @@ public class BoardVO {
 
 
 
-    public String getWrite_date() {
-    	return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
-	}
+   public String getWrite_date() {
+      return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
+   }
 
 
 
@@ -199,22 +193,25 @@ public class BoardVO {
 	}
 	
 
-	
-
-	
-	
-	
-
 
 
 	
 	
 	
 	
-	
-	
-	
+	@Override
+	public String toString() {
+		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
+				+ ", detail_category=" + detail_category + ", subject=" + subject + ", content=" + content
+				+ ", write_date=" + write_date + ", views=" + views + ", profile_image=" + profile_image
+				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
+				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
+				+ ", writer_point=" + writer_point + ", academy=" + academy + ", curriculum=" + curriculum
+				+ ", hashtags=" + hashtags + ", comment=" + comment + "]";
+	}
 
+
+	
 
 	
 	

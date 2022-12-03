@@ -51,6 +51,14 @@ public interface InterMemberService {
 
 
 	/**
+	 * 회원가입이메일 인증코드 전송
+	 * @param 사용자의 이메일
+	 * @return 이메일 성공여부가 담겨있는 JSON형식 String
+	 */
+	String sendEmailCertificationCode(String email, HttpServletRequest request);
+	
+	
+	/**
 	 * 이메일 값으로 회원 아이디 알아내기
 	 * @param email
 	 * @return
@@ -98,6 +106,9 @@ public interface InterMemberService {
 	 * @return
 	 */
 	ActivityVO getActivitiesByBoard(String nickname);
+
+
+	
 
 
 

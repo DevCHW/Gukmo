@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/boardList.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/curriculumList.css" />
 
 <script type="text/javascript">
   sessionStorage.setItem("page","${requestScope.page}");
@@ -15,7 +15,7 @@
 </script>
 
 <%-- 직접만든 javascript --%>
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
+<script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/curriculumList.js" ></script>
 
   <div class="container mt-4">
   
@@ -42,7 +42,7 @@
         <div id="mask"></div>
         <div id="sort" class="d-flex border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
-          <span id=current_sort></span>
+          <span id=current_sort>${requestScope.sort}</span>
           <div id="sort_option" class="border rounded px-3 py-2">
             <span>최신순</span>
             <span>추천순</span>
@@ -59,7 +59,7 @@
     <%------------------------------------- 게시판 리스트 시작 -------------------------------------%>
 	
     <%-- 게시글 반복문 시작 --%>
-    <c:forEach var="boardvo" items="${requestScope.boardList}">
+    <c:forEach var="boardvo" items="${requestScope.curriculumList}">
     
     <div class="border-top px-2 py-2">
       <div class="d-flex align-items-center my-2">
