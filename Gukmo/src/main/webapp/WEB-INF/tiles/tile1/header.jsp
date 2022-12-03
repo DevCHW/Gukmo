@@ -5,6 +5,7 @@
 %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet"
@@ -24,17 +25,17 @@
 			<!-- Brand/logo -->
 			<a
 				class="navbar-brand d-flex justify-content-start align-items-center"
-				href="<%=ctxPath%>/index.do" style="width: 100px;"> <img
-				src="" alt="logo">
+				href="<%=ctxPath%>/index.do" style="width: 100px;"> <img src=""
+				alt="logo">
 			</a>
 
 			<!-- Links -->
 			<nav>
 				<ul class="mainCate">
-					<li><a class="nav-link" href="#">국비학원</a></li>
+					<li><a class="nav-link" href="<%=ctxPath%>/academy/academies.do">국비학원</a></li>
 					<li><a class="nav-link"
 						href="<%=ctxPath%>/community/freeBoards.do">커뮤니티</a></li>
-					<li><a class="nav-link" href="#">공지사항</a></li>
+					<li><a class="nav-link" href="<%=ctxPath%>/notices.do">공지사항</a></li>
 
 					<!-- 관리자로 로그인 했을 경우 추가 메뉴 -->
 					<c:if test="${sessionScope.user.userid eq 'admin'}">
@@ -87,29 +88,30 @@
 								<!-- 알림 내용이 없을 경우 -->
 								<!-- <p>받으신 알림이 없습니다.</p> -->
 
-								<!-- 알림 내용이 있을 경우 (반복문) -->								
-								<div class="alarm_content" onclick="location.href='<%=ctxPath%>/community/questions.do'">
+								<!-- 알림 내용이 있을 경우 (반복문) -->
+								<div class="alarm_content"
+									onclick="location.href='<%=ctxPath%>/community/questions.do'">
 									<div class="alarm_info">
-										<span class="like">좋아요 </span>
-										<span>11:53</span>
+										<span class="like">좋아요 </span> <span>11:53</span>
 									</div>
-									<p class="alarm_text"> [안녕하세요. 질문이...] 글이 좋아요(1)를 받았습니다. </p>
+									<p class="alarm_text">[안녕하세요. 질문이...] 글이 좋아요(1)를 받았습니다.</p>
 								</div>
-								
-								<div class="alarm_content" onclick="location.href='<%=ctxPath%>/community/questions.do'">
+
+								<div class="alarm_content"
+									onclick="location.href='<%=ctxPath%>/community/questions.do'">
 									<div class="alarm_info">
-										<span class="reple"> 댓글 </span>
-										<span>11:53</span>
+										<span class="reple"> 댓글 </span> <span>11:53</span>
 									</div>
-									<p class="alarm_text"> [와 그거 정말 좋은 기능...] 댓글에 댓글(4)이 달렸습니다. </p>
+									<p class="alarm_text">[와 그거 정말 좋은 기능...] 댓글에 댓글(4)이 달렸습니다.
+									</p>
 								</div>
-								
-								<div class="alarm_content" onclick="location.href='<%=ctxPath%>/community/questions.do'">
+
+								<div class="alarm_content"
+									onclick="location.href='<%=ctxPath%>/community/questions.do'">
 									<div class="alarm_info">
-										<span class="declare"> 신고 </span>
-										<span>2022.11.22</span>
+										<span class="declare"> 신고 </span> <span>2022.11.22</span>
 									</div>
-									<p class="alarm_text"> [암튼 좀 짜증나네요.] 글에 신고(1)가 접수되었습니다. </p>
+									<p class="alarm_text">[암튼 좀 짜증나네요.] 글에 신고(1)가 접수되었습니다.</p>
 								</div>
 
 							</div>
@@ -118,8 +120,12 @@
 					<!-- 프로필 drop -->
 					<div class="dropdown">
 						<div class="dropbtn">
-							<img src="<%=ctxPath%>/resources/images/user.PNG"
-								class="dropbtn" onclick="drop_profile()">
+							<c:if test="${fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
+			                  <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}" onclick="drop_profile()"/>
+			                </c:if>
+			                <c:if test="${fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
+			             	   <img src="${sessionScope.user.profile_image}" onclick="drop_profile()"/>
+			                </c:if>
 						</div>
 						<div id="profile_dropContent" class="dropdown-content2">
 							<div class="px-1 py-1">
@@ -127,7 +133,7 @@
 									class="fa-solid fa-user"></i> 내 계정
 								</a> <a href="<%=ctxPath%>/member/myInfo.do"> <i
 									class="fa-solid fa-gear"></i> 내 정보
-								</a> <a href="<%=ctxPath%> /member/activities.do"> <i
+								</a> <a href="<%=ctxPath%>/member/activities.do"> <i
 									class="fa-solid fa-gear"></i> 활동내역
 								</a> <a href="<%=ctxPath%>/logout.do ">로그아웃</a>
 							</div>

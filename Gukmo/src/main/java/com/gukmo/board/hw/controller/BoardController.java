@@ -7,14 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.gukmo.board.common.FileManager;
 import com.gukmo.board.hw.service.InterBoardService;
 import com.gukmo.board.model.BoardVO;
 
@@ -24,12 +22,8 @@ public class BoardController {
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterBoardService service;
 	
-	
-	@Autowired
-	private FileManager fileManager;
-	
 	/**
-	 * 국비학원 페이지 매핑
+	 * 공지사항 페이지 매핑
 	 */
 	@RequestMapping(value="/notices.do", method= {RequestMethod.GET})
 	public String viewNotice(HttpServletRequest request) {
@@ -114,7 +108,7 @@ public class BoardController {
 	 * 국비학원 페이지 매핑
 	 */
 	@RequestMapping(value="academy/academies.do", method= {RequestMethod.GET})
-	public String viewAcademy(HttpServletRequest request) {
+	public String viewAcademies(HttpServletRequest request) {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		String searchWord = request.getParameter("searchWord");
@@ -127,8 +121,10 @@ public class BoardController {
 			searchWord = "";
 		}
 		
-		if(sort == null ||sort == "") {
+		if(sort == null || sort.trim() == "") {	//sort 값이 없다면
 			sort = "write_date";
+		} else {								//sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+			sort = getSort(sort);
 		}
 		
 		paraMap.put("searchWord", searchWord);
@@ -150,14 +146,30 @@ public class BoardController {
 		
 		List<BoardVO> academyList = service.getAcademyList(paraMap); // 글목록 가져오기
 		
-		// 검색어를 뷰단 페이지에서 유지시키기 위한 것
-		if(!"".equals(searchWord) ) {
-			request.setAttribute("paraMap", paraMap);
-		}
-		
 		String url = "academy/academies.do";
-		//페이지바 얻기
+		//정렬기준 넣기
+		switch (sort) {
+			case "write_date":
+				sort = "최신순";
+				break;
+			case "comment_cnt":
+				sort = "댓글순";	
+				break;
+			case "like_cnt":
+				sort = "추천순";
+				break;
+			case "views":
+				sort = "조회순";
+				break;
+			default :
+				sort = "최신순";
+				break;
+		}//end of switch-case---
 		
+		//확인용
+		System.out.println(academyList);
+		
+		//페이지바 얻기
 		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 		
 		request.setAttribute("pageBar", pageBar);
@@ -167,19 +179,138 @@ public class BoardController {
 		request.setAttribute("sort",sort);
 		request.setAttribute("detail_category",detail_category);
 		
-		
 		return "board/academy/academyList.tiles1";
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * 교육과정페이지 매핑
 	 */
 	@RequestMapping(value="/academy/curricula.do", method= {RequestMethod.GET})
-	public String view(HttpServletRequest request) {
+	public String viewCurricula(HttpServletRequest request) {
+		Map<String, String> paraMap = new HashMap<>();
+		String searchWord = request.getParameter("searchWord");
+		String sort = request.getParameter("sort");
+		String str_page = request.getParameter("page");
+		String category = "국비학원";
+		String detail_category = "교육과정";
+		
+		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+			searchWord = "";
+		}
+		
+		if(sort == null || sort.trim() == "") {	//sort 값이 없다면
+			sort = "write_date";
+		} else {								//sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+			sort = getSort(sort);
+		}
+		
+		paraMap.put("searchWord", searchWord);
+		paraMap.put("sort", sort);
+		paraMap.put("category",category);
+		paraMap.put("detail_category", detail_category);
+		
+		// 총 게시물 건수
+		int totalCount = service.getTotalCurriculumCount(paraMap);    
+		// 한 페이지당 보여줄 게시물 건수 
+		int sizePerPage = 10;         
+		// 총 페이지수(웹브라우저상에서 보여줄 총 페이지 개수, 페이지바)
+		int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );            
+		//현재페이지번호 구하기(예외처리 포함)
+		int page = getPage(str_page,totalPage);	
+		
+		// 시작행번호,끝 행번호 구하기(맵에 담아서 반환)
+		paraMap = getRno(page,sizePerPage,paraMap); 
+		
+		List<BoardVO> curriculumList = service.getCurriculumList(paraMap); // 글목록 가져오기
+		
+		String url = "/academy/curricula.do";
+		
+		//정렬기준 넣기
+		switch (sort) {
+			case "write_date":
+				sort = "최신순";
+				break;
+			case "comment_cnt":
+				sort = "댓글순";	
+				break;
+			case "like_cnt":
+				sort = "추천순";
+				break;
+			case "views":
+				sort = "조회순";
+				break;
+			default :
+				sort = "최신순";
+				break;
+		}//end of switch-case---
+		
+		//확인용
+		System.out.println(curriculumList);
+		
+		//페이지바 얻기
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
+		
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("totalCount", totalCount);
+		request.setAttribute("curriculumList",curriculumList);
+		request.setAttribute("searchWord",searchWord);
+		request.setAttribute("sort",sort);
+		request.setAttribute("detail_category",detail_category);
+		
 		return "board/academy/curriculumList.tiles1";
 	}
 
 	
+	
+	
+	
+	
+	/**
+	 * 학원상세보기 페이지 매핑
+	 */
+	@RequestMapping(value="/academy/academy.do", method= {RequestMethod.GET})
+	public String viewAcademy(HttpServletRequest request) {
+		String str_board_num = request.getParameter("boardNum");
+		int boardNum = 0;
+		try {
+			boardNum = Integer.parseInt(str_board_num); 
+		} catch (NullPointerException e) {	//글번호에 한글을 입력했다면
+			return "redirect:index.do";
+		}//end of try-catch--
+		
+		int board_num = 3;// 글번호(해시태그 있는 글번호 임시 설정)
+		BoardVO academy = service.getBoardDetail(boardNum);	//하나의 글 불러오기(학원게시판)
+		
+		System.out.println(academy);
+		
+		request.setAttribute("academy", academy);
+		
+		return "board/academy/academyDetail.tiles1";
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * 학원글작성 페이지 매핑(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/new.do", method= {RequestMethod.GET})
+		public String viewAcademyNew(HttpServletRequest request) {
+		return "board/academy/academyNew.tiles1";
+	}
+	
+	
+	
+
 	
 	
 	

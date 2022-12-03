@@ -31,7 +31,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo.css">
+  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo.css?after">
   
   <!-- title Icon -->
   <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">

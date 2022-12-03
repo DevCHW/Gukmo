@@ -1,6 +1,5 @@
 
 $(document).ready(function(){
-	let sort = sessionStorage.getItem("sort");
   // filter버튼 클릭횟수 count
   let filter_click_cnt = 0;
   
@@ -21,7 +20,7 @@ $(document).ready(function(){
   //정렬옵션 클릭시 이벤트
   $("div#sort_option span").click(e=>{
     const target = $(e.currentTarget);
-    sort = target.text();
+    const sort = target.text();
     
     
     location.href="?page="+sessionStorage.getItem("page")+"&searchWord="+sessionStorage.getItem("searchWord")+"&sort="+sort;
