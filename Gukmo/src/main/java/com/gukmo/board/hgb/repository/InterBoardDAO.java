@@ -34,6 +34,31 @@ public interface InterBoardDAO {
 
 
 
+	/**
+	 * 좋아요 체크하기
+	 * @param paraMap(글번호,userid)
+	 * @return 좋아요 갯수
+	 */
+	int likeCheck(Map<String, String> paraMap);
+
+
+	/**
+	 * 좋아요 테이블에 delete하기
+	 * @param paraMap(글번호,userid)
+	 * @return 성공 1 실패 0
+	 */
+	int likeDelete(Map<String, String> paraMap);
+
+
+	/**
+	 * 좋아요 테이블에 insert하기
+	 * @param paraMap(글번호,userid)
+	 * @return 성공 1 실패 0
+	 */
+	int likeInsert(Map<String, String> paraMap);
+
+
+
 	
 
 	

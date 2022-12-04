@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.MyUtil;
@@ -52,6 +55,8 @@ public class BoardController {
 			return "redirect:index.do";
 		}//end of try-catch--
 		
+		
+		HttpSession session = request.getSession();
 		
 		/*
 		
@@ -128,67 +133,21 @@ public class BoardController {
 	
 	
 	
-	// === 좋아요 체크하기 === //
+	// === 좋아요 === //
 	@ResponseBody
-	@RequestMapping(value="/board/likeCheck.do")
-	public String likeCheck(HttpServletRequest request) {
-		
-		
-		
-		HttpSession session = request.getSession();
-		
-		String userid = (String) session.getAttribute("userid");
-		String boardNum = request.getParameter("boardNum");
-		
-		boolean login = false;
+	@RequestMapping(value="/likeProcess.do",method=RequestMethod.POST)
+	public String likeProcess(@RequestParam Map<String,String> paraMap,HttpServletRequest request) {				
+		//확인용 board_num,userid
+//		System.out.println(paraMap);
 		
 		JSONObject jsonObj = new JSONObject();
 		
-		if(userid == null || userid.trim().isEmpty()) {	//로그인중인 사람이 없다면 로그인페이지로 리다이렉트
-			login = false;
-			
-			
-			
-			jsonObj.put("login", login);     
-			String json = jsonObj.toString(); 
-			
-			request.setAttribute("json", json);
-			
-			
+		if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {	//로그인을 안했다면
+			jsonObj.put("JavaData", "login");
+		} else {	//로그인중이라면
+			String likeResult = service.likeProcess(paraMap); //좋아요 처리하기
+			jsonObj.put("JavaData", likeResult);
 		}
-		
-		else {	//로그인중인 사용자가 있다면
-			login = true;
-			
-			Map<String, String> paraMap = new HashMap<>();
-			paraMap.put("userid", userid);
-			paraMap.put("boardNum", boardNum);
-			
-			List<String> like_exist = service.like_exist(paraMap);
-			
-			
-			
-			
-			
-			if(like_exist != null) {
-				
-				
-				
-				
-				
-				jsonObj.put("like_exist", like_exist);     
-				jsonObj.put("login", login); 
-				String json = jsonObj.toString(); 
-				
-				request.setAttribute("json", json);
-				
-				
-			}
-			
-			
-			
-		}
-		
 		
 		return jsonObj.toString();
 	}

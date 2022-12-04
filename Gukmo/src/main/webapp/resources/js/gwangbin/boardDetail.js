@@ -83,9 +83,9 @@ $(document).ready(function(){
 	
 		
 	   // 폼(form)을 전송(submit)
-	   const frm = document.addFrm;
+	   const frm = document.addWriteFrm;
 	   frm.method = "POST";
-	   frm.action = "<%= ctxPath%>/addEnd.action";
+	   frm.action = "<%= ctxPath%>/comment_write.do";
 	   frm.submit();
 	});
 
@@ -100,6 +100,19 @@ $(document).ready(function(){
     
     console.log("");
   });//end of Event--
+  
+  
+  //댓글에 [...]클릭시 이벤트
+  $("span#comment_btn_more").click(()=>{
+    $("div#comment_mask").show();
+    $("div#comment_update_or_delete").fadeIn(200);
+    $("div#comment_update_or_delete").css("display","flex");
+    $("div#comment_update_or_delete").css("flex-direction","column");
+    
+    console.log("");
+  });//end of Event--
+  
+
 
 
 
@@ -107,6 +120,15 @@ $(document).ready(function(){
   $("div#mask").click(()=>{
     $("div#update_or_delete").fadeOut(200);
     $("div#mask").hide();
+  });//end of Event--
+  
+  //댓글에 [...]클릭후,마스크 클릭시 이벤트
+  $("div#comment_mask").click(e=>{
+	  
+	  const target = $(e.currentTarget);
+	  
+    $("div#comment_update_or_delete").fadeOut(200);
+    $("div#comment_mask").hide();
   });//end of Event--
   
   
@@ -177,91 +199,13 @@ $(document).ready(function(){
   
   //좋아요 버튼 클릭시 이벤트 잡기
   $("div#btn_like").click(e=>{
-	const target = $(e.currentTarget);	//이벤트버블링방지 currentTarget 사용
-	const boardNum = $("input#boardNum").val();
+	const board_num = $("input#board_num").val();
+	const userid = $("input#userid").val();
 	
-//	console.log(boardNum);
-	$.ajax({ 
-		url:getContextPath()+"/board/likeCheck.do", 
-		type:"GET",
-		data:{"boardNum": boardNum},
-		dataType:"json",
-		success:function(json){	
-		  if(json.login && json.like_exist){	//좋아요가 존재한다면
-			  
-		    $.ajax({ 
-				url:getContextPath()+"/board/likeDelete.do", 
-				type:"GET",
-				data:{"boardNum": boardNum},
-				dataType:"json",
-				success:function(json){	
-					if(json.deleteLikeSuccess){ //좋아요 테이블에 delete가 성공시
-						target.css("color","black");
-						alert("좋아요 해제성공");
-						const like_cnt = $("span.like_cnt").text();
-						$("span.like_cnt").text(`${parseInt(like_cnt)-1}`);
-					}
-					else{ //좋아요 테이블에 delete가 실패시
-					  alert("좋아요 버튼클릭 실패! 다시 시도해주세요");
-					}
-				},//end of success
-				
-				//success 대신 error가 발생하면 실행될 코드 
-				error: function(request,error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-			});//end of $.ajax({})---
-		  }//end of if---
-		  
-		  
-		  else if(!json.login){
-			  if(confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
-				  
-					location.href = "login.do";
-					  
-					  return true;
-				}  
-						
-			    else {
-			    	
-					  return false;
-				}
-		  }
-		  
-		  
-		  else{	//좋아요가 존재하지 않는다면
-		    $.ajax({ 
-				url:getContextPath()+"/board/likeInsert.do", 
-				type:"GET",
-				data:{"boardNum": boardNum},
-				dataType:"json",
-				success:function(json){	
-				  if(json.insertLikeSuccess){	//좋아요 테이블에 insert가 성공시
-					target.css("color","pink");
-					alert("좋아요 성공");
-					const like_cnt = $("span.like_cnt").text();
-					$("span.like_cnt").text(`${parseInt(like_cnt)+1}`);
-				  }
-				  else{	//좋아요 테이블에 insert가 실패시
-					alert("좋아요 버튼클릭 실패! 다시 시도해주세요");
-					
-				  }
-				},//end of success
-				//success 대신 error가 발생하면 실행될 코드 
-				error: function(request,error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-			});//end of $.ajax({})---
-		  }//end of else--
-		  
-		  
-		},//end of success
-		//success 대신 error가 발생하면 실행될 코드 
-		error: function(request,error){
-			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	  });//end of $.ajax({})---
-  });//end of $("div#btn_like").click
+	const data = {board_num: board_num,userid: userid};
+	
+	likeClick(data);	//좋아요 클릭시 처리 메소드 호출
+  });//end of Event----
   
 
   
@@ -269,6 +213,50 @@ $(document).ready(function(){
   
   
 });//end of $(document).ready(function(){})---
+
+
+
+// == Function Declaration == //
+
+function likeClick(data){
+	$.ajax({ 
+		url:getContextPath()+"/likeProcess.do", 
+		type:'post',
+		data:data,
+		dataType:"json",
+		success:function(json){	
+			if(json.JavaData == 'login'){	//로그인 중이 아니라면
+				
+				location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+				
+			} else if(json.JavaData == 'delete'){	//좋아요를 삭제하였다면
+				alert("좋아요삭제함");
+				
+				$("span#like_icon").html("&#9825;");	//빈하트
+				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	//좋아요개수 1빼기
+				
+				$("span#like_cnt").html(like_cnt);	
+				
+			} else if(json.JavaData == 'insert'){	//좋아요를 추가하였다면
+				alert("좋아요 추가함");
+				
+				$("span#like_icon").html(" &#x1F497;"); //꽉찬하트
+				const like_cnt = parseInt($("span#like_cnt").text()) + 1;	//좋아요개수 1더하기
+				$("span#like_cnt").html(like_cnt);
+				
+			} else{
+				alert("좋아요 기능 오류");
+			}
+			
+			
+		},//end of success
+		//success 대신 error가 발생하면 실행될 코드 
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });//end of $.ajax({})---
+}
+
 
 
 
@@ -291,6 +279,66 @@ function del_board(board_num){
 		else 
 			return false;
 };//end of Event--
+
+
+// 댓글작성 클릭시 첨부파일 여부 확인하는 이벤트
+function goAddWrite() {
+	  
+	  const commentContent = $("input#commentContent").val().trim();
+	  if(commentContent == "") {
+		  alert("댓글 내용을 입력하세요!!");
+		  return;
+	  }
+	  
+	  if($("input#attach").val() == "") {
+		// 첨부파일이 없는 댓글쓰기인 경우
+		  goAddWrite_noAttach();  
+	  }
+	  else {
+		// 첨부파일이 있는 댓글쓰기인 경우
+		  goAddWrite_withAttach();
+	  }
+	  
+}// end of function goAddWrite()--------------------------------------
+
+
+
+//첨부파일이 없는 댓글쓰기
+function goAddWrite_noAttach() {
+	  
+	
+	
+	  $.ajax({
+		  url:"<%= request.getContextPath()%>/addComment.do",
+		  data:{ "fk_userid":$("input#fk_userid").val() 
+			    ,"nickname":$("input#nickname").val()
+				,"content":$("input#commentContent").val()
+				,"parentSeq":$("input#parentSeq").val() },
+		/* 또는
+		  data:queryString, 
+		*/
+		  type:"POST",
+		  dataType:"JSON",
+		  success:function(json){
+			  // json ==>  {"n":1,"name":"서영학"}  또는 {"n":0,"name":"서영학"} 
+			  const n = json.n;
+			  if(n==0) {
+				  alert(json.name + "님의 포인트는 300점을 초과할 수 없으므로 댓글쓰기가 불가합니다.");
+			  }
+			  else {
+			   // goReadComment();  // 페이징 처리 안한 댓글 읽어오기
+				  goViewComment(1); // 페이징 처리한 댓글 읽어오기
+			  }
+			  
+			  $("input#commentContent").val("");
+		  },
+		  error: function(request, status, error){
+			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		  }
+	  });
+	  
+}// end of function goAddWrite_noAttach()---------------------
+
 
 
 

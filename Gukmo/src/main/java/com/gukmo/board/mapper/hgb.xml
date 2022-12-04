@@ -55,7 +55,7 @@
 		
 		        	 select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
           ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-          ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject, m.content comment_content
+          ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject, m.content comment_content , m.comment_num
 		from
 		(
 		select * 
@@ -105,7 +105,7 @@
 			
 		) T
         left join
-        (select content,board_num from tbl_comment) m
+        (select comment_num,content,board_num from tbl_comment) m
         on t.board_num = m.board_num
         where t.board_num = #{board_num}
         
@@ -128,11 +128,47 @@
 	
 	
 	<!-- 좋아요 체크하기 -->
-	<select id="like_exist" parameterType="HashMap" resultType="String">
-	select fk_userid,fk_board_num
-    from tbl_board_like
-    where fk_userid = #{userid} and fk_board_num = #{boardNum}
+	<select id="likeCheck" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from tbl_board_like
+		where fk_board_num = #{board_num} and fk_userid = #{userid}
 	</select>
+	
+	
+	<!-- 좋아요 테이블에 delete하기 -->
+	<delete id="likeDelete" parameterType="HashMap">
+		delete from tbl_board_like
+		where fk_board_num = #{board_num} and fk_userid = #{userid}
+	</delete>
+	
+	
+	<!-- 좋아요 테이블에 insert하기  -->
+	<insert id="likeInsert" parameterType="HashMap">
+		insert into tbl_board_like(fk_board_num,fk_userid)
+		values(#{board_num},#{userid})
+	</insert>
+	
+	
+	<!-- 현재 좋아요 갯수 얻기 -->
+	<select id="getLike_cnt" parameterType="HashMap" resultType="Integer">
+		select like_cnt
+		from tbl_board
+		where board_num=#{board_num}
+	</select>
+	
+	
+	
+	<!-- 좋아요 1 뺀값 업데이트 -->
+	<update id="likeCntChange" parameterType="HashMap">
+		update tbl_board set like_cnt=${like_cnt} where board_num=#{board_num}
+	</update>
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
