@@ -1,6 +1,7 @@
 package com.gukmo.board.hgb.repository;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -59,7 +60,7 @@ public class BoardDAO implements InterBoardDAO{
     // === 좋아요 체크하기
 	@Override
 	public List<String> like_exist(Map<String, String> paraMap) {
-		List<String> like_exist = gukmo_sql.selectList("hgb.wordSearchShow", paraMap);
+		List<String> like_exist = gukmo_sql.selectList("hgb.like_exist", paraMap);
 		return like_exist;
 	}
 
