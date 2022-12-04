@@ -30,7 +30,7 @@ $(document).ready(function(){
 	   // 해당 리스트 클릭시 해당 board_num의 게시글로 이동
 	   $(document).on("click", ".goView", function(){
 		   var board_num = $(this).attr('id');
-		   location.href= getContextPath()+"/detail.do?num="+board_num;
+		   location.href= getContextPath()+"/detail.do?boardNum="+board_num;
 	   });
 	   
 		$("input#searchWord").keyup(function(e){
