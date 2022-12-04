@@ -16,41 +16,49 @@
 		where userid = #{userid}
 	</select>
 	
-	<!-- 닉네임중복검사1 -->
-	<select id="nicknameExistCheck1" parameterType="String" resultType="Integer">
+	<!-- 닉네임중복검사 -->
+	<select id="nicknameExistCheck" parameterType="String" resultType="Integer">
 		select count(nickname) from tbl_member
 		where nickname = #{nickname}
 	</select>
 	
-	<!-- 닉네임중복검사2 -->
-	<select id="nicknameExistCheck2" parameterType="String" resultType="Integer">
-		select count(nickname) from tbl_academy_member
-		where nickname = #{nickname}
-	</select>
 	
 	<!-- 이메일중복검사 -->
-	<select id="emailExistCheck1" parameterType="String" resultType="Integer">
+	<select id="emailExistCheck" parameterType="String" resultType="Integer">
 		select count(email) from tbl_member
 		where email = #{email}
 	</select>
 	
 	<!-- 이메일중복검사 -->
-	<select id="emailExistCheck2" parameterType="String" resultType="Integer">
-		select count(email) from tbl_academy_member
-		where email = #{email}
+	<select id="academyNameExistCheck" parameterType="String" resultType="Integer">
+		select count(academy_name) from tbl_academy_member
+		where academy_name = #{academyName}
 	</select>
 	
+	
 	<!-- 멤버로그인테이블에 회원가입정보 insert -->
-	<insert id="insert_member_login" parameterType="com.gukmo.board.model.MemberVO">
+	<insert id="insert_member_login" parameterType="HashMap">
 		insert into tbl_member_login(userid, passwd)
 		values(#{userid}, #{passwd})
 	</insert>
 	
 	<!-- 멤버테이블에 회원가입정보 insert -->
-	<insert id="insert_member" parameterType="com.gukmo.board.model.MemberVO">
+	<insert id="insert_member" parameterType="HashMap">
 		insert into tbl_member(fk_userid, email, email_acept, username, nickname)
 		values(#{userid}, #{email}, #{email_acept}, #{username}, #{nickname})
 	</insert>
+	
+	
+	<!-- 교육기관멤버테이블에 회원가입정보 insert -->
+	<insert id="insert_academy_member" parameterType="HashMap">
+		insert into tbl_academy_member(fk_userid, academy_name, company_num, tel, homepage)
+		values(#{userid}, #{academy_name}, #{company_num}, #{tel}, #{homepage})
+	</insert>
+	
+	
+	
+	
+	
 	
 	<!-- 멤버로그인테이블에서 회원정보 다 삭제 -->
 	<delete id="delete_member" parameterType="String">
@@ -181,20 +189,20 @@
 	<!-- 회원객체 하나 얻기 -->
 	<select id="getUser" parameterType="String" resultType="com.gukmo.board.model.MemberVO">
 		select V.userid,
-		       nvl(V.email,C.email) email,
-		       nvl(V.email_acept,C.email_acept) email_acept,
-		       nvl(V.nickname,C.nickname) nickname,
-		       nvl(V.point,C.point) point,
-		       nvl(V.join_date,C.join_date) join_date,
-		       nvl(V.profile_image,C.profile_image) profile_image,
-		       nvl(V.username,C.username) username,
+		       V.email,
+		       V.email_acept,
+		       V.nickname,
+		       V.point,
+		       V.join_date,
+		       V.profile_image,
+		       V.username,
 		       V.kakao,
 		       V.naver,
 		       V.google,
 		       C.academy_name,
 		       C.company_num,
 		       C.homepage,
-		       C.phone
+		       C.tel
 		from
 			(
 				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver
@@ -377,12 +385,16 @@
 	</resultMap>
 	
 	
-	<!-- association 으로 선언된 AcademyVO 매핑 -->
+	<!-- association 으로 선언된 CurriculumVO 매핑 -->
 	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
 		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
 		<result property="core_technology" column="core_technology" />
 		<result property="academy_name" column="academy_name" />
 		<result property="curriculum_start_date" column="curriculum_start_date" />
+		<result property="curriculum_end_date" column="curriculum_end_date" />
+		<result property="recuitment_end_date" column="recuitment_end_date" />
+		<result property="cnt_recruits" column="cnt_recruits" />
+		<result property="join_url" column="join_url" />
 	</resultMap>
 	
 	
@@ -616,8 +628,11 @@
 		          ,C.fk_board_num
 		          ,C.core_technology
 		          ,C.academy_name
-		          ,C.curriculum_start_date
-		          ,C.curriculum_end_date
+		          ,to_char(C.curriculum_start_date,'yyyy-mm-dd') curriculum_start_date
+		          ,to_char(C.curriculum_end_date,'yyyy-mm-dd') curriculum_end_date
+		          ,C.recuitment_end_date
+		          ,C.cnt_recruits
+		          ,C.join_url
 		    from
 				(
 				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt

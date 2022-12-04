@@ -87,6 +87,7 @@ a.writer_nickname{
 }
 
 a.subject{
+  font-weight:bold;
   font-size:20px;
 }
 

@@ -41,30 +41,46 @@ public class MemberService implements InterMemberService{
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
-	public void saveNormalMember(MemberVO input_member) throws Throwable{
-		MemberVO member = new MemberVO(input_member.getUserid(), 
-									   Sha256.encrypt(input_member.getPasswd()), //비밀번호 단방향 암호화, 
-				 					   input_member.getStatus(), 
-				 					   input_member.getUpdate_passwd_date(), 
-				 					   input_member.getEmail(),
-				 					   input_member.getEmail_acept()+"", 
-				 					   input_member.getNickname(), 
-				 					   input_member.getPoint(), 
-				 					   input_member.getJoin_date(), 
-				 					   "user.PNG",
-				 					   input_member.getAcademy_name(), 
-				 					   input_member.getCompany_num(), 
-				 					   input_member.getHomepage(), 
-				 					   input_member.getPhone(),
-				 					   input_member.getUsername(),
-									   "0",
-									   "0",
-									   "0");
+	public void saveNormalMember(Map<String,String> paraMap) throws Throwable{
+		paraMap.put("passwd",Sha256.encrypt(paraMap.get("passwd")));//비밀번호 단방향 암호화,
+		int result1 = dao.insert_member_login(paraMap);	//tbl_member_login에 insert
+		int result2 = 0;
 		
-		int n = dao.insert_member_login(member);	//tbl_member_login에 insert
-		if(n==1) {	//tbl_member에 insert가 성공시
-			dao.insert_member(member);	//tbl_member에 insert
+		if(result1==1) {	//tbl_member에 insert가 성공시
+		   result2 = dao.insert_member(paraMap);	//tbl_member에 insert
 		}
+		
+		if(result1*result2 != 1) {
+			Integer.parseInt("일반 회원가입실패했어요");	//오류내기
+		}
+		
+	}
+	
+	/**
+	 * 교육기관회원 회원 가입하기
+	 * @param 사용자가 입력한 정보가 들어있는 MemberVO 객체
+	 */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public void saveAcademyMember(Map<String, String> paraMap) {
+		paraMap.put("passwd",Sha256.encrypt(paraMap.get("passwd")));//비밀번호 단방향 암호화,
+	    
+		int result1 = dao.insert_member_login(paraMap);	//tbl_member_login에 insert
+		int result2 = 0;
+		int result3 = 0;
+		
+		if(result1 == 1) {	//tbl_member에 insert가 성공시
+			result2 = dao.insert_member(paraMap);	//tbl_member에 insert
+			
+			if(result2 == 1) {
+				result3 = dao.insert_academy_member(paraMap);
+			}
+		}
+		
+		if(result1*result2*result3 != 1) {
+			Integer.parseInt("교육기관 회원가입실패했어요");	//오류내기
+		}
+		
 	}
 
 	
@@ -295,6 +311,10 @@ public class MemberService implements InterMemberService{
 		
 		return result1;
 	}
+
+
+
+	
 
 		
 	

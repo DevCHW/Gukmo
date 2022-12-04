@@ -14,6 +14,11 @@ let recaptcha_ok = false;
 let username_ok = false;
 let email_certification = false;
 
+let company_num_ok = false;
+let homepage_ok = false;
+let tel_ok = false;
+let academy_name_ok = false;
+
 
 // 타이머 관련 field
 let time = 180;
@@ -148,13 +153,13 @@ $(document).ready(function(){
         $("button#btn_email_certification").css("color","white");
         
         $("button[data-dismiss='modal']").trigger("click");	//이메일인증 모달창 닫기
-        test_all();
       }
       else{ //이메일 인증실패시
         alert(`이메일인증 실패!<br>입력하신 인증번호를 다시한번 확인해주세요`);
         email_certification = false;
       }
     }
+    test_all();
   });//end of Event---
   
   
@@ -165,21 +170,90 @@ $(document).ready(function(){
 	username_ok = false;
 	
     if(test_username(username)){  //유효성검사 통과시
-    	test_all();
+    	username_ok = true;
     }
+    test_all();
   });//end of Event---
   
 
 
   //닉네임 칸 값 입력시 이벤트
   $("input#nickname").keyup(()=>{
-	
+	nickname_ok = false;
 	const nickname = $("input#nickname").val();
 	
-    nickname_ok = false;
     $("p#nickname_ok").css("display","");
     if(test_nickname(nickname)){  //유효성검사 통과시
       nickname_exist_check(nickname);  //중복검사
+    }
+    test_all();
+  });//end of Event---
+  
+  
+  
+  //교육기관명 칸 값 입력시 이벤트
+  $("input#academy_name").keyup(()=>{
+	const academy_name = $("input#academy_name").val();
+	academy_name_ok = false;
+	
+    if(test_academy_name(academy_name)){  //유효성검사 통과시
+    	if(academy_name_exist_check(academy_name)){	//중복검사 통과시
+    	  academy_name_ok = true;
+    	}
+    }
+    test_all();
+  });//end of Event---
+  
+  
+  
+  //사업자등록번호 칸 값 입력시 이벤트
+  $("input.input_company_num").keyup(function(){
+	//숫자만 입력되게하기
+	$(this).val($(this).val().replace(/[^0-9]/gi,"") ); 
+	company_num_ok = false;
+	const inputCompanyNum1 = $("input#input_company_num1").val();
+	const inputCompanyNum2 = $("input#input_company_num2").val();
+	const inputCompanyNum3 = $("input#input_company_num3").val();
+	
+	const company_num = inputCompanyNum1 + "-" + inputCompanyNum2 + "-" + inputCompanyNum3
+	
+	if(company_num.length == 12){
+	  if(test_company_num(company_num)){	//사업자등록번호 통과시
+		$("input.input_company_num").css("border","");  //빨간색 테두리(비밀번호 칸) 없애기
+		$("p#company_num_error").css("display","");  //에러문구(비밀번호 칸) 없애기
+		$("label[for='company_num']").css("color","");  //라벨 빨간색(비밀번호 칸) 없애기
+		$("input#company_num").val(company_num);
+	    company_num_ok = true;
+	  }
+	  else{	//사업자등록번호 유효성검사 통과하지 못할시
+		$("input.input_company_num").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
+		$("p#company_num_error").css("display","block");  //에러문구(비밀번호 칸)
+		$("label[for='company_num']").css("color","red");  //라벨 빨간색(비밀번호 칸)
+	  }
+	}
+	test_all();
+  });//end of Event---
+  
+  
+  //교육기관 대표전화 칸 값 입력시 이벤트
+  $("input#tel").keyup(()=>{
+	const tel = $("input#tel").val();
+	tel_ok = false;
+	
+    if(test_tel(tel)){  //유효성검사 통과시
+    	tel_ok = true;
+    }
+    test_all();
+  });//end of Event---
+  
+  
+  //교육기관 대표전화 칸 값 입력시 이벤트
+  $("input#homepage").keyup(()=>{
+	const homepage = $("input#homepage").val();
+	homepage_ok = false;
+	
+    if(test_homepage(homepage)){  //유효성검사 통과시
+    	homepage_ok = true;
     }
     test_all();
   });//end of Event---
@@ -189,7 +263,7 @@ $(document).ready(function(){
   $("button#btn_signup").click(()=>{
       reCAPTCHA();
       if(recaptcha_ok){	//자동가입방지를 통과했다면
-	    const frm = document.signup_form;
+	    const frm = document.acaSignup_form;
 		
         frm.action = getContextPath()+"/member/save.do";
         frm.method = "POST";
@@ -206,7 +280,7 @@ $(document).ready(function(){
   //이메일 수신동의 토글스위치 값 변경시 이벤트
   $("input#email_agreement").change(()=>{
     if($("input#email_agreement").is(":checked")){	//이메일 수신동의 체크시
-    	$("input#email_acept").val("1");
+        $("input#email_acept").val("1");
     }else{	//이메일수신동의 체크해제시
     	$("input#email_acept").val("0");
     }
@@ -437,6 +511,9 @@ function email_exist_check(email){
 
 
 
+
+
+
 /**
  * 이메일 인증번호 전송하기
  * @param 사용자가 입력한 email 값
@@ -460,6 +537,7 @@ function sendCertificationCode(email){
 	  }
     });//end of $.ajax({})---
 }//end of method---
+
 
 
 
@@ -519,7 +597,7 @@ function nickname_exist_check(nickname){
     
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
-      alert["error"]("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });// end of $.ajax({})---
 }//end of method----
@@ -538,17 +616,176 @@ function test_username(username){
     $("input#username").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
     $("p#username_error").css("display","block");  //에러문구(비밀번호 칸)
     $("label[for='username']").css("color","red");  //라벨 빨간색(비밀번호 칸)
-    username_ok = false;
     return false;
   }
   else{ //유효성검사를 통과한다면 
     $("input#username").css("border","");  //빨간색 테두리없애기
     $("p#username_error").css("display","none");  //에러문구 없애기
     $("label[for='username']").css("color","");  //라벨 빨간색 없애기
-    username_ok = true;
     return true;
   }
 }// end of method---
+
+
+
+
+
+/**
+ * 교육기관명 유효성검사(특수문자,영어,숫자 사용 금지2~10자)
+ * @param 사용자가 입력한 유저이름 값
+ * @returns 검사를 통과하면 true, 통과하지 못하면 false
+ */
+function test_academy_name(academy_name){
+  const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; 
+  
+  if((regExp.test(academy_name))){	//유효성검사를 통과못하면
+    $("input#academy_name").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
+    $("p#academy_name_error").text("교육기관명에는 특수문자를 쓸 수 없습니다.");
+    $("p#academy_name_error").css("display","block");  //에러문구(비밀번호 칸)
+    $("label[for='academy_name']").css("color","red");  //라벨 빨간색(비밀번호 칸)
+    
+    return false;
+  }
+  else{ //유효성검사를 통과한다면 
+    $("input#academy_name").css("border","");  //빨간색 테두리없애기
+    $("p#academy_name_error").text("");
+    $("p#academy_name_error").css("display","none");  //에러문구 없애기
+    $("label[for='academy_name']").css("color","");  //라벨 빨간색 없애기
+    return true;
+  }
+}// end of method---
+
+
+
+/**
+ * 교육기관명 중복검사
+ * @param 사용자가 입력한 교육기관명 값
+ */
+function academy_name_exist_check(academyName){
+  $.ajax({ 
+    url:getContextPath()+"/member/academyNameExistCheck.do", 
+    data:{"academyName": academyName},
+    type:"post",
+    dataType:"json",
+    async:false,
+    success:function(json){
+      if(json.academyNameExist){	//교육기관명이 존재한다면
+        $("input#academy_name").css("border","solid 1px red");  //빨간색 테두리
+        $("p#academy_name_error").text("이미 가입된 교육기관입니다.");
+        $("p#academy_name_error").css("display","block");  //에러문구
+        $("label[for='academy_name']").css("color","red");  //라벨 빨간색
+        return false;
+      }
+      else{	//닉네임이 존재하지 않는다면
+        $("input#academy_name").css("border","");  //빨간색 테두리 없애기
+        $("p#academy_name_error").text("");
+        $("p#academy_name_error").css("display","");  //에러문구 없애기
+        $("label[for='academy_name']").css("color","");  //라벨 빨간색 없애기
+        $("p#nickname_ok").css("display","block");
+        return true;
+      }
+    },//end of success
+    
+    //success 대신 error가 발생하면 실행될 코드 
+    error: function(request,status,error){
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+    }
+  });// end of $.ajax({})---
+}//end of method----
+
+
+
+
+
+
+
+
+/**
+ * 사업자등록번호 유효성검사(사업자번호 알고리즘)
+ * @param 사용자가 입력한 사업자등록번호 값
+ * @returns 검사를 통과하면 true, 통과하지 못하면 false
+ */
+function test_company_num(company_num){
+  let companyNumMap = company_num.replace(/-/gi, '').split('').map(function(item){
+    return parseInt(item, 10); 
+  });
+  
+  if(companyNumMap.length === 10){	//사업자 등록번호 길이 충족시
+    let multiply = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5);
+    let checkSum = 0;
+    
+    for(let i = 0; i < multiply.length; ++i){
+      checkSum += multiply[i] * companyNumMap[i];
+    }
+    
+    checkSum += parseInt((multiply[8] * companyNumMap[8]) / 10, 10);
+    return Math.floor(companyNumMap[9]) === ((10 - (checkSum % 10)) % 10);
+  }
+  return false;
+  
+}// end of method---
+
+
+
+
+
+
+/**
+ * 교육기관 번호 유효성검사()
+ * @param 사용자가 입력한 교육기관 번호 값
+ * @returns 검사를 통과하면 true, 통과하지 못하면 false
+ */
+function test_tel(tel){
+  //유선전화번호+무선전화번호 정규표현식
+  const regExp1 = /^(0[2-8][0-5]?|01[01346-9])-?([1-9]{1}[0-9]{2,3})-?([0-9]{4})$/;
+  //대표전화번호 1588 등 정규표현식
+  const regExp2 = /^(1544|1566|1577|1588|1644|1688)-?([0-9]{4})$/;
+  
+  if( !(regExp1.test(tel)) && !(regExp2.test(tel)) ){	//유효성검사를 통과못하면
+    $("input#tel").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
+    $("p#tel_error").css("display","block");  //에러문구(비밀번호 칸)
+    $("label[for='tel']").css("color","red");  //라벨 빨간색(비밀번호 칸)
+    return false;
+  }
+  else{ //유효성검사를 통과한다면 
+    $("input#tel").css("border","");  //빨간색 테두리없애기
+    $("p#tel_error").css("display","none");  //에러문구 없애기
+    $("label[for='tel']").css("color","");  //라벨 빨간색 없애기
+    return true;
+  }
+}// end of method---
+
+
+
+
+
+/**
+ * 교육기관 홈페이지 주소 유효성검사()
+ * @param 사용자가 입력한 교육기관 홈페이지 주소 값
+ * @returns 검사를 통과하면 true, 통과하지 못하면 false
+ */
+function test_homepage(homepage){
+  const regExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+;
+  
+  if( !(regExp.test(homepage)) ){	//유효성검사를 통과못하면
+    $("input#homepage").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)
+    $("p#homepage_error").css("display","block");  //에러문구(비밀번호 칸)
+    $("label[for='homepage']").css("color","red");  //라벨 빨간색(비밀번호 칸)
+    return false;
+  }
+  else{ //유효성검사를 통과한다면 
+    $("input#homepage").css("border","");  //빨간색 테두리없애기
+    $("p#homepage_error").css("display","none");  //에러문구 없애기
+    $("label[for='homepage']").css("color","");  //라벨 빨간색 없애기
+    return true;
+  }
+}// end of method---
+
+
+
+
+
 
 
 
@@ -580,18 +817,20 @@ const timer = function timer(){
 /**
  * 모든 유효성 검사 통과시 회원가입 버튼을 활성화시키기
  */
-
 function test_all(){
   if(!userid_ok || !passwd_ok || !email_ok || !nickname_ok ||
-     !email_certification || !username_ok) { // 유효성검사를 하나라도 통과하지 못했다면
+     !email_certification || !username_ok || !company_num_ok ||
+     !homepage_ok || !tel_ok || !academy_name) { // 유효성검사를 하나라도 통과하지 못했다면
     $("button#btn_signup").attr("disabled",true);
     $("button#btn_signup").css("background","#EBEBEB");
     $("button#btn_signup").css("color","white");
+    return;
   }
   else{ //유효성 검사를 모두 통과하였다면
     $("button#btn_signup").attr("disabled",false);
     $("button#btn_signup").css("background","");
     $("button#btn_signup").css("color","");
+    return;
   }
 }//end of method----
 

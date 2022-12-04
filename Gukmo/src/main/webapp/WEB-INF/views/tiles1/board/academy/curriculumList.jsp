@@ -85,16 +85,38 @@
           ${boardvo.write_date}
         </div>
       </div>
-
-      <%-- 글제목 --%>
+      
+      
+      <%-- 학원명 --%>
+      <div class="academy_name my-1">[${boardvo.curriculum.academy_name}]</div>
+	  
+	  
+      <%-- 교육과정명 --%>
       <a href="<%=ctxPath %>/detail.do?boardNum=${boardvo.board_num} " class="subject align-items-center my-2">
         ${boardvo.subject}
       </a>
+      
+      
+      <%-- 교육과정 기간,핵심기술 --%>
+      <div class="d-flex my-2">
+        <%-- 교육과정 기간 --%>
+	    <span class="period mr-2">
+	             교육기간&nbsp;:&nbsp;${boardvo.curriculum.curriculum_start_date}<span>&nbsp;~&nbsp;</span>${boardvo.curriculum.curriculum_end_date}
+	    </span>
+        <%-- 핵심기술 --%>
+	    <span class="core_technology">핵심기술&nbsp;:&nbsp;${boardvo.curriculum.core_technology}</span>
+      </div>
+      
+      <%-- 모집인원 --%>
+	  <div class="core_technology">
+	         모집인원&nbsp;:&nbsp;${boardvo.curriculum.cnt_recruits}명
+	  </div>
+      
 
       <div class="d-flex justify-content-between align-items-center my-2">
         <div class="d-flex align-items-center">
           <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 변수 말고 아예 값 박아도 됨--%>
-          <div class="detail_category border rounded px-2 py-1">
+          <div class="detail_category border rounded px-2 py-1" onclick="location.href='<%=ctxPath %>/academy/curricula.do'">
           	  ${boardvo.detail_category}
           </div>
           <div class="hashtag ml-1">
@@ -145,7 +167,7 @@
       </div>
 
       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
-        <i class="fa-sharp fa-solid fa-plus"></i><span>글쓰기</span>
+        <i class="fa-sharp fa-solid fa-plus"></i><span>교육과정&nbsp;등록</span>
       </button>
     </div>
 

@@ -70,7 +70,7 @@ public class APILoginService implements InterAPILoginService{
 	public boolean nicknameExist(String nickname) {
 		int result = dao.nicknameDuplicateCheck(nickname);
 		
-		if(result != 1) {	//닉네임이 존재하지 않는다면
+		if(result > 0) {	//닉네임이 존재하지 않는다면
 			return false;
 		}
 		else {				//닉네임이 존재한다면

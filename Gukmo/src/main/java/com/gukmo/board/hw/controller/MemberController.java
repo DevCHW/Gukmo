@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -62,6 +63,15 @@ public class MemberController {
 	@RequestMapping(value="/signup.do", method= {RequestMethod.GET})
 	public String viewSignup(HttpServletRequest request) {
 		return "member/signup.tiles1";
+		// /WEB-INF/views/tiles1/member/signup.jsp 페이지.
+	}
+	
+	/**
+	 * 교육기관회원가입페이지 url매핑
+	 */
+	@RequestMapping(value="/acaSignup.do", method= {RequestMethod.GET})
+	public String viewAcaSignup(HttpServletRequest request) {
+		return "member/acaSignup.tiles1";
 		// /WEB-INF/views/tiles1/member/signup.jsp 페이지.
 	}
 	
@@ -125,17 +135,40 @@ public class MemberController {
 	
 	
 	/**
+	 * 가입된 교육기관명이 존재하는지 여부 검사
+	 * @return 가입된 교육기관명이 존재하면 true, 존재하지 않는다면 false를 반환한다.
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/academyNameExistCheck.do", method= {RequestMethod.POST})
+	public String academyNameExistCheck(HttpServletRequest request) {
+		String academyName = request.getParameter("academyName");
+		boolean academyNameExist = dao.academyNameExistCheck(academyName);
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("academyNameExist", academyNameExist);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
+	
+	/**
 	 * 회원가입 하기
 	 */
 	@RequestMapping(value="/member/save.do", method= {RequestMethod.POST})
-	public String saveMember(MemberVO input_member,HttpServletRequest request) throws Throwable {
-		if(input_member.getAcademy_name() != null) {	//교육기관회원 가입인경우
-			System.out.println("교육기관회원 가입입니다.");	//이곳에 교육기관회원가입 코딩
+	public String saveMember(@RequestParam Map<String,String> paraMap, MemberVO input_member,HttpServletRequest request) throws Throwable {
+		//프로필사진 기본프사로 지정
+		paraMap.put("profile_image","user.PNG");
+		
+		//확인용 회원가입 시도한 회원정보
+		System.out.println("회원가입 시도한 회원정보 :" + paraMap);
+		
+		if(paraMap.get("academy_name") != null || "".equals(paraMap.get("academy_name").trim())) {	//교육기관회원 가입인경우
+			service.saveAcademyMember(paraMap);
+		} else {	//일반회원 가입인 경우
+			service.saveNormalMember(paraMap);
 		}
-		else {	//일반회원 가입인 경우
-			service.saveNormalMember(input_member);
-			
-		}
+		
 		String message = "회원가입 완료!";
 		String loc = request.getContextPath()+"/login.do";
 		
@@ -144,6 +177,7 @@ public class MemberController {
 		
 		return "msg";
 	}
+	
 	
 	
 	/**

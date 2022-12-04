@@ -28,13 +28,24 @@ public interface InterMemberDAO {
 	 */
 	boolean emailExistCheck(String email);
 
-
+	
+	
+	
+	/**
+	 * 가입된 교육기관명이 존재하는지 여부 검사
+	 * @return 가입된 이메일이 존재하면 true, 존재하지 않는다면 false를 반환한다.
+	 */
+	boolean academyNameExistCheck(String academyName);
+	
+	
+	
+	
 	/**
 	 * tbl_member_login에 insert하기
 	 * @param 유저가 입력한 회원정보가 들어있는 MemberVO 객체
 	 * @return 쿼리문 성공시 1 실패시 0
 	 */
-	int insert_member_login(MemberVO member);
+	int insert_member_login(Map<String,String> paraMap);
 	
 	
 	/**
@@ -42,9 +53,18 @@ public interface InterMemberDAO {
 	 * @param 유저가 입력한 회원정보가 들어있는 MemberVO 객체
 	 * @return 쿼리문 성공시 1 실패시 0
 	 */
-	int insert_member(MemberVO member);
+	int insert_member(Map<String,String> paraMap);
 
-
+	
+	
+	/**
+	 * tbl_academy_member에 insert하기
+	 * @param 유저가 입력한 회원정보가 들어있는 MemberVO 객체
+	 * @return 쿼리문 성공시 1 실패시 0
+	 */
+	int insert_academy_member(Map<String, String> paraMap);
+	
+	
 	/**
 	 * 계정삭제하기
 	 */
@@ -111,6 +131,12 @@ public interface InterMemberDAO {
 	 * @return
 	 */
 	ActivityVO getActivitiesByBoard(String nickname);
+
+
+	
+
+
+	
 
 
 

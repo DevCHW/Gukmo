@@ -15,8 +15,15 @@ public interface InterMemberService {
 	 * 일반회원 가입하기
 	 * @param 사용자가 입력한 정보가 들어있는 MemberVO 객체
 	 */
-	void saveNormalMember(MemberVO input_member) throws Throwable;
+	void saveNormalMember(Map<String,String> paraMap) throws Throwable;
 
+	
+	/**
+	 * 교육기관회원 회원 가입하기
+	 * @param 사용자가 입력한 정보가 들어있는 MemberVO 객체
+	 */
+	void saveAcademyMember(Map<String, String> paraMap);
+	
 
 	/**
 	 * 계정 삭제하기
@@ -106,6 +113,9 @@ public interface InterMemberService {
 	 * @return
 	 */
 	ActivityVO getActivitiesByBoard(String nickname);
+
+
+	
 
 
 	

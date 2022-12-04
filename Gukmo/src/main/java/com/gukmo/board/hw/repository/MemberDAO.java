@@ -44,10 +44,9 @@ public class MemberDAO implements InterMemberDAO{
 	 */
 	@Override
 	public boolean nicknameExistCheck(String nickname) {
-		int nickname_cnt1 = gukmo_sql.selectOne("chw.nicknameExistCheck1",nickname);	//일반회원
-		int nickname_cnt2 = gukmo_sql.selectOne("chw.nicknameExistCheck2",nickname);
+		int nickname_cnt = gukmo_sql.selectOne("chw.nicknameExistCheck",nickname);	//일반회원
 		boolean nicknameExist = false;
-		if(nickname_cnt1+nickname_cnt2 > 0) {	//해당닉네임이 존재한다면
+		if(nickname_cnt > 0) {	//해당닉네임이 존재한다면
 			nicknameExist = true;
 		}
 		else {					//해당닉네임이 존재하지 않는다면
@@ -67,10 +66,9 @@ public class MemberDAO implements InterMemberDAO{
 	 */
 	@Override
 	public boolean emailExistCheck(String email) {
-		int email_cnt1 = gukmo_sql.selectOne("chw.emailExistCheck1",email);
-		int email_cnt2 = gukmo_sql.selectOne("chw.emailExistCheck2",email);
+		int email_cnt = gukmo_sql.selectOne("chw.emailExistCheck",email);
 		boolean emailExist = false;
-		if(email_cnt1+email_cnt2 > 0) {	//해당이메일이 존재한다면
+		if(email_cnt > 0) {	//해당이메일이 존재한다면
 			emailExist = true;
 		}
 		else {				//해당이메일이 존재하지 않는다면
@@ -82,13 +80,38 @@ public class MemberDAO implements InterMemberDAO{
 	
 	
 	/**
+	 * 가입된 교육기관명이 존재하는지 여부 검사
+	 * @return 가입된 이메일이 존재하면 true, 존재하지 않는다면 false를 반환한다.
+	 */
+	@Override
+	public boolean academyNameExistCheck(String academyName) {
+		int academyNameCnt = gukmo_sql.selectOne("chw.academyNameExistCheck",academyName);
+		boolean academyNameExist = false;
+		if(academyNameCnt > 0) {	//해당이메일이 존재한다면
+			academyNameExist = true;
+		}
+		else {				//해당이메일이 존재하지 않는다면
+			academyNameExist = false;
+		}
+		
+		return academyNameExist;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
 	 * tbl_member_login에 insert하기
 	 * @param 유저가 입력한 회원정보가 들어있는 MemberVO 객체
 	 * @return 쿼리문 성공시 1 실패시 0
 	 */
 	@Override
-	public int insert_member_login(MemberVO member) {
-		int result = gukmo_sql.insert("chw.insert_member_login",member);
+	public int insert_member_login(Map<String,String> paraMap) {
+		int result = gukmo_sql.insert("chw.insert_member_login",paraMap);
 		return result;
 	}
 	
@@ -99,10 +122,20 @@ public class MemberDAO implements InterMemberDAO{
 	 * @return 쿼리문 성공시 1 실패시 0
 	 */
 	@Override
-	public int insert_member(MemberVO member) {
-		int result = gukmo_sql.insert("chw.insert_member",member);
+	public int insert_member(Map<String,String> paraMap) {
+		int result = gukmo_sql.insert("chw.insert_member",paraMap);
 		return result;
 	}
+	
+	
+	@Override
+	public int insert_academy_member(Map<String, String> paraMap) {
+		int result = gukmo_sql.insert("chw.insert_academy_member",paraMap);
+		return result;
+	}
+	
+	
+	
 
 
 	/**
@@ -206,11 +239,22 @@ public class MemberDAO implements InterMemberDAO{
 
 
 
+	
+	
+	
 	@Override
 	public ActivityVO getActivitiesByBoard(String nickname) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	
+
+
+
+	
 
 
 

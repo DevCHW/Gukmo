@@ -111,10 +111,9 @@ public class APILoginDAO implements InterAPILoginDAO{
 	 */
 	@Override
 	public int nicknameDuplicateCheck(String nickname) {
-		int nickname_cnt1 = gukmo_sql.selectOne("chw.nicknameExistCheck1",nickname);	//일반회원
-		int nickname_cnt2 = gukmo_sql.selectOne("chw.nicknameExistCheck2",nickname);	//교육기관회원
+		int nickname_cnt = gukmo_sql.selectOne("chw.nicknameExistCheck",nickname);	//일반회원
 		
-		return nickname_cnt1+nickname_cnt2;
+		return nickname_cnt;
 	}
 
 	

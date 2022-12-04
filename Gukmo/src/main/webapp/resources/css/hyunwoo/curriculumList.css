@@ -83,7 +83,12 @@ a.writer_nickname:active {
   text-decoration: none;
 }
 
-
+div.academy_name{
+  font-size:16px;
+}
+a.subject{
+  font-size:20px;
+}
 
 a.subject:link {
   color : black;
