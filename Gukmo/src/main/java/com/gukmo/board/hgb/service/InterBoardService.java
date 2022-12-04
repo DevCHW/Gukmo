@@ -24,6 +24,10 @@ public interface InterBoardService {
 	int del(Map<String, String> paraMap);
 
 	
+	// === 좋아요 체크하기 === //
+	List<String> like_exist(Map<String, String> paraMap);
+
+	
 	/**
 	 * 해시태그 불러오기
 	 * @param 글번호 board_num

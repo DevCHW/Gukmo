@@ -97,6 +97,8 @@ $(document).ready(function(){
     $("div#update_or_delete").fadeIn(200);
     $("div#update_or_delete").css("display","flex");
     $("div#update_or_delete").css("flex-direction","column");
+    
+    console.log("");
   });//end of Event--
 
 
@@ -165,6 +167,107 @@ $(document).ready(function(){
     const hashtag = target.text();  //클릭한 해시태그 값 alert
     alert(target.text()); //클릭한 해시태그 값
   });
+  
+  
+  
+  
+  
+  
+  
+  
+  //좋아요 버튼 클릭시 이벤트 잡기
+  $("div#btn_like").click(e=>{
+	const target = $(e.currentTarget);	//이벤트버블링방지 currentTarget 사용
+	const boardNum = $("input#boardNum").val();
+	
+//	console.log(boardNum);
+	$.ajax({ 
+		url:getContextPath()+"/board/likeCheck.do", 
+		type:"GET",
+		data:{"boardNum": boardNum},
+		dataType:"json",
+		success:function(json){	
+		  if(json.login && json.like_exist){	//좋아요가 존재한다면
+			  
+		    $.ajax({ 
+				url:getContextPath()+"/board/likeDelete.do", 
+				type:"GET",
+				data:{"boardNum": boardNum},
+				dataType:"json",
+				success:function(json){	
+					if(json.deleteLikeSuccess){ //좋아요 테이블에 delete가 성공시
+						target.css("color","black");
+						alert("좋아요 해제성공");
+						const like_cnt = $("span.like_cnt").text();
+						$("span.like_cnt").text(`${parseInt(like_cnt)-1}`);
+					}
+					else{ //좋아요 테이블에 delete가 실패시
+					  alert("좋아요 버튼클릭 실패! 다시 시도해주세요");
+					}
+				},//end of success
+				
+				//success 대신 error가 발생하면 실행될 코드 
+				error: function(request,error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});//end of $.ajax({})---
+		  }//end of if---
+		  
+		  
+		  else if(!json.login){
+			  if(confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+				  
+					location.href = "login.do";
+					  
+					  return true;
+				}  
+						
+			    else {
+			    	
+					  return false;
+				}
+		  }
+		  
+		  
+		  else{	//좋아요가 존재하지 않는다면
+		    $.ajax({ 
+				url:getContextPath()+"/board/likeInsert.do", 
+				type:"GET",
+				data:{"boardNum": boardNum},
+				dataType:"json",
+				success:function(json){	
+				  if(json.insertLikeSuccess){	//좋아요 테이블에 insert가 성공시
+					target.css("color","pink");
+					alert("좋아요 성공");
+					const like_cnt = $("span.like_cnt").text();
+					$("span.like_cnt").text(`${parseInt(like_cnt)+1}`);
+				  }
+				  else{	//좋아요 테이블에 insert가 실패시
+					alert("좋아요 버튼클릭 실패! 다시 시도해주세요");
+					
+				  }
+				},//end of success
+				//success 대신 error가 발생하면 실행될 코드 
+				error: function(request,error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});//end of $.ajax({})---
+		  }//end of else--
+		  
+		  
+		},//end of success
+		//success 대신 error가 발생하면 실행될 코드 
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });//end of $.ajax({})---
+  });//end of $("div#btn_like").click
+  
+
+  
+  
+  
+  
 });//end of $(document).ready(function(){})---
 
 
@@ -188,3 +291,76 @@ function del_board(board_num){
 		else 
 			return false;
 };//end of Event--
+
+
+
+/*
+function likeCheck() {
+	
+	
+	const userid = $("input#userid").val();
+	const boardNum = $("input#boardNum").text();
+	
+	if(userid == ""){
+		
+		if(confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+			  
+			location.href = "login.do";
+			  
+			  return true;
+		}  
+				
+	    else {
+	    	
+			  return false;
+		}
+		
+	}
+	else {
+	
+		$.ajax({
+			url:getContextPath()+"/board/likeCheck.do",
+			data:{"userid":userid
+				 ,"boardNum":boardNum},  
+			type:"post",
+			dataType:"json",
+	    //	async:true,   // async:true 가 비동기 방식을 말한다. async 을 생략하면 기본값이 비동기 방식인 async:true 이다.
+	                      // async:false 가 동기 방식이다. 지도를 할때는 반드시 동기방식인 async:false 을 사용해야만 지도가 올바르게 나온다. 
+	        success:function(json){
+	        	
+	        	if(json.resultSuccess=="true") {
+	        		if(json.resultType == "add"){
+						alert("좋아요 성공");
+						$("span#like_cnt").text(json.count);
+						$("span#like_icon").addClass('true');
+					}else{
+						alert("좋아요 해제");
+						
+						$("span#like_cnt").text(json.count);
+						$("span#like_icon").removeClass('true');
+					}
+	        		
+	        	}
+	        	
+	        	else {
+	        		
+	        	}
+	        	
+	        },
+	        error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
+		
+		
+	}
+	
+
+	
+	
+	
+}
+
+*/	

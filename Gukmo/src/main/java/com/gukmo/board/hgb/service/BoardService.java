@@ -56,6 +56,14 @@ public class BoardService implements InterBoardService{
 	}
 
 
+	// === 좋아요 체크하기 === //
+	@Override
+	public List<String> like_exist(Map<String, String> paraMap) {
+		List<String> like_exist = dao.like_exist(paraMap);
+		return like_exist;
+	}
+
+
 
 	
 	

@@ -8,7 +8,7 @@
 
 <!-- BoardList를 보여주기 위한 BoardVO 매핑 -->
    <resultMap id="boardvoMap" type="com.gukmo.board.model.BoardVO">
-      <id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+      <id property="board_num" column="board_num" /><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
       <result property="nickname" column="nickname" />
       <result property="category" column="category" />
       <result property="detail_category" column="detail_category" />
@@ -26,24 +26,24 @@
       <result property="nextsubject" column="nextsubject" />
       
       <!-- HashtagVO -->
-      <collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+      <collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO" >
          <id property="hashtag_num" column="hashtag_num"/>
          <result property="hashtag" column="hashtag"/>
          <result property="fk_board_num" column="fk_board_num"/>
-      </collection>
-      
-      <!--  
-      <collection property="comments" column="comment_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.CommentVO">
+      </collection>      
+     
+      <!--  CommentVO --> 
+      <collection property="comment" column="comment_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.CommentVO">
          <id property="comment_num" column="comment_num"/>         
-         <result property="comment_num" column="comment_num"/>
-         <result property="content" column="content"/>
+         <result property="content" column="comment_content"/>
          <result property="nickname" column="nickname"/>
          <result property="parent_write_nickname" column="parent_write_nickname"/>
          <result property="board_num" column="board_num"/>
          <result property="fk_comment_num" column="fk_comment_num"/>
-         <result property="write_date" column="write_date"/>
+         <result property="write_date" column="write_date"/>        
       </collection>
-      -->
+      
+      
    </resultMap>
        
 	<!-- 하나의 글 불러오기 -->
@@ -53,12 +53,12 @@
 		where board_num = #{board_num} and detail_category = #{detail_category}
 		--> 
 		
-		        	select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
-		      ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-		      ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject
+		        	 select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+          ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
+          ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject, m.content comment_content
 		from
 		(
-		select *
+		select * 
 		from
 			(
 			select C.board_num
@@ -80,6 +80,8 @@
                   ,C.previoussubject
                   ,C.nextseq
                   ,C.nextsubject
+                  
+                 
 		    from
 				(
 				select lag(A.board_num, 1) over(order by A.board_num desc) AS previousseq
@@ -89,18 +91,24 @@
                   ,A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,hashtag_num,fk_board_num,hashtag
 				from
-				(select * from tbl_board where 1=1
+				(select * from tbl_board 
 				
 				) A
 				left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
-                on a.board_num = h.fk_board_num
+                on A.board_num = h.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
 			) V
+           
+			
 		) T
-        where board_num = #{board_num}
+        left join
+        (select content,board_num from tbl_comment) m
+        on t.board_num = m.board_num
+        where t.board_num = #{board_num}
+        
 	</select>
 	
 	<!-- 상세카테고리 알아오기 -->
@@ -117,6 +125,14 @@
 	    where board_num = #{board_num}
 	</delete>
 	
+	
+	
+	<!-- 좋아요 체크하기 -->
+	<select id="like_exist" parameterType="HashMap" resultType="String">
+	select fk_userid,fk_board_num
+    from tbl_board_like
+    where fk_userid = #{userid} and fk_board_num = #{boardNum}
+	</select>
 	
 	
 	

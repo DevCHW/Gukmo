@@ -7,7 +7,8 @@ public class HashtagVO {
 	private int hashtag_cnt;
 	private int week_cnt;
 	
-	protected HashtagVO() {}
+	//기본생성자 protected
+	protected HashtagVO(){}
 
 	public HashtagVO(int hashtag_num, String hashtag, int hashtag_cnt, int week_cnt) {
 		this.hashtag_num = hashtag_num;
@@ -16,37 +17,40 @@ public class HashtagVO {
 		this.week_cnt = week_cnt;
 	}
 
+	
+	//Getter
 	public int getHashtag_num() {
 		return hashtag_num;
-	}
-
-	public void setHashtag_num(int hashtag_num) {
-		this.hashtag_num = hashtag_num;
 	}
 
 	public String getHashtag() {
 		return hashtag;
 	}
 
-	public void setHashtag(String hashtag) {
-		this.hashtag = hashtag;
-	}
-
 	public int getHashtag_cnt() {
 		return hashtag_cnt;
-	}
-
-	public void setHashtag_cnt(int hashtag_cnt) {
-		this.hashtag_cnt = hashtag_cnt;
 	}
 
 	public int getWeek_cnt() {
 		return week_cnt;
 	}
 
-	public void setWeek_cnt(int week_cnt) {
-		this.week_cnt = week_cnt;
+	
+	//확인용 toString Override
+	@Override
+	public String toString() {
+		return "HashtagVO [hashtag_num=" + hashtag_num + ", hashtag=" + hashtag + ", hashtag_cnt=" + hashtag_cnt
+				+ ", week_cnt=" + week_cnt + "]";
 	}
+	
+	
+	
+	
+	
+
+	
+	
+	
 
 	
 	
