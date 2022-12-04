@@ -20,12 +20,6 @@ public interface InterLoginService {
 	 */
 	boolean userExistCheck(Map<String, String> paraMap);
 
-	/**
-	 * 관리자 로그인 검사
-	 * @param 유저가 입력한 관리자아이디, 유저가 입력한 비밀번호
-	 * @return 관리자 아이디,비밀번호를 맞게 입력하였다면 true, 아니라면 false 반환
-	 */
-	boolean adminExistCheck(Map<String, String> paraMap);
 	
 	/**
 	 * 로그인 완료처리하기

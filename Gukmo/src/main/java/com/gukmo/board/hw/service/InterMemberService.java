@@ -75,7 +75,7 @@ public interface InterMemberService {
 
 	/**
 	 * 계정찾기 비밀번호 변경 해주기
-	 * @param email,passwd 인풋값
+	 * @param userid,passwd 인풋값
 	 * @return 성공여부
 	 */
 	int editPasswd(Map<String, String> paraMap);
@@ -113,6 +113,31 @@ public interface InterMemberService {
 	 * @return
 	 */
 	ActivityVO getActivitiesByBoard(String nickname);
+
+
+	
+	/**
+	 * 이메일 변경시 업데이트해주기
+	 * @return 변경에 성공하면 true, 실패하면 false
+	 */
+	boolean editEmail(Map<String,String> paraMap);
+
+
+	
+	/**
+	 * 마이페이지에서 비밀번호 변경 시 업데이트 해주기
+	 * @param 사용자가 입력한 비밀번호 값,로그인중인 유저의 아이디
+	 * @return 변경에 성공하면 true, 실패하면 false
+	 */
+	boolean editPasswdWithUserid(Map<String, String> paraMap);
+
+	
+	/**
+	 * 기존비밀번호와 같은지 확인하기
+	 * @param 사용자가 입력한 passwd 로그인된 userid
+	 * @return 같다면 true, 없다면 false
+	 */
+	boolean samePasswdCheck(Map<String, String> paraMap);
 
 
 	

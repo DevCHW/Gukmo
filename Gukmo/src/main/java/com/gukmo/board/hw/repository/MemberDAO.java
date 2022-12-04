@@ -128,6 +128,12 @@ public class MemberDAO implements InterMemberDAO{
 	}
 	
 	
+	
+	/**
+	 * tbl_academy_member에 insert하기
+	 * @param 유저가 입력한 회원정보가 들어있는 MemberVO 객체
+	 * @return 쿼리문 성공시 1 실패시 0
+	 */
 	@Override
 	public int insert_academy_member(Map<String, String> paraMap) {
 		int result = gukmo_sql.insert("chw.insert_academy_member",paraMap);
@@ -191,7 +197,7 @@ public class MemberDAO implements InterMemberDAO{
 
 	/**
 	 * 계정찾기 비밀번호 변경 해주기
-	 * @param email,passwd 인풋값
+	 * @param userid,passwd 인풋값
 	 * @return 성공여부 result
 	 */
 	@Override
@@ -199,6 +205,21 @@ public class MemberDAO implements InterMemberDAO{
 		int result = gukmo_sql.update("chw.editPasswd",paraMap);
 		return result;
 	}
+	
+	
+	/**
+	 * 기존비밀번호와 같은지 확인하기
+	 * @param 사용자가 입력한 passwd,로그인된 userid
+	 * @return 값이 있으면 1 , 없다면 0
+	 */
+	@Override
+	public int samePasswdCheck(Map<String, String> paraMap) {
+		int result = gukmo_sql.selectOne("chw.samePasswdCheck",paraMap);
+		return result;
+	}
+
+	
+	
 
 
 
@@ -238,6 +259,18 @@ public class MemberDAO implements InterMemberDAO{
 	}
 
 
+	
+	
+	
+	/**
+	 * 이메일 변경시 업데이트해주기
+	 */
+	@Override
+	public int editEmail(Map<String,String> paraMap) {
+		int result = gukmo_sql.update("chw.editEmail",paraMap);
+		return result;
+	}
+
 
 	
 	
@@ -248,6 +281,17 @@ public class MemberDAO implements InterMemberDAO{
 		return null;
 	}
 
+
+
+	
+
+
+	
+
+
+
+	
+	
 
 
 	
