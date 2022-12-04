@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.MyUtil;
@@ -51,13 +53,23 @@ public class BoardController {
 		}//end of try-catch--
 		
 		
+		/*
 		
+		로그인 안했으면 아무것도안함
+		
+		로그인 했으면 좋아요 눌렀는지 체크
+		
+		*/
 		
 		
 //		int board_num = 3;// 글번호(해시태그 있는 글번호 임시 설정)
 		BoardVO board= service.getBoardDetail(boardNum);	//하나의 글 불러오기
 		
+		
+		//확인용 board
 		System.out.println(board);
+		
+		
 		request.setAttribute("board", board);
 		
 		
@@ -95,6 +107,90 @@ public class BoardController {
 		return mav;
 	}
 	
-	 
+	
+	/*
+	HttpSession session = request.getSession
+			MemberVO user = (MemberVO)session.getAttribuet("user")
+			
+			if user 가 널 이면
+			url
+			인덱스로 꺼져라
+			
+			
+			else {	//
+				String userid = user.getUserid()
+				int boardNum = request.getParameter  글번호
+				
+				
+			}
+	*/
+	
+	
+	
+	
+	// === 좋아요 체크하기 === //
+	@ResponseBody
+	@RequestMapping(value="/board/likeCheck.do")
+	public String likeCheck(HttpServletRequest request) {
+		
+		
+		
+		HttpSession session = request.getSession();
+		
+		String userid = (String) session.getAttribute("userid");
+		String boardNum = request.getParameter("boardNum");
+		
+		boolean login = false;
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		if(userid == null || userid.trim().isEmpty()) {	//로그인중인 사람이 없다면 로그인페이지로 리다이렉트
+			login = false;
+			
+			
+			
+			jsonObj.put("login", login);     
+			String json = jsonObj.toString(); 
+			
+			request.setAttribute("json", json);
+			
+			
+		}
+		
+		else {	//로그인중인 사용자가 있다면
+			login = true;
+			
+			Map<String, String> paraMap = new HashMap<>();
+			paraMap.put("userid", userid);
+			paraMap.put("boardNum", boardNum);
+			
+			List<String> like_exist = service.like_exist(paraMap);
+			
+			
+			
+			
+			
+			if(like_exist != null) {
+				
+				
+				
+				
+				
+				jsonObj.put("like_exist", like_exist);     
+				jsonObj.put("login", login); 
+				String json = jsonObj.toString(); 
+				
+				request.setAttribute("json", json);
+				
+				
+			}
+			
+			
+			
+		}
+		
+		
+		return jsonObj.toString();
+	}
 
 }

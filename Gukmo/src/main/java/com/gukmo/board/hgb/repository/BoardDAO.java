@@ -58,5 +58,14 @@ public class BoardDAO implements InterBoardDAO{
 
 
 
+    // === 좋아요 체크하기
+	@Override
+	public List<String> like_exist(Map<String, String> paraMap) {
+		List<String> like_exist = gukmo_sql.selectList("hgb.wordSearchShow", paraMap);
+		return like_exist;
+	}
+
+
+
 	
 }
