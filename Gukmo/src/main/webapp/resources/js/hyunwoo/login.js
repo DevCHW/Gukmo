@@ -14,12 +14,8 @@ window.onload = function () {
       client_id: "1009243602481-q3hk5769gab0ucfqbsf3r1abj4cg8av5.apps.googleusercontent.com",
       callback: handleCredentialResponse
     });
-    google.accounts.id.renderButton(
-	  document.getElementById("buttonDiv"),
-	  { theme: "outline", size: "large" ,width:"130"}  // customization attributes
-	);
-    google.accounts.id.prompt();
-    // One Tap 기능을 사용하지 않기 때문에 주석처리하였다.
+//    google.accounts.id.prompt();
+   // One Tap 기능을 사용하지 않기 때문에 주석처리하였다.
   };
 
 $(document).ready(function(){
@@ -362,3 +358,89 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 };
+
+
+
+
+
+
+
+
+// 페이스북 로그인
+
+//기존 로그인 상태를 가져오기 위해 Facebook에 대한 호출
+function statusChangeCallback(res){
+	statusChangeCallback(response);
+}
+
+function fnFbCustomLogin(){
+	FB.login(function(response) {
+		if (response.status === 'connected') {
+			console.log(response);
+			FB.api('/me', 'get', {fields: 'name,email,picture'}, function(response) {
+				let fb_data = jQuery.parseJSON(JSON.stringify(response));
+				
+				//가져온 데이터 콘솔출력
+//				console.log(fb_data);
+				
+				const userInfo = {userid:fb_data.id
+								 ,email:fb_data.email
+								 ,profile_image:fb_data.picture.data.url
+								 ,nickname:fb_data.name
+								 ,email_acept:'0'
+			  		 			 ,username:fb_data.name
+			  		 			 ,flag:'facebook'};
+				//페이스북 로그인 처리 메소드 호출
+				facebookLoginPro(userInfo);
+			})
+		} else if (response.status === 'not_authorized') {
+			// 사람은 Facebook에 로그인했지만 앱에는 로그인하지 않았습니다.
+			alert('앱에 로그인해야 이용가능한 기능입니다.');
+		} else {
+			// 그 사람은 Facebook에 로그인하지 않았으므로이 앱에 로그인했는지 여부는 확실하지 않습니다.
+			alert('페이스북에 로그인해야 이용가능한 기능입니다.');
+		}
+	}, {scope: 'public_profile,email'});
+}
+
+window.fbAsyncInit = function() {
+	FB.init({
+		appId      : '5826169730780578', // 내 앱 ID를 입력한다.
+		cookie     : true,
+		xfbml      : true,
+		version    : 'v10.0'
+	});
+	FB.AppEvents.logPageView();   
+};
+
+
+
+/**
+ * 페이스북로그인 유저정보 보내기
+ * @param userInfo
+ * @returns
+ */
+function facebookLoginPro(userInfo){
+  $.ajax({
+	type : 'POST',
+	url : getContextPath()+'/facebookLoginPro.do',
+	data : userInfo,
+	dataType : 'json',
+	success : function(data){
+		console.log(data)
+		if(data.JavaData == "YES"){
+			$("input#userid").val(data.userid);
+			login();
+			
+		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
+			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
+		}else{
+			alert("로그인에 실패했습니다");
+		}
+		
+	},
+	error: function(xhr, status, error){
+		alert("로그인에 실패했습니다."+error);
+	}
+  });//end of ajax
+}//end of method---

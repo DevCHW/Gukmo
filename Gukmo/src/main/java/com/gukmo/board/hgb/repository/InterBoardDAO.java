@@ -29,6 +29,10 @@ public interface InterBoardDAO {
 	int del(Map<String, String> paraMap);
 
 
+	// === 좋아요 체크하기 === //
+	List<String> like_exist(Map<String, String> paraMap);
+
+
 
 	
 

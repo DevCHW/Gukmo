@@ -22,9 +22,9 @@ $(document).ready(function(){
     const target = $(e.currentTarget);
     const sort = target.text();
     
+    
     location.href="?page="+sessionStorage.getItem("page")+"&searchWord="+sessionStorage.getItem("searchWord")+"&sort="+sort;
   });
-  
 });
 
 

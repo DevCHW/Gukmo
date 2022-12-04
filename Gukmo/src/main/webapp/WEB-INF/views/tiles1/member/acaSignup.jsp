@@ -6,12 +6,12 @@
 
 
  <%-- 직접 만든 CSS --%>
- <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/signup.css" />
+ <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/acaSignup.css" />
  
  <%-- Google reCAPTCHA v2 --%>
  <script src="https://www.google.com/recaptcha/api.js"></script>
  <%-- 직접만든 javascript --%>
- <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/signup.js" ></script>
+ <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/acaSignup.js" ></script>
  
  
  
@@ -27,8 +27,8 @@
     </div>
 
     <%-- signupform 시작 --%>
-    <div id="signup_form">
-      <form name="signup_form" class="d-flex flex-column">
+    <div id="acaSignup_form">
+      <form name="acaSignup_form" class="d-flex flex-column">
         <%-- userid (unique,중복체크)--%>
         <label for="userid" class="label_signup mt-3">아이디</label>
         <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디">
@@ -60,13 +60,44 @@
         <input type="text" id="username" name="username" class="input_signup rounded pl-2" placeholder="ex)홍길동" maxlength="10">
 		<p id="username_error" class="error">이름은 특수문자,영어,숫자를 제외한 2~10글자이어야 합니다.</p>
 
-        <%-- nickname (unique,중복체크)--%>
+        <%-- nickname (unique,중복체크) --%>
         <label for="nickname" class="label_signup mt-3">닉네임</label>
         <input type="text" id="nickname" name="nickname" class="input_signup rounded pl-2" placeholder="닉네임을 입력해주세요(10자이내)" maxlength="10">
         <p id="nickname_error" class="error">닉네임 형식에 맞지 않습니다.</p>
         <p id="nickname_ok" class="ok">사용할 수 있는 닉네임입니다.</p>
 		
-
+		
+		<%-- 교육기관명(유니크,중복체크) --%>
+        <label for="academy_name" class="label_signup mt-3">교육기관명</label>
+        <input type="text" id="academy_name" name="academy_name" class="input_signup rounded pl-2" placeholder="교육기관명을 입력해주세요">
+        <p id="academy_name_error" class="error"></p>
+        
+        
+        <%-- 사업자등록번호 --%>
+        <label for="company_num" class="label_signup mt-3">사업자등록번호(xx-xxx-xxxxx)</label>
+        <div class="d-flex align-items-center">
+          <input type="text" id="input_company_num1" class="input_company_num rounded pl-2" placeholder="숫자3자리" maxlength="3">
+          <span>&nbsp;-&nbsp;</span>
+          <input type="text" id="input_company_num2" class="input_company_num rounded pl-2" placeholder="숫자2자리" maxlength="2">
+          <span>&nbsp;-&nbsp;</span>
+          <input type="text" id="input_company_num3" class="input_company_num rounded pl-2" placeholder="숫자5자리" maxlength="5">
+        </div>
+        <p id="company_num_error" class="error">올바른 사업자 등록번호를 입력해주세요.</p>
+        
+        
+        <%-- 교육기관 전화번호--%>
+        <label for="tel" class="label_signup mt-3">교육기관 전화번호</label>
+        <input type="text" id="tel" name="tel" class="input_signup rounded pl-2" placeholder="교육기관 번호를 입력해주세요(- 제외)">
+        <p id="tel_error" class="error">올바른 전화번호를 입력해주세요.</p>
+		
+		
+		<%-- 교육기관 홈페이지 주소--%>
+        <label for="homepage" class="label_signup mt-3">교육기관 홈페이지 URL</label>
+        <input type="text" id="homepage" name="homepage" class="input_signup rounded pl-2" placeholder="교육기관 홈페이지 URL을 입력해주세요">
+		<p id="homepage_error" class="error">올바른 URL을 입력해주세요.</p>
+		
+		
+		
         <%-- email 수신동의 --%>
         <div id="email_agreement" class="d-flex justify-content-between my-3">
           <span>이메일 수신동의</span>
@@ -77,6 +108,7 @@
           </label>
         </div>
         <input type="hidden" id="email_acept" name="email_acept" value="0"/>
+        <input type="hidden" id="company_num" name="company_num"/>
       </form>
 
       <div class="my-1">
@@ -87,7 +119,9 @@
       <div class="d-flex justify-content-center my-2">
         <div class="g-recaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
       </div>
-
+      
+	  
+	  
       <button type="button" id="btn_signup" class="btn border rounded w-100 mt-3">회원가입</button>
 
 

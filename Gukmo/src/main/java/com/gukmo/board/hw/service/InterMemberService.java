@@ -15,8 +15,15 @@ public interface InterMemberService {
 	 * 일반회원 가입하기
 	 * @param 사용자가 입력한 정보가 들어있는 MemberVO 객체
 	 */
-	void saveNormalMember(MemberVO input_member) throws Throwable;
+	void saveNormalMember(Map<String,String> paraMap) throws Throwable;
 
+	
+	/**
+	 * 교육기관회원 회원 가입하기
+	 * @param 사용자가 입력한 정보가 들어있는 MemberVO 객체
+	 */
+	void saveAcademyMember(Map<String, String> paraMap);
+	
 
 	/**
 	 * 계정 삭제하기
@@ -50,6 +57,14 @@ public interface InterMemberService {
 	String sendEmailByMyId(String email,HttpServletRequest request);
 
 
+	/**
+	 * 회원가입이메일 인증코드 전송
+	 * @param 사용자의 이메일
+	 * @return 이메일 성공여부가 담겨있는 JSON형식 String
+	 */
+	String sendEmailCertificationCode(String email, HttpServletRequest request);
+	
+	
 	/**
 	 * 이메일 값으로 회원 아이디 알아내기
 	 * @param email
@@ -98,6 +113,12 @@ public interface InterMemberService {
 	 * @return
 	 */
 	ActivityVO getActivitiesByBoard(String nickname);
+
+
+	
+
+
+	
 
 
 

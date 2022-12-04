@@ -288,6 +288,7 @@ public class BoardController {
 		int board_num = 3;// 글번호(해시태그 있는 글번호 임시 설정)
 		BoardVO academy = service.getBoardDetail(boardNum);	//하나의 글 불러오기(학원게시판)
 		
+		//확인용
 		System.out.println(academy);
 		
 		request.setAttribute("academy", academy);

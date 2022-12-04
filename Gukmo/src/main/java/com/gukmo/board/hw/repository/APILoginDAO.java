@@ -83,6 +83,23 @@ public class APILoginDAO implements InterAPILoginDAO{
 			}//end of try-catch--
 		}
 	}
+	
+	/**
+	 * 페이스북연동유저로 바꾸기(update)
+	 */
+	@Override
+	public void setFacebookConnection(Map<String, Object> paramMap) {
+		int result = gukmo_sql.update("chw.setFacebookConnection",paramMap);
+		if(result == 1) {	//업데이트에 성공하였다면
+			return;
+		} else {	//업데이트에 실패하였다면(임시로 일부러 오류낸거임)
+			try {
+				Integer.parseInt("오류");
+			} catch(NumberFormatException e) {
+				System.out.println("페이스북로그인 실패하였습니다. DB를 확인해주세요");
+			}//end of try-catch--
+		}
+	}
 
 
 	
@@ -94,10 +111,9 @@ public class APILoginDAO implements InterAPILoginDAO{
 	 */
 	@Override
 	public int nicknameDuplicateCheck(String nickname) {
-		int nickname_cnt1 = gukmo_sql.selectOne("chw.nicknameExistCheck1",nickname);	//일반회원
-		int nickname_cnt2 = gukmo_sql.selectOne("chw.nicknameExistCheck2",nickname);	//교육기관회원
+		int nickname_cnt = gukmo_sql.selectOne("chw.nicknameExistCheck",nickname);	//일반회원
 		
-		return nickname_cnt1+nickname_cnt2;
+		return nickname_cnt;
 	}
 
 	
@@ -135,6 +151,8 @@ public class APILoginDAO implements InterAPILoginDAO{
 		MemberVO user = gukmo_sql.selectOne("chw.getUser",userid);
 		return user;
 	}
+
+	
 
 	
 	

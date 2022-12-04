@@ -55,7 +55,13 @@ input.input_signup{
   outline: none;
   border:solid 1px #DEE2E6;
 }
-input.input_signup::placeholder{
+input.input_company_num{
+  width:100px;
+  height:40px;
+  outline: none;
+}
+input.input_signup::placeholder,
+input.input_company_num::placeholder{
   font-size:small;
 }
 

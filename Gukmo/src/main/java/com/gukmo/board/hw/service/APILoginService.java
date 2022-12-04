@@ -45,11 +45,19 @@ public class APILoginService implements InterAPILoginService{
 	}
 	
 	/**
-	 * 네이버연동유저로 바꾸기(update)
+	 * 구글연동유저로 바꾸기(update)
 	 */
 	@Override
 	public void setGoogleConnection(Map<String, Object> paramMap) {
 		dao.setGoogleConnection(paramMap);
+	}
+	
+	/**
+	 * 페이스북연동유저로 바꾸기(update)
+	 */
+	@Override
+	public void setFacebookConnection(Map<String, Object> paramMap) {
+		dao.setFacebookConnection(paramMap);
 	}
 	
 	
@@ -62,7 +70,7 @@ public class APILoginService implements InterAPILoginService{
 	public boolean nicknameExist(String nickname) {
 		int result = dao.nicknameDuplicateCheck(nickname);
 		
-		if(result != 1) {	//닉네임이 존재하지 않는다면
+		if(result > 0) {	//닉네임이 존재하지 않는다면
 			return false;
 		}
 		else {				//닉네임이 존재한다면
@@ -113,6 +121,9 @@ public class APILoginService implements InterAPILoginService{
 		MemberVO user = dao.getUser(userid);
 		return user;
 	}
+
+
+	
 
 
 	

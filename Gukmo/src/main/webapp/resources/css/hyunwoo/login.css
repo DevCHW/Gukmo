@@ -26,7 +26,11 @@ p#about_content{
 div.sns_login{
   cursor: pointer;
   height:38px;
-  width: 30%;
+  width: 50px;
+}
+div.sns_login img{
+  width : 40px;
+  height: 40px;
 }
 svg{
   width: 20px;

@@ -112,7 +112,7 @@
         <div class="d-flex justify-content-between align-items-center my-2">
           <div class="d-flex align-items-center">
             <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 변수 말고 아예 값 박아도 됨--%>
-            <div class="detail_category border rounded px-2 py-1">
+            <div class="detail_category border rounded px-2 py-1" onclick="location.href='<%=ctxPath %>/academy/academies.do'">
             	  ${board.detail_category}
             </div>
             <div class="hashtag ml-1">
@@ -164,7 +164,7 @@
       </div>
 
       <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/new.do'">
-        <i class="fa-sharp fa-solid fa-plus"></i><span>학원등록하기</span>
+        <i class="fa-sharp fa-solid fa-plus"></i><span>학원등록</span>
       </button>
     </div>
 
