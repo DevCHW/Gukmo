@@ -723,8 +723,13 @@ public class memberManageController {
 		
 	}
 	
-	
-	
+
+	@RequestMapping(value="/admin/admin_main.do")
+	public String admin_main(HttpServletRequest request, HttpServletResponse response) {
+		
+		return "admin/admin_main.tiles1";
+	}
+
 	
 	
 	
@@ -927,8 +932,7 @@ public class memberManageController {
 	      return paraMap;
 	   }
 	   
-	   
-	   
+
 	   
 	   
 	   
