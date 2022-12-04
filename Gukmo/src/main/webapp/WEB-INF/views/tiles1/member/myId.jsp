@@ -43,8 +43,38 @@
       </span>
       <i class="fa-solid fa-envelope"></i>
 
-
+		
+	  <br>
       <hr>
+      <br>
+	  
+	  <h5 class="guide_title">비밀번호 변경</h5>
+	  <div class="px-2 py-2">
+	    <div class="d-flex flex-column w-50">
+	      <%-- 비밀번호 입력란 --%>
+	      <label for="passwd" class="label_update">비밀번호</label>
+	      <input type="password" id="passwd" name="passwd" class="input_update_passwd rounded pl-2 w-100" placeholder="소문자,특수문자를 포함한 8~15자 비밀번호">
+	      <p id="passwd_error" class="error">비밀번호는 소문자,특수문자를 포함한 8~15자이어야 합니다.</p>
+	      
+	      <%-- 비밀번호 확인란 --%>
+	      <label for="passwd_check" class="label_update mt-3">비밀번호 확인</label>
+	      <input type="password" id="passwd_check" name="passwd_check" class="input_update_passwd rounded pl-2 w-100" placeholder="비밀번호 확인">
+	      <p id="passwd_check_error" class="error">비밀번호가 일치하지 않습니다.</p>
+	    </div>
+	    
+	    <div class="d-flex justify-content-between align-items-center">
+	      <span class="guide_content">
+	      	<i class="fa-solid fa-circle-info"></i>
+        	비밀번호는 3개월마다 1번씩 변경하는것을 권장합니다.
+      	  </span>
+	      <button type="button" id="btn_edit_passwd" class="btn border rounded" disabled>비밀번호 변경</button>
+	    </div>
+	  </div>
+	  
+		
+	  <br>
+      <hr>
+      <br>
 
       <h5 class="guide_title">계정삭제</h5>
       <div class="border rounded px-2 py-2">

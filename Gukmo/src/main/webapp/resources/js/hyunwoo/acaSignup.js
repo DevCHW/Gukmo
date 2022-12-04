@@ -119,7 +119,7 @@ $(document).ready(function(){
 
     $("div#certification_area").css("display","flex");
     $("input#input_certificationCode").focus();
-    $("span#send_guide").html(`입력하신 이메일 ${email}로 <br>
+    $("span#send_guide").html(`입력하신 이메일 <span style="font-weight:bold; font-size:14px; color:black;">${email}</span>(으)로 <br>
                               	인증번호를 전송하였습니다.`);
 
     if($("button#btn_send_email").text() == "재전송"){  //재전송을 하였을 경우
@@ -151,7 +151,7 @@ $(document).ready(function(){
         $("button#btn_email_certification").attr("disabled",true); //이메일인증 버튼 비활성화
         $("button#btn_email_certification").css("background","#EBEBEB");
         $("button#btn_email_certification").css("color","white");
-        
+        clearInterval(setTimer);
         $("button[data-dismiss='modal']").trigger("click");	//이메일인증 모달창 닫기
       }
       else{ //이메일 인증실패시

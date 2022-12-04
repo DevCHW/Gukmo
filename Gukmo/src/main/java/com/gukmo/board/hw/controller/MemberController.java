@@ -82,16 +82,9 @@ public class MemberController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/member/idExistCheck.do", method= {RequestMethod.POST})
-	public String idExistCheck(HttpServletRequest request) {
-		String userid = request.getParameter("userid");
-		
+	public String idExistCheck(@RequestParam String userid, HttpServletRequest request) {
 		boolean idExist = true;
-		if("admin".equals(userid)) {
-			idExist = true;
-		}
-		else {
-			idExist = dao.idExistCheck(userid);
-		}
+		idExist = dao.idExistCheck(userid);
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("idExist", idExist);
 		
@@ -106,8 +99,8 @@ public class MemberController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/member/nicknameExistCheck.do", method= {RequestMethod.POST})
-	public String nicknameExistCheck(HttpServletRequest request) {
-		String nickname = request.getParameter("nickname");
+	public String nicknameExistCheck(@RequestParam String nickname, HttpServletRequest request) {
+		
 		boolean nicknameExist = dao.nicknameExistCheck(nickname);
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("nicknameExist", nicknameExist);
@@ -124,8 +117,7 @@ public class MemberController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/member/emailExistCheck.do", method= {RequestMethod.POST})
-	public String emailExistCheck(HttpServletRequest request) {
-		String email = request.getParameter("email");
+	public String emailExistCheck(@RequestParam String email, HttpServletRequest request) {
 		boolean emailExist = dao.emailExistCheck(email);
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("emailExist", emailExist);
@@ -140,8 +132,7 @@ public class MemberController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/member/academyNameExistCheck.do", method= {RequestMethod.POST})
-	public String academyNameExistCheck(HttpServletRequest request) {
-		String academyName = request.getParameter("academyName");
+	public String academyNameExistCheck(@RequestParam String academyName, HttpServletRequest request) {
 		boolean academyNameExist = dao.academyNameExistCheck(academyName);
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("academyNameExist", academyNameExist);
@@ -163,7 +154,7 @@ public class MemberController {
 		//확인용 회원가입 시도한 회원정보
 		System.out.println("회원가입 시도한 회원정보 :" + paraMap);
 		
-		if(paraMap.get("academy_name") != null || "".equals(paraMap.get("academy_name").trim())) {	//교육기관회원 가입인경우
+		if(paraMap.get("academy_name") != null && !"".equals(paraMap.get("academy_name"))) {	//교육기관회원 가입인경우
 			service.saveAcademyMember(paraMap);
 		} else {	//일반회원 가입인 경우
 			service.saveNormalMember(paraMap);
@@ -520,13 +511,8 @@ public class MemberController {
 	 * 계정찾기 비밀번호 변경 해주기
 	 */
 	@RequestMapping(value="/member/editPasswd.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String editPasswd(HttpServletRequest request) {
-		String userid = request.getParameter("userid");
-		String passwd = request.getParameter("passwd");
-		Map<String,String> paraMap = new HashMap<>();
+	public String editPasswd(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
 		
-		paraMap.put("userid", userid);
-		paraMap.put("passwd", passwd);
 		int result = service.editPasswd(paraMap);	//DB에 가서 비밀번호 변경하기.
 		String message ="";
 		String loc = "";
@@ -620,6 +606,71 @@ public class MemberController {
 		jsonObj.put("activities", activities);
 		return jsonObj.toString();
 	}
+	
+	
+	
+	
+	
+	/**
+	 * 이메일 변경시 업데이트해주기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/editEmail.do", method= {RequestMethod.POST})
+	public String editEmail(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		paraMap.put("userid",user.getUserid());
+		
+		boolean editEmailSuccess = service.editEmail(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("editEmailSuccess", editEmailSuccess);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
+	/**
+	 * 비밀번호 변경시 업데이트해주기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/editPasswdWithUserid.do", method= {RequestMethod.POST})
+	public String editPasswdWithUserid(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		//로그인되어있는 userid 값 넣어주기
+		paraMap.put("userid",user.getUserid());
+		
+		boolean editPasswdSuccess = service.editPasswdWithUserid(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("editPasswdSuccess", editPasswdSuccess);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	/**
+	 * 기존비밀번호와 같은지 확인하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/samePasswdCheck.do", method= {RequestMethod.POST})
+	public String samePasswdCheck(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		paraMap.put("userid",user.getUserid());
+		
+		boolean samePasswd = service.samePasswdCheck(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("samePasswd", samePasswd);
+		
+		return jsonObj.toString();
+	}
+	
 	
 	
 	

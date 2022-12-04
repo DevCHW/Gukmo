@@ -98,13 +98,13 @@ public interface InterMemberDAO {
 
 	/**
 	 * 계정찾기 비밀번호 변경 해주기
-	 * @param email,passwd 인풋값
+	 * @param userid,passwd 인풋값
 	 * @return 성공여부 result
 	 */
 	int editPasswd(Map<String, String> paraMap);
 
-
-
+	
+	
 	/**
 	 * 프사첨부를 안했을경우 회원정보 수정
 	 */
@@ -131,6 +131,24 @@ public interface InterMemberDAO {
 	 * @return
 	 */
 	ActivityVO getActivitiesByBoard(String nickname);
+
+
+	
+	/**
+	 * 이메일 변경시 업데이트해주기
+	 */
+	int editEmail(Map<String,String> paraMap);
+
+
+	/**
+	 * 기존비밀번호와 같은지 확인하기
+	 * @param 사용자가 입력한 passwd,로그인된 userid
+	 * @return 값이 있으면 1 , 없다면 0
+	 */
+	int samePasswdCheck(Map<String, String> paraMap);
+
+
+	
 
 
 	

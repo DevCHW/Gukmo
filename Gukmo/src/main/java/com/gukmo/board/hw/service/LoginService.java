@@ -61,6 +61,7 @@ public class LoginService implements InterLoginService{
 		return status;
 	}
 
+	
 
 	/**
 	 * 회원 아이디,비밀번호 검사
@@ -75,18 +76,6 @@ public class LoginService implements InterLoginService{
 	}
 	
 	
-	
-	/**
-	 * 관리자 로그인 검사
-	 * @param 유저가 입력한 관리자아이디, 유저가 입력한 비밀번호
-	 * @return 관리자 아이디,비밀번호를 맞게 입력하였다면 true, 아니라면 false 반환
-	 */
-	@Override
-	public boolean adminExistCheck(Map<String, String> paraMap) {
-		paraMap.put("passwd",Sha256.encrypt(paraMap.get("passwd")));	//비밀번호 단방향 암호화해서 덮어씌우기
-		boolean userExist = dao.adminExistCheck(paraMap);
-		return userExist;
-	}
 
 	
 	
@@ -97,8 +86,20 @@ public class LoginService implements InterLoginService{
 	 */
 	@Override
 	public MemberVO login_complete(Map<String, String> paraMap) {
-		dao.loginRecordSave(paraMap);	//로그인 기록테이블에 기록하기
-		return dao.getUser(paraMap.get("userid"));
+		MemberVO user = dao.getUser(paraMap.get("userid"));
+		int result = 0;
+		if("관리자".equals(user.getAuthority())) {	//로그인한 회원이 관리자라면
+			result = dao.adminLoginRecordSave(paraMap);
+		}
+		else {
+			result = dao.loginRecordSave(paraMap);	//로그인 기록테이블에 기록하기
+		}
+		
+		if(result != 1) {	//로그인 기록에 실패했을시 오류내기
+			Integer.parseInt("로그인기록에 실패하였습니다. tbl_login_record를 확인해주세요");
+		}
+		return user;
+		
 	}
 
 

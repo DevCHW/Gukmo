@@ -13,12 +13,6 @@ public interface InterLoginDAO {
 	 */
 	boolean userExistCheck(Map<String,String> paraMap);
 
-	/**
-	 * 관리자 로그인 검사
-	 * @param 유저가 입력한 관리자아이디, 유저가 입력한 비밀번호
-	 * @return 관리자 아이디,비밀번호를 맞게 입력하였다면 true, 아니라면 false 반환
-	 */
-	boolean adminExistCheck(Map<String, String> paraMap);
 	
 	/**
 	 * 로그인되어질 회원의 상태 체크하기(정지,휴면,승인여부,비밀번호 변경시점 3개월)
@@ -63,9 +57,14 @@ public interface InterLoginDAO {
 	 * 로그인 기록테이블에 로그인 기록하기
 	 * @param 유저아이디, 클라이언트 ip
 	 */
-	void loginRecordSave(Map<String, String> paraMap);
+	int loginRecordSave(Map<String, String> paraMap);
 
-	void adminLoginRecordSave(Map<String, String> paraMap);
+	
+	/**
+	 * 관리자 로그인 기록테이블에 로그인 기록하기
+	 * @param 유저아이디, 클라이언트 ip
+	 */
+	int adminLoginRecordSave(Map<String, String> paraMap);
 
 
 	

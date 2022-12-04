@@ -11,6 +11,7 @@ import com.gukmo.board.model.MemberVO;
 
 @Repository
 public class LoginDAO implements InterLoginDAO{
+	
 	@Resource
 	private SqlSessionTemplate gukmo_sql;
 	
@@ -34,23 +35,6 @@ public class LoginDAO implements InterLoginDAO{
 	}
 	
 	
-	/**
-	 * 관리자 로그인 검사
-	 * @param 유저가 입력한 관리자아이디, 유저가 입력한 비밀번호
-	 * @return 관리자 아이디,비밀번호를 맞게 입력하였다면 true, 아니라면 false 반환
-	 */
-	@Override
-	public boolean adminExistCheck(Map<String, String> paraMap) {
-		int admin_cnt = gukmo_sql.selectOne("chw.adminExistCheck",paraMap);
-		boolean userExist = false;
-		if(admin_cnt == 1) {	//해당유저 갯수가 1 이라면
-			userExist = true;
-		}
-		else if(admin_cnt == 0){	//해당 유저 갯수가 0 이라면
-			userExist = false;
-		}
-		return userExist;
-	}
 
 	
 	/**
@@ -122,18 +106,20 @@ public class LoginDAO implements InterLoginDAO{
 	 * @param 유저아이디, 클라이언트 ip
 	 */
 	@Override
-	public void loginRecordSave(Map<String, String> paraMap) {
-		gukmo_sql.insert("chw.loginRecordSave",paraMap);
+	public int loginRecordSave(Map<String, String> paraMap) {
+		int result = gukmo_sql.insert("chw.loginRecordSave",paraMap);
+		return result;
 	}
 
+	
 	/**
 	 * 관리자로그인 기록테이블에 로그인 기록하기
 	 * @param 관리자아이디, 클라이언트 ip
 	 */
 	@Override
-	public void adminLoginRecordSave(Map<String, String> paraMap) {
-		gukmo_sql.insert("chw.adminloginRecordSave",paraMap);
-		
+	public int adminLoginRecordSave(Map<String, String> paraMap) {
+		int result = gukmo_sql.insert("chw.adminloginRecordSave",paraMap);
+		return result;
 	}
 
 
