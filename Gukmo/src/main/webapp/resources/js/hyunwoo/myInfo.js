@@ -80,6 +80,9 @@ $(document).ready(function(){
 
 
 //Function Declaration
+/**
+ * 정보수정한 회원 수정해주기
+ */
 function saveMember(){
     
     let queryString = $("form[name=myInfoFrm]").serialize();
@@ -104,3 +107,6 @@ function saveMember(){
    });
     $("form[name=myInfoFrm]").submit();
 }//end of method--
+
+
+

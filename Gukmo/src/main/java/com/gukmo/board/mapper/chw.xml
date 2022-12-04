@@ -49,6 +49,17 @@
 	</insert>
 	
 	
+	
+	
+	<!-- 멤버테이블에 이메일변경시 update -->
+	<update id="editEmail" parameterType="HashMap">
+		update tbl_member set email = #{email} 
+		where userid = #{userid}
+	</update>
+	
+	
+	
+	
 	<!-- 교육기관멤버테이블에 회원가입정보 insert -->
 	<insert id="insert_academy_member" parameterType="HashMap">
 		insert into tbl_academy_member(fk_userid, academy_name, company_num, tel, homepage)
@@ -104,8 +115,23 @@
 	
 	
 	
-	<!-- 계정찾기이후 이메일에서 계정찾기 링크를 클릭하면 나오는 비밀번호 변경페이지 매핑 -->
+	<!-- 비밀번호를 변경할 때 기존비밀번호와 같은지 체크하기 -->
+	<select id="samePasswdCheck" parameterType="HashMap" resultType="Integer">
+		select count(*) from tbl_member_login
+		where userid = #{userid} and passwd = #{passwd}
+	</select>
+	
+	
+	
+	<!-- 계정찾기 비밀번호 변경 해주기 -->
 	<update id="editPasswd" parameterType="HashMap">
+		update tbl_member_login set passwd = #{passwd}
+		where userid = #{userid}
+	</update>
+	
+	
+	<!-- 마이페이지에서 비밀번호 변경 시 업데이트 해주기 -->
+	<update id="editPasswdWithUserid" parameterType="HashMap">
 		update tbl_member_login set passwd = #{passwd}
 		where userid = #{userid}
 	</update>
@@ -142,11 +168,6 @@
 		where userid = #{userid} and passwd = #{passwd}
 	</select>
 	
-	<!-- 어드민 로그인 성공여부 검사 -->
-	<select id="adminExistCheck" parameterType="HashMap" resultType="Integer">
-		select count(admin_id) from tbl_admin_login
-		where admin_id = #{userid} and passwd = #{passwd}
-	</select>
 	
 	
 	<!-- 회원의 상태 얻기 -->
@@ -199,20 +220,22 @@
 		       V.kakao,
 		       V.naver,
 		       V.google,
+		       V.facebook,
+		       V.authority,
 		       C.academy_name,
 		       C.company_num,
 		       C.homepage,
 		       C.tel
 		from
 			(
-				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver
+				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook,authority
 				from
 				(
-				select userid from tbl_member_login 
-				where userid = #{userid} 
+					select userid from tbl_member_login 
+					where userid = #{userid} 
 				)A
 				left join
-				tbl_member B
+					tbl_member B
 				on A.userid = B.fk_userid
 			) V
 			left join
@@ -406,9 +429,19 @@
 	
 	<!-- 공지사항 총 갯수 얻기 -->
 	<select id="getTotalNoticesCount" parameterType="HashMap" resultType="Integer">
-		select count(*)
-		from tbl_board
-		where category='공지사항'
+		
+		<if test='searchWord != ""'>
+			select count(*)
+			from tbl_board
+			where category='공지사항' and detail_category='공지사항'
+			and lower(subject) like '%'|| lower(#{searchWord}) ||'%'
+		</if>
+		
+		<if test='searchWord == ""'>
+			select count(*)
+			from tbl_board
+			where category='공지사항' and detail_category='공지사항'
+		</if>
 	</select>
 	
 	
@@ -667,6 +700,76 @@
 	
 	<!--================================================================================================================================-->
 	<!--====================================================== Board 끝 =================================================================-->
+	<!--================================================================================================================================-->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--================================================================================================================================-->
+	<!--====================================================== Search 시작 =================================================================-->
+	<!--================================================================================================================================-->
+	
+	<!-- 검색어로 검색한 결과물의 갯수 알아오기 -->
+	<select id="getResultByKeyword" parameterType="HashMap" resultType="Integer">
+		select count(subject)
+		from (select lower(subject) subject ,detail_category from tbl_board) V
+		where subject like '%'|| lower(#{keyword}) ||'%' and detail_category = #{detail_category}
+	</select>
+	
+	
+	
+	
+	<!-- ip로 가장 최근 로그인한 아이디 값 알아내기 -->
+	<select id="getUseridWithIp" parameterType="String" resultType="String">
+		select fk_userid
+	    from
+		    (
+		    select rownum rno,fk_userid
+		    from
+		    (
+			    select fk_userid
+			    from tbl_login_record
+			    where login_ip = '0:0:0:0:0:0:0:1'
+			    order by login_date desc
+		    ) V
+	    ) T
+	    where rno = 1
+	</select>
+	
+	<!-- 검색어로 검색한 결과물의 갯수 알아오기 -->
+	<insert id="saveKeyWord" parameterType="HashMap">
+		<if test='userid == ""'>
+			insert into tbl_search(search_num,keyword,search_date,search_ip)
+			values(seq_search.nextval,#{keyword},sysdate,#{search_ip})
+		</if>
+		
+		<if test='userid != ""'>
+			insert into tbl_search(search_num,keyword,search_date,search_ip,userid)
+			values(seq_search.nextval,#{keyword},sysdate,#{search_ip},#{userid})
+		</if>
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	<!--================================================================================================================================-->
+	<!--====================================================== Search 끝=================================================================-->
 	<!--================================================================================================================================-->
 	
 	

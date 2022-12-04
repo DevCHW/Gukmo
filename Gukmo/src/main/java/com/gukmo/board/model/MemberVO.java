@@ -28,6 +28,9 @@ public class MemberVO {
 	private String naver;				//네이버 연동여부
 	private String google;				//구글 연동여부
 	private String facebook;			//페이스북 연동여부
+	
+	// 관리자 확인용 field
+	private String authority;			//권한여부 default"일반회원", 관리자일경우 "관리자"
 
 
 	// 기본 생성자 일부러 protected로 막음
@@ -40,7 +43,7 @@ public class MemberVO {
 	public MemberVO(String userid, String passwd, String status, String update_passwd_date, String email,
 			String email_acept, String nickname, String point, String join_date, String profile_image,
 			String academy_name, String company_num, String homepage, String tel, String username, String kakao,
-			String naver, String google, String facebook) {
+			String naver, String google, String facebook, String authority) {
 		this.userid = userid;
 		this.passwd = passwd;
 		this.status = status;
@@ -60,6 +63,7 @@ public class MemberVO {
 		this.naver = naver;
 		this.google = google;
 		this.facebook = facebook;
+		this.authority = authority;
 	}
 	
 	
@@ -160,6 +164,10 @@ public class MemberVO {
 	public String getFacebook() {
 		return facebook;
 	};
+	
+	public String getAuthority() {
+		return authority;
+	}
 	
 	
 	
