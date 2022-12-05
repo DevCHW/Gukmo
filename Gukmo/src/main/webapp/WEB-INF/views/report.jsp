@@ -63,7 +63,7 @@
   
   	 <div class="mt-3">
   	  <h5>사유선택</h5>
-      <label for="detail_category" class="community_label">구분</label>
+      <label for="detail_category" class="community_label pr-2">구분</label>
       <select name="simple_penalty_reason" id="simple_penalty_reason" class="pl-2 border rounded">
 	       <option value="">신고사유</option>
 	       <option>스팸홍보/도배글입니다.</option>

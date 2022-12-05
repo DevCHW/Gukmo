@@ -108,6 +108,10 @@ public class BoardVO {
 		return content;
 	}
 
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 
 
    public String getWrite_date() {
@@ -209,6 +213,7 @@ public class BoardVO {
 				+ ", writer_point=" + writer_point + ", academy=" + academy + ", curriculum=" + curriculum
 				+ ", hashtags=" + hashtags + ", comment=" + comment + "]";
 	}
+
 
 
 	

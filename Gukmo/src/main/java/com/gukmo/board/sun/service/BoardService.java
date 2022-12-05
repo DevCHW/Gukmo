@@ -68,13 +68,11 @@ public class BoardService implements InterBoardService{
             // 등록된 태그가 아니라면 태그부터 추가
             if (hashtagvo == null) {
             	dao.saveHashTag(hashTag);
-            	System.out.println("null 해시태그브이오");
             }
             
             // 태그-보드 매핑 테이블에 데이터 추가
             hashtagvo = dao.findHashtag(hashTag);
             int hashtag_num = hashtagvo.getHashtag_num();
-           System.out.println("hashtag_num" + hashtag_num);
            
             dao.upHashTagCount(hashtag_num); // 언급 카운트 올리기
             
@@ -91,7 +89,7 @@ public class BoardService implements InterBoardService{
 
 	// 특정 게시글 내용 가져오기
 	@Override
-	public BoardVO getBoardDetail(Map<String, String> paraMap) {
+	public BoardVO getBoardDetail(Map<String, Object> paraMap) {
 		BoardVO boardvo = dao.getBoardDetail(paraMap); // 글1개 조회하기
 		return boardvo;
 	}
@@ -99,19 +97,43 @@ public class BoardService implements InterBoardService{
 
 	// 게시글 수정
 	@Override
-	public int edit(BoardVO boardvo) {
-		int n = dao.edit(boardvo);
+	public int modify(BoardVO boardvo) {
+		int n = dao.modify(boardvo);
 		return n;
 	}
 
 
+
+
+	// 해시태그 수정시 기존 해시태그 삭제
+	@Override
+	public int hashTagDel(String board_num) {
+		int n = dao.hashTagDel(board_num);
+		return n;
+	}
+
+	
 	// 게시글 삭제
 	@Override
-	public int del(Map<String, String> paraMap) {
-		int n = dao.del(paraMap);
-		return n;
-	}
+	public int boardDel(Map<String, Object> paraMap) {
+		int n1=0,n2 = 0,n3 = 0;
+		String board_num = (String) paraMap.get("board_num");
 
+		n1 = dao.hashTagDel(board_num);
+		System.out.println("n1성공"+n1);
+		
+		n2 = dao.activityDel(paraMap);
+		System.out.println("n2성공"+n2);
+	
+		n3 = dao.boardDel(paraMap);
+		System.out.println("n3성공"+n3);
+		
+		n3 = dao.pointMinus(paraMap);
+		System.out.println("n3성공"+n3);
+
+		
+		return n3;
+	}
 
 	
 }

@@ -36,13 +36,22 @@ public interface InterBoardDAO {
 	int hashtagBoardMapping(Map<String, Object> paraMap);
 
 	// 특정 게시글 내용 가져오기
-	BoardVO getBoardDetail(Map<String, String> paraMap);
+	BoardVO getBoardDetail(Map<String, Object> paraMap);
 
 	// 게시글 수정
-	int edit(BoardVO boardvo);
+	int modify(BoardVO boardvo);
 
 	// 게시글 삭제
-	int del(Map<String, String> paraMap);
+	int boardDel(Map<String, Object> paraMap);
+
+	// 해시태그 수정시 기존 해시태그 삭제
+	int hashTagDel(String board_num);
+
+	// 활동테이블에서 활동내역지우기
+	int activityDel(Map<String, Object> paraMap);
+
+	// 포인트 차감
+	int pointMinus(Map<String, Object> paraMap);
 
 	
 	

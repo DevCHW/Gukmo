@@ -25,6 +25,7 @@ import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.sun.repository.InterBoardDAO;
 import com.gukmo.board.sun.service.InterBoardService;
+import com.gukmo.board.common.MyUtil;
 
 
 @Controller
@@ -394,6 +395,7 @@ public class BoardController {
 	@RequestMapping(value="/community/newEnd.do", method= {RequestMethod.POST})
 	public ModelAndView pointPlusActivityLog_communityNewEnd(Map<String, Object> paraMap, BoardVO boardvo, HttpServletRequest request, ModelAndView mav) {  // <== After Advice(활동점수 올리기)
 		
+		boardvo.setContent(MyUtil.secureCode(boardvo.getContent()));
 		int n = service.communityNew(boardvo);
 		
 		if(n==1) {
@@ -402,8 +404,9 @@ public class BoardController {
 
 			// 해시태그 리스트 만들기
 			String str_hashTag = request.getParameter("str_hashTag");
+			
 			if(str_hashTag != null) {
-				// System.out.println("str_해시태그" + str_hashTag);
+				
 				List<String> hashTags = Arrays.asList(str_hashTag.split(","));
 				// 해시태그 처리 시작
 				boolean success = service.saveTag(hashTags, board_num);
@@ -438,14 +441,14 @@ public class BoardController {
 	
 	
 	// 게시글 수정페이지 요청
-	@RequestMapping(value="/community/edit.do", method= {RequestMethod.GET})
-	public String requiredLogin_communityEdit(HttpServletRequest request, HttpServletResponse response) { 
+	@RequestMapping(value="/community/modify.do", method= {RequestMethod.GET})
+	public String requiredLogin_communityModify(HttpServletRequest request, HttpServletResponse response) { 
 			
 		// 글 수정해야 할 글번호 가져오기
-		String board_num = request.getParameter("board_num");
+		String board_num = request.getParameter("boardNum");
 		
 		// 글 내용 가져오기
-		Map<String, String> paraMap = new HashMap<>();
+		Map<String, Object> paraMap = new HashMap<>();
 		paraMap.put("board_num", board_num);
 		BoardVO boardvo = service.getBoardDetail(paraMap);
 		
@@ -461,16 +464,38 @@ public class BoardController {
 		else {
 			// 자신의 글을 수정할 경우
 			request.setAttribute("boardvo",boardvo);
-			return "board/community/communityEdit.tiles1";
+			return "board/community/communityNew.tiles1";
 		}
 	}
 	
 	
 	// 게시글 수정 완료 요청
-	@RequestMapping(value="/community/edit.do", method= {RequestMethod.POST})
-	public String communityEditEnd(HttpServletRequest request, BoardVO boardvo) { 
+	@RequestMapping(value="/community/modify.do", method= {RequestMethod.POST})
+	public String communityModifyEnd(HttpServletRequest request, BoardVO boardvo) { 
 			
-		int n = service.edit(boardvo);
+		int n = service.modify(boardvo);
+		
+		if(n==1) {
+			
+			String board_num = boardvo.getBoard_num();
+			
+			n = service.hashTagDel(board_num); // 기존 해시태그 맵핑테이블에 있는 데이터 삭제
+			
+			String str_hashTag = request.getParameter("str_hashTag");
+			
+			if(str_hashTag != null) {
+				// System.out.println("str_해시태그" + str_hashTag);
+				List<String> hashTags = Arrays.asList(str_hashTag.split(","));
+				// 해시태그 처리 시작
+				boolean success = service.saveTag(hashTags, board_num);
+				if(success) {
+					System.out.println("해시태그 처리 함수 구동 성공");
+				}
+				else {
+					System.out.println("해시태그 처리 함수 구동 실패");
+				}
+			}
+		}
 		
 		if(n==0) {
 			request.setAttribute("message", "다시 시도해 주세요.");
@@ -478,22 +503,28 @@ public class BoardController {
 		}
 		else {
 			request.setAttribute("message", "글 수정 성공!!");
-			request.setAttribute("loc", request.getContextPath()+"/view.do?board_num="+boardvo.getBoard_num());
+			request.setAttribute("loc", request.getContextPath()+"/detail.do?boardNum="+boardvo.getBoard_num());
 		}
 		
 		return "msg";
 	}
 	
-	
+
+
+
+
+
 	// 글삭제 요청
 	@RequestMapping(value="/community/del.do")
 	public String requiredLogin_del(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		// 삭제해야 할 글번호 가져오기
-		String board_num = request.getParameter("board_num");
+		String board_num = request.getParameter("boardNum");
 		
-		Map<String, String> paraMap = new HashMap<>();
+		Map<String, Object> paraMap = new HashMap<>();
 		paraMap.put("board_num", board_num);
+
+		
 		BoardVO boardvo = service.getBoardDetail(paraMap);
 		
 		HttpSession session = request.getSession();
@@ -505,7 +536,11 @@ public class BoardController {
 			request.setAttribute("loc", "javascript:history.back()");
 		}
 		else {// 본인 글을 삭제하는 경우
-			int n = service.del(paraMap);
+			
+			paraMap.put("division", "게시글작성");// 활동내역용
+			paraMap.put("fk_userid",user.getUserid());
+			
+			int n = service.boardDel(paraMap);
 			
 			if(n==0) {
 				request.setAttribute("message", "글 삭제 실패!!");

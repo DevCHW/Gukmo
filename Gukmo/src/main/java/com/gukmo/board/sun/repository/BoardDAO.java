@@ -30,7 +30,6 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public int communityNew(BoardVO boardvo) {
 		int n = gukmo_sql.insert("sun.communityNew", boardvo);
-		System.out.println("글등록 성공 디에이오" + n);
 		return n;
 	}
 
@@ -70,7 +69,6 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public void saveHashTag(String hashTag) {
 		gukmo_sql.insert("sun.saveHashTag", hashTag);
-		System.out.println("1해시태그 추가 성공 일까 디에이오");
 	}
 
 
@@ -78,7 +76,6 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public void upHashTagCount(int hashtag_num) {
 		gukmo_sql.update("sun.upHashTagCount", hashtag_num);
-		System.out.println("2해시태그 카운트 성공 일까 디에이오");
 	}
 
 
@@ -86,30 +83,53 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public int hashtagBoardMapping(Map<String, Object> paraMap) {
 		int n = gukmo_sql.insert("sun.hashtagBoardMapping", paraMap);
-		System.out.println("3해시태그 mapping dao" + n);
 		return n;
 	}
 
 	
 	// 특정 게시글 내용 가져오기
 	@Override
-	public BoardVO getBoardDetail(Map<String, String> paraMap) {
+	public BoardVO getBoardDetail(Map<String, Object> paraMap) {
 		BoardVO boardvo = gukmo_sql.selectOne("sun.getBoardDetail", paraMap);
 		return boardvo;
 	}
 
 	// 게시글 수정
 	@Override
-	public int edit(BoardVO boardvo) {
-		int n = gukmo_sql.update("sun.edit", boardvo);
+	public int modify(BoardVO boardvo) {
+		int n = gukmo_sql.update("sun.modify", boardvo);
 		return n;
 	}
 
 
 	// 게시글 삭제
 	@Override
-	public int del(Map<String, String> paraMap) {
-		int n = gukmo_sql.delete("sun.del", paraMap);
+	public int boardDel(Map<String, Object> paraMap) {
+		int n = gukmo_sql.delete("sun.boardDel", paraMap);
+		return n;
+	}
+
+
+	// 해시태그 수정시 기존 해시태그 삭제
+	@Override
+	public int hashTagDel(String board_num) {
+		int n = gukmo_sql.delete("sun.hashTagDel", board_num);
+		return n;
+	}
+
+
+	// 활동테이블에서 활동내역지우기
+	@Override
+	public int activityDel(Map<String, Object> paraMap) {
+		int n = gukmo_sql.delete("sun.activityDel", paraMap);
+		return n;
+	}
+
+
+	// 포인트 차감
+	@Override
+	public int pointMinus(Map<String, Object> paraMap) {
+		int n = gukmo_sql.update("sun.pointMinus", paraMap);
 		return n;
 	}
 	
