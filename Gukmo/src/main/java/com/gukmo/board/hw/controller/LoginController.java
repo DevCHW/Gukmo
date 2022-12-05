@@ -20,6 +20,7 @@ import com.gukmo.board.model.MemberVO;
 
 @Controller
 public class LoginController {
+	
 	@Autowired
 	InterLoginService service;
 	@Autowired
@@ -58,13 +59,8 @@ public class LoginController {
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("passwd", passwd);
-		boolean userExist = false;
-		if("admin".equals(userid)) {	//사용자가 입력한 아이디가 admin이라면
-			userExist = service.adminExistCheck(paraMap);
-		}
-		else {
-			userExist = service.userExistCheck(paraMap);
-		}
+		
+		boolean userExist = service.userExistCheck(paraMap);
 			
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("userExist", userExist);
@@ -113,33 +109,7 @@ public class LoginController {
 		System.out.println("확인용 client_ip = " + paraMap.get("client_ip"));
 		
 		
-		MemberVO user = null;
-		if("admin".equals(request.getParameter("userid"))) {	//관리자로 로그인하였다면
-			String userid = request.getParameter("userid");
-			dao.adminLoginRecordSave(paraMap);					//관리자로그인기록하기
-			
-//			user = new MemberVO(userid, 						// 아이디
-//							    null, 							// 비밀번호	
-//							    "활동", 							// 상태
-//							    null, 							// 마지막비밀번호변경일자
-//							    null,							// 이메일
-//							    null, 							// 이메일 수신동의
-//							    "국비의모든것 관리팀",					// 닉네임 
-//							    "9999", 						// 활동점수
-//							    null, 							// 가입일자
-//							    "user.PNG",							// 프로필이미지
-//							    null, 							// 교육기관명
-//							    null,  							// 사업자번호
-//							    null,							// 홈페이지
-//							    null,							// 연락처
-//							    null,							// 회원 이름
-//							    "0",
-//							    "0",
-//							    "0");     					// 소셜로그인 여부
-		}
-		else {	//관리자가 아닌회원으로 로그인하였다면
-			user = service.login_complete(paraMap);
-		}
+		MemberVO user = service.login_complete(paraMap);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);

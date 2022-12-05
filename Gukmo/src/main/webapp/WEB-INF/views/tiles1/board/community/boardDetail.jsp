@@ -44,14 +44,14 @@
           <%-- 활동점수 --%>
           <div id="board_writer_point" class="mx-2">
             <i class="fa-solid fa-bolt"></i>
-            <span>0</span>
+            <span>${requestScope.board.writer_point}</span>
           </div>
 
           <span>·</span>
 
           <%-- 작성일자(형식은 약 ?분전, ?시간전, ?일전, ?년전) --%>
           <div id="board_write_date" class="mx-2">
-            1시간 전
+            ${requestScope.board.write_date}
           </div>
 
           <span>·</span>
@@ -59,7 +59,7 @@
           <%-- 조회수 --%>
           <div id="board_views" class="mx-2">
             <i class="fa-solid fa-eye"></i>
-            <span>0</span>
+            <span>${requestScope.board.views}</span>
           </div>
         </div>
       </div>
@@ -95,13 +95,24 @@
             <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
             </c:forEach>
             <%-- 해시태그리스트 반복문 끝--%>
-
-        <div id="board_like">
-          <%-- 게시글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-          <span>&#x1F497;</span>
-          <%-- 게시글 좋아요 갯수 --%>
-          <span>2</span>
-        </div>
+            
+            
+	       	<%-- 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+	        <c:if test="${empty sessionScope.userid || product.product_like_cnt == 0}">
+	            <div type="button" id="btn_like">
+	              <span id="like_icon">&#9825;</span>
+	              <span id="like_cnt">${board.like_cnt}</span>
+	            </div>
+	        </c:if>
+		          
+	       
+        
+            <input id="userid"  type="hidden" name="userid" value="${sessionScope.user.userid}"  />		
+            <input id="board_num"  type="hidden" name="board_num" value="${board.board_num}"  />		
+            <input id="nickname"  type="hidden" name="board_num" value="${sessionScope.user.nickname}"  />		
+        
+        
+        
       </div>
     </div>
     <%-------------------- 글 본문 끝 ------------------%>
@@ -112,13 +123,13 @@
         <%-- 이전글 a태그 href에 ?num=이전글번호--%>
         <div id="previous" class="my-2">
           <span>이전글 |</span>
-          <a href="?num=1">${requestScope.board.previoussubject}</a>
+          <a href="detail.do?boardNum=${requestScope.board.previousseq}">${requestScope.board.previoussubject}</a>
         </div>
   
         <%-- 다음글 a태그 href에 ?num=다음글번호--%>
         <div id="next" class="my-2">
           <span>다음글 |</span>
-          <a href="#">${requestScope.board.nextsubject}</a>
+          <a href="detail.do?boardNum=${requestScope.board.nextseq}">${requestScope.board.nextsubject}</a>
         </div>
       </div>
     </div>
@@ -146,24 +157,26 @@
       <span id="total_comment">1</span><span>개의 댓글</span>
     </div>
 
-    
+    <form name="addWriteFrm" id="addWriteFrm">
     <div id="write_comment_area" class="border rounded px-4 py-4">
       <div class="d-flex w-100">
         <div class="login_user_profile_img_box">
           <%-- 로그인되어있는 유저 프로필 이미지 --%>
           <img src="<%=ctxPath %>/resources/images/user.PNG"/>
         </div>
-  
+    
         <div class="ml-3 w-100">
           <div class="mb-1">내용</div>
           <textarea name="write_comment" id="write_comment" class="pl-2 py-2" rows="5"></textarea>
   
           <div class="d-flex justify-content-end mt-2">
-            <button class="btn btn-info" id="go_comment">댓글 쓰기</button>
+            <button class="btn btn-info" id="go_comment" onclick="goAddWrite()">댓글 쓰기</button>
           </div>
         </div>
+     
       </div>
     </div>
+    </form>   
     <%---------------------- 댓글쓰기 영역 끝 ----------------------%>
 
 
@@ -173,6 +186,7 @@
     <%---------------------- 댓글리스트 영역(반복문) 시작 ----------------------%>
 
     <%-- 댓글 반복문 시작 --%>
+    <c:forEach var="comment" items="${board.comment}">
     <div class="comment_area pb-4">
       <div class="comment px-3 py-4">
         <%-- 댓글작성자의 프로필이미지, 활동점수, 댓글작성일자 --%>
@@ -208,11 +222,23 @@
             <%-- 댓글 좋아요 갯수 --%>
             <span>2</span>
           </div>
+          <%-- 댓글 신고,수정,삭제 시작 --%>
+          <div id="comment_edit_delete_area" class="d-flex justify-content-between align-items-center">
+	        <span id="comment_btn_report">&#x1F6A8;</span>
+	        <div id="comment_mask"></div>
+	        <span id="comment_btn_more" class="border rounded px-2 py-1">&#8230;
+          		<div id="comment_update_or_delete" class="border rounded px-3 py-2">
+            	<span>수정하기</span>
+            	<span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+          		</div>
+          	</span>
+      	   </div>
+      	   <%-- 댓글 신고,수정,삭제 시작 --%>
         </div>
 
         <%-- 댓글내용 --%>
         <div class="comment_content my-3">
-          댓글내용 들어갈 곳
+          ${comment.content}
         </div>
 
         
@@ -254,7 +280,7 @@
             <%-- 로그인되어있는 유저 프로필 이미지 --%>
             <img src="<%=ctxPath %>/resources/images/user.PNG"/>
           </div>
-    
+          
           <div class="ml-3 w-100">
             <div class="mb-1">내용</div>
             <textarea name="write_comment2" id="write_comment2" class="pl-2 py-2" rows="5"></textarea>
@@ -264,6 +290,7 @@
               <button class="btn_big_comment_write btn btn-info">댓글 쓰기</button>
             </div>
           </div>
+          
         </div>
 
         <%----------------------------------- 대댓글 쓰기영역 끝 -----------------------------------%>
@@ -321,6 +348,7 @@
             </div>
           </div>
         </div>
+       
       <%----------------------------------- 대댓글리스트(반복문) 끝 -----------------------------------%>
 
       </div>
@@ -329,9 +357,12 @@
       
 
     </div>
+    </c:forEach>
+    <%--------------------댓글 반복문 끝 --------------------%>
     
   </div>
-  <%--------------------댓글 반복문 끝 --------------------%>
+   
+  
 
 
 

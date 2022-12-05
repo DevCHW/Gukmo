@@ -24,12 +24,15 @@ public interface InterBoardService {
 	int del(Map<String, String> paraMap);
 
 	
+
 	/**
-	 * 해시태그 불러오기
-	 * @param 글번호 board_num
-	 * @return BoardVO
+	 * 좋아요 처리하기
+	 * @param paraMap(글번호,userid)
 	 */
+	String likeProcess(Map<String, String> paraMap);
+
 	
+
 
 	
 }

@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gukmo.board.hgb.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
@@ -54,6 +57,40 @@ public class BoardService implements InterBoardService{
 		
 		return n;
 	}
+
+
+
+
+	
+	
+	/**
+	 * 좋아요 처리하기
+	 * @param paraMap(글번호,userid)
+	 */
+	@Override
+	public String likeProcess(Map<String, String> paraMap) {
+		int likeCnt = dao.likeCheck(paraMap);	//좋아요 체크하기
+		String likeResult = "";
+		int result = 0;
+		if(likeCnt > 0) {	//좋아요를 눌렀다면
+			result = dao.likeDelete(paraMap); //좋아요 테이블에 delete하기
+			likeResult = "delete";
+		} else {	//좋아요를 누르지 않았다면
+			result = dao.likeInsert(paraMap);	//좋아요 테이블에 insert하기
+			likeResult = "insert";
+		}
+		
+		if(result != 1) {	//delete나 insert 성공시
+			likeResult = "error";
+		}
+		
+		return likeResult;
+		
+	}
+
+
+	
+	
 
 
 

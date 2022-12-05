@@ -9,14 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.MyUtil;
@@ -51,13 +56,25 @@ public class BoardController {
 		}//end of try-catch--
 		
 		
+		HttpSession session = request.getSession();
 		
+		/*
+		
+		로그인 안했으면 아무것도안함
+		
+		로그인 했으면 좋아요 눌렀는지 체크
+		
+		*/
 		
 		
 //		int board_num = 3;// 글번호(해시태그 있는 글번호 임시 설정)
 		BoardVO board= service.getBoardDetail(boardNum);	//하나의 글 불러오기
 		
+		
+		//확인용 board
 		System.out.println(board);
+		
+		
 		request.setAttribute("board", board);
 		
 		
@@ -95,6 +112,44 @@ public class BoardController {
 		return mav;
 	}
 	
-	 
+	
+	/*
+	HttpSession session = request.getSession
+			MemberVO user = (MemberVO)session.getAttribuet("user")
+			
+			if user 가 널 이면
+			url
+			인덱스로 꺼져라
+			
+			
+			else {	//
+				String userid = user.getUserid()
+				int boardNum = request.getParameter  글번호
+				
+				
+			}
+	*/
+	
+	
+	
+	
+	// === 좋아요 === //
+	@ResponseBody
+	@RequestMapping(value="/likeProcess.do",method=RequestMethod.POST)
+	public String likeProcess(@RequestParam Map<String,String> paraMap,HttpServletRequest request) {				
+		//확인용 board_num,userid
+//		System.out.println(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {	//로그인을 안했다면
+			jsonObj.put("JavaData", "login");
+		} else {	//로그인중이라면
+			String likeResult = service.likeProcess(paraMap); //좋아요 처리하기
+			jsonObj.put("JavaData", likeResult);
+		}
+		
+		return jsonObj.toString();
+	}
 
 }

@@ -2,7 +2,6 @@ package com.gukmo.board.hw.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -196,6 +195,35 @@ public class MemberService implements InterMemberService{
 	
 	
 	/**
+	 * 기존비밀번호와 같은지 확인하기
+	 * @param 사용자가 입력한 passwd,로그인된 userid
+	 * @return 같다면 true, 없다면 false
+	 */
+	@Override
+	public boolean samePasswdCheck(Map<String, String> paraMap) {
+		paraMap.put("passwd", Sha256.encrypt(paraMap.get("passwd"))); //암호화 해서 다시 넣기
+		int result = dao.samePasswdCheck(paraMap);
+		
+		boolean samePasswd = result == 1?true:false;
+		return samePasswd;
+	}
+	
+	
+	/**
+	 * 마이페이지에서 비밀번호 변경 시 업데이트 해주기
+	 * @param 사용자가 입력한 비밀번호 값,로그인중인 유저의 아이디
+	 * @return 변경에 성공하면 true, 실패하면 false
+	 */
+	@Override
+	public boolean editPasswdWithUserid(Map<String, String> paraMap) {
+		paraMap.put("passwd", Sha256.encrypt(paraMap.get("passwd"))); //암호화 해서 다시 넣기
+		int result = dao.editPasswd(paraMap);
+		boolean editPasswdSuccess = result == 1?true:false;	//성공하면 true 실패하면 false
+		return editPasswdSuccess;
+	}
+	
+	
+	/**
 	 * 프사첨부를 안했을경우 회원정보 수정
 	 */
 	@Override
@@ -311,6 +339,29 @@ public class MemberService implements InterMemberService{
 		
 		return result1;
 	}
+
+	
+	
+	/**
+	 * 이메일 변경시 업데이트해주기
+	 * @return 변경에 성공하면 true, 실패하면 false
+	 */
+	@Override
+	public boolean editEmail(Map<String,String> paraMap) {
+		
+		int result = dao.editEmail(paraMap);
+		
+		boolean editEmailSuccess = result == 1?true:false;
+		
+		return editEmailSuccess;
+	}
+
+	
+	
+	
+
+	
+	
 
 
 

@@ -1,12 +1,16 @@
 package com.gukmo.board.hgb.repository;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gukmo.board.model.BoardVO;
 
@@ -52,6 +56,77 @@ public class BoardDAO implements InterBoardDAO{
 	public int del(Map<String, String> paraMap) {
 		int n = gukmo_sql.delete("hgb.del", paraMap);
 		return n;
+	}
+
+
+
+    // === 좋아요 체크하기
+	@Override
+	public List<String> like_exist(Map<String, String> paraMap) {
+		List<String> like_exist = gukmo_sql.selectList("hgb.like_exist", paraMap);
+		return like_exist;
+	}
+
+
+
+	/**
+	 * 좋아요 체크하기
+	 * @param paraMap(글번호,userid)
+	 * @return 좋아요 갯수
+	 */
+	@Override
+	public int likeCheck(Map<String, String> paraMap) {
+		int likeCnt = gukmo_sql.selectOne("hgb.likeCheck", paraMap);
+		return likeCnt;
+	}
+
+
+
+	/**
+	 * 좋아요 테이블에 delete하기
+	 * @param paraMap(글번호,userid)
+	 * @return 성공 1 실패 0
+	 */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int likeDelete(Map<String, String> paraMap) {
+		int result1 = gukmo_sql.delete("hgb.likeDelete", paraMap);
+		
+		//좋아요 개수 알아오기
+		int like_cnt = gukmo_sql.selectOne("hgb.getLike_cnt", paraMap);
+		like_cnt = like_cnt - 1;
+		
+		paraMap.put("like_cnt",like_cnt+"");
+		
+		//좋아요 1 뺀값 업데이트
+		int result2 = gukmo_sql.update("hgb.likeCntChange", paraMap);
+		
+		
+		return result1*result2;
+	}
+
+
+
+	/**
+	 * 좋아요 테이블에 insert하기
+	 * @param paraMap(글번호,userid)
+	 * @return 성공 1 실패 0
+	 */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int likeInsert(Map<String, String> paraMap) {
+		int result1 = gukmo_sql.insert("hgb.likeInsert", paraMap);
+		
+		//좋아요 개수 알아오기
+		int like_cnt = gukmo_sql.selectOne("hgb.getLike_cnt", paraMap);
+		like_cnt = like_cnt + 1;
+		
+		paraMap.put("like_cnt",like_cnt+"");
+		
+		//좋아요 1 더한값 업데이트
+		int result2 = gukmo_sql.update("hgb.likeCntChange", paraMap);
+		
+		return result1*result2;
 	}
 
 

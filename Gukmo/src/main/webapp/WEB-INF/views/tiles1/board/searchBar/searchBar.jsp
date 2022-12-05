@@ -32,7 +32,9 @@
 	  
 	  //검색버튼 클릭이벤트
 	  $("button#btn_search").click(function(){
-	    location.href="?page=1&sort="+sort+"&searchWord="+$("input#searchWord").val();
+		const keyword = $("input#searchWord").val();
+		saveKeyword(keyword);
+		location.href="?page=1&sort="+sort+"&searchWord="+keyword;
 	  });
 	  
 	  //검색창에서 엔터눌렀을 시
@@ -44,6 +46,28 @@
 	 
   });//end of $(document).ready(function(){})--
 
+  
+  //Function Declaration
+  /**
+   * 검색하면 검색어 결과 저장하기.
+   */
+  function saveKeyword(keyword){
+	  const data = {keyword:keyword,
+			  		userid : '${sessionScope.user.userid}',
+			  		detail_category : '${requestScope.detail_category}'}
+	  $.ajax({
+		type : 'GET',
+		url : '<%=ctxPath%>/saveKeyword.do',
+		data : data,
+		dataType : 'json',
+		async : false,
+		success : function(data){
+		},
+		error: function(xhr, status, error){
+			alert("로그인에 실패했습니다."+error);
+		}
+	  });//end of ajax
+  }
 </script>
     
     <!-- 검색창 영역 -->

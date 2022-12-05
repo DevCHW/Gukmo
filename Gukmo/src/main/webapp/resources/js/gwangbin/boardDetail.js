@@ -83,9 +83,9 @@ $(document).ready(function(){
 	
 		
 	   // 폼(form)을 전송(submit)
-	   const frm = document.addFrm;
+	   const frm = document.addWriteFrm;
 	   frm.method = "POST";
-	   frm.action = "<%= ctxPath%>/addEnd.action";
+	   frm.action = "<%= ctxPath%>/comment_write.do";
 	   frm.submit();
 	});
 
@@ -97,7 +97,22 @@ $(document).ready(function(){
     $("div#update_or_delete").fadeIn(200);
     $("div#update_or_delete").css("display","flex");
     $("div#update_or_delete").css("flex-direction","column");
+    
+    console.log("");
   });//end of Event--
+  
+  
+  //댓글에 [...]클릭시 이벤트
+  $("span#comment_btn_more").click(()=>{
+    $("div#comment_mask").show();
+    $("div#comment_update_or_delete").fadeIn(200);
+    $("div#comment_update_or_delete").css("display","flex");
+    $("div#comment_update_or_delete").css("flex-direction","column");
+    
+    console.log("");
+  });//end of Event--
+  
+
 
 
 
@@ -105,6 +120,15 @@ $(document).ready(function(){
   $("div#mask").click(()=>{
     $("div#update_or_delete").fadeOut(200);
     $("div#mask").hide();
+  });//end of Event--
+  
+  //댓글에 [...]클릭후,마스크 클릭시 이벤트
+  $("div#comment_mask").click(e=>{
+	  
+	  const target = $(e.currentTarget);
+	  
+    $("div#comment_update_or_delete").fadeOut(200);
+    $("div#comment_mask").hide();
   });//end of Event--
   
   
@@ -165,7 +189,74 @@ $(document).ready(function(){
     const hashtag = target.text();  //클릭한 해시태그 값 alert
     alert(target.text()); //클릭한 해시태그 값
   });
+  
+  
+  
+  
+  
+  
+  
+  
+  //좋아요 버튼 클릭시 이벤트 잡기
+  $("div#btn_like").click(e=>{
+	const board_num = $("input#board_num").val();
+	const userid = $("input#userid").val();
+	
+	const data = {board_num: board_num,userid: userid};
+	
+	likeClick(data);	//좋아요 클릭시 처리 메소드 호출
+  });//end of Event----
+  
+
+  
+  
+  
+  
 });//end of $(document).ready(function(){})---
+
+
+
+// == Function Declaration == //
+
+function likeClick(data){
+	$.ajax({ 
+		url:getContextPath()+"/likeProcess.do", 
+		type:'post',
+		data:data,
+		dataType:"json",
+		success:function(json){	
+			if(json.JavaData == 'login'){	//로그인 중이 아니라면
+				
+				location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+				
+			} else if(json.JavaData == 'delete'){	//좋아요를 삭제하였다면
+				alert("좋아요삭제함");
+				
+				$("span#like_icon").html("&#9825;");	//빈하트
+				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	//좋아요개수 1빼기
+				
+				$("span#like_cnt").html(like_cnt);	
+				
+			} else if(json.JavaData == 'insert'){	//좋아요를 추가하였다면
+				alert("좋아요 추가함");
+				
+				$("span#like_icon").html(" &#x1F497;"); //꽉찬하트
+				const like_cnt = parseInt($("span#like_cnt").text()) + 1;	//좋아요개수 1더하기
+				$("span#like_cnt").html(like_cnt);
+				
+			} else{
+				alert("좋아요 기능 오류");
+			}
+			
+			
+		},//end of success
+		//success 대신 error가 발생하면 실행될 코드 
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });//end of $.ajax({})---
+}
+
 
 
 
@@ -188,3 +279,136 @@ function del_board(board_num){
 		else 
 			return false;
 };//end of Event--
+
+
+// 댓글작성 클릭시 첨부파일 여부 확인하는 이벤트
+function goAddWrite() {
+	  
+	  const commentContent = $("input#commentContent").val().trim();
+	  if(commentContent == "") {
+		  alert("댓글 내용을 입력하세요!!");
+		  return;
+	  }
+	  
+	  if($("input#attach").val() == "") {
+		// 첨부파일이 없는 댓글쓰기인 경우
+		  goAddWrite_noAttach();  
+	  }
+	  else {
+		// 첨부파일이 있는 댓글쓰기인 경우
+		  goAddWrite_withAttach();
+	  }
+	  
+}// end of function goAddWrite()--------------------------------------
+
+
+
+//첨부파일이 없는 댓글쓰기
+function goAddWrite_noAttach() {
+	  
+	
+	
+	  $.ajax({
+		  url:"<%= request.getContextPath()%>/addComment.do",
+		  data:{ "fk_userid":$("input#fk_userid").val() 
+			    ,"nickname":$("input#nickname").val()
+				,"content":$("input#commentContent").val()
+				,"parentSeq":$("input#parentSeq").val() },
+		/* 또는
+		  data:queryString, 
+		*/
+		  type:"POST",
+		  dataType:"JSON",
+		  success:function(json){
+			  // json ==>  {"n":1,"name":"서영학"}  또는 {"n":0,"name":"서영학"} 
+			  const n = json.n;
+			  if(n==0) {
+				  alert(json.name + "님의 포인트는 300점을 초과할 수 없으므로 댓글쓰기가 불가합니다.");
+			  }
+			  else {
+			   // goReadComment();  // 페이징 처리 안한 댓글 읽어오기
+				  goViewComment(1); // 페이징 처리한 댓글 읽어오기
+			  }
+			  
+			  $("input#commentContent").val("");
+		  },
+		  error: function(request, status, error){
+			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		  }
+	  });
+	  
+}// end of function goAddWrite_noAttach()---------------------
+
+
+
+
+/*
+function likeCheck() {
+	
+	
+	const userid = $("input#userid").val();
+	const boardNum = $("input#boardNum").text();
+	
+	if(userid == ""){
+		
+		if(confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+			  
+			location.href = "login.do";
+			  
+			  return true;
+		}  
+				
+	    else {
+	    	
+			  return false;
+		}
+		
+	}
+	else {
+	
+		$.ajax({
+			url:getContextPath()+"/board/likeCheck.do",
+			data:{"userid":userid
+				 ,"boardNum":boardNum},  
+			type:"post",
+			dataType:"json",
+	    //	async:true,   // async:true 가 비동기 방식을 말한다. async 을 생략하면 기본값이 비동기 방식인 async:true 이다.
+	                      // async:false 가 동기 방식이다. 지도를 할때는 반드시 동기방식인 async:false 을 사용해야만 지도가 올바르게 나온다. 
+	        success:function(json){
+	        	
+	        	if(json.resultSuccess=="true") {
+	        		if(json.resultType == "add"){
+						alert("좋아요 성공");
+						$("span#like_cnt").text(json.count);
+						$("span#like_icon").addClass('true');
+					}else{
+						alert("좋아요 해제");
+						
+						$("span#like_cnt").text(json.count);
+						$("span#like_icon").removeClass('true');
+					}
+	        		
+	        	}
+	        	
+	        	else {
+	        		
+	        	}
+	        	
+	        },
+	        error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
+		
+		
+	}
+	
+
+	
+	
+	
+}
+
+*/	
