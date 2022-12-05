@@ -42,22 +42,32 @@ div.hashtag > a:hover {
 }
 
 
-.subject {
-	font-weight: 500;
+.subject > a {
+	font-weight: 700;
 	font-size:18px;
-	padding:3px 0;
+	max-width: 90%;
+	display:flex;
+	align-items: center;
+	white-space: normal;
+	line-height: 20px;
+	max-height: 30px;
+	overflow: hidden;
+	word-wrap: break-word;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical
 }
 
-.subject > a:link{ color: #208EC9; }
+.subject > a:link { color: #208EC9; }
+.subject > a:visited { font-weight:500; color:#848484; }
 
 .subject > .write_date {
 	font-size:10px;
 	color: darkgrey;
 }
 
-.content > a {
-	color: darkgrey;
-	font-size:15px;
+.content > a,span {
+	color: #848484;
 	white-space: normal;
 	line-height: 15px;
 	max-height: 30px;
@@ -68,7 +78,7 @@ div.hashtag > a:hover {
 	-webkit-box-orient: vertical
 }
 
-.content > a:visited { color:black; }
+
 
 .hashtag {
 	
