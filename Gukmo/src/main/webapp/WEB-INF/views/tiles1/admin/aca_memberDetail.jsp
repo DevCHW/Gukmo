@@ -40,7 +40,7 @@
 	                <div id="point">활동점수 : &nbsp;<span>${requestScope.aca_memberDetail.point}</span></div>
 	                <div id="company_num">사업자 번호 : &nbsp;<span>${requestScope.aca_memberDetail.company_num}</span></div>
 	                <div id="username">사업자명 : &nbsp;<span>${requestScope.aca_memberDetail.username}</span></div>
-	                <div id="phone">휴대폰 번호 : &nbsp;<span>${requestScope.aca_memberDetail.phone}</span></div>
+	                <div id="tel">학원 전화번호 : &nbsp;<span>${requestScope.aca_memberDetail.tel}</span></div>
 	                <div id="email_acept">이메일 수신 동의 여부 : &nbsp;
 		                <span>
 		                	<c:if test="${requestScope.aca_memberDetail.email_acept == 0}">

@@ -29,6 +29,10 @@
 		  $("li#li_report_List").css("font-weight","bold");
 		  $("li#li_report_List").css("font-size","15px");
 		  break;
+	  case "/admin/penalty_List.do" :
+		  $("li#li_penalty_List").css("font-weight","bold");
+		  $("li#li_penalty_List").css("font-size","15px");
+		  break;
 	}//end of switch-case---
   });
 </script>
@@ -42,6 +46,7 @@
     <li id="li_acaMember_List" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/admin/academyManage_List.do'">학원회원 관리</li>
     <li id="li_ad_List" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/admin/adManage_List.do'">광고현황 관리</li>
     <li id="li_report_List" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/admin/reportManage_List.do'">신고현황 관리</li>
+    <li id="li_penalty_List" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/admin/penalty_List.do'">정지현황 관리</li>
   </ul>
 </div>
 <%-- 사이드바 끝 --%>

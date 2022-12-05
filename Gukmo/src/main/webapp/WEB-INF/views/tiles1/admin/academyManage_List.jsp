@@ -71,12 +71,12 @@
 		              	</c:if>
 		              </span>
 	              </td>
-	              <td style="cursor:pointer" ><span>${acamembervo.academy_name}</span></td>
-	              <td style="cursor:pointer" ><span>${acamembervo.nickname}</span></td>
-	              <td style="cursor:pointer" ><span>${acamembervo.email}</span></td>
-	              <td style="cursor:pointer" ><span>${acamembervo.phone}</span></td>
-	              <td style="cursor:pointer" "><span>${acamembervo.join_date}</span></td>
-	              <td style="cursor:pointer" "><span>${acamembervo.status}</span></td>
+	              <td style="cursor:pointer"><span>${acamembervo.academy_name}</span></td>
+	              <td style="cursor:pointer"><span>${acamembervo.nickname}</span></td>
+	              <td style="cursor:pointer"><span>${acamembervo.email}</span></td>
+	              <td style="cursor:pointer"><span>${acamembervo.tel}</span></td>
+	              <td style="cursor:pointer"><span>${acamembervo.join_date}</span></td>
+	              <td style="cursor:pointer"><span>${acamembervo.status}</span></td>
 	            </tr>    
 	          </c:forEach>
 	    </tbody>

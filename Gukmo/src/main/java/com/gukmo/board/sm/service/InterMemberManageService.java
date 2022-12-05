@@ -6,6 +6,7 @@ import java.util.Map;
 import com.gukmo.board.model.ActivityVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
+import com.gukmo.board.model.ReportVO;
 
 public interface InterMemberManageService {
 
@@ -57,6 +58,21 @@ public interface InterMemberManageService {
 
 	// 멤버 디테일에서 검색 조건에 맞는 활동내역 리스트 불러오기
 	List<ActivityVO> getDetailActList(Map<String, String> paraMap);
+
+	// 정지회원 총 페이지수 알아오기
+	int getTotalCount_penalty(Map<String, String> paraMap);
+
+	// 정지회원 리스트 뽑아오기
+	List<PenaltyVO> penaltyList(Map<String, String> paraMap);
+
+	// 정지내역 상세보기
+	PenaltyVO getPenaltyDetail(Map<String, String> paraMap);
+
+	// 정지 관련 정보 상세보기 
+	String getPenaltyId(Map<String, String> paraMap);
+
+	// 정지 테이블에서 해당 회원 삭제
+	int del_penalty(Map<String, String> paraMap);
 
 	// ======== 학원 회원 끝 ========//
 	
