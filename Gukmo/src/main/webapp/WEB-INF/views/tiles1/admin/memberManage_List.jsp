@@ -25,24 +25,25 @@
 </script>
 
 
-  <!-- 직접 만든 CSS -->
+  <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seongmin/memberManage_List.css" />
   
-  <!-- 직접만든 javascript -->
+  <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberManage_List.js?ver=1" ></script>
 
-	<div id="container" class="container-fluid row mt-5">
-	  <div class="col-2">
-		  <jsp:include page="/WEB-INF/views/tiles1/admin/sidebar_admin.jsp" />
-	  </div>
+	<div id="container" class="d-flex w-100">
+	
+		<%----------------- 사이드 바 호출 -----------------%>
+		<jsp:include page="/WEB-INF/views/tiles1/admin/sidebar_admin.jsp" />
+		<%----------------- 사이드 바 호출 -----------------%>
 		
-	  <div class="col-9">	  
-
+		
+		<div id="main" class="m-auto">
 		
 		    <h4 style="font-weight:bold;">일반 회원 관리</h4>
 		
-		    <!------------------------------------- 학원 리스트 테이블 시작 ------------------------------------->
-		    <table class="table table-hover mt-2">
+		    <%------------------------------------- 학원 리스트 테이블 시작 -------------------------------------%>
+		    <table class="table table-hover mt-2 w-100">
 		      <thead>
 		        <tr>
 		          <th>아이디</th>
@@ -76,30 +77,34 @@
 		          </c:forEach>
 		    </tbody>
 		    </table>
-		    <!----------------------------------- 학원 리스트 테이블 끝 ------------------------------------->
+		    <%----------------------------------- 학원 리스트 테이블 끝 -------------------------------------%>
 		
 		    <div class="d-flex justify-content-between">
 		
 		      <div id="total_cnt">
 		        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
-		        <!-- 총 건수 변수 들어갈 곳-->
+		        <%-- 총 건수 변수 들어갈 곳--%>
 		      </div>
 		
 		    </div>
-		
-		
-		
-		
-		
-		    <!----------------------------------------------------------- 페이지 바 시작 --------------------------------------------->
-		    <nav aria-label="...">
-				${requestScope.pageBar}
-		    </nav>
-				<!----------------------------------------------------------- 페이지 바 끝 --------------------------------------------->
-		  </div>
-		</div>
+	    
+	    </div>
+	</div>
+	
+	
+	
+	
+    <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
+    <nav aria-label="...">
+		${requestScope.pageBar}
+    </nav>
+	<%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
+	
 
-  <!-- 검색바시작 -->
+
+
+
+  <%-- 검색바시작 --%>
     <form name="searchFrm" style="margin-top: 20px;">    	
 	    <div id="search_area" class="d-flex mr-3" style="justify-content:center">
 	       <div class= "d-flex rounded">
@@ -128,6 +133,6 @@
 	    </div>
 	</form>
 	<br><br>
-    <!-- 검색바 끝 -->
+    <%-- 검색바 끝 --%>
 
 

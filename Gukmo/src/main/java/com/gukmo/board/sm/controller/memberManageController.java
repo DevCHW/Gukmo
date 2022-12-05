@@ -119,8 +119,11 @@ public class memberManageController {
 
 		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);			
-		mav.setViewName("admin/memberManage_List.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
+		//이전페이지
+//		mav.setViewName("admin/memberManage_List.tiles1");
+		
+		//재탄생한 페이지
+		mav.setViewName("admin/member/normal/list.tiles1");
 		return mav;
 	}
 	
@@ -190,13 +193,23 @@ public class memberManageController {
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("actList", detailActList);
 		mav.addObject("memberDetail", memberDetail);		
-		mav.setViewName("admin/memberDetail.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+		
+		//이전페이지
+//		mav.setViewName("admin/memberDetail.tiles1");
+		//재탄생한 페이지
+//		mav.setViewName("admin/member/normal/detail.tiles1");
 		return mav;
 	}
 	
 	// ============= 일반회원 관리 끝  ============= //
 
+	
+	
+	
+	
+	
+	
+	
 	// ============= 학원회원 관리 시작 ============= //
 
 	// 회원관리 목록 페이지 요청
@@ -260,10 +273,23 @@ public class memberManageController {
 			
 		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);
-		mav.setViewName("admin/academyManage_List.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
+		
+		
+		//이전페이지
+//		mav.setViewName("admin/academyManage_List.tiles1");
+		
+		//재탄생한 페이지
+		mav.setViewName("admin/member/academy/list.tiles1");
+		
 		return mav;
 	} // end of 학원회원 리스트 보기
+	
+	
+	
+	
+	
+	
+	
 	
 	// 회원 정보 상세보기 
 	@RequestMapping(value="/admin/aca_memberDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
@@ -278,11 +304,19 @@ public class memberManageController {
 		MemberVO aca_memberDetail = service.getAcademyDetail(paraMap);
 		
 		mav.addObject("aca_memberDetail", aca_memberDetail);
+		
+		//이전페이지
 		mav.setViewName("admin/aca_memberDetail.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+		
+		//재탄생한 페이지
+//		mav.setViewName("admin/aca_memberDetail.tiles1");
+		
 		return mav;
 	}
 
+	
+	
+	
 	
 	// 회원가입 요청 승인
 	@ResponseBody
@@ -307,7 +341,15 @@ public class memberManageController {
 	
 	// ============= 학원회원 관리 끝 ============= //
 	
+	
+	
+	
+	
 	//////////////////////////////////////////////////////
+	
+	
+	
+	
 	
 	// ============= 공통(정지 등록, 해제, 휴면 해제) 시작 ============= //
 
@@ -324,10 +366,14 @@ public class memberManageController {
 		request.setAttribute("userid", userid);
 		request.setAttribute("nickname", nickname);
 		
+		//이전페이지
 	    mav.setViewName("admin/penaltyRegister.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+	    //재탄생한 페이지
+//	    mav.setViewName("admin/member/penaltyRegister.tiles1");
 		return mav;
 	}	
+	
+	
 	
 	// 회원 정지 등록 완료 페이지
 	@RequestMapping(value="/admin/penaltyRegisterResult.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
@@ -474,8 +520,14 @@ public class memberManageController {
 
 		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);
+		
+		
+		//이전페이지
 		mav.setViewName("admin/adManage_List.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
+		
+		//재탄생한 페이지
+//		mav.setViewName("admin/advertisement/adManage_List.tiles1");
+		
 		return mav;
 	} // end of 광고내역 리스트 보기
 
@@ -490,8 +542,14 @@ public class memberManageController {
 		AdVO adDetail = service_ad.getAdDetail(paraMap);
 		
 		mav.addObject("adDetail", adDetail);
+		
+		//이전페이지
 		mav.setViewName("admin/adDetail.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+		
+		//재탄생한페이지
+//		mav.setViewName("admin/advertisement/adDetail.tiles1");
+		
+		
 		return mav;
 	}// 광고 관련 정보 상세보기 끝
 	
@@ -502,12 +560,19 @@ public class memberManageController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 				
+		//이전페이지
 	    mav.setViewName("admin/adRegister.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+	    //재탄생한 페이지
+//	    mav.setViewName("admin/advertisement/Detail.tiles1");
+	    
+	    
 		return mav;
 	} // end of 광고 등록 페이지
 
 
+	
+	
+	
 	// 광고 등록 완료 페이지
 	@RequestMapping(value="/admin/adRegisterResult.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView adRegisterResult(MultipartHttpServletRequest mrequest, HttpServletResponse response, ModelAndView mav, AdVO advo) {
@@ -581,6 +646,10 @@ public class memberManageController {
 	//// ================ 광고 관련 일단 끝 =================== //
 	
 	
+	
+	
+	
+	
 	// =============== 신고내역 관리 시작 ====================//
 	
 	@RequestMapping(value="/admin/reportManage_List.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
@@ -643,8 +712,12 @@ public class memberManageController {
 		
 		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);
+		
+		//이전페이지
 		mav.setViewName("admin/report_List.tiles1");
-	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
+		//재탄생한 페이지
+//		mav.setViewName("admin/report/report_List.tiles1");
+		
 		return mav;
 	} // end of 신고내역 리스트 보기	
 	

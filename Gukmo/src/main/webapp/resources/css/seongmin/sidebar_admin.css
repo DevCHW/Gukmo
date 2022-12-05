@@ -4,7 +4,7 @@
 /* 사이드바 시작 */
 div#sidebar{
   border-right:solid 1px #EBEBEB;
-  width:200px;
+  width:330px;
 }
 h5#sidebar_title{
   font-weight: bold;
