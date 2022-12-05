@@ -29,12 +29,12 @@
 		, academy_name, company_num, homepage, tel, status
 		from
 		(        
-		select rownum as rnum, userid, email, email_acept, nickname, point, nvl(join_date, to_char(sysdate, 'yyyy-mm-dd')) as join_date
+		select rownum as rnum, userid, email, email_acept, nickname, point, to_char(join_date, 'yyyy-mm-dd') as join_date
 		, profile_image, username, kakao, naver, google, facebook, authority 
 		, academy_name, company_num, homepage, tel, status
 		from        
 		(        
-		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, to_char(V.join_date, 'yyyy-mm-dd') as join_date
+		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, nvl(join_date, to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
 		, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
 		, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
 		from
@@ -84,7 +84,7 @@
 
 	<!-- @@@@@@@@@@ 학원회원 관리 시작 @@@@@@@@@@  -->
 	
-	<!-- 회원관리 리스트 총 페이지 수 -->
+	<!-- 학원관리 리스트 총 페이지 수 -->
 	<select id="getTotalCount_academy" parameterType="HashMap" resultType="Integer">
 	    select count(*)
 	    from tbl_academy_member A
@@ -100,19 +100,19 @@
 	</select>
 		
 		
-	<!-- 회원관리 목록 페이지 요청 -->
+	<!-- 학원관리 목록 페이지 요청 -->
 	<select id="academymemberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
 		select rnum, userid, email, email_acept, nickname, point, join_date 
 		, profile_image, username, kakao, naver, google, facebook, authority 
 		, academy_name, company_num, homepage, tel, status
 		from
 		(        
-		select rownum as rnum, userid, email, email_acept, nickname, point, join_date 
+		select rownum as rnum, userid, email, email_acept, nickname, point, to_char(join_date, 'yyyy-mm-dd') as join_date
 		, profile_image, username, kakao, naver, google, facebook, authority 
 		, academy_name, company_num, homepage, tel, status
 		from        
 		(        
-		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, to_char(V.join_date, 'yyyy-mm-dd') as join_date
+		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, nvl(join_date, to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
 		, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
 		, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
 		from
