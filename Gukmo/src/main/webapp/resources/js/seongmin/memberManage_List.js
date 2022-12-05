@@ -50,11 +50,6 @@ $(document).ready(function(){
     $("#filter_area").html(html);
   });
 
-  $(document).on("click", "input#chxAll", function(){
-    var bool = $(this).is(":checked");
-    
-  }) //end of 전체선택 클릭시
-
    $(document).on("click", ".memberDetail", function(){
 	   var userid = $(this).attr('id');
 	   memberDetail(userid);
