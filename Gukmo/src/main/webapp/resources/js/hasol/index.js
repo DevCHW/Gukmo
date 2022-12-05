@@ -15,6 +15,15 @@ $(document).ready(function(){
 			goSearch();
 		}
 	});
+	
+	$("a#hashtag").click(function(e){
+		const $target = $(e.target);
+		let hashtag = $target.text();
+		$("input#searchWord").val(hashtag);
+		
+		goSearch();
+	});
+
 
  
 });
@@ -89,6 +98,5 @@ function goSearch (){
 	frm.submit();
 	
 }
-
 
 
