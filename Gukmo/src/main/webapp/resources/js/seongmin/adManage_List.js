@@ -50,11 +50,6 @@ $(document).ready(function(){
     $("#filter_area").html(html);
   });
 
-  $(document).on("click", "input#chxAll", function(){
-    var bool = $(this).is(":checked");
-    
-  }) //end of 전체선택 클릭시
-
   	// 해당 광고 클릭시
    $(document).on("click", ".adDetail", function(){
 	   var advertisement_num = $(this).attr('id');

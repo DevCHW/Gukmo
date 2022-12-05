@@ -50,21 +50,24 @@ $(document).ready(function(){
     $("#filter_area").html(html);
   });
 
+  $(document).on("click", "input#chxAll", function(){
+    var bool = $(this).is(":checked");
+    
+  }) //end of 전체선택 클릭시
 
-   $(document).on("click", ".aca_memberDetail", function(){
-	   var userid = $(this).attr('id');
-	   aca_memberDetail(userid);
+   $(document).on("click", ".penaltyDetail", function(){
+	   var penalty_num = $(this).attr('id');
+	   penaltyDetail(penalty_num);
    });
   
 	$("input#searchWord").keyup(function(e){
 		if(e.keyCode == 13) {
-
+			// 검색어에 엔터를 했을 경우
 			if($("select#searchType").val() == "" && $("input#searchWord").val() != "" ) {
 				alert("소분류를 선택하세요.");
 				return;
 			}
 			else {
-				// 검색어에 엔터를 했을 경우
 				goSearch();
 			}
 		}
@@ -74,20 +77,19 @@ $(document).ready(function(){
 }); //end of ready
 
   // 회원 리스트 클릭시
-  function aca_memberDetail(userid) {
-    location.href= "aca_memberDetail.do?userid="+userid;
+  function penaltyDetail(penalty_num) {
+    location.href= "penaltyDetail.do?penalty_num="+penalty_num;
   }//end of  function MemberDetail()
 
-  function goSearch() {	  
+  function goSearch() {
 		if($("select#searchType").val() == "" && $("input#searchWord").val() != "" ) {
 			alert("소분류를 선택하세요.");
 			return;
 		}
-		
 		else {
 			const frm = document.searchFrm;
 			frm.method = "GET";
-			frm.action = getContextPath()+"/admin/academyManage_List.do";
+			frm.action = getContextPath()+"/admin/penalty_List.do";
 			frm.submit();
 		}
   }

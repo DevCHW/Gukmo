@@ -24,7 +24,7 @@
 
 
   <%-- 직접 만든 CSS --%>
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/seongmin/member_detail.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/seongmin/memberDetail.css" />
 
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/seongmin/memberDetail.js" ></script>

@@ -357,13 +357,23 @@ public class memberManageController {
 	@ResponseBody
 	@RequestMapping(value="/admin/block_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String requiredAdminLogin_block_recovery(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		Map<String, String> paraMap = new HashMap<>();		
 		
 		String userid = request.getParameter("userid");
-
-		Map<String, String> paraMap = new HashMap<>();		
+		String nickname = "";
+		if( request.getParameter("nickname") != null) {
+			nickname = request.getParameter("nickname");
+			paraMap.put("nickname", nickname);
+		}
+		
 		paraMap.put("userid", userid);
 		
 		int n = service.block_recovery(paraMap);
+		
+		// 정지 테이블에서 해당 회원 삭제
+		if(n==1) {
+			n = service.del_penalty(paraMap);
+		}
 		JSONObject jsonObj = new JSONObject();
 		
 		if(n== 1) {
@@ -394,7 +404,7 @@ public class memberManageController {
 		
 		return jsonObj.toString(); // "{"n":1,"name":"서영학"}" 또는 "{"n":0,"name":"서영학"}"
 		
-	} //end of 정지 누나
+	} //end of 휴면> 활동
 	
 	// ============= 공통(정지 등록, 해제, 휴면 해제) 끝 ============= //
 
@@ -467,7 +477,7 @@ public class memberManageController {
 		mav.setViewName("admin/adManage_List.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
 		return mav;
-	} // end of 학원회원 리스트 보기
+	} // end of 광고내역 리스트 보기
 
 	
 	// 광고 관련 정보 상세보기 
@@ -486,7 +496,7 @@ public class memberManageController {
 	}// 광고 관련 정보 상세보기 끝
 	
 	
-	// 광고 등록 페이지
+	// 광고 등록 페이지 보여주기
 	@RequestMapping(value="/admin/adRegister.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_adRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
@@ -495,7 +505,7 @@ public class memberManageController {
 	    mav.setViewName("admin/adRegister.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;
-	} // end of adRegister
+	} // end of 광고 등록 페이지
 
 
 	// 광고 등록 완료 페이지
@@ -636,7 +646,7 @@ public class memberManageController {
 		mav.setViewName("admin/report_List.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
 		return mav;
-	} // end of 학원회원 리스트 보기	
+	} // end of 신고내역 리스트 보기	
 	
 	
 	
@@ -659,7 +669,7 @@ public class memberManageController {
 		mav.setViewName("admin/reportDetail.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
 		return mav;
-	}// 광고 관련 정보 상세보기 끝
+	}// 신고 관련 정보 상세보기 끝
 	
 	
 	// 광고 상세에서 파일 다운로드하는 메소드
@@ -720,19 +730,106 @@ public class memberManageController {
 				e1.printStackTrace();
 			}
 		}
-		
-	}
+	} // 광고 상세에서 파일 다운로드하는 메소드 끝
 	
-
+	
+	// 광고 메인페이지(임시)
 	@RequestMapping(value="/admin/admin_main.do")
 	public String admin_main(HttpServletRequest request, HttpServletResponse response) {
 		
 		return "admin/admin_main.tiles1";
-	}
+	} // 광고 메인페이지(임시)
 
 	
+	// 정지회원 리스트 
+	@RequestMapping(value="/admin/penalty_List.do")
+	public ModelAndView requiredAdminLogin_penaltyList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	    List<PenaltyVO> penaltyList = null;
+	    
+	    String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		String memberStatus = request.getParameter("simple_penalty_reason");
+		
+		// System.out.println(searchType);
+		// System.out.println(searchWord);
+		
+		String str_page = request.getParameter("page");
+		
+		if(memberStatus == null) {
+			memberStatus = "";
+		}
+		
+		 if(searchType == null || (!"nickname".equals(searchType) && !"simple_penalty_reason".equals(searchType) ) ) {
+			searchType = "";
+		 }
+		
+		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+		 	searchWord = "";
+		 }
+		 
+		 Map<String, String> paraMap = new HashMap<>();
+		 paraMap.put("searchType", searchType);
+		 paraMap.put("searchWord", searchWord);
+		 paraMap.put("memberStatus", memberStatus);
+		 
+		 // 먼저 총 게시물 건수(totalCount)를 구해와야 한다.
+		 // 총 게시물 건수(totalCount)는 검색조건이 있을 때와 없을때로 나뉘어진다.
+		 // 총 게시물 건수(totalCount)
+		 int totalCount = service.getTotalCount_penalty(paraMap);
+		 int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
+		 int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		 int page = getPage(str_page,totalPage);    // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
+			
+		 paraMap = getRno(page,sizePerPage,paraMap);
+		 String url = "penalty_List.do";
+		 
+		 penaltyList = service.penaltyList(paraMap);
+		 
+		 
+		Map<String,String> pageMap = new HashMap<>();
+		pageMap.put("searchWord",searchWord);
+		pageMap.put("searchType",searchType);
+		pageMap.put("memberStatus",memberStatus);
+		pageMap.put("keyWord", "simple_penalty_reason");
+
+		String pageBar = getPageBar(page,totalPage,url,pageMap);
+		
+		
+		if( !"".equals(searchType) && !"".equals(searchWord) ) {
+			 mav.addObject("paraMap", paraMap);
+		 }
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("penaltyList", penaltyList);
+
+		request.setAttribute("paraMap", paraMap);
+		request.setAttribute("totalCount", totalCount);
+		mav.setViewName("admin/penalty_List.tiles1");
+	      //   /WEB-INF/views/tiles1/admin/memberManage_List.jsp 파일을 생성한다.
+		return mav;
+	} // end of 정지회원 리스트 
 	
 	
+	// 정지 관련 정보 상세보기 
+	@RequestMapping(value="/admin/penaltyDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	public ModelAndView requiredAdminLogin_penaltyDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		Map<String, String> paraMap = new HashMap<>();
+		String penalty_num = request.getParameter("penalty_num");
+		paraMap.put("penalty_num", penalty_num);
+		
+		// 정지회원 상세정보 가져오기.
+		PenaltyVO penaltyDetail = service.getPenaltyDetail(paraMap);
+		
+		//정지된 회원의 아이디값 가져오기
+		String userid = service.getPenaltyId(paraMap);
+				
+		request.setAttribute("userid", userid);
+		mav.addObject("penaltyDetail", penaltyDetail);
+		
+		mav.setViewName("admin/penaltyDetail.tiles1");
+	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+		return mav;
+	}// 정지 관련 정보 상세보기 끝
+
 	
 	
 	

@@ -24,16 +24,33 @@
 	
 	<!-- 회원관리 목록 페이지 요청 -->
 	<select id="memberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
-		select rnum, fk_userid as userid, email, email_acept, username, nickname, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point
+		select rnum, userid, email, email_acept, nickname, point, join_date
+		, profile_image, username, kakao, naver, google, facebook, authority 
+		, academy_name, company_num, homepage, tel, status
+		from
+		(        
+		select rownum as rnum, userid, email, email_acept, nickname, point, to_char(join_date, 'yyyy-mm-dd') as join_date
+		, profile_image, username, kakao, naver, google, facebook, authority 
+		, academy_name, company_num, homepage, tel, status
+		from        
+		(        
+		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, nvl(join_date, to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
+		, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
+		, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
 		from
 		(
-		select rownum as rnum, fk_userid, email, email_acept, username, nickname, join_date, status, point
-		from 
+		select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook, authority, status
+		from
 		(
-		select fk_userid, email, email_acept, username, nickname, join_date, status, point
-		from tbl_member M
-		left join tbl_member_login L
-		on fk_userid = userid
+		select userid, status from tbl_member_login
+		)A
+		left join
+		tbl_member B
+		on A.userid = B.fk_userid
+		) V
+		left join
+		tbl_academy_member C
+		on V.userid = C.fk_userid
 	    <if test='memberStatus != "" '>
 	      where status = #{memberStatus}
 	    	<if test='searchType != "" and searchWord != "" '>
@@ -47,8 +64,9 @@
 		    </if>	    		
 	    </if>
 		order by join_date desc
-		) V
 		) D
+		where company_num is null
+		) E
 		where rnum between #{startRno} and #{endRno}
 		
 	</select>
@@ -66,8 +84,7 @@
 
 	<!-- @@@@@@@@@@ 학원회원 관리 시작 @@@@@@@@@@  -->
 	
-	
-	<!-- 회원관리 리스트 총 페이지 수 -->
+	<!-- 학원관리 리스트 총 페이지 수 -->
 	<select id="getTotalCount_academy" parameterType="HashMap" resultType="Integer">
 	    select count(*)
 	    from tbl_academy_member A
@@ -83,18 +100,35 @@
 	</select>
 		
 		
-	<!-- 회원관리 목록 페이지 요청 -->
+	<!-- 학원관리 목록 페이지 요청 -->
 	<select id="academymemberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
-		select rnum, fk_userid as userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point, profile_image
+		select rnum, userid, email, email_acept, nickname, point, join_date 
+		, profile_image, username, kakao, naver, google, facebook, authority 
+		, academy_name, company_num, homepage, tel, status
+		from
+		(        
+		select rownum as rnum, userid, email, email_acept, nickname, point, to_char(join_date, 'yyyy-mm-dd') as join_date
+		, profile_image, username, kakao, naver, google, facebook, authority 
+		, academy_name, company_num, homepage, tel, status
+		from        
+		(        
+		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, nvl(join_date, to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
+		, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
+		, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
 		from
 		(
-		select rownum as rnum, fk_userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, join_date, status, point, profile_image
-		from 
+		select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook, authority, status
+		from
 		(
-		select fk_userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, join_date, status, point, profile_image
-		from tbl_academy_member M
-		left join tbl_member_login L
-		on fk_userid = userid
+		select userid, status from tbl_member_login
+		)A
+		left join
+		tbl_member B
+		on A.userid = B.fk_userid
+		) V
+		left join
+		tbl_academy_member C
+		on V.userid = C.fk_userid
 	    <if test='memberStatus != "" '>
 	      where status = #{memberStatus}
 	    	<if test='searchType != "" and searchWord != "" '>
@@ -108,17 +142,33 @@
 		    </if>	    		
 	    </if>
 		order by join_date desc
-		) V
 		) D
+			where tel is not null
+		) E
 		where rnum between #{startRno} and #{endRno}		
+
+	
 	</select>
 		
 	<!-- 학원회원정보 상세보기 페이지 -->
 		<select id="aca_MemberDetail" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
-			select fk_userid as userid, email, email_acept, academy_name, nickname, company_num, username, phone, homepage, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point, profile_image
-			from tbl_academy_member M
-			left join tbl_member_login L
-			on fk_userid = userid
+			select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, to_char(V.join_date, 'yyyy-mm-dd') as join_date
+			, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
+			, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
+			from
+			(
+			select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook, authority, status
+			from
+			(
+			select userid, status from tbl_member_login
+			)A
+			left join
+			tbl_member B
+			on A.userid = B.fk_userid
+			) V
+			left join
+			tbl_academy_member C
+			on V.userid = C.fk_userid
 		    where userid = #{userid}
 		</select>
 		
@@ -295,14 +345,7 @@
 	<!-- 신고 받은 회원의 아이디값 알아오기  -->
 	<select id="getReportedId" parameterType="String" resultType="String">
 		select fk_userid, nickname
-		from
-		(
-		select fk_userid, nickname
 		from tbl_member
-		union all
-		select fk_userid, nickname
-		from tbl_academy_member
-		)
 		where nickname = #{reportedNickname}	
 	</select>
 	
@@ -357,10 +400,79 @@
 	</select>
 	
 	
+	<!-- 정지회원 총페이지수 알아오기 -->
+	<select id="getTotalCount_penalty" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from tbl_penalty
+	    where 1 = 1 
+	    <if test='memberStatus != "" '>
+	      and simple_penalty_reason = #{memberStatus}
+	    </if>	    
+	    <if test='searchType != "" and searchWord != "" '>
+	      and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+	    </if>	    
+	</select>
+	
+	<!-- 정지회원 리스트 불러오기 -->
+	<select id="getPenaltyList" parameterType="HashMap" resultType="com.gukmo.board.model.PenaltyVO">
+		select rnum, penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, penalty_start_date, penalty_period
+		from
+		(
+		select rownum as rnum, penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, to_char(penalty_start_date, 'yyyy-mm-dd') as penalty_start_date, penalty_period
+		from
+		(
+		select penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, penalty_start_date, penalty_period
+		from tbl_penalty
+		where 1 = 1
+			<if test='memberStatus != "" '>
+		      and simple_penalty_reason = #{memberStatus}
+		    	<if test='searchType != "" and searchWord != "" '>
+		    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+		    	</if>
+		    </if>	    
+		    <if test='memberStatus == "" '>
+			    <if test='searchType != "" and searchWord != "" '>
+			    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
+			    </if>	    		
+		    </if>
+		order by penalty_start_date desc
+		) A
+		) B
+		where rnum between #{startRno} and #{endRno}		
+	</select>
 	
 	
-	
-	
-	
+	<!-- 정지 관련 상세보기 페이지 -->
+		<select id="getPenaltyDetail" parameterType="HashMap" resultType="com.gukmo.board.model.PenaltyVO">
+			select penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, penalty_start_date, penalty_period
+			from tbl_penalty
+			where penalty_num = #{penalty_num}
+		</select>
+		
+	<!-- 정지회원의 아이디값 가져오기 -->
+		<select id="getPenaltyId" parameterType="HashMap" resultType="String">
+			select fk_userid
+			from
+			(
+			select nickname, penalty_num
+			from tbl_penalty
+			where penalty_num = #{penalty_num}
+			) P
+			join
+			(
+			select nickname, fk_userid
+			from tbl_member
+			) M
+			on P.nickname = M.nickname			
+		</select>
+
+
+	<!-- 정지 해제시 정지 테이블에 해당 회원 삭제 -->
+		<delete id="del_penalty" parameterType="HashMap">
+		    delete from tbl_penalty
+		    where nickname = #{nickname}
+    	</delete>
+
+
 	
 </mapper>
