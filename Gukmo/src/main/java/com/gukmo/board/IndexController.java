@@ -1,4 +1,4 @@
-package com.gukmo.board;
+package com.gukmo.board; 
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

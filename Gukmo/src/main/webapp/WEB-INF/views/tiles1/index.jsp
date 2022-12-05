@@ -54,17 +54,17 @@
 
     <!-- 검색창 영역 -->
 	<form name="searchFrm" class="searchBar d-flex justify-content-center mt-5 col-9">
-		<input type="text" id="searchWord" name="searchWord" placeholder="검색할 내용을 입력해 주세요!" ></input>
-		<button type="button" id="btn_search">
+		<input type="text" id="searchWord" name="searchWord" placeholder="검색할 내용을 입력해 주세요!" value="" ></input>
+		<button type="button" id="btn_search" onclick="goSearch()">
           <i class="fa-solid fa-magnifying-glass" style="color:#208EC9; font-size:20px;"></i>
         </button>
 	</form>
 	
-	<!-- 해시태그 -->
+	<!-- 해시태그 (테스트용 가라 데이터임 코드 짜야함) -->
 	<div class="hashtag col-7 mt-1 d-flex justify-content-center">
-		<a href ="#" class="first_hashtag">#해시태그</a>
-		<a href ="#">#해시태그</a>
-		<a href ="#">#해시태그</a>
+		<a id="hashtag" class="first_hashtag">자바</a>
+		<a id="hashtag">스프링</a>
+		<a id="hashtag">쌍용</a>
 	</div>
 	
 
