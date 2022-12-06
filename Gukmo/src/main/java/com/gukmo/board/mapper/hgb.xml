@@ -43,6 +43,12 @@
          <result property="write_date" column="write_date"/>        
       </collection>
       
+      <!--  LikeVO --> 
+      <collection property="like" column="fk_board_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.LikeVO">
+         <id property="fk_board_num" column="fk_board_num"/>         
+         <result property="fk_userid" column="fk_userid"/>
+      </collection>
+      
       
    </resultMap>
        
@@ -163,6 +169,18 @@
 		update tbl_board set like_cnt=${like_cnt} where board_num=#{board_num}
 	</update>
 	
+	<!-- 글조회수 1증가 하기 -->
+	<update id="setAddReadCount" parameterType="String">
+	    update tbl_board set views = views + 1
+	    where board_num = #{board_num}
+	</update>
+	
+	<!-- 글 상세페이지 진입시 로그인한 회원의 좋아요여부 체크하기 -->
+	<select id="ilikethis" parameterType="HashMap" resultType="Integer">
+		select fk_userid,fk_board_num
+	    from tbl_board_like
+	    where fk_userid = #{userid} and fk_board_num = #{str_board_num}
+	</select>
 	
 	
 	

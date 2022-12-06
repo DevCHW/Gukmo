@@ -30,7 +30,11 @@ public interface InterBoardService {
 	 * @param paraMap(글번호,userid)
 	 */
 	String likeProcess(Map<String, String> paraMap);
-
+	
+    /*
+	// 글 상세피이지 진입시 로그인한 회원의 좋아요여부 체크하기
+	int ilikethis(Map<String, String> paraMap);
+*/
 	
 
 

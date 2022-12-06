@@ -45,6 +45,8 @@ public class BoardService implements InterBoardService{
 		paraMap.put("detail_category",detail_category);
 		
 		BoardVO board = dao.getBoardDetail(paraMap);
+		dao.setAddReadCount(board.getBoard_num());
+		
 		return board;
 	}
 
@@ -88,6 +90,16 @@ public class BoardService implements InterBoardService{
 		
 	}
 
+/*
+	// 글 상세피이지 진입시 로그인한 회원의 좋아요여부 체크하기
+	@Override
+	public int ilikethis(Map<String, String> paraMap) {
+		
+		int n = dao.ilikethis(paraMap);
+		
+		return n;
+	}
+*/
 
 	
 	

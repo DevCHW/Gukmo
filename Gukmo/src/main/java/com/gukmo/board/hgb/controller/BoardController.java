@@ -25,7 +25,9 @@ import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.MyUtil;
+import com.gukmo.board.hgb.repository.InterBoardDAO;
 import com.gukmo.board.hgb.service.InterBoardService;
+import com.gukmo.board.hw.repository.InterLoginDAO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.common.FileManager;
@@ -35,6 +37,9 @@ public class BoardController {
 
 	@Autowired // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterBoardService service;
+	
+	@Autowired
+	InterBoardDAO dao;
 
 	// === 파일업로드 및 다운로드를 해주는 FileManager 클래스 의존객체 주입하기(DI : Dependency Injection)
 	// ===
@@ -56,7 +61,8 @@ public class BoardController {
 		}//end of try-catch--
 		
 		
-		HttpSession session = request.getSession();
+		
+	//	System.out.println("확인용 아이디 => " + loginuserid);
 		
 		/*
 		
@@ -67,8 +73,49 @@ public class BoardController {
 		*/
 		
 		
+		
+		
+	    
+	  
+		
 //		int board_num = 3;// 글번호(해시태그 있는 글번호 임시 설정)
 		BoardVO board= service.getBoardDetail(boardNum);	//하나의 글 불러오기
+		
+		
+
+		HttpSession session = request.getSession();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		String userid = user.getUserid();
+		
+		System.out.println("로그인아이디확인" + userid);
+		
+		
+		
+		
+		
+		
+		if(userid != null) { // 로그인 중이라면
+			
+			Map<String, String> paraMap = new HashMap<>();
+			paraMap.put("userid", userid);	
+			paraMap.put("str_board_num", str_board_num);			
+					
+		/*	
+			int ilikethis = service.ilikethis(paraMap);
+			
+			System.out.println("확인용" + ilikethis);
+			
+			if (ilikethis == 1) {
+			
+			request.setAttribute("like", board);
+			
+			}
+			
+	     */		
+		}
+		
 		
 		
 		//확인용 board
