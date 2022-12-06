@@ -82,7 +82,7 @@
     <%-------------------- 글 본문 시작 ------------------%>
     <div id="content_area" class="d-flex flex-column py-2">
       <div id="subject" class="mt-3">
-        <h2>${requestScope.board.subject}</h2>
+        <h2>${requestScope.board.subject}${board.like}</h2>
       </div>
 
 	  <%-- 글내용 --%>

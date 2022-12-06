@@ -41,6 +41,9 @@ public class BoardVO {
 	// 댓글VO리스트(연관관계에 있는 필드)
 	List<CommentVO> comment;
 	
+	// 좋아요VO리스트(연관관계에 있는 필드)
+	List<CommentVO> like;
+	
 	
 	
 	//기본생성자 protected로 막기
@@ -50,7 +53,7 @@ public class BoardVO {
 	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
 			String previousseq, String previoussubject, String nextseq, String nextsubject, String writer_point,
-			AcademyVO academy, CurriculumVO curriculum, List<HashtagVO> hashtags, List<CommentVO> comment) {
+			AcademyVO academy, CurriculumVO curriculum, List<HashtagVO> hashtags, List<CommentVO> comment, List<CommentVO> like) {
 		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
@@ -71,6 +74,7 @@ public class BoardVO {
 		this.curriculum = curriculum;
 		this.hashtags = hashtags;
 		this.comment = comment;
+		this.comment = like;
 	}
 
 
@@ -190,15 +194,13 @@ public class BoardVO {
 
 	public List<CommentVO> getComment() {
 		return comment;
+	}		
+	
+	public List<CommentVO> getLike() {
+		return like;
 	}
-	
 
 
-
-	
-	
-	
-	
 	@Override
 	public String toString() {
 		return "BoardVO [board_num=" + board_num + ", nickname=" + nickname + ", category=" + category
@@ -207,9 +209,11 @@ public class BoardVO {
 				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
 				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
 				+ ", writer_point=" + writer_point + ", academy=" + academy + ", curriculum=" + curriculum
-				+ ", hashtags=" + hashtags + ", comment=" + comment + "]";
+				+ ", hashtags=" + hashtags + ", comment=" + comment + ", like=" + like + "]";
 	}
 
+
+	
 
 	
 

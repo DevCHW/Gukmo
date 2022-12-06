@@ -131,5 +131,33 @@ public class BoardDAO implements InterBoardDAO{
 
 
 
+	/**
+	 * 글 조회수 1증가하기
+	 * @param paraMap(글번호)
+	 * @return 성공 1 실패 0
+	 */
+	@Override
+	public void setAddReadCount(String board_num) {
+		gukmo_sql.update("hgb.setAddReadCount", board_num);
+		
+	}
+
+
+
+	// 글 상세피이지 진입시 로그인한 회원의 좋아요여부 체크하기
+	/*
+	@Override
+	
+	public int ilikethis(Map<String, String> paraMap) {
+		
+		
+		int ilikethis = gukmo_sql.selectList("hgb.ilikethis", paraMap);
+		
+		return ilikethis;
+	}
+*/
+
+
+
 	
 }
