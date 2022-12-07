@@ -1,9 +1,9 @@
-package com.gukmo.board.hw.service;
+package com.gukmo.board.hw.admin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gukmo.board.hw.repository.InterAdminMemberDAO;
+import com.gukmo.board.hw.admin.repository.InterAdminMemberDAO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 

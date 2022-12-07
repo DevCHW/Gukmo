@@ -1,11 +1,10 @@
-package com.gukmo.board.hw.repository;
+package com.gukmo.board.hw.admin.service;
 
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 
-public interface InterAdminMemberDAO {
+public interface InterAdminMemberService {
 
-	
 	/**
 	 * 회원 정보 얻기
 	 */
@@ -15,5 +14,6 @@ public interface InterAdminMemberDAO {
 	 * 정지당한 회원 정지사유 얻기
 	 */
 	PenaltyVO getPenalty(String nickname);
+
 
 }
