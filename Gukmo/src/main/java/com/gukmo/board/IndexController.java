@@ -1,9 +1,6 @@
 package com.gukmo.board;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gukmo.board.hasol.service.InterBoardService;
 import com.gukmo.board.hasol.service.InterIndexService;
 import com.gukmo.board.model.BoardVO;
-import com.gukmo.board.model.CurriculumVO;
 import com.gukmo.board.model.HashtagVO;
 import com.gukmo.board.model.SearchVO;
 
