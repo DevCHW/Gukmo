@@ -58,6 +58,14 @@ public interface InterBoardDAO {
 	int likeInsert(Map<String, String> paraMap);
 
 
+	// 글조회수 1증가 하기 
+	void setAddReadCount(String board_num);
+
+  /*
+	// 글 상세피이지 진입시 로그인한 회원의 좋아요여부 체크하기
+	int  ilikethis(Map<String, String> paraMap);
+*/
+
 
 	
 

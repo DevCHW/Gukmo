@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.gukmo.board.hasol.repository.InterIndexDAO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CurriculumVO;
+import com.gukmo.board.model.HashtagVO;
+import com.gukmo.board.model.SearchVO;
 
 @Service
 public class IndexService implements InterIndexService {
@@ -16,6 +18,34 @@ public class IndexService implements InterIndexService {
 	@Autowired     // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterIndexDAO dao;
 
+	
+	
+	// 학원 목록을 불러오는 메소드
+	@Override
+	public List<BoardVO> getCurriList1() {
+		List<BoardVO> curriList1 = dao.getCurriList1();
+		return curriList1;
+	}
+
+	@Override
+	public List<BoardVO> getCurriList2() {
+		List<BoardVO> curriList2 = dao.getCurriList2();
+		return curriList2;
+	}
+
+	@Override
+	public List<BoardVO> getCurriList3() {
+		List<BoardVO> curriList3 = dao.getCurriList3();
+		return curriList3;
+	}
+
+	
+	// 학원 목록 촉 개수를 구하기 위한 메소드
+	@Override public int getCurriTotalCnt() {
+		int n = dao.getCurriTotalCnt();
+		return n;
+	}
+	 
 	// 게시판 목록 불러오는 메소드
 	@Override
 	public List<BoardVO> getFreeBoardList() {
@@ -43,6 +73,24 @@ public class IndexService implements InterIndexService {
 		List<BoardVO> reviewBoardList = dao.getReviewBoardList();
 		return reviewBoardList;
 	}
+
 	
+	// 주간 해시태그 순위를 불러오는 메소드
+	@Override
+	public List<HashtagVO> getTopHashList() {
+		List<HashtagVO> topHashList = dao.getTopHashList();
+		return topHashList;
+	}
+
+	// 주간 검색어 순위를 불러오는 메소드
+	@Override
+	public List<SearchVO> getTopSearchList() {
+		List<SearchVO> topSearhList = dao.getTopSearchList();
+		return topSearhList;
+	}
+
+
+
+
 
 }

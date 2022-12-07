@@ -16,11 +16,23 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 해시태그 클릭 시 자동 검색되도록 
 	$("a#hashtag").click(function(e){
 		const $target = $(e.target);
-		let hashtag = $target.text();
+		let hashtag = $target.text().substr(1);
+		console.log(hashtag);
 		$("input#searchWord").val(hashtag);
-		
+
+		goSearch();
+	});
+	
+	// 검색 순위 클릭 시 자동 검색되도록
+	$("a#keyword").click(function(e){
+		const $target = $(e.target);
+		let keyword = $target.text();
+		console.log(keyword);
+		$("input#searchWord").val(keyword);
+
 		goSearch();
 	});
 
@@ -98,5 +110,6 @@ function goSearch (){
 	frm.submit();
 	
 }
+
 
 
