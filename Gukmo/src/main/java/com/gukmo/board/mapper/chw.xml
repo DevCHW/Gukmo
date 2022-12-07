@@ -222,16 +222,17 @@
 		       V.google,
 		       V.facebook,
 		       V.authority,
+		       V.status,
 		       C.academy_name,
 		       C.company_num,
 		       C.homepage,
 		       C.tel
 		from
 			(
-				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook,authority
+				select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook,authority,status
 				from
 				(
-					select userid from tbl_member_login 
+					select userid,status from tbl_member_login 
 					where userid = #{userid} 
 				)A
 				left join
@@ -770,6 +771,38 @@
 	
 	<!--================================================================================================================================-->
 	<!--====================================================== Search 끝=================================================================-->
+	<!--================================================================================================================================-->
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--================================================================================================================================-->
+	<!--====================================================== Admin 시작 =================================================================-->
+	<!--================================================================================================================================-->
+	
+	<!-- 정지당한 회원 정지사유 얻기 -->
+	<select id="getPenalty" parameterType="String" resultType="com.gukmo.board.model.PenaltyVO">
+		select penalty_num,
+	           nickname,
+	           simple_penalty_reason,
+	           detail_penalty_reason,
+	           to_char(penalty_start_date,'yyyy-mm-dd') penalty_start_date,
+	           penalty_period,
+	           to_char(penalty_start_date+penalty_period,'yyyy-mm-dd') as penalty_end_date
+	    from tbl_penalty
+	    where nickname = #{nickname}
+	</select>
+	
+	
+	
+	
+	
+	<!--================================================================================================================================-->
+	<!--====================================================== Admin 끝 =================================================================-->
 	<!--================================================================================================================================-->
 	
 	

@@ -39,7 +39,7 @@
 
 
 <%-- 사이드바 시작 --%>
-<div id="sidebar">
+<div id="sidebar mr-2">
   <h4 id="sidebar_title">관리자 메뉴</h4>
   <ul class="pl-3 pt-3">
     <li id="li_member_List" style="cursor:pointer;" onclick="location.href='<%=ctxPath %>/admin/memberManage_List.do'">일반회원 관리</li>

@@ -16,12 +16,36 @@ public class AdVO {
 	private String start_date;				// 광고 시작일자(default sysdate)
 	private String period;					// 광고 기간(단위 : 일수)
 	private String status;					// 광고 상태(0: 광고중, 1: 노광고중)
-
 	
 	private MultipartFile attach;
 	private String orgfilename;
 	private String filename;
 	private String filesize;
+	
+	//select 용.
+	private String end_date;			//광고 종료일자
+	
+	
+	//기본생성자 막기
+	protected AdVO() {}
+	
+	//파라미터가 있는 생성자 막기
+	public AdVO(String advertisement_num, String division, String client_name,
+				String client_phone, String file_name, String url, String start_date,
+				String period, String status, String end_date) {
+		this.advertisement_num = advertisement_num;
+		this.division = division;
+		this.client_name = client_name;
+		this.client_phone = client_phone;
+		this.file_name = file_name;
+		this.url = url;
+		this.start_date = start_date;
+		this.period = period;
+		this.status = status;
+		this.end_date = end_date;
+	}
+	
+	
 	
 	
 	// 파일 업로드 관련 게터/세터
@@ -59,21 +83,7 @@ public class AdVO {
 
 	
 	
-	protected AdVO() {}
 	
-	public AdVO(String advertisement_num, String division, String client_name,
-				String client_phone, String file_name, String url, String start_date,
-				String period, String status) {
-		this.advertisement_num = advertisement_num;
-		this.division = division;
-		this.client_name = client_name;
-		this.client_phone = client_phone;
-		this.file_name = file_name;
-		this.url = url;
-		this.start_date = start_date;
-		this.period = period;
-		this.status = status;
-	}
 
 	public String getAdvertisement_num() {
 		return advertisement_num;
@@ -108,6 +118,10 @@ public class AdVO {
 	}
 
 	public String getStatus() {
+		return status;
+	}
+	
+	public String getEnd_date() {
 		return status;
 	}
 
