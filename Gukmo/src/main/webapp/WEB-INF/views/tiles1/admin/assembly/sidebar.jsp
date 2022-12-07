@@ -6,7 +6,7 @@
 %>
 
 <%-- 페이지바 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/assembly/sideBar.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/assembly/sidebar.css" />
 
 
 <script type="text/javascript">
@@ -16,16 +16,21 @@
 	
 	//event
 	$(document).ready(function(){
+		
+		
+		
 	  let url = window.document.location.href;
 	  url = url.substr(27);
 	  switch (url) {
 	  case "/admin/memberManage_List.do" :	//일반회원메뉴
-	    $("li#li_member_List").css("font-weight","bold");
-	    $("li#li_member_List").css("font-size","15px");
+	    $("div#memberManageMenu").css("display","flex");
+		$("span#nomalMemberManage").css("font-weight","bold");
+		$("span#nomalMemberManage").css("font-size","15px");
 	    break;
-	  case "/admin/academyManage_List.do" :	//학원회원메뉴
-	    $("li#li_acaMember_List").css("font-weight","bold");
-	    $("li#li_acaMember_List").css("font-size","15px");		
+	  case "/admin/academyManage_List.do" :	//교육기관회원메뉴
+		$("div#memberManageMenu").css("display","flex");
+		$("span#academyMemberManage").css("font-weight","bold");
+		$("span#academyMemberManage").css("font-size","15px");		
 	    break;
 	  case "/admin/adManage_List.do" :	//광고메뉴
 	    $("li#li_ad_List").css("font-weight","bold");
@@ -36,7 +41,7 @@
 	    $("li#li_report_List").css("font-size","15px");
 	    break;
 	  }//end of switch-case---
-	
+	  
 	  
 	  //회원 클릭시 이벤트(열고닫기)
 	  $("li#li_member_list").click(function(){
@@ -48,22 +53,22 @@
 	    }
 	  });//end of Event---
 	
+	
 	});//end of $(document).ready(function(){})----
 </script>
-
 
 
 
 <div id="sidebar" class="pl-4 py-5">
   <h4 id="sidebar_title">관리자 메뉴</h4>
   <ul class="pl-3 pt-3">
-    <li id="li_statistics">통계</li>
+    <li id="li_statistics" onclick="">통계</li>
     <li id="li_member_list">회원</li>
     <div id="memberManageMenu" class="flex-column pl-4">
-      <span id="nomalMemberManage" class="detail_menu">일반회원</span>
-      <span id="academyMemberManage" class="detail_menu">교육기관회원</span>
+      <span id="nomalMemberManage" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/memberManage_List.do'">일반회원</span>
+      <span id="academyMemberManage" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/academyManage_List.do'">교육기관회원</span>
     </div>
-    <li id="li_advertisement_list">광고</li>
-    <li id="li_report_list">신고내역</li>
+    <li id="li_ad_List" onclick="location.href='<%=ctxPath %>/admin/adManage_List.do'">광고</li>
+    <li id="li_report_list" onclick="location.href='<%=ctxPath %>/admin/reportManage_List.do'">신고내역</li>
   </ul>
 </div>

@@ -42,20 +42,20 @@ div.list_box:hover{
   background-color: #f0f0f5;
 }
 
-div.userid{
-  width:22.5%;
+div.division{
+  width:13%;
 }
-div.nickname{
-  width:22.5%;
+div.client_name{
+  width:22%;
 }
-div.academy_name{
-  width:22.5%;
+div.client_phone{
+  width:25%;
 }
-div.join_date{
-  width:22.5%;
+div.period{
+  width:30%;
 }
 div.status{
-  width:10%;
+  width:15%;
 }
 
 /* 교육기관회원리스트 css 끝 */
@@ -70,20 +70,23 @@ div.status{
   div#section{
     flex-direction: column-reverse;
   }
-  div.userid{
-    width:30%
+  
+  div.division{
+    width:23.25%;
   }
-  div.nickname{
-    width:30%
+  div.client_name{
+    width:24.25%;
   }
-  div.academy_name{
-    width:30%
+  div.client_phone{
+    width:31.25%;
   }
-  div.join_date{
+  
+  div.period{
     display:none;
   }
+  
   div.status{
-    width:10%
+    width:21.25%;
   }
 }
 

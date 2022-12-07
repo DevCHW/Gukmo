@@ -129,77 +129,6 @@ public class memberManageController {
 	
 	
 	
-	// 회원 정보 상세보기 
-	@RequestMapping(value="/admin/memberDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requiredAdminLogin_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		Map<String, String> paraMap = new HashMap<>();
-		String userid = request.getParameter("userid");
-		paraMap.put("userid", userid);
-		
-	    String searchType = request.getParameter("searchType");
-		String searchWord = request.getParameter("searchWord");
-		String memberStatus = request.getParameter("division");				
-
-		String str_page = request.getParameter("page");
-		
-		if(memberStatus == null) {
-			memberStatus = "";	
-		}
-		
-		 if(searchType == null || (!"detail_category".equals(searchType) && !"subject".equals(searchType) ) ) {
-			searchType = "";
-		 }
-		
-		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
-		 	searchWord = "";
-		 }
-		
-		 paraMap.put("searchType", searchType);
-		 paraMap.put("searchWord", searchWord);
-		 paraMap.put("memberStatus", memberStatus);
-		
-		 // 활동 내역 총 페이지수 알아오기
-		 int totalCount = service.getTotalActCount(paraMap);           // 총 게시물 건수
-		 int sizePerPage = 5;         // 한 페이지당 보여줄 게시물 건수 
-		 int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
-		 int page = getPage(str_page,totalPage);    // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
-		
-		 paraMap = getRno(page,sizePerPage,paraMap);
-		 String url = "memberDetail.do";
-		
-		 List<ActivityVO> detailActList = service.getDetailActList(paraMap);
-		 
-		Map<String,String> pageMap = new HashMap<>();
-		pageMap.put("searchWord",searchWord);
-		pageMap.put("searchType",searchType);
-		pageMap.put("memberStatus",memberStatus);
-		pageMap.put("keyWord", "division");
-		pageMap.put("userid", userid);
-		 
-		String pageBar = getDetailPageBar(page,totalPage,url,pageMap);
-		
-		 if( !"".equals(searchType) && !"".equals(searchWord) ) {
-			 mav.addObject("paraMap", paraMap);
-		 }
-	
-		
-		MemberVO memberDetail = service.getMemberDetail(paraMap);	
-		// List<ActivityVO> actList = service.getActList(paraMap);
-		
-		request.setAttribute("paraMap", paraMap);
-		request.setAttribute("totalCount", totalCount);			
-
-		// mav.addObject("actList", actList);
-		mav.addObject("pageBar", pageBar);
-		mav.addObject("actList", detailActList);
-		mav.addObject("memberDetail", memberDetail);		
-		
-		//이전페이지
-//		mav.setViewName("admin/memberDetail.tiles1");
-		//재탄생한 페이지
-//		mav.setViewName("admin/member/normal/detail.tiles1");
-		return mav;
-	}
 	
 	// ============= 일반회원 관리 끝  ============= //
 
@@ -523,14 +452,19 @@ public class memberManageController {
 		
 		
 		//이전페이지
-		mav.setViewName("admin/adManage_List.tiles1");
+//		mav.setViewName("admin/adManage_List.tiles1");
 		
 		//재탄생한 페이지
-//		mav.setViewName("admin/advertisement/adManage_List.tiles1");
+		mav.setViewName("admin/advertisement/list.tiles1");
 		
 		return mav;
 	} // end of 광고내역 리스트 보기
 
+	
+	
+	
+	
+	
 	
 	// 광고 관련 정보 상세보기 
 	@RequestMapping(value="/admin/adDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.

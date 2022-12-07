@@ -6,7 +6,7 @@
 %>
 
 <%-- 페이지바 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/assembly/pageBar.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/assembly/pagebar.css" />
     
     
  <nav aria-label="...">

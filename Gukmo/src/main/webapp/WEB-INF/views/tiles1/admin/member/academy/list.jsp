@@ -4,7 +4,10 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-    
+
+<%-- 교육기관회원리스트 페이지입니다. --%>
+
+
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/member/academy/list.css" />
 
@@ -70,7 +73,7 @@
 
         <!-- 교육기관회원 반복문 시작 -->
         <c:forEach var="acamembervo" items="${requestScope.academymemberList}" varStatus="status">
-        <div class="list_box d-flex justify-content-between py-3 border-bottom">
+        <div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath%>/admin/member/detail.do?userid=${acamembervo.userid}'">
           <!-- userid -->
           <div class="member_info userid text-center">
             <div>
@@ -113,7 +116,7 @@
 
       <!---------------------- 페이지 바 시작 -------------------------->
       
-      <jsp:include page="/WEB-INF/views/tiles1/admin/assembly/pageBar.jsp" />
+      <jsp:include page="/WEB-INF/views/tiles1/admin/assembly/pagebar.jsp" />
       
       <!------------------------- 페이지 바 끝 ------------------------->
       

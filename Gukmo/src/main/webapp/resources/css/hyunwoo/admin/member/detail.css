@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+
+
+
+
+
+/* main 시작 */
+
+
+div#profile_img_box{
+  width:100px;
+  height:100px;
+  position:relative;
+  border-radius: 50%;
+}
+
+div#profile_img_box > img{
+  width:100%;
+  height: 100%;
+  position:absolute;
+  border-radius: 50%;
+}
+
+div#nickname{
+  font-size:25px;
+  font-weight: bold;
+}
+
+div#id_image_box{
+  display:flex;
+}
+
+span.info_title{
+  display:inline-block;
+  width: 200px;
+}
+
+
+div.sns_image img{
+  width : 40px;
+  height: 40px;
+}
+
+div#member_nav_bar{
+  height:40px;
+}
+
+div#member_navbar > div{
+  cursor:pointer;
+}
+
+
+div.detail_info_area{
+  display:none;
+}
+
+span#view_reason,
+span#btn_insert_penalty_modal{
+  color:#0090F9;
+  border-bottom:solid 1px #0090F9;
+  font-size:12px;
+  cursor:pointer;
+}
+span#view_reason:hover,
+span#btn_insert_penalty_modal:hover{
+  color:#0B7FD3;
+  border-bottom:solid 1px #0B7FD3;
+}
+
+
+select#select_status,
+select#select_authority{
+  outline: none;
+  display:none;
+  height:30px;
+}
+
+button#btn_editClose{
+  display:none;
+}
+
+span#btn_insert_penalty_modal{
+  display:none;
+}
+
+/* main 끝 */
+
+
+
+
+
+/* modal */
+
+.modal-body {
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
+}
+div#penalty_detail_reason{
+  width:100%;
+}
+
+div#detail_penalty_reason_area{
+  display:none;
+}
+
+textarea#email_message,
+textarea#detail_penalty_reason{
+  outline: none;
+}
+
+button#btn_insert_penalty_modal{
+  display:none;
+}
+
+select{
+  outline: none;
+}
+
+
+
+
+
+/* 768px 미만 미디어쿼리 */
+@media screen and (max-width: 768px){
+  div#sidebar{
+    border-top:solid 1px #EBEBEB;
+    width:100%;
+  }
+  div#section{
+    flex-direction: column-reverse;
+  }
+  div#id_image_box{
+    display:block;
+  }
+}
+
