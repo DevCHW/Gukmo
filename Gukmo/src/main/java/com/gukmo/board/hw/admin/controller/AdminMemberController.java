@@ -1,8 +1,5 @@
-package com.gukmo.board.hw.controller;
+package com.gukmo.board.hw.admin.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gukmo.board.hw.service.InterAdminMemberService;
-import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.hw.admin.service.InterAdminMemberService;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 

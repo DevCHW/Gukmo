@@ -88,7 +88,8 @@ public class APILoginController {
 	public String NaverLoginPro(HttpServletRequest request,@RequestParam String code, @RequestParam String state, HttpSession session) throws SQLException, Exception {
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverloginbo.getAccessToken(session, code, state);
-		
+				
+				
 		String apiResult = naverloginbo.getUserProfile(oauthToken);
 		
 		//날아온 토큰값 확인

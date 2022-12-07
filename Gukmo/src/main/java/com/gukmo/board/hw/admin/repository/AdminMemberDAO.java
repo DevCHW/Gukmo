@@ -1,4 +1,4 @@
-package com.gukmo.board.hw.repository;
+package com.gukmo.board.hw.admin.repository;
 
 
 import javax.annotation.Resource;

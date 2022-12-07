@@ -217,36 +217,6 @@ public class memberManageController {
 	
 	
 	
-	
-	
-	
-	// 회원 정보 상세보기 
-	@RequestMapping(value="/admin/aca_memberDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requiredAdminLogin_aca_memberDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		Map<String, String> paraMap = new HashMap<>();
-		String userid = request.getParameter("userid");
-		paraMap.put("userid", userid);
-		List<ActivityVO> actList = service.getActList(paraMap);
-		
-		mav.addObject("actList", actList);
-		
-		MemberVO aca_memberDetail = service.getAcademyDetail(paraMap);
-		
-		mav.addObject("aca_memberDetail", aca_memberDetail);
-		
-		//이전페이지
-		mav.setViewName("admin/aca_memberDetail.tiles1");
-		
-		//재탄생한 페이지
-//		mav.setViewName("admin/aca_memberDetail.tiles1");
-		
-		return mav;
-	}
-
-	
-	
-	
-	
 	// 회원가입 요청 승인
 	@ResponseBody
 	@RequestMapping(value="/admin/Regi_agree.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
@@ -328,6 +298,8 @@ public class memberManageController {
 		return mav;
 	}
 
+	
+	
 	// 정지 해제 
 	@ResponseBody
 	@RequestMapping(value="/admin/block_recovery.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
@@ -648,9 +620,9 @@ public class memberManageController {
 		request.setAttribute("totalCount", totalCount);
 		
 		//이전페이지
-		mav.setViewName("admin/report_List.tiles1");
+//		mav.setViewName("admin/report_List.tiles1");
 		//재탄생한 페이지
-//		mav.setViewName("admin/report/report_List.tiles1");
+		mav.setViewName("admin/report/list.tiles1");
 		
 		return mav;
 	} // end of 신고내역 리스트 보기	
@@ -673,8 +645,10 @@ public class memberManageController {
 		request.setAttribute("reportedId", reportedId);		
 		mav.addObject("reportDetail", reportDetail);
 		
-		mav.setViewName("admin/reportDetail.tiles1");
+//		mav.setViewName("admin/reportDetail.tiles1");
 	      //   /WEB-INF/views/tiles1/admin/memberDetail.jsp 파일을 생성한다.
+		
+		mav.setViewName("admin/report/detail.tiles1");
 		return mav;
 	}// 신고 관련 정보 상세보기 끝
 	

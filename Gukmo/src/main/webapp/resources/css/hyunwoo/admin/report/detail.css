@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+
+/* main 시작 */
+span.report_info_title{
+  display:inline-block;
+  width:150px;
+  border-right:solid 1px #EBEBEB;
+  margin-right:8px;
+}
+
+span#btn_view_list_report,
+span#btn_view_list_reported{
+  width:48px;
+  cursor:pointer;
+  color:#0090F9;
+  border-bottom:solid 1px #0090F9;
+  font-size:12px;
+}
+
+span#btn_view_list_report:hover,
+span#btn_view_list_reported:hover{
+  color:#0B7FD3;
+  border-bottom:solid 1px #0B7FD3;
+}
+
+/* main 끝 */
+
+
+
+
+
+/* Modal */
+textarea#detail_penalty_reason{
+  outline: none;
+}
+div#detail_penalty_reason_area{
+  display:none;
+}
+
+input#nickname,
+select#simple_penalty_reason,
+select#penalty_period{
+  height:40px;
+  outline: none;
+}
+
+
+
+
+/* 768px 미만 미디어쿼리 */
+@media screen and (max-width: 768px){
+  div#section{
+    flex-direction: column-reverse;
+  }
+}
+
+
+
+
