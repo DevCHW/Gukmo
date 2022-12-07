@@ -1,4 +1,4 @@
-package com.gukmo.board; 
+package com.gukmo.board;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,60 +16,74 @@ import com.gukmo.board.hasol.service.InterBoardService;
 import com.gukmo.board.hasol.service.InterIndexService;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CurriculumVO;
-
+import com.gukmo.board.model.HashtagVO;
+import com.gukmo.board.model.SearchVO;
 
 @Controller
 public class IndexController {
-	
+
 	@Autowired
 	private InterIndexService service;
+
+	@RequestMapping(value = "/index.do")
+	public ModelAndView hello_gukmo(ModelAndView mav, HttpServletRequest request) {
+
+		// 학원 목록 불러오는 메소드
+		int totalCnt = 0;
+
+		try {
+			totalCnt = service.getCurriTotalCnt();
+			// System.out.println("totalCnt:" + totalCnt);
+			
+			List<BoardVO> curriList1 = service.getCurriList1();
+			mav.addObject("curriList1", curriList1);
+			// System.out.println("curriList1:"+curriList1);
+			
+			if(totalCnt > 8) {
+				List<BoardVO> curriList2 = service.getCurriList2();
+				mav.addObject("curriList2", curriList2);
+				// System.out.println("curriList2:"+curriList2);
+				
+				if(totalCnt > 16) {
+					List<BoardVO> curriList3 = service.getCurriList3();
+					mav.addObject("curriList3", curriList3);
+					// System.out.println("curriList3:" +curriList3);
+				}
+			}
+
+		}catch (NullPointerException e) {
+			String html = "<div> 모집 중인 학원이 없습니다. </div>";
+			mav.addObject("html" , html);
+		}
 	
-	
-    @RequestMapping(value="/index.do")
-    public ModelAndView hello_gukmo(ModelAndView mav, HttpServletRequest request) {
-    	
-    	
-    	//    오늘 날짜 값 불러오기
-    	Date currentTime = new Date();
-    	SimpleDateFormat date = new SimpleDateFormat("yyyy-dd-mm");
-		String today = date.format(currentTime);
 		
-		/*
-		 * // 학원 목록 불러오는 메소드 List<Map<String, String>> curriList =
-		 * service.getCurriList();
-		 * 
-		 * // 수강 시작 d-day 계산 메소드
-		 * 
-		 * 
-		 * // 학원 날짜 값 불러오기 String startDate = curriList.
-		 * 
-		 * int Dday = 0;
-		 * 
-		 * 
-		 * 
-		 * // 페이징 int totalCount = 0;
-		 */
-	    
-	   
-    	// 자유 게시판 목록 불러오는 메소드
-    	List<BoardVO> freeBoardList = service.getFreeBoardList();
-    	
-    	// 스터디 게시판 목록 불러오는 메소드
-    	List<BoardVO> studyBoardList = service.getStudyBoardList();
-    	
-    	// QnA 게시판 목록 불러오는 메소드
-    	List<BoardVO> qnaBoardList = service.getQnaBoardList();
-    	
-    	// 후기/정보공유 게시판 목록 불러오는 메소드
-    	List<BoardVO> reviewBoardList = service.getReviewBoardList();
-    
+		// 주간 해시태그 순위를 불러오는 메소드
+		List<HashtagVO> topHashList = service.getTopHashList();
+		
+		// 주간 검색어 순위를 불러오는 메소드
+		List<SearchVO> topSearchList = service.getTopSearchList();
+
+		// 자유 게시판 목록 불러오는 메소드
+		List<BoardVO> freeBoardList = service.getFreeBoardList();
+
+		// 스터디 게시판 목록 불러오는 메소드
+		List<BoardVO> studyBoardList = service.getStudyBoardList();
+
+		// QnA 게시판 목록 불러오는 메소드
+		List<BoardVO> qnaBoardList = service.getQnaBoardList();
+
+		// 후기/정보공유 게시판 목록 불러오는 메소드
+		List<BoardVO> reviewBoardList = service.getReviewBoardList();
+
+		mav.addObject("topHashList", topHashList);
+		mav.addObject("topSearchList", topSearchList);
 		mav.addObject("freeBoardList", freeBoardList);
 		mav.addObject("studyBoardList", studyBoardList);
 		mav.addObject("qnaBoardList", qnaBoardList);
 		mav.addObject("reviewBoardList", reviewBoardList);
-		
-	    mav.setViewName("index.tiles1");
-	   
-	    return mav;
-   }
+
+		mav.setViewName("index.tiles1");
+
+		return mav;
+	}
 }

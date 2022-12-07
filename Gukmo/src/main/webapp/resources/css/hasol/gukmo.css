@@ -23,7 +23,6 @@ body {font-family: 'Noto Sans KR', sans-serif;}
 /* 모든 a 태그에 기본 디자인 설정 삭제 */
 #mycontent a {
 	text-decoration: none;
-	color:black;
 }
 
 

@@ -33,7 +33,11 @@ public class BoardVO {
 	//select 용도(TBL_CURRICULUM)
 	private CurriculumVO curriculum;
 	
+	//select 용도
+	private String dday;
     
+	
+
 	// 해시태그VO리스트(연관관계에 있는 필드)
 	List<HashtagVO> hashtags;
 	
@@ -172,6 +176,11 @@ public class BoardVO {
 		return writer_point;
 	}
 
+	public String getDday() {
+		return dday;
+	}
+
+	
 
 
 	public AcademyVO getAcademy() {
