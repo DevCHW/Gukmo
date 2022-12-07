@@ -7,6 +7,8 @@ function getContextPath(){
 
 $(document).ready(function(){
   
+	
+	
     // select 값 잡기
     const urlParams = new URL(location.href).searchParams;
     let detail_category = urlParams.get('detailC');
@@ -48,6 +50,12 @@ $(document).ready(function(){
         counter++; // counter 증가 삭제를 위한 del-btn 의 고유 id 가 된다.
       }
 
+      function marginTag() {
+          return Object.values(hashtag).filter(function (word) {
+              return word !== "";
+            });
+        }
+      
       // 최종적으로 서버에 넘길때 tag 안에 있는 값을 만들어서 넘긴다.
       function strTag() {
         return Object.values(hashtag).join(',');
@@ -57,15 +65,6 @@ $(document).ready(function(){
       $("#hashtag").on("keyup", function (e) {
           var self = $(this);
           
-          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
-          	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
-          		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
-                hashtag[index] = "";
-          		$("input#hashtag").prev().remove();
-          		return;
-          	} 
-          }
-
           // input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
           if (e.key === "Enter" || e.keyCode == 32) {
 
@@ -101,6 +100,17 @@ $(document).ready(function(){
             e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
           }
           
+          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
+            	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
+            		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
+                  hashtag[index] = "";
+            		$("input#hashtag").prev().remove();
+            		return;
+            	} 
+            }
+          
+          
+          
         });
 
       // 삭제 버튼
@@ -114,12 +124,24 @@ $(document).ready(function(){
     // ==== 해시태그 구현 끝 ==== // 
     
       
+      
+      const frm = document.writerFrm;
+      let flag = false;
+      
+      
       function frm_check(){
-    		
-  		var value = strTag();
-          $("#str_hashTag").val(value);
-           // console.log(value);
-           //console.log(typeof(value));
+    	  
+    	  var values = "";
+    	  $("li.tag-item").each(function( index, element) {
+    		  var value = $(this).text().substr(1);
+    		  values += value+ ",";
+		   });
+    	  
+    	  values = values.slice(0, -1);
+    	  $("#str_hashTag").val(values);
+		   // console.log(values);
+		   
+
           
       	// ==== 스마트 에디터 구현 시작 ==== //
       	// id가 content인 textarea에 에디터에서 대입
@@ -129,7 +151,7 @@ $(document).ready(function(){
       	const detail_category = $("select#detail_category").val();
       	if(detail_category == "") {
       		alert("카테고리를 선택하세요!!");
-  			return;
+      		return;
       	}
       	
       	// 글제목 유효성 검사
@@ -148,8 +170,11 @@ $(document).ready(function(){
   	            
   	    if(contentval.trim().length == 0) {
   	  	  alert("글내용을 입력하세요!!");
-  	      return;
+  	  	  return;
   	    }
+  	    
+  	    frm.method = "POST"
+  	    flag = true;
   	}
      
       
@@ -159,10 +184,10 @@ $(document).ready(function(){
     $("button#btn_write").click(function() {
     	frm_check();
 	    // 폼을 전송
-	    const frm = document.writerFrm;
-	    frm.method = "POST";
-	    frm.action = getContextPath()+"/community/newEnd.do";
-	    frm.submit();
+    	if(flag){
+    		frm.action = getContextPath()+"/community/newEnd.do";
+    		frm.submit();
+    	}
 	});
     
     
@@ -170,11 +195,11 @@ $(document).ready(function(){
 	// 수정 버튼을 클릭했을시
     $("button#btn_modify").click(function() {
     	frm_check();
+    	if(flag){
 	    // 폼을 전송
-	    const frm = document.writerFrm;
-	    frm.method = "POST";
 	    frm.action = getContextPath()+"/community/modify.do";
 	    frm.submit();
+    	}
 	});
     
 });// end of document

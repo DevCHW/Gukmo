@@ -17,15 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
+import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
-import com.gukmo.board.sun.repository.InterBoardDAO;
+import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sun.service.InterBoardService;
-import com.gukmo.board.common.MyUtil;
 
 
 @Controller
@@ -33,9 +32,6 @@ public class BoardController {
 	
 	@Autowired
 	private InterBoardService service;
-	
-	@Autowired
-	private InterBoardDAO bdao;
 	
 	@Autowired 
 	private FileManager fileManager;
@@ -479,7 +475,11 @@ public class BoardController {
 			
 			String board_num = boardvo.getBoard_num();
 			
-			n = service.hashTagDel(board_num); // 기존 해시태그 맵핑테이블에 있는 데이터 삭제
+			String orgin_hashTag = request.getParameter("orgin_hashTag");
+			
+			if(orgin_hashTag != "") {
+				n = service.hashTagDel(board_num); // 기존 해시태그 맵핑테이블에 있는 데이터 삭제
+			}
 			
 			String str_hashTag = request.getParameter("str_hashTag");
 			
@@ -516,7 +516,7 @@ public class BoardController {
 
 	// 글삭제 요청
 	@RequestMapping(value="/community/del.do")
-	public String requiredLogin_del(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public String requiredLogin_del(HttpServletRequest request, HttpServletResponse response) {
 		
 		// 삭제해야 할 글번호 가져오기
 		String board_num = request.getParameter("boardNum");
@@ -524,7 +524,6 @@ public class BoardController {
 		Map<String, Object> paraMap = new HashMap<>();
 		paraMap.put("board_num", board_num);
 
-		
 		BoardVO boardvo = service.getBoardDetail(paraMap);
 		
 		HttpSession session = request.getSession();
@@ -536,9 +535,6 @@ public class BoardController {
 			request.setAttribute("loc", "javascript:history.back()");
 		}
 		else {// 본인 글을 삭제하는 경우
-			
-			paraMap.put("division", "게시글작성");// 활동내역용
-			paraMap.put("fk_userid",user.getUserid());
 			
 			int n = service.boardDel(paraMap);
 			
@@ -558,27 +554,41 @@ public class BoardController {
 	
 	
 	
-	
-	
-	
-	
 	// 신고 페이지 요청
-	@RequestMapping(value="/community/report.do" )
-	// public ModelAndView report(HttpServletRequest request, HttpServletResponse response, ModelAndView mav){ // <== before Advice(로그인체크)
-	public ModelAndView report(HttpServletRequest request, HttpServletResponse response, ModelAndView mav){
+	@RequestMapping(value="/community/report.do", method= {RequestMethod.GET} )
+	public String requiredLogin_report(HttpServletRequest request, HttpServletResponse response){
 		
+		String board_num = request.getParameter("boardNum");
 		
-		// 카테고리 값 지정용
-		// String detail_category = request.getParameter("detail_category");
+		Map<String, Object> paraMap = new HashMap<>();
+		paraMap.put("board_num", board_num);
 		
-		// mav.addObject("detail_category", detail_category);
+		BoardVO boardvo = service.getBoardDetail(paraMap);
 		
-		mav.setViewName("/report");
+		request.setAttribute("boardvo", boardvo);
 		
-		return mav;
+		return "/report";
 	}
 	
 	 
+	
+	// 신고하기
+	@RequestMapping(value="/community/reportEnd.do", method= {RequestMethod.POST} )
+	public String requiredLogin_reportEnd(HttpServletRequest request, HttpServletResponse response, ReportVO reportvo){
+		
+		int n = service.reportInsert(reportvo);
+		
+		if(n==0) {
+			request.setAttribute("message", "시스템 오류로 실패했습니다. 다시 시도해주세요.");
+			request.setAttribute("loc", "javascript:history.back()");
+		}
+		else {
+			request.setAttribute("message", "신고완료");
+			request.setAttribute("loc", "javascript:window.close()");
+		}
+		return "msg";
+	}
+	
 	
 	
 	

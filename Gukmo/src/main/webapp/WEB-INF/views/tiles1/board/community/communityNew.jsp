@@ -26,6 +26,9 @@
 	  <%-- 등록용 닉네임 --%>
 	  <input type="text" name="nickname" value="${sessionScope.user.nickname}" />
 	  <input type="text" name="profile_image" value="${sessionScope.user.profile_image}" />
+	  <input type="text" name="orgin_hashTag" value="<c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}">
+	  ${hashtags.hashtag}
+	  </c:forEach>" >
 	  <input type="text" id="str_hashTag" name="str_hashTag" value=""/>
 	  <input type="text" id="board_num" name="board_num" value="${requestScope.boardvo.board_num}"/>
 	  

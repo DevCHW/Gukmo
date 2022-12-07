@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.PenaltyVO;
+import com.gukmo.board.model.ReportVO;
 
 public interface InterBoardService{
 	
@@ -34,6 +36,9 @@ public interface InterBoardService{
 
 	// 해시태그 수정시 기존 해시태그 삭제
 	int hashTagDel(String board_num);
+
+	// 신고하기
+	int reportInsert(ReportVO reportvo);
 
 
 	

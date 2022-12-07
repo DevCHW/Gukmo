@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.HashtagVO;
+import com.gukmo.board.model.PenaltyVO;
+import com.gukmo.board.model.ReportVO;
 
 public interface InterBoardDAO {
 
@@ -52,6 +54,9 @@ public interface InterBoardDAO {
 
 	// 포인트 차감
 	int pointMinus(Map<String, Object> paraMap);
+
+	// 신고하기
+	int reportInsert(ReportVO reportvo);
 
 	
 	

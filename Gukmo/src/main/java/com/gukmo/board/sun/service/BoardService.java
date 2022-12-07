@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.HashtagVO;
+import com.gukmo.board.model.PenaltyVO;
+import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sun.repository.InterBoardDAO;
 
 
@@ -116,23 +118,37 @@ public class BoardService implements InterBoardService{
 	// 게시글 삭제
 	@Override
 	public int boardDel(Map<String, Object> paraMap) {
-		int n1=0,n2 = 0,n3 = 0;
-		String board_num = (String) paraMap.get("board_num");
-
-		n1 = dao.hashTagDel(board_num);
-		System.out.println("n1성공"+n1);
-		
-		n2 = dao.activityDel(paraMap);
-		System.out.println("n2성공"+n2);
-	
+		int n1=0,n2 = 0,n3 = 0, n4=0;
+//		
+//		String board_num = (String) paraMap.get("board_num");
+//		BoardVO boardvo = (BoardVO)paraMap.get("boardvo");
+//		
+//		if(boardvo.getHashtags() != null) {
+//			n1 = dao.hashTagDel(board_num); 
+//			System.out.println("n1성공"+n1);
+//		}
+//		
+//		n2 = dao.activityDel(paraMap);
+//		System.out.println("n2성공"+n2);
+//		
+//		n3 = dao.commentDel(papaMap);
+//	
 		n3 = dao.boardDel(paraMap);
 		System.out.println("n3성공"+n3);
 		
-		n3 = dao.pointMinus(paraMap);
-		System.out.println("n3성공"+n3);
+//		n3 = dao.pointMinus(paraMap);
+//		System.out.println("n4성공"+n4);
 
 		
 		return n3;
+	}
+
+
+	// 신고하기
+	@Override
+	public int reportInsert(ReportVO reportvo) {
+		int n = dao.reportInsert(reportvo);
+		return n;
 	}
 
 	

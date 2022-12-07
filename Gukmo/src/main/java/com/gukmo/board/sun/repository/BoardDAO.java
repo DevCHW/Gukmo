@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.HashtagVO;
+import com.gukmo.board.model.PenaltyVO;
+import com.gukmo.board.model.ReportVO;
 
 
 @Repository
@@ -130,6 +132,15 @@ public class BoardDAO implements InterBoardDAO{
 	@Override
 	public int pointMinus(Map<String, Object> paraMap) {
 		int n = gukmo_sql.update("sun.pointMinus", paraMap);
+		return n;
+	}
+
+
+	
+	// 신고하기
+	@Override
+	public int reportInsert(ReportVO reportvo) {
+		int n = gukmo_sql.insert("sun.reportInsert", reportvo);
 		return n;
 	}
 	
