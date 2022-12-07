@@ -58,9 +58,31 @@ ul#hashtag_list > li{
 }
 
 
+/* hashtag */
+div#hashtag_box{
+  height: 40px;
+}
+input#hashtag{
+  height: 100%;
+}
+ul#hashtag_list{
+  height: 100%;
+  list-style: none;
+  padding:0;
+  margin:0;
+  text-align:center;
+}
+ul#hashtag_list > li{
+  display:inline-block;
+  font-size:small;
+  padding-left: 8px;
+  background-color:#E5E7EB;
+  border-radius:15px;
+}
+
 
 /* button */
-button#btn_write{
+button#btn_write, button#btn_modify{
   background-color: #14587D;
   color:white;
 }

@@ -31,35 +31,51 @@
 	
 	<!-- 게시판 리스트 얻기 -->
 	<select id="boardList" parameterType="HashMap" resultMap="boardList">
-		select rno, board_num, b.nickname, category, detail_category, subject, content, write_date, views, profile_image, comment_cnt, like_cnt, point as writer_point
-			   ,hashtag_num, hashtag
-		from 
-		(
-		    select rno, board_num, nickname, category, detail_category, subject, content, write_date, views, profile_image, comment_cnt, like_cnt
-		    ,hashtag_num, hashtag
-		    from 
-		    (
-		        select dense_rank() over(order by v.board_num desc) as rno, v.board_num, nickname, category, detail_category, subject, content, write_date, views, profile_image, comment_cnt, like_cnt
-		        	   ,h.hashtag_num, h.hashtag
-		        from 
-		        (	
-		            select board_num, nickname, category, detail_category
-		                  , subject, content, write_date
-		                  , views, profile_image, comment_cnt, like_cnt
-		            from tbl_board
-		            where 1=1 
-		            and category = '커뮤니티' and detail_category = #{detail_category}
-		            <if test='searchWord != "" '>
-		            and (subject like '%'||lower(#{searchWord})||'%'
-		            or content like '%'||lower(#{searchWord})||'%')
-			    	</if>
-		            order by write_date desc
-		        )v left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
-    			on v.board_num = h.fk_board_num
-		    )
-		 where rno between #{startRno} and #{endRno}
-		) b left join (select nickname, point from tbl_member) m on b.nickname = m.nickname
-		order by #{sortType} desc
+	select V.*
+	from
+	 (
+	 <if test='sortType == ""'>
+	 select DENSE_RANK() OVER (ORDER BY C.board_num desc) rno
+	 </if>
+	 <if test='sortType != ""'>
+	 select DENSE_RANK() OVER (ORDER BY C.${sortType} desc,C.board_num desc) rno
+	 </if>
+	        ,C.board_num
+	        ,C.nickname
+	        ,C.category
+	        ,C.detail_category
+	        ,C.subject
+	        ,C.write_date
+	        ,C.views
+	        ,C.profile_image
+	        ,C.comment_cnt
+	        ,C.like_cnt
+	        ,C.hashtag_num
+	        ,C.hashtag
+	        ,C.fk_board_num
+	        ,D.point writer_point
+	  from
+	    (
+	    select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+	      ,B.hashtag_num,B.fk_board_num,B.hashtag
+	    from
+	       (
+	       select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
+	       from tbl_board where category = '커뮤니티' and detail_category = #{detail_category}
+	       <if test='searchWord != ""'>
+	         and (subject like '%'|| lower(#{searchWord}) ||'%'
+	         or content like '%'|| lower(#{searchWord}) ||'%')
+	       </if>
+	       ) A
+	    left join 
+	       (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
+	    on A.board_num = B.fk_board_num
+	    ) C
+	 left join
+	        (select point,nickname from tbl_member) D
+	 on C.nickname = D.nickname
+	 ) V
+	where rno between #{startRno} and #{endRno}
 	</select>
 	
 	
@@ -71,17 +87,17 @@
 	
 	<select id="findHashtag" parameterType="String" resultType="com.gukmo.board.model.HashtagVO">
         select *
-        from tbl_hashtag2
+        from tbl_hashtag
         where hashtag = #{hashtag}
     </select>
     
     <insert id="saveHashTag" parameterType="String" >
-        insert into tbl_hashtag2(hashtag_num, hashtag)
+        insert into tbl_hashtag(hashtag_num, hashtag)
         values (seq_hashtag.nextval, #{hashtag})
     </insert>
     
 	<update id="upHashTagCount" parameterType="Integer">
-        update tbl_hashtag2
+        update tbl_hashtag
         set hashtag_cnt = hashtag_cnt + 1
         where hashtag_num=#{hashtag_num}
     </update>
@@ -89,7 +105,7 @@
 
    <insert id="hashtagBoardMapping" parameterType="HashMap" >
         insert into tbl_hashtag_board_map(hashtag_num, fk_board_num)
-        values (#{hashtag_num}, #{fk_board_num})
+        values (#{hashtag_num}, #{board_num})
     </insert>
     
     
@@ -117,77 +133,58 @@
 	</select>
 	
 	
-	
-	<!-- getBoardDetail를 보여주기 위한 BoardVO 매핑 -->
-	<resultMap id="board" type="com.gukmo.board.model.BoardVO">
-		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
-		<result property="nickname" column="nickname" />
-		<result property="category" column="category" />
-		<result property="detail_category" column="detail_category" />
-		<result property="subject" column="subject" />
-		<result property="content" column="content" />
-		<result property="write_date" column="write_date" />
-		<result property="views" column="views" />
-		<result property="profile_image" column="profile_image" />
-		<result property="comment_cnt" column="comment_cnt" />
-		<result property="like_cnt" column="like_cnt" />
-		<result property="writer_point" column="writer_point" />
-		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
-			<id property="hashtag_num" column="hashtag_num"/>
-			<result property="hashtag" column="hashtag"/>
-		</collection>
-	</resultMap>
-	
-	
-	
 	<select id="getBoardDetail" parameterType="HashMap" resultMap="boardList">
-	 select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
-    ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-    ,T.hashtag,T.writer_point
-	from
-	(
-	select *
-	from
-	 (
 	 select C.board_num
 	        ,C.nickname
-	        ,C.category
 	        ,C.detail_category
 	        ,C.subject
 	        ,C.content
-	        ,C.write_date
-	        ,C.views
-	        ,C.profile_image
-	        ,C.comment_cnt
-	        ,C.like_cnt
-	        ,C.hashtag_num
+            ,C.hashtag_num
 	        ,C.hashtag
-	        ,D.point writer_point
 	  from
 	    (
-	    select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+	    select A.board_num,A.nickname,A.detail_category,A.subject,A.content
 	      ,h.hashtag_num,h.hashtag
-	    from (select * from tbl_board where board_num = 640) A
-	    left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag2 a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
+	    from (select * from tbl_board where board_num = #{board_num}) A
+	    left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
 	    on a.board_num = h.fk_board_num
 	    ) C
-	 left join
-	 (select point,nickname from tbl_member) D
-	 on C.nickname = D.nickname
-	 ) V
-	) T
 	</select>
 	
 	
-	<update id="edit" parameterType="com.gukmo.board.model.BoardVO">
-	    update tbl_board set subject = #{subject}
+	<update id="modify" parameterType="com.gukmo.board.model.BoardVO">
+	    update tbl_board set detail_category = #{detail_category}
+	    				   , subject = #{subject}
                            , content = #{content}
         where board_num = #{board_num}
 	</update>
 	
+	<delete id="hashTagDel" parameterType="String">
+	    delete from tbl_hashtag_board_map
+	    where fk_board_num = #{board_num}
+	</delete>
 	
-	<delete id="del" parameterType="HashMap">
+	<delete id="boardDel" parameterType="HashMap">
 	    delete from tbl_board
 	    where board_num = #{board_num}
 	</delete>
+	
+	<delete id="activityDel" parameterType="HashMap">
+	    delete from tbl_activity
+	    where fk_board_num = #{board_num} and division = #{division}
+	</delete>
+	
+	<update id="pointMinus" parameterType="HashMap">
+	    update tbl_member set point = point-10
+        where fk_userid = #{fk_userid}
+	</update>
+	
+	
+	<insert id="reportInsert" parameterType="com.gukmo.board.model.ReportVO">
+		insert into tbl_board_report (report_num, fk_board_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type)
+		values(seq_report.nextval, #{fk_num}, #{report_nickname}, #{reported_nickname}, #{simple_report_reason}, #{detail_report_reason}, sysdate, default)
+	</insert>
+	
+	
+
 </mapper>
