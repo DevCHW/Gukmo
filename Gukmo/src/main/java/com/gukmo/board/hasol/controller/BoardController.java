@@ -20,12 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.gukmo.board.hasol.service.InterBoardService;
 import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 @Controller
 public class BoardController {
 	
 	@Autowired
 	private InterBoardService service;
+	
 	
 	/*
 	 * @ResponseBody
@@ -53,22 +55,34 @@ public class BoardController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");
-
+		
+		// 주간 해시태그 순위를 불러오는 메소드
+		List<HashtagVO> topHashList = service.getTopHashList();
+		mav.addObject("topHashList", topHashList);
+		
+		
 		String searchWord = request.getParameter("searchWord");
-		
-		
+		String hashtag = request.getParameter("hashtag");
+
 		// System.out.println("searchWord="+searchWord);
 		String str_currentPageNo = request.getParameter("currentPageNo");
+				
+				
+		if(hashtag == null || "".equals(hashtag) || hashtag.trim().isEmpty()) {
+			hashtag = "";
+		}
 		
 		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty()) {
 			searchWord = "";
 		}
 		
+		System.out.println("hashtag:" +hashtag);
+		
+		
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("searchWord", searchWord);
-		
-		// 검색어 유지용
-		if(!"".equals(searchWord)) { mav.addObject("paraMap", paraMap); }
+		paraMap.put("hashtag", hashtag);
+
 		
 		int totalCnt = 0; // 총 게시물 건 수
 		int sizePerpage = 10; // 한 페이지 당 보여줄 게시글 건 수
@@ -211,6 +225,14 @@ public class BoardController {
 			String message = "조회된 검색 결과가 없습니다.";
 			mav.addObject("message", message);
 		}		
+		
+		
+		// 검색어 유지용
+		if(!"".equals(hashtag)) {
+			searchWord = hashtag;
+			paraMap.put("searchWord", searchWord);
+		}
+		if(!"".equals(searchWord)) { mav.addObject("paraMap", paraMap); }
 		
 		mav.addObject("totalCnt", totalCnt);
 		mav.setViewName("board/main_search/searchPage.tiles1");

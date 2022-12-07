@@ -9,21 +9,6 @@ function getContextPath(){
 
 $(document).ready(function(){
 
-	// 검색어 엔터 이벤트
-	$("input#searchWord").keydown(function(e){
-		if(e.keyCode == 13){
-			goSearch();
-		}
-	});
-	
-	$("a#hashtag").click(function(e){
-		const $target = $(e.target);
-		let hashtag = $target.text();
-		$("input#searchWord").val(hashtag);
-		
-		goSearch();
-	});
-
 
  
 });
@@ -89,14 +74,7 @@ function func_openBanner() {
 
 */
 
-// 검색
-function goSearch (){
-	
-	const frm = document.searchFrm;
-	frm.method="GET";
-	frm.action= getContextPath()+"/main_search.do"
-	frm.submit();
-	
-}
+
+
 
 

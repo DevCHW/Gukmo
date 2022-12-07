@@ -52,253 +52,88 @@
 
 <div class="container d-flex flex-column align-items-center">
 
-    <!-- 검색창 영역 -->
-	<form name="searchFrm" class="searchBar d-flex justify-content-center mt-5 col-9">
-		<input type="text" id="searchWord" name="searchWord" placeholder="검색할 내용을 입력해 주세요!" value="" ></input>
-		<button type="button" id="btn_search" onclick="goSearch()">
-          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9; font-size:20px;"></i>
-        </button>
-	</form>
-	
-	<!-- 해시태그 (테스트용 가라 데이터임 코드 짜야함) -->
-	<div class="hashtag col-7 mt-1 d-flex justify-content-center">
-		<a id="hashtag" class="first_hashtag">자바</a>
-		<a id="hashtag">스프링</a>
-		<a id="hashtag">쌍용</a>
-	</div>
-	
+    <!-- 검새창 영역 -->
+    <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/main_searchBar.jsp" />
+
 
 	<!-- 학원 정보 영역 -->
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
 		<div class="academy_titel w-100 px-2 mt-5 mb-1 d-flex justify-content-between">
 			<span>현재 모집 중인 학원</span>
-			<a> 더 보기 </a>
+			<a href="<%=ctxPath %>/academy/curricula.do"> 더 보기 </a>
 		</div>
 		
 		<!-- 배너 영역 -->
 		<div id="div_academy_content" class="carousel slide w-100" data-ride="carousel" >
 		   
 		     <!-- The slideshow -->
-		     <div class="carousel-inner px-2">
-		       <div class="carousel-item active ">
-		         <div class="card_1 d-flex">
-					<div class="card first_card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-				</div>	
-				<div class="card_2 d-flex">
-					<div class="card first_card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
+			<div class="carousel-inner px-2">
+			
+				<c:if test="${empty requestScope.curriList1}">
+				${html}
+				</c:if>
+				
+				<!-- 첫번째! -->
+		        <c:if test="${not empty requestScope.curriList1}">		        
+		        <div class="carousel-item active">
+					<div class="d-flex flex-wrap justify-content-between">
+					<c:forEach var="curriList1" items="${requestScope.curriList1}">
+						<div class="card">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList1.board_num}'">
+						    <h4 class="card-title">${curriList1.curriculum.academy_name}</h4>
+						    <p class="card-text">${curriList1.subject}</p>
+						    <p class="card-sub-text">${curriList1.curriculum.curriculum_start_date} ~ ${curriList1.curriculum.curriculum_end_date}</p>
+						    <p class="card-link">D-${curriList1.dday}</p>
+						  </div>
+						</div>
+					</c:forEach>
 					</div>
 				</div>
-			</div>
-		       <div class="carousel-item">
-		       	<div class="card_1 d-flex">
-					<div class="card first_card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용22강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-				</div>	
-				<div class="card_2  d-flex">
-					<div class="card first_card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
+				</c:if>
+				
+				<c:if test="${not empty requestScope.curriList2}">
+		        <div class="carousel-item">
+					<div class="d-flex flex-wrap justify-content-between">
+					<c:forEach var="curriList2" items="${requestScope.curriList2}">
+						<div class="card">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList2.board_num}'">
+						    <h4 class="card-title">${curriList2.curriculum.academy_name}</h4>
+						    <p class="card-text">${curriList2.subject}</p>
+						    <p class="card-sub-text">${curriList2.curriculum.curriculum_start_date} ~ ${curriList2.curriculum.curriculum_end_date}</p>
+						    <p class="card-link">D-${curriList2.dday}</p>
+						  </div>
+						</div>
+					</c:forEach>	
 					</div>
 				</div>
-		       </div>
-		       <div class="carousel-item">
-		         <div class="card_1  d-flex">
-					<div class="card first_card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용33강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-				</div>	
-				<div class="card_2  d-flex">
-					<div class="card first_card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
-					</div>
-					<div class="card">
-					  <div class="card-body" onclick="location.href='#'">
-					    <h4 class="card-title">쌍용강북교육센터</h4>
-					    <p class="card-text">빅데이터 전문가 과정</p>
-					    <p class="card-sub-text">2022-05-31 ~ 2022-12-21</p>
-					    <p class="card-link">D-1</p>
-					  </div>
+				</c:if>
+		        
+				<c:if test="${not empty requestScope.curriList3}">
+		        <div class="carousel-item">
+					<div class="d-flex flex-wrap justify-content-between">
+					<c:forEach var="curriList3" items="${requestScope.curriList3}">
+						<div class="card">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList3.board_num}'">
+						    <h4 class="card-title">${curriList3.curriculum.academy_name}</h4>
+						    <p class="card-text">${curriList3.subject}</p>
+						    <p class="card-sub-text">${curriList3.curriculum.curriculum_start_date} ~ ${curriList3.curriculum.curriculum_end_date}</p>
+						    <p class="card-link">D-${curriList3.dday}</p>
+						  </div>
+						</div>
+					</c:forEach>	
 					</div>
 				</div>
-		       </div>
+				</c:if>
+				
 		     </div>
 		   
 		     <!-- Left and right controls -->
 		     <a class="carousel-control-prev icon_prev" href="#div_academy_content" data-slide="prev">
-		       <i class="fa-solid fa-circle-left fa-5x icon_arrow"></i>
+		       <i class="fa-solid fa-circle-left fa-7x icon_arrow"></i>
 		     </a>
 		     <a class="carousel-control-next icon_next" href="#div_academy_content" data-slide="next">
-		       <i class="fa-solid fa-circle-right fa-5x icon_arrow"></i>
+		       <i class="fa-solid fa-circle-right fa-7x icon_arrow"></i>
 		     </a>
 		   
 		</div>
@@ -316,11 +151,9 @@
 					<p style="font-size:15px; margin-left:3px; color:#208EC9;">인기 검색어 </p>
 				</div>
 				<div class="list_searchRank d-flex flex-column px-3">
-					<a href="#"> 검색어 1 </a>
-					<a href="#"> 검색어 1 </a>
-					<a href="#"> 검색어 1 </a>
-					<a href="#"> 검색어 1 </a>
-					<a href="#"> 검색어 1 </a>
+					<c:forEach var="topSearch" items="${requestScope.topSearchList}">
+					<a id="keyword"> ${topSearch.keyword}</a>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -340,7 +173,7 @@
 						
 						<!-- 게시글 1개 영역 -->
 						<c:forEach var="boardvo" items="${requestScope.qnaBoardList}">
-					    <div class="border-bottom py-2 px-2">
+					    <div class="div_boardList py-2 px-2">
 					    	<!-- 작성 정보 -->
 					      	<div class="d-flex justify-content-between align-items-center mb-1">
 						        <div class="d-flex" style="width:190px;">
@@ -407,7 +240,7 @@
 					
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.studyBoardList}">
-				    <div class="border-bottom py-2 px-2">
+				    <div class="div_boardList py-2 px-2">
 				    	<!-- 작성 정보 -->
 				      	<div class="d-flex justify-content-between align-items-center mb-1">
 					        <div class="d-flex" style="width:180px;">
@@ -474,7 +307,7 @@
 				<div class="list_board d-flex flex-column">
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.freeBoardList}">
-				    <div class="border-bottom py-2 px-2">
+				    <div class="div_boardList py-2 px-2">
 				    	<!-- 작성 정보 -->
 				      	<div class="d-flex justify-content-between align-items-center mb-1">
 					        <div class="d-flex" style="width:180px;">
@@ -541,7 +374,7 @@
 				<div class="list_board d-flex flex-column">
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.reviewBoardList}">
-				    <div class="border-bottom py-2 px-2">
+				    <div class="div_boardList py-2 px-2">
 				    	<!-- 작성 정보 -->
 				      	<div class="d-flex justify-content-between align-items-center mb-1">
 					        <div class="d-flex" style="width:180px;">

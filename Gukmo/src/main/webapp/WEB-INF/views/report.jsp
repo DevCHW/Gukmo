@@ -31,7 +31,7 @@
 
   <div class="container mt-3" class="d-flex flex-column">
    <!-- 신고 폼 시작 -->
-   <form name="writerFrm">
+   <form name="reportFrm">
   
 	  <div class="d-flex justify-content-between">
 	  	<div></div>
@@ -46,25 +46,26 @@
 			<tbody>
 				<tr>
 				 <td>작성자</td>
-				 <td><input type="text" id="userid" name="userid" style="width:300px;" class="input_signup rounded pl-2" placeholder="" value="" readonly/></td>
+				 <td><span id="nickname" class="input_signup rounded pl-2" >${requestScope.boardvo.nickname}</span></td>
 				</tr>
 				
 				<tr>
 				 <td>내 용</td>
-				 <td><input type="text" id="nickname" name="nickname" style="width:300px;"  class="input_signup rounded pl-2" placeholder="" value="" readonly/></td>
+				 <td><span id="subject" class="input_signup rounded pl-2" >${requestScope.boardvo.subject}</span></td>
 				</tr>
 			</tbody>
 		</table>
 	   </div>     
 	     <!-- 등록용 닉네임 -->
-		 <input type="hidden" name="nickname" value="" />
-		 <input type="hidden" name="subject" value="" />
+		 <input type="hidden" name="fk_num" value="${requestScope.boardvo.board_num}" />
+		 <input type="hidden" name="report_nickname" value="${sessionScope.user.nickname}" />
+		 <input type="hidden" name="reported_nickname" value="${requestScope.boardvo.nickname}" />
   
   
   	 <div class="mt-3">
   	  <h5>사유선택</h5>
-      <label for="detail_category" class="community_label">구분</label>
-      <select name="simple_penalty_reason" id="simple_penalty_reason" class="pl-2 border rounded">
+      <label for="simple_report_reason" class="community_label pr-2">구분</label>
+      <select name="simple_report_reason" id="simple_report_reason" class="pl-2 border rounded">
 	       <option value="">신고사유</option>
 	       <option>스팸홍보/도배글입니다.</option>
 	       <option>불법정보를 포함하고 있습니다.</option>
@@ -77,15 +78,15 @@
         
       
     <div class="line">
-        <label for="detail_penalty_reason" class="label_signup mt-3">신고에 필요한 정보를 입력하세요.</label>
+        <label for="detail_report_reason" class="label_signup mt-3">신고에 필요한 정보를 입력하세요.</label>
     </div>
-        <div style="">
-          <textarea name="detail_penalty_reason" id="detail_penalty_reason" class="form-control" style="height:250px;"></textarea>
+        <div>
+          <textarea name="detail_report_reason" id="detail_report_reason" class="form-control" style="height:250px;"></textarea>
         </div>
 	</div>
 	<footer>
-		  <button id="reportWrite" class="btn border rounded w-100 mt-3" onclick="penaltyWrite()">신고하기</button>
-	      <button id="cancle" class="btn border rounded w-100 mt-3">취소</button>
+		  <button id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
+	      <button id="btn_close" class="btn border rounded w-100 mt-3">취소</button>
 	</footer>
 	</form>
 	

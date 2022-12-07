@@ -5,6 +5,8 @@
 	String ctxPath = request.getContextPath();
 %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/searchBar.css" />
 
@@ -70,14 +72,22 @@
   }
 </script>
     
-    <!-- 검색창 영역 -->
-   <div class="searchBar d-flex my-3 justify-content-center">
-     <input type="text" id="searchWord" class="pl-3" value="${requestScope.searchWord}" placeholder="검색어를 입력해주세요"></input>
-     <button type="button" id="btn_search">
-       <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
-     </button>
-   </div>
-   
+<!-- 검색창 영역 -->
+<form name="searchFrm" class="searchBar d-flex justify-content-center mt-5 col-9">
+	<input type="text" id="searchWord" name="searchWord" placeholder="검색할 내용을 입력해 주세요!" value="" ></input>
+	<button type="button" id="btn_search" onclick="goSearch()">
+         <i class="fa-solid fa-magnifying-glass" style="color:#208EC9; font-size:20px;"></i>
+       </button>
+</form>
+
+<!-- 해시태그 -->
+<div class="hashtag col-3 mt-2 px-5 d-flex justify-content-between align-items-center">
+	<c:forEach var="topHash" items="${requestScope.topHashList}">
+	<div class="btn_hashtag border rounded px-2">
+		<a id="hashtag">#${topHash.hashtag}</a>
+	</div>
+	</c:forEach>
+</div>
    
    
    

@@ -13,16 +13,116 @@
 		order by advertisement_num
 	</select> -->
 	
-<!-- 	<select id="getCurriList" resultType="com.gukmo.board.model.CurriculumVO">
-		select B.board_num as board_num, academy_name, subject,
-			   to_char(curriculum_start_date, 'yyyy-mm-dd') as c_start_date, curriculum_period
-		from tbl_board B join tbl_curriculum C
-		on B.board_num = C.fk_board_num		
-	</select> -->
+	<!-- association 으로 선언된 AcademyVO 매핑 -->
+	<resultMap id="academy" type="com.gukmo.board.model.AcademyVO">
+		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="representative_name" column="representative_name" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="jurisdiction" column="jurisdiction" />
+		<result property="homepage" column="homepage" />
+		<result property="academy_image" column="academy_image" />
+	</resultMap>
 	
 	
+	<!-- association 으로 선언된 AcademyVO 매핑 -->
+	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
+		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="core_technology" column="core_technology" />
+		<result property="academy_name" column="academy_name" />
+		<result property="curriculum_start_date" column="curriculum_start_date" />
+		<result property="curriculum_end_date" column="curriculum_end_date"	/>
+		<result property="recuitment_end_date" column="recuitment_end_date" />
+		<result property="join_url" column="join_url" />		
+	</resultMap>
 	
+	
+
 	<!-- 메인 게시판 영역 -->
+	
+	<select id="getTopSearchList" resultType="com.gukmo.board.model.SearchVO">
+		select keyword, count
+		from
+		(
+		    select rownum as rno, keyword, count
+		    from
+		    (
+		        select keyword, count(*) as count
+		        from tbl_search
+		        where TO_CHAR(search_date, 'yyyymmdd') between TO_CHAR(TRUNC(sysdate,'iw')-7, 'yyyymmdd') and TO_CHAR(TRUNC(sysdate,'iw')-1, 'yyyymmdd')
+		        group by keyword
+		        order by count desc
+		    )
+		)
+		where rno between 1 and 5
+	</select>
+	
+	<!-- 학원 목록 불러오기 위한 mapping  -->
+	<resultMap id="curriList" type="com.gukmo.board.model.BoardVO">
+		<result property="board_num" column="board_num"/>
+		<result property="subject" column="subject"/>
+		<result property="dday" column="dday"/>
+		<association property="curriculum" resultMap="curriculum"/>
+	</resultMap>
+
+ 	<select id="getCurriList1" resultMap="curriList">
+		select board_num, subject, academy_name, curriculum_start_date, curriculum_end_date, dday
+        from
+        (
+            select rownum as rno, board_num, subject, academy_name,
+                	trunc(recuitment_end_date - SYSDATE) as dday,
+		       		to_char(curriculum_start_date, 'yyyy-mm-dd') as curriculum_start_date,
+		       		to_char(curriculum_end_date, 'yyyy-mm-dd') as curriculum_end_date,
+		       		to_char(recuitment_end_date, 'yyyy-mm-dd') as recuitment_end_date
+            from tbl_curriculum join tbl_board
+            on board_num = fk_board_num
+            where status = '모집중'
+        )
+        where rno between 1 and 8
+	</select>
+	
+	<select id="getCurriList2" resultMap="curriList">
+		select board_num, subject, academy_name, curriculum_start_date, curriculum_end_date, dday
+        from
+        (
+            select rownum as rno, board_num, subject, academy_name,
+                	trunc(recuitment_end_date - SYSDATE) as dday,
+		       		to_char(curriculum_start_date, 'yyyy-mm-dd') as curriculum_start_date,
+		       		to_char(curriculum_end_date, 'yyyy-mm-dd') as curriculum_end_date,
+		       		to_char(recuitment_end_date, 'yyyy-mm-dd') as recuitment_end_date
+            from tbl_curriculum join tbl_board
+            on board_num = fk_board_num
+            where status = '모집중'
+        )
+        where rno between 9 and 16
+	</select>
+	
+ 	<select id="getCurriList3" resultMap="curriList">
+		select board_num, subject, academy_name, curriculum_start_date, curriculum_end_date, dday
+        from
+        (
+            select rownum as rno, board_num, subject, academy_name,
+                	trunc(recuitment_end_date - SYSDATE) as dday,
+		       		to_char(curriculum_start_date, 'yyyy-mm-dd') as curriculum_start_date,
+		       		to_char(curriculum_end_date, 'yyyy-mm-dd') as curriculum_end_date,
+		       		to_char(recuitment_end_date, 'yyyy-mm-dd') as recuitment_end_date
+            from tbl_curriculum join tbl_board
+            on board_num = fk_board_num
+            where status = '모집중'
+        )
+        where rno between 17 and 24
+	</select>
+	
+	
+	<select id="getCurriTotalCnt" resultType="int">
+		select count(*)
+		from tbl_curriculum join tbl_board
+		on board_num = fk_board_num
+		where to_char(sysdate, 'yyyy-mm-dd') &lt;= to_char(recuitment_end_date, 'yyyy-mm-dd')
+			  and rownum between 1 and 24
+	</select> 
+	
+	
 	<select id ="getFreeBoardList" resultType="com.gukmo.board.model.BoardVO">
 		select board_num,nickname, point as writer_point , profile_image,
 		       detail_category , subject,
@@ -96,31 +196,33 @@
 	
 	
 	
+	
+	
 	<!-- 검색창 영역 -->
-	
-	<!-- association 으로 선언된 AcademyVO 매핑 -->
-	<resultMap id="academy" type="com.gukmo.board.model.AcademyVO">
-		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
-		<result property="representative_name" column="representative_name" />
-		<result property="address" column="address" />
-		<result property="phone" column="phone" />
-		<result property="jurisdiction" column="jurisdiction" />
-		<result property="homepage" column="homepage" />
-		<result property="academy_image" column="academy_image" />
-	</resultMap>
-	
-	
-	<!-- association 으로 선언된 AcademyVO 매핑 -->
-	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
-		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
-		<result property="core_technology" column="core_technology" />
-		<result property="academy_name" column="academy_name" />
-		<result property="curriculum_start_date" column="curriculum_start_date" />
-		<result property="curriculum_end_date" column="curriculum_end_date"	/>
-		<result property="recuitment_end_date" column="recuitment_end_date" />
-		<result property="join_url" column="join_url" />		
-	</resultMap>
-	
+
+	<select id="getTopHashList" resultType="com.gukmo.board.model.HashtagVO">
+		select hashtag_num, hashtag, count
+        from
+        (
+            select rownum as rno, hashtag_num, hashtag, count
+            from
+            (
+                select HM.hashtag_num as hashtag_num, hashtag, count
+                from
+                (
+                    select hashtag_num, count(*) as count
+                    from tbl_hashtag_board_map
+                    where TO_CHAR(write_date, 'yyyymmdd') between TO_CHAR(TRUNC(sysdate,'iw')-7, 'yyyymmdd') and TO_CHAR(TRUNC(sysdate,'iw')-1, 'yyyymmdd')
+                    group by hashtag_num
+                ) HM left join tbl_hashtag H
+                on HM.hashtag_num = H.hashtag_num
+                order by count desc
+            )
+        )
+		where rno between 1 and 3
+	</select>
+
+
 	<!-- 해시태그 검색용 mapping -->
 	<resultMap id="searchList" type="com.gukmo.board.model.BoardVO">
 		<id property="board_num" column="board_num"/>
@@ -137,55 +239,100 @@
 	</resultMap>
 	
 	<select id ="getTotalCnt" parameterType="HashMap" resultType="int">
+	    
+	    <if test='hashtag != ""'>
 	    select rno
-	    from(
-	        select dense_rank()OVER (order by board_num desc) rno,
-            		board_num, category, detail_category, subject, content, hashtag, write_date, -- 게시판 글
-            		representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
-            		core_technology, academy_name, to_char(curriculum_start_date,'yyyy-mm-dd') as curriculum_start_date,
-            		to_char(curriculum_end_date,'yyyy-mm-dd') as curriculum_end_date,
-            		to_char(recuitment_end_date,'yyyy-mm-dd') as recuitment_end_date, join_url -- 과정 글
+	    from 
+	    (
+	    	select dense_rank()OVER (order by board_num desc) rno,
+		           board_num, subject, content, category, detail_category,
+		           NH.hashtag as hashtag, HB.write_date as write_date
 		    from
 		    (
-		        select board_num, subject, content, category, detail_category, hashtag, write_date
-		        from tbl_board B
-		        left join
-		        (
-		            select fk_board_num, hashtag
-		            from
-		            ( select hashtag_num, fk_board_num, write_date from tbl_hashtag_board_map ) HM
-		            join
-		            ( select hashtag_num, hashtag from tbl_hashtag ) H
-		            on HM.hashtag_num = H.hashtag_num
-		        ) join_H
-		        on B.board_num = join_H.fk_board_num
-		    ) join_BH
-		    left join
-		    (
-		        select fk_board_num, representative_name, address, phone, jurisdiction, homepage, academy_image
-		        from tbl_academy
-		    ) A
-		    on join_BH.board_num = A.fk_board_num
-		    left join
-		    ( 
-		        select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url
-		        from tbl_curriculum
-		    ) C
-		    on join_BH.board_num = C.fk_board_num	        
-			where 1 = 1
-			<if test= 'searchWord != ""'>
-			and subject like '%'||lower(#{searchWord})||'%'
-		    or content like '%'||lower(#{searchWord})||'%'
-		    or hashtag like '%'||lower(#{searchWord})||'%'
-		    </if>
+		        select board_num, subject, content, category, detail_category, B.write_date as write_date
+		        from tbl_board B left join tbl_hashtag_board_map HM
+		        on board_num = fk_board_num left join tbl_hashtag H
+		        on HM.hashtag_num = H.hashtag_num
+		        where hashtag like '%'||lower(#{searchWord})||'%'
+		    ) HB join tbl_hashtag_board_map NHM
+		    on board_num = fk_board_num join tbl_hashtag NH
+		    on NHM.hashtag_num = NH.hashtag_num
+		    order by rno desc
+		)V
+		where rownum = 1
+	    </if>
+	    
+	    <if test='hashtag == ""'>
+	    select rno
+	    from(
+    		select dense_rank()OVER (order by board_num desc) rno,
+			       board_num, subject, content, category, detail_category, hashtag, write_date, -- 게시판 글
+			       representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
+			       core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url -- 과정 글
+			from
+			(
+                select B.board_num as board_num, subject, content, category, detail_category, hashtag, B.write_date as write_date
+                from tbl_board B join
+                (
+                    select board_num
+                    from tbl_board B left join tbl_hashtag_board_map HM
+                    on board_num = fk_board_num left join tbl_hashtag H
+                    on HM.hashtag_num = H.hashtag_num
+                    where 1=1
+                    <if test= 'searchWord != ""'>
+						and subject like '%'||lower(#{searchWord})||'%'
+					    or content like '%'||lower(#{searchWord})||'%'
+					    or hashtag like '%'||lower(#{searchWord})||'%'
+					</if>
+                    group by board_num
+                ) only_BN 
+                on B.board_num = only_BN.board_num left join tbl_hashtag_board_map NHM
+                on B.board_num = NHM.fk_board_num left join tbl_hashtag NH
+                on NHM.hashtag_num = NH.hashtag_num
+            ) join_BH
+            left join
+            (
+                select fk_board_num, representative_name, address, phone, jurisdiction, homepage, academy_image
+                from tbl_academy
+            ) A
+            on join_BH.board_num = A.fk_board_num
+            left join
+            ( 
+                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url                    from tbl_curriculum
+            ) C
+            on join_BH.board_num = C.fk_board_num
 	        order by rno desc
 	    )V
 	    where rownum = 1
+	    </if>
 	</select>
 	
 	
 
 	<select id = "getSearchList" parameterType="HashMap" resultMap="searchList">
+		<if test='hashtag != ""'>
+		select board_num, category, detail_category, subject, content, hashtag, write_date -- 게시판 글
+	    from 
+	    (
+	    	select dense_rank()OVER (order by board_num desc) rno,
+		           board_num, subject, content, category, detail_category,
+		           NH.hashtag as hashtag, HB.write_date as write_date
+		    from
+		    (
+		        select board_num, subject, content, category, detail_category, B.write_date as write_date
+		        from tbl_board B left join tbl_hashtag_board_map HM
+		        on board_num = fk_board_num left join tbl_hashtag H
+		        on HM.hashtag_num = H.hashtag_num
+		        where hashtag like '%'||lower(#{searchWord})||'%'
+		    ) HB join tbl_hashtag_board_map NHM
+		    on board_num = fk_board_num join tbl_hashtag NH
+		    on NHM.hashtag_num = NH.hashtag_num
+		    order by board_num desc
+		)V
+		where rno between #{startRno} and #{endRno}
+		</if>
+		
+		<if test='hashtag == ""'>
 		select board_num, category, detail_category, subject, content, hashtag, write_date, -- 게시판 글
             	representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
             	core_technology, academy_name, to_char(curriculum_start_date,'yyyy-mm-dd') as curriculum_start_date,
@@ -193,47 +340,46 @@
             	to_char(recuitment_end_date,'yyyy-mm-dd') as recuitment_end_date, join_url -- 과정 글
 		from(
     		select dense_rank()OVER (order by board_num desc) rno,
-		            board_num, category, detail_category, subject, content, hashtag, write_date, -- 게시판 글
-		            representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
-		            core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url -- 과정 글
-		    from
-		    (
-		        select board_num, subject, content, category, detail_category, hashtag, write_date
-		        from tbl_board B left join
-		        (
-		            select fk_board_num, hashtag
-		            from
-		            ( select hashtag_num, fk_board_num, write_date from tbl_hashtag_board_map ) HM
-		            join
-		            ( select hashtag_num, hashtag from tbl_hashtag ) H
-		            on HM.hashtag_num = H.hashtag_num
-		        ) join_H
-		        on B.board_num = join_H.fk_board_num
-		    ) join_BH
-		    left join
-		    (
-		        select fk_board_num, representative_name, address, phone, jurisdiction, homepage, academy_image
-		        from tbl_academy
-		    ) A
-		    on join_BH.board_num = A.fk_board_num
-		    left join
-		    ( 
-		        select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url
-		        from tbl_curriculum
-		    ) C
-		    on join_BH.board_num = C.fk_board_num
-			where 1= 1
-			<if test= 'searchWord != ""'>
-			and subject like '%'||lower(#{searchWord})||'%'
-		    or content like '%'||lower(#{searchWord})||'%'
-		    or hashtag like '%'||lower(#{searchWord})||'%'
-		   </if>
+			       board_num, subject, content, category, detail_category, hashtag, write_date, -- 게시판 글
+			       representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
+			       core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url -- 과정 글
+			from
+			(
+                select B.board_num as board_num, subject, content, category, detail_category, hashtag, B.write_date as write_date
+                from tbl_board B join
+                (
+                    select board_num
+                    from tbl_board B left join tbl_hashtag_board_map HM
+                    on board_num = fk_board_num left join tbl_hashtag H
+                    on HM.hashtag_num = H.hashtag_num
+                    where 1=1
+                    <if test= 'searchWord != ""'>
+						and subject like '%'||lower(#{searchWord})||'%'
+					    or content like '%'||lower(#{searchWord})||'%'
+					    or hashtag like '%'||lower(#{searchWord})||'%'
+					</if>
+                    group by board_num
+                ) only_BN 
+                on B.board_num = only_BN.board_num left join tbl_hashtag_board_map NHM
+                on B.board_num = NHM.fk_board_num left join tbl_hashtag NH
+                on NHM.hashtag_num = NH.hashtag_num
+            ) join_BH
+            left join
+            (
+                select fk_board_num, representative_name, address, phone, jurisdiction, homepage, academy_image
+                from tbl_academy
+            ) A
+            on join_BH.board_num = A.fk_board_num
+            left join
+            ( 
+                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url                    from tbl_curriculum
+            ) C
+            on join_BH.board_num = C.fk_board_num
+            order by board_num desc
 		)V
 		where rno between #{startRno} and #{endRno}
+		</if>
 	</select>
 
 
-	
-
-	
 </mapper>
