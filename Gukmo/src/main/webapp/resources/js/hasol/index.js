@@ -9,33 +9,6 @@ function getContextPath(){
 
 $(document).ready(function(){
 
-	// 검색어 엔터 이벤트
-	$("input#searchWord").keydown(function(e){
-		if(e.keyCode == 13){
-			goSearch();
-		}
-	});
-	
-	// 해시태그 클릭 시 자동 검색되도록 
-	$("a#hashtag").click(function(e){
-		const $target = $(e.target);
-		let hashtag = $target.text().substr(1);
-		console.log(hashtag);
-		$("input#searchWord").val(hashtag);
-
-		goSearch();
-	});
-	
-	// 검색 순위 클릭 시 자동 검색되도록
-	$("a#keyword").click(function(e){
-		const $target = $(e.target);
-		let keyword = $target.text();
-		console.log(keyword);
-		$("input#searchWord").val(keyword);
-
-		goSearch();
-	});
-
 
  
 });
@@ -101,15 +74,7 @@ function func_openBanner() {
 
 */
 
-// 검색
-function goSearch (){
-	
-	const frm = document.searchFrm;
-	frm.method="GET";
-	frm.action= getContextPath()+"/main_search.do"
-	frm.submit();
-	
-}
+
 
 
 

@@ -52,30 +52,16 @@
 
 <div class="container d-flex flex-column align-items-center">
 
-    <!-- 검색창 영역 -->
-	<form name="searchFrm" class="searchBar d-flex justify-content-center mt-5 col-9">
-		<input type="text" id="searchWord" name="searchWord" placeholder="검색할 내용을 입력해 주세요!" value="" ></input>
-		<button type="button" id="btn_search" onclick="goSearch()">
-          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9; font-size:20px;"></i>
-        </button>
-	</form>
-	
-	<!-- 해시태그 (테스트용 가라 데이터임 코드 짜야함) -->
-	<div class="hashtag col-3 mt-2 px-5 d-flex justify-content-between align-items-center">
-		<c:forEach var="topHash" items="${requestScope.topHashList}">
-		<div class="btn_hashtag border rounded px-2">
-			<a id="hashtag">#${topHash.hashtag}</a>
-		</div>
-		</c:forEach>
-	</div>
-	
+    <!-- 검새창 영역 -->
+    <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/main_searchBar.jsp" />
+
 
 	<!-- 학원 정보 영역 -->
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
 		<div class="academy_titel w-100 px-2 mt-5 mb-1 d-flex justify-content-between">
 			<span>현재 모집 중인 학원</span>
-			<a> 더 보기 </a>
+			<a href="<%=ctxPath %>/academy/curricula.do"> 더 보기 </a>
 		</div>
 		
 		<!-- 배너 영역 -->
@@ -94,7 +80,7 @@
 					<div class="d-flex flex-wrap justify-content-between">
 					<c:forEach var="curriList1" items="${requestScope.curriList1}">
 						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>academy/curricula.do?boardNum=${curriList1.board_num}'">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList1.board_num}'">
 						    <h4 class="card-title">${curriList1.curriculum.academy_name}</h4>
 						    <p class="card-text">${curriList1.subject}</p>
 						    <p class="card-sub-text">${curriList1.curriculum.curriculum_start_date} ~ ${curriList1.curriculum.curriculum_end_date}</p>
@@ -111,7 +97,7 @@
 					<div class="d-flex flex-wrap justify-content-between">
 					<c:forEach var="curriList2" items="${requestScope.curriList2}">
 						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>academy/curricula.do?boardNum=${curriList2.board_num}'">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList2.board_num}'">
 						    <h4 class="card-title">${curriList2.curriculum.academy_name}</h4>
 						    <p class="card-text">${curriList2.subject}</p>
 						    <p class="card-sub-text">${curriList2.curriculum.curriculum_start_date} ~ ${curriList2.curriculum.curriculum_end_date}</p>
@@ -128,7 +114,7 @@
 					<div class="d-flex flex-wrap justify-content-between">
 					<c:forEach var="curriList3" items="${requestScope.curriList3}">
 						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>academy/curricula.do?boardNum=${curriList3.board_num}'">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList3.board_num}'">
 						    <h4 class="card-title">${curriList3.curriculum.academy_name}</h4>
 						    <p class="card-text">${curriList3.subject}</p>
 						    <p class="card-sub-text">${curriList3.curriculum.curriculum_start_date} ~ ${curriList3.curriculum.curriculum_end_date}</p>

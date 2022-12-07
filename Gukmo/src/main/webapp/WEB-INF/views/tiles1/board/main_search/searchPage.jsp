@@ -21,20 +21,10 @@
 
 <div class="container d-flex flex-column align-items-center">
 	
-    <!-- 검색창 영역 -->
-	<form name="searchFrm" class="searchBar d-flex justify-content-center mt-5 col-9">
-		<input type="text" id="searchWord" name="searchWord" placeholder="검색할 내용을 입력해 주세요!" value="${paraMap.searchWord}"></input>
-		<button type="button" id="btn_search" onclick="goSearch()">
-          <i class="fa-solid fa-magnifying-glass" style="color:#208EC9; font-size:20px;"></i>
-        </button>
-	</form>
+
+    <!-- 검새창 영역 -->
+    <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/main_searchBar.jsp" />
 	
-	<!-- 해시태그 -->
-	<div class="hashtag col-7 mt-1 d-flex justify-content-center">
-		<a id="hashtag" class="first_hashtag">자바</a>
-		<a id="hashtag">스프링</a>
-		<a id="hashtag">쌍용</a>
-	</div>
 	
 	<div class="div_searchList w-100 my-3 d-flex flex-column justify-content-start">
 		<span class="my-2"> 검색 결과 총 ${requestScope.totalCnt} 건</span>

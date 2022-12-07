@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.gukmo.board.hasol.repository.InterBoardDAO;
 import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 @Service
 public class BoardService implements InterBoardService{
@@ -36,6 +37,14 @@ public class BoardService implements InterBoardService{
 		List<BoardVO> searchList = dao.getSearchList(paraMap);
 		return searchList;
 	}
+
+	// 주간 해시태그 검색 용도
+	@Override
+	public List<HashtagVO> getTopHashList() {
+		List<HashtagVO> topHashList = dao.getTopHashList();
+		return topHashList;
+	}
+
 
 	
 }
