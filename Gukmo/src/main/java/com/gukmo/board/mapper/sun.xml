@@ -186,5 +186,47 @@
 	</insert>
 	
 	
+	
+	
+	
+	
+	<!-- ========================================== 관리자 페이지 쿼리문(통계) ========================================  -->
+	
+	
+   <resultMap type="HashMap" id="newBoardCnt_Map">
+        <result property="write_date"   column="write_date"   javaType="String"/>
+        <result property="cnt"          column="cnt"          javaType="String"/>
+   </resultMap>
+   
+   <select id="newBoardCnt" resultMap="newBoardCnt_Map">
+		select to_char(period, 'yyyy-mm-dd') write_date, nvl(sum(a.cnt), 0) cnt
+		from
+		(
+		    select to_char(write_date, 'yyyy-mm-dd') write_date, count(*) cnt
+		    from tbl_board
+		    where category = '커뮤니티'
+		    and write_date between to_date('2022-11-01', 'yyyy-mm-dd')
+		                        and to_date('2022-11-30', 'yyyy-mm-dd')
+		    group by to_char(write_date, 'yyyy-mm-dd')
+		)a
+		, ( 
+		    select to_date('2022-11-01','yyyy-mm-dd') + level - 1 as period
+		    from dual 
+		    connect by level &lt;= (to_date('2022-11-30','yyyy-mm-dd') 
+		                       - to_date('2022-11-01','yyyy-mm-dd') + 1)
+		) b
+		where b.period = a.write_date(+)
+		group by b.period
+		order by b.period 
+   </select>
+	
+	
+	
+	
+	
+	
+	<!-- ========================================== 관리자 페이지 쿼리문(통계) ========================================  -->
+	
+	
 
 </mapper>
