@@ -21,7 +21,7 @@ public class MemberVO {
 	private String academy_name;		//교육기관명
 	private String company_num;			//사업자번호
 	private String homepage;			//홈페이지URL
-	private String tel;					//핸드폰번호
+	private String tel;					//교육기관 전화번호
 	
 	// 소셜로그인 field
 	private String kakao;				//카카오 연동여부
@@ -167,6 +167,25 @@ public class MemberVO {
 	
 	public String getAuthority() {
 		return authority;
+	}
+
+
+
+
+	
+	
+	
+	
+	//확인용 toString
+	
+	@Override
+	public String toString() {
+		return "MemberVO [userid=" + userid + ", passwd=" + passwd + ", status=" + status + ", update_passwd_date="
+				+ update_passwd_date + ", email=" + email + ", email_acept=" + email_acept + ", nickname=" + nickname
+				+ ", point=" + point + ", join_date=" + join_date + ", profile_image=" + profile_image + ", username="
+				+ username + ", academy_name=" + academy_name + ", company_num=" + company_num + ", homepage="
+				+ homepage + ", tel=" + tel + ", kakao=" + kakao + ", naver=" + naver + ", google=" + google
+				+ ", facebook=" + facebook + ", authority=" + authority + "]";
 	}
 	
 	

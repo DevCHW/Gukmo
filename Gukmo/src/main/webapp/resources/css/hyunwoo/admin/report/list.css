@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+
+/* 총갯수 css */
+div#total_cnt{
+  font-weight: bold;
+}
+
+
+/* 일반회원리스트 css 시작 */
+div#title{
+  font-weight: bold;
+  background-color:#208EC9;
+  color:white;
+}
+
+
+
+
+
+div.list_box{
+  cursor:pointer;
+}
+div.list_box:hover{
+  background-color: #f0f0f5;
+}
+div.report_type{
+  width:20%;
+}
+div.report_nickname{
+  width:20%;
+}
+div.reported_nickname{
+  width:20%;
+}
+div.simple_report_reason{
+  width:20%;
+}
+div.report_date{
+  width:20%;
+}
+
+/* 일반회원리스트 css 끝 */
+
+
+
+
+
+
+
+
+
+
+/* 768px 미만 미디어쿼리 */
+@media screen and (max-width: 768px){
+  div#section{
+    flex-direction: column-reverse;
+  }
+  div.report_type{
+    width:25%;
+  }
+  div.report_nickname{
+    width:25%;
+  }
+  div.reported_nickname{
+    width:25%;
+  }
+  div.simple_report_reason{
+  	display:none;
+  }
+  div.report_date{
+    width:25%;
+  }
+}
+
+
+
+

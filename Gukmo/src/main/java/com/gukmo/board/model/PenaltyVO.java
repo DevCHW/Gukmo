@@ -9,19 +9,23 @@ public class PenaltyVO {
 	private String penalty_start_date;
 	private String penalty_period;
 	
+	//select 용도
+	private String penalty_end_date;
+	
 	// 기본 생성자 막기
 	protected PenaltyVO() {}
 
 	// 파라미터가있는 생성자로만 값 주입 가능, Setter도 막음
 	public PenaltyVO(String penalty_num, String nickname,
 					 String simple_penalty_reason, String detail_penalty_reason,
-					 String penalty_start_date, String penalty_period) {
+					 String penalty_start_date, String penalty_period, String penalty_end_date) {
 		this.penalty_num = penalty_num;
 		this.nickname = nickname;
 		this.simple_penalty_reason = simple_penalty_reason;
 		this.detail_penalty_reason = detail_penalty_reason;
 		this.penalty_start_date = penalty_start_date;
-		this.penalty_period = penalty_period;	
+		this.penalty_period = penalty_period;
+		this.penalty_end_date = penalty_end_date;
 	}
 	
 	
@@ -52,6 +56,10 @@ public class PenaltyVO {
 	public String getPenalty_period() {
 		return penalty_period;
 	};
+	
+	public String getPenalty_end_date() {
+		return penalty_end_date;
+	}
 	
 	
 	

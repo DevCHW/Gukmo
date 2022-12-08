@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+
+
+/* 총갯수 css */
+div#total_cnt{
+  font-weight: bold;
+}
+
+
+
+/* 교육기관회원리스트 css 시작 */
+div#title{
+  font-weight: bold;
+  background-color:#208EC9;
+  color:white;
+}
+
+span#spanMemberStatus{
+  position:relative;
+}
+div#memberStatusOption{
+  position:absolute;
+  right:32%;
+  z-index: 3;
+  background-color:white;
+  color:black;
+  font-weight: lighter;
+}
+div#memberStatusOption > div:hover{
+  cursor:pointer;
+}
+span#btn_status_option{
+  cursor:pointer;
+}
+
+
+div.list_box{
+  cursor:pointer;
+}
+div.list_box:hover{
+  background-color: #f0f0f5;
+}
+
+div.userid{
+  width:22.5%;
+}
+div.nickname{
+  width:22.5%;
+}
+div.academy_name{
+  width:22.5%;
+}
+div.join_date{
+  width:22.5%;
+}
+div.status{
+  width:10%;
+}
+
+/* 교육기관회원리스트 css 끝 */
+
+
+
+
+
+
+/* 768px 미만 미디어쿼리 */
+@media screen and (max-width: 768px){
+  div#section{
+    flex-direction: column-reverse;
+  }
+  div.userid{
+    width:30%
+  }
+  div.nickname{
+    width:30%
+  }
+  div.academy_name{
+    width:30%
+  }
+  div.join_date{
+    display:none;
+  }
+  div.status{
+    width:10%
+  }
+}
+
+
+
+
