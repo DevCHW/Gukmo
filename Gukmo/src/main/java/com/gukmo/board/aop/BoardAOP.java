@@ -92,9 +92,8 @@ public class BoardAOP {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("user");
-		String userid = loginuser.getUserid();
 		
-		if(session.getAttribute("user") == null || !"admin".equalsIgnoreCase(userid)) {
+		if(session.getAttribute("user") == null || !"관리자".equals(loginuser.getAuthority())) {
 			String message = "관리자 이외에는 접근 불가능합니다.";
 			String loc = request.getContextPath()+"/login.do";
 			

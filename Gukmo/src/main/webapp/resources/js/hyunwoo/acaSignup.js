@@ -766,7 +766,6 @@ function test_tel(tel){
  */
 function test_homepage(homepage){
   const regExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-;
   
   if( !(regExp.test(homepage)) ){	//유효성검사를 통과못하면
     $("input#homepage").css("border","solid 1px red");  //빨간색 테두리(비밀번호 칸)

@@ -10,7 +10,7 @@
     //상세정보 메뉴바를 위해서 세션스토리지에 userid값,nickname값 저장하기
     sessionStorage.setItem("userid","${requestScope.member.userid}");
     sessionStorage.setItem("nickname","${requestScope.member.nickname}");
-
+    sessionStorage.setItem("status","${requestScope.member.status}");
     
     $(document).ready(function(){
       let html = "";
@@ -362,10 +362,10 @@
             <div class="my-2">
               <div class="penalty_reason">정지 기간</div>
               <div class="d-flex">
-                <span>${requestScope.penalty.start_date}</span>
+                <span>${requestScope.penalty.penalty_start_date}</span>
                 <span>&nbsp;~&nbsp;</span>
-                <span>${requestScope.penalty.end_date}</span>
-                <span>(${requestScope.penalty.period}일)</span>
+                <span>${requestScope.penalty.penalty_end_date}</span>
+                <span>(${requestScope.penalty.penalty_period}일)</span>
               </div>
             </div>
           </div>
