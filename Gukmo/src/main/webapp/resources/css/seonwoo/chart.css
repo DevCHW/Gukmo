@@ -1,4 +1,8 @@
-#container {
+@charset "UTF-8";
+
+
+/* chart */
+#chart_container {
     height: 400px;
 }
 
@@ -43,4 +47,21 @@
 
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
+}
+
+
+/* nav bar */
+div#category > div.active{
+  background-color: #0090F9;
+  color:white;
+}
+div#category div{
+  cursor:pointer;
+  font-weight:bold;
+}
+
+@media screen and (max-width: 768px){
+  div#category{
+    font-size:14px;
+  }
 }

@@ -19,8 +19,8 @@ public class AdminServie implements InterAdminService {
 	
 	// 기간별 새로운 게시물 수 
 	@Override
-	public List<Map<String, String>> newBoardCnt() {
-		List<Map<String, String>> newBoardCnt_List = dao.newBoardCnt();  
+	public List<Map<String, String>> newBoardCnt(Map<String, String> paraMap) {
+		List<Map<String, String>> newBoardCnt_List = dao.newBoardCnt(paraMap);  
 		return newBoardCnt_List;
 	}
 

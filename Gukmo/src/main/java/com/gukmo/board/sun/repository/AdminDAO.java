@@ -18,8 +18,8 @@ public class AdminDAO implements InterAdminDAO {
 	
 	// 기간별 새로운 게시물 수 
 	@Override
-	public List<Map<String, String>> newBoardCnt() {
-		List<Map<String, String>> newBoardCnt_List = gukmo_sql.selectList("sun.newBoardCnt"); 
+	public List<Map<String, String>> newBoardCnt(Map<String, String> paraMap) {
+		List<Map<String, String>> newBoardCnt_List = gukmo_sql.selectList("sun.newBoardCnt", paraMap); 
 		return newBoardCnt_List;
 	}
 }

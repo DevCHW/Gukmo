@@ -20,10 +20,6 @@
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/chart.js" ></script>
 
-<script type="text/javascript" >
-
-
-</script>
   <div id="section" class="d-flex">
   
   
@@ -36,7 +32,19 @@
 
     <div id="main" class="py-5 px-4 w-100">
     
-   
+    <div id="date" class="d-flex justify-content-center align-content-center">
+	    <div style="width: 20%; font-weight: bold;">시작일</div>
+		<div style="width: 60%; text-align: left;">
+		   <input type="text" id="fromDate">
+		</div>
+		<div style="width: 20%; font-weight: bold;">종료일</div>
+		<div style="width: 60%; text-align: left;">
+		   <input type="text" id="toDate">
+		</div>
+		<button type="button" id="search">검색</button>
+	</div>
+	
+	
    	  <%------------------------ 차트영역 시작 -----------------------%>
    	  
 	<figure class="highcharts-figure">
