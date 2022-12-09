@@ -38,15 +38,10 @@
 
 
 
-<div id="section" class="d-flex">
-    
-    <!---------------------------- 사이드바 호출 -------------------------------->
-    <jsp:include page="/WEB-INF/views/tiles1/admin/assembly/sidebar.jsp" />
-    <!---------------------------- 사이드바 호출 --------------------------------------->
 
 
     <!---------------------------- 사이드바 오른쪽 컨텐츠(div#main) 시작 ------------------------------->
-    <div id="main" class="py-5 px-4 w-100">
+    <div id="main" class="container py-5 px-4 w-100">
 
       <div class="mb-2">광고이미지</div>
       <!-- 광고이미지 if 구분이 게시판이라면 크기 잡기-->
@@ -145,6 +140,7 @@
           
 
       <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-light border rounded mr-3" onclick="javascript:history.back()">뒤로가기</button>
         <button id="btn_edit_advertisement" type="button" class="btn btn-light border rounded mr-3">수정</button>
         <button id="btn_edit_close" type="button" class="btn btn-light border rounded">취소</button>
       </div>
@@ -156,7 +152,6 @@
 
 
     </div>
-    <!---------------------------------- 사이드바 오른쪽 컨텐츠(div#main) 끝 ------------------------------------->
+    <!---------------------------------- (div#main) 끝 ------------------------------------->
 
 
-  </div>

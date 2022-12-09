@@ -7,10 +7,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.hw.admin.service.InterReportService;
@@ -22,9 +25,7 @@ public class ReportController {
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterReportService service;
 	
-	
-	// =============== 신고내역 관리 시작 ====================//
-	
+	//신고 리스트 보여주기(전체)
 	@RequestMapping(value="/admin/report/list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_reportManage_List(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<ReportVO> reportList = null;
@@ -89,7 +90,80 @@ public class ReportController {
 		mav.setViewName("admin/report/list.tiles1");
 		
 		return mav;
-	} // end of 신고내역 리스트 보기	
+	} // end of 신고내역 리스트 보기
+	
+	
+	
+	
+	//신고 리스트 보여주기(접수전)
+	@RequestMapping(value="/admin/report/beforeReceiptList.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	public ModelAndView requiredAdminLogin_viewBeforeList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	    List<ReportVO> reportList = null;
+	    
+	    String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		String memberStatus = request.getParameter("report_type");
+		
+		
+		String str_page = request.getParameter("page");
+		
+		if(memberStatus == null) {
+			memberStatus = "";
+		}
+		
+		 if(searchType == null || (!"report_nickname".equals(searchType) && !"reported_nickname".equals(searchType) ) ) {
+			searchType = "";
+		 }
+		
+		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
+		 	searchWord = "";
+		 }
+		 
+		 Map<String, String> paraMap = new HashMap<>();
+		 paraMap.put("searchType", searchType);
+		 paraMap.put("searchWord", searchWord);
+		 paraMap.put("memberStatus", memberStatus);
+		 // 먼저 총 게시물 건수(totalCount)를 구해와야 한다.
+		 // 총 게시물 건수(totalCount)는 검색조건이 있을 때와 없을때로 나뉘어진다.
+		 // 총 게시물 건수(totalCount)
+		 int totalCount = service.getTotalCount_report(paraMap);
+		 int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
+		 int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		 int page = getPage(str_page,totalPage);    // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
+			
+		 paraMap = getRno(page,sizePerPage,paraMap);
+		 String url = "reportManage_List.do";
+		 
+		 reportList = service.reportList(paraMap);
+		 
+		 
+		Map<String,String> pageMap = new HashMap<>();
+		pageMap.put("searchWord",searchWord);
+		pageMap.put("searchType",searchType);
+		pageMap.put("memberStatus",memberStatus);
+		pageMap.put("keyWord", "report_type");
+		
+		String pageBar = getPageBar(page,totalPage,url,pageMap);
+		
+		
+		if( !"".equals(searchType) && !"".equals(searchWord) ) {
+			 mav.addObject("paraMap", paraMap);
+		 }
+		mav.addObject("pageBar", pageBar);
+		mav.addObject("reportList", reportList);
+		
+		request.setAttribute("paraMap", paraMap);
+		request.setAttribute("totalCount", totalCount);
+		
+		mav.setViewName("admin/report/list.tiles1");
+		
+		return mav;
+	} // end of 신고내역 리스트 보기
+	
+	
+		
+		
+		
 	
 	
 	
@@ -116,6 +190,72 @@ public class ReportController {
 	
 	
 	
+	
+	
+	
+	/**
+	 * 신고접수처리하기(Board신고)
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/report/receiptBoard.do", method= {RequestMethod.POST})
+	public String receiptBoard(@RequestParam String report_num, HttpServletRequest request) {
+		
+		boolean result = service.receiptReportBoard(report_num);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		
+		return jsonObj.toString();
+	}
+	
+	/**
+	 * 신고접수처리하기(Comment신고)
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/report/receiptComment.do", method= {RequestMethod.POST})
+	public String receiptComment(@RequestParam String report_num, HttpServletRequest request) {
+		
+		boolean result = service.receiptReportComment(report_num);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
+	/**
+	 * 피신고자가 이미 정지회원인지 체크하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/report/memberStatusCheck.do", method= {RequestMethod.POST})
+	public String memberStatusCheck(@RequestParam String nickname, HttpServletRequest request) {
+		
+		String status = service.memberStatusCheck(nickname);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("status", status);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
+	/**
+	 * 피신고자가 이미 정지등록하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/report/penaltyRegister.do", method= {RequestMethod.POST})
+	public String penaltyRegister(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
+		paraMap.put("penalty_period",paraMap.get("penalty_period").replace("일",""));
+		boolean result = service.penaltyRegister(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		
+		return jsonObj.toString();
+	}
 	
 	
 	

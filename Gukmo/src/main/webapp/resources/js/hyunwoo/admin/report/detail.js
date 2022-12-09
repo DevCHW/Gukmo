@@ -43,10 +43,11 @@ $(document).ready(function(){
   });//end of Event---
 
 
+  
   //피신고자 정지등록 버튼 클릭시
-  $("button#insert_penalty_modal_open").click(function(){
-    memberStatusCheck(sessionStorage.getItem("reported_nickname"));
-  });//end of Event--
+  $("button#btn_insert_penalty").click(function(){
+	memberStatusCheck(sessionStorage.getItem("reported_nickname"))
+  });
 
 
 });//end of $(document).ready(function(){})--
@@ -158,10 +159,17 @@ function getHtmlReportedList(nickname){
  * @param {} report_num(신고번호) 
  */
 function receipt(report_num){
+  let url = "";
+  if( $("div#report_type").text() == '게시글' ){
+	url = getContextPath()+"/admin/report/receiptBoard.do";
+  } else if ($("div#report_type").text() == '댓글'){
+	url = getContextPath()+"/admin/report/receiptComment.do";
+  }
+ 
   $.ajax({
-    url:getContextPath()+"/신고내역 접수할빽단url.do", 
+	url:url, 
     data:{"report_num":report_num},
-    type:"get",
+    type:"post",
     dataType:"json",
     success:function(json){
       if(json.result){	//신고내역 접수에 성공했다면
@@ -186,14 +194,18 @@ function receipt(report_num){
  */
 function memberStatusCheck(nickname){
   $.ajax({
-    url:getContextPath()+"/신고내역 접수할빽단url.do", 
-    data:{"report_num":report_num},
-    type:"get",
+    url:getContextPath()+"/admin/report/memberStatusCheck.do", 
+    data:{"nickname":nickname},
+    type:"post",
+    async:false,
     dataType:"json",
     success:function(json){
-      if(json.result){	//이미 정지인 회원이라면
-        alert("이미 해당회원은 정지상태입니다.");
-        $("button.insert_penalty_modal_close").trigger("click");  //정지등록 모달 닫기
+      if(json.status == '정지'){
+    	 alert('해당회원은 이미 정지상태입니다!');
+    	 $("button.insert_penalty_modal_close").trigger("click");
+    	 return;
+      }else{
+    	 penaltyRegister();
       }
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
@@ -202,3 +214,34 @@ function memberStatusCheck(nickname){
     }
   });//end of $.ajax({})---
 }//end of method--
+
+
+
+
+/**
+ * 정지내역등록하기
+ */
+function penaltyRegister(){
+
+  let queryString = $("form[name=penaltyRegisterFrm]").serialize();
+  $("form[name=penaltyRegisterFrm]").ajaxForm({
+    url : getContextPath()+"/admin/report/penaltyRegister.do", 
+    data:queryString,
+    enctype:"multipart/form-data",
+    type:"POST",
+    dataType:"JSON",
+    success:function(json) {
+      if(json.result){ //정지내역 등록에 성공했다면
+    	  alert('회원 정지에 성공하였습니다!');
+    	  $("button.insert_penalty_modal_close").trigger("click");
+      } else{ //정지내역 등록에 실패했다면
+        alert("회원수정 실패하였습니다. 다시 시도해주세요");
+      }
+    },
+    error: function(request, status, error){
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+    }
+  });//end of ajax--
+  $("form[name=penaltyRegisterFrm]").submit();
+
+}//end of method---

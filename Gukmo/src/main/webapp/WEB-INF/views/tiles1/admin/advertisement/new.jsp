@@ -22,7 +22,7 @@
 
     <!---------------------------- 사이드바 오른쪽 컨텐츠(div#main) 시작 ------------------------------->
     <div id="main" class="py-5 px-4 w-100">
-      <form name="advertisementNewFrm">
+      <form name="advertisementNewFrm" enctype="multipart/form-data">
         <div id="input_box" class="d-flex flex-column m-auto">
           <!-- 광고분류 -->
           <label for="division" class="advertisement_label">광고분류</label>
@@ -42,9 +42,9 @@
           <p id="client_phone_error" class="error mt-1">고객연락처는 숫자만 입력해주세요</p>
 
           <!-- 파일 -->
-          <label for="orgfilename" class="advertisement_label">파일</label>
-          <input type="file" id="orgfilename" name="orgfilename">
-
+          <label for="attach" class="advertisement_label">파일</label>
+          <input type="file" id="attach" name="attach">
+		  
           <!-- 광고 이미지 미리보기 -->
           <div id="advertisement_img_box" class="border rounded mt-3">
             <img id="advertisement_img" src="" alt="광고이미지 미리보기">
@@ -69,8 +69,8 @@
             <button id="btn_add" type="button" class="btn btn-light border rounded">등록</button>
           </div>
         </div>
-
-        
+		
+		<input type="hidden" id="period" name="period">
       </form>
     </div>
     <!---------------------------------- 사이드바 오른쪽 컨텐츠(div#main) 끝 ------------------------------------->

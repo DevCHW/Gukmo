@@ -18,4 +18,29 @@ public interface InterReportDAO {
 
 	// 신고받은 자 아이디 값 불러오기
 	String getReportedId(String reportedNickname);
+
+	/**
+	 * 신고내역 접수하기(게시글)
+	 */
+	int receiptReportBoard(String report_num);
+
+	/**
+	 * 신고내역 접수하기(댓글)
+	 */
+	int receiptReportComment(String report_num);
+
+	/**
+	 * 피신고자가 이미 정지회원인지 체크하기
+	 */
+	String memberStatusCheck(String nickname);
+
+	/**
+	 * 정지내역에 등록하기
+	 */
+	int penaltyNew(Map<String, String> paraMap);
+
+	/**
+	 * 회원 정지로 바꿔주기
+	 */
+	int memberStatusChange(Map<String, String> paraMap);
 }

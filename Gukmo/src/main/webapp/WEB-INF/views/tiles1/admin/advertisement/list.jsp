@@ -138,7 +138,7 @@
       
       <!-- 광고등록버튼 -->
  	  <div class="d-flex justify-content-end">
- 	  	<button type="button" class="btn btn-light border rounded" onclick="location.href='<%=ctxPath %>/admin/adRegister.do'">
+ 	  	<button type="button" class="btn btn-light border rounded" onclick="location.href='<%=ctxPath %>/admin/advertisement/new.do'">
  	  		<i class="fa-sharp fa-solid fa-plus"></i><span>광고등록</span>
  	  	</button>
  	  </div>     

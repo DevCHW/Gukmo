@@ -8,21 +8,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
   <%-- 직접 만든 CSS --%>
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/hyunwoo/activities.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/hyunwoo/activityOther.css" />
   
   <%-- 직접만든 javascript --%>
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/activities.js" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/activityOther.js" ></script>
 
 
   <div class="container my-4">
-  	<%-------------------- 사이드바 시작 ----------------------%>
-        
-    <%-- sidebar 호출 --%>
-	<jsp:include page="/WEB-INF/views/tiles1/member/sidebar.jsp" />
-        
-        
-    <%-------------------- 사이드바 끝 ----------------------%>
-    
     <div id="main">
       <%-- main_header --%>
       <div class="main_header border rounded">
@@ -32,31 +24,27 @@
             <div class="d-flex align-items-center">
               <%-- 프사 --%>
               <div id="profile_img_box" class="border">
-              	<c:if test="${fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
-                  <img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+              	<c:if test="${fn:substring(requestScope.memberMap.PROFILE_IMAGE,0,4) != 'http'}">
+                  <img src="<%=ctxPath %>/resources/images/${requestScope.memberMap.PROFILE_IMAGE}"/>
                 </c:if>
-                <c:if test="${fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
-             	   <img src="${sessionScope.user.profile_image}"/>
+                <c:if test="${fn:substring(requestScope.memberMap.PROFILE_IMAGE,0,4) == 'http'}">
+             	   <img src="${requestScope.memberMap.PROFILE_IMAGE}"/>
                 </c:if>
               </div>
       
               <div class="ml-4 py-1">
-                <h4 id="user_nickname">${sessionScope.user.nickname}</h4>
-                <div id="point">활동점수&nbsp;<span>${sessionScope.user.point}</span></div>
+                <h4 id="user_nickname">${requestScope.memberMap.NICKNAME}</h4>
+                <div id="point">활동점수&nbsp;<span>${requestScope.memberMap.POINT}</span></div>
               </div>
             </div>
   
-            <button type="button" id="btn_go_myId" class="btn border rounded" onclick="location.href='<%=ctxPath %>/member/myId.do'">
-              	나의 계정
-            </button>
+            <button type="button" id="btn_go_myId" class="btn border rounded" onclick="location.href='<%=ctxPath %>/member/myId.do'">나의 계정</button>
           </div>
         </div>
 
         <%-- bottom --%>
         <div id="navbar" class="d-flex justify-content-center border-top">
-          <div class="filter mx-4 py-3">
-            	활동내역
-          </div>
+          <div class="filter mx-4 py-3">활동내역</div>
         </div>
       </div>
 

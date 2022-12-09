@@ -221,7 +221,6 @@ function editMemberInfo(status,authority,userid){
  */
 function penaltyRegister(nickname,status,authority,userid){
 
-  //정지내역 등록 진행(동기방식으로 진행해야하기때문에 async:false)
   let queryString = $("form[name=penaltyRegisterFrm]").serialize();
   $("form[name=penaltyRegisterFrm]").ajaxForm({
     url : getContextPath()+"/admin/member/penalty/new.do", 
@@ -243,6 +242,8 @@ function penaltyRegister(nickname,status,authority,userid){
   $("form[name=penaltyRegisterFrm]").submit();
 
 }//end of method---
+
+
 
 /**
  * 기존에 정지인회원을 다른상태로 바꾸려고 하였다면 정지내역에서 지워주기
