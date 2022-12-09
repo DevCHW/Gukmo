@@ -64,7 +64,7 @@ public class BoardController {
 		
 		List<BoardVO> notices = service.getNotices(paraMap); // 글목록 가져오기
 		
-		String url = "notices.do";
+		String url = request.getContextPath()+"notices.do";
 		//정렬기준 넣기
 		switch (sort) {
 			case "write_date":
@@ -146,7 +146,7 @@ public class BoardController {
 		
 		List<BoardVO> academyList = service.getAcademyList(paraMap); // 글목록 가져오기
 		
-		String url = "academy/academies.do";
+		String url = request.getContextPath()+"academy/academies.do";
 		//정렬기준 넣기
 		switch (sort) {
 			case "write_date":
@@ -326,6 +326,7 @@ public class BoardController {
     * @return pageBar
     */
    private String getPageBar(int page, int totalPage,String url, String searchWord,String sort) {
+	   
 		// 페이지바 만들기 
 		int blockSize = 5;
 		// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 개수이다.

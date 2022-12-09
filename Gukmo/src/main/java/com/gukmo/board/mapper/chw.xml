@@ -849,6 +849,29 @@
 	</select>
 	
 	
+	<update id="editMember" parameterType="HashMap">
+		update tbl_member set authority = #{authority}
+		where fk_userid = #{userid}
+	</update>
+	
+	
+	<update id="editMemberLogin" parameterType="HashMap">
+		update tbl_member_login set status = #{status}
+		where userid = #{userid}
+	</update>
+	
+	
+	
+	<insert id="penaltyNew" parameterType="HashMap">
+		insert into tbl_penalty(penalty_num,nickname,simple_penalty_reason,detail_penalty_reason,penalty_start_date,penalty_period)
+		values(seq_penalty.nextval,#{nickname},#{simple_penalty_reason},#{detail_penalty_reason},sysdate,#{penalty_period})
+	</insert>
+	
+	<delete id="penaltyDelete" parameterType="String">
+		delete from tbl_penalty where nickname = #{nickname}
+	</delete>
+	
+	
 	
 	
 	
