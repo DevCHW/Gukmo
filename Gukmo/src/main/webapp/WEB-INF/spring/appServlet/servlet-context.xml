@@ -4,12 +4,16 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -82,4 +86,16 @@
 	  <aop:pointcut id="controllerOperation" expression="execution(public * com.spring..*Controller.*(..))" />
     </aop:config>
 	
-</beans:beans>
+	
+	<!-- websocket handler -->
+	<beans:bean id="echoHandler" class="com.gukmo.board.hasol.alarm.WebSocketHandler" />
+	<websocket:handlers allowed-origins="http://localhost:9090">
+		<websocket:mapping handler="echoHandler" path="/alarm.do" />
+		<websocket:handshake-interceptors>
+	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+	      </websocket:handshake-interceptors>
+	      <websocket:sockjs websocket-enabled="true"/>
+	 </websocket:handlers>
+	</beans:beans>
+	
+
