@@ -134,8 +134,8 @@ public class BoardService implements InterBoardService{
 		int result1 = dao.insertBoardByAcademy(paraMap);	//tbl_board에 insert 해주기	
 		int result2 = dao.insertAcademy(paraMap);			//tbl_academy에 insert해주기
 		int result3 = 1;
+		
 		List<String> hashTags = (List<String>) paraMap.get("hashTags");
-		System.out.println("해시태그 사이즈 : " + hashTags.size());
         for (String hashTag : hashTags) {
         	
             HashtagVO hashtagvo = dao.findHashtag(hashTag);
@@ -156,6 +156,49 @@ public class BoardService implements InterBoardService{
             
             result3 = result3 * dao.hashtagBoardMapping(paraMap);
         }
+        
+        int result4 = dao.pointPlusActivityRecord(paraMap);
+
+		boolean success = result1*result2*result3*result4 == 1?true:false;
+		return success;
+	}
+
+
+	/**
+	 * 학원 글 등록하기
+	 */
+	@Override
+	public boolean insertCurriculum(Map<String, Object> paraMap) {
+		String board_num = dao.getBoarSeq();
+		paraMap.put("board_num",board_num);
+		System.out.println("insertCurriculum 파라맵  : "+paraMap);
+		
+		int result1 = dao.insertBoardByCurriculum(paraMap);	//tbl_board에 insert 해주기	
+		int result2 = dao.insertCurriculum(paraMap);		//tbl_curriculum에 insert해주기
+		int result3 = 1;
+		
+		//해시태그 넣기
+		List<String> hashTags = (List<String>) paraMap.get("hashTags");
+        for (String hashTag : hashTags) {
+        	
+            HashtagVO hashtagvo = dao.findHashtag(hashTag);
+
+            // 등록된 태그가 아니라면 태그부터 추가
+            if (hashtagvo == null) {
+            	dao.saveHashTag(hashTag);
+            }
+            
+            // 태그-보드 매핑 테이블에 데이터 추가
+            hashtagvo = dao.findHashtag(hashTag);
+            int hashtag_num = hashtagvo.getHashtag_num();
+           
+            dao.upHashTagCount(hashtag_num); // 언급 카운트 올리기
+            
+            paraMap.put("hashtag_num", hashtag_num);
+            
+            result3 = result3 * dao.hashtagBoardMapping(paraMap);
+        }
+        
         int result4 = dao.pointPlusActivityRecord(paraMap);
 
 		boolean success = result1*result2*result3*result4 == 1?true:false;

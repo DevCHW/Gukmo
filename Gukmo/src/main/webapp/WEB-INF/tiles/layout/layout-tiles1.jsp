@@ -14,29 +14,29 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 
-<!-- Required meta tags -->
+<%-- Required meta tags --%>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
   
-  <!-- Bootstrap CSS -->
+  <%-- Bootstrap CSS --%>
   <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
-  <!-- Font Awesome 5 Icons -->
+  <%-- Font Awesome 5 Icons --%>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
   
  
-  <!-- noto sans -->
+  <%-- noto sans --%>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
   
-  <!-- 직접 만든 CSS -->
+  <%-- 직접 만든 CSS --%>
   <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo.css?after">
   
-  <!-- title Icon -->
+  <%-- title Icon --%>
   <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">
   
-  <!-- Optional JavaScript -->
+  <%-- Optional JavaScript --%>
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
   <script type="text/javascript" src="<%= ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script> 

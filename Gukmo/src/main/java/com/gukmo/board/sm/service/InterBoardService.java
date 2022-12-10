@@ -1,4 +1,4 @@
-package com.gukmo.board.hgb.service;
+package com.gukmo.board.sm.service;
 
 import java.util.List;
 import java.util.Map;
