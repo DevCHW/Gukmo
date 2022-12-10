@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gukmo.board.hgb.repository.InterBoardDAO;
+import com.gukmo.board.sm.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 import com.gukmo.board.model.HashtagVO;
