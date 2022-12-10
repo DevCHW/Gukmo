@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* label */
-label.academy_label{
+label.curriculum_label{
   font-size:small;
   font-weight: bold;
   min-width:150px;
@@ -8,8 +8,8 @@ label.academy_label{
 
 
 /* input,select,textarea */
-input.academy_input,
-select.academy_input{
+input.curriculum_input,
+select.curriculum_input{
   font-size:small;
   height: 40px;
   outline: none;
@@ -46,6 +46,16 @@ div#small_mask{
   opacity: 0; 
   z-index: 2; 
   display: none;
+}
+
+span.tilde{
+  width:10%;
+}
+input#curriculum_start_date,
+input#curriculum_end_date,
+input#recuitment_start_date,
+input#recuitment_end_date{
+	width:45%;
 }
 
 div#location_option,

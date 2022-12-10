@@ -74,6 +74,13 @@ public interface InterBoardService {
 	boolean insertAcademy(Map<String, Object> paraMap);
 
 
+	
+	/**
+	 * 교육과정 등록하기
+	 */
+	boolean insertCurriculum(Map<String, Object> paraMap);
+
+
 
 
 

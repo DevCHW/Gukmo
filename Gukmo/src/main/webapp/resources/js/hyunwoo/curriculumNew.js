@@ -5,20 +5,29 @@ function getContextPath(){
   return contextPath;
 }
 
-$(document).ready(function(){
-	
-	$("div#big_location span").click(e=>{
-	  const target = $(e.currentTarget);
-	  const big_location = target.text();
-	  
-	  let html = getHtmlWithMyLocation(big_location);
-	  
-	  $("div#small_location2").html(html);
-	  $("div#location2").html(`<i class="fa-solid fa-location-dot mr-2"></i>
-	  						   <span id="address1">${big_location}</span>`);
-	  $("div#location3").html(`<i class="fa-solid fa-location-dot mr-2"></i>
-		 					   <span id="address2">지역 소분류</span>`);
+/**
+ * js 파일은 전부 필드선언 - 이벤트(document.ready) - 함수선언 의 구성으로 이루어져 있음
+ */
+
+$.datepicker.setDefaults({
+	  dateFormat: 'yy-mm',
+	  prevText: '이전 달',
+	  nextText: '다음 달',
+	  monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	  monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	  showMonthAfterYear: true,
+	  yearSuffix: '년'
 	});
+
+$(document).ready(function(){
+	//Datepicker 적용
+	  $("#curriculum_start_date, #curriculum_end_date, #recruitment_start_date, #recruitment_end_date").datepicker({
+	    dateFormat: 'yy-mm-dd'
+	  });
+	
 	
 	
 	$(document).on("click", "div#small_location2 span", function(e){
@@ -133,49 +142,20 @@ $(document).ready(function(){
     // ==== 해시태그 구현 끝 ==== // 
       
       
-      
-    //학원이미지사진 선택버튼 클릭시
-    $("button#btn_academy_image").click(function(){
-      $("input#academy_image").trigger("click");
+    //모집인원에 숫자만 입력되게 하기
+    $("input#cnt_recruits").keyup(function(){
+    	$(this).val($(this).val().replace(/[^0-9]/g,""));
     });
-    
-    
-  //이미지 업로드시
-    $("input#academy_image").change(function(e){
-  	  let files = e.target.files;
-        let filesArr = Array.prototype.slice.call(files);
-
-        let regExp = /(.*?)\/(jpg|jpeg|png|bmp)$/;
-
-        filesArr.forEach(function(f) {
-            if (!f.type.match(regExp)) {
-                alert("확장자는 이미지 확장자만 가능합니다.");
-                return;
-            }
-
-            sel_file = f;
-
-            let reader = new FileReader();
-            reader.onload = function(e) {
-            	$("img#academy_image_preview").css("display","");
-                $("img#profile_img").attr("src", e.target.result);
-                $("img.dropbtn").attr("src", e.target.result);
-            }
-            reader.readAsDataURL(f);
-       });
-       
-    });//end of Event --
-    
     
     
 
   
-	// 등록 버튼을 클릭했을시
+	// 등록 버튼을 클릭했을시 이벤트
     $("button#btn_write").click(function() {
     	
-    	var values = "";
+    	let values = "";
 	  	$("li.tag-item").each(function( index, element) {
-	  	  var value = $(this).text().substr(1);
+	  	  let value = $(this).text().substr(1);
 	  	  values += value+ ",";
 		   });
 	  	
@@ -183,6 +163,8 @@ $(document).ready(function(){
 	  	$("#str_hashTag").val(values);
 		// console.log(values);
         
+	  	
+	  	
     	// id가 content인 textarea에 에디터에서 대입
     	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
     	
@@ -193,23 +175,68 @@ $(document).ready(function(){
 			alert("글제목을 입력하세요!!");
 			return;
 		}
-		const address1 = $("span#address1").text();
-		const address2 = $("span#address2").text();
-		const address3 = $("input#address3").val();
-		if(address1.trim() == "지역 대분류"){
-			alert("지역대분류를 선택해주세요!");
+		
+		
+		//시작일자,마감일자 날짜변수잡기
+		const curriculum_start_date = $("input#curriculum_start_date").val();
+		const curriculum_end_date = $("input#curriculum_end_date").val();
+		const recuitment_start_date = $("input#curriculum_start_date").val();
+		const recuitment_end_date = $("input#curriculum_end_date").val();
+		//마감일자-시작일자 구하기(메소드호출)
+		const curriculumDateGap = getDateGap(curriculum_start_date,curriculum_end_date);
+		const recuitmentDateGap = getDateGap(recuitment_start_date,recuitment_end_date);
+		
+		//과정 날짜 유효성검사
+	    if(!isNaN(curriculumDateGap)){  //정상적인 날짜 입력시
+	      if(curriculumDateGap > 0){  //통과
+	      } else if(curriculumDateGap == 0){
+	        alert("과정 시작일은 종료일과 같을 수 없습니다.")
+	        return;
+	      } else{
+	        alert("과정 종료일자는 시작일자보다 나중이어야 합니다.");
+	        return;
+	      }
+	    } else{
+	      alert("Error! 과정 날짜를 날짜가 아닌 값을 선택하셨습니다!");
+	      return;
+	    }
+	    
+	    //모집 날짜 유효성검사
+	    if(!isNaN(recuitmentDateGap)){  //정상적인 날짜 입력시
+	      if(recuitmentDateGap > 0){  //통과
+	      } else if(recuitmentDateGap == 0){
+	        alert("과정 시작일은 종료일과 같을 수 없습니다.")
+	        return;
+	      } else{
+	        alert("과정 종료일자는 시작일자보다 나중이어야 합니다.");
+	        return;
+	      }
+	    } else{
+	      alert("Error! 과정 날짜를 날짜가 아닌 값을 선택하셨습니다!");
+	      return;
+	    }
+	    
+	    
+	    //신청링크 url 유효성검사
+	    const url = $("input#join_url").val();
+		if(!test_url(url)){	//신청링크 주소를 통과하지 못한다면
+			alert("올바른 신청링크를 입력해주세요!");
 			return;
-		} else if(address2.trim() == "지역 소분류"){
-			alert("지역 소분류를 선택해주세요!");
+		}
+		
+		
+		const core_technology = $("input#core_technology").val();
+		
+		//핵심기술 유효성검사
+		if(core_technology == ""){
+			alert("핵심기술을 입력해주세요!");
 			return;
-		}else if(address3.trim() == ""){
-			alert("상세주소를 입력해주세요");
-			return;
-		} else{
-			alert("지역대분류 : "+address1);
-			alert("지역소분류 : "+address2);
-			alert("지역3 : "+address3);
-			$("input#address").val(address1 + address2 + address3);
+		}
+		
+		const cnt_recruits = $("input#cnt_recruits").val();
+		
+		if(cnt_recruits == ""){
+			alert("모집인원을 입력해주세요!");
 		}
 		
 		
@@ -230,7 +257,7 @@ $(document).ready(function(){
 	    // 폼을 전송
 	    const frm = document.writerFrm;
 	    frm.method = "POST";
-	    frm.action = getContextPath()+"/academy/newEnd.do";
+	    frm.action = getContextPath()+"/academy/curriculum/newEnd.do";
 	    frm.submit();
 	});
     
@@ -241,311 +268,35 @@ $(document).ready(function(){
 
 //Function Declaration
 
+/**
+ * 신청링크 주소 유효성검사()
+ * @param 사용자가 입력한 교육기관 홈페이지 주소 값
+ * @returns 검사를 통과하면 true, 통과하지 못하면 false
+ */
+function test_url(url){
+  const regExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+  
+  if( !(regExp.test(url)) ){	//유효성검사를 통과못하면
+    return false;
+  }
+  else{ //유효성검사를 통과한다면 
+    return true;
+  }
+}// end of method---
 
 
 
 
-function getHtmlWithMyLocation(Big_location){
-	let html="";
-	switch (Big_location) {
-	case "서울":
-		html = "<span class='dropdown-item'>강남구</span>"+
-			   "<span class='dropdown-item'>강동구</span>"+
-			   "<span class='dropdown-item'>강북구</span>"+
-			   "<span class='dropdown-item'>강서구</span>"+
-			   "<span class='dropdown-item'>관악구</span>"+
-			   "<span class='dropdown-item'>광진구</span>"+
-			   "<span class='dropdown-item'>구로구</span>"+
-			   "<span class='dropdown-item'>노원구</span>"+
-			   "<span class='dropdown-item'>도봉구</span>"+
-			   "<span class='dropdown-item'>동대문구</span>"+
-			   "<span class='dropdown-item'>동작구</span>"+
-			   "<span class='dropdown-item'>마포구</span>"+
-			   "<span class='dropdown-item'>서대문구</span>"+
-			   "<span class='dropdown-item'>서초구</span>"+
-			   "<span class='dropdown-item'>성동구</span>"+
-			   "<span class='dropdown-item'>성북구</span>"+
-			   "<span class='dropdown-item'>송파구</span>"+
-			   "<span class='dropdown-item'>양천구</span>"+
-			   "<span class='dropdown-item'>영등포구</span>"+
-			   "<span class='dropdown-item'>용산구</span>"+
-			   "<span class='dropdown-item'>은평구</span>"+
-			   "<span class='dropdown-item'>종로구</span>"+
-			   "<span class='dropdown-item'>중구</span>"+
-			   "<span class='dropdown-item'>중랑구</span>";
-		break;
-	case "부산":
-		html = "<span class='dropdown-item'>강서구</span>"+
-			   "<span class='dropdown-item'>금정구</span>"+
-			   "<span class='dropdown-item'>기장군</span>"+
-			   "<span class='dropdown-item'>남구</span>"+
-			   "<span class='dropdown-item'>동구</span>"+
-			   "<span class='dropdown-item'>동래구</span>"+
-			   "<span class='dropdown-item'>부산진구</span>"+
-			   "<span class='dropdown-item'>북구</span>"+
-			   "<span class='dropdown-item'>사상구</span>"+
-			   "<span class='dropdown-item'>사하구</span>"+
-			   "<span class='dropdown-item'>서구</span>"+
-			   "<span class='dropdown-item'>수영구</span>"+
-			   "<span class='dropdown-item'>연제구</span>"+
-			   "<span class='dropdown-item'>영도구</span>"+
-			   "<span class='dropdown-item'>중구</span>"+
-			   "<span class='dropdown-item'>해운대구</span>";
-		break;
-	case "대구":
-		html = "<span class='dropdown-item'>남구</span>"+
-			   "<span class='dropdown-item'>달서구</span>"+
-			   "<span class='dropdown-item'>달성군</span>"+
-			   "<span class='dropdown-item'>동구</span>"+
-			   "<span class='dropdown-item'>북구</span>"+
-			   "<span class='dropdown-item'>서구</span>"+
-			   "<span class='dropdown-item'>수성구</span>"+
-			   "<span class='dropdown-item'>중구</span>";
-		break;
-	case "인천":
-		html = "<span class='dropdown-item'>강화군</span>"+
-			   "<span class='dropdown-item'>계양군</span>"+
-			   "<span class='dropdown-item'>남동구</span>"+
-			   "<span class='dropdown-item'>동구</span>"+
-			   "<span class='dropdown-item'>미추홀구</span>"+
-			   "<span class='dropdown-item'>부평구</span>"+
-			   "<span class='dropdown-item'>서구</span>"+
-			   "<span class='dropdown-item'>연수구</span>"+
-			   "<span class='dropdown-item'>옹진군</span>"+
-			   "<span class='dropdown-item'>중구</span>";
-		break;
-	case "광주":
-		html = "<span class='dropdown-item'>광산구</span>"+
-			   "<span class='dropdown-item'>남구</span>"+
-			   "<span class='dropdown-item'>동구</span>"+
-			   "<span class='dropdown-item'>북구</span>"+
-			   "<span class='dropdown-item'>서구</span>";
-		break;
-	case "대전":
-		html = "<span class='dropdown-item'>대덕구</span>"+
-			   "<span class='dropdown-item'>동구</span>"+
-			   "<span class='dropdown-item'>서구</span>"+
-			   "<span class='dropdown-item'>유성구</span>"+
-			   "<span class='dropdown-item'>중구</span>";
-		break;
-	case "울산":
-		html = "<span class='dropdown-item'>남구</span>"+
-			   "<span class='dropdown-item'>동구</span>"+
-			   "<span class='dropdown-item'>북구</span>"+
-			   "<span class='dropdown-item'>울주군</span>"+
-			   "<span class='dropdown-item'>중구</span>";
-		break;
-	case "세종":
-		html = "<span class='dropdown-item'>세종</span>";
-		break;
-	case "경기":
-		html = "<span class='dropdown-item'>가평군</span>"+
-			   "<span class='dropdown-item'>고양시</span>"+
-			   "<span class='dropdown-item'>고양시 덕양구</span>"+
-			   "<span class='dropdown-item'>고양시 일산동구</span>"+
-			   "<span class='dropdown-item'>고양시 일산서구</span>"+
-			   "<span class='dropdown-item'>과천시</span>"+
-			   "<span class='dropdown-item'>광명시</span>"+
-			   "<span class='dropdown-item'>광주시</span>"+
-			   "<span class='dropdown-item'>구리시</span>"+
-			   "<span class='dropdown-item'>군포시</span>"+
-			   "<span class='dropdown-item'>김포시</span>"+
-			   "<span class='dropdown-item'>남양주시</span>"+
-			   "<span class='dropdown-item'>동두천시</span>"+
-			   "<span class='dropdown-item'>부천시</span>"+
-			   "<span class='dropdown-item'>성남시</span>"+
-			   "<span class='dropdown-item'>성남시 분당구</span>"+
-			   "<span class='dropdown-item'>성남시 수정구</span>"+
-			   "<span class='dropdown-item'>성남시 중원구</span>"+
-			   "<span class='dropdown-item'>수원시</span>"+
-			   "<span class='dropdown-item'>수원시 권선구</span>"+
-			   "<span class='dropdown-item'>수원시 영통구</span>"+
-			   "<span class='dropdown-item'>수원시 장안구</span>"+
-			   "<span class='dropdown-item'>수원시 팔달구</span>"+
-			   "<span class='dropdown-item'>시흥시</span>"+
-			   "<span class='dropdown-item'>안산시</span>"+
-			   "<span class='dropdown-item'>안산시 단원구</span>"+
-			   "<span class='dropdown-item'>안산시 상록구</span>"+
-			   "<span class='dropdown-item'>안성시</span>"+
-			   "<span class='dropdown-item'>안양시</span>"+
-			   "<span class='dropdown-item'>안양시 동안구</span>"+
-			   "<span class='dropdown-item'>안양시 만안구</span>"+
-			   "<span class='dropdown-item'>양주시</span>"+
-			   "<span class='dropdown-item'>양평군</span>"+
-			   "<span class='dropdown-item'>여주시</span>"+
-			   "<span class='dropdown-item'>연천군</span>"+
-			   "<span class='dropdown-item'>오산시</span>"+
-			   "<span class='dropdown-item'>용인시</span>"+
-			   "<span class='dropdown-item'>용인시 기흥구</span>"+
-			   "<span class='dropdown-item'>용인시 수지구</span>"+
-			   "<span class='dropdown-item'>용인시 처인구</span>"+
-			   "<span class='dropdown-item'>의왕시</span>"+
-			   "<span class='dropdown-item'>의정부시</span>"+
-			   "<span class='dropdown-item'>이천시</span>"+
-			   "<span class='dropdown-item'>파주시</span>"+
-			   "<span class='dropdown-item'>평택시</span>"+
-			   "<span class='dropdown-item'>포천군</span>"+
-			   "<span class='dropdown-item'>포천시</span>"+
-			   "<span class='dropdown-item'>하남시</span>"+
-			   "<span class='dropdown-item'>화성시</span>";
-		break;
-	case "강원":
-		html = "<span class='dropdown-item'>강릉시</span>"+
-			   "<span class='dropdown-item'>고성군</span>"+
-			   "<span class='dropdown-item'>동해시</span>"+
-			   "<span class='dropdown-item'>삼척시</span>"+
-			   "<span class='dropdown-item'>속초시</span>"+
-			   "<span class='dropdown-item'>양구군</span>"+
-			   "<span class='dropdown-item'>양양군</span>"+
-			   "<span class='dropdown-item'>영월군</span>"+
-			   "<span class='dropdown-item'>원주시</span>"+
-			   "<span class='dropdown-item'>인제군</span>"+
-			   "<span class='dropdown-item'>정선군</span>"+
-			   "<span class='dropdown-item'>철원군</span>"+
-			   "<span class='dropdown-item'>춘천시</span>"+
-			   "<span class='dropdown-item'>태백시</span>"+
-			   "<span class='dropdown-item'>평창군</span>"+
-			   "<span class='dropdown-item'>흥천군</span>"+
-			   "<span class='dropdown-item'>화천군</span>"+
-			   "<span class='dropdown-item'>횡성군</span>";
-		break;
-	case "충북":
-		html = "<span class='dropdown-item'>괴산군</span>"+
-			   "<span class='dropdown-item'>단양군</span>"+
-			   "<span class='dropdown-item'>보은군</span>"+
-			   "<span class='dropdown-item'>영동군</span>"+
-			   "<span class='dropdown-item'>옥천군</span>"+
-			   "<span class='dropdown-item'>음성군</span>"+
-			   "<span class='dropdown-item'>제천시</span>"+
-			   "<span class='dropdown-item'>증평군</span>"+
-			   "<span class='dropdown-item'>진천군</span>"+
-			   "<span class='dropdown-item'>청원군</span>"+
-			   "<span class='dropdown-item'>청주시</span>"+
-			   "<span class='dropdown-item'>청주시 상당구</span>"+
-			   "<span class='dropdown-item'>청주시 서원구</span>"+
-			   "<span class='dropdown-item'>청주시 청원구</span>"+
-			   "<span class='dropdown-item'>청주시 흥덕구</span>"+
-			   "<span class='dropdown-item'>충주시</span>";
-		break;
-		
-	case "충남":
-		html = "<span class='dropdown-item'>계룡시</span>"+
-			   "<span class='dropdown-item'>공주시<span>"+
-			   "<span class='dropdown-item'>금산군<span>"+
-			   "<span class='dropdown-item'>논산시</span>"+
-			   "<span class='dropdown-item'>당진시</span>"+
-			   "<span class='dropdown-item'>보령시</span>"+
-			   "<span class='dropdown-item'>부여군</span>"+
-			   "<span class='dropdown-item'>서산시</span>"+
-			   "<span class='dropdown-item'>서천군</span>"+
-			   "<span class='dropdown-item'>아산시</span>"+
-			   "<span class='dropdown-item'>연기군</span>"+
-			   "<span class='dropdown-item'>예산군</span>"+
-			   "<span class='dropdown-item'>천안시</span>"+
-			   "<span class='dropdown-item'>천안시 동남구</span>"+
-			   "<span class='dropdown-item'>천안시 서북구</span>"+
-			   "<span class='dropdown-item'>청양군</span>"+
-			   "<span class='dropdown-item'>태안군</span>"+
-			   "<span class='dropdown-item'>흥성군</span>";
-		break;
-	case "전북":
-		html = "<span class='dropdown-item'>고창군</span>"+
-			   "<span class='dropdown-item'>군산시</span>"+
-			   "<span class='dropdown-item'>김제시</span>"+
-			   "<span class='dropdown-item'>남원시</span>"+
-			   "<span class='dropdown-item'>무주군</span>"+
-			   "<span class='dropdown-item'>부안군</span>"+
-			   "<span class='dropdown-item'>순창군</span>"+
-			   "<span class='dropdown-item'>완주군</span>"+
-			   "<span class='dropdown-item'>익산시</span>"+
-			   "<span class='dropdown-item'>임실군</span>"+
-			   "<span class='dropdown-item'>장수군</span>"+
-			   "<span class='dropdown-item'>전주시</span>"+
-			   "<span class='dropdown-item'>전주시 덕진구</span>"+
-			   "<span class='dropdown-item'>전주시 완산구</span>"+
-			   "<span class='dropdown-item'>정읍시</span>"+
-			   "<span class='dropdown-item'>진안군</span>";
-		break;
-		
-	case "전남":
-		html = "<span class='dropdown-item'>강진군</span>"+
-			   "<span class='dropdown-item'>고흥군</span>"+
-			   "<span class='dropdown-item'>곡성군</span>"+
-			   "<span class='dropdown-item'>광양시</span>"+
-			   "<span class='dropdown-item'>구례군</span>"+
-			   "<span class='dropdown-item'>나주시</span>"+
-			   "<span class='dropdown-item'>담양군</span>"+
-			   "<span class='dropdown-item'>목포시</span>"+
-			   "<span class='dropdown-item'>무안군</span>"+
-			   "<span class='dropdown-item'>보성군</span>"+
-			   "<span class='dropdown-item'>순천시</span>"+
-			   "<span class='dropdown-item'>신안군</span>"+
-			   "<span class='dropdown-item'>여수시</span>"+
-			   "<span class='dropdown-item'>영광군</span>"+
-			   "<span class='dropdown-item'>영암군</span>"+
-			   "<span class='dropdown-item'>장성군</span>"+
-			   "<span class='dropdown-item'>장흥군</span>"+
-			   "<span class='dropdown-item'>진도군</span>"+
-			   "<span class='dropdown-item'>함평군</span>"+
-			   "<span class='dropdown-item'>해남군</span>"+
-			   "<span class='dropdown-item'>화순근</span>";
-		break;
-	case "경북":
-		html = "<span class='dropdown-item'>경산시</span>"+
-			   "<span class='dropdown-item'>경주시</span>"+
-			   "<span class='dropdown-item'>고령군</span>"+
-			   "<span class='dropdown-item'>구미시</span>"+
-			   "<span class='dropdown-item'>군위군</span>"+
-			   "<span class='dropdown-item'>김천시</span>"+
-			   "<span class='dropdown-item'>문경시</span>"+
-			   "<span class='dropdown-item'>봉화군</span>"+
-			   "<span class='dropdown-item'>상주기</span>"+
-			   "<span class='dropdown-item'>성주군</span>"+
-			   "<span class='dropdown-item'>안동시</span>"+
-			   "<span class='dropdown-item'>영덕군</span>"+
-			   "<span class='dropdown-item'>영양군</span>"+
-			   "<span class='dropdown-item'>영주시</span>"+
-			   "<span class='dropdown-item'>예천군</span>"+
-			   "<span class='dropdown-item'>울릉군</span>"+
-			   "<span class='dropdown-item'>울진군</span>"+
-			   "<span class='dropdown-item'>의성군</span>"+
-			   "<span class='dropdown-item'>청도군</span>"+
-			   "<span class='dropdown-item'>청송군</span>"+
-			   "<span class='dropdown-item'>칠곡군</span>"+
-			   "<span class='dropdown-item'>포항시</span>"+
-			   "<span class='dropdown-item'>포항시 남구</span>"+
-			   "<span class='dropdown-item'>포항시 북구</span>";
-		break;
-	case "경남":
-		html = "<span class='dropdown-item'>거제시</span>"+
-			   "<span class='dropdown-item'>거창군</span>"+
-			   "<span class='dropdown-item'>고성군</span>"+
-			   "<span class='dropdown-item'>김해시</span>"+
-			   "<span class='dropdown-item'>남해군</span>"+
-			   "<span class='dropdown-item'>밀양시</span>"+
-			   "<span class='dropdown-item'>사천시</span>"+
-			   "<span class='dropdown-item'>산청군</span>"+
-			   "<span class='dropdown-item'>양산시</span>"+
-			   "<span class='dropdown-item'>의령군</span>"+
-			   "<span class='dropdown-item'>진주시</span>"+
-			   "<span class='dropdown-item'>창녕군</span>"+
-			   "<span class='dropdown-item'>창원시</span>"+
-			   "<span class='dropdown-item'>창원시 마산합포구</span>"+
-			   "<span class='dropdown-item'>창원시 마산회원구</span>"+
-			   "<span class='dropdown-item'>창원시 성산구</span>"+
-			   "<span class='dropdown-item'>창원시 의창구</span>"+
-			   "<span class='dropdown-item'>창원시 진해구</span>"+
-			   "<span class='dropdown-item'>통영시</span>"+
-			   "<span class='dropdown-item'>하동군</span>"+
-			   "<span class='dropdown-item'>함안군</span>"+
-			   "<span class='dropdown-item'>함양군</span>"+
-			   "<span class='dropdown-item'>합천군</span>";
-		break;
-	case "제주":
-		html = "<span class='dropdown-item'>서귀포시</span>"+
-			   "<span class='dropdown-item'>제주시<span>";
-		break;
-	}
-	
-	return html;
-}
+/**
+ * 날짜 유효성검사
+ */
+function getDateGap(start_date,end_date){
+  start_date = start_date.replace(/-/g,'');
+  end_date = end_date.replace(/-/g,'');
+  
+  return end_date - start_date;
+}//end of method--
+
+
+
+

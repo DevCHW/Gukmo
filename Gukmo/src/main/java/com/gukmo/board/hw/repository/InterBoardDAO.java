@@ -65,15 +65,9 @@ public interface InterBoardDAO {
 	String getDetailCategory(int boardNum);
 
 
-	/**
-	 * 
-	 * @param paraMap
-	 * @return
-	 */
-	BoardVO getAcademyDetail(Map<String, String> paraMap);
 
 	/**
-	 * tbl_board에 insert 해주기	
+	 * tbl_board에 학원글insert 해주기	
 	 */
 	int insertBoardByAcademy(Map<String, Object> paraMap);
 
@@ -83,9 +77,19 @@ public interface InterBoardDAO {
 	String getBoarSeq();
 
 	/**
-	 * tbl_academy에 insert해주기
+	 * tbl_academy에 insert해주기(학원글)
 	 */
 	int insertAcademy(Map<String, Object> paraMap);
+	
+	/**
+	 * tbl_board에 교육과정글insert 해주기(교육과정글)
+	 */
+	int insertBoardByCurriculum(Map<String, Object> paraMap);
+
+	/**
+	 * tbl_curriculum에 insert해주기(교육과정글)
+	 */
+	int insertCurriculum(Map<String, Object> paraMap);
 
 
 	/**
@@ -108,6 +112,18 @@ public interface InterBoardDAO {
 
 	//선우누나 해시태그insert
 	int hashtagBoardMapping(Map<String, Object> paraMap);
+	
+	
+	
+	/**
+	 * 
+	 * @param paraMap
+	 * @return
+	 */
+	BoardVO getAcademyDetail(Map<String, String> paraMap);
+
+
+	
 
 
 	

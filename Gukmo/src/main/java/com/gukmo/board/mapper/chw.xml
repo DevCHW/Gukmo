@@ -716,7 +716,8 @@
 		          ,C.academy_name
 		          ,to_char(C.curriculum_start_date,'yyyy-mm-dd') curriculum_start_date
 		          ,to_char(C.curriculum_end_date,'yyyy-mm-dd') curriculum_end_date
-		          ,C.recuitment_end_date
+		          ,to_char(C.recruitment_start_date) recruitment_start_date
+		          ,to_char(C.recruitment_end_date) recruitment_end_date
 		          ,C.cnt_recruits
 		          ,C.join_url
 		    from
@@ -766,6 +767,21 @@
 		values(#{board_num},#{representative_name},#{address},#{phone},#{jurisdiction},#{homepage},#{academy_image})
 	</insert>
 	
+	
+	
+	
+	
+	<!-- tbl_curriculum에 insert 해주기(교육과정글)-->
+	<insert id="insertBoardByCurriculum" parameterType="HashMap">
+		insert into tbl_board(board_num,nickname,category,detail_category,subject,content,write_date,views,profile_image,comment_cnt,like_cnt)
+		values(#{board_num},#{nickname},'국비학원','교육과정',#{subject},#{content},sysdate,0,#{profile_image},0,0)
+	</insert>
+	
+	<!-- tbl_curriculum에 insert해주기 -->
+	<insert id="insertCurriculum" parameterType="HashMap">
+		insert into tbl_curriculum(fk_board_num,core_technology,academy_name,curriculum_start_date,curriculum_end_date,recruitment_start_date,recruitment_end_date,cnt_recruits,join_url)
+		values(#{board_num},#{core_technology},#{academy_name},#{curriculum_start_date},#{curriculum_end_date},#{recruitment_start_date},#{recruitment_end_date},#{cnt_recruits},#{join_url})
+	</insert>
 	
 	
 	
