@@ -323,7 +323,7 @@ public class BoardController {
 	
 	
 	/**
-	 * 학원글작성 페이지 매핑(교육기관회원 로그인 필수)
+	 * 학원글작성 완료(교육기관회원 로그인 필수)
 	 */
 	@RequestMapping(value="/academy/newEnd.do", method= {RequestMethod.POST})
 	public String academyNewEnd(@RequestParam Map<String,Object> paraMap, MultipartFile academy_image,MultipartHttpServletRequest mrequest) {
@@ -335,7 +335,6 @@ public class BoardController {
 		paraMap.put("userid",user.getUserid());
 		boolean result = false;
 		String root = session.getServletContext().getRealPath("/");
-		
 		
 		String path = root+"resources"+ File.separator +"images";
 		
@@ -362,20 +361,9 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(paraMap);
 		
-		String message = "";
-		String loc = "";
-		if(result) {	//글작성 성공시
-			
-			message = "학원등록 완료!";
-			loc = mrequest.getContextPath()+"/academy/academies.do";
-			
-		} else {	//글작성 실패시
-			message = "학원등록에 실패하였습니다. 다시 시도해주세요. ";
-			loc = mrequest.getContextPath()+"/academy/academies.do";
-			
-		}
+		String message = result?"학원등록 완료!":"학원등록에 실패하였습니다. 다시 시도해주세요.";
+		String loc = mrequest.getContextPath()+"/academy/academies.do";
 		
 		mrequest.setAttribute("message", message);
 		mrequest.setAttribute("loc", loc);
@@ -383,6 +371,53 @@ public class BoardController {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 교육과정글작성 페이지 매핑(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/curriculum/new.do", method= {RequestMethod.GET})
+		public String viewCurriculumNew(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중이 아니라면
+			return "redirect:/login.do";
+		}
+		
+		return "board/academy/curriculumNew.tiles1";
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 교육과정 글작성 완료(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/curriculum/newEnd.do", method= {RequestMethod.POST})
+	public String curriculumNewEnd(@RequestParam Map<String,Object> paraMap,MultipartHttpServletRequest mrequest) {
+		HttpSession session = mrequest.getSession();
+		paraMap.put("content",MyUtil.secureCode((String)paraMap.get("content")));
+		List<String> hashTags = Arrays.asList(String.valueOf(paraMap.get("str_hashTag")).split(","));
+		paraMap.put("hashTags",hashTags);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		paraMap.put("userid",user.getUserid());
+			
+		boolean result = service.insertCurriculum(paraMap);
+			
+		String message = result?"교육과정등록완료!":"교육과정등록실패!";
+		String loc = mrequest.getContextPath()+"/academy/academies.do";
+		
+		mrequest.setAttribute("message", message);
+		mrequest.setAttribute("loc", loc);
+		return "msg";
+	}
 	
 	
 	

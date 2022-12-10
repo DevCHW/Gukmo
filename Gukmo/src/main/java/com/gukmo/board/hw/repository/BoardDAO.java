@@ -135,7 +135,7 @@ public class BoardDAO implements InterBoardDAO{
 	
 	
 	/**
-	 * tbl_board에 insert 해주기	
+	 * tbl_board에 insert 해주기(학원글)
 	 */
 	@Override
 	public int insertBoardByAcademy(Map<String, Object> paraMap) {
@@ -144,15 +144,30 @@ public class BoardDAO implements InterBoardDAO{
 	}
 
 
-	
-
-
 	/**
 	 * tbl_academy에 insert해주기
 	 */
 	@Override
 	public int insertAcademy(Map<String, Object> paraMap) {
 		int result = gukmo_sql.insert("chw.insertAcademy",paraMap);
+		return result;
+	}
+	
+	/**
+	 * tbl_curriculum에 insert 해주기(교육과정글)
+	 */
+	@Override
+	public int insertBoardByCurriculum(Map<String, Object> paraMap) {
+		int result = gukmo_sql.insert("chw.insertBoardByCurriculum",paraMap);
+		return result;
+	}
+
+	/**
+	 * tbl_curriculum에 insert해주기
+	 */
+	@Override
+	public int insertCurriculum(Map<String, Object> paraMap) {
+		int result = gukmo_sql.insert("chw.insertCurriculum",paraMap);
 		return result;
 	}
 
@@ -188,7 +203,7 @@ public class BoardDAO implements InterBoardDAO{
 
 
 	/**
-	 * AOP(paraMap) 포인트올려주고 활동내역기록해주기
+	 * 포인트올려주고 활동내역기록해주기
 	 * @param paraMap
 	 * @return
 	 */
@@ -198,6 +213,9 @@ public class BoardDAO implements InterBoardDAO{
 		int result2 = gukmo_sql.insert("chw.ActivityRecord", paraMap);
 		return result1*result2;
 	}
+
+
+	
 
 
 
