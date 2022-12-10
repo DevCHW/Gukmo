@@ -2,6 +2,14 @@ div.container{
   font-size:small;
 }
 
+a#no_next {
+	cursor: default;
+}
+
+a#no_previous {
+	cursor: default;
+}
+
 
 div.container a:link {
   color : black;

@@ -31,7 +31,12 @@
 
       <div id="writer_profile_image_box">
         <%-- 글 작성자 프로필이미지 --%>
-        <img src="<%=ctxPath %>/resources/images/user.PNG" alt="프로필">
+        <c:if test="${requestScope.board.profile_image.substring(0,4) != 'http'}">
+              <img src="<%=ctxPath %>/resources/images/${requestScope.board.profile_image}">
+            </c:if>
+            <c:if test="${requestScope.board.profile_image.substring(0,4) == 'http'}">
+              <img src="${requestScope.board.profile_image}">
+            </c:if>
       </div>
 
 
@@ -42,9 +47,15 @@
         <%-- 활동점수,작성일자,조회수 영역--%>
         <div class="d-flex">
           <%-- 활동점수 --%>
+          
           <div id="board_writer_point" class="mx-2">
             <i class="fa-solid fa-bolt"></i>
-            <span>${requestScope.board.writer_point}</span>
+            <c:if test="${empty requestScope.board.writer_point}">
+              <span>0</span>
+            </c:if>
+            <c:if test="${not empty requestScope.board.writer_point}">
+              <span>${requestScope.board.writer_point}</span>
+            </c:if>
           </div>
 
           <span>·</span>
@@ -65,14 +76,31 @@
       </div>
       <%-- 신고버튼, 수정or삭제버튼 --%>
       <div id="report_edit_delete_area" class="d-flex justify-content-between align-items-center">
-        <span id="btn_report">&#x1F6A8;</span>
+        <c:if test="${sessionScope.user.nickname != requestScope.board.nickname && sessionScope.user.authority != '관리자'}">
+          <span id="btn_report" class="ml-auto" onclick="openReport()">&#x1F6A8;</span>
+        </c:if>
+        <c:if test="${sessionScope.user.nickname == requestScope.board.nickname || sessionScope.user.authority == '관리자'}">
+          <span id="btn_report" onclick="openReport()">&#x1F6A8;</span>
+        </c:if>
         <div id="mask"></div>
-        <span id="btn_more" class="border rounded px-2 py-1">&#8230;
-          <div id="update_or_delete" class="border rounded px-3 py-2">
-            <span>수정하기</span>
-            <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
-          </div>
-        </span>
+        <c:if test="${sessionScope.user.nickname == requestScope.board.nickname}">
+          <span id="btn_more" class="border rounded px-2 py-1">&#8230;
+            <div id="update_or_delete" class="border rounded px-3 py-2">
+              <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
+              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+            </div>
+          </span>
+        </c:if>
+        <c:if test="${sessionScope.user.authority == '관리자'}">
+          <span id="btn_more" class="border rounded px-2 py-1">&#8230;
+            <div id="update_or_delete" class="border rounded px-3 py-2">             
+              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+            </div>
+          </span>
+        </c:if>
+       
+        
+        
       </div>
     </div>
     <%-- 글 상세보기 페이지 머리부분 --%>
@@ -82,34 +110,45 @@
     <%-------------------- 글 본문 시작 ------------------%>
     <div id="content_area" class="d-flex flex-column py-2">
       <div id="subject" class="mt-3">
-        <h2>${requestScope.board.subject}${board.like}</h2>
+        <h2>${requestScope.board.subject}</h2>
       </div>
+
 
 	  <%-- 글내용 --%>
       <div id="content" class="mt-3">${requestScope.board.content} </div>
 
       <div class="d-flex justify-content-between mt-4">
-
-        	<%-- 해시태그리스트 반복문시작 --%>
-            <c:forEach var="hashtag" items="${board.hashtags}">
-            <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
-            </c:forEach>
-            <%-- 해시태그리스트 반복문 끝--%>
+			<div>
+        	  <%-- 해시태그리스트 반복문시작 --%>
+              <c:forEach var="hashtag" items="${board.hashtags}">
+                <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+              </c:forEach>
+              <%-- 해시태그리스트 반복문 끝--%>
+			</div>
             
             
 	       	<%-- 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	        <c:if test="${empty sessionScope.userid || product.product_like_cnt == 0}">
-	            <div type="button" id="btn_like">
-	              <span id="like_icon">&#9825;</span>
-	              <span id="like_cnt">${board.like_cnt}</span>
-	            </div>
-	        </c:if>
+	       	<div class="ml-auto">
+	          <c:if test="${empty sessionScope.user || like == null}">
+	              <div type="button" id="btn_like">
+	                <span id="like_icon">&#9825;</span>
+	                <span id="like_cnt">${board.like_cnt}</span>
+	              </div>
+	          </c:if>
+	          
+	          <c:if test="${not empty sessionScope.user && like == 1}">
+	              <div type="button" id="btn_like">
+	                <span id="like_icon">&#x1F497;</span>
+	                <span id="like_cnt">${board.like_cnt}</span>
+	              </div>
+	          </c:if>
+	       	</div>
 		          
 	       
         
             <input id="userid"  type="hidden" name="userid" value="${sessionScope.user.userid}"  />		
             <input id="board_num"  type="hidden" name="board_num" value="${board.board_num}"  />		
-            <input id="nickname"  type="hidden" name="board_num" value="${sessionScope.user.nickname}"  />		
+            <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}"  />		
         
         
         
@@ -120,17 +159,39 @@
     <%---------------------- 이전글,다음글 영역 시작 ----------------------%>
     <div id="previous_next_area" class="px-3 d-flex justify-content-center align-items-center rounded mt-4">
       <div class="w-100">
+      
+        <c:if test="${not empty requestScope.board.previousseq}">
         <%-- 이전글 a태그 href에 ?num=이전글번호--%>
         <div id="previous" class="my-2">
           <span>이전글 |</span>
           <a href="detail.do?boardNum=${requestScope.board.previousseq}">${requestScope.board.previoussubject}</a>
         </div>
+        </c:if>
+        
+        <c:if test="${empty requestScope.board.previousseq}">
+        <%-- 이전글 a태그 href에 ?num=이전글번호--%>
+        <div id="previous" class="my-2">
+          <span>이전글 |</span>
+          <a id="no_previous">이전글이 없습니다</a>
+        </div>
+        </c:if>
   
+        <c:if test="${not empty requestScope.board.nextseq}">
         <%-- 다음글 a태그 href에 ?num=다음글번호--%>
         <div id="next" class="my-2">
           <span>다음글 |</span>
           <a href="detail.do?boardNum=${requestScope.board.nextseq}">${requestScope.board.nextsubject}</a>
         </div>
+        </c:if>
+        
+        <c:if test="${empty requestScope.board.nextseq}">
+        <%-- 다음글 a태그 href에 ?num=다음글번호--%>
+        <div id="next" class="my-2">
+          <span>다음글 |</span>
+          <a id="no_next">다음글이 없습니다</a>
+        </div>
+        </c:if>
+        
       </div>
     </div>
     <%---------------------- 이전글,다음글 영역 끝 ----------------------%>
@@ -154,7 +215,7 @@
     <%---------------------- 댓글쓰기 영역 시작 ----------------------%>
     <%-- 댓글 총 갯수, 숫자부분에 넣으면 됨 --%>
     <div id="total_comment_cnt" class="my-3">
-      <span id="total_comment">1</span><span>개의 댓글</span>
+      <span id="total_comment">${board.comment_cnt}</span><span>개의 댓글</span>
     </div>
 
     <form name="addWriteFrm" id="addWriteFrm">
@@ -164,13 +225,16 @@
           <%-- 로그인되어있는 유저 프로필 이미지 --%>
           <img src="<%=ctxPath %>/resources/images/user.PNG"/>
         </div>
-    
+            <input id="userid" type="hidden" name="userid" value="${sessionScope.user.userid}"  />		
+            <input id="cmt_board_num"  type="hidden" name="cmt_board_num" value="${requestScope.board.board_num}"  />		
+            <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}"  />		
+            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
         <div class="ml-3 w-100">
           <div class="mb-1">내용</div>
-          <textarea name="write_comment" id="write_comment" class="pl-2 py-2" rows="5"></textarea>
+          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>
   
           <div class="d-flex justify-content-end mt-2">
-            <button class="btn btn-info" id="go_comment" onclick="goAddWrite()">댓글 쓰기</button>
+            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
           </div>
         </div>
      
@@ -186,20 +250,20 @@
     <%---------------------- 댓글리스트 영역(반복문) 시작 ----------------------%>
 
     <%-- 댓글 반복문 시작 --%>
-    <c:forEach var="comment" items="${board.comment}">
+    <c:forEach var="bcommentList" items="${requestScope.basic_commentList}" varStatus="status">
     <div class="comment_area pb-4">
-      <div class="comment px-3 py-4">
+      <div class="comment px-3 py-4" id="dd">
         <%-- 댓글작성자의 프로필이미지, 활동점수, 댓글작성일자 --%>
-        <div class="comment_writer_info d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center comment_writer_info">
           <div class="comment_writer_profile_img_box mr-2">
             <img src="<%=ctxPath %>/resources/images/user.PNG">
           </div>
-
-          <div class="d-flex flex-column w-100">
-            <div class="comment_writer_nickname">
-              댓글작성자 닉네임
+          <input type="hidden" id="" name="fk_comment_num"/>
+          <div class="d-flex flex-column w-100 asdf1">
+            <div class="comment_writer_nickname" id ="${bcommentList.comment_num}">
+              	${bcommentList.nickname}
             </div>
-  
+  			
             <div class="mt-1">
               <%-- 댓글작성자 활동점수 --%>
               <span class="mr-2">
@@ -210,7 +274,7 @@
               <span>·</span>
               <%-- 댓글작성일자 --%>
               <span class="ml-2">
-                1시간 전
+                ${bcommentList.write_date}
               </span>
             </div>
           </div>
@@ -223,22 +287,29 @@
             <span>2</span>
           </div>
           <%-- 댓글 신고,수정,삭제 시작 --%>
-          <div id="comment_edit_delete_area" class="d-flex justify-content-between align-items-center">
-	        <span id="comment_btn_report">&#x1F6A8;</span>
-	        <div id="comment_mask"></div>
-	        <span id="comment_btn_more" class="border rounded px-2 py-1">&#8230;
-          		<div id="comment_update_or_delete" class="border rounded px-3 py-2">
-            	<span>수정하기</span>
-            	<span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+          <div id="comment_btn_more" class="d-flex justify-content-between align-items-center comment_edit_delete_area">
+	        <span class="comment_btn_report">&#x1F6A8;</span>
+	        <div ="comment_mask"></div>
+	        <span id="comment_btn_more" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+          		<div id="comment_update_or_delete" class="border rounded px-3 py-2 comment_update_or_delete">
+	            	<span class="comment_edit">수정하기</span>
+	            	<span class="comment_delete">삭제하기</span>
           		</div>
           	</span>
       	   </div>
       	   <%-- 댓글 신고,수정,삭제 시작 --%>
         </div>
 
-        <%-- 댓글내용 --%>
-        <div class="comment_content my-3">
-          ${comment.content}
+        <%-- 수정할 댓글 내용 --%>
+        <div class="my-3 basic_comment_content" id="${bcommentList.content}">
+			<div class = "detail_comment" >${bcommentList.content}</div>
+<!-- 	        <div class="ml-3 w-100 comment_edit" id="">
+	          <textarea id="content3" name="content3" class="pl-2 py-2" rows="5"></textarea>  
+	          <input type="hidden" id="c_num" class="c_num" name="c_num" />
+	          <div class="d-flex justify-content-end mt-2">
+	            <button type="button" class="btn btn-info" id="edit_comment">댓글 수정</button>
+	          </div>
+	        </div> -->
         </div>
 
         
@@ -269,11 +340,6 @@
       <%--------------------------------------------------- 대댓글 영역 시작 ---------------------------------------%>
       <div class="d-flex flex-column align-items-end">
 
-
-
-
-
-
         <%--------------------------------- 대댓글 쓰기영역 시작 ------------------------------%>
         <div class="big_comment_write_area pl-4">
           <div class="login_user_profile_img_box">
@@ -282,12 +348,11 @@
           </div>
           
           <div class="ml-3 w-100">
-            <div class="mb-1">내용</div>
-            <textarea name="write_comment2" id="write_comment2" class="pl-2 py-2" rows="5"></textarea>
-    
-            <div class="d-flex justify-content-end mt-2">
-              <button class="btn_big_comment_close btn btn-light border rounded mr-3">취소</button>
-              <button class="btn_big_comment_write btn btn-info">댓글 쓰기</button>
+            <div class="mb-1">${sessionScope.user.nickname}</div>
+    		<textarea id="" class="pl-2 py-2 content2" name="content2" rows="5"></textarea>   		
+            <div class="d-flex justify-content-end mt-2" id = "asdf1">
+              <button type="button" class="btn_big_comment_close btn btn-light border rounded mr-3">취소</button>
+              <button type="button" class="btn_big_comment_write btn btn-info" onclick="addCommentOfComment(${bcommentList.comment_num})">댓글 쓰기</button>
             </div>
           </div>
           
@@ -296,59 +361,52 @@
         <%----------------------------------- 대댓글 쓰기영역 끝 -----------------------------------%>
 
 
-
-
-      <%----------------------------------- 대댓글리스트(반복문) 시작 -----------------------------------%>
-        <div class="big_comment_area pl-4 pt-4">
-          <%-- 대댓글작성자의 프로필이미지, 활동점수, 댓글작성일자 --%>
-          <div class="big_comment_writer_info d-flex justify-content-between align-items-center">
-            <div class="big_comment_writer_profile_img_box mr-3">
-              <img src="<%=ctxPath %>/resources/images/user.PNG">
-            </div>
-
-            <div class="d-flex flex-column w-100">
-              <div class="big_comment_writer_nickname">
-                대댓글작성자 닉네임
-              </div>
-    
-              <div class="mt-1">
-                <%-- 대댓글작성자 활동점수 --%>
-                <span class="mr-2">
-                  <i class="fa-solid fa-bolt"></i>
-                  <span>0</span>
-                </span>
-
-                <span>·</span>
-                <%-- 대댓글작성일자 --%>
-                <span class="ml-2">
-                  1시간 전
-                </span>
-              </div>
-            </div>
-
-            <%-- 대댓글 좋아요버튼 --%>
-            <div class="big_comment_like">
-              <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-              <span>&#x1F497;</span>
-              <%-- 댓글 좋아요 갯수 --%>
-              <span>2</span>
-            </div>
-          </div>
-
-          <%-- 대댓글내용 --%>
-          <div class="comment_content my-3">
-            대댓글 내용 들어갈 곳
-          </div>
-
-          
-          <div class="d-flex">
-            <%-- 대댓글쓰기 --%>
-            <div class="btn_write_big_comment">
-              댓글쓰기
-            </div>
-          </div>
-        </div>
-       
+      <%----------------------------------- 대댓글리스트(반복문) 시작 -----------------------------------%>     
+      <c:forEach var="spcial_commentList" items="${requestScope.special_commentList}">
+		<c:if test="${bcommentList.comment_num == spcial_commentList.fk_comment_num}">
+	        <div class="big_comment_area pl-4 pt-4">
+	          <%-- 대댓글작성자의 프로필이미지, 활동점수, 댓글작성일자 --%>
+	          <div class="big_comment_writer_info d-flex justify-content-between align-items-center">
+	            <div class="big_comment_writer_profile_img_box mr-3">
+	              <img src="<%=ctxPath %>/resources/images/user.PNG">
+	            </div>
+	 
+	            <div class="d-flex flex-column w-100">
+	              <div class="big_comment_writer_nickname">
+              		${spcial_commentList.nickname}
+	              </div>
+	    
+	              <div class="mt-1">
+	                <%-- 대댓글작성자 활동점수 --%>
+	                <span class="mr-2">
+	                  <i class="fa-solid fa-bolt"></i>
+	                  <span>0</span>
+	                </span>
+	
+	                <span>·</span>
+	                <%-- 대댓글작성일자 --%>
+	                <span class="ml-2">
+              			${spcial_commentList.write_date}
+	                </span>
+	              </div>
+	            </div>
+	
+	            <%-- 대댓글 좋아요버튼 --%>
+	            <div class="big_comment_like">
+	              <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+	              <span>&#x1F497;</span>
+	              <%-- 댓글 좋아요 갯수 --%>
+	              <span>2</span>
+	            </div>
+	          </div>
+	
+	          <%-- 대댓글내용 --%>
+	          <div class="special_comment_content my-3" id="">
+              	${spcial_commentList.content}
+	          </div>      
+	        </div>
+        </c:if>    
+       </c:forEach>
       <%----------------------------------- 대댓글리스트(반복문) 끝 -----------------------------------%>
 
       </div>
