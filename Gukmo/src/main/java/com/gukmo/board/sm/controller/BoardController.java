@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gukmo.board.hgb.repository.InterBoardDAO;
-import com.gukmo.board.hgb.service.InterBoardService;
+import com.gukmo.board.sm.repository.InterBoardDAO;
+import com.gukmo.board.sm.service.InterBoardService;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 import com.gukmo.board.model.MemberVO;
