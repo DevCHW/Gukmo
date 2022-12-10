@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판</title>
+<title>국비의모든것 - Give everyone an opportunity to learn</title>
 
 <%-- Required meta tags --%>
   <meta charset="UTF-8">
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo.css?after">
   
   <%-- title Icon --%>
-  <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="<%=ctxPath %>/resources/images/logo.png" rel="shortcut icon" type="image/x-icon">
   
   <%-- Optional JavaScript --%>
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery-3.6.0.min.js"></script>
