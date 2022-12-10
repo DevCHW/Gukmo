@@ -31,16 +31,19 @@
          <result property="hashtag" column="hashtag"/>
          <result property="fk_board_num" column="fk_board_num"/>
       </collection>      
-     
+
       <!--  CommentVO --> 
       <collection property="comment" column="comment_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.CommentVO">
          <id property="comment_num" column="comment_num"/>         
-         <result property="content" column="comment_content"/>
-         <result property="nickname" column="nickname"/>
+         <result property="content" column="cmt_content"/>
+         <result property="nickname" column="cmt_nickname"/>
+         <result property="comment_level" column="comment_level"/>
          <result property="parent_write_nickname" column="parent_write_nickname"/>
-         <result property="board_num" column="board_num"/>
+         <result property="cmt_board_num" column="cmt_board_num"/>
          <result property="fk_comment_num" column="fk_comment_num"/>
-         <result property="write_date" column="write_date"/>        
+         <result property="write_date" column="cmt_write_date"/>        
+         <result property="point" column="comment_point"/>        
+         <result property="comment_like_cnt" column="comment_like_cnt"/>
       </collection>
       
       <!--  LikeVO --> 
@@ -48,20 +51,24 @@
          <id property="fk_board_num" column="fk_board_num"/>         
          <result property="fk_userid" column="fk_userid"/>
       </collection>
-      
-      
+ 
    </resultMap>
        
 	<!-- 하나의 글 불러오기 -->
-	<select id="getBoardDetail" parameterType="HashMap" resultMap="boardvoMap">
-		<!--    select *
-		from tbl_board
-		where board_num = #{board_num} and detail_category = #{detail_category}
-		--> 
-		
-		        	 select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
+	<select id="getBoardDetail" parameterType="HashMap" resultMap="boardvoMap">		
+		   select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
           ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-          ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject, m.content comment_content , m.comment_num
+          ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject, 
+           m.comment_num
+           , m.comment_level
+           , m.content as cmt_content
+           , m.nickname as cmt_nickname
+           , m.cmt_board_num as cmt_board_num
+           , m.parent_write_nickname
+           , m.fk_comment_num
+           , m.write_date as cmt_write_date
+           , comment_like_cnt
+           , fk_board_num
 		from
 		(
 		select * 
@@ -80,45 +87,39 @@
 		          ,C.like_cnt
 		          ,C.hashtag_num
 		          ,C.hashtag
-		          ,C.fk_board_num
+		          ,C.fk_board_num as fk_board_num
 		          ,D.point writer_point
                   ,C.previousseq
                   ,C.previoussubject
                   ,C.nextseq
-                  ,C.nextsubject
-                  
-                 
+                  ,C.nextsubject                
 		    from
 				(
 				select lag(A.board_num, 1) over(order by A.board_num desc) AS previousseq
-		          , lag(A.subject, 1) over(order by A.board_num desc) AS previoussubject
+		          , lag(A.subject, 1,'이전글이 없습니다') over(order by A.board_num desc) AS previoussubject
                   , lead(A.board_num, 1) over(order by A.board_num desc) AS nextseq
-		          , lead(A.subject, 1) over(order by A.board_num desc) AS nextsubject
+		          , lead(A.subject, 1,'다음글이 없습니다') over(order by A.board_num desc) AS nextsubject
                   ,A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
 				  ,hashtag_num,fk_board_num,hashtag
 				from
-				(select * from tbl_board 
-				
-				) A
-				left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
+                (select * from tbl_board where detail_category= #{detail_category}) A
+                left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
                 on A.board_num = h.fk_board_num
 				) C
 			left join
 			(select point,nickname from tbl_member) D
 			on C.nickname = D.nickname
-			) V
-           
-			
+			) V			
 		) T
         left join
-        (select comment_num,content,board_num from tbl_comment) m
-        on t.board_num = m.board_num
-        where t.board_num = #{board_num}
+        (select comment_num,comment_level, content, nickname, cmt_board_num, parent_write_nickname, fk_comment_num, write_date, comment_like_cnt from tbl_comment) M
+        on T.board_num = M.cmt_board_num
+        where t.board_num = #{board_num, jdbcType=BIGINT}
         
 	</select>
 	
 	<!-- 상세카테고리 알아오기 -->
-	<select id="getCategory" parameterType="Integer" resultType="String">
+	<select id="getCategory" parameterType="HashMap" resultType="String">
 		select detail_category
 		from tbl_board
 		where board_num = #{board_num}
@@ -140,6 +141,25 @@
 		where fk_board_num = #{board_num} and fk_userid = #{userid}
 	</select>
 	
+	<!-- 댓글좋아요 체크하기 -->
+	<select id="comment_likeCheck" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from tbl_comment_like
+		where fk_comment_num = #{comment_num} and fk_userid = #{userid}
+	</select>
+
+		<!-- 댓글좋아요 테이블에 delete하기 -->
+	<delete id="comment_likeDelete" parameterType="HashMap">
+		delete from tbl_comment_like
+		where fk_comment_num = #{comment_num} and fk_userid = #{userid}
+	</delete>
+	
+	<!-- 댓글좋아요 테이블에 insert하기  -->
+	<insert id="comment_likeInsert" parameterType="HashMap">
+		insert into tbl_comment_like(fk_comment_num,fk_userid)
+		values(#{comment_num},#{userid})
+	</insert>
+	
 	
 	<!-- 좋아요 테이블에 delete하기 -->
 	<delete id="likeDelete" parameterType="HashMap">
@@ -154,7 +174,7 @@
 		values(#{board_num},#{userid})
 	</insert>
 	
-	
+
 	<!-- 현재 좋아요 갯수 얻기 -->
 	<select id="getLike_cnt" parameterType="HashMap" resultType="Integer">
 		select like_cnt
@@ -175,21 +195,98 @@
 	    where board_num = #{board_num}
 	</update>
 	
+
+	
+	<!-- 현재 댓글좋아요 갯수 얻기 -->
+	<select id="getComment_like_cnt" parameterType="HashMap" resultType="Integer">
+		select comment_like_cnt
+		from tbl_comment
+		where comment_num=#{comment_num}
+	</select>		
+	
+	<!-- 댓글좋아요 1 뺀값 업데이트 -->
+	<update id="comment_likeCntChange" parameterType="HashMap">
+		update tbl_comment set comment_like_cnt=${comment_like_cnt} where comment_num=#{comment_num}
+	</update>
+
+
+	
+	<!-- 댓글 테이블에 insert하기  -->
+	<insert id="addComment" parameterType="HashMap">
+		insert into tbl_comment(comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date)
+		values(seq_comment.nextval, 0, #{content}, #{nickname}, #{parent_write_nickname}, #{cmt_board_num, jdbcType=VARCHAR}, 0, sysdate)
+	</insert>
+	
+	<!-- tbl_board의 comment_cnt 컬럼  +1 -->
+	<update id="addComment_cnt" parameterType="HashMap">
+		update tbl_board set comment_cnt= comment_cnt + 1 where board_num=#{cmt_board_num}
+	</update>
+	
+	<!-- 댓글 작성시 tbl_member에서 해당 회원  포인트 +10 -->
+	<update id="addPoint" parameterType="HashMap">
+		update tbl_member set point = point+10 where nickname = #{nickname}
+	</update>
+	
+	
+	
+	<!-- 대댓글 테이블에 insert하기  -->
+	<insert id="addComment_of_Comment" parameterType="HashMap">
+		insert into tbl_comment(comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date)
+		values(seq_comment.nextval, 1, #{content}, #{nickname}, #{parent_write_nickname}, #{cmt_board_num, jdbcType=VARCHAR}, #{fk_comment_num}, sysdate)
+	</insert>
+   
+   	<!--  기본댓글 리스트 불러오기  -->
+ 	<select id="getBasic_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">		
+		select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point
+		from tbl_comment C
+		join tbl_member M
+		on C.nickname = M.nickname
+		where comment_level = 0 and cmt_board_num = #{board_num}
+		order by write_date desc
+	</select>
+	
+	<!--  대댓글 리스트 불러오기  -->
+ 	<select id="getSpecial_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">		
+		select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point
+		from tbl_comment C
+		join tbl_member M
+		on C.nickname = M.nickname
+		where comment_level = 1 and cmt_board_num = #{board_num}
+		order by write_date desc
+	</select>
+	
+ 	<delete id="commentDelete" parameterType="HashMap">		
+		delete from tbl_comment
+		where comment_num = #{comment_num} or fk_comment_num = #{comment_num} 
+	</delete>
+	
+	<update id="commentEdit" parameterType="HashMap">		
+		update tbl_comment
+		set content = #{content}
+		where comment_num = #{comment_num}
+	</update>
+	
 	<!-- 글 상세페이지 진입시 로그인한 회원의 좋아요여부 체크하기 -->
-	<select id="ilikethis" parameterType="HashMap" resultType="Integer">
-		select fk_userid,fk_board_num
-	    from tbl_board_like
-	    where fk_userid = #{userid} and fk_board_num = #{str_board_num}
+   <select id="ilikethis" parameterType="HashMap" resultType="Integer">
+      select count(*)
+       from tbl_board_like
+       where fk_userid = #{userid} and fk_board_num = #{board_num}
+   </select>
+	
+	
+		<!-- 글 상세페이지 진입시 로그인한 회원의 좋아요여부 체크하기 -->
+	<select id="comment_ilikethis" parameterType="HashMap" resultType="Integer">
+		select count(*)
+	    from tbl_comment_like
+	    where fk_userid = #{userid} and fk_comment_num = #{comment_num}
 	</select>
 	
 	
 	
+	<insert id="addActivity" parameterType="HashMap">
+		insert into tbl_activity
+		values(seq_activity.nextval, #{userid}, #{cmt_board_num}, sysdate, #{subject}, #{detail_category}, '댓글작성', #{nickname} )
+	</insert>
 	
 	
-	
-	
-	
-	
- 		
-   
 </mapper>

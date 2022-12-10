@@ -407,7 +407,6 @@
 		<result property="academy_image" column="academy_image" />
 	</resultMap>
 	
-	
 	<!-- association 으로 선언된 CurriculumVO 매핑 -->
 	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
 		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->

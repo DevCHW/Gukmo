@@ -1,4 +1,4 @@
-package com.gukmo.board.hgb.controller;
+package com.gukmo.board.sm.controller;
 
 import java.io.File;
 import java.io.InputStream;
