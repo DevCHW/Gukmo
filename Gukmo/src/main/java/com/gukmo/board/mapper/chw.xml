@@ -38,8 +38,13 @@
 	
 	<!-- 멤버로그인테이블에 회원가입정보 insert -->
 	<insert id="insert_member_login" parameterType="HashMap">
-		insert into tbl_member_login(userid, passwd)
-		values(#{userid}, #{passwd})
+		insert into tbl_member_login(userid, passwd, status)
+		<if test='academy_name != ""'>
+		  values(#{userid}, #{passwd},'대기')
+		</if>
+		<if test='academy_name == ""'>
+		  values(#{userid}, #{passwd},default)
+		</if>
 	</insert>
 	
 	<!-- 멤버테이블에 회원가입정보 insert -->
@@ -107,6 +112,49 @@
 	    where fk_userid = #{userid} 
 	</select>
 	
+	
+	<!-- 다른사람의 유저의 활동내역 리스트 얻기 -->
+	<select id="getActivityOther" parameterType="HashMap" resultType="com.gukmo.board.model.ActivityVO">
+		select T.activity_num,T.fk_userid,T.fk_board_num,T.activity_date,T.subject,
+			   T.detail_category,T.division,T.nickname
+		from
+		(
+			select V.*,rownum rno
+			from
+			(
+				select activity_num,
+					   fk_userid,
+					   fk_board_num,
+					   to_char(activity_date,'yyyy-mm-dd hh:mm:ss') activity_date,
+					   subject,
+					   detail_category,
+					   division,
+					   nickname
+			    from tbl_activity
+			    where nickname = #{nickname}
+			) V
+		) T
+	    where rno between #{startRno} and #{endRno}
+	</select>
+	
+	<!-- 유저의 활동내역 총 갯수를 알아오기(닉네임으로) -->
+	<select id="getTotalActivityOther" parameterType="HashMap" resultType="Integer">
+		select count(*)
+	    from tbl_activity
+	    where nickname = #{nickname} 
+	</select>
+	
+	
+	<!-- 닉네임으로 프로필이미지 얻기 -->
+	<select id="getProfileByNickname" parameterType="HashMap" resultType="HashMap">
+		select profile_image,point,nickname
+	    from tbl_member
+	    where nickname = #{nickname} 
+	</select>
+	
+	
+	
+	
 	<!-- 이메일 값으로 userid 알아내기 -->
 	<select id="getMyID" parameterType="String" resultType="String">
 		select fk_userid from tbl_member
@@ -149,6 +197,10 @@
 		update tbl_member set email_acept=#{email_acept,jdbcType=INTEGER},nickname=#{nickname},username=#{username},profile_image=#{newFileName}
 		where fk_userid = #{userid}
 	</update>
+	
+	
+	
+	
 	
 	<!--================================================================================================================================-->
 	<!--============================================================ Member 끝 =========================================================-->
@@ -408,7 +460,6 @@
 		<result property="academy_image" column="academy_image" />
 	</resultMap>
 	
-	
 	<!-- association 으로 선언된 CurriculumVO 매핑 -->
 	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
 		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
@@ -664,7 +715,8 @@
 		          ,C.academy_name
 		          ,to_char(C.curriculum_start_date,'yyyy-mm-dd') curriculum_start_date
 		          ,to_char(C.curriculum_end_date,'yyyy-mm-dd') curriculum_end_date
-		          ,C.recuitment_end_date
+		          ,to_char(C.recruitment_start_date) recruitment_start_date
+		          ,to_char(C.recruitment_end_date) recruitment_end_date
 		          ,C.cnt_recruits
 		          ,C.join_url
 		    from
@@ -695,6 +747,55 @@
         where rno between #{startRno} and #{endRno}
 	</select>
 	
+	
+	
+	<!-- 글번호 알아오기 -->
+	<select id="getBoarSeq" resultType="String">
+		select seq_board.nextval from dual
+	</select>
+	
+	<!-- tbl_board에 insert 해주기-->
+	<insert id="insertBoardByAcademy" parameterType="HashMap">
+		insert into tbl_board(board_num,nickname,category,detail_category,subject,content,write_date,views,profile_image,comment_cnt,like_cnt)
+		values(#{board_num},#{nickname},'국비학원','국비학원',#{subject},#{content},sysdate,0,#{profile_image},0,0)
+	</insert>
+	
+	<!-- tbl_academy에 insert해주기 -->
+	<insert id="insertAcademy" parameterType="HashMap">
+		insert into tbl_academy(fk_board_num,representative_name,address,phone,jurisdiction,homepage,academy_image)
+		values(#{board_num},#{representative_name},#{address},#{phone},#{jurisdiction},#{homepage},#{academy_image})
+	</insert>
+	
+	
+	
+	
+	
+	<!-- tbl_curriculum에 insert 해주기(교육과정글)-->
+	<insert id="insertBoardByCurriculum" parameterType="HashMap">
+		insert into tbl_board(board_num,nickname,category,detail_category,subject,content,write_date,views,profile_image,comment_cnt,like_cnt)
+		values(#{board_num},#{nickname},'국비학원','교육과정',#{subject},#{content},sysdate,0,#{profile_image},0,0)
+	</insert>
+	
+	<!-- tbl_curriculum에 insert해주기 -->
+	<insert id="insertCurriculum" parameterType="HashMap">
+		insert into tbl_curriculum(fk_board_num,core_technology,academy_name,curriculum_start_date,curriculum_end_date,recruitment_start_date,recruitment_end_date,cnt_recruits,join_url)
+		values(#{board_num},#{core_technology},#{academy_name},#{curriculum_start_date},#{curriculum_end_date},#{recruitment_start_date},#{recruitment_end_date},#{cnt_recruits},#{join_url})
+	</insert>
+	
+	
+	
+	<!-- 포인트 올려주기 -->
+	<update id="pointPlus" parameterType="HashMap">
+		update tbl_member set point = point + 10
+		where nickname = #{nickname} 
+	</update>
+	
+	
+	<!-- 활동내역기록해주기 -->
+	<insert id="ActivityRecord" parameterType="HashMap">
+		insert into tbl_activity(activity_num,fk_userid,fk_board_num,activity_date,subject,detail_category,division,nickname)
+		values(seq_activity.nextval,#{userid},#{board_num},sysdate,#{subject},'국비학원','게시글작성',#{nickname})
+	</insert>
 	
 	
 	
@@ -849,27 +950,51 @@
 	</select>
 	
 	
+	<!-- 회원정보수정하기 -->
 	<update id="editMember" parameterType="HashMap">
 		update tbl_member set authority = #{authority}
 		where fk_userid = #{userid}
 	</update>
 	
-	
+	<!-- 회원로그인에서 상태수정하기 -->
 	<update id="editMemberLogin" parameterType="HashMap">
 		update tbl_member_login set status = #{status}
 		where userid = #{userid}
 	</update>
 	
-	
-	
+	<!-- 정지내역등록하기 -->
 	<insert id="penaltyNew" parameterType="HashMap">
 		insert into tbl_penalty(penalty_num,nickname,simple_penalty_reason,detail_penalty_reason,penalty_start_date,penalty_period)
 		values(seq_penalty.nextval,#{nickname},#{simple_penalty_reason},#{detail_penalty_reason},sysdate,#{penalty_period})
 	</insert>
 	
+	
+	<!-- 정지내역삭제하기 -->
 	<delete id="penaltyDelete" parameterType="String">
 		delete from tbl_penalty where nickname = #{nickname}
 	</delete>
+	
+	<!-- 게시글신고 접수처리하기 -->
+	<update id="receiptReportBoard" parameterType="String">
+		update tbl_board_report set receipt = 1 where report_num = #{report_num}
+	</update>
+	
+	<!-- 댓글신고 접수처리하기 -->
+	<update id="receiptReportComment" parameterType="String">
+		update tbl_comment_report set receipt = 1 where report_num = #{report_num}
+	</update>
+	
+	<!-- 피신고자 상태체크하기 -->
+	<select id="memberStatusCheck" parameterType="String" resultType="String">
+		select status from tbl_member_login where userid = #{userid}
+	</select>
+	
+	<!-- 회원 정지상태로 바꾸기 -->
+	<update id="memberStatusChange" parameterType="HashMap">
+		update tbl_member_login set status = '정지' where userid = #{userid}
+	</update>
+	
+	
 	
 	
 	

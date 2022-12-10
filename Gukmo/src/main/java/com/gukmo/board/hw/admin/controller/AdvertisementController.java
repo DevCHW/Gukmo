@@ -126,29 +126,23 @@ public class AdvertisementController {
 	}// 광고 관련 정보 상세보기 끝
 	
 	
+	
 	// 광고 등록 페이지 보여주기
-	@RequestMapping(value="/admin/adRegister.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/advertisement/new.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_adRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		
-		Map<String, String> paraMap = new HashMap<>();
-				
-		//이전페이지
 	    mav.setViewName("admin/advertisement/new.tiles1");
-	    
-	    
 		return mav;
 	} // end of 광고 등록 페이지
-
+	
 
 	
 	
 	
 	// 광고 등록 완료 페이지
-	@RequestMapping(value="/admin/adRegisterResult.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/advertisement/insert.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView adRegisterResult(MultipartHttpServletRequest mrequest, HttpServletResponse response, ModelAndView mav, AdVO advo) {
 
 		MultipartFile attach = advo.getAttach();
-		Map<String,String> paraMap = new HashMap<>();
 
 		// WAS 의 webapp 의 절대경로를 알아와야 한다.
 		HttpSession session = mrequest.getSession();
@@ -198,18 +192,21 @@ public class AdvertisementController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		// 첨부파일 업로드 작업 끝 !
 	
-	// === !!! 첨부파일이 있는 경우 작업 끝 !!! === //
-
-		 
-		
 		// tbl_advertisement에 해당 광고 insert
 		int n = service.addAd(advo);
 				
-		if(n == 1 ) {			
-		  mav.setViewName("redirect:/admin/adManage_List.do");
+		String message = "";
+		String loc = mrequest.getContextPath()+"/admin/index.do";
+		if(n == 1) {	//광고 등록에 성공하였다면		
+			message = "광고 등록 성공!";
+		} else {	//광고등록에 실패하였다면
+			message = "광고 등록 실패! 다시 시도해주세요.";
 		}
-
+		mav.addObject("message", message);
+		mav.addObject("loc", loc);
+		mav.setViewName("msg");
 		return mav;
 	}
 	
@@ -236,8 +233,6 @@ public class AdvertisementController {
 
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = null;
-		
-		
 		
 		try {
 			Integer.parseInt(advertisement_num);

@@ -8,8 +8,15 @@ function getContextPath(){
 
 
 $(document).ready(function(){
-
-
+	
+	$(".title_board").click(function(){
+		
+		if(socket){
+			let socketMsg = "reply,102,하솔이,선우,아자뵹!,0000";
+			console.log(socketMsg);
+			socket.send(socketMsg);
+		}
+	});
  
 });
 

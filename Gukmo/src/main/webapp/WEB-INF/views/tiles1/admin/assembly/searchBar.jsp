@@ -23,25 +23,34 @@ let btn_search_menu = 0;  //검색옵션 클릭횟수(열고닫기위한용도)
 
 $(document).ready(function(){
 	let url = window.document.location.href;
-    url = url.substr(27);
+	url = url.substr(27);
+	let questionmarkIdx = url.indexOf("?");
+	if(questionmarkIdx != -1){
+	  url = url.substr(0,questionmarkIdx);
+	}
     let html = "";
     switch (url) {
-    case "/admin/memberManage_List.do" :	//일반회원리스트일경우 검색옵션 넣기
-    	html = "<div class='my-2 text-center'>아이디</div>"+
-		       "<div class='my-2 text-center'>닉네임</div>"+
-		       "<div class='my-2 text-center'>학원명</div>";
-       	break;
-    case "/admin/academyManage_List.do" :	//교육기관회원 리스트일 경우 검색옵션 넣기
-    	html = "<div class='my-2 text-center'>아이디</div>"+
-	           "<div class='my-2 text-center'>닉네임</div>"+
-	           "<div class='my-2 text-center'>학원명</div>";
-      break;
-    case "/admin/adManage_List.do" :	//광고리스트일 경우 검색옵션 넣기
-    	html = "<div class='my-2 text-center'>고객명</div>"+
-    		   "<div class='my-2 text-center'>고객번호</div>";
-      break;
-    }
-    search_option.html(html);	//검색옵션 넣기
+	    case "/admin/member/normal/list.do" :	//일반회원리스트일경우 검색옵션 넣기
+	    	html = "<div class='my-2 text-center'>아이디</div>"+
+			       "<div class='my-2 text-center'>닉네임</div>"+
+			       "<div class='my-2 text-center'>학원명</div>";
+	       	break;
+	    case "/admin/member/academy/list.do" :	//교육기관회원 리스트일 경우 검색옵션 넣기
+	    	html = "<div class='my-2 text-center'>아이디</div>"+
+		           "<div class='my-2 text-center'>닉네임</div>"+
+		           "<div class='my-2 text-center'>학원명</div>";
+	      break;
+	    case "/admin/advertisement/list.do" :	//광고리스트일 경우 검색옵션 넣기
+	    	html = "<div class='my-2 text-center'>고객명</div>"+
+	    		   "<div class='my-2 text-center'>고객번호</div>";
+	      break;
+	    case "/admin/report/list.do" :	//신고리스트일 경우 검색옵션 넣기
+	        html = "<div class='my-2 text-center'>신고자</div>"+
+	    		   "<div class='my-2 text-center'>신고자닉네임</div>"+
+	    		   "<div class='my-2 text-center'>피신고자닉네임</div>";
+	    break;
+    }//end of switch-case--
+    $("div#search_option").html(html);	//검색옵션 넣기
 	
 	
 	//검색옵션 클릭시(열고닫기)
@@ -128,12 +137,12 @@ $(document).ready(function(){
    	  const frm = document.searchFrm;
 	  frm.method = "GET";
 	  
-      if(url == '/admin/memberManage_List.do'){ //현재 페이지가 일반회원리스트일경우
-        frm.action = getContextPath()+"/admin/memberManage_List.do";
-      } else if(url == '/admin/academyManage_List.do'){ //현재 페이지가 교육기관회원리스트일경우
-    	frm.action = getContextPath()+"/admin/academyManage_List.do";	
-      } else if(url == '/admin/adManage_List.do'){	//현재 페이지가 광고리스트일경우
-    	frm.action = getContextPath()+"/admin/adManage_List.do";
+      if(url == '/admin/member/normal/list.do'){ //현재 페이지가 일반회원리스트일경우
+        frm.action = getContextPath()+"/admin/member/normal/list.do";
+      } else if(url == '/admin/member/academy/list.do'){ //현재 페이지가 교육기관회원리스트일경우
+    	frm.action = getContextPath()+"/admin/member/academy/list.do";	
+      } else if(url == '/admin/advertisement/list.do'){	//현재 페이지가 광고리스트일경우
+    	frm.action = getContextPath()+"/admin/advertisement/list.do";
       }
       
       frm.submit();
@@ -160,7 +169,7 @@ $(document).ready(function(){
           <!-- 검색옵션 끝 -->
         </div>
         
-        <input type="text" id="searchWord" class="pl-3" value="${requestScope.searchWord}" placeholder="검색어를 입력해주세요"></input>
+        <input type="text" id="searchWord" name="searchWord" class="pl-3" value="${requestScope.paraMap.searchWord}" placeholder="검색어를 입력해주세요"></input>
         <button type="button" id="btn_search">
           <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
         </button>

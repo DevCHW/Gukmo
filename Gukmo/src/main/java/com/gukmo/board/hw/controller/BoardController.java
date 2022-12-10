@@ -2,25 +2,39 @@ package com.gukmo.board.hw.controller;
 
 
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.gukmo.board.common.FileManager;
+import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.hw.service.InterBoardService;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.MemberVO;
 
 @Controller
 public class BoardController {
 	
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterBoardService service;
+	@Autowired
+	private FileManager fileManager;
 	
 	/**
 	 * 공지사항 페이지 매핑
@@ -167,7 +181,6 @@ public class BoardController {
 		}//end of switch-case---
 		
 		//확인용
-		System.out.println(academyList);
 		
 		//페이지바 얻기
 		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
@@ -251,8 +264,6 @@ public class BoardController {
 				break;
 		}//end of switch-case---
 		
-		//확인용
-		System.out.println(curriculumList);
 		
 		//페이지바 얻기
 		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
@@ -306,8 +317,115 @@ public class BoardController {
 	 */
 	@RequestMapping(value="/academy/new.do", method= {RequestMethod.GET})
 		public String viewAcademyNew(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중이 아니라면
+			return "redirect:/login.do";
+		}
 		return "board/academy/academyNew.tiles1";
 	}
+	
+	
+	/**
+	 * 학원글작성 완료(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/newEnd.do", method= {RequestMethod.POST})
+	public String academyNewEnd(@RequestParam Map<String,Object> paraMap, MultipartFile academy_image,MultipartHttpServletRequest mrequest) {
+		HttpSession session = mrequest.getSession();
+		paraMap.put("content",MyUtil.secureCode((String)paraMap.get("content")));
+		List<String> hashTags = Arrays.asList(String.valueOf(paraMap.get("str_hashTag")).split(","));
+		paraMap.put("hashTags",hashTags);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		paraMap.put("userid",user.getUserid());
+		boolean result = false;
+		String root = session.getServletContext().getRealPath("/");
+		
+		String path = root+"resources"+ File.separator +"images";
+		
+		String newFileName = "";
+		// WAS(톰캣)의 디스크에 저장될 파일명 
+		byte[] bytes = null;
+		// 첨부파일의 내용물을 담는 변수
+		try {
+			// 첨부파일의 내용물을 읽어오기
+			bytes = academy_image.getBytes();
+			
+			//유저가 업로드한 프로필이미지명
+			String realFileName = academy_image.getOriginalFilename();
+			// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
+			newFileName = fileManager.doFileUpload(bytes, realFileName, path);
+			
+			
+			MemberVO loginUser = (MemberVO)session.getAttribute("user");
+			paraMap.put("academy_image",newFileName);
+			
+			
+			result = service.insertAcademy(paraMap);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		String message = result?"학원등록 완료!":"학원등록에 실패하였습니다. 다시 시도해주세요.";
+		String loc = mrequest.getContextPath()+"/academy/academies.do";
+		
+		mrequest.setAttribute("message", message);
+		mrequest.setAttribute("loc", loc);
+		return "msg";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 교육과정글작성 페이지 매핑(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/curriculum/new.do", method= {RequestMethod.GET})
+		public String viewCurriculumNew(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") == null) {	//로그인중이 아니라면
+			return "redirect:/login.do";
+		}
+		
+		return "board/academy/curriculumNew.tiles1";
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 교육과정 글작성 완료(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/curriculum/newEnd.do", method= {RequestMethod.POST})
+	public String curriculumNewEnd(@RequestParam Map<String,Object> paraMap,MultipartHttpServletRequest mrequest) {
+		HttpSession session = mrequest.getSession();
+		paraMap.put("content",MyUtil.secureCode((String)paraMap.get("content")));
+		List<String> hashTags = Arrays.asList(String.valueOf(paraMap.get("str_hashTag")).split(","));
+		paraMap.put("hashTags",hashTags);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		paraMap.put("userid",user.getUserid());
+			
+		boolean result = service.insertCurriculum(paraMap);
+			
+		String message = result?"교육과정등록완료!":"교육과정등록실패!";
+		String loc = mrequest.getContextPath()+"/academy/academies.do";
+		
+		mrequest.setAttribute("message", message);
+		mrequest.setAttribute("loc", loc);
+		return "msg";
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -483,6 +601,10 @@ public class BoardController {
 		}
 		return sort;
 	}
+	
+	
+	
+	
 
 	
 	

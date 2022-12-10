@@ -55,18 +55,11 @@
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/admin/member/detail.js" ></script>
     
 
-  <div id="section" class="d-flex">
-  
-    <!---------------------------- 사이드바 호출 -------------------------------->
-    
-    <jsp:include page="/WEB-INF/views/tiles1/admin/assembly/sidebar.jsp" />
-    
-    <!---------------------------- 사이드바 호출 --------------------------------------->
 
 
 
     <!---------------------------- 사이드바 오른쪽 컨텐츠(div#main) 시작 ------------------------------->
-    <div id="main" class="py-5 px-4 w-100">
+    <div id="main" class="container py-5 px-4 w-100">
       <!-- 회원 기본정보 박스 시작 -->
       <div id="member_basic_info_box">
         <div id="id_image_box" class="align-items-center my-3">
@@ -224,6 +217,7 @@
       </div>
       <!-- 회원 기본정보 박스 끝 -->
       <div class="d-flex justify-content-end">
+      	<button type="button" class="btn btn-light border rounded mr-3" onclick="javascript:history.back()">뒤로가기</button>
         <button id="btn_editInfo" type="button" class="btn btn-light border rounded mr-3">수정</button>
         <button id="btn_editClose" type="button" class="btn btn-light border rounded">취소</button>
       </div>
@@ -319,7 +313,6 @@
     </div>
     
     <!---------------------------------- 사이드바 오른쪽 컨텐츠(div#main) 끝 ------------------------------------->
-  </div>
 
 
 

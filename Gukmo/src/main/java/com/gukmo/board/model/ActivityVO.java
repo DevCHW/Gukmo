@@ -11,6 +11,8 @@ public class ActivityVO {
 	private String division;
 	private String nickname;
 	
+	
+	
 
 	// protected로 기본생성자 막기
 	protected ActivityVO() {}

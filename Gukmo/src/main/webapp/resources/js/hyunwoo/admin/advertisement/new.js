@@ -1,8 +1,20 @@
+// js파일에서 contextPath를 알아내는 함수
+function getContextPath(){
+  let hostIndex = location.href.indexOf(location.host) + location.host.length;
+  let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
+  return contextPath;
+}
+
+/**
+ * js 파일은 전부 필드선언 - 이벤트(document.ready) - 함수선언 의 구성으로 이루어져 있음
+ */
+
+
 // == Field Declaration == //
 let division_ok = false;
 let client_name_ok = false;
 let client_phone_ok = false;
-let orgfilename_ok = false;
+let attach_ok = false;
 let url_ok = false;
 let date_ok = false;
 
@@ -31,7 +43,7 @@ $(document).ready(function(){
 
 
   //이미지 업로드시 미리보기보여주기
-  $("input#orgfilename").change(function(e){
+  $("input#attach").change(function(e){
     let files = e.target.files;
     let filesArr = Array.prototype.slice.call(files);
 
@@ -64,13 +76,13 @@ $(document).ready(function(){
     const division = $("select#division").val();
     const client_name = $("input#client_name").val();
     const client_phone = $("input#client_phone").val();
-    const orgfilename = $("input#orgfilename").val();
+    const attach = $("input#attach").val();
     const url = $("input#url").val();
     test_division(division);
     test_client_name(client_name);
     test_client_phone(client_phone);
     test_url(url);
-    test_file(orgfilename);
+    test_file(attach);
     test_date();
 
     if(!division_ok){
@@ -89,11 +101,11 @@ $(document).ready(function(){
       $("p#url_error").show();
       $("input#url").focus();
       return;
-    } else if(!orgfilename_ok){
+    } else if(!attach_ok){
       alert("파일을 선택해주세요!");
       return;
     } 
-    if(division_ok&& client_name_ok&& client_phone_ok && url_ok && orgfilename_ok && date_ok){
+    if(division_ok&& client_name_ok&& client_phone_ok && url_ok && attach_ok && date_ok){
       addAdvertisement();
     }
   });//end of Event--
@@ -177,13 +189,13 @@ function test_url(url){
 /**
  * 파일을 올렸는지 검사
  */
-function test_file(orgfilename){
-  orgfilename_ok = false;
-  if(orgfilename.trim() == ""){
+function test_file(attach){
+  attach_ok = false;
+  if(attach.trim() == ""){
     
-    orgfilename_ok = false;
+    attach_ok = false;
   } else{
-    orgfilename_ok = true;
+	attach_ok = true;
   }
 }//end of method--
 
@@ -205,6 +217,7 @@ function test_date(){
   
   if(!isNaN(dateGap)){  //정상적인 날짜 입력시
     if(dateGap > 0){  //통과
+      $("input#period").val(dateGap);
       date_ok = true;
     } else if(dateGap == 0){
       alert("광고 시작일은 종료일과 같을 수 없습니다.")
@@ -229,7 +242,7 @@ function addAdvertisement(){
 	if(bool) {  //Yes
 		let frm = document.advertisementNewFrm;
 		frm.method = "post";
-		frm.action = getContextPath()+"/admin/adRegisterResult.do";
+		frm.action = getContextPath()+"/admin/advertisement/insert.do";
 		frm.submit();
 	} 
 }//end of method---

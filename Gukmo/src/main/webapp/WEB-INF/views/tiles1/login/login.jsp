@@ -21,11 +21,11 @@
     <div id="login" class="d-flex flex-column mx-auto my-5">
 
       <div id="logo_img_box" class="m-auto" style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/index.do'">
-        <img id="logo" src="" alt="로고 들어갈 곳">
+        <img id="logo" src="<%=ctxPath %>/resources/images/logo.png" class="rounded">
       </div>
 
       <div id="about_us" class="my-3">
-        <h2 class="text-center">국비의모든것에 오신것을 환영합니다.</h2>
+        <h2 class="text-center">국비의모든것에 오신것을 <br>환영합니다.</h2>
         <p id="about_content" class="text-center">국비의모든것은 소프트웨어 개발자를 꿈꾸는 비전공자들을 위한 <br/>국비지원 학원 정보공유 플랫폼입니다.</p>
       </div>
     

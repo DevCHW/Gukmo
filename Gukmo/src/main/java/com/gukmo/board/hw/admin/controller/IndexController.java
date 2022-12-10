@@ -20,7 +20,7 @@ public class IndexController {
 	 * 관리자메인페이지 매핑
 	 */
 	@RequestMapping(value="/admin/index.do", method= {RequestMethod.GET})
-	public String viewTOS(HttpServletRequest request) {
+	public String helloAdmin(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "index.tiles1";

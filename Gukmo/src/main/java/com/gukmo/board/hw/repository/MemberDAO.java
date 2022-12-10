@@ -179,6 +179,35 @@ public class MemberDAO implements InterMemberDAO{
 		int totalCount = gukmo_sql.selectOne("chw.getTotalActivities",paraMap);
 		return totalCount;
 	}
+	
+	
+	/**
+	 * 다른사람의 유저의 활동내역 리스트 얻기
+	 * @param 닉네임
+	 * @return 활동내역 리스트
+	 */
+	@Override
+	public List<ActivityVO> getActivityOther(Map<String, String> paraMap) {
+		List<ActivityVO> activities = gukmo_sql.selectList("chw.getActivityOther",paraMap);
+		return activities;
+	}
+
+
+	
+	/**
+	 * 유저의 활동내역 총 갯수를 알아오기(닉네임으로)
+	 * @param 닉네임
+	 * @return 활동내역 총 갯수
+	 */
+	@Override
+	public int getTotalActivityOther(Map<String, String> paraMap) {
+		int totalCount = gukmo_sql.selectOne("chw.getTotalActivityOther",paraMap);
+		return totalCount;
+	}
+	
+	
+	
+	
 
 
 
@@ -270,6 +299,16 @@ public class MemberDAO implements InterMemberDAO{
 		int result = gukmo_sql.update("chw.editEmail",paraMap);
 		return result;
 	}
+	
+	/**
+	 * 닉네임으로 프로필이미지 얻기
+	 */
+	@Override
+	public Map<String,String> getProfileByNickname(Map<String, String> paraMap) {
+		Map<String,String> memberMap = gukmo_sql.selectOne("chw.getProfileByNickname",paraMap);
+		System.out.println(memberMap);
+		return memberMap;
+	}
 
 
 	
@@ -280,6 +319,13 @@ public class MemberDAO implements InterMemberDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	
+
+
+	
 
 
 

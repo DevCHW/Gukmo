@@ -7,7 +7,8 @@ public class CurriculumVO {
 	private String academy_name;			//학원명
 	private String curriculum_start_date;	//과정시작일자
 	private String curriculum_end_date;		//과정끝일자
-	private String recuitment_end_date;		//모집마감일
+	private String recruitment_start_date;	//모집시작일
+	private String recruitment_end_date;	//모집마감일
 	private String cnt_recruits;			//모집인원
 	private String join_url;				//신청URL
 	
@@ -18,13 +19,14 @@ public class CurriculumVO {
 	
 	//파라미터가 있는 생성자만으로 값 주입
 	public CurriculumVO(String fk_board_num, String core_technology, String academy_name, String curriculum_start_date,
-			String curriculum_end_date, String recuitment_end_date, String cnt_recruits, String join_url) {
+			String curriculum_end_date, String recruitment_start_date, String recruitment_end_date, String cnt_recruits, String join_url) {
 		this.fk_board_num = fk_board_num;
 		this.core_technology = core_technology;
 		this.academy_name = academy_name;
 		this.curriculum_start_date = curriculum_start_date;
 		this.curriculum_end_date = curriculum_end_date;
-		this.recuitment_end_date = recuitment_end_date;
+		this.recruitment_start_date = recruitment_start_date;
+		this.recruitment_end_date = recruitment_end_date;
 		this.cnt_recruits = cnt_recruits;
 		this.join_url = join_url;
 	}
@@ -45,8 +47,11 @@ public class CurriculumVO {
 	public String getCurriculum_end_date() {
 		return curriculum_end_date;
 	}
-	public String getRecuitment_end_date() {
-		return recuitment_end_date;
+	public String getRecruitment_start_date() {
+		return recruitment_start_date;
+	}
+	public String getRecruitment_end_date() {
+		return recruitment_end_date;
 	}
 	public String getCnt_recruits() {
 		return cnt_recruits;
@@ -62,12 +67,12 @@ public class CurriculumVO {
 	public String toString() {
 		return "CurriculumVO [fk_board_num=" + fk_board_num + ", core_technology=" + core_technology + ", academy_name="
 				+ academy_name + ", curriculum_start_date=" + curriculum_start_date + ", curriculum_end_date="
-				+ curriculum_end_date + ", recuitment_end_date=" + recuitment_end_date + ", cnt_recruits="
-				+ cnt_recruits + ", join_url=" + join_url + "]";
+				+ curriculum_end_date + ", recruitment_start_date=" + recruitment_start_date + ", recruitment_end_date="
+				+ recruitment_end_date + ", cnt_recruits=" + cnt_recruits + ", join_url=" + join_url + "]";
 	}
+
 	
-	
-	
+
 	
 	
 }

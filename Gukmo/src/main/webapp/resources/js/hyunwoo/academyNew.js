@@ -15,9 +15,9 @@ $(document).ready(function(){
 	  
 	  $("div#small_location2").html(html);
 	  $("div#location2").html(`<i class="fa-solid fa-location-dot mr-2"></i>
-	  						   ${big_location}`);
+	  						   <span id="address1">${big_location}</span>`);
 	  $("div#location3").html(`<i class="fa-solid fa-location-dot mr-2"></i>
-		 					   <span>지역 소분류</span>`);
+		 					   <span id="address2">지역 소분류</span>`);
 	});
 	
 	
@@ -25,7 +25,7 @@ $(document).ready(function(){
 	  const target = $(e.currentTarget);
 	  const small_location = target.text();
 	  $("div#location3").html(`<i class="fa-solid fa-location-dot mr-2"></i>
-		   					  ${small_location}`);
+		   					  <span id="address2">${small_location}</span>`);
 	});
 	
 	
@@ -173,17 +173,19 @@ $(document).ready(function(){
 	// 등록 버튼을 클릭했을시
     $("button#btn_write").click(function() {
     	
-        var value = marginTag(); // return array
-        value = value.join(',');
-        $("#str_hashTag").val(value);
-         //console.log(value);
-         //console.log(typeof(value));
+    	var values = "";
+	  	$("li.tag-item").each(function( index, element) {
+	  	  var value = $(this).text().substr(1);
+	  	  values += value+ ",";
+		   });
+	  	
+	  	values = values.slice(0, -1);
+	  	$("#str_hashTag").val(values);
+		// console.log(values);
         
-    	// ==== 스마트 에디터 구현 시작 ==== //
     	// id가 content인 textarea에 에디터에서 대입
     	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
     	
-    	// 카테고리 유효성 검사
     	
     	// 글제목 유효성 검사
 		const subject = $("input#subject").val().trim();
@@ -191,15 +193,32 @@ $(document).ready(function(){
 			alert("글제목을 입력하세요!!");
 			return;
 		}
+		const address1 = $("span#address1").text();
+		const address2 = $("span#address2").text();
+		const address3 = $("input#address3").val();
+		if(address1.trim() == "지역 대분류"){
+			alert("지역대분류를 선택해주세요!");
+			return;
+		} else if(address2.trim() == "지역 소분류"){
+			alert("지역 소분류를 선택해주세요!");
+			return;
+		}else if(address3.trim() == ""){
+			alert("상세주소를 입력해주세요");
+			return;
+		} else{
+			$("input#address").val(address1 + " " + address2 + " " + address3);
+		}
+		
+		
 		
 		// 글내용 유효성 검사(스마트 에디터용)
-		var contentval = $("textarea#content").val();
+		let contentval = $("textarea#content").val();
 		contentval = contentval.replace(/&nbsp;/gi, "");
 	
 	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
 	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
 	            
-	    if(contentval.trim().length == 0) {
+	    if(contentval.trim() == "") {
 	  	  alert("글내용을 입력하세요!!");
 	      return;
 	    }
@@ -208,7 +227,7 @@ $(document).ready(function(){
 	    // 폼을 전송
 	    const frm = document.writerFrm;
 	    frm.method = "POST";
-	    frm.action = getContextPath()+"/community/newEnd.do";
+	    frm.action = getContextPath()+"/academy/newEnd.do";
 	    frm.submit();
 	});
     

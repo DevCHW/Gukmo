@@ -105,9 +105,6 @@ public class LoginController {
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("userid",request.getParameter("userid"));
 		paraMap.put("client_ip",request.getRemoteAddr());
-		System.out.println("확인용 userid = " + paraMap.get("userid"));
-		System.out.println("확인용 client_ip = " + paraMap.get("client_ip"));
-		
 		
 		MemberVO user = service.login_complete(paraMap);
 		

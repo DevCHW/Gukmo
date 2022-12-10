@@ -20,17 +20,10 @@
     sessionStorage.setItem("reported_nickname","${requestScope.reportDetail.reported_nickname}");
 </script>
 
-  <div id="section" class="d-flex">
-    
-    <%---------------------------- 사이드바 호출 --------------------------------%>
-    
-    <jsp:include page="/WEB-INF/views/tiles1/admin/assembly/sidebar.jsp" />
-    
-    <%---------------------------- 사이드바 호출 ---------------------------------------%>
 
 
-    <!---------------------------- 사이드바 오른쪽 컨텐츠(div#main) 시작 ------------------------------->
-    <div id="main" class="py-5 px-4 w-100">
+    <!---------------------------- (div#main) 시작 ------------------------------->
+    <div id="main" class="container py-5 px-4 w-100">
 
       <!-- 신고상세보기시작 -->
       <div id="report_detail_box">
@@ -97,6 +90,7 @@
       </div>
 
       <div id="div_btn_area" class="d-flex justify-content-end mt-3">
+      <button type="button" class="btn btn-light border rounded mr-3" onclick="javascript:history.back()">뒤로가기</button>
         <button type="button" class="btn btn-light border rounded mr-3" onclick="location.href='<%= ctxPath%>/detail.do?boardNum=${requestScope.reportDetail.fk_num}'">해당게시물로 이동</button>
         <button type="button" id="btn_receipt" class="btn btn-light border rounded mr-3" onclick="receipt('${requestScope.reportDtail.report_num}')">접수처리</button>
         <button type="button" id="insert_penalty_modal_open" class="btn btn-light border rounded" data-toggle="modal" data-target="#insert_penalty_modal" data-dismiss="modal">피신고자 정지</button>
@@ -106,10 +100,9 @@
       
 
     </div>
-    <!---------------------------------- 사이드바 오른쪽 컨텐츠(div#main) 끝 ------------------------------------->
+    <!---------------------------------- (div#main) 끝 ------------------------------------->
 
 
-  </div>
 
 
 
@@ -226,8 +219,8 @@
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-light border rounded">정지등록</button>
-          <button type="button" class="btn border insert_penalty_modal_close" data-dismiss="modal">저장</button>
+          <button id="btn_insert_penalty" type="button" class="btn btn-light border rounded">정지등록</button>
+          <button type="button" class="btn border insert_penalty_modal_close" data-dismiss="modal">닫기</button>
         </div>
       </div>
       

@@ -105,7 +105,6 @@ public class AdminMemberController {
 
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("memberList", memberList);
-
 		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);			
 		
