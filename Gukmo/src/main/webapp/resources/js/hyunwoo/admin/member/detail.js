@@ -296,14 +296,112 @@ function memberDetailAreaClear(){
 function activities_nav(userid){
   alert("활동내역보여주기 메소드 호출");
   $("div#member_activities").css("display","block");
-
+  
   $.ajax({
-    url:getContextPath()+"/활동내역select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/activityList.do", 
     data:{"userid": userid},
     type:"get",
-    dataType:"json",
+    dataType:"JSON",
     success:function(json){ //활동내역을 가져오는데 성공했다면
 
+        var html = "<table>" +
+	        			"<thead>" +
+		        			"<tr>" +
+			        			"<th>활동날짜</th>" +
+			        			"<th>활동구분</th>" +
+			        			"<th>상세카테고리</th>"+
+			        			"<th>글번호</th>" +
+			        			"<th>글제목</th>" +
+		        			"</tr>"+
+	        			"</thead>"+
+        			"<tbody>";
+        
+        for(var i=0; i<json.length; i++) {
+            var obj;
+            
+            html += "<tr>" +
+	            		"<td>"+json[i].activity_date+"</td>" +
+	            		"<td>"+json[i].division+"</td>" +
+	            		"<td>"+json[i].detail_category+"</td>" +
+	            		"<td>"+json[i].fk_board_num+"</td>" +
+	            		"<td>"+json[i].subject+"</td>" +
+            		"</tr>"; 
+            
+        }// end of for------------------------------
+        
+               
+        html +="</tbody>" +
+        		"</table>";
+        
+        $("div#member_activities_area").html(html);
+        
+        
+        $.ajax({
+            url:getContextPath()+"/admin/member/detail/activityCntList.do", 
+            data:{"userid": userid},
+            type:"get",
+            dataType:"JSON",
+            success:function(json){ //활동내역을 가져오는데 성공했다면
+
+            	var dateArr = [];
+            	var cntArr = [];
+            	
+	            for(var i=0; i<json.length; i++) {
+	            	var obj;
+	        	    var obj2;
+	        	    
+            		obj = Number(json[i].cnt);
+            		obj2 = json[i].activity_date;
+            	
+	            	cntArr.push(obj); // 배열속에 객체를 넣기
+	            	dateArr.push(obj2); // 배열속에 객체를 넣기
+	            }// end of for------------------------------
+	         
+        
+        Highcharts.chart('chart_container',  {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: '일자별 활동내역 건수'
+            },
+            subtitle: {
+                text: 'Source: ' +
+                    '<a href="https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature" ' +
+                    'target="_blank">Wikipedia.com</a>'
+            },
+            xAxis: {
+                categories: dateArr
+            },
+            yAxis: {
+                title: {
+                    text: '건'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: '활동내역',
+                data: cntArr
+            }]
+        });
+        
+        console.log(cntArr);
+        
+            },//end of success
+            //success 대신 error가 발생하면 실행될 코드 
+            error: function(request,status,error){
+              alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+          });//end of $.ajax({})---
+        
+        
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){

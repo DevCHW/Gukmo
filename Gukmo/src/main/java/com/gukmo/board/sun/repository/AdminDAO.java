@@ -22,4 +22,20 @@ public class AdminDAO implements InterAdminDAO {
 		List<Map<String, String>> newBoardCnt_List = gukmo_sql.selectList("sun.newBoardCnt", paraMap); 
 		return newBoardCnt_List;
 	}
+
+
+	// 특정 회원 활동내역 리스트 가져오기 
+	@Override
+	public List<Map<String, String>> activityList(Map<String, String> paraMap) {
+		List<Map<String, String>> activityList = gukmo_sql.selectList("sun.activityList", paraMap); 
+		return activityList;
+	}
+
+
+	// 특정 회원 일자별 활동내역 카운트 가져오기 
+	@Override
+	public List<Map<String, String>> activityCntList(Map<String, String> paraMap) {
+		List<Map<String, String>> activityCntList = gukmo_sql.selectList("sun.activityCntList", paraMap); 
+		return activityCntList;
+	}
 }

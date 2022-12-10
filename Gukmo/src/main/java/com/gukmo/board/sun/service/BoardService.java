@@ -1,13 +1,17 @@
 package com.gukmo.board.sun.service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.HashtagVO;
-import com.gukmo.board.model.PenaltyVO;
 import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sun.repository.InterBoardDAO;
 
@@ -59,6 +63,7 @@ public class BoardService implements InterBoardService{
 
 	// 해시태그 tbl_hashtag 에 insert(테이블에 존재하지 않으면 insert,존재하는 해시태그면 x)
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public Boolean saveTag(List<String> hashTags, String board_num) {
 		
 		int result = 1;

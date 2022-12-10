@@ -43,7 +43,10 @@
     });//end of $(document).ready(function(){})--
 </script> 
     
-    
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
     
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/member/detail.css" />
@@ -245,11 +248,10 @@
       <!-- 회원의 활동내역 시작 꺾은선그래프로 일자별,월별,년도별 활동횟수를 나타낼 수 있음 -->
       <div id="member_activities" class="detail_info_area my-3">
         <div id="member_activities_chart_area" class="border rounded">
-          활동내역차트영역
+		    <div id="chart_container"></div>
         </div>
 
         <div id="member_activities_area" class="border rounded">
-          활동내역차트영역
         </div>
       </div>
       <!-- 회원의 활동내역 끝 꺾은선그래프로 일자별,월별,년도별 활동횟수를 나타낼 수 있음 -->

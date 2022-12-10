@@ -8,4 +8,10 @@ public interface InterAdminDAO {
 	// 기간별 새로운 게시물 수 
 	List<Map<String, String>> newBoardCnt(Map<String, String> paraMap);
 
+	// 특정 회원 활동내역 리스트 가져오기 
+	List<Map<String, String>> activityList(Map<String, String> paraMap);
+
+	// 특정 회원 일자별 활동내역 카운트 가져오기 
+	List<Map<String, String>> activityCntList(Map<String, String> paraMap);
+
 }
