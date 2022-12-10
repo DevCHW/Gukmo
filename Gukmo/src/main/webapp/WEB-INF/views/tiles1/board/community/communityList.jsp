@@ -76,13 +76,13 @@
       <div class="border-top px-2 py-2">
         <div class="d-flex align-items-center my-2">
          <%-- 작성자 프로필사진 --%>
-        <a href="#" class="writer_image_box border">
+        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_image_box border">
           <img src="<%=ctxPath %>/resources/images/${boardvo.profile_image}"/>
         </a>
         
      	<%-- 작성자 닉네임 --%>
         <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
-        <a href="#" class="writer_nickname ml-2"> ${boardvo.nickname} </a>
+        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_nickname ml-2"> ${boardvo.nickname} </a>
 
          <%-- 작성자 활동점수 --%>
          <div class="writer_point ml-2">

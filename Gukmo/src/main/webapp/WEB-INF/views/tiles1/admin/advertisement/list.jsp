@@ -86,7 +86,7 @@
 
         <!------- 광고리스트 반복문 시작 ------->
         <c:forEach var="advo" items="${requestScope.adList}" varStatus="status">
-        <div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath%>/admin/adDetail.do?advertisement_num=${acamembervo.advertisement_num}'">
+        <div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath%>/admin/advertisement/detail.do?advertisement_num=${advo.advertisement_num}'">
           <!-- division -->
           <div class="advertisement_info division text-center">
             <div>${advo.division}</div>
@@ -125,17 +125,25 @@
         </div>
         </c:forEach>
         <!-------- 광고리스트 반복문 끝 -------->
-        
       </div>
       <!------------------------ 광고리스트 영역 끝 ------------------------>
-
-
+	
+	
 
       <!---------------------- 페이지 바 시작 -------------------------->
       
       <jsp:include page="/WEB-INF/views/tiles1/admin/assembly/pagebar.jsp" />
       
       <!------------------------- 페이지 바 끝 ------------------------->
+      
+      <!-- 광고등록버튼 -->
+ 	  <div class="d-flex justify-content-end">
+ 	  	<button type="button" class="btn btn-light border rounded" onclick="location.href='<%=ctxPath %>/admin/advertisement/new.do'">
+ 	  		<i class="fa-sharp fa-solid fa-plus"></i><span>광고등록</span>
+ 	  	</button>
+ 	  </div>     
+ 	  <!-- 광고등록버튼 끝-->
+      
       
     </div>
     <!----------------------------------(메인콘텐츠) 끝 ------------------------------------->

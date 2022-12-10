@@ -24,16 +24,24 @@ div#memberManageMenu{
 div#sidebar >ul > li{
   cursor:pointer;
 }
-div#sidebar >ul > li:hover{
+div#sidebar >ul > li.menu:hover{
   background-color:#f0f0f5;
 }
 
-span.detail_menu{
+p.detail_menu:hover{
+  background-color:#f0f0f5;
+}
+
+p.detail_menu{
   cursor:pointer;
 }
 
 span.detail_menu:hover{
   background-color:#f0f0f5;
+}
+
+.detail_menu_box{
+  display:none;
 }
 
 /* 사이드바 끝 */

@@ -332,7 +332,7 @@ public class MemberService implements InterMemberService{
 		paraMap.put("email_acept",member.getEmail_acept()+"");
 		
 		// 프로필이미지 파일 지워주기
-		if( !"user.PNG".equals(currentProfileImage) ) {
+		if( !"user.PNG".equals(currentProfileImage) || paraMap.get("newFileName") == null) {
 			fileManager.doFileDelete(currentProfileImage, path);
 		}
 		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
@@ -354,6 +354,39 @@ public class MemberService implements InterMemberService{
 		boolean editEmailSuccess = result == 1?true:false;
 		
 		return editEmailSuccess;
+	}
+
+	
+	/**
+	 * 다른사람의 유저의 활동내역 리스트 얻기
+	 * @param 닉네임
+	 * @return 활동내역 리스트
+	 */
+	@Override
+	public List<ActivityVO> getActivityOther(Map<String, String> paraMap) {
+		List<ActivityVO> activities = dao.getActivityOther(paraMap);
+		return activities;
+	}
+
+	
+	/**
+	 * 유저의 활동내역 총 갯수를 알아오기(닉네임으로)
+	 * @param 닉네임
+	 * @return 활동내역 총 갯수
+	 */
+	@Override
+	public int getTotalActivityOther(Map<String, String> paraMap) {
+		int totalCount = dao.getTotalActivityOther(paraMap);
+		return totalCount;
+	}
+
+	/**
+	 * 닉네임으로 프로필이미지 얻기
+	 */
+	@Override
+	public Map<String,String> getProfileByNickname(Map<String, String> paraMap) {
+		Map<String,String> memberMap = dao.getProfileByNickname(paraMap);
+		return memberMap;
 	}
 
 	

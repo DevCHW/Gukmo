@@ -43,12 +43,11 @@
 								<a class="nav-link adminMenu" onclick="">관리자 메뉴</a>
 							</div>
 							<div id="admin_dropContent" class="dropdown-content2 mt-2">
-								<a href="<%=ctxPath%>/admin/admin_main.do">광고 메인(임시)</a> 
-								<a href="<%=ctxPath%>/admin/memberManage_List.do">일반회원 관리</a> 
-								<a href="<%=ctxPath%>/admin/academyManage_List.do">학원회원 관리</a>
-								<a href="<%=ctxPath%>/admin/adManage_List.do">광고현황 관리</a>
-								<a href="<%=ctxPath%>/admin/reportManage_List.do">신고현황 관리</a>
-								<a href="<%=ctxPath%>/admin/penalty_List.do">정지현황 관리</a>
+								<a href="<%=ctxPath%>/admin/index.do">관리자메인페이지</a> 
+								<a href="<%=ctxPath %>/admin/member/normal/list.do">일반회원 관리</a> 
+								<a href="<%=ctxPath %>/admin/member/academy/list.do">학원회원 관리</a>
+								<a href="<%=ctxPath %>/admin/advertisement/list.do">광고현황 관리</a>
+								<a href="<%=ctxPath %>/admin/report/list.do">신고현황 관리</a>
 							</div>
 						</div>
 					</c:if>

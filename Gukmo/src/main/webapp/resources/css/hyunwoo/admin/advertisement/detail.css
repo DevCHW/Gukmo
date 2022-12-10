@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+
+/* main 시작 */
+div.basic_info_title{
+  width:150px;
+}
+span#attach_file{
+  cursor:pointer;
+  color:#0090F9;
+  border-bottom:solid 1px #0090F9;
+}
+span#attach_file:hover{
+  color:#0B7FD3;
+  border-bottom:solid 1px #0B7FD3;
+}
+
+button#btn_edit_close,
+div.edit_select_area{
+  display:none;
+}
+select#select_status{
+  outline: none;
+  height:30px;
+}
+
+div#datepicker_area{
+  display:none;
+}
+div#datepicker_area > input{
+  outline: none;
+  height:24px;
+}
+
+
+
+
+
+
+/* main 끝 */

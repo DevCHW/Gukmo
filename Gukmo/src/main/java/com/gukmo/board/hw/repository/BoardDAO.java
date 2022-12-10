@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 
 
@@ -119,6 +120,83 @@ public class BoardDAO implements InterBoardDAO{
 	public List<BoardVO> getCurriculumList(Map<String, String> paraMap) {
 		List<BoardVO> curriculumList = gukmo_sql.selectList("chw.getCurriculumList",paraMap);
 		return curriculumList;
+	}
+
+
+	
+	/**
+	 * 글번호 알아오기
+	 */
+	@Override
+	public String getBoarSeq() {
+		String board_num = gukmo_sql.selectOne("chw.getBoarSeq");
+		return board_num;
+	}
+	
+	
+	/**
+	 * tbl_board에 insert 해주기	
+	 */
+	@Override
+	public int insertBoardByAcademy(Map<String, Object> paraMap) {
+		int result = gukmo_sql.insert("chw.insertBoardByAcademy",paraMap);
+		return result;
+	}
+
+
+	
+
+
+	/**
+	 * tbl_academy에 insert해주기
+	 */
+	@Override
+	public int insertAcademy(Map<String, Object> paraMap) {
+		int result = gukmo_sql.insert("chw.insertAcademy",paraMap);
+		return result;
+	}
+
+
+	// tbl_hashtag에 존재하는지 찾기
+	@Override
+	public HashtagVO findHashtag(String hashTag) {
+		HashtagVO findResult = gukmo_sql.selectOne("sun.findHashtag", hashTag);
+		return findResult;
+	}
+
+
+	// tbl_hashtag에 해시태그 추가
+	@Override
+	public void saveHashTag(String hashTag) {
+		gukmo_sql.insert("sun.saveHashTag", hashTag);
+	}
+
+
+	// tbl_hashtag에 카운트 올리기
+	@Override
+	public void upHashTagCount(int hashtag_num) {
+		gukmo_sql.update("sun.upHashTagCount", hashtag_num);
+	}
+
+
+	// tbl_hashtag_board_map 에 insert하기
+	@Override
+	public int hashtagBoardMapping(Map<String, Object> paraMap) {
+		int n = gukmo_sql.insert("sun.hashtagBoardMapping", paraMap);
+		return n;
+	}
+
+
+	/**
+	 * AOP(paraMap) 포인트올려주고 활동내역기록해주기
+	 * @param paraMap
+	 * @return
+	 */
+	@Override
+	public int pointPlusActivityRecord(Map<String, Object> paraMap) {
+		int result1 = gukmo_sql.update("chw.pointPlus", paraMap);
+		int result2 = gukmo_sql.insert("chw.ActivityRecord", paraMap);
+		return result1*result2;
 	}
 
 

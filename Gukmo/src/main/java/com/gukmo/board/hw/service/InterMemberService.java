@@ -141,6 +141,28 @@ public interface InterMemberService {
 
 
 	
+	/**
+	 * 다른사람의 유저의 활동내역 리스트 얻기
+	 * @param 닉네임
+	 * @return 활동내역 리스트
+	 */
+	List<ActivityVO> getActivityOther(Map<String, String> paraMap);
+
+	/**
+	 * 유저의 활동내역 총 갯수를 알아오기(닉네임으로)
+	 * @param 닉네임
+	 * @return 활동내역 총 갯수
+	 */
+	int getTotalActivityOther(Map<String, String> paraMap);
+
+
+	/**
+	 * 닉네임으로 프로필이미지 얻기
+	 */
+	Map<String,String> getProfileByNickname(Map<String, String> paraMap);
+
+
+	
 
 
 	

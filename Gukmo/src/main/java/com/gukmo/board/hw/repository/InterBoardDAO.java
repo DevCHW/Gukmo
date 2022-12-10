@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 
 public interface InterBoardDAO {
@@ -64,6 +65,50 @@ public interface InterBoardDAO {
 	String getDetailCategory(int boardNum);
 
 
+	/**
+	 * 
+	 * @param paraMap
+	 * @return
+	 */
 	BoardVO getAcademyDetail(Map<String, String> paraMap);
+
+	/**
+	 * tbl_board에 insert 해주기	
+	 */
+	int insertBoardByAcademy(Map<String, Object> paraMap);
+
+	/**
+	 * 글번호 알아오기
+	 */
+	String getBoarSeq();
+
+	/**
+	 * tbl_academy에 insert해주기
+	 */
+	int insertAcademy(Map<String, Object> paraMap);
+
+
+	/**
+	 * AOP(paraMap) 포인트올려주고 활동내역기록해주기
+	 * @param paraMap
+	 * @return
+	 */
+	int pointPlusActivityRecord(Map<String, Object> paraMap);
+	
+	
+	
+	//선우누나 해시태그insert
+	void saveHashTag(String hashTag);
+
+	//선우누나 해시태그insert
+	HashtagVO findHashtag(String hashTag);
+
+	//선우누나 해시태그insert
+	void upHashTagCount(int hashtag_num);
+
+	//선우누나 해시태그insert
+	int hashtagBoardMapping(Map<String, Object> paraMap);
+
+
 	
 }

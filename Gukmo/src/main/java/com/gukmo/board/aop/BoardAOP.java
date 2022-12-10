@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
+import com.gukmo.board.hw.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.sun.service.InterBoardService;
@@ -81,6 +82,16 @@ public class BoardAOP {
 	} //end of pointPlusActivityLog
 	
 	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
 	@Pointcut("execution(public * com.gukmo..*Controller.requiredAdminLogin_*(..) )")
 	public void requiredAdminLogin() {}
 	
@@ -92,9 +103,8 @@ public class BoardAOP {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("user");
-		String userid = loginuser.getUserid();
 		
-		if(session.getAttribute("user") == null || !"admin".equalsIgnoreCase(userid)) {
+		if(session.getAttribute("user") == null || !"관리자".equals(loginuser.getAuthority())) {
 			String message = "관리자 이외에는 접근 불가능합니다.";
 			String loc = request.getContextPath()+"/login.do";
 			

@@ -11,7 +11,7 @@ function getContextPath(){
  */
 
 // == Field Declaration == //
-
+let btn_insert_penalty_modal_click = 0;
 
 
 // == Event Declaration == //
@@ -58,7 +58,8 @@ $(document).ready(function(){
 
   });//end of Event--
 
-
+  //정지사유등록 버튼 클릭시 클릭횟수 증가
+  $("span#btn_insert_penalty_modal").click(()=>{btn_insert_penalty_modal_click++;})
 
 
 
@@ -79,10 +80,11 @@ $(document).ready(function(){
 
   //회원정보수정 버튼 클릭시
   $("button#btn_editInfo").click(function(e){
+	
     const target = $(e.currentTarget);
     const btnText = target.text();
     if(btnText == '수정'){  //수정버튼을 눌렀다면
-
+      btn_insert_penalty_modal_click = 0;
       $("select#select_status").show();
       $("select#select_status").next().hide();
       $("select#select_authority").show();
@@ -96,11 +98,22 @@ $(document).ready(function(){
       const userid = sessionStorage.getItem("userid");
       const editStatusVal = $("select#select_status").val();
       if(editStatusVal == '정지'){  //회원 상태를 정지로 변경하고자 했다면
-        const nickname = sessionStorage.getItem("nickname");
-        penaltyRegister(nickname,status,authority,userid)
-      } else{
-        //기본 회원정보 수정메소드 호출
-        editMemberInfo(status,authority,userid);
+    	if(sessionStorage.getItem("status") != '정지'){	//기존에 정지인 회원이 아니라면
+    	  if(btn_insert_penalty_modal_click == 0){	//정지사유 등록 클릭을 한번도 하지 않았다면
+    	    alert("정지사유를 등록해주세요.");
+    	    return;
+    	  } 
+    	  const nickname = sessionStorage.getItem("nickname");
+    	  penaltyRegister(nickname,status,authority,userid)
+    	} else{	//기존에 정지인 회원이였다면
+    	  editMemberInfo(status,authority,userid);
+    	}
+      } else{	//회원 상태를 정지로 변경하는게 아니라면
+    	if(sessionStorage.getItem("status") == '정지'){	//기존에 정지인 회원이였다면
+    	  deletePenalty(sessionStorage.getItem("nickname"),status,authority,userid);
+    	} else{
+    	  editMemberInfo(status,authority,userid);
+    	}
       }
     }
   });//end of Event--
@@ -149,9 +162,8 @@ $(document).ready(function(){
  */
 function sendEmail(email){
   const message = $("textarea#email_message").val();
-  alert("이메일전송버튼 클릭,이메일전송메소드 호출 해당 회원 이메일 : "+email + "메세지 : " +message);
   $.ajax({
-    url:getContextPath()+"/이메일전송빽단url.do", 
+    url:getContextPath()+"/admin/member/sendEmail.do", 
     data:{"email": email,
           "message":message},
     type:"post",
@@ -179,20 +191,20 @@ function sendEmail(email){
  * 회원 정보 수정해주기
  */
 function editMemberInfo(status,authority,userid){
-  alert("회원정보수정메소드 호출 수정할 값 => 회원상태 : "+status+ "권한 : "+ authority);
 
   $.ajax({
-    url:getContextPath()+"/회원정보수정할빽단url.do", 
-    data:{"status": email,
-          "authority":message,
+    url:getContextPath()+"/admin/member/edit.do", 
+    data:{"status": status,
+          "authority":authority,
           "userid":userid},
     type:"post",
     dataType:"json",
     success:function(json){
-      if(json.editMemberInfoSuccess){	//회원정보 수정에 성공했다면
+      if(json.result){	//회원정보 수정에 성공했다면
         alert("회원정보 수정 성공!");
+        location.reload()
       } else {	//회원정보 수정에 실패했다면
-        alert("회원정보 수정 성공!");
+        alert("회원정보 수정 실패!");
       }
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
@@ -208,22 +220,16 @@ function editMemberInfo(status,authority,userid){
  * 정지내역등록하기
  */
 function penaltyRegister(nickname,status,authority,userid){
-  alert("정지회원등록하기 메소드 호출");
 
-  //모든 값 잘 입력했나 유효성검사 진행 이후, 정지내역 등록해주기
-
-
-  //정지내역 등록 진행(동기방식으로 진행해야하기때문에 async:false)
   let queryString = $("form[name=penaltyRegisterFrm]").serialize();
   $("form[name=penaltyRegisterFrm]").ajaxForm({
-    url : getContextPath()+"/정지내역등록빽단url.do", 
+    url : getContextPath()+"/admin/member/penalty/new.do", 
     data:queryString,
     enctype:"multipart/form-data",
     type:"POST",
-    async:false,
     dataType:"JSON",
     success:function(json) {
-      if(json.result == 1){ //정지내역 등록에 성공했다면
+      if(json.result){ //정지내역 등록에 성공했다면
         editMemberInfo(status,authority,userid)
       } else{ //정지내역 등록에 실패했다면
         alert("회원수정 실패하였습니다. 다시 시도해주세요");
@@ -236,6 +242,32 @@ function penaltyRegister(nickname,status,authority,userid){
   $("form[name=penaltyRegisterFrm]").submit();
 
 }//end of method---
+
+
+
+/**
+ * 기존에 정지인회원을 다른상태로 바꾸려고 하였다면 정지내역에서 지워주기
+ */
+function deletePenalty(nickname,status,authority,userid){
+  $.ajax({
+    url:getContextPath()+"/admin/member/penalty/delete.do", 
+    data:{"nickname": nickname},
+    type:"post",
+    dataType:"json",
+    async:false,
+    success:function(json){
+      if(json.result){	//회원정보 수정에 성공했다면
+    	editMemberInfo(status,authority,userid)
+      } else {	//회원정보 수정에 실패했다면
+        alert("회원정보 수정에 실패하였습니다.다시 시도해주세요!");
+      }
+    },//end of success
+    //success 대신 error가 발생하면 실행될 코드 
+    error: function(request,status,error){
+      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+    }
+  });//end of $.ajax({})---
+}
 
 
 

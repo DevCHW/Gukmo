@@ -10,48 +10,52 @@
 
 
 <script type="text/javascript">
-	// field declaration
-	let li_member_list_click_cnt = 0;
 	
 	
 	//event
 	$(document).ready(function(){
-		
-		
-		
 	  let url = window.document.location.href;
 	  url = url.substr(27);
+	  let questionmarkIdx = url.indexOf("?");
+	  if(questionmarkIdx != -1){
+	    url = url.substr(0,questionmarkIdx);
+	  }
+	  
 	  switch (url) {
-	  case "/admin/memberManage_List.do" :	//일반회원메뉴
-	    $("div#memberManageMenu").css("display","flex");
-		$("span#nomalMemberManage").css("font-weight","bold");
-		$("span#nomalMemberManage").css("font-size","15px");
+	  case "/admin/member/normal/list.do" :	//일반회원메뉴
+	    $("p#nomalMemberManage").css("font-weight","bold");
+	    $("p#nomalMemberManage").css("font-size","15px");
+	    $("p#nomalMemberManage").css("background-color","#f0f0f5");
 	    break;
-	  case "/admin/academyManage_List.do" :	//교육기관회원메뉴
-		$("div#memberManageMenu").css("display","flex");
-		$("span#academyMemberManage").css("font-weight","bold");
-		$("span#academyMemberManage").css("font-size","15px");		
+	    
+	  case "/admin/member/academy/list.do" :	//교육기관회원메뉴
+        $("p#academyMemberManage").css("font-weight","bold");
+        $("p#academyMemberManage").css("font-size","15px");
+        $("p#academyMemberManage").css("background-color","#f0f0f5");		
 	    break;
-	  case "/admin/adManage_List.do" :	//광고메뉴
+	    
+	  case "/admin/advertisement/list.do" :	//광고메뉴
 	    $("li#li_ad_List").css("font-weight","bold");
 	    $("li#li_ad_List").css("font-size","15px");
+	    $("li#li_ad_List").css("background-color","#f0f0f5");
 	    break;
-	  case "/admin/reportManage_List.do" :	//신고내역메뉴
-	    $("li#li_report_List").css("font-weight","bold");
-	    $("li#li_report_List").css("font-size","15px");
+	    
+	  case "/admin/report/list.do" :	//신고내역메뉴
+		$("li#reportManageMenu_box").show();
+	    $("p#all_receipt").css("font-weight","bold");
+	    $("p#all_receipt").css("font-size","15px");
+	    $("p#all_receipt").css("background-color","#f0f0f5");
 	    break;
 	  }//end of switch-case---
 	  
 	  
-	  //회원 클릭시 이벤트(열고닫기)
-	  $("li#li_member_list").click(function(){
-	    li_member_list_click_cnt++;
-	    if(li_member_list_click_cnt%2==0){  //짝수번 클릭했다면
-	      $("div#memberManageMenu").css("display","none");
-	    } else{ //홀수번 클릭했다면
-	      $("div#memberManageMenu").css("display","flex");
-	    }
+	  //상세메뉴 열고닫기
+	  $("li.detail_menu_view").click(function(e){
+	    const target = $(e.currentTarget);
+	    
+	    target.next().toggle();
 	  });//end of Event---
+	  
 	
 	
 	});//end of $(document).ready(function(){})----
@@ -59,16 +63,28 @@
 
 
 
+
 <div id="sidebar" class="pl-4 py-5">
   <h4 id="sidebar_title">관리자 메뉴</h4>
   <ul class="pl-3 pt-3">
-    <li id="li_statistics" onclick="">통계</li>
-    <li id="li_member_list">회원</li>
-    <div id="memberManageMenu" class="flex-column pl-4">
-      <span id="nomalMemberManage" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/memberManage_List.do'">일반회원</span>
-      <span id="academyMemberManage" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/academyManage_List.do'">교육기관회원</span>
-    </div>
-    <li id="li_ad_List" onclick="location.href='<%=ctxPath %>/admin/adManage_List.do'">광고</li>
-    <li id="li_report_list" onclick="location.href='<%=ctxPath %>/admin/reportManage_List.do'">신고내역</li>
+    <%-- 메인페이지 --%>
+    <li id="li_main" class="menu" onclick="location.href='<%=ctxPath%>/admin/index.do'">메인</li>
+    <%-- 통계메뉴 --%>
+    <li id="li_statistics" class="menu" onclick="">통계</li>
+    <%-- 회원메뉴 --%>
+    <li id="li_member_list" class="detail_menu_view menu">회원</li>
+    <li id="memberManageMenu_box" class="detail_menu_box pl-4">
+      <p id="nomalMemberManage" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/member/normal/list.do'">일반회원내역보기</p>
+      <p id="academyMemberManage" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/member/academy/list.do'">교육기관회원내역보기</p>
+    </li>
+    <%-- 광고메뉴 --%>
+    <li id="li_ad_List" class="menu" onclick="location.href='<%=ctxPath %>/admin/advertisement/list.do'">광고</li>
+    <%-- 신고메뉴 --%>
+    <li id="li_report_list" class="detail_menu_view menu">신고내역</li>
+    <li id="reportManageMenu_box" class="detail_menu_box pl-4">
+      <p id="all_receipt" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/report/list.do'">전체</p>
+      <p id="before_receipt" class="detail_menu" onclick="location.href=''">접수전</p>
+      <p id="after_receipt" class="detail_menu" onclick="location.href=''">접수완료</p>
+    </li>
   </ul>
 </div>
