@@ -278,8 +278,9 @@
             <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
             <span>&#x1F497;</span>
             <%-- 댓글 좋아요 갯수 --%>
-            <span>2</span>
+            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
           </div>
+          <input type="hidden" id="" value="${bcommentList.nickname}" />
           <%-- 댓글 신고,수정,삭제 시작 --%>
           <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area">
 	        <span class="comment_btn_report">&#x1F6A8;</span>
@@ -308,25 +309,24 @@
 
         
         <div class="d-flex">
-          <%-- 대댓글이 있는 경우일경우 보이기 시작 대댓글 없는경우 안보여야 함--%>
+ 		<c:if test= "${bcommentList.comment_of_comment_cnt != 0}" >
+          <%-- 대댓글이 있는 경우 보이기 시작 / 대댓글 없는경우 안보여야 함--%>
           <div class="btn_comment_toggle big_comment_hide mr-3">
             <span><i class="fa-solid fa-chevron-up"></i>&nbsp;댓글 모두 숨기기</span>
           </div>
 
           <%-- 대댓글갯수  --%>
           <div class="btn_comment_toggle big_comment_show mr-3">
-            <span><i class="fa-solid fa-chevron-down"></i>&nbsp;댓글&nbsp;<span>1</span>개 보기</span>
+            <span><i class="fa-solid fa-chevron-down"></i>&nbsp;댓글&nbsp;<span>${bcommentList.comment_of_comment_cnt}</span>개 보기</span>
           </div>
-
+		</c:if>
           <%-- 대댓글이 있는 경우일경우 보이기 끝 대댓글 없는경우 안보여야 함--%>
 
           <%-- 댓글쓰기 --%>
-          <c:if test="${sessionScope.user.nickname != null}">
-          <div class="btn_write_comment">
-            댓글쓰기
-          </div>
-          </c:if>
+          <div class="btn_write_comment">댓글쓰기</div>
         </div>
+        
+        
       </div>
             
       <%--------------------------------------------------- 대댓글 영역 시작 ---------------------------------------%>
@@ -365,7 +365,7 @@
 	            </div>
 	 
 	            <div class="d-flex flex-column w-100">
-	              <div class="big_comment_writer_nickname">
+	              <div class="big_comment_writer_nickname" id="${spcial_commentList.comment_num}">
               		${spcial_commentList.nickname}
 	              </div>	    
 	              <div class="mt-1">
@@ -388,7 +388,7 @@
 	              <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 	              <span>&#x1F497;</span>
 	              <%-- 댓글 좋아요 갯수 --%>
-	              <span>2</span>
+	              <span>${spcial_commentList.comment_like_cnt}</span>
 	            </div>
 	            <%-- 대댓글 신고,수정,삭제 시작 --%>
 	          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area">
@@ -396,8 +396,8 @@
 		        <div class="comment_mask"></div>
 		        <span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
-			            <input id="comment_of_comment_nickname" type="hidden" value="${spcial_commentList.nickname}"  />      
-			            <input id="comment_of_comment_num"  type="hidden" value="${spcial_commentList.comment_num}" />
+			            <input class="comment_of_comment_nickname" type="hidden" value="${spcial_commentList.nickname}"  />      
+			            <input class="comment_of_comment_num"  type="hidden" value="${spcial_commentList.comment_num}" />
 		            	<span class="comment_edit2">수정하기</span>
 		            	<span class="comment_delete2">삭제하기</span>
 	          		</div>

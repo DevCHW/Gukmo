@@ -42,7 +42,7 @@ public class BoardDAO implements InterBoardDAO {
 	@Override
 	public BoardVO getBoardDetail(Map<String, String> paraMap) {
 		BoardVO boardDetail = gukmo_sql.selectOne("hgb.getBoardDetail", paraMap);
-		System.out.println("디버그용-getBoardDetail");
+		// System.out.println("디버그용-getBoardDetail");
 		return boardDetail;
 	}
 
@@ -188,6 +188,13 @@ public class BoardDAO implements InterBoardDAO {
 		return n;
 	}
 
+	// 게시판 테이블의 comment_cnt 컬럼에서 댓삭한 개수 삭제
+	@Override
+	public int board_cmt_cnt_minus(Map<String, String> paraMap) {
+		int result = gukmo_sql.update("hgb.board_cmt_cnt_minus", paraMap);
+		return result;
+	}
+
 	// 댓글 수정
 	@Override
 	public int commentEdit(Map<String, String> paraMap) {
@@ -260,6 +267,14 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return result1*result2;
 	}
+
+	// 삭제된 댓글의 총 개수 알아오기
+	@Override
+	public int comment_cnt_minus(Map<String, String> paraMap) {
+		int result = gukmo_sql.selectOne("hgb.getDelCommentCnt", paraMap);		
+		return result;
+	}
+
 
 	
 	 

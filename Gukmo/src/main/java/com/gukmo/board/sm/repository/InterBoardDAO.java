@@ -91,7 +91,10 @@ public interface InterBoardDAO {
 	// 댓글 삭제 및 그 대댓도 삭제
 	int commentDelete(Map<String, String> paraMap);
 
+	// 게시판 테이블의 comment_cnt 컬럼에서 댓삭한 개수 삭제
+	int board_cmt_cnt_minus(Map<String, String> paraMap);
 
+	
 	// 댓글 수정
 	int commentEdit(Map<String, String> paraMap);
 
@@ -112,6 +115,12 @@ public interface InterBoardDAO {
 
 
 	int comment_likeInsert(Map<String, String> paraMap);
+
+
+	// 삭제된 댓글의 총 개수 알아오기
+	int comment_cnt_minus(Map<String, String> paraMap);
+
+
 
 
 
