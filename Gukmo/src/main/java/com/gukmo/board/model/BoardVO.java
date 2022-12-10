@@ -197,13 +197,9 @@ public class BoardVO {
 		return curriculum;
 	}
 
-
-
 	public List<HashtagVO> getHashtags() {
 		return hashtags;
 	}
-
-
 
 	public List<CommentVO> getComment() {
 		return comment;

@@ -305,7 +305,6 @@
 		union all
 		select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
 		from tbl_comment_report
-
 	    order by report_date desc
 		) V
 		<if test='memberStatus != "" '>
