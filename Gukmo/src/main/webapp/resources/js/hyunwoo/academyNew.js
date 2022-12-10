@@ -206,10 +206,7 @@ $(document).ready(function(){
 			alert("상세주소를 입력해주세요");
 			return;
 		} else{
-			alert("지역대분류 : "+address1);
-			alert("지역소분류 : "+address2);
-			alert("지역3 : "+address3);
-			$("input#address").val(address1 + address2 + address3);
+			$("input#address").val(address1 + " " + address2 + " " + address3);
 		}
 		
 		
