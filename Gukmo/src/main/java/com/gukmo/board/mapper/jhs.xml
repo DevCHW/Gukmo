@@ -32,7 +32,7 @@
 		<result property="academy_name" column="academy_name" />
 		<result property="curriculum_start_date" column="curriculum_start_date" />
 		<result property="curriculum_end_date" column="curriculum_end_date"	/>
-		<result property="recuitment_end_date" column="recuitment_end_date" />
+		<result property="recruitment_end_date" column="recruitment_end_date" />
 		<result property="join_url" column="join_url" />		
 	</resultMap>
 	
@@ -70,13 +70,13 @@
         from
         (
             select rownum as rno, board_num, subject, academy_name,
-                	trunc(recuitment_end_date - SYSDATE) as dday,
+                	trunc(recruitment_end_date - sysdate) as dday,
 		       		to_char(curriculum_start_date, 'yyyy-mm-dd') as curriculum_start_date,
 		       		to_char(curriculum_end_date, 'yyyy-mm-dd') as curriculum_end_date,
-		       		to_char(recuitment_end_date, 'yyyy-mm-dd') as recuitment_end_date
+		       		to_char(recruitment_end_date, 'yyyy-mm-dd') as recruitment_end_date
             from tbl_curriculum join tbl_board
             on board_num = fk_board_num
-            where status = '모집중'
+            where to_char(sysdate,'yyyymmdd') between to_char(recruitment_start_date, 'yyyymmdd') and to_char(recruitment_end_date, 'yyyymmdd')
         )
         where rno between 1 and 8
 	</select>
@@ -86,13 +86,13 @@
         from
         (
             select rownum as rno, board_num, subject, academy_name,
-                	trunc(recuitment_end_date - SYSDATE) as dday,
+                	trunc(recruitment_end_date - sysdate) as dday,
 		       		to_char(curriculum_start_date, 'yyyy-mm-dd') as curriculum_start_date,
 		       		to_char(curriculum_end_date, 'yyyy-mm-dd') as curriculum_end_date,
-		       		to_char(recuitment_end_date, 'yyyy-mm-dd') as recuitment_end_date
+		       		to_char(recruitment_end_date, 'yyyy-mm-dd') as recruitment_end_date
             from tbl_curriculum join tbl_board
             on board_num = fk_board_num
-            where status = '모집중'
+            where to_char(sysdate,'yyyymmdd') between to_char(recruitment_start_date, 'yyyymmdd') and to_char(recruitment_end_date, 'yyyymmdd')
         )
         where rno between 9 and 16
 	</select>
@@ -102,13 +102,13 @@
         from
         (
             select rownum as rno, board_num, subject, academy_name,
-                	trunc(recuitment_end_date - SYSDATE) as dday,
+                	trunc(recruitment_end_date - sysdate) as dday,
 		       		to_char(curriculum_start_date, 'yyyy-mm-dd') as curriculum_start_date,
 		       		to_char(curriculum_end_date, 'yyyy-mm-dd') as curriculum_end_date,
-		       		to_char(recuitment_end_date, 'yyyy-mm-dd') as recuitment_end_date
+		       		to_char(recruitment_end_date, 'yyyy-mm-dd') as recruitment_end_date
             from tbl_curriculum join tbl_board
             on board_num = fk_board_num
-            where status = '모집중'
+            where to_char(sysdate,'yyyymmdd') between to_char(recruitment_start_date, 'yyyymmdd') and to_char(recruitment_end_date, 'yyyymmdd')
         )
         where rno between 17 and 24
 	</select>
@@ -118,7 +118,7 @@
 		select count(*)
 		from tbl_curriculum join tbl_board
 		on board_num = fk_board_num
-		where to_char(sysdate, 'yyyy-mm-dd') &lt;= to_char(recuitment_end_date, 'yyyy-mm-dd')
+		where to_char(sysdate, 'yyyy-mm-dd') &lt;= to_char(recruitment_end_date, 'yyyy-mm-dd')
 			  and rownum between 1 and 24
 	</select> 
 	
@@ -268,7 +268,7 @@
     		select dense_rank()OVER (order by board_num desc) rno,
 			       board_num, subject, content, category, detail_category, hashtag, write_date, -- 게시판 글
 			       representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
-			       core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url -- 과정 글
+			       core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url -- 과정 글
 			from
 			(
                 select B.board_num as board_num, subject, content, category, detail_category, hashtag, B.write_date as write_date
@@ -298,7 +298,7 @@
             on join_BH.board_num = A.fk_board_num
             left join
             ( 
-                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url                    from tbl_curriculum
+                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url                    from tbl_curriculum
             ) C
             on join_BH.board_num = C.fk_board_num
 	        order by rno desc
@@ -337,12 +337,12 @@
             	representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
             	core_technology, academy_name, to_char(curriculum_start_date,'yyyy-mm-dd') as curriculum_start_date,
             	to_char(curriculum_end_date,'yyyy-mm-dd') as curriculum_end_date,
-            	to_char(recuitment_end_date,'yyyy-mm-dd') as recuitment_end_date, join_url -- 과정 글
+            	to_char(recruitment_end_date,'yyyy-mm-dd') as recruitment_end_date, join_url -- 과정 글
 		from(
     		select dense_rank()OVER (order by board_num desc) rno,
 			       board_num, subject, content, category, detail_category, hashtag, write_date, -- 게시판 글
 			       representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
-			       core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url -- 과정 글
+			       core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url -- 과정 글
 			from
 			(
                 select B.board_num as board_num, subject, content, category, detail_category, hashtag, B.write_date as write_date
@@ -372,7 +372,7 @@
             on join_BH.board_num = A.fk_board_num
             left join
             ( 
-                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recuitment_end_date, join_url                    from tbl_curriculum
+                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url                    from tbl_curriculum
             ) C
             on join_BH.board_num = C.fk_board_num
             order by board_num desc

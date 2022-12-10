@@ -2,6 +2,96 @@
     pageEncoding="UTF-8"%>
 
 <%-- ======= #27. tile1 중 footer 페이지 만들기  ======= --%>
+<script type="text/javascript">
+
+let socket = null;
+
+$(document).ready(function (){
+	   connectWs();
+});
+
+function connectWs(){
+	const ws = new SockJS( '/alarm.do' );
+	socket = ws;
+
+	ws.onopen = function() {
+        console.log('info: connection opened.');
+  };
+
+ ws.onmessage = function(evt) {
+	 	let data = evt.data;
+	   	console.log("ReceivMessage : " + data + "\n");
+
+/* 	   	$.ajax({
+			url : '/mentor/member/countAlarm',
+			type : 'POST',
+			dataType: 'text',
+			success : function(data) {
+				if(data == '0'){
+				}else{
+					$('#alarmCountSpan').addClass('bell-badge-danger bell-badge')
+					$('#alarmCountSpan').text(data);
+				}
+			},
+			error : function(err){
+				alert('err');
+			}
+	   	}); */
+
+	   	let html = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-animation='true' data-delay='5000'  style='width:300px;'>" +
+	      		   		"<div class='toast-header'>" +
+	        				"<img src='...' class='rounded mr-2' alt='...'>" +
+	        				"<strong class='mr-auto'>Bootstrap</strong>" +
+	        				"<button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>" +
+	          					"<span aria-hidden='true'>&times;</span>" +
+	        				"</button>" +
+	      				"</div>" +
+	      				"<div class='toast-body w-100'>" +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "</div>"+
+	    			"</div>";
+	   	
+	   	$("div#toastPopup").append(html);
+	   	
+	   	// 푸시 알림
+	   	$('.toast').toast('show');
+	   	
+	   	$('#myToast').on('hidden.bs.toast', function () {
+	   		$('.toast').toast('dispose');
+	   	})
+ };
+
+ ws.onclose = function() {
+   	console.log('connect close');
+   	/* setTimeout(function(){conntectWs();} , 1000); */
+ };
+
+ ws.onerror = function (err) {console.log('Errors : ' , err);};
+
+}
+
+
+</script>
+
+  <!-- Position it -->
+  <div style="position: fixed; bottom: 0; right: 0; margin: 20px; z-index:2;">
+	<div id="toastPopup"></div>
+    <!-- Then put toasts within -->
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false" data-animation="true" data-delay="3000"  style="width:300px;">
+      <div class="toast-header">
+        <img src="..." class="rounded mr-2" alt="...">
+        <strong class="mr-auto">Bootstrap</strong>
+        <small class="text-muted">just now</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body w-100">
+        See? Just like this.
+      </div>
+    </div>
+
+  </div>
+
+
 
 <!-- Footer -->
 <footer class="text-center text-lg-start text-muted border-top">
