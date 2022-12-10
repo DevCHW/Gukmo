@@ -26,7 +26,7 @@
 
      <%-- 검색창 영역 --%>
      <form name="searchFrm">
-	    <div class="searchBar d-flex mx-auto my-4">
+	    <div class="searchBar d-flex mx-auto justify-content-center my-4">
 	       <input type="text" id="searchWord" name="searchWord" class="pl-2" placeholder="검색할 내용을 입력해 주세요!" value="${requestScope.searchWord}"/>
 	       <input type="hidden" id="sortType" name="sortType" /> <%-- form 태그내에 input 태그가 오로지 1개 뿐일경우에는 엔터를 했을 경우 검색이 되어지므로 이것을 방지하고자 만든것이다. --%>
 	       <button type="button" id="btn_search">
@@ -54,9 +54,10 @@
 				<c:when test="${sortType == 'write_date'}"><span id=current_sort>최신순</span></c:when>
 				<c:when test="${sortType == 'like_cnt'}"><span id=current_sort>추천순</span></c:when>
 				<c:when test="${sortType == 'comment_cnt'}"><span id=current_sort>댓글순</span></c:when>
-				<c:when test="${sortType == 'views'}"><span id=current_sort>조회순</span></c:when>
+				<c:when test="${sortType eq 'views'}"><span id=current_sort>조회순</span></c:when>
 				<c:otherwise><span id=current_sort>최신순</span></c:otherwise>
 			</c:choose>
+			
           <div id="sort_option" class="border rounded px-3 py-2">
             <span>최신순</span>
             <span>추천순</span>
@@ -68,7 +69,6 @@
     </div>
     <%-- 필터 끝 --%>
 
-
      <%------------------------------------- 게시판 리스트 시작 -------------------------------------%>
 
      <c:forEach var="boardvo" items="${requestScope.boardList}">
@@ -76,13 +76,13 @@
       <div class="border-top px-2 py-2">
         <div class="d-flex align-items-center my-2">
          <%-- 작성자 프로필사진 --%>
-        <a href="#" class="writer_image_box border">
+        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_image_box border">
           <img src="<%=ctxPath %>/resources/images/${boardvo.profile_image}"/>
         </a>
         
      	<%-- 작성자 닉네임 --%>
         <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
-        <a href="#" class="writer_nickname ml-2"> ${boardvo.nickname} </a>
+        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_nickname ml-2"> ${boardvo.nickname} </a>
 
          <%-- 작성자 활동점수 --%>
          <div class="writer_point ml-2">
@@ -107,7 +107,7 @@
              <%-- 해시태그 리스트 들어갈 곳--%>
              <%-- 해시태그리스트 반복문시작 --%>
              <c:forEach var="hashtag" items="${boardvo.hashtags}">
-            	<a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+            	<a href="/board/main_search.do?searchWord=${hashtag.hashtag}" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
              </c:forEach>
              <%-- 해시태그리스트 반복문 끝--%>
            </div>

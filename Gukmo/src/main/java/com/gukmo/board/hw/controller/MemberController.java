@@ -212,6 +212,11 @@ public class MemberController {
 	
 	
 	
+	
+	
+	
+	
+	
 	//=========================================================================== //
 	//============================= 회원가입 관련 끝=================================== //
 	//=========================================================================== //
@@ -226,6 +231,12 @@ public class MemberController {
 	//============================= 마이페이지 관련 시작=================================== //
 	//============================================================================== //
 	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 계정찾기 페이지 GET 요청시 매핑
 	 */
@@ -233,6 +244,135 @@ public class MemberController {
 	public String viewfindId(HttpServletRequest request) {
 		return "member/findId.tiles1";
 		// /WEB-INF/views/tiles1/member/findId.jsp 페이지.
+	}
+	
+	
+	
+	/**
+	 * 다른사람활동내역보여주기
+	 */
+	@RequestMapping(value="/member/activityOther.do", method= {RequestMethod.GET})
+	public String viewActivityOther(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
+		String str_page = request.getParameter("page");
+		
+		int totalCount = 0;           // 총 게시물 건수
+		int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
+		int page = 0;    			  // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
+		int totalPage = 0;            // 총 페이지수(웹브라우저상에서 보여줄 총 페이지 개수, 페이지바)
+		int startRno = 0; 			  // 시작 행번호
+		int endRno = 0;   			  // 끝 행번호
+		
+		// 총 게시물 건수(totalCount)
+		totalCount = service.getTotalActivityOther(paraMap);
+		
+		//총 페이지 수
+		totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		
+		//총 페이지 수
+		totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );
+		
+		if(str_page == null) {	//쿼리스트링에 페이지가 없다면
+			 // 게시판에 보여지는 초기화면 
+			 page = 1;
+		 }
+		 else {
+			 try {
+				 page = Integer.parseInt(str_page);
+				 if( page < 1) {	//페이지가 1페이지보다 작은경우
+					 page = 1;
+				 }
+				 else if(page > totalPage) { //페이지가 총페이지보다 큰 경우
+					 page = totalPage;
+				 }
+			 } catch(NumberFormatException e) {	//페이지번호에 글자를 써서 들어올 경우 오류방지
+				 page = 1;
+			 }//end of try-catch
+		 
+		 }
+		
+		startRno = ((page - 1) * sizePerPage) + 1;
+		endRno = startRno + sizePerPage - 1;
+		 
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno", String.valueOf(endRno));
+		
+		
+		List<ActivityVO> activities = service.getActivityOther(paraMap);
+		// 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
+		
+		
+		// 페이지바 만들기 
+		int blockSize = 5;
+		// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 개수이다.
+		
+		int loop = 1;
+		
+		int pageNo = ((page - 1)/blockSize) * blockSize + 1;
+		
+		String pageBar = "<ul class='my pagination pagination-md justify-content-center mt-5'>";
+		String url = "member/activities.do";
+		
+		// === [<<][<] 만들기 === //
+		if(pageNo != 1) {
+			//[<<]
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?page=1'>" + 
+					   "    <i class='fa-solid fa-angles-left'></i>" + 
+					   "  </a>" + 
+					   "</li>";
+			//[<]
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?page="+(pageNo-1)+"'>" + 
+					   "    <i class='fa-solid fa-angle-left'></i>" + 
+					   "  </a>" + 
+					   "</li>"; 
+		}
+		
+		while( !(loop > blockSize || pageNo > totalPage) ) {
+			
+			if(pageNo == page) {	//페이지번호가 현재페이지번호와 같다면 .active
+				pageBar += "<li class='page-item active' aria-current='page'>" + 
+						   "  <a class='page-link' href='#'>"+pageNo+"</a>" + 
+						   "</li>";  
+			}
+			
+			else {	//페이지번호가 현재페이지번호랑 다르다면 .active 뺌
+				pageBar += "<li class='page-item'>" + 
+						   "  <a class='page-link' href='"+url+"?page="+pageNo+"'>"+pageNo+"</a>" + 
+						   "</li>";        
+			}
+			
+			loop++;
+			pageNo++;
+		}// end of while--------------------------
+		
+		// === [>][>>] 만들기 === //
+		if( pageNo <= totalPage) {
+			//[>]
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?page="+pageNo+"'>"+
+					   "    <i class='fa-solid fa-angle-right'></i>"+
+					   "  </a>" + 
+					   "</li>";
+			
+			//[>>] 
+			pageBar += "<li class='page-item'>" + 
+					   "  <a class='page-link' href='"+url+"?page="+totalPage+"'>"+
+					   "    <i class='fas fa-solid fa-angles-right'></i>"+
+					   "  </a>" + 
+					   "</li>";
+		}
+		
+		pageBar += "</ul>";
+		
+		Map<String,String> memberMap = service.getProfileByNickname(paraMap);
+		
+		request.setAttribute("memberMap", memberMap);
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("totalCount", totalCount);
+		request.setAttribute("activities",activities);
+		
+		return "member/activityOther.tiles1";
 	}
 	
 	
@@ -246,7 +386,6 @@ public class MemberController {
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
 		}
-		
 		
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();

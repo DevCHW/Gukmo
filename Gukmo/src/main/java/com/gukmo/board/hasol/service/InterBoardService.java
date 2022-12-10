@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 public interface InterBoardService{
 
@@ -16,6 +17,11 @@ public interface InterBoardService{
 
 	// 검색 - 총 게시물 리스트 알아오는 용도
 	List<BoardVO> getSearchList(Map<String, String> paraMap);
+
+	// 주간 해시태그 검색 용도
+	List<HashtagVO> getTopHashList();
+
+
 
 
 }

@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+
+/* 페이지바 시작*/
+
+/* a태그 데코레이션 없애기 시작 */
+a.page-link:link {
+  color : black;
+  text-decoration: none;
+}
+a.page-link:visited {
+  color : black;
+  text-decoration: none;
+}
+a.page-link:hover {
+  color : black;
+  text-decoration: none;
+}
+a.page-link:active {
+  color : black;
+  text-decoration: none;
+}
+/* a태그 데코레이션 없애기 끝 */ 
+
+.my.pagination > .active > a, 
+.my.pagination > .active > span, 
+.my.pagination > .active > a:hover, 
+.my.pagination > .active > span:hover, 
+.my.pagination > .active > a:focus, 
+.my.pagination > .active > span:focus {
+  z-index:0;
+  background: #14587D;
+  border-color:#14587D;
+  color: white;
+}
+
+/* 페이지 바 끝 */

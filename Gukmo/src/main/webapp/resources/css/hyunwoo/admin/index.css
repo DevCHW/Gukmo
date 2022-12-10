@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+
+/* 768px 미만 미디어쿼리 */
+@media screen and (max-width: 768px){
+  div#section{
+    flex-direction: column-reverse;
+  }
+}

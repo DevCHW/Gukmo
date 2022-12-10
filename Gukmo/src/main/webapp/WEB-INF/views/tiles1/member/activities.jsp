@@ -57,9 +57,6 @@
           <div class="filter mx-4 py-3">
             	활동내역
           </div>
-          <div class="filter mx-4 py-3">
-            	게시물
-          </div>
         </div>
       </div>
 
@@ -73,10 +70,8 @@
             <div class="activity_title align-items-center">
               <div class="d-flex align-items-center">
               
-                <%-- 디테일 카테고리에 따라 링크 넣어줄 것.커서 포인터,링크걸기 --%>
-                <div class="detail_category border rounded-pill px-2 py-2">
-               		${activity.detail_category}
-                </div>
+                <%-- 활동이일어난곳의 디테일카테고리--%>
+                <div class="detail_category border rounded-pill px-2 py-2" onclick="goDetailCategory(${activity.detail_category})">${activity.detail_category}</div>
                 
                 <c:if test="${activity.division eq '댓글작성'}">
                 <div class="activity_content ml-2">
@@ -86,9 +81,7 @@
                 </c:if>
                 
                 <c:if test="${activity.division eq '게시글작성'}">
-                <div class="activity_content ml-2">
-                 	에 글을 작성하였습니다.
-                </div>
+                <div class="activity_content ml-2">에 글을 작성하였습니다.</div>
                 </c:if>
                 
                 <c:if test="${activity.division eq '게시글좋아요'}">
@@ -106,41 +99,44 @@
                 </c:if>
                 
               </div>
-              <div class="activity_date">
-                	${activity.activity_date}
-              </div>
+              <%-- 활동일자 --%>
+              <div class="activity_date">${activity.activity_date}</div>
             </div>
-            <div class="board mt-2">
-              	${activity.subject}
-            </div>
+            <%-- 활동이일어난 글제목 --%>
+            <c:if test="${activity.detail_category eq '국비학원'}">
+              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/academy/academy.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
+            </c:if>
+            <c:if test="${activity.detail_category eq '교육기관'}">
+              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/academy/curriculum.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
+            </c:if>
+            <c:if test="${activity.detail_category eq '자유게시판' || activity.detail_category eq 'QnA' || 
+            			  activity.detail_category eq '스터디' || activity.detail_category eq '취미모임' || activity.detail_category eq '수강/취업후기'}">
+              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
+            </c:if>
+            <c:if test="${activity.detail_category eq '공지사항'}">
+              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
+            </c:if>
           </div>
         </c:forEach>
       </div>
+      
+      
+      <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
+      <nav aria-label="...">
+        ${requestScope.pageBar}
+      </nav>
+      <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
     </div>
+    
+    
 
     <%----------------------------------- main 끝-------------------------------------%>
   </div>
 
 
-  <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
-  <nav aria-label="...">
-    ${requestScope.pageBar}
-  </nav>
-  <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
+  
 
 
-  <%-- 검색바시작 --%>
-  <div id="search_area" class="d-flex mx-auto my-5">
-    <div id="academy_search" class="d-flex m-auto rounded">
-      <div id="input_keyword">
-        <input type="text" id="searchWord" placeholder="활동내역 검색" id="keyword" class="pl-3" name="keyword">
-      </div>
-      <div id="search_btn">
-        <button type="button" class="btn btn-white" id="btn_search"><i class="fas fa-xl fa-thin fa-magnifying-glass"></i></button>
-      </div>
-    </div>
-  </div>
-  <%-- 검색바 끝 --%>
 
 
 </body>

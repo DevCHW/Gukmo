@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+
+
+/* 검색창 시작 */
+#search_menu_box{
+  border: solid 3px #208EC9;
+  border-right: none;
+  border-radius: 100px 0 0 100px; /* border 동그란 정도 설정 */
+  width:50px;
+  position:relative;
+}
+div#btn_search_menu{
+  cursor:pointer;
+}
+
+
+div#search_option{
+  width:100px;
+  background-color: white;
+  position:absolute;
+  top:40px;
+}
+
+div#search_option > div{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none;
+}
+
+
+#searchWord {
+  width: 50%;
+  height: 50px;
+  outline: none;
+  border: solid 3px #208EC9;
+  border-right:none;
+  border-left:none;
+}
+
+#searchWord::placeholder{
+  font-size:small;
+}
+
+/* 검색 버튼 css */
+#btn_search {
+  border: 3px solid #208EC9;
+  border-left:none;
+  border-radius: 0 100px 100px 0; /* border 동그란 정도 설정 */
+  background-color: white;
+  width: 50px;
+}
+
+/* 검색창 끝 */

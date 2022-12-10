@@ -1,7 +1,5 @@
 
 $(document).ready(function(){
-  // filter버튼 클릭횟수 count
-  let filter_click_cnt = 0;
   
   //정렬버튼 클릭시
   $("div#sort").click(function(){

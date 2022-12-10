@@ -166,7 +166,7 @@
         총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
       </div>
 
-      <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
+      <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/curriculum/new.do'">
         <i class="fa-sharp fa-solid fa-plus"></i><span>교육과정&nbsp;등록</span>
       </button>
     </div>

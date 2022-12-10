@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.HashtagVO;
 
 
 @Repository
@@ -40,4 +41,12 @@ public class BoardDAO implements InterBoardDAO{
 		List<BoardVO> searchList = gukmo_sql.selectList("jhs.getSearchList", paraMap);
 		return searchList;
 	}
+
+	// 주간 해시태그 검색 용도
+	@Override
+	public List<HashtagVO> getTopHashList() {
+		List<HashtagVO> topHashList = gukmo_sql.selectList("jhs.getTopHashList");
+		return topHashList;
+	}
+
 }

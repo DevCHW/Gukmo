@@ -7,9 +7,16 @@ function getContextPath(){
 
 $(document).ready(function(){
   
+	
+	
     // select 값 잡기
     const urlParams = new URL(location.href).searchParams;
-    const detail_category = urlParams.get('detailC');
+    let detail_category = urlParams.get('detailC');
+    
+    if(detail_category == null) { // 수정일때
+    	detail_category = sessionStorage.getItem("detail_category");
+    }
+    
     $("#detail_category").val(detail_category).attr("selected","selected");
 	
 	//	==== 스마트 에디터 구현 시작 ==== //
@@ -43,21 +50,33 @@ $(document).ready(function(){
         counter++; // counter 증가 삭제를 위한 del-btn 의 고유 id 가 된다.
       }
 
-      // 최종적으로 서버에 넘길때 tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
       function marginTag() {
-        return Object.values(hashtag).filter(function (word) {
-            return word !== "";
-          });
+          return Object.values(hashtag).filter(function (word) {
+              return word !== "";
+            });
+        }
+      
+      // 최종적으로 서버에 넘길때 tag 안에 있는 값을 만들어서 넘긴다.
+      function strTag() {
+        return Object.values(hashtag).join(',');
       }
 
       
       $("#hashtag").on("keyup", function (e) {
           var self = $(this);
-
+          
           // input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
           if (e.key === "Enter" || e.keyCode == 32) {
 
             var tagValue = self.val().trim(); // 값 가져오기
+            
+            //해시태그는 5개 이상 추가 불가능 합니다.
+            if($("li.tag-item").length == 5){
+            	alert("태그는 5개 이상 추가 불가합니다.");
+            	//해시태그 쓴 값 비우기
+            	$("input#hashtag").val("");
+            	return;
+            }
             
             // 값이 없으면 동작 안합니다.
             if (tagValue !== "") {
@@ -69,15 +88,28 @@ $(document).ready(function(){
 
              // 해시태그가 중복되었는지 확인
             if (result.length == 0) { 
-                $("<li class='tag-item'>"+tagValue+"<span class='del-btn' idx='"+counter+"'>x</span></li>").insertBefore("input#hashtag");
+            	$("<li class='d-flex align-items-center flex-nowrap mr-2 tag-item'>#"+tagValue+"<span class='del-btn mx-2' style='cursor:pointer; color:darkgray;' idx='"+counter+"'><i class='fa-solid fa-xmark'></i></span></li>").insertBefore("input#hashtag");
                 addTag(tagValue);
-                self.val("");
+                $("input#hashtag").val("");
+               
             } else {
                 alert("태그값이 중복됩니다.");
+                $("input#hashtag").val("");
             }
             }
             e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
           }
+          
+          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
+            	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
+            		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
+                  hashtag[index] = "";
+            		$("input#hashtag").prev().remove();
+            		return;
+            	} 
+            }
+          
+          
           
         });
 
@@ -91,53 +123,85 @@ $(document).ready(function(){
    
     // ==== 해시태그 구현 끝 ==== // 
     
+      
+      
+      const frm = document.writerFrm;
+      let flag = false;
+      
+      
+      function frm_check(){
+    	  
+    	  var values = "";
+    	  $("li.tag-item").each(function( index, element) {
+    		  var value = $(this).text().substr(1);
+    		  values += value+ ",";
+		   });
+    	  
+    	  values = values.slice(0, -1);
+    	  $("#str_hashTag").val(values);
+		   // console.log(values);
+		   
 
-  
+          
+      	// ==== 스마트 에디터 구현 시작 ==== //
+      	// id가 content인 textarea에 에디터에서 대입
+      	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+      	
+      	// 카테고리 유효성 검사
+      	const detail_category = $("select#detail_category").val();
+      	if(detail_category == "") {
+      		alert("카테고리를 선택하세요!!");
+      		return;
+      	}
+      	
+      	// 글제목 유효성 검사
+  		const subject = $("input#subject").val().trim();
+  		if(subject == "") {
+  			alert("글제목을 입력하세요!!");
+  			return;
+  		}
+  		
+  		// 글내용 유효성 검사(스마트 에디터용)
+  		var contentval = $("textarea#content").val();
+  		contentval = contentval.replace(/&nbsp;/gi, "");
+  	
+  	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
+  	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
+  	            
+  	    if(contentval.trim().length == 0) {
+  	  	  alert("글내용을 입력하세요!!");
+  	  	  return;
+  	    }
+  	    
+  	    frm.method = "POST"
+  	    flag = true;
+  	}
+     
+      
+      
+      
 	// 등록 버튼을 클릭했을시
     $("button#btn_write").click(function() {
-    	
-        var value = marginTag(); // return array
-        value = value.join(',');
-        $("#str_hashTag").val(value);
-         //console.log(value);
-         //console.log(typeof(value));
-        
-    	// ==== 스마트 에디터 구현 시작 ==== //
-    	// id가 content인 textarea에 에디터에서 대입
-    	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
-    	
-    	// 카테고리 유효성 검사
-    	const detail_category = $("select#detail_category").val();
-    	if(detail_category == "") {
-    		alert("카테고리를 선택하세요!!");
-			return;
-    	}
-    	
-    	// 글제목 유효성 검사
-		const subject = $("input#subject").val().trim();
-		if(subject == "") {
-			alert("글제목을 입력하세요!!");
-			return;
-		}
-		
-		// 글내용 유효성 검사(스마트 에디터용)
-		var contentval = $("textarea#content").val();
-		contentval = contentval.replace(/&nbsp;/gi, "");
-	
-	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
-	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
-	            
-	    if(contentval.trim().length == 0) {
-	  	  alert("글내용을 입력하세요!!");
-	      return;
-	    }
-	    
-
+    	frm_check();
 	    // 폼을 전송
-	    const frm = document.writerFrm;
-	    frm.method = "POST";
-	    frm.action = getContextPath()+"/community/newEnd.do";
+    	if(flag){
+    		frm.action = getContextPath()+"/community/newEnd.do";
+    		frm.submit();
+    	}
+	});
+    
+    
+    
+	// 수정 버튼을 클릭했을시
+    $("button#btn_modify").click(function() {
+    	frm_check();
+    	if(flag){
+	    // 폼을 전송
+	    frm.action = getContextPath()+"/community/modify.do";
 	    frm.submit();
+    	}
 	});
     
 });// end of document
+
+	

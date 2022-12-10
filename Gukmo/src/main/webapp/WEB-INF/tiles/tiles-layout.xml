@@ -24,6 +24,9 @@
 	<definition name="*/*/*.tiles1" extends="layout-tiles1">
 		<put-attribute name="content" value="/WEB-INF/views/tiles1/{1}/{2}/{3}.jsp"/>
 	</definition>
+	<definition name="*/*/*/*.tiles1" extends="layout-tiles1">
+		<put-attribute name="content" value="/WEB-INF/views/tiles1/{1}/{2}/{3}/{4}.jsp"/>
+	</definition>
 	
 	
 	<!-- ==== tiles 를 사용하는 레이아웃(header,content,sideinfo,footer) 설정 시작 ==== -->

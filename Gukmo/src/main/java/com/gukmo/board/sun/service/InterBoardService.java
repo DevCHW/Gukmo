@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.PenaltyVO;
+import com.gukmo.board.model.ReportVO;
 
 public interface InterBoardService{
 	
@@ -24,13 +26,19 @@ public interface InterBoardService{
 	int communityNew(BoardVO boardvo);
 
 	// 특정 게시글 내용 가져오기
-	BoardVO getBoardDetail(Map<String, String> paraMap);
+	BoardVO getBoardDetail(Map<String, Object> paraMap);
 
 	// 게시글 수정
-	int edit(BoardVO boardvo);
+	int modify(BoardVO boardvo);
 
 	// 게시글 삭제
-	int del(Map<String, String> paraMap);
+	int boardDel(Map<String, Object> paraMap);
+
+	// 해시태그 수정시 기존 해시태그 삭제
+	int hashTagDel(String board_num);
+
+	// 신고하기
+	int reportInsert(ReportVO reportvo);
 
 
 	

@@ -23,17 +23,20 @@ public class SearchService implements InterSearchService{
 		
 		boolean saveSuccess = false;
 		int n = 0;
+		System.out.println("이거임1?");
 		//검색어로 검색한 결과물의 갯수 알아오기
 		int result = dao.getResultByKeyword(paraMap);
+		System.out.println("결과물 개수 result:"+result);
 		
 		if(result > 0) {	//검색어로 검색한 결과가 1건이라도 있다면,
 			if(paraMap.get("userid") == null || "".equals(paraMap.get("userid"))) {	//검색한 클라이언트가 로그인 중이 아니였다면
 				String userid = dao.getUseridWithIp(paraMap.get("search_ip"));	//검색한아이피로 가장 최근 로그인 한 유저아이디 값 알아내기
+				System.out.println("왔다!");
 				paraMap.put("userid",userid);
 			}
 			n = dao.saveKeyWord(paraMap);	//검색어 저장시키기
 		}
-		
+		System.out.println("이거임3?");
 		saveSuccess = n > 0?true:false;
 		
 		return saveSuccess;

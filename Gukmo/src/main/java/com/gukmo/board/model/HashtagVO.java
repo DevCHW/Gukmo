@@ -8,6 +8,9 @@ public class HashtagVO {
 	private int week_cnt;
 	private String fk_board_num;
 	
+	// select 용
+	private String count; // 검색 순위 시 사용하는 카운트 수
+	
 	//기본생성자 protected
 	protected HashtagVO(){}
 
@@ -41,6 +44,9 @@ public class HashtagVO {
 		return week_cnt;
 	}
 
+	public String getCount() {
+		return count;
+	}
 	
 	//확인용 toString Override
 	@Override
