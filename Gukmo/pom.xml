@@ -325,11 +325,24 @@
            <artifactId>spring-websocket</artifactId>
            <version>${org.springframework-version}</version>
       </dependency>
-      
-      
+ 
+	  <dependency>
+		   <groupId>javax.websocket</groupId>
+		   <artifactId>javax.websocket-api</artifactId>
+		   <version>1.1</version>
+	  </dependency>
+	  
       <!-- === #192. (웹채팅관련2) Gson 은 Java 객체를 JSON 표현식으로 변환할 수 있게 해주는 Java 라이브러리임. 
                         또한 거꾸로 JSON 표현식 형태의 String 을 Java 객체로 변환도 가능하게 해주는 라이브러리임.
       === -->
+       <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+      
+
+
       <!--  
       <dependency>
           <groupId>com.google.code.gson</groupId>

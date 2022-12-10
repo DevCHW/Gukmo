@@ -7,15 +7,38 @@
 let socket = null;
 
 $(document).ready(function (){
+	 
 	   connectWs();
 });
 
 function connectWs(){
-	const ws = new SockJS( '/alarm.do' );
+	
+	const url = window.location.host; // 웹브라우저의 주소창의 포트까지 가져옴
+	//alert("결과값 url : " + url);
+	 // 결과값 url : 211.238.142.40:9090
+	 
+    const pathname = window.location.pathname; // 최초 '/' 부터 오른쪽에 있는 모든 경로
+	//alert("결과값 pathname : " + pathname);
+	// 결과값 pathname : /board/chatting/multichat.action  /board/index.do
+ 
+    const appCtx = pathname.substring(0, pathname.lastIndexOf("/") ); 
+	//alert("결과값 appCtx : " + appCtx);
+	// 결과값 appCtx : /board/chatting
+
+    const root = url + appCtx;
+	//alert(root)
+	
+    const wsUrl = "ws://" + root + "/alarm.do";
+    // alert(wsUrl)
+    // ws://localhost:9090/board/alarm.do
+    
+	const ws = new SockJS("/alarm.do");
 	socket = ws;
 
 	ws.onopen = function() {
-        console.log('info: connection opened.');
+		alert("웹소켓 연결됨!!");
+		console.log('info: connection opened.');
+        
   };
 
  ws.onmessage = function(evt) {
