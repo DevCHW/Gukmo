@@ -29,13 +29,13 @@
       <%-- 학원명 --%>
       <div class="d-flex align-items-center my-2">
         <label for="subject" class="academy_label mt-3">학원명</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="제목을 입력하세요">
+        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}">
       </div>
       
       <%-- 대표자명 --%>
       <div class="d-flex align-items-center my-2">
         <label for="representative_name" class="academy_label mt-3">대표자명</label>
-        <input type="text" id="representative_name" name="representative_name" class="academy_input border rounded pl-2 w-100" placeholder="제목을 입력하세요">
+        <input type="text" id="representative_name" name="representative_name" class="academy_input border rounded pl-2 w-100" placeholder="대표자명을 입력하세요">
       </div>
       
       

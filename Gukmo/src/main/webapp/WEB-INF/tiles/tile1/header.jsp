@@ -24,8 +24,8 @@
 			<!-- Brand/logo -->
 			<a
 				class="navbar-brand d-flex justify-content-start align-items-center"
-				href="<%=ctxPath%>/index.do" style="width: 100px;"> <img src=""
-				alt="logo">
+				href="<%=ctxPath%>/index.do" style="width: 100px; font-size:22px; font-weight:bold; color:#14587D;"> <img src="<%=ctxPath %>/resources/images/logo.png"
+				style="width: 35px;" class="rounded mr-2">GUKMO
 			</a>
 
 			<!-- Links -->
@@ -79,7 +79,6 @@
 
 					<!-- 알림 -->
 					<%-- <jsp:include page="/WEB-INF/views/tiles1/board/alarm/alarm.jsp" /> --%>
-					
 					<!-- 프로필 drop -->
 					<div class="dropdown">
 						<div class="dropbtn">
