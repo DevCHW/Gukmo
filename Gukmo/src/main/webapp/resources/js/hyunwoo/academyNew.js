@@ -5,6 +5,8 @@ function getContextPath(){
   return contextPath;
 }
 
+let recaptcha_ok = false;
+
 $(document).ready(function(){
 	
 	$("div#big_location span").click(e=>{
@@ -223,6 +225,12 @@ $(document).ready(function(){
 	      return;
 	    }
 	    
+	    reCAPTCHA();
+	    if(!recaptcha_ok){
+	    	alert("매크로방지 봇 통과 후 진행해주세요");
+	    	return;
+	    }
+	    
 
 	    // 폼을 전송
 	    const frm = document.writerFrm;
@@ -238,10 +246,44 @@ $(document).ready(function(){
 
 //Function Declaration
 
+/**
+ * reCAPTCHA v2 사용하기
+ * @returns
+ */
+function reCAPTCHA(){
+	$.ajax({
+        url: getContextPath()+'/member/verifyRecaptcha.do',
+        type: 'post',
+        data: {
+            recaptcha: $("#g-recaptcha-response").val()
+        },
+        async:false,
+        success: function(data) {
+            switch (data) {
+                case 0:
+                    console.log("자동 가입 방지 봇 통과");
+                    recaptcha_ok = true;
+            		break;
+                case 1:
+                    console.log("자동 가입 방지 봇 통과 후 시도해주세요");
+                    recaptcha_ok = false;
+                    break;
+                default:
+                    console.log("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다. [Error bot Code : " + Number(data) + "]");
+                	recaptcha_ok = false;
+               		break;
+            }
+        }
+    });//end of $.ajax({})
+	
+}//end of method-----
 
 
 
-
+/**
+ * 지역 대분류에따라 소분류 태그 넣기
+ * @param 지역대분류값
+ */
 function getHtmlWithMyLocation(Big_location){
 	let html="";
 	switch (Big_location) {
@@ -546,3 +588,7 @@ function getHtmlWithMyLocation(Big_location){
 	
 	return html;
 }
+
+
+
+

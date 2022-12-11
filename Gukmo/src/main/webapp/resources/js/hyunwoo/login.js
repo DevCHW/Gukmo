@@ -22,19 +22,21 @@ $(document).ready(function(){
 	// 카카오 로그인 초기화
 	Kakao.init("7643955cb5fbab2b0481e4b321cff247");
 	
-	
+	//아이디에서 엔터입력이벤트
 	$("input#userid").keydown(function(e){	//아이디에서 값 입력시 이벤트
 	  if(e.keyCode == 13){	//엔터를 했을 경우
 		$("button#btn_login").trigger("click");  
 	  }
 	});
 	
+	//패스워드에서 엔터입력이벤트
 	$("input#passwd").keydown(function(e){
 	  if(e.keyCode == 13){	//엔터를 했을 경우
 	    $("button#btn_login").trigger("click");  
 	  }
 	});
 	
+	//회원가입버튼클릭시
 	$("span#btn_signup").click(()=>{
 		location.href = getContextPath()+'/TOS.do';
 	});

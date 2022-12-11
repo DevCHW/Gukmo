@@ -92,40 +92,6 @@ public class BoardAOP {
 		
 		
 		
-	@Pointcut("execution(public * com.gukmo..*Controller.requiredAdminLogin_*(..) )")
-	public void requiredAdminLogin() {}
-	
-	@Before("requiredAdminLogin()")
-	public void adminLoginCheck(JoinPoint joinpoint) {
-		
-		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
-		HttpServletResponse response = (HttpServletResponse) joinpoint.getArgs()[1]; 
-		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("user");
-		
-		if(session.getAttribute("user") == null || !"관리자".equals(loginuser.getAuthority())) {
-			String message = "관리자 이외에는 접근 불가능합니다.";
-			String loc = request.getContextPath()+"/login.do";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			// 로그인 성공후 로그인 하기전 페이지로 돌아가는 작업
-			String url = MyUtil.getCurrentURL(request);
-			session.setAttribute("goBackURL", url);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp"); 
-			
-			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}//end of adminLoginCheck
- 
 	 
 
 

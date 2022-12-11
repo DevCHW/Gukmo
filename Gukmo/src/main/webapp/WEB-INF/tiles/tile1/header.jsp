@@ -65,7 +65,7 @@
 					<button type="button" class="btn_login" id="login"
 						onclick="location.href='<%=ctxPath%>/login.do'">로그인</button>
 					<button type="button" class="btn_regist" id="regist"
-						onclick="location.href='<%=ctxPath%>/signup.do'">회원가입</button>
+						onclick="location.href='<%=ctxPath%>/TOS.do'">회원가입</button>
 				</div>
 			</c:if>
 
