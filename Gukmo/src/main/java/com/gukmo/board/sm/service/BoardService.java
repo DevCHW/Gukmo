@@ -189,10 +189,25 @@ public class BoardService implements InterBoardService{
 
 	// 댓글 삭제 및 그 대댓도 삭제
 	@Override
-	public int commentDelete(Map<String, String> paraMap) {
+	public String commentDelete(Map<String, String> paraMap) {
+		String result = "";
+		// 삭제할 댓글의 총 개수 알아오기
+		int n2 = dao.comment_cnt_minus(paraMap);
+		result = Integer.toString(n2);
+		
+		// 댓글 테이블에서 해당 데이터 삭제
 		int n = dao.commentDelete(paraMap);
-		return n;
+		
+		return result;
 	}
+
+	// 게시판 테이블의 comment_cnt 컬럼에서 댓삭한 개수 삭제
+	@Override
+	public int board_cmt_cnt_minus(Map<String, String> paraMap) {
+	      int n2 = dao.board_cmt_cnt_minus(paraMap);	      
+	      return n2;
+	}
+
 
 
 	// 댓글 수정
@@ -218,7 +233,7 @@ public class BoardService implements InterBoardService{
 	 */
 	@Override
 	public String comment_likeProcess(Map<String, String> paraMap) {
-		int comment_likeCnt = dao.comment_likeCheck(paraMap);	//좋아요 체크하기
+		int comment_likeCnt = dao.comment_likeCheck(paraMap);	//좋아요 개수 체크하기
 		String comment_likeResult = "";
 		int result = 0;
 		if(comment_likeCnt > 0) {	//좋아요를 눌렀다면
@@ -243,6 +258,7 @@ public class BoardService implements InterBoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 
 	

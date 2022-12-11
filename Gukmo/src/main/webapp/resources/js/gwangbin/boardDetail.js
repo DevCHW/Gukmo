@@ -193,8 +193,28 @@ $(document).ready(function(){
 
   
   
-  
-  
+  // 대댓글 삭제하기 버튼 클릭시  
+    $("span.comment_delete2").click(function(e) {
+  	  const target = $(e.currentTarget);
+	  const comment_num = target.prev().prev().val();
+	  const c_of_comment_writer_nickname = target.prev().prev().prev().val();
+	  const login_nickname = $("input#nickname").val();
+	  // alert(login_nickname);
+
+	  
+	  if(c_of_comment_writer_nickname == login_nickname) {
+
+		  if(confirm('정말 삭제하시겠습니까?')) {
+			  comment_delete(comment_num);
+		  }  			
+			else 
+				return false;
+	  }
+	  else {
+		  alert("댓글 삭제는 본인만 가능합니다.");
+		  return false;
+	  }	  
+  });  
   
   
   
@@ -245,26 +265,74 @@ $(document).ready(function(){
   });//end of Event----
   
   //댓글 좋아요 버튼 클릭시 이벤트 잡기
-  $("div#comment_btn_like").click(e=>{
-	const comment_num = $("input#comment_num").val();
-	const userid = $("input#userid").val();
-	
-	const comment_data = {comment_num: comment_num,userid: userid};
-	
-	comment_likeClick(comment_data);	//좋아요 클릭시 처리 메소드 호출
+  $("div.comment_like").click(e=>{
+	  const target = $(e.currentTarget);
+	  const userid = $("input#userid").val();
+	  const comment_num = target.prev().find('div.comment_writer_nickname').attr('id');
+	  const comment_write_nickname = target.next().val();
+	  const nickname = $("input#nickname").val();
+	  
+	  
+	  // alert(comment_num);
+	  // alert(userid);
+	  
+	  if(nickname != "") {
+		  // alert("로그인 했다.");
+		  comment_likeClick(comment_num, userid, target);
+
+	  }
+	  
+	  else {
+		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
+		  location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+
+	  }
   });//end of Event----
   
+  
+  //대댓글 좋아요 버튼 클릭시 이벤트 잡기
+  $("div.big_comment_like").click(e=>{
+	  const target = $(e.currentTarget);
+	  const userid = $("input#userid").val();
+	  const comment_num = target.next().find('input.comment_of_comment_num').val();
+	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
+	  const nickname = $("input#nickname").val();	  
+	  
+	  // alert(comment_num);
+	  // alert(userid);
+	  
+	  if(nickname != "") {
+		  // alert("로그인 했다.");
+		  comment_likeClick(comment_num, userid);
+
+	  }
+	  
+	  else {
+		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
+		  location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+
+	  }
+  });//end of Event----
+  
+
   
   //대댓글 작성 버튼 클릭시 이벤트 잡기
   $("button.btn_big_comment_write").click(function(e){
 	  const target = $(e.currentTarget);
 	  const content = target.parent().prev().val();
 	  const fk_comment_num = target.next().val();
-	  // alert(content);
-	  // alert(fk_comment_num);
+	  const nickname = $("input#nickname").val();
 	  
+
+	  if(nickname != "") {
+		  addCommentOfComment(content, fk_comment_num);
+	  }
 	  
-	  addCommentOfComment(content, fk_comment_num);
+	  else {
+		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
+		  location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+	  }
+	  
   });//end of Event--
   
   
@@ -286,7 +354,7 @@ function likeClick(data){
 				location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
 				
 			} else if(json.JavaData == 'delete'){	//좋아요를 삭제하였다면
-				alert("좋아요삭제함");
+				// alert("좋아요 취소");
 				
 				$("span#like_icon").html("&#9825;");	//빈하트
 				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	//좋아요개수 1빼기
@@ -294,7 +362,7 @@ function likeClick(data){
 				$("span#like_cnt").html(like_cnt);	
 				
 			} else if(json.JavaData == 'insert'){	//좋아요를 추가하였다면
-				alert("좋아요 추가함");
+				// alert("좋아요 추가함");
 				
 				$("span#like_icon").html(" &#x1F497;"); //꽉찬하트
 				const like_cnt = parseInt($("span#like_cnt").text()) + 1;	//좋아요개수 1더하기
@@ -303,8 +371,7 @@ function likeClick(data){
 			} else{
 				alert("좋아요 기능 오류");
 			}
-			
-			
+						
 		},//end of success
 		//success 대신 error가 발생하면 실행될 코드 
 		error: function(request,error){
@@ -313,37 +380,30 @@ function likeClick(data){
 	  });//end of $.ajax({})---
 }
 
+
+
 // 댓글 좋아요
-function comment_likeClick(data){
-	$.ajax({ 
+function comment_likeClick(comment_num, userid){
+	$.ajax({
 		url:getContextPath()+"/comment_likeProcess.do", 
-		type:'post',
-		data:data,
+		data:{"comment_num":comment_num
+			 ,"userid":userid},
+		type:'POST',
 		dataType:"json",
 		success:function(json){	
-			if(json.JavaData == 'login'){	//로그인 중이 아니라면
-				
-				location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
-				
+			if(json.JavaData == 'login'){	//로그인 중이 아니라면				
+				location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기				
 			} else if(json.JavaData == 'delete'){	//좋아요를 삭제하였다면
-				alert("좋아요삭제함");
-				
-				$("span#comment_like_icon").html("&#9825;");	//빈하트
-				const comment_like_cnt = parseInt($("span#comment_like_cnt").text()) - 1;	//좋아요개수 1빼기
-				
-				$("span#comment_like_cnt").html(comment_like_cnt);	
+				// alert("댓글 좋아요 취소.");
+				  window.location.reload();
 				
 			} else if(json.JavaData == 'insert'){	//좋아요를 추가하였다면
-				alert("좋아요 추가함");
-				
-				$("span#comment_like_icon").html(" &#x1F497;"); //꽉찬하트
-				const comment_like_cnt = parseInt($("span#comment_like_cnt").text()) + 1;	//좋아요개수 1더하기
-				$("span#comment_like_cnt").html(comment_like_cnt);
+				// alert("댓글 좋아요.");				
+				  window.location.reload();
 				
 			} else{
 				alert("좋아요 기능 오류");
-			}
-			
+			}			
 			
 		},//end of success
 		//success 대신 error가 발생하면 실행될 코드 
@@ -354,8 +414,7 @@ function comment_likeClick(data){
 }
 
 // 신고버튼 클릭시
-function openReport()
-{
+function openReport() {
 	
 	// 신고 버튼
 	var openWin;
@@ -367,7 +426,6 @@ function openReport()
     openWin = window.open("/board/community/report.do?boardNum="+board_num,
             "reportForm", "width=576, height=700, left=500, top= 20");    
 }
-
 
 
 //[...]클릭후, 삭제버튼 클릭시 이벤트
@@ -389,14 +447,15 @@ function goAddComment() {
 		goAddWrite_noAttach();
 	}
 	else {
-		alert("로그인이 필요합니다.");
+		alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
+		location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
 	}
 	  
 }// end of function goAddWrite()--------------------------------------
 
 
 
-//첨부파일이 없는 댓글쓰기
+//댓글쓰기
 function goAddWrite_noAttach() {
 	
 	const cmt_board_num = $("input#cmt_board_num").val();
@@ -486,10 +545,12 @@ function addCommentOfComment(content, fk_comment_num) {
 
 // 댓글 삭제
 function comment_delete(comment_num, comment_writer_nickname) {
-	
+	const board_num = $("input#board_num").val();
+
 	  $.ajax({
 		  url:getContextPath()+"/commentDelete.do",
 		  data:{ "comment_num":comment_num
+			    ,"board_num":board_num
 				,"nickname":comment_writer_nickname},
 		  type:"POST",
 		  dataType:"JSON",		  

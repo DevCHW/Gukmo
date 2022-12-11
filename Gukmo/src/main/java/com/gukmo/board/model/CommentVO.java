@@ -12,6 +12,7 @@ public class CommentVO {
 	private String point;
 	private String totalcount;
 	private String comment_like_cnt;	
+	private String comment_of_comment_cnt;
 	
 	// 댓글 수
 	public String getTotalcount() {
@@ -28,7 +29,7 @@ public class CommentVO {
 	
 	//파라미터가 있는 생성자
 	public CommentVO(String comment_num, String comment_level, String content, String nickname,
-			String parent_write_nickname, String cmt_board_num, String fk_comment_num, String write_date, String comment_like_cnt, String point) {
+			String parent_write_nickname, String cmt_board_num, String fk_comment_num, String write_date, String comment_like_cnt, String point, String comment_of_comment_cnt) {
 		this.comment_num = comment_num;
 		this.comment_level = comment_level;
 		this.content = content;
@@ -39,11 +40,16 @@ public class CommentVO {
 		this.write_date = write_date;
 		this.comment_like_cnt = comment_like_cnt;
 		this.point = point;
+		this.comment_of_comment_cnt = comment_of_comment_cnt;
 	}
 	
 	
 	
 	
+	public String getComment_of_comment_cnt() {
+		return comment_of_comment_cnt;
+	}
+
 	public String getComment_like_cnt() {
 		return comment_like_cnt;
 	}
@@ -81,7 +87,7 @@ public class CommentVO {
 	public String toString() {
 		return "CommentVO [comment_num=" + comment_num + ", comment_level=" + comment_level + ", cmt_content=" + content
 				+ ", cmt_nickname=" + nickname + ", parent_write_nickname=" + parent_write_nickname + ", parent_board_num="
-				+ cmt_board_num + ", fk_comment_num=" + fk_comment_num + ", cmt_write_date=" + write_date + "]";
+				+ cmt_board_num + ", fk_comment_num=" + fk_comment_num + ", cmt_write_date=" + write_date + "comment_of_comment_cnt"+comment_of_comment_cnt+"]";
 	}
 	
 	

@@ -53,7 +53,10 @@ public interface InterBoardService {
 	List<CommentVO> getSpecial_commentList(Map<String, String> paraMap);
 
 	// 댓글 삭제 및 그 대댓도 삭제
-	int commentDelete(Map<String, String> paraMap);
+	String commentDelete(Map<String, String> paraMap);
+	
+	// 게시판 테이블의 comment_cnt 컬럼에서 댓삭한 개수 삭제
+	int board_cmt_cnt_minus(Map<String, String> paraMap);
 
 	// 댓글 수정
 	int commentEdit(Map<String, String> paraMap);
@@ -63,6 +66,7 @@ public interface InterBoardService {
 
 	// 댓글 좋아요
 	String comment_likeProcess(Map<String, String> paraMap);
+
 
 
 

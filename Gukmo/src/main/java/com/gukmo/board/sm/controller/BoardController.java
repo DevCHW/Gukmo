@@ -34,7 +34,6 @@ public class BoardController {
 	@Autowired // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterBoardService service;
 	
-
 	// === 파일업로드 및 다운로드를 해주는 FileManager 클래스 의존객체 주입하기(DI : Dependency Injection)
 	// ===
 	@Autowired // Type 에 따라 알아서 Bean 을 주입해준다.
@@ -84,8 +83,8 @@ public class BoardController {
 		       
 		         String login_nickname = user.getNickname();
 		         String writer_nickname = board.getNickname();
-		         System.out.println("login_nickname => " + login_nickname);
-		         System.out.println("writer_nickname => " + writer_nickname);
+		         // System.out.println("login_nickname => " + login_nickname);
+		         // System.out.println("writer_nickname => " + writer_nickname);
 		         
 		         if("yes".equals(session.getAttribute("readCountPermission"))) { // 게시글 목록을 통해 상세보기 페이지에 진입한경우
 		         
@@ -195,6 +194,7 @@ public class BoardController {
 
 		// System.out.println(paraMap);
 		
+		// 대댓글 작성시 nullpointer 뜰 수 있음.
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
@@ -254,18 +254,23 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="/commentDelete.do", method=RequestMethod.POST)
 	public String commentDelete(@RequestParam Map<String,String> paraMap) {				
-		int n = 0;
-		
+		String result = "";
+		int n2 = 0;
 		try {
 			// 댓글 삭제 및 그 대댓도 삭제
-			n = service.commentDelete(paraMap);
+			result = service.commentDelete(paraMap);
+			paraMap.put("result", result);
+			System.out.println(result);
+			
+			// 게시판 테이블의 comment_cnt 컬럼에서 댓삭한 개수 삭제
+			n2 = service.board_cmt_cnt_minus(paraMap);
 			
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("n", n);
+		jsonObj.put("n", n2);
 		
 		return jsonObj.toString();
 	}
