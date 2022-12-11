@@ -19,9 +19,6 @@ import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.hasol.service.InterAlarmService;
-import com.gukmo.board.hw.repository.InterBoardDAO;
-import com.gukmo.board.model.BoardVO;
-import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.sun.service.InterBoardService;
 
 @Aspect     

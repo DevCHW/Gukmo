@@ -1,6 +1,5 @@
 package com.gukmo.board.hw.repository;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
 
 @Repository
