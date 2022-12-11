@@ -393,7 +393,7 @@
 	            </div>
 	            <%-- 대댓글 신고,수정,삭제 시작 --%>
 	          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area">
-		        <span class="comment_btn_report">&#x1F6A8;</span>
+		        <span class="c_comment_btn_report">&#x1F6A8;</span>
 		        <div class="comment_mask"></div>
 		        <span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">

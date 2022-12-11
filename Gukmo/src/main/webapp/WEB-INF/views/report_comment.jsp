@@ -45,12 +45,12 @@
 			<tbody>
 				<tr>
 				 <td>작성자</td>
-				 <td><span id="nickname" class="input_signup rounded pl-2" >${requestScope.boardvo.nickname}</span></td>
+				 <td><span id="nickname" class="input_signup rounded pl-2" >${requestScope.paraMap.nickname}</span></td>
 				</tr>
 				
 				<tr>
 				 <td>내 용</td>
-				 <td><span id="subject" class="input_signup rounded pl-2" >${requestScope.boardvo.subject}</span></td>
+				 <td><span id="subject" class="input_signup rounded pl-2" >${requestScope.paraMap.content}</span></td>
 				</tr>
 			</tbody>
 		</table>

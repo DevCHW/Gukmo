@@ -12,7 +12,6 @@ let btn_comment_toggle_click_cnt = 0;
 
 $(document).ready(function(){
 	
-	
 	$("div.comment_edit").hide();
 	$("div.c_of_comment_edit").hide();
 	  
@@ -154,7 +153,7 @@ $(document).ready(function(){
 	  const c_c_nickname = target.prev().prev().val();
 	  
 	  
-	  alert(c_c_nickname);
+	  // alert(c_c_nickname);
 	  // alert(comment_writer_nickname);
 	  // alert(login_nickname);
 	  // alert(content);
@@ -323,6 +322,7 @@ $(document).ready(function(){
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
 	  
+	  
 
 	  if(nickname != "") {
 		  addCommentOfComment(content, fk_comment_num);
@@ -341,13 +341,13 @@ $(document).ready(function(){
 	  const nickname = $("input#nickname").val();
 	  const comment_write_nickname = target.parent().prev().prev().val();
 	  const comment_num = target.parent().prev().val();
+	  const content = target.parent().parent().next().attr('id');
+	  // alert(comment_write_nickname);
+	  // alert(comment_num);
+	  alert(content);
 	  
-	  alert(comment_write_nickname);
-	  alert(comment_num);
-  
 	  
-	  
-	  openReport_comment(comment_write_nickname, comment_num);
+	  openReport_comment(comment_write_nickname, comment_num, content);
   })//end of 
   
   
@@ -437,7 +437,7 @@ function openReport() {
 	var openWin;
 	const board_num = $("input#board_num").val();
 	
-	alert(board_num)
+	// alert(board_num)
     // window.name = "부모창 이름";
     window.name = "boardDetail";
     // window.open("open할 window", "자식창 이름", "팝업창 옵션");
@@ -446,7 +446,7 @@ function openReport() {
 }
 
 //댓글 신고버튼 클릭시
-function openReport_comment(comment_write_nickname, comment_num) {
+function openReport_comment(comment_write_nickname, comment_num,content) {
 	
 	// 신고 버튼
 	var openWin;
@@ -456,7 +456,7 @@ function openReport_comment(comment_write_nickname, comment_num) {
     // window.name = "부모창 이름";
     window.name = "boardDetail";
     // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-    openWin = window.open("/board/community/report_comment.do?boardNum="+board_num+"&comment_write_nickname="+comment_write_nickname+"&comment_num="+comment_num+"&nickname="+nickname,
+    openWin = window.open("/board/community/report_comment.do?boardNum="+board_num+"&comment_write_nickname="+comment_write_nickname+"&comment_num="+comment_num+"&nickname="+nickname+"&content="+content,
             "reportForm", "width=576, height=700, left=500, top= 20");    
 }
 
