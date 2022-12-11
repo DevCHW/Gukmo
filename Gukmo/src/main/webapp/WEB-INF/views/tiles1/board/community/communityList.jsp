@@ -16,6 +16,11 @@
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/boardList.js" ></script>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/communityList.js" ></script>
 
+<script type="text/javascript">
+  sessionStorage.setItem("page","${requestScope.page}");
+  sessionStorage.setItem("searchWord","${requestScope.searchWord}");
+</script>
+
   <div class="container mt-4">
   
     <%-------------------- communityNavbar 시작 ----------------------%>
@@ -24,17 +29,14 @@
 	<jsp:include page="/WEB-INF/views/tiles1/board/navbar/communityNav.jsp" />
     <%-------------------- communityNavbar 끝 ----------------------%>
 
-     <%-- 검색창 영역 --%>
-     <form name="searchFrm">
-	    <div class="searchBar d-flex mx-auto justify-content-center my-4">
-	       <input type="text" id="searchWord" name="searchWord" class="pl-2" placeholder="검색할 내용을 입력해 주세요!" value="${requestScope.searchWord}"/>
-	       <input type="hidden" id="sortType" name="sortType" /> <%-- form 태그내에 input 태그가 오로지 1개 뿐일경우에는 엔터를 했을 경우 검색이 되어지므로 이것을 방지하고자 만든것이다. --%>
-	       <button type="button" id="btn_search">
-	         <i class="fa-solid fa-magnifying-glass" style="color:#208EC9;"></i>
-	       </button>
-	    </div>
-     </form>
-    <%-- 검색바 끝 --%>
+    
+     <%-------------------- 검색창 영역 시작 ----------------------%>
+     
+     <%-- 검색창 호출 --%>
+     <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/searchBar.jsp" />
+     
+     <%-------------------- 검색창 영역 끝 ----------------------%>
+
 
 
     
@@ -45,18 +47,11 @@
       </div>
       <%-- filter_area --%>
 
-      <c:set var="sortType" value="${requestScope.sortType}"/>
       <div class="d-flex ml-auto">
         <div id="mask"></div>
         <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
           <i class="fa-solid fa-arrow-down-short-wide"></i>
-			<c:choose>
-				<c:when test="${sortType == 'write_date'}"><span id=current_sort>최신순</span></c:when>
-				<c:when test="${sortType == 'like_cnt'}"><span id=current_sort>추천순</span></c:when>
-				<c:when test="${sortType == 'comment_cnt'}"><span id=current_sort>댓글순</span></c:when>
-				<c:when test="${sortType eq 'views'}"><span id=current_sort>조회순</span></c:when>
-				<c:otherwise><span id=current_sort>최신순</span></c:otherwise>
-			</c:choose>
+			<span id=current_sort>${requestScope.sort}</span>
 			
           <div id="sort_option" class="border rounded px-3 py-2">
             <span>최신순</span>

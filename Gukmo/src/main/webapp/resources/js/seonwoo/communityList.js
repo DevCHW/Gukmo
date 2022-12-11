@@ -7,67 +7,33 @@ function getContextPath(){
 
 
 $(document).ready(function(){
-	// 검색창에서 엔터를 쳤을 경우
-	$("input#searchWord").keyup(e=>{
-	     if(e.keyCode == 13) { 
-	    	 getBoardList();
-	     }
-    });
-	
-	// 검색버튼 눌렀을 경우
-	$("button#btn_search").click(function(){ 
-		getBoardList();
-	}); 
-	
-	// 정렬 눌렀을때 
-	$("div#sort_option").on("click","span",	function(e){
-		  
-		let sortType = e.target.innerText;
-		
-		document.getElementById("current_sort").innerText = sortType;
-		
-		switch (sortType) {
-		  case "최신순" :	
-			  $("input#sortType").val("write_date");
-			  break;
-		  case "추천순" :
-			  $("input#sortType").val("like_cnt");
-			  break;
-		  case "댓글순" :
-			  $("input#sortType").val("comment_cnt");
-			  break;
-		  case "조회순" :
-			  $("input#sortType").val("views");
-			  break;
-		}
-		
-		getBoardList();
-	});
-	
+	//정렬버튼 클릭시
+	  $("div#sort").click(function(){
+	    $("div#mask").show();
+	    $("div#sort_option").fadeIn(200);
+	    $("div#sort_option").css("display","flex");
+	    $("div#sort_option").css("flex-direction","column");
+	  });
+
+	  //정렬버튼 클릭 후, 바깥쪽 아무데나 클릭시
+	  $("div#mask").click(function(){
+	    $("div#sort_option").fadeOut(200);
+	    $("div#mask").hide();
+	  });
+	  
+	  //정렬옵션 클릭시 이벤트
+	  $("div#sort_option span").click(e=>{
+	    const target = $(e.currentTarget);
+	    const sort = target.text();
+	    
+	    location.href="?page="+sessionStorage.getItem("page")+"&searchWord="+sessionStorage.getItem("searchWord")+"&sort="+sort;
+	  });
+	  
 	
 	
 });// end of $(document).ready()
 
 
-function getBoardList() {
-
-	let url = window.document.location.href;
-    url = url.substr(27);
-	    
-    if(url.indexOf("?") != -1){
-      url = url.substr(0,url.indexOf("?"));
-    }
-	
-	const searchWord = $("input#searchWord").val().trim();
-	
-	 // 검색폼을 전송
-    const frm = document.searchFrm;
-    frm.method = "GET";
-    frm.action = getContextPath()+url;
-    frm.submit();
-	
-}
-	
 	
 	
 	
