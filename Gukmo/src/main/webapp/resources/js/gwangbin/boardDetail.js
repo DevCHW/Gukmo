@@ -12,7 +12,6 @@ let btn_comment_toggle_click_cnt = 0;
 
 $(document).ready(function(){
 	
-	
 	$("div.comment_edit").hide();
 	$("div.c_of_comment_edit").hide();
 	  
@@ -323,6 +322,7 @@ $(document).ready(function(){
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
 	  
+	  
 
 	  if(nickname != "") {
 		  addCommentOfComment(content, fk_comment_num);
@@ -497,6 +497,13 @@ function goAddWrite_noAttach() {
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
+	  alert(cmt_board_num);
+	  alert(nickname);
+	  alert(parent_write_nickname);
+	  alert(content);
+	  alert(subject);
+	  alert(detail_category);
+
 	  $.ajax({
 		  url:getContextPath()+"/addComment.do",
 		  data:{ "cmt_board_num":cmt_board_num
