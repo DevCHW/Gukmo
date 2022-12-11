@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
@@ -44,7 +45,7 @@ public class BoardController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		 String searchWord = request.getParameter("searchWord");
-		 String sortType = request.getParameter("sortType");
+		 String sort = request.getParameter("sort");
 		 String str_page = request.getParameter("page");
 		 String detail_category = "자유게시판";
 		 
@@ -52,12 +53,14 @@ public class BoardController {
 		 	searchWord = "";
 		 }
 		 
-		 if(sortType == null ||sortType == "") {
-			 sortType = "write_date";
-		 }
+		 if(sort == null || sort.trim() == "") {   //sort 값이 없다면
+	         sort = "write_date";
+	      } else {                        //sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+	         sort = getSort(sort);
+	      }
 		 
 		 paraMap.put("searchWord", searchWord);
-		 paraMap.put("sortType", sortType);
+		 paraMap.put("sort", sort);
 		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
@@ -81,13 +84,33 @@ public class BoardController {
 		 
 		 String url = "freeBoards.do";
 		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sortType);
+		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 
+		//정렬기준 넣기
+	      switch (sort) {
+	         case "write_date":
+	            sort = "최신순";
+	            break;
+	         case "comment_cnt":
+	            sort = "댓글순";   
+	            break;
+	         case "like_cnt":
+	            sort = "추천순";
+	            break;
+	         case "views":
+	            sort = "조회순";
+	            break;
+	         default :
+	            sort = "최신순";
+	            break;
+	      }
+		 
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
-		request.setAttribute("sortType",sortType);
+		request.setAttribute("sort",sort);
 		request.setAttribute("detail_category",detail_category);
 		
 		return "board/community/communityList.tiles1";
@@ -102,7 +125,7 @@ public class BoardController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		 String searchWord = request.getParameter("searchWord");
-		 String sortType = request.getParameter("sortType");
+		 String sort = request.getParameter("sort");
 		 String str_page = request.getParameter("page");
 		 String detail_category = "QnA";
 		 
@@ -110,12 +133,14 @@ public class BoardController {
 		 	searchWord = "";
 		 }
 		 
-		 if(sortType == null ||sortType == "") {
-			 sortType = "write_date";
-		 }
+		 if(sort == null || sort.trim() == "") {   //sort 값이 없다면
+	         sort = "write_date";
+	      } else {                        //sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+	         sort = getSort(sort);
+	      }
 		 
 		 paraMap.put("searchWord", searchWord);
-		 paraMap.put("sortType", sortType);
+		 paraMap.put("sort", sort);
 		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
@@ -139,13 +164,32 @@ public class BoardController {
 		 
 		 String url = "questions.do";
 		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sortType);
+		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 
+			//정렬기준 넣기
+	      switch (sort) {
+	         case "write_date":
+	            sort = "최신순";
+	            break;
+	         case "comment_cnt":
+	            sort = "댓글순";   
+	            break;
+	         case "like_cnt":
+	            sort = "추천순";
+	            break;
+	         case "views":
+	            sort = "조회순";
+	            break;
+	         default :
+	            sort = "최신순";
+	            break;
+	      }
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
-		request.setAttribute("sortType",sortType);
+		request.setAttribute("sort",sort);
 		request.setAttribute("detail_category",detail_category);
 		
 		return "board/community/communityList.tiles1";
@@ -159,7 +203,7 @@ public class BoardController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		String searchWord = request.getParameter("searchWord");
-		String sortType = request.getParameter("sortType");
+		String sort = request.getParameter("sort");
 		String str_page = request.getParameter("page");
 		String detail_category = "스터디";
 		
@@ -167,12 +211,14 @@ public class BoardController {
 			searchWord = "";
 		}
 		
-		if(sortType == null ||sortType == "") {
-			sortType = "write_date";
-		}
+		 if(sort == null || sort.trim() == "") {   //sort 값이 없다면
+	         sort = "write_date";
+	      } else {                        //sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+	         sort = getSort(sort);
+	      }
 		
 		paraMap.put("searchWord", searchWord);
-		paraMap.put("sortType", sortType);
+		paraMap.put("sort", sort);
 		paraMap.put("detail_category", detail_category);
 		
 		// 총 게시물 건수
@@ -196,13 +242,33 @@ public class BoardController {
 		
 		String url = "studies.do";
 		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage, url, searchWord, sortType);
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 		
+		//정렬기준 넣기
+	      switch (sort) {
+	         case "write_date":
+	            sort = "최신순";
+	            break;
+	         case "comment_cnt":
+	            sort = "댓글순";   
+	            break;
+	         case "like_cnt":
+	            sort = "추천순";
+	            break;
+	         case "views":
+	            sort = "조회순";
+	            break;
+	         default :
+	            sort = "최신순";
+	            break;
+	      }
+	            
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
-		request.setAttribute("sortType",sortType);
+		request.setAttribute("sort",sort);
 		request.setAttribute("detail_category",detail_category);
 		
 		return "board/community/communityList.tiles1";
@@ -215,7 +281,7 @@ public class BoardController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		 String searchWord = request.getParameter("searchWord");
-		 String sortType = request.getParameter("sortType");
+		 String sort = request.getParameter("sort");
 		 String str_page = request.getParameter("page");
 		 String detail_category = "취미모임";
 		 
@@ -223,12 +289,14 @@ public class BoardController {
 		 	searchWord = "";
 		 }
 		 
-		 if(sortType == null ||sortType == "") {
-			 sortType = "write_date";
-		 }
+		 if(sort == null || sort.trim() == "") {   //sort 값이 없다면
+	         sort = "write_date";
+	      } else {                        //sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+	         sort = getSort(sort);
+	      }
 		 
 		 paraMap.put("searchWord", searchWord);
-		 paraMap.put("sortType", sortType);
+		 paraMap.put("sort", sort);
 		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
@@ -252,13 +320,32 @@ public class BoardController {
 		 
 		 String url = "hobbies.do";
 		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sortType);
+		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 
+		//정렬기준 넣기
+      switch (sort) {
+         case "write_date":
+            sort = "최신순";
+            break;
+         case "comment_cnt":
+            sort = "댓글순";   
+            break;
+         case "like_cnt":
+            sort = "추천순";
+            break;
+         case "views":
+            sort = "조회순";
+            break;
+         default :
+            sort = "최신순";
+            break;
+      }
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
-		request.setAttribute("sortType",sortType);
+		request.setAttribute("sort",sort);
 		request.setAttribute("detail_category",detail_category);
 		
 		return "board/community/communityList.tiles1";
@@ -273,7 +360,7 @@ public class BoardController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		 String searchWord = request.getParameter("searchWord");
-		 String sortType = request.getParameter("sortType");
+		 String sort = request.getParameter("sort");
 		 String str_page = request.getParameter("page");
 		 String detail_category = "수강/취업후기";
 		 
@@ -281,12 +368,12 @@ public class BoardController {
 		 	searchWord = "";
 		 }
 		 
-		 if(sortType == null ||sortType == "") {
-			 sortType = "write_date";
+		 if(sort == null ||sort == "") {
+			 sort = "write_date";
 		 }
 		 
 		 paraMap.put("searchWord", searchWord);
-		 paraMap.put("sortType", sortType);
+		 paraMap.put("sort", sort);
 		 paraMap.put("detail_category", detail_category);
 		 
 		 // 총 게시물 건수
@@ -310,13 +397,33 @@ public class BoardController {
 		 
 		 String url = "reviews.do";
 		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sortType);
+		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 
+		 
+		//정렬기준 넣기
+	      switch (sort) {
+	         case "write_date":
+	            sort = "최신순";
+	            break;
+	         case "comment_cnt":
+	            sort = "댓글순";   
+	            break;
+	         case "like_cnt":
+	            sort = "추천순";
+	            break;
+	         case "views":
+	            sort = "조회순";
+	            break;
+	         default :
+	            sort = "최신순";
+	            break;
+	      }
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
 		request.setAttribute("boardList",boardList);
 		request.setAttribute("searchWord",searchWord);
-		request.setAttribute("sortType",sortType);
+		request.setAttribute("sort",sort);
 		request.setAttribute("detail_category",detail_category);
 		
 		return "board/community/communityList.tiles1";
@@ -389,11 +496,13 @@ public class BoardController {
 
    // 게시판 글쓰기 등록
 	@RequestMapping(value="/community/newEnd.do", method= {RequestMethod.POST})
-	public ModelAndView pointPlusActivityLog_communityNewEnd(Map<String, Object> paraMap, BoardVO boardvo, HttpServletRequest request, ModelAndView mav) {  // <== After Advice(활동점수 올리기)
+	public String communityNewEnd(Map<String, Object> paraMap, BoardVO boardvo, HttpServletRequest request, ModelAndView mav) {  // <== After Advice(활동점수 올리기)
 		
 		boardvo.setContent(MyUtil.secureCode(boardvo.getContent()));
 		int n = service.communityNew(boardvo);
 		
+		String message ="";
+		String loc = "";
 		if(n==1) {
 			
 			String board_num = boardvo.getBoard_num();
@@ -401,7 +510,7 @@ public class BoardController {
 			// 해시태그 리스트 만들기
 			String str_hashTag = request.getParameter("str_hashTag");
 			
-			if(str_hashTag != null) {
+			if(str_hashTag != null && !str_hashTag.trim().isEmpty()) {
 				
 				List<String> hashTags = Arrays.asList(str_hashTag.split(","));
 				// 해시태그 처리 시작
@@ -425,13 +534,39 @@ public class BoardController {
 			paraMap.put("division", "게시글작성");// 활동내역용
 			paraMap.put("point", 10); // 포인트용		
 			
-			mav.setViewName("redirect:/community/freeBoards.do");
+			service.pointPlusActivityLog(paraMap);
+			String detail_category = boardvo.getDetail_category();
+			
+			switch (detail_category) {
+			case "자유게시판":
+				loc = request.getContextPath()+"/community/freeBoards.do";
+				break;
+			case "QnA":
+				loc = request.getContextPath()+"/community/questions.do";
+				break;
+							
+			case "스터디":
+				loc = request.getContextPath()+"/community/studies.do";
+				break;
+				
+			case "취미모임":
+				loc = request.getContextPath()+"/community/hobbies.do";
+				break;
+				
+			case "수강/취업후기":
+				loc = request.getContextPath()+"/community/reviews.do";
+				break;
+			}
+			message = "글작성 성공!";
+			
 		}
 		else { // 글쓰기 실패시
-//			mav.setViewName("board/error/add_error.tiles1");
-//			//  /WEB-INF/views/tiles1/board/error/add_error.jsp 파일을 생성한다.
+			message = "글작성 실패!";
 		}
-		return mav;
+		request.setAttribute("message", message);
+		request.setAttribute("loc", loc);
+		
+		return "msg";
 	}
 	
 	
@@ -590,7 +725,34 @@ public class BoardController {
 	}
 	
 	
-	
+	   
+    
+	   // 댓글 신고 페이지 요청
+	   @RequestMapping(value="/community/report_comment.do", method= {RequestMethod.GET} )
+	   public String requiredLogin_report_comment(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, Object> paraMap){
+	      String board_num = (String) paraMap.get("boardNum");
+	      paraMap.put("board_num", board_num);
+	      
+	      request.setAttribute("paraMap", paraMap);      
+	      return "/report_comment";
+	   }
+	   
+	   // 댓글 신고하기
+	   @RequestMapping(value="/community/comment_reportEnd.do", method= {RequestMethod.POST} )
+	   public String requiredLogin_comment_reportEnd(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paraMap){
+	      
+	      int n = service.comment_reportInsert(paraMap);
+	      
+	      if(n==0) {
+	         request.setAttribute("message", "시스템 오류로 실패했습니다. 다시 시도해주세요.");
+	         request.setAttribute("loc", "javascript:history.back()");
+	      }
+	      else {
+	         request.setAttribute("message", "신고완료");
+	         request.setAttribute("loc", "javascript:window.close()");
+	      }
+	      return "msg";
+	   }
 	
 	
 	
@@ -603,10 +765,10 @@ public class BoardController {
     * @param page(현재 페이지번호)
     * @param totalPage(총페이지 수)
     * @param searchWord(검색어)
-    * @param sortType(정렬조건)
+    * @param sort(정렬조건)
     * @return pageBar
     */
-   private String getPageBar(int page, int totalPage,String url, String searchWord, String sortType) {
+   private String getPageBar(int page, int totalPage,String url, String searchWord, String sort) {
 		// 페이지바 만들기 
 		int blockSize = 5;
 		// blockSize 는 1개 블럭(토막)당 보여지는 페이지번호의 개수이다.
@@ -621,13 +783,13 @@ public class BoardController {
 		if(pageNo != 1) {
 			//[<<]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sortType="+sortType+"&page=1'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sort="+sort+"&page=1'>" + 
 					   "    <i class='fa-solid fa-angles-left'></i>" + 
 					   "  </a>" + 
 					   "</li>";
 			//[<]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sortType="+sortType+"&page="+(pageNo-1)+"'>" + 
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sort="+sort+"&page="+(pageNo-1)+"'>" + 
 					   "    <i class='fa-solid fa-angle-left'></i>" + 
 					   "  </a>" + 
 					   "</li>"; 
@@ -643,7 +805,7 @@ public class BoardController {
 			
 			else {	//페이지번호가 현재페이지번호랑 다르다면 .active 뺌
 				pageBar += "<li class='page-item'>" + 
-						   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sortType="+sortType+"&page="+pageNo+"'>"+pageNo+"</a>" + 
+						   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sort="+sort+"&page="+pageNo+"'>"+pageNo+"</a>" + 
 						   "</li>";        
 			}
 			
@@ -655,14 +817,14 @@ public class BoardController {
 		if( pageNo <= totalPage) {
 			//[>]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sortType="+sortType+"&page="+pageNo+"'>"+
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sort="+sort+"&page="+pageNo+"'>"+
 					   "    <i class='fa-solid fa-angle-right'></i>"+
 					   "  </a>" + 
 					   "</li>";
 			
 			//[>>] 
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sortType="+sortType+"&page="+totalPage+"'>"+
+					   "  <a class='page-link' href='"+url+"?searchWord="+searchWord+"&sort="+sort+"&page="+totalPage+"'>"+
 					   "    <i class='fas fa-solid fa-angles-right'></i>"+
 					   "  </a>" + 
 					   "</li>";
@@ -727,7 +889,38 @@ public class BoardController {
 	
 	
 
-	
+   /**
+    * 리퀘스트에 담겨있는 sort
+    * @param sort
+    * @return 오라클 필드명과 매칭시킨 정렬조건 sort를 반환한다.
+    */
+   private String getSort(String sort) {
+      if(sort != null) {
+         switch (sort.trim()) {
+         case "최신순":
+            sort = "write_date";
+            break;
+         case "댓글순":
+            sort = "comment_cnt";   
+            break;
+         case "추천순":
+            sort = "like_cnt";
+            break;
+         case "조회순":
+            sort = "views";
+            break;
+         default: 
+            sort = "write_date";
+            break;
+            
+         }//end of switch-case---
+         
+      }
+      else {
+         sort = "write_date";
+      }
+      return sort;
+   }
 	
 	
 }

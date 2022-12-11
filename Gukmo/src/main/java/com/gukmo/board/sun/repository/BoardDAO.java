@@ -143,5 +143,13 @@ public class BoardDAO implements InterBoardDAO{
 		int n = gukmo_sql.insert("sun.reportInsert", reportvo);
 		return n;
 	}
+
+
+	// 댓글 신고하기
+	@Override
+	public int comment_reportInsert(Map<String, String> paraMap) {
+		int n = gukmo_sql.insert("ksm.comment_reportInsert", paraMap);
+		return n;
+	}
 	
 }

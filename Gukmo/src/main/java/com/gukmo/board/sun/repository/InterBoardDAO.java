@@ -58,6 +58,9 @@ public interface InterBoardDAO {
 	// 신고하기
 	int reportInsert(ReportVO reportvo);
 
+	// 댓글 신고하기
+	int comment_reportInsert(Map<String, String> paraMap);
+
 	
 	
 }

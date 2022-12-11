@@ -24,13 +24,13 @@
     <form name="writerFrm" class="d-flex flex-column" enctype="multipart/form-data">
 	  
 	  <%-- 등록용 닉네임 --%>
-	  <input type="text" name="nickname" value="${sessionScope.user.nickname}" />
-	  <input type="text" name="profile_image" value="${sessionScope.user.profile_image}" />
-	  <input type="text" name="orgin_hashTag" value="<c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}">
+	  <input type="hidden" name="nickname" value="${sessionScope.user.nickname}" />
+	  <input type="hidden" name="profile_image" value="${sessionScope.user.profile_image}" />
+	  <input type="hidden" name="orgin_hashTag" value="<c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}">
 	  ${hashtags.hashtag}
 	  </c:forEach>" >
-	  <input type="text" id="str_hashTag" name="str_hashTag" value=""/>
-	  <input type="text" id="board_num" name="board_num" value="${requestScope.boardvo.board_num}"/>
+	  <input type="hidden" id="str_hashTag" name="str_hashTag" value=""/>
+	  <input type="hidden" id="board_num" name="board_num" value="${requestScope.boardvo.board_num}"/>
 	  
       <%-- category --%>
       <label for="detail_category" class="community_label">구분</label>
@@ -55,7 +55,7 @@
       <div id="hashtag_box" class="border rounded pl-2">
         <ul id="hashtag_list" class="d-flex align-items-center">
           <c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}" varStatus="status">
-          <li class='d-flex align-items-center flex-nowrap mr-2 tag-item'>#${hashtags.hashtag}<span class='del-btn mx-2' style='cursor:pointer; color:darkgray; idx='${status.count}'><i class='fa-solid fa-xmark'></i></span></li>
+          <li class='d-flex align-items-center flex-nowrap mr-2 tag-item'>#${hashtags.hashtag}<span class='btn_hashtag_delete mx-2' style='cursor:pointer; color:darkgray; idx='${status.count}'><i class='fa-solid fa-xmark'></i></span></li>
 		  </c:forEach>
           <input type="text" id="hashtag" name="hashtag" class="border-0" placeholder="태그를 설정하세요(최대 5개)">
         </ul>

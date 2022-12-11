@@ -472,6 +472,12 @@
 		    where nickname = #{nickname}
     	</delete>
 
+	<!-- 정지 해제시 정지 테이블에 해당 회원 삭제 -->
+		<insert id="comment_reportInsert" parameterType="HashMap">
+		    insert into tbl_comment_report
+		    values(seq_report.nextval, #{fk_comment_num}, #{report_nickname}, #{reported_nickname}, #{simple_report_reason}, #{detail_report_reason}, sysdate, default, default)
+    	</insert>
+
 
 	
 </mapper>

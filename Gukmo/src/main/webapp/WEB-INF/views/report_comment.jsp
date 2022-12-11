@@ -23,16 +23,15 @@
   <script type="text/javascript" src="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 
   <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seonwoo/report.css" />
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seonwoo/report_comment.css" />
   <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hasol/gukmo.css" />
 	
   <!-- 직접만든 javascript -->
-  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/report.js" ></script>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/report_comment.js" ></script>
 
   <div class="container mt-3" class="d-flex flex-column">
    <!-- 신고 폼 시작 -->
    <form name="reportFrm">
-  
 	  <div class="d-flex justify-content-between">
 	  	<div></div>
 	  	<h2>신고하기</h2>
@@ -46,20 +45,20 @@
 			<tbody>
 				<tr>
 				 <td>작성자</td>
-				 <td><span id="nickname" class="input_signup rounded pl-2" >${requestScope.boardvo.nickname}</span></td>
+				 <td><span id="nickname" class="input_signup rounded pl-2" >${requestScope.paraMap.nickname}</span></td>
 				</tr>
 				
 				<tr>
 				 <td>내 용</td>
-				 <td><span id="subject" class="input_signup rounded pl-2" >${requestScope.boardvo.subject}</span></td>
+				 <td><span id="subject" class="input_signup rounded pl-2" >${requestScope.paraMap.content}</span></td>
 				</tr>
 			</tbody>
 		</table>
 	   </div>     
 	     <!-- 등록용 닉네임 -->
-		 <input type="hidden" name="fk_num" value="${requestScope.boardvo.board_num}" />
-		 <input type="hidden" name="report_nickname" value="${sessionScope.user.nickname}" />
-		 <input type="hidden" name="reported_nickname" value="${requestScope.boardvo.nickname}" />
+		 <input type="hidden" name="fk_comment_num" value="${requestScope.paraMap.comment_num}" />
+		 <input type="hidden" name="reported_nickname" value="${requestScope.paraMap.comment_write_nickname}" />
+		 <input type="hidden" name="report_nickname" value="${requestScope.paraMap.nickname}" />
   
   
   	 <div class="mt-3">
@@ -85,8 +84,8 @@
         </div>
 	</div>
 	<footer>
-		  <button type="button" id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
-	      <button type="button" id="btn_close" class="btn border rounded w-100 mt-3">취소</button>
+		  <button id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
+	      <button id="btn_close" class="btn border rounded w-100 mt-3">취소</button>
 	</footer>
 	</form>
 	

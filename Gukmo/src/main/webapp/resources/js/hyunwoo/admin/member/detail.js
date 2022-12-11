@@ -17,6 +17,50 @@ let btn_insert_penalty_modal_click = 0;
 // == Event Declaration == //
 $(document).ready(function(){
   
+	
+	// === 전체 datepicker 옵션 일괄 설정하기 ===  
+	 //     한번의 설정으로 $("input#fromDate"), $('input#toDate')의 옵션을 모두 설정할 수 있다.
+	$.datepicker.setDefaults({
+       dateFormat: 'yy-mm-dd'  // Input Display Format 변경
+      ,showOtherMonths: true   // 빈 공간에 현재월의 앞뒤월의 날짜를 표시
+      ,showMonthAfterYear:true // 년도 먼저 나오고, 뒤에 월 표시
+      ,changeYear: true        // 콤보박스에서 년 선택 가능
+      ,changeMonth: true       // 콤보박스에서 월 선택 가능                
+      ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+      ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+      ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+      ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트             
+  });
+
+	// input 을 datepicker로 선언
+  $("input#fromDate").datepicker();                    
+  $("input#toDate").datepicker(); 
+
+
+    //From의 초기값을 오늘 날짜로 설정
+    //$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+	$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		
+
+    //To의 초기값을 3일후로 설정
+    $('input#toDate').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    
+    // datepicker 날짜 범위 제한
+    $('input#fromDate, input#toDate').datepicker("option",'minDate', '-2Y'); 
+		 $('input#fromDate, input#toDate').datepicker("option",'maxDate', '-1D');
+		 
+		 $('input#toDate').datepicker("option",'onClose', function (selectedDate) {
+			if(selectedDate.length==10)
+         $("#fromDate").datepicker("option", "maxDate", selectedDate);
+     	else
+     		$("#fromDate").datepicker("option", "maxDate", max);
+     });
+    $('#fromDate').datepicker("option", "onClose", function (selectedDate) {
+    	if(selectedDate.length==10)
+            $("#toDate").datepicker("option", "minDate", selectedDate);
+        else
+            $("#toDate").datepicker("option", "minDate", min);
+    });
 
 
   //네비게이션 바 클릭시 해당 메뉴 글자 색상 변경하기
@@ -145,8 +189,34 @@ $(document).ready(function(){
     }
   });//end of Event---
 
+  
+  //정렬버튼 클릭시
+  $("div#sort").click(function(){
+    $("div#mask").show();
+    $("div#sort_option").fadeIn(200);
+    $("div#sort_option").css("display","flex");
+    $("div#sort_option").css("flex-direction","column");
+  });
 
-
+  //정렬버튼 클릭 후, 바깥쪽 아무데나 클릭시
+  $("div#mask").click(function(){
+    $("div#sort_option").fadeOut(200);
+    $("div#mask").hide();
+  });
+  
+  //정렬옵션 클릭시 이벤트
+  $("div#sort_option span").click(e=>{
+    const target = $(e.currentTarget);
+    const sort = target.text();
+    
+    $("span#current_sort").text(sort);
+    activitiesChart_nav(sessionStorage.getItem("userid"));
+  }); 
+  
+  $("button.datepicker").click(function (){
+	  activitiesChart_nav(sessionStorage.getItem("userid"));
+  });
+  
 });//end of $(document).ready(function(){})-
 
 
@@ -295,16 +365,47 @@ function memberDetailAreaClear(){
  * 네비게이션 바에서 활동내역 클릭시 실행될 함수
  */
 function activities_nav(userid){
-  alert("활동내역보여주기 메소드 호출");
   $("div#member_activities").css("display","block");
-
+  
   $.ajax({
-    url:getContextPath()+"/활동내역select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/activityList.do", 
     data:{"userid": userid},
     type:"get",
-    dataType:"json",
+    dataType:"JSON",
     success:function(json){ //활동내역을 가져오는데 성공했다면
 
+        var html = "<table>" +
+	        			"<thead>" +
+		        			"<tr>" +
+			        			"<th>활동날짜</th>" +
+			        			"<th>활동구분</th>" +
+			        			"<th>상세카테고리</th>"+
+			        			"<th>글번호</th>" +
+			        			"<th>글제목</th>" +
+		        			"</tr>"+
+	        			"</thead>"+
+        			"<tbody>";
+        
+        for(var i=0; i<json.length; i++) {
+            var obj;
+            
+            html += "<tr>" +
+	            		"<td>"+json[i].activity_date+"</td>" +
+	            		"<td>"+json[i].division+"</td>" +
+	            		"<td>"+json[i].detail_category+"</td>" +
+	            		"<td>"+json[i].fk_board_num+"</td>" +
+	            		"<td>"+json[i].subject+"</td>" +
+            		"</tr>"; 
+            
+        }// end of for------------------------------
+        
+               
+        html +="</tbody>" +
+        		"</table>";
+        
+        $("div#member_activities_area").html(html);
+        
+        activitiesChart_nav(userid);
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
@@ -312,6 +413,93 @@ function activities_nav(userid){
     }
   });//end of $.ajax({})---
 }//end of method--
+
+
+/**
+ * 네비게이션 바에서 활동내역 클릭시 실행되는 차트 ajax
+ */ 
+function activitiesChart_nav (userid) {
+	
+	const sort = $("span#current_sort").text();
+	
+	if(sort != '일자별') {
+		$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		$('input#toDate').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		$(".datepicker").hide();
+	}
+	else if(sort == '일자별') {
+		$(".datepicker").show();
+	}
+	
+	var fromDate = $("input#fromDate").val();
+	var toDate = $("input#toDate").val();
+	
+	 $.ajax({
+         url:getContextPath()+"/admin/member/detail/activityCntList.do", 
+         data:{"userid": userid,
+         	   "sort": sort,
+         	   "fromDate": fromDate,
+         	   "toDate": toDate},
+         type:"get",
+         dataType:"JSON",
+         success:function(json){ //활동내역을 가져오는데 성공했다면
+
+         	var dateArr = [];
+         	var cntArr = [];
+         	
+	            for(var i=0; i<json.length; i++) {
+	            	var obj;
+	        	    var obj2;
+	        	    
+         		obj = Number(json[i].cnt);
+         		obj2 = json[i].activity_date;
+         	
+	            	cntArr.push(obj); // 배열속에 객체를 넣기
+	            	dateArr.push(obj2); // 배열속에 객체를 넣기
+	            }// end of for------------------------------
+	         
+     
+		        Highcharts.chart('chart_container',  {
+		            chart: {
+		                type: 'line'
+		            },
+		            title: {
+		                text: sort +' 활동내역 건수'
+		            },
+		            subtitle: {
+		                text: 'Source: <a href="http://localhost:9090/board/admin/chart/activityCntList.do" target="_blank">GUKMO Activity</a>'
+		            },
+		            xAxis: {
+		                categories: dateArr
+		            },
+		            yAxis: {
+		                title: {
+		                    text: '건'
+		                }
+		            },
+		            plotOptions: {
+		                line: {
+		                    dataLabels: {
+		                        enabled: true
+		                    },
+		                    enableMouseTracking: false
+		                }
+		            },
+		            series: [{
+		                name: '활동내역',
+		                data: cntArr
+		            }]
+		        });
+     
+         },//end of success
+         //success 대신 error가 발생하면 실행될 코드 
+         error: function(request,status,error){
+           alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+         }
+       });//end of $.ajax({})---
+     
+}
+
 
 
 
@@ -323,12 +511,54 @@ function search_nav(userid){
   $("div#member_search").css("display","block");
 
   $.ajax({
-    url:getContextPath()+"/검색기록select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/searchCntList.do", 
     data:{"userid": userid},
     type:"get",
     dataType:"json",
     success:function(json){ //검색기록을 가져오는데 성공했다면
 
+         	var data = [];
+         	
+	            for(var i=0; i<json.length; i++) {
+	            	var obj;
+	        	    
+	            	obj = { 
+	         				name:json[i].key,
+	         				weight: Number(json[i].cnt)
+	         			  };
+         	
+	            	data.push(obj); // 배열속에 객체를 넣기
+	            }// end of for------------------------------
+     
+	            console.log(data);
+	            Highcharts.chart('chart2_container', {
+	                accessibility: {
+	                    screenReaderSection: {
+	                        beforeChartFormat: '<h5>{chartTitle}</h5>' +
+	                            '<div>{chartSubtitle}</div>' +
+	                            '<div>{chartLongdesc}</div>' +
+	                            '<div>{viewTableButton}</div>'
+	                    }
+	                },
+	                series: [{
+	                    type: 'wordcloud',
+	                    data,
+	                    name: 'Occurrences'
+	                }],
+	                title: {
+	                    text: 'Wordcloud of Alice\'s Adventures in Wonderland',
+	                    align: 'left'
+	                },
+	                subtitle: {
+	                    text: 'An excerpt from chapter 1: Down the Rabbit-Hole',
+	                    align: 'left'
+	                },
+	                tooltip: {
+	                    headerFormat: '<span style="font-size: 16px"><b>{point.key}</b></span><br>'
+	                }
+	            });
+
+    	
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
@@ -346,6 +576,7 @@ function search_nav(userid){
 function login_record_nav(userid){
   alert("로그인기록보여주기 메소드 호출");
   $("div#member_login_record").css("display","block");
+ 
   $.ajax({
     url:getContextPath()+"/로그인기록select할빽단url.do", 
     data:{"userid": userid},

@@ -22,7 +22,7 @@ $(document).ready(function(){
 	  	
 		const frm = document.reportFrm;
 		frm.method = "POST";
-		frm.action = getContextPath()+"/community/reportEnd.do";
+		frm.action = getContextPath()+"/community/comment_reportEnd.do";
 		frm.submit();
 	})
 

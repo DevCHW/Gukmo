@@ -60,50 +60,27 @@ public class BoardAOP {
 		
 	}
 	
-	// 글쓰기, 댓글 작성시 활동 점수 update, 활동기록 insert (after)
-	@Pointcut("execution(public * com.gukmo..*Controller.pointPlusActivityLog_*(..) )")
-	public void pointPlusActivityLog() {}
 	
-	@Autowired  
-	private InterBoardService service;
-	
-	@SuppressWarnings("unchecked")
-	@After("pointPlusActivityLog()")
-	public void pointPlusActivityLog(JoinPoint joinpoint) {
-		
-		Map<String, Object> paraMap = (Map<String, Object>) joinpoint.getArgs()[0];
-		
-		int n = service.pointPlusActivityLog(paraMap);
-		System.out.println("aop 확인용 : " + n);
-		
-		if(n == 2) {
-			System.out.println("aop 성공");
-		}
-	
-	} //end of pointPlusActivityLog
-	
-	
-	
-	// 알람에 값 넢는 AOP
-	@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
-	public void setAlarm() {}
-	
-	@Autowired  
-	private InterAlarmService alarm_service;
-	
-	@SuppressWarnings("unchecked")
-	@After("setAlarm()")
-	public void setAlarm(JoinPoint joinpoint) {
-		
-		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
-		Map<String,String> paraMap = (Map<String, String>) joinpoint.getArgs()[1];
-		
-		int n = alarm_service.setAlarm(paraMap);
-		System.out.println("aop 확인용 : " + n);
-		
-	
-	} //end of setAlarm
-	
+//	// 알람에 값 넢는 AOP
+//	@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
+//	public void setAlarm() {}
+//	
+//	@Autowired  
+//	private InterAlarmService alarm_service;
+//	
+//	@SuppressWarnings("unchecked")
+//	@After("setAlarm()")
+//	public void setAlarm(JoinPoint joinpoint) {
+//		
+//		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
+//		Map<String,String> paraMap = (Map<String, String>) joinpoint.getArgs()[1];
+//		
+//		int n = alarm_service.setAlarm(paraMap);
+//		System.out.println("aop 확인용 : " + n);
+//		
+//	
+//	} //end of setAlarm
+//	
 	
 	
 		
@@ -112,40 +89,6 @@ public class BoardAOP {
 		
 		
 		
-	@Pointcut("execution(public * com.gukmo..*Controller.requiredAdminLogin_*(..) )")
-	public void requiredAdminLogin() {}
-	
-	@Before("requiredAdminLogin()")
-	public void adminLoginCheck(JoinPoint joinpoint) {
-		
-		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
-		HttpServletResponse response = (HttpServletResponse) joinpoint.getArgs()[1]; 
-		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("user");
-		
-		if(session.getAttribute("user") == null || !"관리자".equals(loginuser.getAuthority())) {
-			String message = "관리자 이외에는 접근 불가능합니다.";
-			String loc = request.getContextPath()+"/login.do";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			// 로그인 성공후 로그인 하기전 페이지로 돌아가는 작업
-			String url = MyUtil.getCurrentURL(request);
-			session.setAttribute("goBackURL", url);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp"); 
-			
-			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}//end of adminLoginCheck
- 
 	 
 
 
