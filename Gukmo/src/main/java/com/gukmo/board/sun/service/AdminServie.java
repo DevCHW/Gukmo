@@ -40,6 +40,14 @@ public class AdminServie implements InterAdminService {
 		return activityCntList;
 	}
 
+
+	// 특정 회원 연도별, 월별 활동내역 카운트 가져오기 
+	@Override
+	public List<Map<String, String>> activityCntListYearMonth(Map<String, String> paraMap) {
+		List<Map<String, String>> activityCntList = dao.activityCntListYearMonth(paraMap);  
+		return activityCntList;
+	}
+
 	
 	
 	

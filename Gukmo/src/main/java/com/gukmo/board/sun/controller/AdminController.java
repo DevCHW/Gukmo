@@ -79,7 +79,7 @@ public class AdminController {
 	public String activityList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println(paraMap.get("userid"));
-//		
+		
 		List<Map<String, String>> activityList = service.activityList(paraMap);
 		
 		JSONArray jsonArr = new JSONArray();  // []
@@ -110,7 +110,16 @@ public class AdminController {
 	//public String requiredAdminLogin_newMemberCnt(@RequestParam String userid, HttpServletRequest request) {
 	public String activityCntList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
 		
-		List<Map<String, String>> activityCntList = service.activityCntList(paraMap);
+		String sort = paraMap.get("sort");
+		
+		List<Map<String, String>> activityCntList = null;
+		
+		if(sort.equals("일자별")) {
+			activityCntList = service.activityCntList(paraMap);
+		}
+		else {
+			activityCntList = service.activityCntListYearMonth(paraMap);
+		}
 		
 		JSONArray jsonArr = new JSONArray();  // []
 		

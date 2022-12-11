@@ -241,6 +241,42 @@
 
       <!-- 회원의 활동내역 시작 꺾은선그래프로 일자별,월별,년도별 활동횟수를 나타낼 수 있음 -->
       <div id="member_activities" class="detail_info_area my-3">
+	  
+	  
+    <%-- 날짜필터 영역  시작 --%>
+	  <div id="nav" class="d-flex align-items-center py-2">
+	   <%-- datepicker 영역  시작 --%>
+	    <div id="date" class="datepicker d-flex justify-content-center align-content-center">
+		    <div class="datepicker" style="width: 30%; font-weight: bold;">시작일</div>
+			<div class="datepicker" style="width: 50%; text-align: left;">
+			   <input type="text" id="fromDate">
+			</div>
+			<div class="datepicker" style="width: 30%; font-weight: bold;">종료일</div>
+			<div class="datepicker" style="width: 50%; text-align: left;">
+			   <input type="text" id="toDate">
+			</div>
+			<button class="datepicker" type="button" id="search" style="width: 20%;" >검색</button>
+		</div>
+		<%-- datepicker 영역  끝 --%>  
+		
+	  	<%-- sort 영역 시작 --%>
+	      <div class="d-flex ml-auto">
+	        <div id="mask"></div>
+	        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
+	          <i class="fa-solid fa-arrow-down-short-wide"></i>
+					<span id=current_sort>일자별</span>
+	          <div id="sort_option" class="border rounded px-3 py-2">
+	            <span>일자별</span>
+	            <span>월별</span>
+	            <span>연도별</span>
+	          </div>
+	        </div>
+	      </div>
+	    <%-- sort 영역 끝 --%>
+	    
+	    </div>
+	<%-- 날짜필터 영역  끝--%>
+ 	      
         <div id="member_activities_chart_area" class="border rounded">
 		    <div id="chart_container"></div>
         </div>
