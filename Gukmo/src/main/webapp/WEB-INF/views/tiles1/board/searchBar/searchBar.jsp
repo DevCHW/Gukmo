@@ -12,23 +12,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
 	  let sort= "${requestScope.sort}";
-	  switch (sort) {
-		case "write_date":
-			sort = "최신순";
-			break;
-		case "comment_cnt":
-			sort = "댓글순";	
-			break;
-		case "like_cnt":
-			sort = "추천순";
-			break;
-		case "views":
-			sort = "조회순";
-			break;
-		default :
-			sort = "최신순";
-			break;
-	  }//end of switch-case---
+	  
 	  
 	  //검색버튼 클릭이벤트
 	  $("button#btn_search").click(function(){
