@@ -145,7 +145,7 @@ public class BoardController {
 	// 댓글 작성 이벤트
 	@ResponseBody
 	@RequestMapping(value="/addComment.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String addComment(HttpServletRequest request) {
+	public String setAlarm_addComment(HttpServletRequest request, Map<String,String> paraMap) {
 		int n = 0;
 		String cmt_board_num = request.getParameter("cmt_board_num");
 		String nickname = request.getParameter("nickname");
@@ -158,7 +158,7 @@ public class BoardController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
 		
-		Map<String, String> paraMap = new HashMap<>();
+		paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		paraMap.put("cmt_board_num", cmt_board_num);
 		paraMap.put("nickname", nickname);
@@ -166,6 +166,11 @@ public class BoardController {
 		paraMap.put("parent_write_nickname", parent_write_nickname);
 		paraMap.put("subject", subject);
 		paraMap.put("detail_category", detail_category);
+		
+		// 알람값 넣는 AOP 용
+		String board_num = paraMap.get("cmt_board_num");
+		paraMap.put("board_num", board_num);
+		paraMap.put("cmd", "reply");
 		
 		try {
 			// tbl_comment 테이블에 추가, tbl_board 의 comment_cnt +1, 해당 회원의 포인트 10점 증가, 활동내역에 등록
@@ -190,7 +195,7 @@ public class BoardController {
 	// 대댓글 작성 ajax
 	@ResponseBody
 	@RequestMapping(value="/addCommentOfComment.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String addComment_of_Comment(HttpServletRequest request, @RequestParam Map<String, String> paraMap) {
+	public String setAlarm_addComment_of_Comment(HttpServletRequest request, @RequestParam Map<String, String> paraMap) {
 
 		// System.out.println(paraMap);
 		
@@ -201,6 +206,11 @@ public class BoardController {
 		paraMap.put("userid", userid);
 
 
+		// 알람값 넣는 AOP 용
+		String board_num = paraMap.get("cmt_board_num");
+		paraMap.put("board_num", board_num);	
+		paraMap.put("cmd", "recomment");
+		
 		int n = 0;
 		
 		try {
@@ -220,6 +230,9 @@ public class BoardController {
 			jsonObj.put("n", n);
 			return jsonObj.toString();
 		}
+		
+
+		
 	}//end of 대댓글 작성
 
 	
@@ -318,10 +331,13 @@ public class BoardController {
 	   // === 글 좋아요 === //
 	   @ResponseBody
 	   @RequestMapping(value="/likeProcess.do",method=RequestMethod.POST)
-	   public String likeProcess(@RequestParam Map<String,String> paraMap,HttpServletRequest request, HttpServletResponse response) {            
+	   public String setAlarm_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
 	      //확인용 board_num,userid
 //	      System.out.println(paraMap);
-	      
+
+		  // 알람 값 넣는 AOP 용 ~
+		  paraMap.put("cmd", "like");
+		  
 	      JSONObject jsonObj = new JSONObject();
 	      
 	      if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면
@@ -338,10 +354,13 @@ public class BoardController {
 	   // === 댓글 좋아요 === //
 	      @ResponseBody
 	      @RequestMapping(value="/comment_likeProcess.do",method=RequestMethod.POST)
-	      public String comment_likeProcess(@RequestParam Map<String,String> paraMap,HttpServletRequest request, HttpServletResponse response) {            
+	      public String setAlarm_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
 	         //확인용 board_num,userid
 //	         System.out.println(paraMap);
 	         
+			  // 알람 값 넣는 AOP 용 ~
+			  paraMap.put("cmd", "cmtLike");
+			  
 	         JSONObject jsonObj = new JSONObject();
 	         
 	         if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면

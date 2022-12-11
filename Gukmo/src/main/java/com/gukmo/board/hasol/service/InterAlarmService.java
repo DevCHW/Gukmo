@@ -1,6 +1,7 @@
 package com.gukmo.board.hasol.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.gukmo.board.model.AlarmVO;
 
@@ -14,5 +15,12 @@ public interface InterAlarmService {
 
 	// 전체 알람 가져오기
 	List<AlarmVO> getAlarm(String userid);
+
+	// 알람에 값 넣기
+	int setAlarm(Map<String, String> paraMap);
+
+	// 읽음 컬럼 값 변경하기
+	int changeIsRead(String userid);
+
 
 }

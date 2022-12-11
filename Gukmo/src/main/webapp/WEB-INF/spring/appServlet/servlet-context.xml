@@ -89,7 +89,7 @@
 	
 	<!-- websocket handler -->
 	<beans:bean id="echoHandler" class="com.gukmo.board.hasol.alarm.WebSocketHandler" />
-	<websocket:handlers allowed-origins="http://localhost:9090">
+	<websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/alarm.do" />
 		<websocket:handshake-interceptors>
 	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>

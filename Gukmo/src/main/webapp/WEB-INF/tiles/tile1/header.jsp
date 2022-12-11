@@ -37,7 +37,7 @@
 					<li><a class="nav-link" href="<%=ctxPath%>/notices.do">공지사항</a></li>
 
 					<!-- 관리자로 로그인 했을 경우 추가 메뉴 -->
-					<c:if test="${sessionScope.user.userid eq 'admin'}">
+					<c:if test="${sessionScope.user.authority eq '관리자'}">
 						<div class="dropdown">
 							<div class="adminMenu">
 								<a class="nav-link adminMenu" onclick="">관리자 메뉴</a>
@@ -78,7 +78,7 @@
 					</a>
 
 					<!-- 알림 -->
-					<%-- <jsp:include page="/WEB-INF/views/tiles1/board/alarm/alarm.jsp" /> --%>
+					<jsp:include page="/WEB-INF/views/tiles1/board/alarm/alarm.jsp" />
 					<!-- 프로필 drop -->
 					<div class="dropdown">
 						<div class="dropbtn">
