@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
@@ -495,11 +496,13 @@ public class BoardController {
 
    // 게시판 글쓰기 등록
 	@RequestMapping(value="/community/newEnd.do", method= {RequestMethod.POST})
-	public ModelAndView pointPlusActivityLog_communityNewEnd(Map<String, Object> paraMap, BoardVO boardvo, HttpServletRequest request, ModelAndView mav) {  // <== After Advice(활동점수 올리기)
+	public String communityNewEnd(Map<String, Object> paraMap, BoardVO boardvo, HttpServletRequest request, ModelAndView mav) {  // <== After Advice(활동점수 올리기)
 		
 		boardvo.setContent(MyUtil.secureCode(boardvo.getContent()));
 		int n = service.communityNew(boardvo);
 		
+		String message ="";
+		String loc = "";
 		if(n==1) {
 			
 			String board_num = boardvo.getBoard_num();
@@ -507,7 +510,7 @@ public class BoardController {
 			// 해시태그 리스트 만들기
 			String str_hashTag = request.getParameter("str_hashTag");
 			
-			if(str_hashTag != null) {
+			if(str_hashTag != null && !str_hashTag.trim().isEmpty()) {
 				
 				List<String> hashTags = Arrays.asList(str_hashTag.split(","));
 				// 해시태그 처리 시작
@@ -531,13 +534,39 @@ public class BoardController {
 			paraMap.put("division", "게시글작성");// 활동내역용
 			paraMap.put("point", 10); // 포인트용		
 			
-			mav.setViewName("redirect:/community/freeBoards.do");
+			service.pointPlusActivityLog(paraMap);
+			String detail_category = boardvo.getDetail_category();
+			
+			switch (detail_category) {
+			case "자유게시판":
+				loc = request.getContextPath()+"/community/freeBoards.do";
+				break;
+			case "QnA":
+				loc = request.getContextPath()+"/community/questions.do";
+				break;
+							
+			case "스터디":
+				loc = request.getContextPath()+"/community/studies.do";
+				break;
+				
+			case "취미모임":
+				loc = request.getContextPath()+"/community/hobbies.do";
+				break;
+				
+			case "수강/취업후기":
+				loc = request.getContextPath()+"/community/reviews.do";
+				break;
+			}
+			message = "글작성 성공!";
+			
 		}
 		else { // 글쓰기 실패시
-//			mav.setViewName("board/error/add_error.tiles1");
-//			//  /WEB-INF/views/tiles1/board/error/add_error.jsp 파일을 생성한다.
+			message = "글작성 실패!";
 		}
-		return mav;
+		request.setAttribute("message", message);
+		request.setAttribute("loc", loc);
+		
+		return "msg";
 	}
 	
 	
@@ -696,7 +725,34 @@ public class BoardController {
 	}
 	
 	
-	
+	   
+    
+	   // 댓글 신고 페이지 요청
+	   @RequestMapping(value="/community/report_comment.do", method= {RequestMethod.GET} )
+	   public String requiredLogin_report_comment(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, Object> paraMap){
+	      String board_num = (String) paraMap.get("boardNum");
+	      paraMap.put("board_num", board_num);
+	      
+	      request.setAttribute("paraMap", paraMap);      
+	      return "/report_comment";
+	   }
+	   
+	   // 댓글 신고하기
+	   @RequestMapping(value="/community/comment_reportEnd.do", method= {RequestMethod.POST} )
+	   public String requiredLogin_comment_reportEnd(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paraMap){
+	      
+	      int n = service.comment_reportInsert(paraMap);
+	      
+	      if(n==0) {
+	         request.setAttribute("message", "시스템 오류로 실패했습니다. 다시 시도해주세요.");
+	         request.setAttribute("loc", "javascript:history.back()");
+	      }
+	      else {
+	         request.setAttribute("message", "신고완료");
+	         request.setAttribute("loc", "javascript:window.close()");
+	      }
+	      return "msg";
+	   }
 	
 	
 	

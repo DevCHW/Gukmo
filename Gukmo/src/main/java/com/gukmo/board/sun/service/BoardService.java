@@ -57,6 +57,7 @@ public class BoardService implements InterBoardService{
 	@Override
 	public int communityNew(BoardVO boardvo) {
 		int n = dao.communityNew(boardvo);
+		
 		return n;
 	}
 	

@@ -122,7 +122,7 @@ $(document).ready(function(){
     
       
       
-      const frm = document.writerFrm;
+      
       let flag = false;
       
       
@@ -170,7 +170,7 @@ $(document).ready(function(){
   	  	  return;
   	    }
   	    
-  	    frm.method = "POST"
+  	    
   	    flag = true;
   	}
      
@@ -182,6 +182,8 @@ $(document).ready(function(){
     	frm_check();
 	    // 폼을 전송
     	if(flag){
+    		const frm = document.writerFrm;
+    		frm.method = "POST";
     		frm.action = getContextPath()+"/community/newEnd.do";
     		frm.submit();
     	}
@@ -193,9 +195,11 @@ $(document).ready(function(){
     $("button#btn_modify").click(function() {
     	frm_check();
     	if(flag){
-	    // 폼을 전송
-	    frm.action = getContextPath()+"/community/modify.do";
-	    frm.submit();
+		    // 폼을 전송
+    		const frm = document.writerFrm;
+    		frm.method = "POST";
+		    frm.action = getContextPath()+"/community/modify.do";
+		    frm.submit();
     	}
 	});
     
