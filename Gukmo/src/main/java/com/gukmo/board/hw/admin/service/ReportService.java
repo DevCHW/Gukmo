@@ -18,34 +18,7 @@ public class ReportService implements InterReportService{
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterReportDAO dao;
 	
-	// 총 페이지수 알아오기
-	@Override
-	public int getTotalCount_report(Map<String, String> paraMap) {
-		int n = dao.getTotalCount_report(paraMap);
-		return n;
-	}
-
-	// 신고내역 리스트 불러오기
-	@Override
-	public List<ReportVO> reportList(Map<String, String> paraMap) {
-		List<ReportVO> reportList = dao.reportList(paraMap);
-		// System.out.println(memberList);
-		return reportList;
-	}
-
-	@Override
-	public ReportVO getreportDetail(Map<String, String> paraMap) {
-		ReportVO reportDetail = dao.reportDetail(paraMap);
-		return reportDetail;
-		
-	}
-
-	// 신고받은 자 아이디값 알아오기
-	@Override
-	public String getReportedId(String reportedNickname) {
-		String getReportedId = dao.getReportedId(reportedNickname);
-		return getReportedId;
-	}
+	
 
 	/**
 	 * 신고내역 접수하기(게시글)

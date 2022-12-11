@@ -1,4 +1,4 @@
-package com.gukmo.board.hw.admin.repository;
+package com.gukmo.board.sm.admin.repository;
 
 import java.util.List;
 import java.util.Map;
@@ -12,10 +12,10 @@ import com.gukmo.board.model.AdVO;
 
 @Repository
 public class AdvertisementDAO implements InterAdvertisementDAO{
-	
+
 	@Resource
 	private SqlSessionTemplate gukmo_sql;
-
+	
 	@Override
 	public int getTotalCount_ad(Map<String, String> paraMap) {
 		int n = gukmo_sql.selectOne("ksm.getTotalCount_ad", paraMap);
@@ -42,5 +42,7 @@ public class AdvertisementDAO implements InterAdvertisementDAO{
 		int n = gukmo_sql.insert("ksm.addAd", advo);
 		return n;
 	}
-
+	
+	
+	
 }

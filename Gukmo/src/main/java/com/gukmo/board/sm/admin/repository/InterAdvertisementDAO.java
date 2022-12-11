@@ -1,4 +1,4 @@
-package com.gukmo.board.hw.admin.repository;
+package com.gukmo.board.sm.admin.repository;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map;
 import com.gukmo.board.model.AdVO;
 
 public interface InterAdvertisementDAO {
+	
 	// 광고현황 리스트 총 페이지수 알아오기
 	int getTotalCount_ad(Map<String, String> paraMap);
 

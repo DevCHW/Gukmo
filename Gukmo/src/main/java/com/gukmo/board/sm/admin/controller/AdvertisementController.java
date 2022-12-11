@@ -1,4 +1,4 @@
-package com.gukmo.board.hw.admin.controller;
+package com.gukmo.board.sm.admin.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,17 +20,20 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
-import com.gukmo.board.hw.admin.service.InterAdvertisementService;
 import com.gukmo.board.model.AdVO;
+import com.gukmo.board.sm.admin.service.InterAdvertisementService;
 
 @Controller
 public class AdvertisementController {
-	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
+	
+	@Autowired
 	private InterAdvertisementService service;
+	
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private FileManager fileManager;
 	
-	// ============= 광고 관리 시작 ============= //
+	
+	
 	
 	// 광고관리 목록 페이지 요청
 	@RequestMapping(value="/admin/advertisement/list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
@@ -116,7 +119,7 @@ public class AdvertisementController {
 		mav.addObject("adDetail", adDetail);
 		
 		//이전페이지
-//			mav.setViewName("admin/adDetail.tiles1");
+//				mav.setViewName("admin/adDetail.tiles1");
 		
 		//재탄생한페이지
 		mav.setViewName("admin/advertisement/detail.tiles1");
@@ -425,5 +428,9 @@ public class AdvertisementController {
 	   paraMap.put("endRno", String.valueOf(endRno));
 	   return paraMap;
 	}
-
+	
+	
+	
+	
+	
 }

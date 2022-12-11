@@ -1,4 +1,4 @@
-package com.gukmo.board.hw.admin.service;
+package com.gukmo.board.sm.admin.service;
 
 import java.util.List;
 import java.util.Map;
@@ -6,16 +6,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gukmo.board.hw.admin.repository.InterAdvertisementDAO;
 import com.gukmo.board.model.AdVO;
+import com.gukmo.board.sm.admin.repository.InterAdvertisementDAO;
 
 @Service
 public class AdvertisementService implements InterAdvertisementService{
-	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
+	
+	@Autowired
 	private InterAdvertisementDAO dao;
-	
-	
-	
 	
 	// 광고현황 리스트 총 페이지수 알아오기
 	@Override
