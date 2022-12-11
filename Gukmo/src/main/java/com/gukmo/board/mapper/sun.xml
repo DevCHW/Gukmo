@@ -310,6 +310,23 @@
 	group by b.period
 	order by b.period
    </select>
+   
+   
+   <resultMap type="HashMap" id="cnt_Map">
+        <result property="key"    column="key"     javaType="String"/>
+        <result property="cnt"   column="cnt"    javaType="String"/>
+   </resultMap>
+   
+   <select id="searchCntList" parameterType="String" resultMap="cnt_Map">
+	select keyword key, count(*) cnt
+	from tbl_search
+	where userid = #{userid}
+	group by keyword
+   </select>
+   
+   
+   
+   
 	<!-- ========================================== 관리자 페이지 일반회원  상세페이지 쿼리문 ========================================  -->
 	
 	

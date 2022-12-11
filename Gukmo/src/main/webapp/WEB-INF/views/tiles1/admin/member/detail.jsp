@@ -47,6 +47,9 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+
     
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/member/detail.css" />
@@ -303,6 +306,7 @@
         <!-- 검색어 차트영역 시작 -->
         <div id="member_search_chart_area" class="border rounded my-3">
           검색어 차트영역
+           <div id="chart2_container"></div>
         </div>
         <!-- 검색어 차트영역 끝 -->
       </div>

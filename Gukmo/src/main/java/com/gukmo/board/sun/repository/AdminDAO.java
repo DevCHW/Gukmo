@@ -46,4 +46,12 @@ public class AdminDAO implements InterAdminDAO {
 		List<Map<String, String>> activityCntList = gukmo_sql.selectList("sun.activityCntListYearMonth", paraMap); 
 		return activityCntList;
 	}
+
+
+	// 특정 회원 검색어 카운트
+	@Override
+	public List<Map<String, String>> searchCntList(String userid) {
+		List<Map<String, String>> searchCntList = gukmo_sql.selectList("sun.searchCntList", userid); 
+		return searchCntList;
+	}
 }

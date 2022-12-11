@@ -17,5 +17,8 @@ public interface InterAdminDAO {
 	// 특정 회원 연도별, 월별 활동내역 카운트 가져오기 
 	List<Map<String, String>> activityCntListYearMonth(Map<String, String> paraMap);
 
+	// 특정 회원 검색어 카운트
+	List<Map<String, String>> searchCntList(String userid);
+
 
 }

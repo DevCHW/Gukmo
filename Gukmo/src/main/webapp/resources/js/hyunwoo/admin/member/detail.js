@@ -500,6 +500,9 @@ function activitiesChart_nav (userid) {
      
 }
 
+
+
+
 /**
  * 네비게이션 바에서 검색기록 클릭시 실행될 함수
  */
@@ -508,12 +511,54 @@ function search_nav(userid){
   $("div#member_search").css("display","block");
 
   $.ajax({
-    url:getContextPath()+"/검색기록select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/searchCntList.do", 
     data:{"userid": userid},
     type:"get",
     dataType:"json",
     success:function(json){ //검색기록을 가져오는데 성공했다면
 
+         	var data = [];
+         	
+	            for(var i=0; i<json.length; i++) {
+	            	var obj;
+	        	    
+	            	obj = { 
+	         				name:json[i].key,
+	         				weight: Number(json[i].cnt)
+	         			  };
+         	
+	            	data.push(obj); // 배열속에 객체를 넣기
+	            }// end of for------------------------------
+     
+	            console.log(resultArr);
+	            Highcharts.chart('chart2_container', {
+	                accessibility: {
+	                    screenReaderSection: {
+	                        beforeChartFormat: '<h5>{chartTitle}</h5>' +
+	                            '<div>{chartSubtitle}</div>' +
+	                            '<div>{chartLongdesc}</div>' +
+	                            '<div>{viewTableButton}</div>'
+	                    }
+	                },
+	                series: [{
+	                    type: 'wordcloud',
+	                    data,
+	                    name: 'Occurrences'
+	                }],
+	                title: {
+	                    text: 'Wordcloud of Alice\'s Adventures in Wonderland',
+	                    align: 'left'
+	                },
+	                subtitle: {
+	                    text: 'An excerpt from chapter 1: Down the Rabbit-Hole',
+	                    align: 'left'
+	                },
+	                tooltip: {
+	                    headerFormat: '<span style="font-size: 16px"><b>{point.key}</b></span><br>'
+	                }
+	            });
+
+    	
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
@@ -531,6 +576,7 @@ function search_nav(userid){
 function login_record_nav(userid){
   alert("로그인기록보여주기 메소드 호출");
   $("div#member_login_record").css("display","block");
+ 
   $.ajax({
     url:getContextPath()+"/로그인기록select할빽단url.do", 
     data:{"userid": userid},

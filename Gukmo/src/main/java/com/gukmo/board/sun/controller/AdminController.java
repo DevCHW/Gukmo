@@ -103,7 +103,7 @@ public class AdminController {
 	
 	
 	/**
-	 * 관리자 게시물 통계
+	 * 관리자 회원 활동내역 통계
 	 */
 	@ResponseBody
 	@RequestMapping(value="/admin/member/detail/activityCntList.do", produces="text/plain;charset=UTF-8")
@@ -137,5 +137,28 @@ public class AdminController {
 	}
 	
 	
-	
+		/**
+		 * 관리자 회원 검색어 통계
+		 */
+		@ResponseBody
+		@RequestMapping(value="/admin/member/detail/searchCntList.do", produces="text/plain;charset=UTF-8")
+		//public String requiredAdminLogin_newMemberCnt(@RequestParam String userid, HttpServletRequest request) {
+		public String searchCntList(@RequestParam String userid, HttpServletRequest request, HttpServletResponse response) {
+			
+			List<Map<String, String>> searchCntList = service.searchCntList(userid);
+			
+			JSONArray jsonArr = new JSONArray();  // []
+			
+			if(searchCntList != null) {
+				for(Map<String, String> map : searchCntList) {
+					JSONObject jsonObj = new JSONObject(); // {}
+					jsonObj.put("key", map.get("key")); 
+					jsonObj.put("cnt", map.get("cnt"));
+					
+					jsonArr.put(jsonObj);
+				}// end of for---------------------------
+			}
+			
+			return jsonArr.toString();
+		}
 }

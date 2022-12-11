@@ -48,6 +48,14 @@ public class AdminServie implements InterAdminService {
 		return activityCntList;
 	}
 
+
+	// 특정 회원 검색어 카운트
+	@Override
+	public List<Map<String, String>> searchCntList(String userid) {
+		List<Map<String, String>> searchCntList = dao.searchCntList(userid);  
+		return searchCntList;
+	}
+
 	
 	
 	
