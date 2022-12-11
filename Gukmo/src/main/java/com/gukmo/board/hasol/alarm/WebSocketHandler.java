@@ -23,8 +23,7 @@ import com.gukmo.board.hasol.service.InterAlarmService;
 import com.gukmo.board.model.AlarmVO;
 import com.gukmo.board.model.MemberVO;
 
-@Controller
-@ServerEndpoint(value="/alarm.do")
+
 public class WebSocketHandler extends TextWebSocketHandler {
 
 	@Autowired
@@ -145,14 +144,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         //접속한 해당 유저 읽지않은 알림 데이터 전체 카운트 만 가져올 경우  
         int alarm_cnt = service.getNotReadAlarm_count(userid);
         
-        // 읽지 않은 알림 데이터 전체 가져오기
-        List<AlarmVO> notReadAlarmList = service.getNotReadAlarmList(userid);
-        
-        //1.해당 유저 알림데이터 전체 가져오기
-        List<AlarmVO> getAlarm = service.getAlarm(userid);
-        //for(InformDTO informDTO :getInform) {
-            //System.out.println("getInform : "+informDTO.toString());  
-        //}
+
 
     }
     

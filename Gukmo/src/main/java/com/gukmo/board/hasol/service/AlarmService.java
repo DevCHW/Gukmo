@@ -1,6 +1,7 @@
 package com.gukmo.board.hasol.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,20 @@ public class AlarmService implements InterAlarmService {
 	public List<AlarmVO> getAlarm(String userid) {
 		List<AlarmVO> alarmList = dao.getAlarmList();
 		return alarmList;
+	}
+
+	// 알람테이블에 값 넣기
+	@Override
+	public int setAlarm(Map<String, String> paraMap) {
+		int n = dao.setAlarm(paraMap);
+		return n;
+	}
+
+	// 읽음 컬럼값 변경하기
+	@Override
+	public int changeIsRead(String userid) {
+		int n = dao.changeIsRead(userid);
+		return n;
 	}
 
 }

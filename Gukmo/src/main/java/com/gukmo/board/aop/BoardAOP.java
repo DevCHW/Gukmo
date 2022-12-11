@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
+import com.gukmo.board.hasol.service.InterAlarmService;
 import com.gukmo.board.hw.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
@@ -83,6 +84,25 @@ public class BoardAOP {
 	
 	
 	
+	// 알람에 값 넢는 AOP
+	@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
+	public void setAlarm() {}
+	
+	@Autowired  
+	private InterAlarmService alarm_service;
+	
+	@SuppressWarnings("unchecked")
+	@After("setAlarm()")
+	public void setAlarm(JoinPoint joinpoint) {
+		
+		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
+		Map<String,String> paraMap = (Map<String, String>) joinpoint.getArgs()[1];
+		
+		int n = alarm_service.setAlarm(paraMap);
+		System.out.println("aop 확인용 : " + n);
+		
+	
+	} //end of setAlarm
 	
 	
 	

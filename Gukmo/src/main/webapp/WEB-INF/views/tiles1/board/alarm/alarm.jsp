@@ -15,6 +15,7 @@
 <div class="dropdown">
 	<a class="login_icon alarm_drop"> 
 	<i class="fa-solid fa-bell fa-lg alarm_drop" onclick="drop_alarm()"></i>
+	<span class="alarm_cnt"></span>
 	</a>
 	<div id="alarm_dropContent" class="dropdown-content1 mt-1">
 		<a href="#">알림</a>

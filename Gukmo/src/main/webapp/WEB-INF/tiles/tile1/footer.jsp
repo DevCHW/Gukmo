@@ -32,13 +32,12 @@ function connectWs(){
     // alert(wsUrl)
     // ws://localhost:9090/board/alarm.do
     
-	const ws = new SockJS("/alarm.do");
+	const ws = new WebSocket(wsUrl);
 	socket = ws;
 
 	ws.onopen = function() {
 		alert("웹소켓 연결됨!!");
-		console.log('info: connection opened.');
-        
+		console.log('info: connection opened.');   
   };
 
  ws.onmessage = function(evt) {
