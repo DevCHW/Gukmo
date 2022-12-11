@@ -60,11 +60,6 @@
              data-logo_alignment="left">
           </div>
         </div>
-        
-        
-        
-        
-        
       </div>
       
 	    

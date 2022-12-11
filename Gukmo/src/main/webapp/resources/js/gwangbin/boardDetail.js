@@ -282,9 +282,7 @@ $(document).ready(function(){
 	  }
 	  
 	  else {
-		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		  location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
-
+		  $("button.btn_login").trigger("click");// 로그인페이지로 보내기
 	  }
   });// end of Event----
   
@@ -307,9 +305,7 @@ $(document).ready(function(){
 	  }
 	  
 	  else {
-		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		  location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
-
+		  $("button.btn_login").trigger("click");// 로그인페이지로 보내기
 	  }
   });// end of Event----
   
@@ -329,8 +325,7 @@ $(document).ready(function(){
 	  }
 	  
 	  else {
-		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		  location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
+		  $("button.btn_login").trigger("click");// 로그인페이지로 보내기
 	  }
 	  
   });// end of Event--
@@ -365,8 +360,7 @@ function likeClick(data){
 		dataType:"json",
 		success:function(json){	
 			if(json.JavaData == 'login'){	// 로그인 중이 아니라면
-				
-				location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
+				$("button.btn_login").trigger("click");// 로그인페이지로 보내기
 				
 			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("좋아요 취소");
@@ -409,7 +403,7 @@ function comment_likeClick(comment_num, userid){
 		dataType:"json",
 		success:function(json){	
 			if(json.JavaData == 'login'){	// 로그인 중이 아니라면
-				location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
+				$("button.btn_login").trigger("click");// 로그인페이지로 보내기
 			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("댓글 좋아요 취소.");
 				  window.location.reload();
@@ -479,8 +473,7 @@ function goAddComment() {
 		goAddWrite_noAttach();
 	}
 	else {
-		alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
+		$("button.btn_login").trigger("click");// 로그인페이지로 보내기
 	}
 	  
 }// end of function goAddWrite()--------------------------------------

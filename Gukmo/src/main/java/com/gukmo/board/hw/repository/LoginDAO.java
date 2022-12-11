@@ -43,9 +43,9 @@ public class LoginDAO implements InterLoginDAO{
 	 * @return 로그인관련한 회원정보
 	 */
 	@Override
-	public MemberVO statusCheck(String userid) {
-		MemberVO user = gukmo_sql.selectOne("chw.statusCheck",userid);
-		return user;
+	public String getStatus(String userid) {
+		String status = gukmo_sql.selectOne("chw.statusCheck",userid);
+		return status;
 	}
 
 

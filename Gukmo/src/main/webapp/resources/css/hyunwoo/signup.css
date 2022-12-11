@@ -17,7 +17,22 @@ img#logo{
 }
 
 
-/* sns회원가입 끝 */
+/* sns_login */
+div.sns_login{
+  cursor: pointer;
+  height:38px;
+  width: 50px;
+}
+div.sns_login img{
+  width : 40px;
+  height: 40px;
+}
+svg{
+  width: 20px;
+  height: 20px;
+}
+
+/* sns_login */
 
 .line{
   display:flex;

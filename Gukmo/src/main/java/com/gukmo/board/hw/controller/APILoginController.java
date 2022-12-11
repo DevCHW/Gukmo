@@ -93,18 +93,19 @@ public class APILoginController {
 		String apiResult = naverloginbo.getUserProfile(oauthToken);
 		
 		//날아온 토큰값 확인
-		System.out.println("확인용 apiResult =>"+apiResult);
+//		System.out.println("확인용 apiResult =>"+apiResult);
 		
 		ObjectMapper objectMapper =new ObjectMapper();
 		
 		@SuppressWarnings("unchecked")
 		Map<String, Object> apiJson = (Map<String, Object>) objectMapper.readValue(apiResult, Map.class).get("response");
 		
-		System.out.println("확인용 apiJson =>"+apiJson);
+//		System.out.println("확인용 apiJson =>"+apiJson);
 		
 		Map<String, Object> naverConnectionCheck = service.kakaoConnectionCheck(apiJson);
 		
 		if(naverConnectionCheck == null) { //신규 회원이라면
+			
 			request.setAttribute("username",apiJson.get("name"));
 			request.setAttribute("email",apiJson.get("email"));
 			request.setAttribute("userid",apiJson.get("id"));
@@ -204,8 +205,6 @@ public class APILoginController {
 	@ResponseBody
 	@RequestMapping(value="/userSnsRegisterPro.do", method=RequestMethod.POST)
 	public Map<String, Object> userSnsRegisterPro(@RequestParam Map<String,Object> paramMap,HttpSession session) throws SQLException, Exception {
-		System.out.println("소셜로그인 회원가입 메소드입니다. 메소드명 : userSnsRegisterPro\n");
-		System.out.println("회원가입에 필요한 확인용 유저 정보 :" + paramMap);
 		
 		String flag = (String) paramMap.get("flag");
 		switch (flag) {

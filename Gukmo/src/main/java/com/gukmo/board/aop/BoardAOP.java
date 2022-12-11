@@ -1,7 +1,8 @@
 package com.gukmo.board.aop;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,11 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
@@ -36,17 +35,16 @@ public class BoardAOP {
 		
 		HttpSession session = request.getSession();
 		if(session.getAttribute("user") == null) {
-			String message = "먼저 로그인 하세요";
-			String loc = request.getContextPath()+"/login.do";
+			String loc = "";
+			try {
+				loc = request.getContextPath()+"/login.do?returnUrl="+URLEncoder.encode(MyUtil.getCurrentURL(request), "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
 			
-			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
 			
-			// 로그인 성공후 로그인 하기전 페이지로 돌아가는 작업
-			String url = MyUtil.getCurrentURL(request);
-			session.setAttribute("goBackURL", url);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp"); 
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/returnLogin.jsp"); 
 			
 			try {
 				dispatcher.forward(request, response);

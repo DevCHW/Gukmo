@@ -85,7 +85,17 @@
 	<aop:config proxy-target-class="true">
 	  <aop:pointcut id="controllerOperation" expression="execution(public * com.spring..*Controller.*(..))" />
     </aop:config>
+    
+    <!-- 로그인되어진 사용자가 관리자등급 인지 여부를 체크하는 인터셉터 등록 -->
+	<beans:bean id="adminLoginCheckInterceptor" class="com.gukmo.interceptor.controller.AdminLoginCheckInterceptor" />
 	
+	<!-- 특정 URL에 대해서만 로그인 여부 체크하는 인터셉터 매핑시키기 -->
+	<mvc:interceptors>
+	    <mvc:interceptor>
+		    <mvc:mapping path="/admin/**"/>
+			<beans:ref bean="adminLoginCheckInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	
 	<!-- websocket handler -->
 	<beans:bean id="echoHandler" class="com.gukmo.board.hasol.alarm.WebSocketHandler" />

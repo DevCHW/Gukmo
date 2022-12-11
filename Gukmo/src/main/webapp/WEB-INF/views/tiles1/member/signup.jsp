@@ -5,9 +5,14 @@
 %>
 
 
+ <%-- 구글 로그인 --%>
+ <script src="https://accounts.google.com/gsi/client" async defer></script>
+ <%-- 카카오 로그인 --%>
+ <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
+ <%-- 페이스북 로그인 --%>
+ <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v10.0&appId=5826169730780578" nonce="SiOBIhLG"></script>
  <%-- 직접 만든 CSS --%>
  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/signup.css" />
- 
  <%-- Google reCAPTCHA v2 --%>
  <script src="https://www.google.com/recaptcha/api.js"></script>
  <%-- 직접만든 javascript --%>
@@ -20,11 +25,43 @@
     <div id="logo_img_box" class="m-auto" style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/index.do'">
       <img id="logo" src="<%=ctxPath %>/resources/images/logo.png" class="rounded">
     </div>
+    
+    
+     <%-- sns_login --%>
+     <span>SNS회원가입</span>
+     <div id="sns_login" class="d-flex mt-2">
+       <%-- kakao --%>
+       <div id="kakao_login" class="sns_login d-flex justify-content-center align-items-center mr-3">
+         <img src="<%=ctxPath %>/resources/images/login/카카오로그인.PNG" class="rounded">
+       </div>
+     
+       <%-- naver --%>
+       <div id="naver_login" class="sns_login d-flex justify-content-center align-items-center mr-3">
+         <img src="<%=ctxPath %>/resources/images/login/네이버로그인.png">
+       </div>
+       
+       
+       <%-- facebook --%>
+       <div id="facebook_login" class="sns_login d-flex justify-content-center align-items-center mr-3" onclick="fnFbCustomLogin();">
+         <img src="<%=ctxPath %>/resources/images/login/페이스북로그인.svg">
+       </div>
+
+       <%-- google --%>
+       <div id="google_login" class="sns_login d-flex justify-content-center align-items-center mr-3">
+         <div id="g_id_onload"
+          data-client_id="1009243602481-q3hk5769gab0ucfqbsf3r1abj4cg8av5.apps.googleusercontent.com"
+          data-callback="handleCredentialResponse">
+         </div>
+         <div class="g_id_signin"
+            data-type="icon"
+            data-size="large"
+            data-logo_alignment="left">
+         </div>
+       </div>
+     </div>
 
 
-    <div class="line my-4">
-      회원가입에 필요한 기본정보를 입력해주세요
-    </div>
+    <div class="line my-4">회원가입에 필요한 기본정보를 입력해주세요</div>
 
     <%-- signupform 시작 --%>
     <div id="signup_form">

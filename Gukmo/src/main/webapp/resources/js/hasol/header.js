@@ -1,6 +1,28 @@
 
 $(document).ready(function(){
-
+	 // 변수선언
+    const menu = $("div#slide_menu");
+    const mask = $("div#slide_mask");
+    const menu_open = $("div#btn_slide_menu_open");
+    const menu_close = $("div#menu_close");
+    
+    // 메뉴열기버튼 클릭시
+    menu_open.click(function(){
+      mask.fadeIn(300);
+      menu.animate({width:"toggle"},300);
+    });
+    
+    // 메뉴닫기버튼 클릭시
+    menu_close.click(function(){
+      mask.fadeOut(300);
+      menu.animate({width:"toggle"},300);
+    });
+    
+    // 사이드바가 열려있을 때 , 어두운부분을 클릭시
+    mask.click(function(){
+      mask.fadeOut(300);
+      menu.animate({width:"toggle"},300);
+    });
      
      ///////////// 프로필 메뉴 토글 시작 ///////////
      $('.dropbtn').click(function(event){

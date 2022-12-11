@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo.css?after">
   
   <%-- title Icon --%>
-  <link href="<%=ctxPath %>/resources/images/logo.png" rel="shortcut icon" type="image/x-icon">
+  <link href="<%=ctxPath %>/resources/images/titleicon.png" rel="shortcut icon" type="image/x-icon">
   
   <%-- Optional JavaScript --%>
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery-3.6.0.min.js"></script>

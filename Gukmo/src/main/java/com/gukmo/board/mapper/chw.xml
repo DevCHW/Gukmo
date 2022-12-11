@@ -223,8 +223,8 @@
 	
 	
 	<!-- 회원의 상태 얻기 -->
-	<select id="statusCheck" parameterType="String" resultType="com.gukmo.board.model.MemberVO">
-		select * from tbl_member_login
+	<select id="statusCheck" parameterType="String" resultType="String">
+		select status from tbl_member_login
 		where userid = #{userid}
 	</select>
 	

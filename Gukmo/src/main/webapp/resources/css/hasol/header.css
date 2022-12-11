@@ -24,6 +24,11 @@ p {
     padding: 0;
 }
 
+div#btn_slide_menu_open{
+	cursor:pointer;
+	display:none;
+}
+
 
 
 /* 이미지와 카테고리 영역 */
@@ -48,8 +53,9 @@ p {
 
 .mainCate > li {             
     display: flex;
+    width:100px;
     justify-content: space-between;
-    padding: 0 20px;
+    margin: 0 20px;
 }
 
 /* 메뉴 a태그 색상 바꾸기 */
@@ -74,7 +80,7 @@ p {
 /* 마이페이지와 로그인 등 영역 */
 
 .main_right {
-   width:30%;
+   width:200px;
    height: 100%;
    display:flex;
    justify-content: end;
@@ -251,3 +257,147 @@ p {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+
+
+/* 슬라이드 메뉴 시작 */
+div#slide_mask { 
+  width: 100%; 
+  height: 100%; 
+  position: fixed; 
+  top: 0; left: 0; 
+  background: #000; 
+  opacity: 0.6; 
+  z-index: 3; 
+  display: none; 
+}
+div#slide_menu { 
+  width: 80%; 
+  height: 100%; 
+  background: #fff; 
+  position: fixed; 
+  top: 0; 
+  right: 0; 
+  z-index: 4; 
+  display: none; 
+  transform: translateX(-100%); 
+  left:100%;
+}
+ul#menu_list{
+  margin-top:40px;
+  list-style: none;
+  font-size: medium;
+  font-weight: bold;
+}
+
+ul#menu_list > li{
+  line-height: 50px;
+  padding-left: 20px;
+  font-size:13px;
+}
+
+ul#menu_list > li > a{
+  font-size:13px;
+}
+
+ul#menu_list > li > a:link {
+  color : black;
+  text-decoration: none;
+}
+ul#menu_list > li > a:visited {
+  color : black;
+  text-decoration: none;
+}
+ul#menu_list > li > a:hover {
+  color : black;
+  text-decoration: none;
+}
+ul#menu_list > li > a:active {
+  color : #000000;
+  text-decoration: none;
+}
+ul#menu_list > li > a:hover{
+  color:#208EC9;
+}
+div#menu_close { 
+  width: 25px; 
+  height: 25px; 
+  position: absolute; 
+  top: 15px; 
+  right: 15px;
+  cursor: pointer;
+  font-size: x-large;
+  color:gray;
+}
+#btn_menu_close{
+  position:relative;
+  left:6px;
+}
+/* 슬라이드 메뉴 끝 */
+
+
+/* 스크롤탑버튼 시작*/
+
+#scroll-to-top {
+    position: fixed;
+    font-size: 21px;
+    bottom: 40px;
+    right: 2%;
+    display:none;
+    z-index: 99;
+    text-align: center;
+    transform: translateY(30%);
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+#scroll-to-top:last-child {
+  transition: transform 0.7s ease-in-out;
+}
+
+@media (max-width: 600px) {
+	#scroll-to-top{
+        font-size: 20px;
+	}
+}
+
+#scroll-to-top span {
+    cursor: pointer;
+    color: #1a1d243f;
+}
+
+
+/* 스크롤탑버튼 끝 */
+
+
+/* 체크박스 또는 라디오 검은색 으로 만들기 */
+:checked {
+    accent-color: black;
+}
+
+div#start_login{
+	display:flex;
+}
+
+
+@media screen and (max-width: 900px){
+  div#btn_slide_menu_open{
+    display:inline-block;
+  }
+  div#btn_slide_menu_open:hover{
+    box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+  }
+  div.non-login{
+  	display:none;
+  }
+  ul.mainCate{
+  	display:none;
+  }
+  .main_left{
+  	width:150px;
+  }
+  .main_right{
+  	width:50px;
+  }
+  div#start_login{
+	display:none;
+  }
+}

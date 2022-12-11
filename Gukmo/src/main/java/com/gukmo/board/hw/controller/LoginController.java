@@ -1,5 +1,7 @@
 package com.gukmo.board.hw.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,22 +28,37 @@ public class LoginController {
 	@Autowired
 	InterLoginDAO dao;
 	
+	
+	
 	/**
 	 * 로그인 페이지 url매핑
 	 */
 	@RequestMapping(value="/login.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
 	public ModelAndView login(ModelAndView mav, HttpServletRequest request) {
+	  String returnUrl = request.getParameter("returnUrl");
 	  HttpSession session = request.getSession();
+	  
 	  if(session.getAttribute("user") != null) {	//로그인한 유저가 있다면
 		  mav.setViewName("redirect:/index.do");
 	  }
 	  else {										//로그인한 유저가 없다면
 		  mav.setViewName("login/login.tiles1");
 	  }
-      //   /WEB-INF/views/tiles1/login/login.jsp 파일을 생성한다.
+	  
+	  if(returnUrl != null && !returnUrl.trim().isEmpty()) {
+		  try {
+			  returnUrl = URLDecoder.decode(returnUrl, "UTF-8");
+			  session.setAttribute("returnUrl", returnUrl);
+		  } catch (UnsupportedEncodingException e) {
+			  e.printStackTrace();
+		  }
+	  }
+	  
+//	  System.out.println(returnUrl);
       
       return mav;
-   }
+ //   /WEB-INF/views/tiles1/login/login.jsp 파일을 생성한다.
+     }
 	
 	
 	
@@ -84,6 +101,13 @@ public class LoginController {
 		
 		String status = service.statusCheck(userid);
 		
+		HttpSession session = request.getSession();
+		if("비밀번호 변경 권장".equals(status)) {
+			session.setAttribute("changePwd", true);
+		} else {
+			session.setAttribute("changePwd", false);
+		}
+		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("status", status);
 		
@@ -99,7 +123,6 @@ public class LoginController {
 	 * @param 유저아이디, 비밀번호
 	 * @return 이전페이지로 이동(추후 구현예정),(추후구현예정) 현재는 index 페이지로 이동,
 	 */
-	
 	@RequestMapping(value="/login.do",method= {RequestMethod.POST})
 	public String login_complete(HttpServletRequest request) {
 		Map<String,String> paraMap = new HashMap<>();
@@ -111,7 +134,21 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		
-		return "redirect:/index.do";
+		String returnUrl = (String) session.getAttribute("returnUrl");
+		boolean changePwd = (boolean)session.getAttribute("changePwd");
+		session.removeAttribute("returnUrl");
+		session.removeAttribute("changePwd");
+		if(returnUrl != null && !changePwd) {
+			String loc = request.getContextPath()+returnUrl;
+			request.setAttribute("loc", loc);
+			return "returnLogin";
+		} else if(changePwd) {
+			return "redirect:/member/myId.do";
+		}
+		else {
+			return "redirect:/index.do";
+		}
+		
 	}
 	
 	
@@ -122,11 +159,18 @@ public class LoginController {
 	@RequestMapping(value="/logout.do")	//GET이나 POST 둘다 처리하기
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user") != null) {	//로그인한 유저가 있다면
-			session.removeAttribute("user");
-			return "redirect:/index.do";
-		}
-		else {										//로그인한유저가 없다면
+		String returnUrl = request.getParameter("returnUrl");
+		session.invalidate();
+		if(returnUrl != null && !returnUrl.trim().isEmpty()) {
+			try {
+				returnUrl = URLDecoder.decode(returnUrl, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			String loc = request.getContextPath()+returnUrl;
+			request.setAttribute("loc", loc);
+			return "returnLogin";
+		} else {
 			return "redirect:/index.do";
 		}
 	}

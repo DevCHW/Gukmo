@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -131,10 +132,16 @@
        </div>
      </div>
      </c:forEach>
-    
-
-         
      <%-- 이 div가 반복문 끝 --%>
+     
+     
+     
+     <%-- 게시글이 없다면 --%>
+     <c:if test="${fn:length(requestScope.boardList) == 0}">
+       <div class="d-flex justify-content-center align-items-center border-top" style="height:300px;">
+       	 <div style="font-size:25px; font-weight:bold;">게시물이 없습니다.</div>
+       </div>
+     </c:if>
 
      <%----------------------------------- 게시판 리스트 끝 -------------------------------------%>
 

@@ -17,7 +17,7 @@
 
 
   <div class="container my-5">
-    <%-- 커뮤니티 작성 폼 시작 --%>
+    <%-- 국비학원 작성 폼 시작 --%>
     <form name="writerFrm" class="d-flex flex-column" enctype="multipart/form-data">
 	  
 	  <%-- 등록용 닉네임 --%>
@@ -131,7 +131,7 @@
         </ul>
       </div>
     </form>
-    <%-- 커뮤니티 작성 폼 끝 --%>
+    <%-- 국비학원 작성 폼 끝 --%>
 	
 	<%-- Google reCAPTCHA --%>
     <div class="d-flex justify-content-center my-5">

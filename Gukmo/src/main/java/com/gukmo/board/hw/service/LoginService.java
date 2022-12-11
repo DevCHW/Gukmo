@@ -22,10 +22,9 @@ public class LoginService implements InterLoginService{
 	 */
 	@Override
 	public String statusCheck(String userid) {
-		MemberVO user = dao.statusCheck(userid);
-		String status = user.getStatus();
+		String status = dao.getStatus(userid);
 		
-		if(!"휴면".equals(user.getStatus())) {
+		if(!"휴면".equals(status)) {
 			try {
 				status = restMemberUpdate(userid,status);	//로그인되어질 회원이 로그인한지 1년이 지났다면 휴면으로 바꿔주기
 			}catch(SQLException e) {
@@ -50,8 +49,8 @@ public class LoginService implements InterLoginService{
 		int lastLoginDay = dao.getLastLoginday(userid); // 마지막로그인날짜가 몇일전인지 알아내기
 		
 		if(lastLoginDay > 365) {	//마지막 로그인날짜가 365일 이상 되었다면
-			int n = dao.editUserStatus_rest(userid);	//상태를 휴면으로 업데이트 해주기
-			if(n==1) {	//업데이트에 성공하였다면
+			int result = dao.editUserStatus_rest(userid);	//상태를 휴면으로 업데이트 해주기
+			if(result==1) {	//업데이트에 성공하였다면
 				return "휴면";
 			}
 			else {	//업데이트에 실패하였다면

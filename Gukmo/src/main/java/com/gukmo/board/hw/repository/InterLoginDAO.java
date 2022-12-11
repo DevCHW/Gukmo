@@ -19,7 +19,7 @@ public interface InterLoginDAO {
 	 * @param 유저가 입력한 아이디, 유저가 입력한 비밀번호
 	 * @return 로그인 관련한 user의 정보
 	 */
-	MemberVO statusCheck(String userid);
+	String getStatus(String userid);
 
 	
 	/**

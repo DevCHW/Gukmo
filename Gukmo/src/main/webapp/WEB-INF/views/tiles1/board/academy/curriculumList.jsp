@@ -4,6 +4,7 @@
 	String ctxPath = request.getContextPath();
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
  
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/curriculumList.css" />
@@ -157,18 +158,27 @@
     
     
     
+    <%-- 게시글이 없다면 --%>
+    <c:if test="${fn:length(requestScope.curriculumList) == 0}">
+      <div class="d-flex justify-content-center align-items-center border-top" style="height:300px;">
+      	<div style="font-size:25px; font-weight:bold;">게시물이 없습니다.</div>
+      </div>
+    </c:if>
+    
+    
+    
     <%----------------------------------- 게시판 리스트 끝 -------------------------------------%>
 
     <div class="d-flex border-top pt-3 justify-content-between">
 
-      <div id="total_cnt">
-        <%-- 총 건수 변수 들어갈 곳--%>
-        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
-      </div>
+	  <%-- 총 건수 변수 들어갈 곳 --%>
+      <div id="total_cnt">총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건</div>
 
-      <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/curriculum/new.do'">
-        <i class="fa-sharp fa-solid fa-plus"></i><span>교육과정&nbsp;등록</span>
-      </button>
+	  <c:if test="${not empty sessionScope.user.academy_name}">
+        <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/curriculum/new.do'">
+          <i class="fa-sharp fa-solid fa-plus"></i><span>교육과정&nbsp;등록</span>
+        </button>
+      </c:if>
     </div>
 
 

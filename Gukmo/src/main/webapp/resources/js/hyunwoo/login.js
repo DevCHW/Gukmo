@@ -83,12 +83,7 @@ $(document).ready(function(){
 		    		    dataType:"JSON",
 		    		    success:function(json){	
 		    		    	if(json.userExist){ //로그인이 성공이라면
-		    		    		if(userid != 'admin'){	//관리자로 로그인하지 않았다면
-		    		    			user_status(userid);	//유저의 상태체크
-		    		    		}
-		    		    		else{
-		    		    			login();
-		    		    		}
+	    		    			user_status(userid);	//유저의 상태체크
 		    		    		return;
 		    		    	}
 		    		    	else{	//로그인이 실패했다면
@@ -126,10 +121,6 @@ $(document).ready(function(){
 		location.href = url;
 	});//end of Event--
 	
-	$(document).on('click', '#google_login' , function(){
-		alert("잡힘?");
-		$("#container > div > div.nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb > div").trigger("click");
-	});
 	
   
 });//end of $(document).ready(function(){})
@@ -151,23 +142,42 @@ function user_status(userid){
 	    success:function(json){	
 	    	switch (json.status) {
 				case '활동':
-					login();
+					login(userid);
 					break;
 					
 				case '정지':
-					alert("정지된 회원입니다.");
+					alert("정지된 회원입니다. 정지사유 : "+json.penaltyReason);
 					break;
 					
 				case '휴면':
-					alert("로그인한지 1년이상 지나서 휴면회원으로 전환되었습니다. 휴면을 푸시겠습니까?confirm창 띄운 후 이동 버튼 누르면 휴면 풀어주는 페이지로이동시키기");
+					let result = confirm("로그인한지 1년이상 지나서 휴면회원으로 전환되었습니다. 휴면을 푸시겠습니까?");
+					if(result){	//휴면을 풀겠다고 했다면
+						$.ajax({	
+							url:getContextPath()+"/회원상태를 휴면에서 활동으로 업데이트시켜주는 빽단.do",
+							type:"POST",
+							data:{"userid":userid},
+						    dataType:"JSON",
+						    success:function(json){
+						    	if(json.result){
+						    		alert("휴면이 풀렸습니다!");
+						    	} else{
+						    		alert("휴면을 푸는 도중 문제가 발생하였습니다. 다시 시도하여주세요.");
+						    	}
+						    },
+						    error:function(request, status, error){
+							    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+							}
+						});//end of $.ajax({})--
+					}//end of if--
 					break;
 					
 				case '대기':
-					alert("승인대기중인 회원입니다.")
+					alert("승인대기중인 회원입니다. 관리자가 승인할 때 까지 대기해주세요.");
 					break;
 				
 				case '비밀번호 변경 권장':
-					alert("비밀번호 변경한지 3개월 이상 지났습니다 변경을 권장합니다. 비밀번호를 변경하시겠습니까? confirm창 띄운 후 변경 버튼 누르면 비밀번호 변경할 수 있는 페이지로 이동시키기");
+					alert("비밀번호 변경한지 3개월 이상 지났습니다 비밀번호 변경을 권장합니다.");
+					login(userid);
 					break;
 			}//end of switch-case---
 	    },
@@ -183,9 +193,9 @@ function user_status(userid){
 /**
  * 로그인완료처리하기
  */
-function login(){
+function login(userid){
+	$("input#userid").val(userid);
 	const frm = document.login_form;
-	
 	frm.action = getContextPath()+"/login.do";
 	frm.method = "POST";
 	frm.submit();
@@ -209,9 +219,7 @@ function kakaoLoginPro(response){
 	success : function(data){
 		console.log(data)
 		if(data.JavaData == "YES"){
-			$("input#userid").val(data.userid);
-			login();
-			
+			user_status(data.userid);
 		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
 			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
 		}else{
@@ -265,8 +273,7 @@ function userSnsRegisterPro(userInfo){
 	success : function(data){
 		console.log(data)
 		if(data.JavaData == "YES"){
-			$("input#userid").val(data.userid);
-			login();
+			user_status(data.userid);
 		}else{
 			alert("로그인에 실패했습니다");
 		}
@@ -330,9 +337,7 @@ function handleCredentialResponse(response) {
 		success : function(data){
 		  console.log(data)
 		  if(data.JavaData == "YES"){
-			$("input#userid").val(data.userid);
-			login();
-				
+			 user_status(data.userid);
 		  }else if(data.JavaData == "register"){// 회원가입을 해야하는경우
 			 userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
 		  }else{
@@ -431,9 +436,7 @@ function facebookLoginPro(userInfo){
 	success : function(data){
 		console.log(data)
 		if(data.JavaData == "YES"){
-			$("input#userid").val(data.userid);
-			login();
-			
+			user_status(data.userid);	//로그인처리
 		}else if(data.JavaData == "register"){// 회원가입을 해야하는경우
 			userSnsRegisterPro(userInfo);	//소셜로그인 회원가입 메소드
 		}else{

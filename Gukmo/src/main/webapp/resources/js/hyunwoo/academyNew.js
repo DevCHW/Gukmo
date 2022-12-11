@@ -261,15 +261,12 @@ function reCAPTCHA(){
         success: function(data) {
             switch (data) {
                 case 0:
-                    console.log("자동 가입 방지 봇 통과");
                     recaptcha_ok = true;
             		break;
                 case 1:
-                    console.log("자동 가입 방지 봇 통과 후 시도해주세요");
                     recaptcha_ok = false;
                     break;
                 default:
-                    console.log("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다. [Error bot Code : " + Number(data) + "]");
                 	recaptcha_ok = false;
                		break;
             }

@@ -9,7 +9,8 @@
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seonwoo/boardNew.css" />
-
+<%-- Google reCAPTCHA v2 --%>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/seonwoo/communityNew.js" ></script>
 
@@ -68,6 +69,12 @@
       <textarea name="content" id="content" class="px-2 py-2 border rounded" cols="30" rows="15">${requestScope.boardvo.content}</textarea>
     </form>
     <%-- 커뮤니티 작성 폼 끝 --%>
+    
+    
+    <%-- Google reCAPTCHA --%>
+    <div class="d-flex justify-content-center my-5">
+      <div class="g-recaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
+    </div>
 
     <%-- 수정일 경우에는 등록 대신 수정버튼 태그라이브러리로 구현예정 --%>
     <div id="btn_wrapper" class="d-flex justify-content-end mt-3">

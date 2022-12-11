@@ -4,6 +4,7 @@
 	String ctxPath = request.getContextPath();
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
  
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/academyList.css" />
@@ -151,6 +152,16 @@
     </c:forEach>
     
     <%-- 게시글 반복문 끝 --%>
+    
+    
+	    
+    <%-- 게시글이 없다면 --%>
+    <c:if test="${fn:length(requestScope.academyList) == 0}">
+      <div class="d-flex justify-content-center align-items-center border-top" style="height:300px;">
+      	<div style="font-size:25px; font-weight:bold;">게시물이 없습니다.</div>
+      </div>
+    </c:if>
+    
     
     
     

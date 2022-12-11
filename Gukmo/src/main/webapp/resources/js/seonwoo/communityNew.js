@@ -5,6 +5,9 @@ function getContextPath(){
   return contextPath;
 }
 
+
+let recaptcha_ok = false;
+
 $(document).ready(function(){
   
 	
@@ -108,6 +111,9 @@ $(document).ready(function(){
           }
           
           
+          
+          
+          
         });
 
       // 삭제 버튼
@@ -170,6 +176,12 @@ $(document).ready(function(){
   	  	  return;
   	    }
   	    
+  	    reCAPTCHA();
+	    if(!recaptcha_ok){
+	    	alert("매크로방지 봇 통과 후 진행해주세요");
+	    	return;
+	    }
+  	    
   	    
   	    flag = true;
   	}
@@ -204,5 +216,40 @@ $(document).ready(function(){
 	});
     
 });// end of document
+
+
+
+
+//Function Declaration
+
+/**
+ * reCAPTCHA v2 사용하기
+ * @returns
+ */
+function reCAPTCHA(){
+	$.ajax({
+        url: getContextPath()+'/member/verifyRecaptcha.do',
+        type: 'post',
+        data: {
+            recaptcha: $("#g-recaptcha-response").val()
+        },
+        async:false,
+        success: function(data) {
+            switch (data) {
+                case 0:
+                    recaptcha_ok = true;
+            		break;
+                case 1:
+                    recaptcha_ok = false;
+                    break;
+                default:
+                	recaptcha_ok = false;
+               		break;
+            }
+        }
+    });//end of $.ajax({})
+	
+}//end of method-----
+
 
 	
