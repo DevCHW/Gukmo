@@ -49,5 +49,12 @@ public class AlarmDAO implements InterAlarmDAO {
 		return n;
 	}
 	
+	// 안읽음 컬럼 카운트
+	@Override
+	public int showAlarmCnt(String userid) {
+		int n = gukmo_sql.selectOne("jhs.showAlarmcnt");
+		return n;
+	}
+	
 
 }

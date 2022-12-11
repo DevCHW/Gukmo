@@ -10,7 +10,7 @@ function getContextPath(){
 $(document).ready(function(){
 	
 	$(".alarm_cnt").hide();
-	showAlarmCnt();
+	//showAlarmCnt();
 	
 	///////////// 알림 토글 시작 /////////////////	
 	$('.alarm_drop').click(function(event){
@@ -33,7 +33,9 @@ $(document).ready(function(){
 // 읽지 않은 알람 카운트 보여주기
 function showAlarmCnt(){
 	
-	$.ajax({
+	location.href=getContextPath()+'/showAlarmCnt.do';
+
+	/*$.ajax({
 		url:getContextPath()+'/showAlarmCnt.do',
 		dataType:"json",
 		success:function(json){
@@ -48,7 +50,7 @@ function showAlarmCnt(){
 		error: function(request,error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		}
-	});
+	});*/
 	
 }
 
@@ -57,7 +59,7 @@ function showAlarmCnt(){
 function getAlarmList(){
 	
 	$.ajax({
-		url:getContextPath()+'/getAlarmList.do',
+		url:getContextPath()+'/getNotAlarmList.do',
 		dataType:"json",
 		success:function(json){
 
@@ -68,7 +70,7 @@ function getAlarmList(){
 				$.each(json,function(index,item){					
 					
 					const subject = item.subject;
-					const comment = item.comment;
+					const cmt_content = item.cmt_content;
 					const isread = item.isread;
 					
 					// 글 제목이 13자 넘을 경우, 
@@ -78,7 +80,7 @@ function getAlarmList(){
 					
 					// 댓글이 13자 넘을 경우,
 					if(comment != null && comment.length > 13){
-						comment = comment.substring(0,13) + "...";
+						cmt_content = comment.substring(0,13) + "...";
 					}
 					
 					// 확인한 적 있는 알림 표시
@@ -96,33 +98,33 @@ function getAlarmList(){
 					
 					// 게시글에 댓글, 좋아요, 신고
 					if(item.cmd == 'reply') {
-						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +item.subject+ "] 글에 댓글이 달렸습니다.</a>" +
+						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +subject+ "] 글에 댓글이 달렸습니다.</a>" +
 								"<input id='alarm_num' type='hidden' value='"+ item.alarm_num +"'>";
 					}
 					
 					if(item.cmd == 'like'){
-						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +item.subject+ "] 글이 좋아요를 받았습니다.</a>" +
+						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +subject+ "] 글이 좋아요를 받았습니다.</a>" +
 								"<input id='alarm_num' type='hidden' value='"+ item.alarm_num +"'>";			
 					}
 					
 					if(item.cmd == 'penalty') {
-						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +item.subject+ "] 글에 신고가 접수되었습니다.</a>" +
+						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +subject+ "] 글에 신고가 접수되었습니다.</a>" +
 								"<input id='alarm_num' type='hidden' value='"+ item.alarm_num +"'>";			
 					}
 					
 					// 댓글에 댓글, 좋아요, 신고
 					if(item.cmd == 'recomment') {
-						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +comment+ "] 댓글에 댓글이 달렸습니다.</a>" +
+						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.cmt_content+ "' > [" +cmt_content+ "] 댓글에 댓글이 달렸습니다.</a>" +
 								"<input id='alarm_num' type='hidden' value='"+ item.alarm_num +"'>";			
 					}
 					
 					if(item.cmd == 'commentLike') {
-						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +item.comment+ "] 댓글이 좋아요를 받았습니다.</a>" +
+						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +cmt_content+ "] 댓글이 좋아요를 받았습니다.</a>" +
 								"<input id='alarm_num' type='hidden' value='"+ item.alarm_num +"'>";		
 					}
 					
 					if(item.cmd == 'commentPenalty') {
-						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +item.comment+ "] 댓글에 신고가 접수되었습니다.</a>" +
+						html += "<a href='<%=ctxPath =%>/detail.do?boardNum=" +item.alarm_board_num+ "' > [" +cmt_content+ "] 댓글에 신고가 접수되었습니다.</a>" +
 								"<input id='alarm_num' type='hidden' value='"+ item.alarm_num +"'>";			
 					}
 

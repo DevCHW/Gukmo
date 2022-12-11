@@ -390,30 +390,53 @@
 	</resultMap>
 	
 	
-	<resultMap id="alarmInsert" type="com.gukmo.board.model.AlarmVO">
+	<resultMap id="alarmList" type="com.gukmo.board.model.AlarmVO">
 		<id property="alarm_num" column="alarmno"/>
 		<result property="cmd" column="cmd"/>
 		<result property="alarm_nickname" column="alarm_nickname"/>
-		<association property="comment" resultMap="comment"/>
-		<association property="like" resultMap="like"/>
+		<result property="subject" column="subject"/>
+		<result property="cmt_content" column="cmt_contetn"/>
 	</resultMap>
 
 
 	<insert id="setAlarm" parameterType="HashMap">
 		<if test="cmd == 'reply' or cmd == 'like' or cmd == 'penalty'">
-			insert into tbl_alarm (ALARMNO, alarm_board_num ,alarm_comment_num, alarm_nickname, cmd, alarm_date, isread )
+			insert into tbl_alarm (ALARMNO, alarm_board_num ,alarm_comment_num, alarm_userid, cmd, alarm_date, isread )
 			values (seq_alarm.nextval, #{board_num}, 0 , #{userid}, ${cmd}, sysdate, 'n' )
 		</if>
 		<if test="cmd == 'recomment' or cmd == 'cmtLike' or cmd == 'cmtPenalty'">
-			insert into tbl_alarm (ALARMNO, alarm_board_num, alarm_comment_num, alarm_nickname, cmd, alarm_date, isread )
+			insert into tbl_alarm (ALARMNO, alarm_board_num, alarm_comment_num, alarm_userid, cmd, alarm_date, isread )
 			values (seq_alarm.nextval, #{board_num}, #{fk_comment_num}, #{userid}, ${cmd}, sysdate, 'n' )
 		</if>
 	</insert>
 
+	<select id="notReadAlarmList" parameterType="HashMap" resultMap="alarmList" >
+		select alarmno, alarm_board_num , subject, alarm_comment_num, content, alarm_userid, cmd, alarm_date, isread
+        from
+		(
+        	select alarmno, alarm_board_num , subject, alarm_comment_num, alarm_userid, cmd, alarm_date, isread
+			from tbl_alarm A join tbl_board B
+			on A.alarm_board_num = B.board_num
+        ) left join tbl_comment C
+        on alarm_comment_num = comment_num
+		where isread = 'n' and alarm_userid = #{userid}
+	</select>
 
+	<select id="getAlarm" parameterType="HashMap" resultMap="alarmList" >
+		select alarmno, alarm_board_num , subject, alarm_comment_num, content, alarm_userid, cmd, alarm_date, isread
+        from
+		(
+        	select alarmno, alarm_board_num , subject, alarm_comment_num, alarm_userid, cmd, alarm_date, isread
+			from tbl_alarm A join tbl_board B
+			on A.alarm_board_num = B.board_num
+        ) left join tbl_comment C
+        on alarm_comment_num = comment_num
+        alarm_userid = #{userid}
+	</select>	
+	
 	<update id="changeIsRead" parameterType="String">
 		update tbl_alarm set isread = 'y'
-		where alarmno= #{alarm_num}
+		where alarmno = #{alarm_num}
 	</update>
 
 

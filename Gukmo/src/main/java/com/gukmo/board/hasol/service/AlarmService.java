@@ -46,4 +46,11 @@ public class AlarmService implements InterAlarmService {
 		return n;
 	}
 
+	// 안읽음 컬럼 카운트
+	@Override
+	public int showAlarmCnt(String userid) {
+		int n = dao.showAlarmCnt(userid);
+		return n;
+	}
+
 }

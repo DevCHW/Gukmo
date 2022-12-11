@@ -13,6 +13,10 @@ public class AlarmVO {
 	private String isread;
 	
 	
+	// select 용
+	private String subject;
+	private String cmt_content;
+	
 	
 	public int getAlarmno() {
 		return alarmno;

@@ -22,5 +22,8 @@ public interface InterAlarmService {
 	// 읽음 컬럼 값 변경하기
 	int changeIsRead(String userid);
 
+	// 안읽음 컬럼 카운트
+	int showAlarmCnt(String userid);
+
 
 }
