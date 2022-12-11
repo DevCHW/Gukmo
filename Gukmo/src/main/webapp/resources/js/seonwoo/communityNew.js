@@ -65,6 +65,15 @@ $(document).ready(function(){
       $("#hashtag").on("keyup", function (e) {
           var self = $(this);
           
+          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
+          	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
+          		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
+                hashtag[index] = "";
+          		$("input#hashtag").prev().remove();
+          		return;
+          	} 
+          }
+          
           // input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
           if (e.key === "Enter" || e.keyCode == 32) {
 
@@ -88,34 +97,22 @@ $(document).ready(function(){
 
              // 해시태그가 중복되었는지 확인
             if (result.length == 0) { 
-            	$("<li class='d-flex align-items-center flex-nowrap mr-2 tag-item'>#"+tagValue+"<span class='del-btn mx-2' style='cursor:pointer; color:darkgray;' idx='"+counter+"'><i class='fa-solid fa-xmark'></i></span></li>").insertBefore("input#hashtag");
-                addTag(tagValue);
-                $("input#hashtag").val("");
-               
-            } else {
-                alert("태그값이 중복됩니다.");
-                $("input#hashtag").val("");
-            }
-            }
+                    $("<li class='d-flex align-items-center flex-nowrap mr-2 tag-item'>#"+tagValue+"<span class='btn_hashtag_delete mx-2' style='cursor:pointer; color:darkgray;' idx='"+counter+"'><i class='fa-solid fa-xmark'></i></span></li>").insertBefore("input#hashtag");
+                    addTag(tagValue);
+                    self.val("");
+                } else {
+                  alert("태그값이 중복됩니다.");
+                }
+              }
             e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
           }
-          
-          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
-            	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
-            		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
-                  hashtag[index] = "";
-            		$("input#hashtag").prev().remove();
-            		return;
-            	} 
-            }
-          
           
           
         });
 
       // 삭제 버튼
       // 삭제 버튼은 비동기적 생성이므로 document 최초 생성시가 아닌 검색을 통해 이벤트를 구현시킨다.
-      $(document).on("click", ".del-btn", function (e) {
+      $(document).on("click", ".btn_hashtag_delete", function (e) {
           var index = $(this).attr("idx");
           hashtag[index] = "";
           $(this).parent().remove();

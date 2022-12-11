@@ -25,7 +25,7 @@
 	</resultMap>
 	
 	
-	<!-- association 으로 선언된 AcademyVO 매핑 -->
+	<!-- association 으로 선언된 CurriculumVO 매핑 -->
 	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
 		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
 		<result property="core_technology" column="core_technology" />
@@ -35,7 +35,6 @@
 		<result property="recruitment_end_date" column="recruitment_end_date" />
 		<result property="join_url" column="join_url" />		
 	</resultMap>
-	
 	
 
 	<!-- 메인 게시판 영역 -->
@@ -380,6 +379,42 @@
 		where rno between #{startRno} and #{endRno}
 		</if>
 	</select>
+
+
+
+
+	<!-- association 으로 선언된 CommentVO 매핑 -->
+	<resultMap id="comment" type="com.gukmo.board.model.CommentVO">
+		<result property="cmt_board_num" column="alarm_board_num" />
+		<result property="parent_write_nickname" column="alarm_nickname" />	
+	</resultMap>
+	
+	
+	<resultMap id="alarmInsert" type="com.gukmo.board.model.AlarmVO">
+		<id property="alarm_num" column="alarmno"/>
+		<result property="cmd" column="cmd"/>
+		<result property="alarm_nickname" column="alarm_nickname"/>
+		<association property="comment" resultMap="comment"/>
+		<association property="like" resultMap="like"/>
+	</resultMap>
+
+
+	<insert id="setAlarm" parameterType="HashMap">
+		<if test="cmd == 'reply' or cmd == 'like' or cmd == 'penalty'">
+			insert into tbl_alarm (ALARMNO, alarm_board_num ,alarm_comment_num, alarm_nickname, cmd, alarm_date, isread )
+			values (seq_alarm.nextval, #{board_num}, 0 , #{userid}, ${cmd}, sysdate, 'n' )
+		</if>
+		<if test="cmd == 'recomment' or cmd == 'cmtLike' or cmd == 'cmtPenalty'">
+			insert into tbl_alarm (ALARMNO, alarm_board_num, alarm_comment_num, alarm_nickname, cmd, alarm_date, isread )
+			values (seq_alarm.nextval, #{board_num}, #{fk_comment_num}, #{userid}, ${cmd}, sysdate, 'n' )
+		</if>
+	</insert>
+
+
+	<update id="changeIsRead" parameterType="String">
+		update tbl_alarm set isread = 'y'
+		where alarmno= #{alarm_num}
+	</update>
 
 
 </mapper>

@@ -44,7 +44,7 @@
         
         
         <%-- facebook --%>
-        <div id="facebook_login" class="sns_login d-flex justify-content-center align-items-center mr-3"onclick="fnFbCustomLogin();">
+        <div id="facebook_login" class="sns_login d-flex justify-content-center align-items-center mr-3" onclick="fnFbCustomLogin();">
           <img src="<%=ctxPath %>/resources/images/login/페이스북로그인.svg">
         </div>
 

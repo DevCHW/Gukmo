@@ -5,9 +5,9 @@ import java.util.Date;
 public class AlarmVO {
 
 	private int alarmno;      
-	private int fk_board_num;       
-	private int fk_comment_num;       
-	private String fk_userid;  
+	private int alarm_board_num;       
+	private int alarm_comment_num;       
+	private String alarm_nickname;  
 	private String cmd; 
 	private Date alarm_date;          
 	private String isread;
@@ -20,23 +20,23 @@ public class AlarmVO {
 	public void setAlarmno(int alarmno) {
 		this.alarmno = alarmno;
 	}
-	public int getFk_board_num() {
-		return fk_board_num;
+	public int getalarm_board_num() {
+		return alarm_board_num;
 	}
-	public void setFk_board_num(int fk_board_num) {
-		this.fk_board_num = fk_board_num;
+	public void setalarm_board_num(int alarm_board_num) {
+		this.alarm_board_num = alarm_board_num;
 	}
-	public int getFk_comment_num() {
-		return fk_comment_num;
+	public int getalarm_comment_num() {
+		return alarm_comment_num;
 	}
-	public void setFk_comment_num(int fk_comment_num) {
-		this.fk_comment_num = fk_comment_num;
+	public void setalarm_comment_num(int alarm_comment_num) {
+		this.alarm_comment_num = alarm_comment_num;
 	}
-	public String getFk_userid() {
-		return fk_userid;
+	public String getalarm_nickname() {
+		return alarm_nickname;
 	}
-	public void setFk_userid(String fk_userid) {
-		this.fk_userid = fk_userid;
+	public void setalarm_nickname(String alarm_nickname) {
+		this.alarm_nickname = alarm_nickname;
 	}
 	public String getCmd() {
 		return cmd;

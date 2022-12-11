@@ -1,19 +1,6 @@
 
 $(document).ready(function(){
-   
-	 ///////////// 알림 토글 시작 /////////////////	
-	 $('.alarm_drop').click(function(event){
-         event.stopPropagation();
-          $("#alarm_dropContent").toggle();
-          $("#profile_dropContent").hide();
-          $("#admin_dropContent").hide();
-     });
-	 
-     $("#alarm_dropContent").on("click", function (event) {
-         event.stopPropagation();
-     });     
-     ///////////// 알림 토글 끝 /////////////////
-     
+
      
      ///////////// 프로필 메뉴 토글 시작 ///////////
      $('.dropbtn').click(function(event){

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
+import com.gukmo.board.hasol.service.InterAlarmService;
 import com.gukmo.board.hw.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
@@ -83,49 +84,34 @@ public class BoardAOP {
 	
 	
 	
+	// 알람에 값 넢는 AOP
+	@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
+	public void setAlarm() {}
 	
+	@Autowired  
+	private InterAlarmService alarm_service;
 	
-	
-		
-		
-		
-		
-		
-		
-	@Pointcut("execution(public * com.gukmo..*Controller.requiredAdminLogin_*(..) )")
-	public void requiredAdminLogin() {}
-	
-	@Before("requiredAdminLogin()")
-	public void adminLoginCheck(JoinPoint joinpoint) {
+	@SuppressWarnings("unchecked")
+	@After("setAlarm()")
+	public void setAlarm(JoinPoint joinpoint) {
 		
 		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
-		HttpServletResponse response = (HttpServletResponse) joinpoint.getArgs()[1]; 
+		Map<String,String> paraMap = (Map<String, String>) joinpoint.getArgs()[1];
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("user");
+		int n = alarm_service.setAlarm(paraMap);
+		System.out.println("aop 확인용 : " + n);
 		
-		if(session.getAttribute("user") == null || !"관리자".equals(loginuser.getAuthority())) {
-			String message = "관리자 이외에는 접근 불가능합니다.";
-			String loc = request.getContextPath()+"/login.do";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			// 로그인 성공후 로그인 하기전 페이지로 돌아가는 작업
-			String url = MyUtil.getCurrentURL(request);
-			session.setAttribute("goBackURL", url);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp"); 
-			
-			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
-			}
-		}
+	
+	} //end of setAlarm
+	
+	
+	
 		
-	}//end of adminLoginCheck
- 
+		
+		
+		
+		
+		
 	 
 
 

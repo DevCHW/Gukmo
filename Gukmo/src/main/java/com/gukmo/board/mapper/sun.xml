@@ -186,5 +186,151 @@
 	</insert>
 	
 	
+	
+	
+	
+	
+	<!-- ========================================== 관리자 페이지 쿼리문(통계) ========================================  -->
+	
+	
+   <resultMap type="HashMap" id="newBoardCnt_Map">
+        <result property="write_date"   column="write_date"   javaType="String"/>
+        <result property="cnt"          column="cnt"          javaType="String"/>
+   </resultMap>
+   
+   <select id="newBoardCnt" parameterType="HashMap" resultMap="newBoardCnt_Map">
+		select to_char(period, 'yyyy-mm-dd') write_date, nvl(sum(a.cnt), 0) cnt
+		from
+		(
+		    select to_char(write_date, 'yyyy-mm-dd') write_date, count(*) cnt
+		    from tbl_board
+		    where category = '커뮤니티'
+		    and write_date between to_date(#{fromDate}, 'yyyy-mm-dd')
+		                        and to_date(#{toDate}, 'yyyy-mm-dd')
+		    group by to_char(write_date, 'yyyy-mm-dd')
+		)a
+		, ( 
+		    select to_date(#{fromDate},'yyyy-mm-dd') + level - 1 as period
+		    from dual 
+		    connect by level &lt;= (to_date(#{toDate},'yyyy-mm-dd') 
+		                       - to_date(#{fromDate},'yyyy-mm-dd') + 1)
+		) b
+		where b.period = a.write_date(+)
+		group by b.period
+		order by b.period 
+   </select>
+	
+	
+	
+	<!-- ========================================== 관리자 페이지 쿼리문(통계) ========================================  -->
+	
+	
+	
+	<!-- ========================================== 관리자 페이지 일반회원  상세페이지 쿼리문 ========================================  -->
+	<resultMap type="HashMap" id="activityList_Map">
+        <result property="fk_board_num"    column="fk_board_num"     javaType="String"/>
+        <result property="activity_date"   column="activity_date"    javaType="String"/>
+        <result property="subject"         column="subject"          javaType="String"/>
+        <result property="detail_category" column="detail_category"  javaType="String"/>
+        <result property="division"        column="division"         javaType="String"/>
+   </resultMap>
+   
+   <select id="activityList" parameterType="HashMap" resultMap="activityList_Map">
+	select fk_board_num, activity_date, subject, detail_category, division
+	from tbl_activity 
+	where fk_userid = #{userid}
+	order by activity_date
+   </select>
+	
+	
+	
+	
+	<resultMap type="HashMap" id="activityCnt_Map">
+        <result property="activity_date"    column="activity_date"     javaType="String"/>
+        <result property="cnt"   column="cnt"    javaType="String"/>
+   </resultMap>
+   
+   <select id="activityCntList" parameterType="HashMap" resultMap="activityCnt_Map">
+	select to_char(period, 'yyyy-mm-dd') activity_date, nvl(sum(a.cnt), 0) cnt
+	from
+	(
+	    select to_char(activity_date, 'yyyy-mm-dd') activity_date, count(*) cnt
+	    from tbl_activity
+	    where fk_userid = #{userid}
+	    and activity_date between to_date(#{fromDate}, 'yyyy-mm-dd')
+	                        and to_date(#{toDate}, 'yyyy-mm-dd')
+	    group by to_char(activity_date, 'yyyy-mm-dd')
+	)a
+	, ( 
+	 select to_date(#{fromDate},'yyyy-mm-dd') + level - 1 as period
+	    from dual 
+	    connect by level &lt;= (to_date(#{toDate},'yyyy-mm-dd') 
+	                       - to_date(#{fromDate},'yyyy-mm-dd') + 1)
+	) b
+	where b.period = a.activity_date(+)
+	group by b.period
+	order by b.period 
+   </select>
+	
+	
+	<select id="activityCntListYearMonth" parameterType="HashMap" resultMap="activityCnt_Map">
+	select  period activity_date, nvl(sum(a.cnt), 0) cnt
+	from
+	(
+	<if  test='sort == "월별"'>
+	    select to_char(activity_date, 'yyyy-mm') activity_date, count(*) cnt
+	    from tbl_activity
+	    where fk_userid = #{userid}
+	    and to_date(activity_date,'yyyy-mm-dd') between to_date(add_months(sysdate,-1),'yyyy-mm-dd')
+	                                            and to_date(sysdate, 'yyyy-mm-dd')
+	    group by to_char(activity_date, 'yyyy-mm')
+    </if>
+    <if  test='sort == "연도별"'>
+    	select to_char(activity_date, 'yyyy') activity_date, count(*) cnt
+	    from tbl_activity
+	    where fk_userid = #{userid}
+	    and to_date(activity_date,'yyyy-mm-dd') between to_date(add_months(sysdate,-1),'yyyy-mm-dd')
+	                                            and to_date(sysdate, 'yyyy-mm-dd')
+	    group by to_char(activity_date, 'yyyy')
+    </if>
+	)a
+	, ( 
+	<if  test='sort == "월별"'>
+	    select to_char(add_months(sysdate,- (level-1)),'yyyy-mm') period
+	    from dual
+	    connect by add_months(sysdate,- (level-1)) &gt;= add_months(sysdate,-11) 
+	</if>
+    <if test='sort == "연도별"'>
+	    select to_char(add_months(sysdate,-24), 'yyyy')+ level - 1 period
+	    from dual 
+	    connect by level &lt;= (to_char(sysdate, 'yyyy') - to_char(add_months(sysdate,-24),'yyyy')+1)
+    </if>
+	) b
+	where b.period = a.activity_date(+)
+	group by b.period
+	order by b.period
+   </select>
+   
+   
+   <resultMap type="HashMap" id="cnt_Map">
+        <result property="key"    column="key"     javaType="String"/>
+        <result property="cnt"   column="cnt"    javaType="String"/>
+   </resultMap>
+   
+   <select id="searchCntList" parameterType="String" resultMap="cnt_Map">
+	select keyword key, count(*) cnt
+	from tbl_search
+	where userid = #{userid}
+	group by keyword
+   </select>
+   
+   
+   
+   
+	<!-- ========================================== 관리자 페이지 일반회원  상세페이지 쿼리문 ========================================  -->
+	
+	
+	
+	
 
 </mapper>

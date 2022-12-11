@@ -20,10 +20,10 @@ $(document).ready(function(){
 			return;
 	  	}
 	  	
-//		const frm = document.reportFrm;
-//		frm.method = "POST";
-//		frm.action = getContextPath()+"/community/reportEnd.do";
-//		frm.submit();
+		const frm = document.reportFrm;
+		frm.method = "POST";
+		frm.action = getContextPath()+"/community/reportEnd.do";
+		frm.submit();
 	})
 
 	
