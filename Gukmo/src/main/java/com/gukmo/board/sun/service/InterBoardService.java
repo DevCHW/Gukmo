@@ -40,6 +40,9 @@ public interface InterBoardService{
 	// 신고하기
 	int reportInsert(ReportVO reportvo);
 
+	// 댓글 신고
+	int comment_reportInsert(Map<String, String> paraMap);
+
 
 	
 }

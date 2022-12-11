@@ -151,5 +151,13 @@ public class BoardService implements InterBoardService{
 		return n;
 	}
 
+
+	// 댓글 신고하기
+	@Override
+	public int comment_reportInsert(Map<String, String> paraMap) {
+		int n = dao.comment_reportInsert(paraMap);
+		return n;
+	}
+
 	
 }

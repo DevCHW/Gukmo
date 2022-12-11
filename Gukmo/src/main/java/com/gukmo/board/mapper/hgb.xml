@@ -148,7 +148,7 @@
       where fk_comment_num = #{comment_num} and fk_userid = #{userid}
    </select>
 
-      <!-- 댓글좋아요 테이블에 delete하기 -->
+   <!-- 댓글좋아요 테이블에 delete하기 -->
    <delete id="comment_likeDelete" parameterType="HashMap">
       delete from tbl_comment_like
       where fk_comment_num = #{comment_num} and fk_userid = #{userid}

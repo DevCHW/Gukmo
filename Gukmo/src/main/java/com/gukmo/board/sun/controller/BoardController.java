@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.common.FileManager;
@@ -32,6 +33,7 @@ public class BoardController {
 	
 	@Autowired
 	private InterBoardService service;
+	
 	
 	@Autowired 
 	private FileManager fileManager;
@@ -556,12 +558,12 @@ public class BoardController {
 	
 	// 신고 페이지 요청
 	@RequestMapping(value="/community/report.do", method= {RequestMethod.GET} )
-	public String requiredLogin_report(HttpServletRequest request, HttpServletResponse response){
+	public String requiredLogin_report(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, Object> paraMap){
 		
-		String board_num = request.getParameter("boardNum");
+//		String board_num = request.getParameter("boardNum");
 		
-		Map<String, Object> paraMap = new HashMap<>();
-		paraMap.put("board_num", board_num);
+//		Map<String, Object> paraMap = new HashMap<>();
+//		paraMap.put("board_num", board_num);
 		
 		BoardVO boardvo = service.getBoardDetail(paraMap);
 		
@@ -569,8 +571,12 @@ public class BoardController {
 		
 		return "/report";
 	}
+
+
 	
-	 
+	
+	
+	
 	
 	// 신고하기
 	@RequestMapping(value="/community/reportEnd.do", method= {RequestMethod.POST} )

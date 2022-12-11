@@ -17,53 +17,53 @@ $(document).ready(function(){
 	$("div.c_of_comment_edit").hide();
 	  
 	
-	// 대댓 보여주는 함수 
+	// 대댓 보여주는 함수
 	// viewCommentOfComment();
-    //////////////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////////////
 
-  //게시글에 [...]클릭시 이벤트
+  // 게시글에 [...]클릭시 이벤트
   $("span#btn_more").click(()=>{
     $("div#mask").show();
     $("div#update_or_delete").fadeIn(200);
     $("div#update_or_delete").css("display","flex");
     $("div#update_or_delete").css("flex-direction","column");
     
-  });//end of Event--
+  });// end of Event--
   
   
-  //댓글에 [...]클릭시 이벤트
+  // 댓글에 [...]클릭시 이벤트
   $("span.comment_btn_more").click(e=>{
 	  const target = $(e.currentTarget);
 	  target.children(1).show();
-	  //$("div.comment_mask").show();
+	  // $("div.comment_mask").show();
 	  target.children().fadeIn(200);
 	  target.children().css("display","flex");
 	  target.children().css("flex-direction","column");
 	  
-//    $("div.comment_update_or_delete").fadeIn(200);
-//    $("div.comment_update_or_delete").css("display","flex");
-//    $("div.comment_update_or_delete").css("flex-direction","column");
+// $("div.comment_update_or_delete").fadeIn(200);
+// $("div.comment_update_or_delete").css("display","flex");
+// $("div.comment_update_or_delete").css("flex-direction","column");
     
-  });//end of Event--
+  });// end of Event--
   
 
-  //게시글에 [...]클릭후,마스크 클릭시 이벤트
+  // 게시글에 [...]클릭후,마스크 클릭시 이벤트
   $("div#mask").click(()=>{
     $("div#update_or_delete").fadeOut(200);
     $("div#mask").hide();
-  });//end of Event--
+  });// end of Event--
   
-  //댓글에 [...]클릭후,마스크 클릭시 이벤트
+  // 댓글에 [...]클릭후,마스크 클릭시 이벤트
   $("div.comment_update_or_delete").click(e=>{
 	  const target = $(e.currentTarget);
 	  target.fadeOut(200);
     // $("div.comment_update_or_delete").fadeOut(200);
     // $("div.comment_mask").hide();
-  });//end of Event--
+  });// end of Event--
  
-  /////////////////////////// 댓글 관련 //////////////////////
+  // ///////////////////////// 댓글 관련 //////////////////////
   
-  //댓글에서 ... 버튼 클릭후 수정하기 버튼 클릭시 
+  // 댓글에서 ... 버튼 클릭후 수정하기 버튼 클릭시
   $("span.comment_edit").click(function(e) {
 	  const target = $(e.currentTarget);
 	  const comment_num = $(this).parent().parent().parent().parent().find("div.comment_writer_nickname").attr('id');
@@ -81,7 +81,7 @@ $(document).ready(function(){
 		  $("div.detail_comment").hide();
 		  target.parent().parent().parent().parent().next().find('div.comment_edit').show();
 
-//		  $("div.comment_edit1").show();		  
+// $("div.comment_edit1").show();
 		  target.parent().parent().parent().parent().next().find('.content3').val(content)
 		  $("input#c_num").val(comment_num);
 	  }
@@ -103,11 +103,11 @@ $(document).ready(function(){
 	  
 	  comment_edit(content3, comment_num);
 	  
-  })//end of  $("#edit_comment").click(e =>
+  })// end of $("#edit_comment").click(e =>
 
   
   
-  //댓글 삭제하기 버튼 클릭시 
+  // 댓글 삭제하기 버튼 클릭시
   $("span.comment_delete").click(function(e) {
 	  const comment_num = $(this).parent().parent().parent().parent().find("div.comment_writer_nickname").attr('id');
 	  const comment_writer_nickname = document.getElementById(comment_num).innerText;
@@ -132,19 +132,19 @@ $(document).ready(function(){
   
 
 
-  //대댓글 쓰기 버튼 클릭시 이벤트
+  // 대댓글 쓰기 버튼 클릭시 이벤트
   $("div.btn_write_comment").click(e=>{
     const target = $(e.currentTarget);
-    //대댓글 영역
+    // 대댓글 영역
     const bigCommentWriteArea = target.parent().parent().next().children(":first");
-    if(target.text().trim() == "댓글쓰기"){ //댓글쓰기를 눌렀을 때
+    if(target.text().trim() == "댓글쓰기"){ // 댓글쓰기를 눌렀을 때
       bigCommentWriteArea.css("display","flex");
       target.text("댓글쓰기 취소");
-    } else if(target.text().trim() == "댓글쓰기 취소"){ //댓글쓰기 취소를 눌렀을 때
+    } else if(target.text().trim() == "댓글쓰기 취소"){ // 댓글쓰기 취소를 눌렀을 때
       bigCommentWriteArea.css("display","none");
       target.text("댓글쓰기");
     }
-  });//end of Event--
+  });// end of Event--
 
 
   // 대댓글 "..." 클릭시 나오는 수정하기 버튼 클릭시
@@ -189,11 +189,11 @@ $(document).ready(function(){
 	  
 	  comment_edit(content3, comment_num);
 	  
-  })//end of  $("#edit_comment").click(e =>
+  })// end of $("#edit_comment").click(e =>
 
   
   
-  // 대댓글 삭제하기 버튼 클릭시  
+  // 대댓글 삭제하기 버튼 클릭시
     $("span.comment_delete2").click(function(e) {
   	  const target = $(e.currentTarget);
 	  const comment_num = target.prev().prev().val();
@@ -218,14 +218,14 @@ $(document).ready(function(){
   
   
   
-  //댓글쓰기 취소버튼 클릭시 이벤트
+  // 댓글쓰기 취소버튼 클릭시 이벤트
   $("button.btn_big_comment_close").click(e=>{
     const target = $(e.currentTarget);
     const btn_write_comment = target.parent().parent().parent().parent().prev().find("div.btn_write_comment");
 
-    target.parent().parent().parent().hide(); //댓글쓰기 영역 숨기기
+    target.parent().parent().parent().hide(); // 댓글쓰기 영역 숨기기
     btn_write_comment.text("댓글쓰기");
-  });//end of Event--
+  });// end of Event--
 
 
   // 답글 보였다가 숨기기 버튼 클릭이벤트
@@ -234,37 +234,37 @@ $(document).ready(function(){
     const bigCommentArea = target.parent().parent().next().children("div.big_comment_area");
 
     if(btn_comment_toggle_click_cnt%2==0){
-      target.next().show(); //'댓글 O개 보기' 보이기
-      target.hide();        //'댓글모두숨기기' 숨기기
+      target.next().show(); // '댓글 O개 보기' 보이기
+      target.hide();        // '댓글모두숨기기' 숨기기
       bigCommentArea.hide();// 대댓글영역 숨기기
     } else{
-      target.prev().show(); //'댓글 O개 보기' 보이기
-      target.hide();        //'댓글모두숨기기' 숨기기
+      target.prev().show(); // '댓글 O개 보기' 보이기
+      target.hide();        // '댓글모두숨기기' 숨기기
       bigCommentArea.show();// 대댓글영역 보이기
     }
     btn_comment_toggle_click_cnt++;
-  });//end of Event--
+  });// end of Event--
 
 
   // 해시태그 클릭시 이벤트
   $("span.hashtag").click(e=>{
     const target = $(e.currentTarget);
-    const hashtag = target.text();  //클릭한 해시태그 값 alert
-    alert(target.text()); //클릭한 해시태그 값
+    const hashtag = target.text();  // 클릭한 해시태그 값 alert
+    alert(target.text()); // 클릭한 해시태그 값
   });
   
   
-  //좋아요 버튼 클릭시 이벤트 잡기
+  // 좋아요 버튼 클릭시 이벤트 잡기
   $("div#btn_like").click(e=>{
 	const board_num = $("input#board_num").val();
 	const userid = $("input#userid").val();
 	
 	const data = {board_num: board_num,userid: userid};
 	
-	likeClick(data);	//좋아요 클릭시 처리 메소드 호출
-  });//end of Event----
+	likeClick(data);	// 좋아요 클릭시 처리 메소드 호출
+  });// end of Event----
   
-  //댓글 좋아요 버튼 클릭시 이벤트 잡기
+  // 댓글 좋아요 버튼 클릭시 이벤트 잡기
   $("div.comment_like").click(e=>{
 	  const target = $(e.currentTarget);
 	  const userid = $("input#userid").val();
@@ -284,13 +284,13 @@ $(document).ready(function(){
 	  
 	  else {
 		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		  location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+		  location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
 
 	  }
-  });//end of Event----
+  });// end of Event----
   
   
-  //대댓글 좋아요 버튼 클릭시 이벤트 잡기
+  // 대댓글 좋아요 버튼 클릭시 이벤트 잡기
   $("div.big_comment_like").click(e=>{
 	  const target = $(e.currentTarget);
 	  const userid = $("input#userid").val();
@@ -309,14 +309,14 @@ $(document).ready(function(){
 	  
 	  else {
 		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		  location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+		  location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
 
 	  }
-  });//end of Event----
+  });// end of Event----
   
 
   
-  //대댓글 작성 버튼 클릭시 이벤트 잡기
+  // 대댓글 작성 버튼 클릭시 이벤트 잡기
   $("button.btn_big_comment_write").click(function(e){
 	  const target = $(e.currentTarget);
 	  const content = target.parent().prev().val();
@@ -330,13 +330,28 @@ $(document).ready(function(){
 	  
 	  else {
 		  alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		  location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+		  location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
 	  }
 	  
-  });//end of Event--
+  });// end of Event--
+  
+  // 댓글 신고하기 버튼 클릭시
+  $("span.comment_btn_report").click(function(e) {
+	  const target = $(e.currentTarget);
+	  const nickname = $("input#nickname").val();
+	  const comment_write_nickname = target.parent().prev().prev().val();
+	  const comment_num = target.parent().prev().val();
+	  
+	  alert(comment_write_nickname);
+	  alert(comment_num);
+  
+	  
+	  
+	  openReport_comment(comment_write_nickname, comment_num);
+  })//end of 
   
   
-});//end of $(document).ready(function(){})---
+});// end of $(document).ready(function(){})---
 
 
 
@@ -349,35 +364,37 @@ function likeClick(data){
 		data:data,
 		dataType:"json",
 		success:function(json){	
-			if(json.JavaData == 'login'){	//로그인 중이 아니라면
+			if(json.JavaData == 'login'){	// 로그인 중이 아니라면
 				
-				location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+				location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
 				
-			} else if(json.JavaData == 'delete'){	//좋아요를 삭제하였다면
+			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("좋아요 취소");
 				
-				$("span#like_icon").html("&#9825;");	//빈하트
-				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	//좋아요개수 1빼기
+				$("span#like_icon").html("&#9825;");	// 빈하트
+				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	// 좋아요개수
+																			// 1빼기
 				
 				$("span#like_cnt").html(like_cnt);	
 				
-			} else if(json.JavaData == 'insert'){	//좋아요를 추가하였다면
+			} else if(json.JavaData == 'insert'){	// 좋아요를 추가하였다면
 				// alert("좋아요 추가함");
 				
-				$("span#like_icon").html(" &#x1F497;"); //꽉찬하트
-				const like_cnt = parseInt($("span#like_cnt").text()) + 1;	//좋아요개수 1더하기
+				$("span#like_icon").html(" &#x1F497;"); // 꽉찬하트
+				const like_cnt = parseInt($("span#like_cnt").text()) + 1;	// 좋아요개수
+																			// 1더하기
 				$("span#like_cnt").html(like_cnt);
 				
 			} else{
 				alert("좋아요 기능 오류");
 			}
 						
-		},//end of success
-		//success 대신 error가 발생하면 실행될 코드 
+		},// end of success
+		// success 대신 error가 발생하면 실행될 코드
 		error: function(request,error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		}
-	  });//end of $.ajax({})---
+	  });// end of $.ajax({})---
 }
 
 
@@ -391,44 +408,59 @@ function comment_likeClick(comment_num, userid){
 		type:'POST',
 		dataType:"json",
 		success:function(json){	
-			if(json.JavaData == 'login'){	//로그인 중이 아니라면				
-				location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기				
-			} else if(json.JavaData == 'delete'){	//좋아요를 삭제하였다면
+			if(json.JavaData == 'login'){	// 로그인 중이 아니라면
+				location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
+			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("댓글 좋아요 취소.");
 				  window.location.reload();
 				
-			} else if(json.JavaData == 'insert'){	//좋아요를 추가하였다면
-				// alert("댓글 좋아요.");				
+			} else if(json.JavaData == 'insert'){	// 좋아요를 추가하였다면
+				// alert("댓글 좋아요.");
 				  window.location.reload();
 				
 			} else{
 				alert("좋아요 기능 오류");
 			}			
 			
-		},//end of success
-		//success 대신 error가 발생하면 실행될 코드 
+		},// end of success
+		// success 대신 error가 발생하면 실행될 코드
 		error: function(request,error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		}
-	  });//end of $.ajax({})---
+	  });// end of $.ajax({})---
 }
 
-// 신고버튼 클릭시
+// 게시글 신고버튼 클릭시
 function openReport() {
 	
 	// 신고 버튼
 	var openWin;
 	const board_num = $("input#board_num").val();
 	
-    // window.name = "부모창 이름"; 
+	alert(board_num)
+    // window.name = "부모창 이름";
     window.name = "boardDetail";
     // window.open("open할 window", "자식창 이름", "팝업창 옵션");
     openWin = window.open("/board/community/report.do?boardNum="+board_num,
             "reportForm", "width=576, height=700, left=500, top= 20");    
 }
 
+//댓글 신고버튼 클릭시
+function openReport_comment(comment_write_nickname, comment_num) {
+	
+	// 신고 버튼
+	var openWin;
+	const board_num = $("input#board_num").val();
+	const nickname = $("input#nickname").val();
+	
+    // window.name = "부모창 이름";
+    window.name = "boardDetail";
+    // window.open("open할 window", "자식창 이름", "팝업창 옵션");
+    openWin = window.open("/board/community/report_comment.do?boardNum="+board_num+"&comment_write_nickname="+comment_write_nickname+"&comment_num="+comment_num+"&nickname="+nickname,
+            "reportForm", "width=576, height=700, left=500, top= 20");    
+}
 
-//[...]클릭후, 삭제버튼 클릭시 이벤트
+// [...]클릭후, 삭제버튼 클릭시 이벤트
 function del_board(board_num){
 	  if(confirm('정말 삭제하시겠습니까?')) {		  
 		  alert("삭제백단");
@@ -437,7 +469,7 @@ function del_board(board_num){
 	  }  			
 		else 
 			return false;
-};//end of Event--
+};// end of Event--
 
 
 // 댓글작성
@@ -448,14 +480,14 @@ function goAddComment() {
 	}
 	else {
 		alert("로그인이 필요합니다. 로그인페이지로 이동합니다.");
-		location.href=getContextPath()+'/login.do';	//로그인페이지로 보내기
+		location.href=getContextPath()+'/login.do';	// 로그인페이지로 보내기
 	}
 	  
 }// end of function goAddWrite()--------------------------------------
 
 
 
-//댓글쓰기
+// 댓글쓰기
 function goAddWrite_noAttach() {
 	
 	const cmt_board_num = $("input#cmt_board_num").val();
@@ -473,19 +505,19 @@ function goAddWrite_noAttach() {
 				,"content":content
 				,"subject":subject
 				,"detail_category":detail_category},
-		/* 또는
-		  data:queryString, 
-		*/
+		/*
+		 * 또는 data:queryString,
+		 */
 		  type:"POST",
 		  dataType:"JSON",
 		  success:function(json){
-			  // json ==> {"n":1,"name":"서영학"}  또는 {"n":0,"name":"서영학"} 
+			  // json ==> {"n":1,"name":"서영학"} 또는 {"n":0,"name":"서영학"}
 			  const n = json.n;
 			  if(n==0) {
 				  alert("댓글 작성 실패");
 			  }
 			  else {
-			   // goReadComment();  // 페이징 처리 안한 댓글 읽어오기
+			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
 				  alert("댓글 작성 성공");
 				  $("textarea#content").val("");
 				  window.location.reload();
@@ -527,7 +559,7 @@ function addCommentOfComment(content, fk_comment_num) {
 				  alert("대댓글 작성 실패");
 			  }
 			  else {
-			   // goReadComment();  // 페이징 처리 안한 댓글 읽어오기
+			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
 				  alert("대댓글 작성 성공");
 				  $("textarea#content2").val("");
 				  $(".big_comment_write_area").hide();
@@ -560,7 +592,7 @@ function comment_delete(comment_num, comment_writer_nickname) {
 				  alert("댓글 삭제 불가능(관리자에게 문의)");
 			  }
 			  else {
-			   // goReadComment();  // 페이징 처리 안한 댓글 읽어오기
+			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
 				  alert("댓글을 삭제하였습니다.");
 				  window.location.reload();
 			  }
@@ -574,7 +606,7 @@ function comment_delete(comment_num, comment_writer_nickname) {
 	
 }
 
-//댓글 수정
+// 댓글 수정
 function comment_edit(content3, comment_num) {
 	
 	  $.ajax({
@@ -589,7 +621,7 @@ function comment_edit(content3, comment_num) {
 				  alert("댓글 수정 불가능(관리자에게 문의)");
 			  }
 			  else {
-			   // goReadComment();  // 페이징 처리 안한 댓글 읽어오기
+			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
 				  alert("댓글 수정 완료.");
 				  window.location.reload();
 			  }			  
