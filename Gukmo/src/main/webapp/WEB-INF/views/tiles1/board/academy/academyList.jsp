@@ -158,14 +158,14 @@
 
     <div class="d-flex border-top pt-3 justify-content-between">
 
-      <div id="total_cnt">
-        <%-- 총 건수 변수 들어갈 곳--%>
-        총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
-      </div>
+	  <%-- 총 건수 변수 들어갈 곳--%>
+      <div id="total_cnt">총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건</div>
 
-      <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/new.do'">
-        <i class="fa-sharp fa-solid fa-plus"></i><span>학원등록</span>
-      </button>
+	  <c:if test="${not empty sessionScope.user.academy_name}">
+        <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/new.do'">
+          <i class="fa-sharp fa-solid fa-plus"></i><span>학원등록</span>
+        </button>
+      </c:if>
     </div>
 
 
