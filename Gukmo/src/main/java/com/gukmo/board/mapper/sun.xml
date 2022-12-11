@@ -34,11 +34,11 @@
 	select V.*
 	from
 	 (
-	 <if test='sortType == ""'>
+	 <if test='sort == ""'>
 	 select DENSE_RANK() OVER (ORDER BY C.board_num desc) rno
 	 </if>
-	 <if test='sortType != ""'>
-	 select DENSE_RANK() OVER (ORDER BY C.${sortType} desc,C.board_num desc) rno
+	 <if test='sort != ""'>
+	 select DENSE_RANK() OVER (ORDER BY C.${sort} desc,C.board_num desc) rno
 	 </if>
 	        ,C.board_num
 	        ,C.nickname

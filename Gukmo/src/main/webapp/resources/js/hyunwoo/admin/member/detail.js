@@ -530,7 +530,7 @@ function search_nav(userid){
 	            	data.push(obj); // 배열속에 객체를 넣기
 	            }// end of for------------------------------
      
-	            console.log(resultArr);
+	            console.log(data);
 	            Highcharts.chart('chart2_container', {
 	                accessibility: {
 	                    screenReaderSection: {
