@@ -167,6 +167,7 @@ public class BoardService implements InterBoardService{
 	/**
 	 * 학원 글 등록하기
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean insertCurriculum(Map<String, Object> paraMap) {
 		String board_num = dao.getBoarSeq();
