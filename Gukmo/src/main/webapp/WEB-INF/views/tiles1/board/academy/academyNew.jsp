@@ -9,11 +9,14 @@
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/academyNew.css" />
-
+<%-- Google reCAPTCHA v2 --%>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/academyNew.js" ></script>
 
-  <div class="container">
+
+
+  <div class="container my-5">
     <%-- 커뮤니티 작성 폼 시작 --%>
     <form name="writerFrm" class="d-flex flex-column" enctype="multipart/form-data">
 	  
@@ -29,13 +32,13 @@
       <%-- 학원명 --%>
       <div class="d-flex align-items-center my-2">
         <label for="subject" class="academy_label mt-3">학원명</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}">
+        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}" readonly>
       </div>
       
       <%-- 대표자명 --%>
       <div class="d-flex align-items-center my-2">
         <label for="representative_name" class="academy_label mt-3">대표자명</label>
-        <input type="text" id="representative_name" name="representative_name" class="academy_input border rounded pl-2 w-100" placeholder="대표자명을 입력하세요">
+        <input type="text" id="representative_name" name="representative_name" class="academy_input border rounded pl-2 w-100" placeholder="대표자명을 입력해주세요" maxlength="10">
       </div>
       
       
@@ -82,27 +85,27 @@
       <%-- 학원 주소 --%>
       <div class="d-flex align-items-center my-2">
         <label for="address3" class="academy_label mt-3">상세주소</label>
-        <input type="text" id="address3" name="address3" class="academy_input border rounded pl-2 w-100" placeholder="상세주소를 입력하세요">
+        <input type="text" id="address3" name="address3" class="academy_input border rounded pl-2 w-100" placeholder="상세주소를 입력해주세요">
       </div>
       
       
       <%-- 관할 노동사무소 --%>
       <div class="d-flex align-items-center my-2">
         <label for="jurisdiction" class="academy_label mt-3">관할 노동사무소</label>
-        <input type="text" id="jurisdiction" name="jurisdiction" class="academy_input border rounded pl-2 w-100" placeholder="관할 노동사무소를 입력하세요">
+        <input type="text" id="jurisdiction" name="jurisdiction" class="academy_input border rounded pl-2 w-100" placeholder="관할 노동사무소를 입력해주세요">
       </div>
       
       
       <%-- 문의처 --%>
       <div class="d-flex align-items-center my-2">
         <label for="phone" class="academy_label mt-3">문의처</label>
-        <input type="text" id="phone" name="phone" class="academy_input border rounded pl-2 w-100" placeholder="문의처를 입력하세요">
+        <input type="text" id="phone" name="phone" class="academy_input border rounded pl-2 w-100" placeholder="문의처를 입력해주세요">
       </div>
       
       <%-- 홈페이지URL --%>
       <div class="d-flex align-items-center my-2">
         <label for="homepage" class="academy_label mt-3">홈페이지 URL</label>
-        <input type="text" id="homepage" name="homepage" class="academy_input border rounded pl-2 w-100" placeholder="홈페이지 URL을 입력하세요">
+        <input type="text" id="homepage" name="homepage" class="academy_input border rounded pl-2 w-100" placeholder="홈페이지 URL을 입력해주세요">
       </div>
       
       <%-- 학원이미지 --%>
@@ -129,7 +132,12 @@
       </div>
     </form>
     <%-- 커뮤니티 작성 폼 끝 --%>
-
+	
+	<%-- Google reCAPTCHA --%>
+    <div class="d-flex justify-content-center my-5">
+      <div class="g-recaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
+    </div>
+     
     <%-- 수정일 경우에는 등록 대신 수정버튼 태그라이브러리로 구현예정 --%>
     <div id="btn_wrapper" class="d-flex justify-content-end mt-3">
       <button id="btn_write" type="button" class="btn border rounded">등록</button>
