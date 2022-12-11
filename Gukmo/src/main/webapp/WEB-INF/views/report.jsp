@@ -85,8 +85,8 @@
         </div>
 	</div>
 	<footer>
-		  <button id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
-	      <button id="btn_close" class="btn border rounded w-100 mt-3">취소</button>
+		  <button type="button" id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
+	      <button type="button" id="btn_close" class="btn border rounded w-100 mt-3">취소</button>
 	</footer>
 	</form>
 	
