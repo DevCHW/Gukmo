@@ -72,12 +72,13 @@
 	    </div>
 	  </div>
 	  
-	  <br>
-      <hr>
-      <br>
+	  
       
       <%-- 교육기관회원이 아닌 일반회원일 경우에만 --%>
       <c:if test="${empty sessionScope.user.academy_name}">
+      <br>
+      <hr>
+      <br>
       <h5 class="guide_title">교육기관 회원으로 전환</h5>
       
       <div class="px-2 py-2">
