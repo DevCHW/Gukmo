@@ -18,4 +18,7 @@ public interface InterAdvertisementService {
 
 	// 광고 등록
 	int addAd(AdVO advo);
+
+	// 광고 날짜 변경시 tbl_advertisement 에서 날짜 변경
+	int edit_ad(Map<String, String> paraMap);
 }

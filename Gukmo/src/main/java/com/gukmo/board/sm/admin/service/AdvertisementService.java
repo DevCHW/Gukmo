@@ -44,4 +44,11 @@ public class AdvertisementService implements InterAdvertisementService{
 		return n;
 	}
 
+	// 광고 날짜 변경시 tbl_advertisement 에서 날짜 변경
+	@Override
+	public int edit_ad(Map<String, String> paraMap) {
+		int n = dao.edit_ad(paraMap);
+		return n;
+	}
+
 }

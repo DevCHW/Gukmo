@@ -42,6 +42,21 @@ public class AdvertisementDAO implements InterAdvertisementDAO{
 		int n = gukmo_sql.insert("ksm.addAd", advo);
 		return n;
 	}
+
+	// 광고 날짜 변경시 tbl_advertisement 에서 날짜 변경
+	@Override
+	public int edit_ad(Map<String, String> paraMap) {
+		int result1 = 0; 
+		int result2 = 0; 
+		
+		result1 = gukmo_sql.update("ksm.edit_Ad_start_date", paraMap);
+		
+		if(result1 == 1) {
+			result2 = gukmo_sql.update("ksm.edit_Ad_period", paraMap);
+		}
+		
+		return result1 * result2;
+	}
 	
 	
 	

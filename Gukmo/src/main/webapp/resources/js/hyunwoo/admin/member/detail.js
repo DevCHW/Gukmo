@@ -35,8 +35,6 @@ $(document).ready(function(){
 	// input 을 datepicker로 선언
   $("input#fromDate").datepicker();                    
   $("input#toDate").datepicker(); 
-  $("input#fromDate2").datepicker();                    
-  $("input#toDate2").datepicker(); 
 
 
     //From의 초기값을 오늘 날짜로 설정
@@ -401,8 +399,7 @@ function activities_nav(userid){
 	            		"<td>"+json[i].detail_category+"</td>" +
 	            		"<td>"+json[i].fk_board_num+"</td>" +
 	            		"<td>"+json[i].subject+"</td>" +
-            		"</tr>"; 
-            
+            		"</tr>";             
         }// end of for------------------------------
         
                

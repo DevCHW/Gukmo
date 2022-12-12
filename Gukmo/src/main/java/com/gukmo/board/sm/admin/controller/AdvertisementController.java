@@ -1,3 +1,4 @@
+
 package com.gukmo.board.sm.admin.controller;
 
 import java.io.File;
@@ -11,10 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -178,9 +182,9 @@ public class AdvertisementController {
 		//	System.out.println(">>> 확인용 newFileName => " + newFileName);
 			// >>> 확인용 newFileName => 202210281521341200152368627000.pdf
 			
-		/*
-		   3. BoardVO boardvo 에 fileName 값과 orgFilename 값과 fileSize 값을 넣어주기
-		*/	
+		
+		//   3. BoardVO boardvo 에 fileName 값과 orgFilename 값과 fileSize 값을 넣어주기
+			
 			advo.setFilename(newFileName);
 			// WAS(톰캣)에 저장된 파일명(202210281521341200152368627000.pdf)
 			
@@ -213,18 +217,7 @@ public class AdvertisementController {
 		return mav;
 	}
 	
-	//// ================ 광고 관련 일단 끝 =================== //
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	// 광고 상세에서 파일 다운로드하는 메소드
 	@RequestMapping(value="/admin/download.do")
 	public void  download(HttpServletRequest request, HttpServletResponse response) {
@@ -284,6 +277,23 @@ public class AdvertisementController {
 	} // 광고 상세에서 파일 다운로드하는 메소드 끝
 	
 	
+	// 광고 날짜 변경시 tbl_advertisement 에서 날짜 변경
+	@ResponseBody
+	@RequestMapping(value="/admin/advertisement/edit_ad.do", method= {RequestMethod.POST},  produces="text/plain;charset=UTF-8") 
+	public String ajax_insert(@RequestParam Map<String, String> paraMap) {
+		System.out.println(paraMap);
+		int result = service.edit_ad(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);  // "result":1}
+		
+		return jsonObj.toString(); // "result"n":1}"
+	}
+	// ========== Ajax 연습끝  ========== //
+	
+	
+	
+	//// ================ 광고 관련 일단 끝 =================== //
 	
 	
 	
@@ -306,14 +316,10 @@ public class AdvertisementController {
 	
 	
 	
-	
-	
-	
-	/**
-    * 페이지바 만들기 메소드
-    * @param page(현재 페이지번호),totalPage(총페이지 수),반응할url,searchWord(검색어)
-    * @return pageBar
-    */
+   // 페이지바 만들기 메소드
+   // @param page(현재 페이지번호),totalPage(총페이지 수),반응할url,searchWord(검색어)
+   // @return pageBar
+   
    private String getPageBar(int page, int totalPage, String url, Map<String,String> pageMap) {
       // 페이지바 만들기 
       int blockSize = 5;
@@ -386,11 +392,11 @@ public class AdvertisementController {
 
 
 
-	/**
-	 * 페이지 번호 예외처리하기
-	 * @param str_page(쿼리스트링으로 날아온 페이지),totalPage(총페이지수)
-	 * @return page(현재 페이지번호)
-	 */
+	
+	  // 페이지 번호 예외처리하기
+	  // @param str_page(쿼리스트링으로 날아온 페이지),totalPage(총페이지수)
+	  // @return page(현재 페이지번호)
+	 
 	private int getPage(String str_page,int totalPage) {
 	   int page = 0;
 	   if(str_page == null) {   //쿼리스트링에 페이지가 없다면
@@ -412,14 +418,11 @@ public class AdvertisementController {
 	   return page;
 	}//end of method---
 	
-	
-	
-	
-	/**
-	 * 시작행번호,끝행번호 구하기
-	 * @param 페이지번호,한페이지당보여줄 갯수,쓰던 맵
-	 * @return 맵(시작행번호,끝행번호 담아서 줌)
-	 */
+		
+	// 시작행번호,끝행번호 구하기
+	// @param 페이지번호,한페이지당보여줄 갯수,쓰던 맵
+	// @return 맵(시작행번호,끝행번호 담아서 줌)
+	 
 	private Map<String, String> getRno(int page, int sizePerPage, Map<String, String> paraMap) {
 	   int startRno = ((page - 1) * sizePerPage) + 1; // 시작 행번호(쿼리문 rownum where절에 쓰임)
 	   int endRno = startRno + sizePerPage - 1; // 끝 행번호(쿼리문 rownum where절에 쓰임)
@@ -429,8 +432,6 @@ public class AdvertisementController {
 	   return paraMap;
 	}
 	
-	
-	
-	
-	
+
 }
+

@@ -9,30 +9,54 @@ div#total_cnt{
 
 
 
-/* 교육기관회원리스트 css 시작 */
+/* 광고리스트 css 시작 */
 div#title{
   font-weight: bold;
   background-color:#208EC9;
   color:white;
 }
 
-span#spanMemberStatus{
+/* 구분 옵션 클릭시 */
+div#divDivision{
   position:relative;
 }
-div#memberStatusOption{
+
+div#divisionOption{
   position:absolute;
-  right:32%;
+  left:21%;
   z-index: 3;
   background-color:white;
   color:black;
   font-weight: lighter;
 }
-div#memberStatusOption > div:hover{
+div#divisionOption > div:hover{
   cursor:pointer;
 }
-span#btn_status_option{
+span#btn_division_option{
   cursor:pointer;
 }
+
+/*     */
+
+
+div#advertisementStatus{
+  position:relative;
+}
+div#advertisementStatusOption{
+  position:absolute;
+  right:21%;
+  z-index: 3;
+  background-color:white;
+  color:black;
+  font-weight: lighter;
+}
+div#advertisementStatusOption > div:hover{
+  cursor:pointer;
+}
+span#advertisementStatusOption{
+  cursor:pointer;
+}
+
 
 
 div.list_box{
@@ -58,7 +82,7 @@ div.status{
   width:15%;
 }
 
-/* 교육기관회원리스트 css 끝 */
+/* 광고리스트 css 끝 */
 
 
 
