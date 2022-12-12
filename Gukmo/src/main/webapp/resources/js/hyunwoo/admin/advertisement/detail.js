@@ -140,19 +140,18 @@ $(document).ready(function(){
  * @param {*} advertisement_num(광고번호) 
  */
 function editAdvertisement(){
-  alert("수정완료버튼 클릭 function editAdvertisement()호출");
   var queryString = $("form[name=editAdvertisementFrm]").serialize();
   
   $("form[name=editAdvertisementFrm]").ajaxForm({
     url : getContextPath()+"/admin/advertisement/edit_ad.do", 
     data:queryString,
-    enctype:"multipart/form-data",
     type:"POST",
     async:false,
     dataType:"JSON",
     success:function(json) {
       if(json.result == 1){ //광고정보수정에 성공했다면
         alert("광고정보 수정 성공하였습니다!");
+		  window.location.reload();
       } else{ //광고정보수정에 실패했다면
         alert("광고정보 수정 실패하였습니다. 다시 시도해주세요");
       }
@@ -161,7 +160,7 @@ function editAdvertisement(){
       alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });//end of ajax--
-  $("form[name=editAdvertisementFrm]").submit();
+  // $("form[name=editAdvertisementFrm]").submit();
 }//end of method--
 
 

@@ -276,7 +276,7 @@
 		<update id="edit_Ad_period" parameterType="HashMap">
 			update tbl_advertisement
 			set period = trunc(to_date(#{end_date}) - start_date) 
-			where advertisement_num = #{advertisement_num}
+		    where advertisement_num = #{advertisement_num}		    
 		</update>	
 
 	<!-- @@@@@@@@@@ 광고 관리 끝 @@@@@@@@@@  -->
