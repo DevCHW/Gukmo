@@ -32,7 +32,7 @@ public class AdvertisementController {
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private FileManager fileManager;
 	
-	
+	//
 	
 	
 	// 광고관리 목록 페이지 요청
