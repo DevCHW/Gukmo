@@ -42,7 +42,7 @@
 
       <div id="writer_profile_body" class="d-flex flex-column w-100 px-2 py-1">
         <%-- 작성자 닉네임 들어가면 해당 유저의 활동내역을 볼수 있는 페이지로 이동--%>
-        <div id="board_writer_nickname" class="pl-2">${requestScope.board.nickname}</div>
+        <div onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${board.nickname}'" id="board_writer_nickname" class="pl-2" style="cursor:pointer";>${requestScope.board.nickname}</div>
 
         <%-- 활동점수,작성일자,조회수 영역--%>
         <div class="d-flex">
@@ -76,17 +76,22 @@
       </div>
       <%-- 신고버튼, 수정or삭제버튼 --%>
       <div id="report_edit_delete_area" class="d-flex justify-content-between align-items-center">
-        <c:if test="${sessionScope.user.nickname != requestScope.board.nickname}">
+        
           <span id="" class="ml-auto btn_report" onclick="openReport()">&#x1F6A8;</span>
-        </c:if>
-        <c:if test="${sessionScope.user.nickname == requestScope.board.nickname}">
-          <span id="" class="ml-auto btn_report" onclick="openReport()">&#x1F6A8;</span>
-        </c:if>
+              
         <div id="mask"></div>
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname}">
-          <span id="btn_more" class="border rounded px-2 py-1">&#8230;
+          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
+              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+            </div>
+          </span>
+        </c:if>
+        
+        <c:if test="${sessionScope.user.authority eq '관리자'}">
+          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
+            <div id="update_or_delete" class="border rounded px-3 py-2">             
               <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
             </div>
           </span>
@@ -254,7 +259,8 @@
           </div>
           <input type="hidden" id="" name="fk_comment_num"/>
           <div class="d-flex flex-column w-100 asdf1">
-            <div class="comment_writer_nickname" id ="${bcommentList.comment_num}">
+            <div class="comment_writer_nickname" id ="${bcommentList.comment_num}"
+                 onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer">
               	${bcommentList.nickname}
             </div>
   			
@@ -274,7 +280,7 @@
           </div>
 
           <%-- 댓글 좋아요버튼 --%>
-          <div class="comment_like">
+          <div class="comment_like" style="width: 50px;">
             <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
             <span>&#x1F497;</span>
             <%-- 댓글 좋아요 갯수 --%>
@@ -283,15 +289,17 @@
           <input type="hidden" id="" value="${bcommentList.nickname}" />
           <input type="hidden" id="" value="${bcommentList.comment_num}" />
           <%-- 댓글 신고,수정,삭제 시작 --%>
-          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area">
-	        <span class="comment_btn_report">&#x1F6A8;</span>
+          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
+	        <span class="comment_btn_report ml-auto">&#x1F6A8;</span>
 	        <div class="comment_mask"></div>
-	        <span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+	        <c:if test="${bcommentList.nickname == sessionScope.user.nickname}">
+	        <span id="" class="border rounded px-2 py-1 comment_btn_more" style="margin-left: 15px;">&#8230;
           		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
 	            	<span class="comment_edit">수정하기</span>
 	            	<span class="comment_delete">삭제하기</span>
           		</div>
           	</span>
+          	</c:if>
       	   </div>
       	   <%-- 댓글 신고,수정,삭제 끝 --%>
         </div>
@@ -366,7 +374,8 @@
 	            </div>
 	 
 	            <div class="d-flex flex-column w-100">
-	              <div class="big_comment_writer_nickname" id="${spcial_commentList.comment_num}">
+	              <div class="big_comment_writer_nickname" id="${spcial_commentList.comment_num}"
+	                   onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${spcial_commentList.nickname}'" style="cursor:pointer">
               		${spcial_commentList.nickname}
 	              </div>	    
 	              <div class="mt-1">
@@ -385,24 +394,27 @@
 	            </div>
 	
 	            <%-- 대댓글 좋아요버튼 --%>
-	            <div class="big_comment_like">
+	            <div class="big_comment_like" style="width: 50px;">
 	              <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 	              <span>&#x1F497;</span>
 	              <%-- 댓글 좋아요 갯수 --%>
 	              <span>${spcial_commentList.comment_like_cnt}</span>
 	            </div>
+	            <input class="comment_of_comment_nickname" type="hidden" value="${spcial_commentList.nickname}"  />      
+			    <input class="comment_of_comment_num"  type="hidden" value="${spcial_commentList.comment_num}" />
 	            <%-- 대댓글 신고,수정,삭제 시작 --%>
-	          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area">
-		        <span class="c_comment_btn_report">&#x1F6A8;</span>
+	          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area"  style="width:0px;">
+		        <span class="big_comment_btn_report">&#x1F6A8;</span>
 		        <div class="comment_mask"></div>
-		        <span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+		        <c:if test="${bcommentList.nickname == sessionScope.user.nickname}">
+		        <span id="" class="border rounded px-2 py-1 comment_btn_more"  style="margin-left: 15px;">&#8230;
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
-			            <input class="comment_of_comment_nickname" type="hidden" value="${spcial_commentList.nickname}"  />      
-			            <input class="comment_of_comment_num"  type="hidden" value="${spcial_commentList.comment_num}" />
+			            
 		            	<span class="comment_edit2">수정하기</span>
 		            	<span class="comment_delete2">삭제하기</span>
 	          		</div>
 	          	</span>
+	          	</c:if>
 	      	   </div>
       	   <%-- 댓글 신고,수정,삭제 끝 --%>
 	          </div>

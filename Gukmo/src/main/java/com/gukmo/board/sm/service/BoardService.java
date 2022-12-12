@@ -37,7 +37,7 @@ public class BoardService implements InterBoardService{
 	@Override
 	public BoardVO getBoardDetail(Map<String,String> paraMap) {				
 		BoardVO board = dao.getBoardDetail(paraMap);
-		dao.setAddReadCount(board.getBoard_num());
+		
 		
 		return board;
 	}
