@@ -56,6 +56,30 @@ public class AdminServie implements InterAdminService {
 		return searchCntList;
 	}
 
+
+	// 특정 회원 일자별 로그인 카운트 가져오기 
+	@Override
+	public List<Map<String, String>> loginCntList(Map<String, String> paraMap) {
+		List<Map<String, String>> loginCntList = dao.loginCntList(paraMap);  
+		return loginCntList;
+	}
+
+
+	// 특정 회원 연도별, 월별 로그인 카운트 가져오기 
+	@Override
+	public List<Map<String, String>> loginCntListYearMonth(Map<String, String> paraMap) {
+		List<Map<String, String>> loginCntList = dao.loginCntListYearMonth(paraMap);  
+		return loginCntList;
+	}
+
+
+	// 특정 회원 로그인 기록 가져오기
+	@Override
+	public List<Map<String, String>> loginRecordList(Map<String, String> paraMap) {
+		List<Map<String, String>> loginRecordList = dao.loginRecordList(paraMap);  
+		return loginRecordList;
+	}
+
 	
 	
 	

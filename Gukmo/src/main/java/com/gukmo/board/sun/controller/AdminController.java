@@ -161,4 +161,36 @@ public class AdminController {
 			
 			return jsonArr.toString();
 		}
+		
+		
+		
+		/**
+		 * 관리자 회원 로그인 통계
+		 */
+		@ResponseBody
+		@RequestMapping(value="/admin/member/detail/loginRecordList.do", produces="text/plain;charset=UTF-8")
+		//public String requiredAdminLogin_newMemberCnt(@RequestParam String userid, HttpServletRequest request) {
+		public String loginRecordList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
+			
+			List<Map<String, String>> loginRecordList = service.loginRecordList(paraMap);
+			
+			JSONArray jsonArr = new JSONArray();  // []
+			
+			if(loginRecordList != null) {
+				for(Map<String, String> map : loginRecordList) {
+					JSONObject jsonObj = new JSONObject(); // {}
+					jsonObj.put("login_date", map.get("login_date")); 
+					jsonObj.put("login_ip", map.get("login_ip"));
+					
+					jsonArr.put(jsonObj);
+				}// end of for---------------------------
+			}
+			
+			return jsonArr.toString();
+		}
+		
+		
+		
+		
+		
 }

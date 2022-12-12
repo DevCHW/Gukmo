@@ -20,5 +20,14 @@ public interface InterAdminDAO {
 	// 특정 회원 검색어 카운트
 	List<Map<String, String>> searchCntList(String userid);
 
+	// 특정 회원 일자별 로그인 카운트 가져오기 
+	List<Map<String, String>> loginCntList(Map<String, String> paraMap);
+
+	// 특정 회원 연도별, 월별 로그인 카운트 가져오기 
+	List<Map<String, String>> loginCntListYearMonth(Map<String, String> paraMap);
+
+	// 특정 회원 로그인 기록 가져오기
+	List<Map<String, String>> loginRecordList(Map<String, String> paraMap);
+
 
 }

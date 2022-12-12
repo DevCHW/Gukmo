@@ -53,6 +53,7 @@
     
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/member/detail.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seonwoo/chart.css" />
 
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/admin/member/detail.js" ></script>
@@ -265,7 +266,7 @@
 	  	<%-- sort 영역 시작 --%>
 	      <div class="d-flex ml-auto">
 	        <div id="mask"></div>
-	        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
+	        <div id="sort" class="acSort d-flex ml-3 border rounded justify-content-center align-items-center">
 	          <i class="fa-solid fa-arrow-down-short-wide"></i>
 					<span id=current_sort>일자별</span>
 	          <div id="sort_option" class="border rounded px-3 py-2">
@@ -281,7 +282,7 @@
 	<%-- 날짜필터 영역  끝--%>
  	      
         <div id="member_activities_chart_area" class="border rounded">
-		    <div id="chart_container"></div>
+		    <div id="activityChart_container"></div>
         </div>
 
         <div id="member_activities_area" class="border rounded">
@@ -305,8 +306,7 @@
 
         <!-- 검색어 차트영역 시작 -->
         <div id="member_search_chart_area" class="border rounded my-3">
-          검색어 차트영역
-           <div id="chart2_container"></div>
+           <div id="searchChart_container"></div>
         </div>
         <!-- 검색어 차트영역 끝 -->
       </div>
@@ -318,6 +318,19 @@
 
       <!-- 회원의 로그인 기록 시작: 꺾은선그래프로 일자별,월별,년도별 로그인횟수를 나타낼 수 있음 -->
       <div id="member_login_record" class="detail_info_area my-3">
+      <%-- datepicker 영역  시작 --%>
+	    <div class="datepicker2 d-flex justify-content-center align-content-center">
+		    <div class="datepicker2" style="width: 30%; font-weight: bold;">시작일</div>
+			<div class="datepicker2" style="width: 50%; text-align: left;">
+			   <input type="text" id="fromDate2">
+			</div>
+			<div class="datepicker2" style="width: 30%; font-weight: bold;">종료일</div>
+			<div class="datepicker2" style="width: 50%; text-align: left;">
+			   <input type="text" id="toDate2">
+			</div>
+			<button class="datepicker2" type="button" id="search" style="width: 20%;" >검색</button>
+		</div>
+	  <%-- datepicker 영역  끝 --%>  
         <div id="login_record_chart_area" class="border rounded">
           로그인기록차트영역
         </div>
