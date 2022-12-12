@@ -122,7 +122,7 @@ public class AdVO {
 	}
 	
 	public String getEnd_date() {
-		return status;
+		return end_date;
 	}
 
 

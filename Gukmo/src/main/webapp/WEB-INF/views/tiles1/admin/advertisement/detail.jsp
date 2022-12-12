@@ -119,9 +119,9 @@
             </div>
 
             <div id="datepicker_area" class="py-3 px-3 border-bottom">
-              <input type="text" id="start_date" value="${requestScope.adDetail.start_date}" class="pl-2 border rounded" readonly>
+              <input type="text" name = "start_date" id="start_date" value="${requestScope.adDetail.start_date}" class="pl-2 border rounded" readonly>
               <span>&nbsp;~&nbsp;</span>
-              <input type="text" id="end_date" value="${requestScope.adDetail.end_date}" class="pl-2 border rounded" readonly>
+              <input type="text" id="end_date" name="end_date" value="${requestScope.adDetail.end_date}" class="pl-2 border rounded" readonly>
             </div>
             
             <!-- 광고상태 -->
@@ -133,7 +133,7 @@
               <select name="status" id="select_status" class="border rounded"></select>
             </div>
           </div>
-          <input type="hidden" value="${requestScope.adDetail.advertisement_num}">
+          <input type="hidden" name = "advertisement_num" value="${requestScope.adDetail.advertisement_num}">
         </form>
       </div>
         

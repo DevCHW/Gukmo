@@ -141,8 +141,10 @@ $(document).ready(function(){
  */
 function editAdvertisement(){
   alert("수정완료버튼 클릭 function editAdvertisement()호출");
+  var queryString = $("form[name=editAdvertisementFrm]").serialize();
+  
   $("form[name=editAdvertisementFrm]").ajaxForm({
-    url : getContextPath()+"/광고정보수정해줄빽단url.do", 
+    url : getContextPath()+"/admin/advertisement/edit_ad.do", 
     data:queryString,
     enctype:"multipart/form-data",
     type:"POST",

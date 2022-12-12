@@ -14,6 +14,7 @@
 	
 	//event
 	$(document).ready(function(){
+		
 	  let url = window.document.location.href;
 	  url = url.substr(27);
 	  let questionmarkIdx = url.indexOf("?");
@@ -22,13 +23,23 @@
 	  }
 	  
 	  switch (url) {
-	  case "/admin/member/normal/list.do" :	//일반회원메뉴
-	    $("p#nomalMemberManage").css("font-weight","bold");
-	    $("p#nomalMemberManage").css("font-size","15px");
-	    $("p#nomalMemberManage").css("background-color","#f0f0f5");
-	    break;
-	    
+	  case "/admin/index.do" :	//일반회원메뉴		  
+		    $("li#li_main").css("font-weight","bold");
+		    $("li#li_main").css("font-size","15px");
+		    $("li#li_main").css("background-color","#f0f0f5");
+		    break;
+		    
+	  // 통계 케이스도 하나 만들기
+	  
+	  case "/admin/member/normal/list.do" :	//일반회원메뉴		  
+			$("li#memberManageMenu_box").show();
+		    $("p#nomalMemberManage").css("font-weight","bold");
+		    $("p#nomalMemberManage").css("font-size","15px");
+		    $("p#nomalMemberManage").css("background-color","#f0f0f5");
+		    break;
+		    
 	  case "/admin/member/academy/list.do" :	//교육기관회원메뉴
+		$("li#memberManageMenu_box").show();
         $("p#academyMemberManage").css("font-weight","bold");
         $("p#academyMemberManage").css("font-size","15px");
         $("p#academyMemberManage").css("background-color","#f0f0f5");		
@@ -41,11 +52,28 @@
 	    break;
 	    
 	  case "/admin/report/list.do" :	//신고내역메뉴
-		$("li#reportManageMenu_box").show();
-	    $("p#all_receipt").css("font-weight","bold");
-	    $("p#all_receipt").css("font-size","15px");
-	    $("p#all_receipt").css("background-color","#f0f0f5");
-	    break;
+			$("li#reportManageMenu_box").show();
+		    $("p#all_receipt").css("font-weight","bold");
+		    $("p#all_receipt").css("font-size","15px");
+		    $("p#all_receipt").css("background-color","#f0f0f5");
+		    break;
+		    
+	  case "/admin/report/접수전.do" :	//신고내역메뉴
+			$("li#reportManageMenu_box").show();
+		    $("p#before_receipt").css("font-weight","bold");
+		    $("p#before_receipt").css("font-size","15px");
+		    $("p#before_receipt").css("background-color","#f0f0f5");
+		    break;
+		    
+	  case "/admin/report/접수완료.do" :	//신고내역메뉴
+			$("li#reportManageMenu_box").show();
+		    $("p#after_receipt").css("font-weight","bold");
+		    $("p#after_receipt").css("font-size","15px");
+		    $("p#after_receipt").css("background-color","#f0f0f5");
+		    break;
+		    
+	    
+	    
 	  }//end of switch-case---
 	  
 	  
@@ -80,11 +108,11 @@
     <%-- 광고메뉴 --%>
     <li id="li_ad_List" class="menu" onclick="location.href='<%=ctxPath %>/admin/advertisement/list.do'">광고</li>
     <%-- 신고메뉴 --%>
-    <li id="li_report_list" class="detail_menu_view menu">신고내역</li>
-    <li id="reportManageMenu_box" class="detail_menu_box pl-4">
-      <p id="all_receipt" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/report/list.do'">전체</p>
-      <p id="before_receipt" class="detail_menu" onclick="location.href=''">접수전</p>
-      <p id="after_receipt" class="detail_menu" onclick="location.href=''">접수완료</p>
+    <li id="li_report_list" class="detail_menu_view menu" >신고내역</li>
+    <li id="reportManageMenu_box" class="detail_menu_box pl-4" >
+      <p id="all_receipt" class="detail_menu"  onclick="location.href='<%=ctxPath %>/admin/report/list.do'">전체</p>
+      <p id="before_receipt" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/report/before_receipt_list.do'">접수전</p>
+      <p id="after_receipt" class="detail_menu" onclick="location.href='<%=ctxPath %>/admin/report/after_receipt_list.do'">접수완료</p>
     </li>
   </ul>
 </div>

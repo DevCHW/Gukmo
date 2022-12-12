@@ -395,8 +395,7 @@ function activities_nav(userid){
 	            		"<td>"+json[i].detail_category+"</td>" +
 	            		"<td>"+json[i].fk_board_num+"</td>" +
 	            		"<td>"+json[i].subject+"</td>" +
-            		"</tr>"; 
-            
+            		"</tr>";             
         }// end of for------------------------------
         
                
@@ -578,7 +577,7 @@ function login_record_nav(userid){
   $("div#member_login_record").css("display","block");
  
   $.ajax({
-    url:getContextPath()+"/로그인기록select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/getLogin_record.do", 
     data:{"userid": userid},
     type:"get",
     dataType:"json",

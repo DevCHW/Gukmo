@@ -230,10 +230,10 @@
 	
 	<!-- 광고리스트 불러오기 -->
 	<select id="adList" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
-       select rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status
+       select rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status, to_char(end_date, 'yyyy-mm-dd') as end_date
         from
         (
-        select rownum as rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, start_date, period, status
+        select rownum as rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, start_date, period, status, (start_date+period) as end_date 
         from tbl_advertisement       
         <if test='memberStatus != "" '>
 	      where division = #{memberStatus}
@@ -254,7 +254,7 @@
 
 	<!-- 광고 관련 상세보기 페이지 -->
 		<select id="getAdDetail" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
-	        select advertisement_num, division, client_name, client_phone, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status, filename, filesize
+	        select advertisement_num, division, client_name, client_phone, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, to_char((start_date+period), 'yyyy-mm-dd') as end_date, period, status, filename, filesize
 	        from tbl_advertisement       
 			where advertisement_num = #{advertisement_num}
 		</select>
@@ -264,6 +264,20 @@
 		    insert into tbl_advertisement (advertisement_num, division, client_name, client_phone, url, start_date, period, status, filename, orgfilename, filesize)
 		    values(seq_advertisement.nextval, #{division}, #{client_name}, #{client_phone}, #{url}, sysdate, #{period}, default, #{filename}, #{orgfilename}, #{filesize})
 		</insert>	
+
+	<!-- 광고 날짜 변경시 tbl_advertisement 에서 start_date 변경 -->
+		<update id="edit_Ad_start_date" parameterType="HashMap">
+		    update tbl_advertisement
+		    set start_date =  to_char(to_date(#{start_date}), 'yyyy-mm-dd') 
+		    where advertisement_num = #{advertisement_num}		    
+		</update>	
+
+	<!-- 광고 날짜 변경시 tbl_advertisement 에서 period 변경 -->
+		<update id="edit_Ad_period" parameterType="HashMap">
+			update tbl_advertisement
+			set period = trunc(to_date(#{end_date}) - start_date) 
+			where advertisement_num = #{advertisement_num}
+		</update>	
 
 	<!-- @@@@@@@@@@ 광고 관리 끝 @@@@@@@@@@  -->
 	
