@@ -4,6 +4,7 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/myId.css" />
@@ -70,6 +71,64 @@
 	      <button type="button" id="btn_edit_passwd" class="btn border rounded" disabled>비밀번호 변경</button>
 	    </div>
 	  </div>
+	  
+	  <br>
+      <hr>
+      <br>
+      
+      <%-- 교육기관회원이 아닌 일반회원일 경우에만 --%>
+      <c:if test="${empty sessionScope.user.academy_name}">
+      <h5 class="guide_title">교육기관 회원으로 전환</h5>
+      
+      <div class="px-2 py-2">
+      	<form name="changeAcademyFrm">
+      	
+	      <div class="d-flex flex-column w-50">
+	        <%-- 교육기관명 입력란 --%>
+	        <label for="academy_name" class="label_update">교육기관명</label>
+	        <input type="text" id="academy_name" name="academy_name" class="input_academy_member rounded pl-2 w-100" placeholder="교육기관명을 입력해주세요">
+	        <p id="academy_name_error" class="error">올바른 교육기관명을 입력해주세요</p>
+	        
+	        <%-- 사업자등록번호 --%>
+	        <label for="company_num" class="label_update mt-3">사업자등록번호(xx-xxx-xxxxx)</label>
+	        <div class="d-flex">
+	          <input type="text" id="input_company_num1" class="input_academy_member input_company_num rounded pl-2 w-25" placeholder="숫자3자리" maxlength="3">
+	          <span>&nbsp;-&nbsp;</span>
+	          <input type="text" id="input_company_num2" class="input_academy_member input_company_num rounded pl-2 w-25" placeholder="숫자2자리" maxlength="2">
+	          <span>&nbsp;-&nbsp;</span>
+	          <input type="text" id="input_company_num3" class="input_academy_member input_company_num rounded pl-2 w-25" placeholder="숫자5자리" maxlength="5">
+	        </div>
+	        
+	        <p id="company_num_error" class="error">유효한 사업자등록번호를 입력해주세요</p>
+	        
+	        <%-- 교육기관 전화번호 --%>
+	        <label for="tel" class="label_update mt-3">기관 전화번호</label>
+	        <input type="text" id="tel" name="tel" class="input_academy_member rounded pl-2 w-100" placeholder="기관 전화번호를 입력해주세요(- 제외)">
+	        <p id="company_num_error" class="error">올바른 전화번호 입력해주세요</p>
+	        
+	        <%-- 기관 홈페이지 url --%>
+	        <label for="homepage" class="label_update mt-3">기관 홈페이지 URL</label>
+	        <input type="text" id="homepage" name="homepage" class="input_academy_member rounded pl-2 w-100" placeholder="비밀번호 확인">
+	        <p id="company_num_error" class="error">올바른 URL을 입력해주세요.</p>
+	      </div>
+	      <input type="hidden" id="company_num" name="company_num"/>
+	      <input type="hidden" name="userid" value="${sessionScope.user.userid}"/>
+	    </form>
+	    
+	    <div class="d-flex justify-content-between align-items-center">
+	      <span class="guide_content">
+	      	<i class="fa-solid fa-circle-info"></i>
+        	교육기관 회원으로 전환 시 관리자가 승인할 때 까지 "대기"상태가 되며 로그인이 안됩니다.<br>
+        	&nbsp;&nbsp;&nbsp;&nbsp;승인에는 1~2일정도 소요될 수 있습니다.
+      	  </span>
+	      <button id="btn_changeAcaMember" class="btn btn-light border rounded" onclick="changeAcaMember()">전환</button>
+	    </div>
+	  </div>
+	  <div class="d-flex justify-content-end">
+      	
+      </div>
+	  </c:if>
+      
 	  
 		
 	  <br>

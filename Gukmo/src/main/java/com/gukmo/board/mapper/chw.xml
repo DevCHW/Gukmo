@@ -40,10 +40,10 @@
 	<insert id="insert_member_login" parameterType="HashMap">
 		insert into tbl_member_login(userid, passwd, status)
 		<if test='academy_name != ""'>
-		  values(#{userid}, #{passwd},'대기')
+		  values(#{userid}, #{passwd},default)
 		</if>
 		<if test='academy_name == ""'>
-		  values(#{userid}, #{passwd},default)
+		  values(#{userid}, #{passwd}, '대기')
 		</if>
 	</insert>
 	
@@ -103,6 +103,7 @@
 			) V
 		) T
 	    where rno between #{startRno} and #{endRno}
+	    order by activity_date desc
 	</select>
 	
 	<!-- 회원의 활동내역 총 갯수 얻기 -->
@@ -135,6 +136,7 @@
 			) V
 		) T
 	    where rno between #{startRno} and #{endRno}
+	    order by activity_date desc
 	</select>
 	
 	<!-- 유저의 활동내역 총 갯수를 알아오기(닉네임으로) -->
@@ -197,6 +199,28 @@
 		update tbl_member set email_acept=#{email_acept,jdbcType=INTEGER},nickname=#{nickname},username=#{username},profile_image=#{newFileName}
 		where fk_userid = #{userid}
 	</update>
+	
+	
+	<!-- 교육기관회원 insert -->
+	<insert id="insertAcaMember" parameterType="HashMap">
+		insert into tbl_academy_member(fk_userid,academy_name,company_num,tel,homepage)
+		values(#{userid},#{academy_name},#{company_num},#{tel},#{homepage})
+	</insert>
+	
+	<!-- 상태 업데이트하기 -->
+	<update id="updateStatus" parameterType="HashMap">
+		update tbl_member_login
+		set status = '대기'
+		where userid = #{userid}
+	</update>
+	
+	
+	<!-- 소셜연동회원인지 체크하기-->
+	<select id="snsConnectionCheck" parameterType="String" resultType="Integer">
+		select count(*) 
+		from tbl_member 
+		where (kakao = 1 or naver = 1 or facebook = 1 or google = 1) and email = #{email}
+	</select>
 	
 	
 	

@@ -15,7 +15,32 @@ function getContextPath(){
 
 //== Event Declaration == //
 $(document).ready(function(){
+	$("div#view_activities").css("color","#ffff00");
+	$("div#view_activities").css("font-weight","bold");
 	
+	
+	//네비바에서 알림 클릭시
+	$("div#view_alarm").click(function(){
+		$("div#view_activities").css("color","");
+		$("div#view_activities").css("font-weight","");
+		$("div#view_alarm").css("color","#ffff00");
+		$("div#view_alarm").css("font-weight","bold");
+		
+		$("div#activities").hide();	//활동내역 감추기
+		$("div#alarm").show();	//알람 보이기
+	});//end of Event--
+	
+	//네비바에서 활동내역 클릭시
+	$("div#view_activities").click(function(){
+		$("div#view_activities").css("color","#ffff00");
+		$("div#view_activities").css("font-weight","#ffff00");
+		$("div#view_alarm").css("color","");
+		$("div#view_alarm").css("font-weight","");
+		
+		$("div#alarm").hide();	//알람 감추기
+		$("div#activities").show();	//활동내역 보이기
+		viewAlarm();
+	})//end of Event--
 	
 });//end of $(document).ready(function(){})--
 
@@ -52,3 +77,20 @@ function goDetailCategory(detail_category){
 
 	}//end of switch-case--
 }
+
+
+
+/**
+ * 알림영역 보이게 만들기
+ */
+function viewAlarm(){
+	alert("viewAlarm() 호출. activities.js 파일에서 이 메소드 부분 코딩하면 됩니다 파일 맨아래보면있어유.");
+	//html은 activities.jsp파일에서 div#alarm 안쪽에 코딩하면 됨 
+	
+}//end of method---
+
+
+
+
+
+

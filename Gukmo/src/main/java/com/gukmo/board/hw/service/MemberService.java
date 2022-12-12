@@ -389,6 +389,35 @@ public class MemberService implements InterMemberService{
 		return memberMap;
 	}
 
+	/**
+	 * 일반회원에서 교육기관회원으로 전환하기
+	 */
+	@Override
+	public boolean ChangeAcaMember(Map<String, String> paraMap) {
+		int result1 = dao.insertAcaMember(paraMap);
+		int result2 = dao.updateStatus(paraMap);
+		
+		return result1*result2 == 1?true:false;
+	}
+
+	
+	
+	/**
+	 * 가입된 이메일이 존재하는지 여부 검사 + 소셜연동회원인지 검사
+	 * @param email
+	 * @return 가입된 이메일이 존재하고 소셜연동회원이 아니라면 true, 존재하지 않는이메일이거나 소셜연동회원이라면 false를 반환한다.
+	 */
+	@Override
+	public boolean emailExistAndSnsCheck(String email) {
+		boolean emailExist = dao.emailExistCheck(email);
+		boolean snsConnectionExist = dao.snsConnectionCheck(email);
+		
+		System.out.println("emailExist : "+emailExist);
+		System.out.println("snsConnectionExist : "+snsConnectionExist);
+		
+		return emailExist && !snsConnectionExist?true:false;
+	}
+
 	
 	
 	
