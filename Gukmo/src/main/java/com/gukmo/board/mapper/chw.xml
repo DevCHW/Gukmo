@@ -467,7 +467,8 @@
 		<result property="academy_name" column="academy_name" />
 		<result property="curriculum_start_date" column="curriculum_start_date" />
 		<result property="curriculum_end_date" column="curriculum_end_date" />
-		<result property="recuitment_end_date" column="recuitment_end_date" />
+		<result property="recruitment_start_date" column="recruitment_start_date" />
+		<result property="recruitment_end_date" column="recruitment_end_date" />
 		<result property="cnt_recruits" column="cnt_recruits" />
 		<result property="join_url" column="join_url" />
 	</resultMap>
@@ -666,7 +667,7 @@
 					(select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
 				on A.board_num = B.fk_board_num
 				left join 
-					(select * from tbl_academy) E
+					tbl_academy E
                 on A.board_num = E.fk_board_num
 				) C
 			left join

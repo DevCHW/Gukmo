@@ -25,6 +25,11 @@
       <result property="nextseq" column="nextseq" />
       <result property="nextsubject" column="nextsubject" />
       
+      <!-- AcademyVO -->
+      <association property="academy"  column="fk_board_num" javaType="com.gukmo.board.model.AcademyVO" resultMap="academy"/>
+      <!-- CurriculumVO -->
+	  <association property="curriculum"  column="fk_board_num" javaType="com.gukmo.board.model.CurriculumVO" resultMap="curriculum"/>
+      
       <!-- HashtagVO -->
       <collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO" >
          <id property="hashtag_num" column="hashtag_num"/>
@@ -53,6 +58,30 @@
       </collection>
  
    </resultMap>
+   
+   <!-- association 으로 선언된 AcademyVO 매핑 -->
+	<resultMap id="academy" type="com.gukmo.board.model.AcademyVO">
+		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="representative_name" column="representative_name" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="jurisdiction" column="jurisdiction" />
+		<result property="homepage" column="homepage" />
+		<result property="academy_image" column="academy_image" />
+	</resultMap>
+	
+	<!-- association 으로 선언된 CurriculumVO 매핑 -->
+	<resultMap id="curriculum" type="com.gukmo.board.model.CurriculumVO">
+		<id property="fk_board_num" column="fk_board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="core_technology" column="core_technology" />
+		<result property="academy_name" column="academy_name" />
+		<result property="curriculum_start_date" column="curriculum_start_date" />
+		<result property="curriculum_end_date" column="curriculum_end_date" />
+		<result property="recruitment_start_date" column="recruitment_start_date" />
+		<result property="recruitment_end_date" column="recruitment_end_date" />
+		<result property="cnt_recruits" column="cnt_recruits" />
+		<result property="join_url" column="join_url" />
+	</resultMap>
        
    <!-- 하나의 글 불러오기 -->
    <select id="getBoardDetail" parameterType="HashMap" resultMap="boardvoMap">      
@@ -68,7 +97,9 @@
            , m.fk_comment_num
            , m.write_date as cmt_write_date
            , comment_like_cnt
-           , fk_board_num
+           , T.fk_board_num
+           , core_technology,academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, cnt_recruits, join_url, recruitment_start_date
+           , representative_name,address,phone,jurisdiction,homepage,academy_image
       from
       (
       select * 
@@ -107,14 +138,22 @@
                 on A.board_num = h.fk_board_num
             ) C
          left join
-         (select point,nickname from tbl_member) D
-         on C.nickname = D.nickname
+	         (select point,nickname from tbl_member) D
+	     on C.nickname = D.nickname
+	     
          ) V         
       ) T
         left join
         (select comment_num,comment_level, content, nickname, cmt_board_num, parent_write_nickname, fk_comment_num, write_date, comment_like_cnt from tbl_comment) M
         on T.board_num = M.cmt_board_num
+         left join 
+			(select fk_board_num,representative_name,address,phone,jurisdiction,homepage,academy_image from tbl_academy where fk_board_num = #{board_num}) AC
+         on T.board_num = AC.fk_board_num
+		 left join
+		 	(select fk_board_num,core_technology,academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, cnt_recruits, join_url, recruitment_start_date from tbl_curriculum where fk_board_num = #{board_num}) CU
+	 	 on T.board_num = CU.fk_board_num
         where t.board_num = #{board_num, jdbcType=BIGINT}
+        
         
    </select>
    

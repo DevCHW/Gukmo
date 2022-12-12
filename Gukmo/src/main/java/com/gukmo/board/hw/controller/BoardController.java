@@ -302,6 +302,8 @@ public class BoardController {
 		request.setAttribute("academy", academy);
 		
 		return "board/academy/academyDetail.tiles1";
+		
+		
 	}
 	
 	
