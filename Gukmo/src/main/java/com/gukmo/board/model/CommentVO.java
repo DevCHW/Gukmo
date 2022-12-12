@@ -1,5 +1,9 @@
 package com.gukmo.board.model;
 
+import java.util.Date;
+
+import com.gukmo.board.common.MyUtil;
+
 public class CommentVO {
 	private String comment_num;            
 	private String comment_level;                 
@@ -8,7 +12,7 @@ public class CommentVO {
 	private String parent_write_nickname;          
 	private String cmt_board_num;                          
 	private String fk_comment_num;                     
-	private String write_date;
+	private Date write_date;
 	private String point;
 	private String totalcount;
 	private String comment_like_cnt;	
@@ -29,7 +33,7 @@ public class CommentVO {
 	
 	//파라미터가 있는 생성자
 	public CommentVO(String comment_num, String comment_level, String content, String nickname,
-			String parent_write_nickname, String cmt_board_num, String fk_comment_num, String write_date, String comment_like_cnt, String point, String comment_of_comment_cnt) {
+			String parent_write_nickname, String cmt_board_num, String fk_comment_num, Date write_date, String comment_like_cnt, String point, String comment_of_comment_cnt) {
 		this.comment_num = comment_num;
 		this.comment_level = comment_level;
 		this.content = content;
@@ -77,7 +81,7 @@ public class CommentVO {
 		return fk_comment_num;
 	}
 	public String getWrite_date() {
-		return write_date;
+		return MyUtil.calculateTime(write_date); // 기존의 getter, setter에서 변경된 부분
 	}
 
 	

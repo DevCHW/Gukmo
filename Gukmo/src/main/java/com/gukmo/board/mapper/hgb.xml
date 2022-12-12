@@ -35,21 +35,7 @@
          <id property="hashtag_num" column="hashtag_num"/>
          <result property="hashtag" column="hashtag"/>
          <result property="fk_board_num" column="fk_board_num"/>
-      </collection>      
-
-      <!--  CommentVO --> 
-      <collection property="comment" column="comment_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.CommentVO">
-         <id property="comment_num" column="comment_num"/>         
-         <result property="content" column="cmt_content"/>
-         <result property="nickname" column="cmt_nickname"/>
-         <result property="comment_level" column="comment_level"/>
-         <result property="parent_write_nickname" column="parent_write_nickname"/>
-         <result property="cmt_board_num" column="cmt_board_num"/>
-         <result property="fk_comment_num" column="fk_comment_num"/>
-         <result property="write_date" column="cmt_write_date"/>        
-         <result property="point" column="comment_point"/>        
-         <result property="comment_like_cnt" column="comment_like_cnt"/>
-      </collection>
+      </collection>        
       
       <!--  LikeVO --> 
       <collection property="like" column="fk_board_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.LikeVO">
@@ -84,75 +70,38 @@
 	</resultMap>
        
    <!-- 하나의 글 불러오기 -->
-   <select id="getBoardDetail" parameterType="HashMap" resultMap="boardvoMap">      
-         select T.board_num,T.nickname,T.category,T.detail_category,T.subject,T.content
-          ,T.write_date,T.views,T.profile_image,T.comment_cnt,T.like_cnt,T.hashtag_num
-          ,T.hashtag,T.writer_point,T.previousseq,T.previoussubject, T.nextseq, T.nextsubject, 
-           m.comment_num
-           , m.comment_level
-           , m.content as cmt_content
-           , m.nickname as cmt_nickname
-           , m.cmt_board_num as cmt_board_num
-           , m.parent_write_nickname
-           , m.fk_comment_num
-           , m.write_date as cmt_write_date
-           , comment_like_cnt
-           , T.fk_board_num
-           , core_technology,academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, cnt_recruits, join_url, recruitment_start_date
-           , representative_name,address,phone,jurisdiction,homepage,academy_image
-      from
-      (
-      select * 
-      from
-         (
-         select C.board_num
-                ,C.nickname
-                ,C.category
-                ,C.detail_category
-                ,C.subject
-                ,C.content
-                ,C.write_date
-                ,C.views
-                ,C.profile_image
-                ,C.comment_cnt
-                ,C.like_cnt
-                ,C.hashtag_num
-                ,C.hashtag
-                ,C.fk_board_num as fk_board_num
-                ,D.point writer_point
-                  ,C.previousseq
-                  ,C.previoussubject
-                  ,C.nextseq
-                  ,C.nextsubject                
-          from
-            (
-            select lag(A.board_num, 1) over(order by A.board_num desc) AS previousseq
-                , lag(A.subject, 1,'이전글이 없습니다') over(order by A.board_num desc) AS previoussubject
-                  , lead(A.board_num, 1) over(order by A.board_num desc) AS nextseq
-                , lead(A.subject, 1,'다음글이 없습니다') over(order by A.board_num desc) AS nextsubject
-                  ,A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
-              ,hashtag_num,fk_board_num,hashtag
+   <select id="getBoardDetail" parameterType="HashMap" resultMap="boardvoMap">                  
+          select *
+        from
+        (
+            select *
             from
+            (
+                select lag(A.board_num, 1) over(order by A.board_num desc) AS previousseq
+                        , lag(A.subject, 1,'이전글이 없습니다') over(order by A.board_num desc) AS previoussubject
+                          , lead(A.board_num, 1) over(order by A.board_num desc) AS nextseq
+                        , lead(A.subject, 1,'다음글이 없습니다') over(order by A.board_num desc) AS nextsubject
+                        ,A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.content,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+                        
+                from
                 (select * from tbl_board where detail_category= #{detail_category}) A
-                left join (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) h
-                on A.board_num = h.fk_board_num
-            ) C
-         left join
-	         (select point,nickname from tbl_member) D
-	     on C.nickname = D.nickname
-	     
-         ) V         
-      ) T
+            ) V
+            where board_num = #{board_num}
+        ) B
         left join
-        (select comment_num,comment_level, content, nickname, cmt_board_num, parent_write_nickname, fk_comment_num, write_date, comment_like_cnt from tbl_comment) M
-        on T.board_num = M.cmt_board_num
-         left join 
+            (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a  join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) H 
+        on B.board_num = H.fk_board_num
+        left join
+        (select point,nickname from tbl_member )D
+        on B.nickname = D.nickname
+        
+        left join 
 			(select fk_board_num,representative_name,address,phone,jurisdiction,homepage,academy_image from tbl_academy where fk_board_num = #{board_num}) AC
-         on T.board_num = AC.fk_board_num
+         on B.board_num = AC.fk_board_num
 		 left join
 		 	(select fk_board_num,core_technology,academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, cnt_recruits, join_url, recruitment_start_date from tbl_curriculum where fk_board_num = #{board_num}) CU
-	 	 on T.board_num = CU.fk_board_num
-        where t.board_num = #{board_num, jdbcType=BIGINT}
+	 	 on B.board_num = CU.fk_board_num
+        where B.board_num = #{board_num, jdbcType=BIGINT}
         
         
    </select>
