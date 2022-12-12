@@ -29,6 +29,7 @@ input#username,
 input#nickname{
   height:35px;
   outline:none;
+  border:solid 1px #DEE2E6;
 }
 
 input#username::placeholder,
@@ -82,6 +83,23 @@ input#profile_select{
 
 div#input_box{
   width:50%;
+}
+
+
+/* error_msg */
+p.error{
+  color:red;
+  font-size:small;
+  display:none;
+}
+
+
+
+/* ok_msg */
+p.ok{
+  color:blue;
+  font-size:small;
+  display:none;
 }
 
 

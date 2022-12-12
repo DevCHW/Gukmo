@@ -41,14 +41,17 @@ label.label_update{
 }
 
 /* input_update */
-input.input_update_passwd{
+input.input_update_passwd,
+input.input_academy_member{
   height:40px;
   outline: none;
   border:solid 1px #DEE2E6;
 }
-input.input_update_passwd::placeholder{
+input.input_update_passwd::placeholder,
+input.input_academy_member::placeholder{
   font-size:small;
 }
+
 
 
 /* error_msg */

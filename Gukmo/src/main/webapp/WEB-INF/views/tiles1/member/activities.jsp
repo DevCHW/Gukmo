@@ -54,8 +54,11 @@
 
         <%-- bottom --%>
         <div id="navbar" class="d-flex justify-content-center border-top">
-          <div class="filter mx-4 py-3">
+          <div id="view_activities" class="filter mx-4 py-3">
             	활동내역
+          </div>
+          <div id="view_alarm" class="filter mx-4 py-3">
+            	알림
           </div>
         </div>
       </div>
@@ -75,7 +78,7 @@
                 
                 <c:if test="${activity.division eq '댓글작성'}">
                 <div class="activity_content ml-2">
-                 	<span>${activity.nickname}</span>
+                 	<span style="color:black; font-weight:bold">${activity.nickname}</span>
                  	<span>님의 게시물에 댓글을 달았습니다.</span>
                 </div>
                 </c:if>
@@ -86,14 +89,14 @@
                 
                 <c:if test="${activity.division eq '게시글좋아요'}">
                 <div class="activity_content ml-2">
-                 	<span>${activity.nickname}</span>
+                 	<span style="color:black; font-weight:bold">${activity.nickname}</span>
                  	<span>님의 게시물을 추천하였습니다.</span>
                 </div>
                 </c:if>
                 
                 <c:if test="${activity.division eq '댓글좋아요'}">
                 <div class="activity_content ml-2">
-                 	<span>${activity.nickname}</span>
+                 	<span style="color:black; font-weight:bold">${activity.nickname}</span>
                  	<span>님의 게시물에 달린 댓글을 추천하였습니다.</span>
                 </div>
                 </c:if>
@@ -103,34 +106,40 @@
               <div class="activity_date">${activity.activity_date}</div>
             </div>
             <%-- 활동이일어난 글제목 --%>
-            <c:if test="${activity.detail_category eq '국비학원'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/academy/academy.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
-            <c:if test="${activity.detail_category eq '교육기관'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/academy/curriculum.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
-            <c:if test="${activity.detail_category eq '자유게시판' || activity.detail_category eq 'QnA' || 
-            			  activity.detail_category eq '스터디' || activity.detail_category eq '취미모임' || activity.detail_category eq '수강/취업후기'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
-            <c:if test="${activity.detail_category eq '공지사항'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
+            <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
           </div>
         </c:forEach>
+        
+        
+        <%-- 활동내역이 없다면 --%>
+	    <c:if test="${fn:length(requestScope.activities) == 0}">
+	      <div class="d-flex justify-content-center align-items-center border-top" style="height:300px;">
+	      	<div style="font-size:25px; font-weight:bold;">아직활동내역이 없습니다.</div>
+	      </div>
+	    </c:if>
+        
+        <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
+        <%-- 활동내역이 없다면 --%>
+	    <c:if test="${fn:length(requestScope.activities) != 0}">
+	    	<nav aria-label="...">
+	        	${requestScope.pageBar}
+	      	</nav>
+	    </c:if>
+	      
+        <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
       </div>
       
-      
-      <%----------------------------------------------------------- 페이지 바 시작 ---------------------------------------------%>
-      <nav aria-label="...">
-        ${requestScope.pageBar}
-      </nav>
-      <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
+      <%--하솔누나가 쓸 알람영역 시작 --%>
+      <div id="alarm">
+    	알람영역 하솔누나 코딩하셈
+    
+    
+      </div>
+      <%--하솔누나가 쓸 알람영역 끝 --%>
     </div>
-    
-    
-
     <%----------------------------------- main 끝-------------------------------------%>
+    
+    
   </div>
 
 

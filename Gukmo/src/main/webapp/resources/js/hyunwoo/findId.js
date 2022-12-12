@@ -40,13 +40,13 @@ $(document).ready(function(){
 function email_exist_check(email){
   let email_exist = false;
   $.ajax({ 
-    url:getContextPath()+"/member/emailExistCheck.do", 
+    url:getContextPath()+"/member/emailExistAndSnsCheck.do", 
     data:{"email": email},
     type:"post",
     dataType:"json",
     async:false,
     success:function(json){
-      if(json.emailExist){	//이메일이 존재한다면
+      if(json.result){	//이메일이 존재한다면
         email_exist = true;
       }
       else{	//이메일이 존재하지 않는다면

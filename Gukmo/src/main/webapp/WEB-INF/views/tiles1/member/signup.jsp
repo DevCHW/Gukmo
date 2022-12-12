@@ -68,13 +68,13 @@
       <form name="signup_form" class="d-flex flex-column">
         <%-- userid (unique,중복체크)--%>
         <label for="userid" class="label_signup mt-3">아이디</label>
-        <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디">
+        <input type="text" id="userid" name="userid" class="input_signup rounded pl-2" placeholder="영문 또는 숫자 5~15자 아이디" maxlength="15">
         <p id="userid_error" class="error"></p>
         <p id="userid_ok" class="ok">사용할 수 있는 아이디입니다.</p>
 
         <%-- passwd --%>
         <label for="passwd" class="label_signup mt-3">비밀번호</label>
-        <input type="password" id="passwd" name="passwd" class="input_signup rounded pl-2" placeholder="소문자,특수문자를 포함한 8~15자 비밀번호">
+        <input type="password" id="passwd" name="passwd" class="input_signup rounded pl-2" placeholder="소문자,특수문자를 포함한 8~15자 비밀번호" maxlength="15">
         <p id="passwd_error" class="error">비밀번호는 소문자,특수문자를 포함한 8~15자이어야 합니다.</p>
 
         <%-- passwd_check --%>

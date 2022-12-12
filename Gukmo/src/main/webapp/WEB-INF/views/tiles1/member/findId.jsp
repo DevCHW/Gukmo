@@ -13,10 +13,12 @@
 
 
   <div id="findIdFrm" class="mx-auto my-5 py-5">
-    <div id="logo_img_box" class="m-auto">
-      <img id="logo" src="" alt="로고 들어갈 곳">
+    <%-- 로고 이미지 --%>
+    <div id="logo_img_box" class="m-auto" style="cursor:pointer;" onclick="location.href='<%=ctxPath%>/index.do'">
+      <img id="logo" src="<%=ctxPath %>/resources/images/logo.png" class="rounded">
     </div>
-
+    
+    
     <div class="my-3">
       <h2 class="text-center">계정찾기</h2>
       <p id="about_content" class="text-center">회원 가입시 입력하신 이메일 주소를 입력하시면,<br>
