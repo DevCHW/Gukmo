@@ -380,7 +380,7 @@ function likeClick(data){
 			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("좋아요 취소");
 				
-				$("span#like_icon").html("&#9825;");	// 빈하트
+				$("span#like_icon").html("&#129293;");	// 빈하트
 				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	// 좋아요개수
 																			// 1빼기
 				

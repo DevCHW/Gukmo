@@ -20,7 +20,7 @@
 
   <div class="container my-5"> 
 
-    <div class="line my-4">
+    <div class="line my-4" style="width:1200px; margin-left: -45px;">
       <div>${requestScope.board.category}&nbsp;</div><span>/</span><div>&nbsp;${requestScope.board.detail_category}</div>   <%-- ${requestScope.board.detail_category} --%>
     </div>
 
@@ -129,7 +129,7 @@
              <div class="ml-auto">
              <c:if test="${empty sessionScope.user || like == null}">
                  <div type="button" id="btn_like">
-                   <span id="like_icon">&#9825;</span>
+                   <span id="like_icon">&#129293;</span>
                    <span id="like_cnt">${board.like_cnt}</span>
                  </div>
              </c:if>
@@ -217,29 +217,44 @@
       <span id="total_comment">${board.comment_cnt}</span><span>개의 댓글</span>
     </div>
 
-    <form name="addWriteFrm" id="addWriteFrm">
+    <c:if test="${not empty sessionScope.user}">
+	    <form name="addWriteFrm" id="addWriteFrm">
+	    <div id="write_comment_area" class="border rounded px-4 py-4">
+	      <div class="d-flex w-100">
+	        <div class="login_user_profile_img_box">
+	          <%-- 로그인되어있는 유저 프로필 이미지 --%>
+	          <img src="<%=ctxPath %>/resources/images/user.PNG"/>
+	        </div>
+	            <input id="userid" type="hidden" name="userid" value="${sessionScope.user.userid}"  />		
+	            <input id="cmt_board_num"  type="hidden" name="cmt_board_num" value="${requestScope.board.board_num}"  />		
+	            <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}"  />		
+	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
+	        <div class="ml-3 w-100">
+	          <div class="mb-1">내용</div>
+	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>
+	  
+	          <div class="d-flex justify-content-end mt-2">
+	            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
+	          </div>
+	        </div>
+	     
+	      </div>
+	    </div>
+	    </form>   
+    </c:if>
+    
+    <c:if test="${empty sessionScope.user}">
     <div id="write_comment_area" class="border rounded px-4 py-4">
-      <div class="d-flex w-100">
-        <div class="login_user_profile_img_box">
-          <%-- 로그인되어있는 유저 프로필 이미지 --%>
-          <img src="<%=ctxPath %>/resources/images/user.PNG"/>
-        </div>
-            <input id="userid" type="hidden" name="userid" value="${sessionScope.user.userid}"  />		
-            <input id="cmt_board_num"  type="hidden" name="cmt_board_num" value="${requestScope.board.board_num}"  />		
-            <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}"  />		
-            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
-        <div class="ml-3 w-100">
-          <div class="mb-1">내용</div>
-          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>
-  
-          <div class="d-flex justify-content-end mt-2">
-            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
-          </div>
-        </div>
-     
-      </div>
-    </div>
-    </form>   
+	      <div class="d-flex w-100">
+	          <a style="cursor: default;">&#127760; 댓글을 쓰려면&nbsp;</a>
+	          <a style="color:#208EC9; text-decoration: underline; font-weight: bold" href="<%=ctxPath %>/login.do"> 로그인 </a>
+	          <a style="cursor: default;">이 필요합니다</a>
+	      </div>
+	</div>
+	<div class="d-flex justify-content-end mt-2">
+	            <button type="button" disabled="disabled" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
+	          </div>
+    </c:if>
     <%---------------------- 댓글쓰기 영역 끝 ----------------------%>
 
 
@@ -406,7 +421,7 @@
 	          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area"  style="width:0px;">
 		        <span class="big_comment_btn_report">&#x1F6A8;</span>
 		        <div class="comment_mask"></div>
-		        <c:if test="${bcommentList.nickname == sessionScope.user.nickname}">
+		        <c:if test="${spcial_commentList.nickname == sessionScope.user.nickname}">
 		        <span id="" class="border rounded px-2 py-1 comment_btn_more"  style="margin-left: 15px;">&#8230;
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
 			            
