@@ -176,7 +176,7 @@ $(document).ready(function(){
       </div>
     </div>
   	
-  	<input type="hidden" id="division" name="division" value="${requestScope.division}">
+  	<%-- <input type="hidden" id="division" name="division" value="${requestScope.division}"> --%>
   	<input type="hidden" id="searchType" name="searchType" value="${requestScope.searchType}">
   	<input type="hidden" id="status" name="status" value="${requestScope.status}">
   	<input type="hidden" id="sort" name="sort" value="${requestScope.sort}">

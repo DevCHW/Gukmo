@@ -88,22 +88,22 @@
           
           <!-- nickname -->
           <div class="member_info nickname text-center">
-            <div>${membervo.nickname}</div>
+            <div>${acamembervo.nickname}</div>
           </div>
           
           <!-- academy_name -->
           <div class="member_info academy_name text-center">
-            <div>${membervo.academy_name}</div>
+            <div>${acamembervo.academy_name}</div>
           </div>
           
           <!-- join_date -->
           <div class="member_info join_date text-center">
-            <div class="m-auto">${membervo.join_date}</div>
+            <div class="m-auto">${acamembervo.join_date}</div>
           </div>
           
           <!-- status -->
           <div class="member_info status text-center">
-            <div class="m-auto">${membervo.status}</div>
+            <div class="m-auto">${acamembervo.status}</div>
           </div>
         </div>
         </c:forEach>

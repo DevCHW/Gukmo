@@ -32,11 +32,11 @@
 	  // 통계 케이스도 하나 만들기
 	  
 	  case "/admin/member/normal/list.do" :	//일반회원메뉴		  
-			$("li#memberManageMenu_box").show();
-		    $("p#nomalMemberManage").css("font-weight","bold");
-		    $("p#nomalMemberManage").css("font-size","15px");
-		    $("p#nomalMemberManage").css("background-color","#f0f0f5");
-		    break;
+		$("li#memberManageMenu_box").show();
+	    $("p#nomalMemberManage").css("font-weight","bold");
+	    $("p#nomalMemberManage").css("font-size","15px");
+	    $("p#nomalMemberManage").css("background-color","#f0f0f5");
+	    break;
 		    
 	  case "/admin/member/academy/list.do" :	//교육기관회원메뉴
 		$("li#memberManageMenu_box").show();
@@ -58,14 +58,14 @@
 		    $("p#all_receipt").css("background-color","#f0f0f5");
 		    break;
 		    
-	  case "/admin/report/접수전.do" :	//신고내역메뉴
+	  case "/admin/report/before_receipt_list.do" :	//신고내역메뉴(신고전)
 			$("li#reportManageMenu_box").show();
 		    $("p#before_receipt").css("font-weight","bold");
 		    $("p#before_receipt").css("font-size","15px");
 		    $("p#before_receipt").css("background-color","#f0f0f5");
 		    break;
 		    
-	  case "/admin/report/접수완료.do" :	//신고내역메뉴
+	  case "/admin/report/after_receipt_list.do" :	//신고내역메뉴(신고후)
 			$("li#reportManageMenu_box").show();
 		    $("p#after_receipt").css("font-weight","bold");
 		    $("p#after_receipt").css("font-size","15px");

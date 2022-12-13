@@ -142,11 +142,12 @@ $(document).ready(function(){
 function editAdvertisement(){
   var queryString = $("form[name=editAdvertisementFrm]").serialize();
   
+  // alert(queryString);
+  
   $("form[name=editAdvertisementFrm]").ajaxForm({
     url : getContextPath()+"/admin/advertisement/edit_ad.do", 
     data:queryString,
     type:"POST",
-    async:false,
     dataType:"JSON",
     success:function(json) {
       if(json.result == 1){ //광고정보수정에 성공했다면
@@ -160,7 +161,7 @@ function editAdvertisement(){
       alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });//end of ajax--
-  // $("form[name=editAdvertisementFrm]").submit();
+  $("form[name=editAdvertisementFrm]").submit();
 }//end of method--
 
 
