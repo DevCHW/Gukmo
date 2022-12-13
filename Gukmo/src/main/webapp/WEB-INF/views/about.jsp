@@ -29,8 +29,8 @@
   <script type="text/javascript" src="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
 
   <%-- fullpage 라이브러리 --%>
-  <link href="<%= ctxPath%>/fullpagelib/jquery.fullPage.css" rel="stylesheet"> 
-  <script type="text/javascript" src="<%= ctxPath%>/fullpagelib/jquery.fullPage.js"></script>
+  <link href="<%= ctxPath%>/resources/fullpagelib/jquery.fullPage.css" rel="stylesheet"> 
+  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery.fullPage.js"></script>
   
   <%-- TypeIt 라이브러리 --%>
   <script src="https://unpkg.com/typeit@8.7.0/dist/index.umd.js"></script>
