@@ -20,13 +20,31 @@ public class IndexController {
 	 * 관리자메인페이지 매핑
 	 */
 	@RequestMapping(value="/admin/index.do", method= {RequestMethod.GET})
-	public String helloAdmin(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
-			return "index.tiles1";
-			// /WEB-INF/views/tiles1/member/TOS.jsp 페이지.
-		}
-		return "admin/index.tiles1";
+	public String helloAdmin2(HttpServletRequest request) {
+		return "admin/index.tiles2";
 	}
+	
+	
+	/**
+	 * 일반회원내역페이지 매핑
+	 */
+	@RequestMapping(value="/admin/member/normal/list2.do", method= {RequestMethod.GET})
+	public String viewNormalMember(HttpServletRequest request) {
+		return "admin/member/normal/list.tiles2";
+	}
+	
+	
+	/**
+	 * 교육기관회원페이지 매핑
+	 */
+	@RequestMapping(value="/admin/member/academy/list2.do", method= {RequestMethod.GET})
+	public String viewAcaMember(HttpServletRequest request) {
+		return "admin/member/academy/list2.tiles2";
+	}
+	
+	
+	
+	
+	
 	
 }

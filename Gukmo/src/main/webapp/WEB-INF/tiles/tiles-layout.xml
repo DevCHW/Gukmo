@@ -31,10 +31,8 @@
 	
 	<!-- ==== tiles 를 사용하는 레이아웃(header,content,sideinfo,footer) 설정 시작 ==== -->
 	<definition name="layout-tiles2"  template="/WEB-INF/tiles/layout/layout-tiles2.jsp"> 
-		<put-attribute name="header"  value="/WEB-INF/tiles/tile2/header.jsp" />
+		<put-attribute name="sidebar"  value="/WEB-INF/tiles/tile2/sidebar.jsp" />
 		<put-attribute name="content" value="" />
-		<put-attribute name="sideinfo"  value="/WEB-INF/tiles/tile2/sideinfo.jsp" />
-		<put-attribute name="footer"  value="/WEB-INF/tiles/tile2/footer.jsp" />
 	</definition>
 	
 	<definition name="*.tiles2" extends="layout-tiles2">
@@ -45,6 +43,9 @@
 	</definition>
 	<definition name="*/*/*.tiles2" extends="layout-tiles2">
 		<put-attribute name="content" value="/WEB-INF/views/tiles2/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<definition name="*/*/*/*.tiles2" extends="layout-tiles2">
+		<put-attribute name="content" value="/WEB-INF/views/tiles1/{1}/{2}/{3}/{4}.jsp"/>
 	</definition>
 
 </tiles-definitions> 

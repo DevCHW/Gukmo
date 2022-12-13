@@ -30,7 +30,7 @@
 
   <%-- fullpage 라이브러리 --%>
   <link href="<%= ctxPath%>/resources/fullpagelib/jquery.fullPage.css" rel="stylesheet"> 
-  <script type="text/javascript" src="<%= ctxPath%>/resources/jquery.fullPage.js"></script>
+  <script type="text/javascript" src="<%= ctxPath%>/resources/fullpagelib/jquery.fullPage.js"></script>
   
   <%-- TypeIt 라이브러리 --%>
   <script src="https://unpkg.com/typeit@8.7.0/dist/index.umd.js"></script>
@@ -56,7 +56,7 @@
 <body>
   <div class="header d-flex justify-content-between align-items-center">
     <div>
-      <a href="<%= ctxPath%>/index.do"><h1 id="logo">GUKMO</h1></a>
+      <a href="<%= ctxPath%>/index.do"><h1 id="logo">국비의 모든것</h1></a>
     </div>
     <ul class="sns_list list-unstyled d-flex">
       <li class="sns_list mr-3" style="cursor:pointer;" onclick="window.open('https://www.facebook.com/')" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></li>
