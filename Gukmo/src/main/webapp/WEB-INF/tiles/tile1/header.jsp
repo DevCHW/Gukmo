@@ -137,7 +137,7 @@
 									class="fa-solid fa-gear"></i> 내 정보
 								</a> <a href="<%=ctxPath%>/member/activities.do"> <i
 									class="fa-solid fa-gear"></i> 활동내역
-								</a> <a href="" onclick="goLogoutPage()">로그아웃</a>
+								</a> <a href="#" onclick="goLogoutPage()">로그아웃</a>
 							</div>
 						</div>
 					</div>

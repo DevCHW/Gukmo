@@ -2,6 +2,7 @@
    pageEncoding="UTF-8"%>
    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
    String ctxPath = request.getContextPath();
@@ -20,7 +21,7 @@
 
   <div class="container my-5"> 
 
-    <div class="line my-4" style="width:1200px; margin-left: -45px;">
+    <div class="line my-4" style="width:1150px; margin-left: -20px;">
       <div>${requestScope.board.category}&nbsp;</div><span>/</span><div>&nbsp;${requestScope.board.detail_category}</div>   <%-- ${requestScope.board.detail_category} --%>
     </div>
 
@@ -76,9 +77,10 @@
       </div>
       <%-- 신고버튼, 수정or삭제버튼 --%>
       <div id="report_edit_delete_area" class="d-flex justify-content-between align-items-center">
-        
-          <span id="" class="ml-auto btn_report" onclick="openReport()">&#x1F6A8;</span>
-              
+          
+          <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자'}"> 
+          	<span id="" class="ml-auto btn_report" onclick="openReport()">&#x1F6A8;</span>
+          </c:if>   
         <div id="mask"></div>
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
@@ -90,7 +92,7 @@
         </c:if>
         
         <c:if test="${sessionScope.user.authority eq '관리자'}">
-          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
+          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">             
               <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
             </div>
@@ -125,7 +127,7 @@
          </div>
             
             
-             <%-- 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+             <%-- 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#129293;--%>
              <div class="ml-auto">
              <c:if test="${empty sessionScope.user || like == null}">
                  <div type="button" id="btn_like">
@@ -245,15 +247,16 @@
     
     <c:if test="${empty sessionScope.user}">
     <div id="write_comment_area" class="border rounded px-4 py-4">
-	      <div class="d-flex w-100">
-	          <a style="cursor: default;">&#127760; 댓글을 쓰려면&nbsp;</a>
-	          <a style="color:#208EC9; text-decoration: underline; font-weight: bold" href="<%=ctxPath %>/login.do"> 로그인 </a>
-	          <a style="cursor: default;">이 필요합니다</a>
+	      <div class="d-flex w-100 align-items-end pt-3 pl-2" style="font-size:18px;">
+	          <span>&#127760; 댓글을 쓰려면&nbsp;</span>
+	          <a style="color:#208EC9; text-decoration: underline; font-weight: bold" onclick="no_login_comment()"> 로그인 </a>
+	          <span>이 필요합니다</span>
 	      </div>
-	</div>
-	<div class="d-flex justify-content-end mt-2">
+	      <div class="d-flex justify-content-end mt-4">
 	            <button type="button" disabled="disabled" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
-	          </div>
+	       </div>
+	</div>
+	
     </c:if>
     <%---------------------- 댓글쓰기 영역 끝 ----------------------%>
 
@@ -265,12 +268,17 @@
 
     <%-- 댓글 반복문 시작 --%>
     <c:forEach var="bcommentList" items="${requestScope.basic_commentList}" varStatus="status">
-    <div class="comment_area pb-4">
-      <div class="comment px-3 py-4" id="dd">
+    <div class="comment_area pb-4 mt-2">
+      <div class="comment px-3 py-4" id="">
         <%-- 댓글작성자의 프로필이미지, 활동점수, 댓글작성일자 --%>
         <div class="d-flex justify-content-between align-items-center comment_writer_info">
           <div class="comment_writer_profile_img_box mr-2">
-            <img src="<%=ctxPath %>/resources/images/user.PNG">
+            <c:if test="${fn:substring(bcommentList.profile_image,0,4) != 'http'}">
+              <img src="<%=ctxPath %>/resources/images/${bcommentList.profile_image}"/>
+            </c:if>
+            <c:if test="${fn:substring(bcommentList.profile_image,0,4) == 'http'}">
+         	   <img src="${bcommentList.profile_image}"/>
+            </c:if>
           </div>
           <input type="hidden" id="" name="fk_comment_num"/>
           <div class="d-flex flex-column w-100 asdf1">
@@ -295,17 +303,71 @@
           </div>
 
           <%-- 댓글 좋아요버튼 --%>
-          <div class="comment_like" style="width: 50px;">
-            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-            <span>&#x1F497;</span>
-            <%-- 댓글 좋아요 갯수 --%>
-            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
-          </div>
+            
+          <c:if test="${empty sessionScope.user}">
+	          <div class="comment_like" style="width: 50px;">
+	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+	            <span>&#129293;</span>
+	            <%-- 댓글 좋아요 갯수 --%>
+	            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+	          </div>
+          </c:if>
+    
+          <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname != bcommentList.nickname}">
+                  <div style="padding-right: 20px; display: flex;">
+			          <div class="comment_like" style="width: 45px;">
+			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+			            <span>&#129293;</span>
+			            <%-- 댓글 좋아요 갯수 --%>
+			            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+			          </div>
+			          <input type="hidden" id="" value="${bcommentList.nickname}" />
+		          	  <input type="hidden" id="" value="${bcommentList.comment_num}" />
+			          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
+			          	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
+			          </div>
+		          </div>
+          	  </c:if>
+          
+           
+          <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname == bcommentList.nickname}">
+          	<div class="comment_like" style="width: 50px;">
+	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+	            <span>&#129293;</span>
+	            <%-- 댓글 좋아요 갯수 --%>
+	            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+	          </div>
+	          <span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
+	            	<span class="comment_edit">수정하기</span>
+	            	<span class="comment_delete">삭제하기</span>
+          		</div>
+          	  </span>
+          </c:if>
+          
+          <c:if test="${not empty sessionScope.user && sessionScope.user.authority == '관리자'}">
+          	<div class="comment_like" style="width: 50px;">
+	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+	            <span>&#129293;</span>
+	            <%-- 댓글 좋아요 갯수 --%>
+	            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+          	</div>
+          	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
+	            	<span class="comment_delete">블라인드</span>
+          		</div>
+          	</span>
+          </c:if>
+          
+          
+          <!--  
           <input type="hidden" id="" value="${bcommentList.nickname}" />
           <input type="hidden" id="" value="${bcommentList.comment_num}" />
           <%-- 댓글 신고,수정,삭제 시작 --%>
           <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
-	        <span class="comment_btn_report ml-auto">&#x1F6A8;</span>
+            <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname != bcommentList.nickname}">
+	        	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
+	        </c:if>
 	        <div class="comment_mask"></div>
 	        <c:if test="${bcommentList.nickname == sessionScope.user.nickname}">
 	        <span id="" class="border rounded px-2 py-1 comment_btn_more" style="margin-left: 15px;">&#8230;
@@ -317,6 +379,7 @@
           	</c:if>
       	   </div>
       	   <%-- 댓글 신고,수정,삭제 끝 --%>
+      	   -->
         </div>
 
         <%-- 수정할 댓글 내용 --%>
@@ -385,7 +448,12 @@
 	          <%-- 대댓글작성자의 프로필이미지, 활동점수, 댓글작성일자 --%>
 	          <div class="big_comment_writer_info d-flex justify-content-between align-items-center">
 	            <div class="big_comment_writer_profile_img_box mr-3">
-	              <img src="<%=ctxPath %>/resources/images/user.PNG">
+	              <c:if test="${fn:substring(spcial_commentList.profile_image,0,4) != 'http'}">
+	                  <img src="<%=ctxPath %>/resources/images/${spcial_commentList.profile_image}"/>
+	                </c:if>
+	                <c:if test="${fn:substring(spcial_commentList.profile_image,0,4) == 'http'}">
+	             	   <img src="${spcial_commentList.profile_image}"/>
+	                </c:if>
 	            </div>
 	 
 	            <div class="d-flex flex-column w-100">
@@ -408,18 +476,23 @@
 	              </div>
 	            </div>
 	
+	            <!--  
 	            <%-- 대댓글 좋아요버튼 --%>
-	            <div class="big_comment_like" style="width: 50px;">
-	              <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	              <span>&#x1F497;</span>
-	              <%-- 댓글 좋아요 갯수 --%>
-	              <span>${spcial_commentList.comment_like_cnt}</span>
-	            </div>
+	            <c:if test="${empty sessionScope.user}">
+		            <div class="big_comment_like" style="width: 50px;">
+		              <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+		              <span>&#129293;</span>
+		              <%-- 댓글 좋아요 갯수 --%>
+		              <span>${spcial_commentList.comment_like_cnt}</span>
+		            </div>
+	            </c:if>
 	            <input class="comment_of_comment_nickname" type="hidden" value="${spcial_commentList.nickname}"  />      
 			    <input class="comment_of_comment_num"  type="hidden" value="${spcial_commentList.comment_num}" />
 	            <%-- 대댓글 신고,수정,삭제 시작 --%>
 	          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area"  style="width:0px;">
-		        <span class="big_comment_btn_report">&#x1F6A8;</span>
+		        <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname != spcial_commentList.nickname}">
+	        		<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
+	        	</c:if>
 		        <div class="comment_mask"></div>
 		        <c:if test="${spcial_commentList.nickname == sessionScope.user.nickname}">
 		        <span id="" class="border rounded px-2 py-1 comment_btn_more"  style="margin-left: 15px;">&#8230;
@@ -431,9 +504,72 @@
 	          	</span>
 	          	</c:if>
 	      	   </div>
-      	   <%-- 댓글 신고,수정,삭제 끝 --%>
+	      	   -->
+	      	   
+	      	   
+	      	   
+	      	   <c:if test="${empty sessionScope.user}">
+		          <div class="big_comment_like" style="width: 50px; margin-right: 15px;">
+		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+		            <span>&#129293;</span>
+		            <%-- 댓글 좋아요 갯수 --%>
+		            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+		          </div>
+          	   </c:if>
+          
+              <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname != spcial_commentList.nickname}">
+                  <div style="padding-right: 35px; display: flex;">
+			          <div class="big_comment_like" style="width: 45px;">
+			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+			            <span>&#129293;</span>
+			            <%-- 댓글 좋아요 갯수 --%>
+			            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+			          </div>
+			          <input type="hidden" id="" value="${spcial_commentList.nickname}" />
+		          	  <input type="hidden" id="" value="${spcial_commentList.comment_num}" />
+			          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
+			          	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
+			          </div>
+		          </div>
+          	  </c:if>
+          
+          	  <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname == spcial_commentList.nickname}">
+	          	  <div class="big_comment_like" style="width: 50px;">
+		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+		            <span>&#129293;</span>
+		            <%-- 댓글 좋아요 갯수 --%>
+		            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+		          </div>
+		          <span id="" class="border rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;">&#8230;
+	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
+		            	<span class="comment_edit2">수정하기</span>
+		            	<span class="comment_delete2">삭제하기</span>
+	          		</div>
+	          	  </span>
+          	  </c:if>
+          
+	          <c:if test="${not empty sessionScope.user && sessionScope.user.authority == '관리자'}">
+	            <div style="padding-right: 16px; display: flex;">
+		          	<div class="big_comment_like" style="width: 45px; margin-top: 4px;">
+			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
+			            <span>&#129293;</span>
+			            <%-- 댓글 좋아요 갯수 --%>
+			            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+		          	</div>
+		          	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+		          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
+			            	<span class="comment_delete">블라인드</span>
+		          		</div>
+		          	</span>
+	          	</div>
+	          </c:if>
+      	       <%-- 댓글 신고,수정,삭제 끝 --%>
 	          </div>
-	
+	          
+	           
+	          
+	          
+	   
 	
 	
 	

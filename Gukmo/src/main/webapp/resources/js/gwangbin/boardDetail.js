@@ -509,6 +509,11 @@ function goAddComment() {
 }// end of function goAddWrite()--------------------------------------
 
 
+// 비로그인상태에서 댓글작성창 로그인버튼 클릭시 이벤트
+function no_login_comment() {
+	$("button.btn_login").trigger("click");// 로그인페이지로 보내기
+}
+
 
 // 댓글쓰기
 function goAddWrite_noAttach() {
