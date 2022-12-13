@@ -162,6 +162,20 @@ public interface InterMemberService {
 	Map<String,String> getProfileByNickname(Map<String, String> paraMap);
 
 
+	/**
+	 * 일반회원에서 교육기관회원으로 전환하기
+	 */
+	boolean ChangeAcaMember(Map<String, String> paraMap);
+
+
+	/**
+	 * 가입된 이메일이 존재하는지 여부 검사 + 소셜연동회원인지 검사
+	 * @param email
+	 * @return 가입된 이메일이 존재하고 소셜연동회원이 아니라면 true, 존재하지 않는이메일이거나 소셜연동회원이라면 false를 반환한다.
+	 */
+	boolean emailExistAndSnsCheck(String email);
+
+
 	
 
 

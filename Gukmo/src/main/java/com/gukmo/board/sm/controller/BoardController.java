@@ -44,8 +44,11 @@ public class BoardController {
 	
 	@RequestMapping(value="/detail.do", method= {RequestMethod.GET})
 	   public String viewBoardDetail(HttpServletRequest request) {
+		    
+		
+		    try {
 			// 나중에 주석 풀기
-		String board_num = request.getParameter("boardNum");
+		    String board_num = request.getParameter("boardNum");
 						
 			Map<String,String> paraMap = new HashMap<>();			
 			paraMap.put("board_num", board_num);
@@ -56,10 +59,12 @@ public class BoardController {
 		    HttpSession session = request.getSession();
 		    MemberVO user = (MemberVO)session.getAttribute("user");   
 		     
+		    
 			// 디테일 카테고리 가져오기
 	      	String detail_category = service.getCategory(paraMap);	      
 			paraMap.put("detail_category",detail_category);
-		    	
+		    
+		    
 		    
 			//하나의 boardvo 불러오기
 			BoardVO board = service.getBoardDetail(paraMap);   
@@ -102,14 +107,22 @@ public class BoardController {
 			
 			//기본 댓글 리스트 불러오기(기본 : 그냥 댓글, 특수 : 대댓글)
 			List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
-			List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 
-			
-			
+			List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 			
 
-	      request.setAttribute("basic_commentList", basic_commentList);
-	      request.setAttribute("special_commentList", special_commentList);	      
-	      request.setAttribute("board", board);
-	      request.setAttribute("like", like);
+		    request.setAttribute("basic_commentList", basic_commentList);
+		    request.setAttribute("special_commentList", special_commentList);	      
+		    request.setAttribute("board", board);
+		    request.setAttribute("like", like);
+	      
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    	String message = "존재하지않는 페이지입니다.";
+				String loc = request.getContextPath()+"/index.do";
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+				return "msg";
+			}
+		    
 	      return "board/community/boardDetail.tiles1";
 	      
 	   }

@@ -20,7 +20,7 @@
 
 
 
-  <div class="container">
+  <div class="container my-5">
     <%-- 커뮤니티 작성 폼 시작 --%>
     <form name="writerFrm" class="d-flex flex-column" enctype="multipart/form-data">
 	  
@@ -47,7 +47,7 @@
 
       <%-- subject --%>
       <label for="subject" class="community_label mt-3">제목</label>
-      <input type="text" id="subject" name="subject" class="community_input border rounded pl-2" value="${requestScope.boardvo.subject}" placeholder="제목을 입력하세요">
+      <input type="text" id="subject" name="subject" class="community_input border rounded pl-2" value="${requestScope.boardvo.subject}" placeholder="제목을 입력하세요" maxlength="50">
 
 
 

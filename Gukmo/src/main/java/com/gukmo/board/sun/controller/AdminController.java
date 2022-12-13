@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sun.service.InterAdminService;
 
 @Controller
@@ -161,4 +163,126 @@ public class AdminController {
 			
 			return jsonArr.toString();
 		}
+		
+		
+		
+		/**
+		 * 관리자 회원 로그인 통계
+		 */
+		@ResponseBody
+		@RequestMapping(value="/admin/member/detail/loginRecordList.do", produces="text/plain;charset=UTF-8")
+		//public String requiredAdminLogin_newMemberCnt(@RequestParam String userid, HttpServletRequest request) {
+		public String loginRecordList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
+			
+			List<Map<String, String>> loginRecordList = service.loginRecordList(paraMap);
+			
+			JSONArray jsonArr = new JSONArray();  // []
+			
+			if(loginRecordList != null) {
+				for(Map<String, String> map : loginRecordList) {
+					JSONObject jsonObj = new JSONObject(); // {}
+					jsonObj.put("login_date", map.get("login_date")); 
+					jsonObj.put("login_ip", map.get("login_ip"));
+					
+					jsonArr.put(jsonObj);
+				}// end of for---------------------------
+			}
+			
+			return jsonArr.toString();
+		}
+		
+		
+		
+		
+		/**
+		 * 관리자 회원 게시글 통계
+		 */
+		@ResponseBody
+		@RequestMapping(value="/admin/member/detail/boardList.do", produces="text/plain;charset=UTF-8")
+		//public String requiredAdminLogin_newMemberCnt(@RequestParam String userid, HttpServletRequest request) {
+		public String boardList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
+			
+			List<BoardVO> boardList = service.boardList(paraMap);
+			
+			JSONArray jsonArr = new JSONArray();  // []
+			
+			if(boardList != null) {
+				for(BoardVO boardvo : boardList) {
+					JSONObject jsonObj = new JSONObject(); // {}
+					jsonObj.put("board_num", boardvo.getBoard_num()); 
+					jsonObj.put("category", boardvo.getCategory()); 
+					jsonObj.put("detail_category", boardvo.getDetail_category()); 
+					jsonObj.put("subject", boardvo.getSubject()); 
+					jsonObj.put("write_date", boardvo.getWrite_date()); 
+					
+					jsonArr.put(jsonObj);
+				}// end of for---------------------------
+			}
+			
+			return jsonArr.toString();
+		}
+		
+		
+		
+		
+		
+		/**
+		 * 관리자 회원 게시글 통계
+		 */
+		@ResponseBody
+		@RequestMapping(value="/admin/member/detail/reportList.do", produces="text/plain;charset=UTF-8")
+		public String reportList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
+			
+			List<ReportVO> reportList = service.reportList(paraMap);
+			
+			JSONArray jsonArr = new JSONArray();  // []
+			 
+			if(reportList != null) {
+				for(ReportVO reportvo : reportList) {
+					JSONObject jsonObj = new JSONObject(); // {}
+					jsonObj.put("report_num", reportvo.getReport_num()); 
+					jsonObj.put("reported_nickname", reportvo.getReported_nickname()); 
+					jsonObj.put("simple_report_reason", reportvo.getSimple_report_reason()); 
+					jsonObj.put("report_date", reportvo.getReport_date()); 
+					jsonObj.put("report_type", reportvo.getReport_type()); 
+					
+					jsonArr.put(jsonObj);
+				}// end of for---------------------------
+			}
+			
+			return jsonArr.toString();
+		}
+		
+		
+		/**
+		 * 관리자 회원 게시글 통계
+		 */
+		@ResponseBody
+		@RequestMapping(value="/admin/member/detail/reportedList.do", produces="text/plain;charset=UTF-8")
+		public String reportedList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
+			
+			List<ReportVO> reportedList = service.reportedList(paraMap);
+			
+			JSONArray jsonArr = new JSONArray();  // []
+			
+			if(reportedList != null) {
+				for(ReportVO reportvo : reportedList) {
+					JSONObject jsonObj = new JSONObject(); // {}
+					jsonObj.put("report_num", reportvo.getReport_num()); 
+					jsonObj.put("report_nickname", reportvo.getReport_nickname()); 
+					jsonObj.put("simple_report_reason", reportvo.getSimple_report_reason()); 
+					jsonObj.put("report_date", reportvo.getReport_date()); 
+					jsonObj.put("report_type", reportvo.getReport_type()); 
+					
+					jsonArr.put(jsonObj);
+				}// end of for---------------------------
+			}
+			
+			return jsonArr.toString();
+		}
+		
+		
+		
+		
+		
 }

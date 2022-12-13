@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -208,6 +209,24 @@ public class MemberController {
 	
 	
 	
+	/**
+	 * 일반회원에서 교육기관회원으로 전환하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/ChangeAcaMember.do", method= {RequestMethod.POST})
+	public String ChangeAcaMember(HttpServletRequest request,@RequestParam Map<String,String> paraMap) {
+		//확인용
+//		System.out.println("교육기관회원으로 전환 정보 : "+paraMap);
+		
+		boolean result = service.ChangeAcaMember(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result",result);
+		return jsonObj.toString();
+	}
+	
+	
+	
 	
 	
 	
@@ -381,7 +400,7 @@ public class MemberController {
 	 * 활동내역 페이지 GET요청시 페이지 보여주기(페이징처리)
 	 */
 	@RequestMapping(value="/member/activities.do", method= {RequestMethod.GET})
-	public String viewActivities(HttpServletRequest request) {
+	public String requiredLogin_viewActivities(HttpServletRequest request,HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
@@ -525,7 +544,7 @@ public class MemberController {
 	 * 내계정 페이지 GET요청시 페이지 보여주기
 	 */
 	@RequestMapping(value="/member/myId.do", method= {RequestMethod.GET})
-	public String viewMyId(HttpServletRequest request) {
+	public String requiredLogin_viewMyId(HttpServletRequest request,HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("user") == null) {	//로그인중인 회원이 없다면
 			return "redirect:/index.do";
@@ -556,7 +575,7 @@ public class MemberController {
 	 * 개인정보보호방침 페이지 GET요청시 페이지 보여주기
 	 */
 	@RequestMapping(value="/policy/privacy.do", method= {RequestMethod.GET})
-	public String viewPrivacyPolicy(HttpServletRequest request) {
+	public String requiredLogin_viewPrivacyPolicy(HttpServletRequest request,HttpServletResponse response) {
 		return "/policy/privacy_policy.tiles1";
 		// /WEB-INF/views/tiles1/policy/privacy_policy.jsp 페이지.
 	}
@@ -806,6 +825,22 @@ public class MemberController {
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("samePasswd", samePasswd);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	
+	/**
+	 * 가입된 이메일이 존재하는지 여부 검사 + 소셜연동회원인지 검사
+	 * @return 가입된 이메일이 존재하고 소셜연동회원이 아니라면 true, 존재하지 않는이메일이거나 소셜연동회원이라면 false를 반환한다.
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/emailExistAndSnsCheck.do", method= {RequestMethod.POST})
+	public String emailExistAndSnsCheck(@RequestParam String email, HttpServletRequest request) {
+		boolean result = service.emailExistAndSnsCheck(email);
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
 		
 		return jsonObj.toString();
 	}

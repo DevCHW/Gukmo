@@ -32,6 +32,7 @@ $(document).ready(function(){
   
   // 댓글에 [...]클릭시 이벤트
   $("span.comment_btn_more").click(e=>{
+	  $("div#mask").show();
 	  const target = $(e.currentTarget);
 	  target.children(1).show();
 	  // $("div.comment_mask").show();
@@ -49,6 +50,7 @@ $(document).ready(function(){
   // 게시글에 [...]클릭후,마스크 클릭시 이벤트
   $("div#mask").click(()=>{
     $("div#update_or_delete").fadeOut(200);
+    $("div.comment_update_or_delete").fadeOut(200);
     $("div#mask").hide();
   });// end of Event--
   
@@ -332,8 +334,7 @@ $(document).ready(function(){
   
   // 댓글 신고하기 버튼 클릭시
   $("span.comment_btn_report").click(function(e) {
-	  const target = $(e.currentTarget);
-	  const nickname = $("input#nickname").val();
+	  const target = $(e.currentTarget);	  
 	  const comment_write_nickname = target.parent().prev().prev().val();
 	  const comment_num = target.parent().prev().val();
 	  const content = target.parent().parent().next().attr('id');
@@ -343,6 +344,20 @@ $(document).ready(function(){
 	  
 	  
 	  openReport_comment(comment_write_nickname, comment_num, content);
+  })//end of 
+  
+  // 대댓글 신고하기 버튼 클릭시
+  $("span.big_comment_btn_report").click(function(e) {
+	  const target = $(e.currentTarget);	 	  
+	  const comment_write_nickname = target.parent().prev().prev().val();
+	  const comment_num = target.parent().prev().val();
+	  const content = target.parent().parent().next().attr('id');
+	  // alert(comment_write_nickname);
+	  // alert(comment_num);
+	  alert(content);
+	  
+	  
+	  openReport_comment_of_comment(comment_write_nickname, comment_num, content);
   })//end of 
   
   
@@ -365,7 +380,7 @@ function likeClick(data){
 			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("좋아요 취소");
 				
-				$("span#like_icon").html("&#9825;");	// 빈하트
+				$("span#like_icon").html("&#129293;");	// 빈하트
 				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	// 좋아요개수
 																			// 1빼기
 				
@@ -445,7 +460,22 @@ function openReport_comment(comment_write_nickname, comment_num,content) {
 	// 신고 버튼
 	var openWin;
 	const board_num = $("input#board_num").val();
-	const nickname = $("input#nickname").val();
+	const nickname = comment_write_nickname;
+	
+    // window.name = "부모창 이름";
+    window.name = "boardDetail";
+    // window.open("open할 window", "자식창 이름", "팝업창 옵션");
+    openWin = window.open("/board/community/report_comment.do?boardNum="+board_num+"&comment_write_nickname="+comment_write_nickname+"&comment_num="+comment_num+"&nickname="+nickname+"&content="+content,
+            "reportForm", "width=576, height=700, left=500, top= 20");    
+}
+
+//대댓글 신고버튼 클릭시
+function openReport_comment_of_comment(comment_write_nickname, comment_num,content) {
+	
+	// 신고 버튼
+	var openWin;
+	const board_num = $("input#board_num").val();
+	const nickname = comment_write_nickname;
 	
     // window.name = "부모창 이름";
     window.name = "boardDetail";
