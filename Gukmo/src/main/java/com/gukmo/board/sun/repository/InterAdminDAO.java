@@ -3,6 +3,9 @@ package com.gukmo.board.sun.repository;
 import java.util.List;
 import java.util.Map;
 
+import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.ReportVO;
+
 public interface InterAdminDAO {
 
 	// 기간별 새로운 게시물 수 
@@ -28,6 +31,13 @@ public interface InterAdminDAO {
 
 	// 특정 회원 로그인 기록 가져오기
 	List<Map<String, String>> loginRecordList(Map<String, String> paraMap);
+
+	// 특정 회원 게시글 작성 목록 가져오기
+	List<BoardVO> boardList(Map<String, String> paraMap);
+
+	List<ReportVO> reportList(Map<String, String> paraMap);
+
+	List<ReportVO> reportedList(Map<String, String> paraMap);
 
 
 }

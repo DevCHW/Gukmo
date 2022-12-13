@@ -266,7 +266,7 @@
 	  	<%-- sort 영역 시작 --%>
 	      <div class="d-flex ml-auto">
 	        <div id="mask"></div>
-	        <div id="sort" class="acSort d-flex ml-3 border rounded justify-content-center align-items-center">
+	        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
 	          <i class="fa-solid fa-arrow-down-short-wide"></i>
 					<span id=current_sort>일자별</span>
 	          <div id="sort_option" class="border rounded px-3 py-2">
@@ -328,7 +328,7 @@
 			<div class="datepicker2" style="width: 50%; text-align: left;">
 			   <input type="text" id="toDate2">
 			</div>
-			<button class="datepicker2" type="button" id="search" style="width: 20%;" >검색</button>
+			<button class="datepicker2" type="button" id="btn_loginChart" style="width: 20%;" >검색</button>
 		</div>
 	  <%-- datepicker 영역  끝 --%>  
         <div id="login_record_chart_area" class="border rounded">
