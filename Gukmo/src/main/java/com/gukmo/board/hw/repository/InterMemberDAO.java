@@ -186,6 +186,12 @@ public interface InterMemberDAO {
 	boolean snsConnectionCheck(String email);
 
 
+	/**
+	 * 게시판에서도 프사 변경해주기
+	 */
+	int changeBoardByProfileImg(Map<String, String> paraMap);
+
+
 	
 
 

@@ -96,12 +96,16 @@ button#btn_email_certification{
 
 
 
+
 button#btn_signup{
-  height:40px;
-  background-color: #14587D;
+  height:50px;
+  background-color: #208EC9;
   font-size:medium;
   font-weight: bold;
   color:white;
+}
+button#btn_signup:hover{
+	background-color: #14587D;
 }
 
 div#email_error_area{

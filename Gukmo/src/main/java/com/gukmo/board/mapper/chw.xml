@@ -175,14 +175,14 @@
 	
 	<!-- 계정찾기 비밀번호 변경 해주기 -->
 	<update id="editPasswd" parameterType="HashMap">
-		update tbl_member_login set passwd = #{passwd}
+		update tbl_member_login set passwd = #{passwd}, update_passwd_date = sysdate
 		where userid = #{userid}
 	</update>
 	
 	
 	<!-- 마이페이지에서 비밀번호 변경 시 업데이트 해주기 -->
 	<update id="editPasswdWithUserid" parameterType="HashMap">
-		update tbl_member_login set passwd = #{passwd}
+		update tbl_member_login set passwd = #{passwd}, update_passwd_date = sysdate
 		where userid = #{userid}
 	</update>
 	
@@ -199,6 +199,13 @@
 		update tbl_member set email_acept=#{email_acept,jdbcType=INTEGER},nickname=#{nickname},username=#{username},profile_image=#{newFileName}
 		where fk_userid = #{userid}
 	</update>
+	
+	<!-- 게시판에서도 프사 변경해주기 -->
+	<update id="changeBoardByProfileImg" parameterType="HashMap">
+		update tbl_board set profile_image=#{newFileName}
+		where nickname = #{nickname}
+	</update>
+	
 	
 	
 	<!-- 교육기관회원 insert -->

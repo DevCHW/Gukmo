@@ -357,6 +357,17 @@ public class MemberDAO implements InterMemberDAO{
 
 
 
+	/**
+	 * 게시판에서도 프사 변경해주기
+	 */
+	@Override
+	public int changeBoardByProfileImg(Map<String, String> paraMap) {
+		int result = gukmo_sql.update("chw.changeBoardByProfileImg",paraMap);
+		return result;
+	}
+
+
+
 	
 
 

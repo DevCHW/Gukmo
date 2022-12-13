@@ -52,6 +52,26 @@ $(document).ready(function(){
      ///////////// 관리자 메뉴 토글 끝 ////////////
      
      
+     
+     // 스크롤되었을 때 보더바텀을 주고, 다시 맨위로갔을때 보더바텀을 없애기
+     window.addEventListener('scroll', function(){
+       let scrollTop = $(window).scrollTop();
+       if (scrollTop == 0) { //스크롤이 맨 위일때
+         $("#scroll-to-top").hide();
+       }
+       else {  //스크롤을 한다면
+         $("#scroll-to-top").fadeIn();
+       }
+     });// end of window.addEventListener('scroll', function(){}----
+     
+     
+     //스크롤을 맨위로 올리는 버튼을 클릭한다면 스크롤을 맨위로 올려주는 함수
+     $("#scroll-to-top").click(function(){
+		$( 'html, body' ).animate( { scrollTop : 0 }, 400 );
+		return false;
+	 });
+     
+     
 }); // end of $(document).ready(function() ---------------------------------------
 
 	////// 드롭다운박스 외부클릭시 닫히는 함수 ////////

@@ -9,7 +9,8 @@
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/curriculumNew.css" />
-
+<%-- Google reCAPTCHA v2 --%>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/curriculumNew.js" ></script>
 
@@ -26,8 +27,14 @@
 
 	  <%-- 학원명 --%>
       <div class="d-flex align-items-center my-3">
+      
         <label for="academy_name" class="curriculum_label mt-3">학원명</label>
-        <input type="text" id="academy_name" name="academy_name" class="curriculum_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}" readonly>
+        <c:if test="${not empty sessionScope.user.academy_name }">
+        	<input type="text" id="academy_name" name="academy_name" class="curriculum_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}" readonly>
+        </c:if>
+        <c:if test="${sessionScope.user.authority == '관리자'}">
+        <input type="text" id="academy_name" name="academy_name" class="curriculum_input border rounded pl-2 w-100" placeholder="학원명을 입력해주세요!" maxlength="20">
+        </c:if>
       </div>
       
       
@@ -35,7 +42,7 @@
       <%-- 과정명 --%>
       <div class="d-flex align-items-center my-3">
         <label for="subject" class="curriculum_label mt-3">교육과정명</label>
-        <input type="text" id="subject" name="subject" class="curriculum_input border rounded pl-2 w-100" placeholder="교육과정명을 입력해주세요!">
+        <input type="text" id="subject" name="subject" class="curriculum_input border rounded pl-2 w-100" placeholder="교육과정명을 입력해주세요!" maxlength="50">
       </div>
       
       
@@ -60,14 +67,14 @@
       <%-- 모집인원 --%>
       <div class="d-flex align-items-center my-3">
         <label for="cnt_recruits" class="curriculum_label mt-3">모집인원(명)</label>
-        <input type="text" id="cnt_recruits" name="cnt_recruits" class="curriculum_input border rounded pl-2 w-100" placeholder="과정을 신청할 수 있는 URL을 입력해주세요">
+        <input type="text" id="cnt_recruits" name="cnt_recruits" class="curriculum_input border rounded pl-2 w-100" placeholder="모집인원을 입력해주세요!(명)" maxlength="4">
       </div>
       
       
       <%-- 신청URL --%>
       <div class="d-flex align-items-center my-3">
         <label for="join_url" class="curriculum_label mt-3">과정신청링크</label>
-        <input type="text" id="join_url" name="join_url" class="curriculum_input border rounded pl-2 w-100" placeholder="과정을 신청할 수 있는 URL을 입력해주세요">
+        <input type="text" id="join_url" name="join_url" class="curriculum_input border rounded pl-2 w-100" placeholder="과정을 신청할 수 있는 URL을 입력해주세요!">
       </div>
       
       
@@ -92,6 +99,11 @@
       </div>
     </form>
     <%-- 교육과정 작성 폼 끝 --%>
+    
+    <%-- Google reCAPTCHA --%>
+    <div class="d-flex justify-content-center my-5">
+      <div class="g-recaptcha" data-sitekey="6LdO7zkjAAAAAFk660Urlo0EbazNdIIW9aFnJXLH"></div>
+    </div>
 
     <%-- 수정일 경우에는 등록 대신 수정버튼 태그라이브러리로 구현예정 --%>
     <div id="btn_wrapper" class="d-flex justify-content-end my-3">

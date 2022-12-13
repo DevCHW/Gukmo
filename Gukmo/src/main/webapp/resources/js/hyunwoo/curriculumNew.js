@@ -8,6 +8,7 @@ function getContextPath(){
 /**
  * js 파일은 전부 필드선언 - 이벤트(document.ready) - 함수선언 의 구성으로 이루어져 있음
  */
+let recaptcha_ok = false;
 
 $.datepicker.setDefaults({
 	  dateFormat: 'yy-mm',
@@ -81,20 +82,23 @@ $(document).ready(function(){
             return word !== "";
           });
       }
+      
+      
+      //해시태그 백스페이스로 지워지게 하기
+      $("input#hashtag").on("keydown",function(e){
+    	  if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
+          	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
+          		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
+                  hashtag[index] = "";
+          		$("input#hashtag").prev().remove();
+          		return;
+          	} 
+           }
+      });
 
       
       $("input#hashtag").on("keyup", function (e) {
           let self = $(this);
-          
-
-          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
-        	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
-        		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
-                hashtag[index] = "";
-        		$("input#hashtag").prev().remove();
-        		return;
-        	} 
-          }
           
           
           // input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
@@ -253,6 +257,12 @@ $(document).ready(function(){
 	      return;
 	    }
 	    
+	    reCAPTCHA();
+	    if(!recaptcha_ok){
+	    	alert("매크로방지 봇 통과 후 진행해주세요");
+	    	return;
+	    }
+	    
 
 	    // 폼을 전송
 	    const frm = document.writerFrm;
@@ -296,6 +306,37 @@ function getDateGap(start_date,end_date){
   
   return end_date - start_date;
 }//end of method--
+
+
+
+/**
+ * reCAPTCHA v2 사용하기
+ * @returns
+ */
+function reCAPTCHA(){
+	$.ajax({
+        url: getContextPath()+'/member/verifyRecaptcha.do',
+        type: 'post',
+        data: {
+            recaptcha: $("#g-recaptcha-response").val()
+        },
+        async:false,
+        success: function(data) {
+            switch (data) {
+                case 0:
+                    recaptcha_ok = true;
+            		break;
+                case 1:
+                    recaptcha_ok = false;
+                    break;
+                default:
+                	recaptcha_ok = false;
+               		break;
+            }
+        }
+    });//end of $.ajax({})
+	
+}//end of method-----
 
 
 

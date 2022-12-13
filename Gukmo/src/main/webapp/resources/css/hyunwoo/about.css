@@ -1,0 +1,217 @@
+@charset "UTF-8";
+
+
+/* a태그 데코레이션 없애기 시작 */
+a:link {
+  color : black;
+  text-decoration: none;
+}
+a:visited {
+  color : black;
+  text-decoration: none;
+}
+a:hover {
+  color : black;
+  text-decoration: none;
+}
+a:active {
+  color : black;
+  text-decoration: none;
+}
+/* a태그 데코레이션 없애기 끝 */
+html{
+	cursor: url("../images/about/달모양 커서.png"), auto
+}
+@font-face {
+  src : url("./BMJUA_ttf.ttf"); /*파일 연결 (..은 현재 위치가 css 폴더이기에 상위로 폴더로 가기 위함) */
+  font-family: "baemean" /*위에 파일로 된 폰트는 이름을 jua라고 지정 */
+}
+
+
+h1#logo{
+  font-family: "baemean";
+  font-style: italic;
+  font-size: 30px;
+  font-weight: bold;
+  mix-blend-mode:difference;
+}
+
+
+
+/* section css 시작 */
+
+/* section1 시작 */
+h1#project_dream{
+	display:none;
+}
+
+/* section1 끝 */
+
+/* section2 시작 */
+h1#develop_reason{
+	color:white;
+}
+div#develop_reason_section{
+	background-color:black;
+}
+/* section2 끝 */
+
+/* section3 시작 */
+div#develop_reason_section2{
+	background-color:#f2f2f2;
+}
+/* section3 끝 */
+
+/* section4 시작 */
+h1#developer_introduce{
+	color:white;
+}
+div#developer_introduce_section{
+	background-color:black;
+}
+/* section4 끝 */
+
+
+/* section5 시작 */
+div#hyunwoo{
+	background-color:#f2f2f2;
+}
+div.profile_image{
+	display:flex;
+	flex-direction:column;
+}
+div.profile_image_box{
+	width:300px;
+	height:300px;
+}
+div.profile_image_box > img{
+	width:100%;
+	height:100%;
+	border-radius:50%;
+}
+ul.skill{
+	list-style:none;
+}
+ul.contact_me{
+	line-height: 30px;
+}
+/* section5 끝 */
+
+
+/* section6 시작 */
+div#sunwoo{
+	background-color:#e0b3ff;
+	color:white;
+}
+/* section6 끝 */
+
+
+/* section7 시작 */
+div#sungmin{
+	background-color:#939393;
+	color:white;
+}
+/* section7 끝 */
+
+/* section8 시작 */
+div#hgb{
+	background-color:green;
+	color:white;
+}
+/* section8 끝 */
+
+/* section9 시작 */
+div#hyunwoo{
+	background-color:pink;
+	color:white;
+}
+
+/* section9 끝 */
+
+/* section10 시작 */
+div#end_section{
+	background-color:black;
+}
+h1#section_end{
+	color:white;
+}
+
+/* section10 끝 */
+
+
+
+/* section css 끝 */
+
+
+
+
+/* header */
+div.header{
+  width:100%;
+  position:fixed;
+  z-index:9999;
+  padding:0 40px;
+  opacity: 1;
+  height:100px;
+}
+
+@media screen and (max-width: 768px){
+  div.header{
+    width: 100%; 
+    height: 52px; 
+    position:fixed;
+    overflow: hidden;
+    flex-direction: column;
+    background-color: white;
+  }
+}
+
+
+
+/* header > header_main */
+ul.hidden_main_list{
+  width:100px;
+}
+h1#project_dream{
+  display: none;
+}
+
+li.mt-2.btn{
+  text-decoration: initial;
+  font-family: HelveticaNeue,NotoSansCJKKR,AppleSDGothicNeo,Helvetica,Malgun Gothic,Dotum,sans-serif;
+}
+div.fp-controlArrow.fp-next{
+	color:black;
+}
+i.fa-facebook,
+i.fa-instagram{
+    background-color:transparent;
+}
+
+
+.clipText{
+	position:relative;
+	overflow:hidden;
+	margin:2rem auto;
+	font-size:20px;
+}
+
+.clipText > h1,
+.clipText > p {
+	position:relative;
+}
+
+.on{animation:cliptext 1s ease-in-out both;}
+
+@keyframes cliptext{
+	0%{
+		clip-path:polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+		transform:translateY(100%);
+	}
+	95%{
+		transform:translateY(0%);
+	}
+	100%{
+		clip-path:polygon(0% 00%, 100% 0%, 100% 100%, 0% 100%);
+	}
+}

@@ -122,8 +122,11 @@ input#academy_image{
 
 /* button */
 button#btn_write{
-  background-color: #14587D;
+  background-color: #208EC9;
   color:white;
+}
+button#btn_write:hover{
+	background:#14587D;
 }
 
 
