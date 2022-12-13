@@ -31,11 +31,12 @@ $(document).ready(function(){
       ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
       ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트             
   });
-	
-   
-   // input 을 datepicker로 선언
-   $("input#fromDate").datepicker();                    
-   $("input#toDate").datepicker(); 
+
+	// input 을 datepicker로 선언
+  $("input#fromDate").datepicker();                    
+  $("input#toDate").datepicker(); 
+  $("input#fromDate2").datepicker();                    
+  $("input#toDate2").datepicker(); 
 
 
     //From의 초기값을 오늘 날짜로 설정
@@ -213,12 +214,11 @@ $(document).ready(function(){
   });
   
   //정렬옵션 클릭시 이벤트
-  $("div.acSort > div#sort_option span").click(e=>{
+  $("div#sort_option span").click(e=>{
     const target = $(e.currentTarget);
     const sort = target.text();
     
     $("span#current_sort").text(sort);
-    
     
     activitiesChart_nav(sessionStorage.getItem("userid"));
   }); 
@@ -226,6 +226,11 @@ $(document).ready(function(){
   
   $("button.datepicker").click(function (){
 	  activitiesChart_nav(sessionStorage.getItem("userid"));
+  });
+  
+  
+  $("button#btn_loginChart").click(function(){
+	  login_record_nav(sessionStorage.getItem("userid"));
   });
   
 });//end of $(document).ready(function(){})-
@@ -607,8 +612,8 @@ function search_nav(userid){
 function login_record_nav(userid){
 	$("div#member_login_record").css("display","block");
 	
-	var fromDate = $("input#fromDate").val();
-	var toDate = $("input#toDate").val();
+	var fromDate = $("input#fromDate2").val();
+	var toDate = $("input#toDate2").val();
 	
   $.ajax({
     url:getContextPath()+"/admin/member/detail/loginRecordList.do", 
@@ -659,15 +664,46 @@ function login_record_nav(userid){
  * 네비게이션 바에서 작성게시물 클릭시 실행될 함수
  */
 function write_board_list_nav(nickname){
-  alert("작성게시물보여주기 메소드 호출");
   $("div#member_write_board_list").css("display","block");
+  
+  
   $.ajax({
-    url:getContextPath()+"/작성게시물select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/boardList.do", 
     data:{"nickname": nickname},
     type:"get",
     dataType:"json",
     success:function(json){ //작성게시물을 가져오는데 성공했다면
+    	var html = "<table>" +
+		"<thead>" +
+			"<tr>" +
+			 "<th>게시글번호</th>" +
+			 "<th>카테고리</th>" +
+			 "<th>상세카테고리</th>" +
+			 "<th>제목</th>" +
+			 "<th>작성일자</th>" +
+			"</tr>"+
+		"</thead>"+
+		"<tbody>";
 
+		for(var i=0; i<json.length; i++) {
+		var obj;
+		
+		html += "<tr>" +
+			"<td>"+json[i].board_num+"</td>" +
+			"<td>"+json[i].category+"</td>" +
+			"<td>"+json[i].detail_category+"</td>" +
+			"<td>"+json[i].subject+"</td>" +
+			"<td>"+json[i].write_date+"</td>" +
+		"</tr>"; 
+		
+		}// end of for------------------------------
+		
+		
+		html +="</tbody>" +
+		"</table>";
+		
+		$("div#write_board_list_area").html(html);
+		    
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
@@ -682,22 +718,96 @@ function write_board_list_nav(nickname){
  * 네비게이션 바에서 신고내역 클릭시 실행될 함수
  */
 function report_nav(nickname){
-  alert("신고내역 보여주기 메소드 호출");
   $("div#member_report_list").css("display","block");
 
   $.ajax({
-    url:getContextPath()+"/신고내역select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/reportList.do", 
     data:{"nickname": nickname},
     type:"get",
     dataType:"json",
     success:function(json){ //신고내역을 가져오는데 성공했다면
+    	var html = "<table>" +
+		"<thead>" +
+			"<tr>" +
+			 "<th>신고번호</th>" +
+			 "<th>신고분류</th>" +
+			 "<th>피신고자 닉네임</th>" +
+			 "<th>사유</th>" +
+			 "<th>신고일자</th>" +
+			"</tr>"+
+		"</thead>"+
+		"<tbody>";
 
+		for(var i=0; i<json.length; i++) {
+		var obj;
+		
+		html += "<tr>" +
+			"<td>"+json[i].report_num+"</td>" +
+			"<td>"+json[i].report_type+"</td>" +
+			"<td>"+json[i].reported_nickname+"</td>" +
+			"<td>"+json[i].simple_report_reason+"</td>" +
+			"<td>"+json[i].report_date+"</td>" +
+		"</tr>"; 
+		
+		}// end of for------------------------------
+		
+		
+		html +="</tbody>" +
+		"</table>";
+		
+		$("div#report_list_area").html(html);
+		    
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
       alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });//end of $.ajax({})---
+  
+  
+  $.ajax({
+	    url:getContextPath()+"/admin/member/detail/reportedList.do", 
+	    data:{"nickname": nickname},
+	    type:"get",
+	    dataType:"json",
+	    success:function(json){ //신고내역을 가져오는데 성공했다면
+	    	var html = "<table>" +
+			"<thead>" +
+				"<tr>" +
+				 "<th>신고번호</th>" +
+				 "<th>신고분류</th>" +
+				 "<th>신고자 닉네임</th>" +
+				 "<th>사유</th>" +
+				 "<th>신고일자</th>" +
+				"</tr>"+
+			"</thead>"+
+			"<tbody>";
+
+			for(var i=0; i<json.length; i++) {
+			var obj;
+			
+			html += "<tr>" +
+				"<td>"+json[i].report_num+"</td>" +
+				"<td>"+json[i].report_type+"</td>" +
+				"<td>"+json[i].report_nickname+"</td>" +
+				"<td>"+json[i].simple_report_reason+"</td>" +
+				"<td>"+json[i].report_date+"</td>" +
+			"</tr>"; 
+			
+			}// end of for------------------------------
+			
+			
+			html +="</tbody>" +
+			"</table>";
+			
+			$("div#reported_list_area").html(html);
+			    
+	    },//end of success
+	    //success 대신 error가 발생하면 실행될 코드 
+	    error: function(request,status,error){
+	      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    }
+	  });//end of $.ajax({})---
 }//end of method--
 
 

@@ -8,6 +8,9 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.ReportVO;
+
 @Repository
 public class AdminDAO implements InterAdminDAO {
 
@@ -77,5 +80,27 @@ public class AdminDAO implements InterAdminDAO {
 	public List<Map<String, String>> loginRecordList(Map<String, String> paraMap) {
 		List<Map<String, String>> loginRecordList = gukmo_sql.selectList("sun.loginRecordList", paraMap); 
 		return loginRecordList;
+	}
+
+
+	// 특정 회원 게시글 작성 목록 가져오기
+	@Override
+	public List<BoardVO> boardList(Map<String, String> paraMap) {
+		List<BoardVO> boardList = gukmo_sql.selectList("sun.adminBoardList", paraMap); 
+		return boardList;
+	}
+
+
+	@Override
+	public List<ReportVO> reportList(Map<String, String> paraMap) {
+		List<ReportVO> reportList = gukmo_sql.selectList("sun.adminReportList", paraMap); 
+		return reportList;
+	}
+
+
+	@Override
+	public List<ReportVO> reportedList(Map<String, String> paraMap) {
+		List<ReportVO> reportedList = gukmo_sql.selectList("sun.adminReportedList", paraMap); 
+		return reportedList;
 	}
 }

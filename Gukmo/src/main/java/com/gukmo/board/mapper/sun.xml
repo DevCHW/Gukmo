@@ -399,11 +399,40 @@
     where fk_userid = #{userid} 
 	and to_char(login_date, 'yyyy-mm-dd') between to_date(#{fromDate}, 'yyyy-mm-dd')
 	                        and to_date(#{toDate}, 'yyyy-mm-dd')
-    order by login_date
+    order by login_date desc
+   </select>
+   
+	
+    <select id="adminBoardList" parameterType="HashMap" resultType="com.gukmo.board.model.BoardVO">
+    select board_num, category, detail_category, subject, write_date
+    from tbl_board
+    where nickname = #{nickname}
+    order by write_date
    </select>
 	
    
+    <select id="adminReportList" parameterType="HashMap" resultType="com.gukmo.board.model.ReportVO">
+		select report_num, fk_board_num as fk_num, report_nickname, reported_nickname, simple_report_reason, report_date, report_type
+		from tbl_board_report
+        where report_nickname = #{nickname}
+		union all
+		select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, report_date, report_type
+		from tbl_comment_report
+	    where report_nickname = #{nickname}
+        order by report_date desc
+   </select>
    
+   
+    <select id="adminReportedList" parameterType="HashMap" resultType="com.gukmo.board.model.ReportVO">
+		select report_num, fk_board_num as fk_num, report_nickname, reported_nickname, simple_report_reason, report_date, report_type
+		from tbl_board_report
+        where reported_nickname = #{nickname}
+		union all
+		select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, report_date, report_type
+		from tbl_comment_report
+	    where reported_nickname = #{nickname}
+        order by report_date desc
+   </select>
    
 	<!-- ========================================== 관리자 페이지 일반회원  상세페이지 쿼리문 ========================================  -->
 	

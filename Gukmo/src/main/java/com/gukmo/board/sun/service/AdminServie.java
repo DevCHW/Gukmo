@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sun.repository.InterAdminDAO;
 
 
@@ -78,6 +80,28 @@ public class AdminServie implements InterAdminService {
 	public List<Map<String, String>> loginRecordList(Map<String, String> paraMap) {
 		List<Map<String, String>> loginRecordList = dao.loginRecordList(paraMap);  
 		return loginRecordList;
+	}
+
+
+	// 특정 회원 게시글 작성 목록 가져오기
+	@Override
+	public List<BoardVO> boardList(Map<String, String> paraMap) {
+		List<BoardVO> boardList = dao.boardList(paraMap);  
+		return boardList;
+	}
+
+
+	@Override
+	public List<ReportVO> reportList(Map<String, String> paraMap) {
+		List<ReportVO> reportList = dao.reportList(paraMap);  
+		return reportList;
+	}
+
+
+	@Override
+	public List<ReportVO> reportedList(Map<String, String> paraMap) {
+		List<ReportVO> reportedList = dao.reportedList(paraMap);  
+		return reportedList;
 	}
 
 	
