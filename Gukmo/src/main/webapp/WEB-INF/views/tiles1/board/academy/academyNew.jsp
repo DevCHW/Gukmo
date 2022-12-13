@@ -32,7 +32,12 @@
       <%-- 학원명 --%>
       <div class="d-flex align-items-center my-2">
         <label for="subject" class="academy_label mt-3">학원명</label>
-        <input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}" readonly>
+        <c:if test="${not empty sessionScope.user.academy_name }">
+        	<input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}" readonly>
+        </c:if>
+        <c:if test="${sessionScope.user.authority == '관리자'}">
+        	<input type="text" id="subject" name="subject" class="academy_input border rounded pl-2 w-100" placeholder="학원명을 입력해주세요!" maxlength="50">
+        </c:if>
       </div>
       
       <%-- 대표자명 --%>

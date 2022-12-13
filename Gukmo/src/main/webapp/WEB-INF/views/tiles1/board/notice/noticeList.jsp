@@ -74,7 +74,7 @@
 
         <%-- 작성자 닉네임 --%>
         <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
-        <a href="#" class="writer_nickname ml-2">
+        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${notice.nickname}" class="writer_nickname ml-2">
          	 ${notice.nickname }
         </a>
 
@@ -105,7 +105,7 @@
             <%-- 해시태그 리스트 들어갈 곳--%>
             <%-- 해시태그리스트 반복문시작 --%>
             <c:forEach var="hashtag" items="${notice.hashtags}">
-            <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+            <a href="/board/main_search.do?searchWord=${hashtag.hashtag}" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
             </c:forEach>
             <%-- 해시태그리스트 반복문 끝--%>
           </div>
@@ -157,7 +157,7 @@
         총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
       </div>
 		
-	  <c:if test="${sessionScope.user.userid == 'admin'}">
+	  <c:if test="${sessionScope.user.authority == '관리자'}">
         <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
           <i class="fa-sharp fa-solid fa-plus"></i><span>공지사항 작성</span>
         </button>

@@ -12,33 +12,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판2</title>
+<title>국모 관리자님 반갑습니다!</title>
 
-<!-- Required meta tags -->
+  <%-- Required meta tags --%>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
   
-  <!-- Bootstrap CSS -->
+  <%-- Bootstrap CSS --%>
   <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
-  <!-- Font Awesome 5 Icons -->
+  <%-- Font Awesome 5 Icons --%>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
   
-  <!-- noto sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <%-- 직접 만든 CSS --%>
+  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hyunwoo/admin/admin.css">
   
-  <!-- 직접 만든 CSS -->
-  <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hasol/gukmo.css">
+  <%-- title Icon --%>
+  <link href="<%=ctxPath %>/resources/images/titleicon.png" rel="shortcut icon" type="image/x-icon">
   
-  <!-- title Icon -->
-  <link href="images/titleicon.png" rel="shortcut icon" type="image/x-icon">
-  
-  <!-- Optional JavaScript -->
+  <%-- Optional JavaScript --%>
   <script type="text/javascript" src="<%= ctxPath%>/resources/jquery/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="<%= ctxPath%>/resources/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
-  <script type="text/javascript" src="<%= ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script> 
+  
   
   <%--  ===== 스피너 및 datepicker 를 사용하기 위해  jquery-ui 사용하기 ===== --%>
   <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/jquery-ui-1.13.1.custom/jquery-ui.css" />
@@ -50,22 +45,20 @@
 
 </head>
 <body>
-	<div id="mycontainer">
-		<div id="myheader">
-			<tiles:insertAttribute name="header" />
+	<%-- Page Wrapper --%>
+   	<div id="wrapper">
+   	
+    	<div id="mysidebar">
+			<tiles:insertAttribute name="sidebar" />
 		</div>
-		
-		<div id="mycontent">
+	
+		<div id="content-wrapper" class="d-flex flex-column">
 			<tiles:insertAttribute name="content" />
 		</div>
-		
-		<div id="mysideinfo">
-			<tiles:insertAttribute name="sideinfo" />
-		</div>
-		
-		<div id="myfooter">
-			<tiles:insertAttribute name="footer" />
-		</div>
 	</div>
+	
+	
+  <%-- 직접만든 javascript --%>
+  <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/admin/admin.js" ></script>
 </body>
 </html>

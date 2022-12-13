@@ -322,6 +322,7 @@ public class MemberService implements InterMemberService{
 	 * @param profileImage
 	 */
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public int editMyInfo(MemberVO member,Map<String,String> paraMap) {
 		String path = paraMap.get("path");
 		String currentProfileImage = paraMap.get("profile_image");
@@ -336,8 +337,8 @@ public class MemberService implements InterMemberService{
 			fileManager.doFileDelete(currentProfileImage, path);
 		}
 		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
-		
-		return result1;
+		int result2 = dao.changeBoardByProfileImg(paraMap);	//게시판에서도 프사 변경해주기
+		return result1*result2;
 	}
 
 	

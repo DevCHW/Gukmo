@@ -82,23 +82,35 @@ span.login_error{
 }
 
 button#btn_login{
-  height:40px;
-  background-color: #14587D;
+  height:50px;
+  background-color: #208EC9;
   font-size:medium;
   font-weight: bold;
   color:white;
 }
 
+button#btn_login:hover{
+  background-color: #14587D;
+}
+
+
+
 
 div#find_id{
-  color:blue;
+  color:#208EC9;
   cursor:pointer;
+}
+div#find_id:hover{
+	color:#14587D;
 }
 
 
 span#btn_signup{
-  color:blue;
+  color:#208EC9;
   cursor:pointer;
+}
+span#btn_signup:hover{
+	color:#14587D;
 }
 
 

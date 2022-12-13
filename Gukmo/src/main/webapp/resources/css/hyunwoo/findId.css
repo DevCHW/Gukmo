@@ -25,8 +25,11 @@ button#btn_findMyId{
   font-weight: bold;
 }
 button#btn_findMyId{
-  background-color:#14587D;
+  background-color:#208EC9;
   color:white;
+}
+button#btn_findMyId:hover{
+  background-color:#14587D;
 }
 
 

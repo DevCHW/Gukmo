@@ -41,8 +41,13 @@ p.error{
 
 button#btn_update_passwd{
   height:40px;
-  background-color: #14587D;
+  background-color: #208EC9;
   font-size:medium;
   font-weight: bold;
   color:white;
+}
+
+
+button#btn_update_passwd:hover{
+	background-color: #14587D;
 }

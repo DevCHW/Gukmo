@@ -3,10 +3,12 @@ package com.gukmo.board;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.hasol.service.InterIndexService;
@@ -81,4 +83,26 @@ public class IndexController {
 
 		return mav;
 	}
+	
+	
+	
+	
+	/**
+	 * 회사소개 페이지 URL 매핑
+	 */
+	@RequestMapping(value="/about.do", method= {RequestMethod.GET})
+	public String viewAbout(HttpServletRequest request) {
+		return "about";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

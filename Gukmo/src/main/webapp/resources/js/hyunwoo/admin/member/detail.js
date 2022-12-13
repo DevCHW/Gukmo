@@ -64,6 +64,9 @@ $(document).ready(function(){
         else
             $("#toDate, input#toDate2").datepicker("option", "minDate", min);
     });
+    
+    
+  
 
 
   //네비게이션 바 클릭시 해당 메뉴 글자 색상 변경하기
@@ -78,7 +81,7 @@ $(document).ready(function(){
     $("div#member_navbar > div").css("color","");
 
     target.css("border-bottom","solid 3px #208EC9");
-    target.css("font-size","16px");
+    target.css("font-size","14px");
     target.css("font-weight","bold");
     target.css("color","#208EC9");
 
@@ -104,6 +107,9 @@ $(document).ready(function(){
     }//end of switch-case
 
   });//end of Event--
+  
+  //기본값 활동내역 네비바 클릭시키기
+  $("div#activities_nav").trigger("click");
 
   //정지사유등록 버튼 클릭시 클릭횟수 증가
   $("span#btn_insert_penalty_modal").click(()=>{btn_insert_penalty_modal_click++;})

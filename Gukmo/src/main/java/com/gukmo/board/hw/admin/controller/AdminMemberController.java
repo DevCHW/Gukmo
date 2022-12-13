@@ -43,6 +43,24 @@ public class AdminMemberController {
 	
 	
 	
+	/**
+	 * 회원상세보기 페이지 매핑
+	 */
+	@RequestMapping(value="/admin/member/detail2.do", method= {RequestMethod.GET})
+	public String viewMemberDetail2(@RequestParam String userid, HttpServletRequest request) {
+		MemberVO member = service.getUser(userid);
+		
+		if("정지".equals(member.getStatus())) {	//만약 회원의 상태가 "정지" 라면
+			PenaltyVO penalty = service.getPenalty(member.getNickname());	//정지내역 구하기
+			request.setAttribute("penalty", penalty);
+		}
+		
+		request.setAttribute("member", member);
+		return "admin/member/detail.tiles2";
+	}
+	
+	
+	
 	
 	
 	
