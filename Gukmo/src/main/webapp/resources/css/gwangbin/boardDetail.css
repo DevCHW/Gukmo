@@ -1,3 +1,5 @@
+
+
 div.container{
   font-size:small;
 }
@@ -79,6 +81,16 @@ div#writer_profile_image_box > img{
 
 div#report_edit_delete_area{
   width:70px;
+}
+
+/* 이전글,다음글 글자수 넘치면 ... 표시 */
+div.previous_next_area {
+	display: block;                        
+    width: 1080px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
 }
 
 div#hashtags{

@@ -78,11 +78,12 @@
       <%-- 신고버튼, 수정or삭제버튼 --%>
       <div id="report_edit_delete_area" class="d-flex justify-content-between align-items-center">
           
-          <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자'}"> 
+          <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname != requestScope.board.nickname}"> 
           	<span id="" class="ml-auto btn_report" onclick="openReport()">&#x1F6A8;</span>
           </c:if>   
         <div id="mask"></div>
-        <c:if test="${sessionScope.user.nickname == requestScope.board.nickname}">
+        
+        <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority != '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
@@ -91,7 +92,16 @@
           </span>
         </c:if>
         
-        <c:if test="${sessionScope.user.authority eq '관리자'}">
+        <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority == '관리자'}">
+          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
+            <div id="update_or_delete" class="border rounded px-3 py-2">
+              <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
+              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+            </div>
+          </span>
+        </c:if>
+        
+        <c:if test="${sessionScope.user.nickname != requestScope.board.nickname && sessionScope.user.authority eq '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">             
               <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
@@ -164,7 +174,7 @@
       
         <c:if test="${not empty requestScope.board.previousseq}">
         <%-- 이전글 a태그 href에 ?num=이전글번호--%>
-        <div id="previous" class="my-2">
+        <div id="previous" class="previous_next_area my-2">
           <span>이전글 |</span>
           <a href="detail.do?boardNum=${requestScope.board.previousseq}">${requestScope.board.previoussubject}</a>
         </div>
@@ -180,7 +190,7 @@
   
         <c:if test="${not empty requestScope.board.nextseq}">
         <%-- 다음글 a태그 href에 ?num=다음글번호--%>
-        <div id="next" class="my-2">
+        <div id="next" class="previous_next_area my-2">
           <span>다음글 |</span>
           <a href="detail.do?boardNum=${requestScope.board.nextseq}">${requestScope.board.nextsubject}</a>
         </div>
@@ -305,21 +315,23 @@
           <%-- 댓글 좋아요버튼 --%>
             
           <c:if test="${empty sessionScope.user}">
+          <div>
 	          <div class="comment_like" style="width: 50px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	            <span>&#129293;</span>
+	            <span id="comment_like_icon">&#129293;</span>
 	            <%-- 댓글 좋아요 갯수 --%>
-	            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 	          </div>
+	      </div>
           </c:if>
     
           <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname != bcommentList.nickname}">
                   <div style="padding-right: 20px; display: flex;">
 			          <div class="comment_like" style="width: 45px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-			            <span>&#129293;</span>
+			            <span id="comment_like_icon">&#129293;</span>
 			            <%-- 댓글 좋아요 갯수 --%>
-			            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+			            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 			          </div>
 			          <input type="hidden" id="" value="${bcommentList.nickname}" />
 		          	  <input type="hidden" id="" value="${bcommentList.comment_num}" />
@@ -331,11 +343,12 @@
           
            
           <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname == bcommentList.nickname}">
-          	<div class="comment_like" style="width: 50px;">
+          <div  style="display: flex;">
+          	<div class="comment_like" style="width: 45px; margin-top: 4px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	            <span>&#129293;</span>
+	            <span id="comment_like_icon">&#129293;</span>
 	            <%-- 댓글 좋아요 갯수 --%>
-	            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 	          </div>
 	          <span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
           		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
@@ -343,20 +356,23 @@
 	            	<span class="comment_delete">삭제하기</span>
           		</div>
           	  </span>
+          	</div>
           </c:if>
           
           <c:if test="${not empty sessionScope.user && sessionScope.user.authority == '관리자'}">
-          	<div class="comment_like" style="width: 50px;">
+          <div style="display: flex;">
+          	<div class="comment_like" style="width: 45px; margin-top: 4px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	            <span>&#129293;</span>
+	            <span id="comment_like_icon">&#129293;</span>
 	            <%-- 댓글 좋아요 갯수 --%>
-	            <span id="${bcommentList.comment_like_cnt}">${bcommentList.comment_like_cnt}</span>
+	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
           	</div>
           	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
           		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
 	            	<span class="comment_delete">블라인드</span>
           		</div>
           	</span>
+          </div>
           </c:if>
           
           
@@ -509,11 +525,13 @@
 	      	   
 	      	   
 	      	   <c:if test="${empty sessionScope.user}">
+	      	     <div>
 		          <div class="big_comment_like" style="width: 50px; margin-right: 15px;">
 		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-		            <span>&#129293;</span>
+		            <span id="big_comment_like_icon">&#129293;</span>
 		            <%-- 댓글 좋아요 갯수 --%>
-		            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+		            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
+		          </div>
 		          </div>
           	   </c:if>
           
@@ -521,24 +539,25 @@
                   <div style="padding-right: 35px; display: flex;">
 			          <div class="big_comment_like" style="width: 45px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-			            <span>&#129293;</span>
+			            <span id="big_comment_like_icon">&#129293;</span>
 			            <%-- 댓글 좋아요 갯수 --%>
-			            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+			            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 			          </div>
 			          <input type="hidden" id="" value="${spcial_commentList.nickname}" />
 		          	  <input type="hidden" id="" value="${spcial_commentList.comment_num}" />
 			          <div id="" class="d-flex justify-content-between align-items-center comment_edit_delete_area" style="width:0px;">
-			          	<span class="comment_btn_report ml-auto">&#x1F6A8;</span>
+			          	<span class="big_comment_btn_report ml-auto">&#x1F6A8;</span>
 			          </div>
 		          </div>
           	  </c:if>
           
           	  <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname == spcial_commentList.nickname}">
+          	  <div>
 	          	  <div class="big_comment_like" style="width: 50px;">
 		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-		            <span>&#129293;</span>
+		            <span id="big_comment_like_icon">&#129293;</span>
 		            <%-- 댓글 좋아요 갯수 --%>
-		            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+		            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          </div>
 		          <span id="" class="border rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;">&#8230;
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
@@ -546,15 +565,16 @@
 		            	<span class="comment_delete2">삭제하기</span>
 	          		</div>
 	          	  </span>
+	          </div>
           	  </c:if>
           
 	          <c:if test="${not empty sessionScope.user && sessionScope.user.authority == '관리자'}">
 	            <div style="padding-right: 16px; display: flex;">
 		          	<div class="big_comment_like" style="width: 45px; margin-top: 4px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-			            <span>&#129293;</span>
+			            <span id="big_comment_like_icon">&#129293;</span>
 			            <%-- 댓글 좋아요 갯수 --%>
-			            <span id="${spcial_commentList.comment_like_cnt}">${spcial_commentList.comment_like_cnt}</span>
+			            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          	</div>
 		          	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
 		          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
@@ -575,9 +595,7 @@
 	
 		          <%-- 대댓글내용 --%>
 		       <div class="my-3 special_comment_content" id="${spcial_commentList.content}">
-		          <div class="detail_comment_of_comment my-3" id="">
-	              	${spcial_commentList.content}
-		          </div>
+		          <div class="detail_comment_of_comment my-3" id="">${spcial_commentList.content}</div>
 		          <div class="ml-3 w-100 c_of_comment_edit" id="">
 			          <textarea class="content4" class="pl-2 py-2 content4" rows="3"></textarea>  
 			          <input type="hidden" id="c_of_c_num" class="" name="" />

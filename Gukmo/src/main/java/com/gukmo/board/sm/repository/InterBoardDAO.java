@@ -120,6 +120,9 @@ public interface InterBoardDAO {
 	// 삭제된 댓글의 총 개수 알아오기
 	int comment_cnt_minus(Map<String, String> paraMap);
 
+	// 글 상세페이지 진입시 로그인한 회원의 댓글좋아요여부 체크하기
+	int comment_likethis(Map<String, String> paraMap);
+
 
 
 

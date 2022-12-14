@@ -13,8 +13,7 @@ let btn_comment_toggle_click_cnt = 0;
 $(document).ready(function(){
 	
 	$("div.comment_edit").hide();
-	$("div.c_of_comment_edit").hide();
-	  
+	$("div.c_of_comment_edit").hide();			
 	
 	// 대댓 보여주는 함수
 	// viewCommentOfComment();
@@ -269,8 +268,10 @@ $(document).ready(function(){
   $("div.comment_like").click(e=>{
 	  const target = $(e.currentTarget);
 	  const userid = $("input#userid").val();
-	  const comment_num = target.prev().find('div.comment_writer_nickname').attr('id');
-	  const comment_write_nickname = target.next().val();
+	  const comment_num = target.parent().prev().find('div.comment_writer_nickname').attr('id');
+	  
+	  
+  //  const comment_write_nickname = target.next().val();
 	  const nickname = $("input#nickname").val();
 	  
 	  
@@ -293,8 +294,8 @@ $(document).ready(function(){
   $("div.big_comment_like").click(e=>{
 	  const target = $(e.currentTarget);
 	  const userid = $("input#userid").val();
-	  const comment_num = target.next().find('input.comment_of_comment_num').val();
-	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
+	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
+//	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
 	  const nickname = $("input#nickname").val();	  
 	  
 	  // alert(comment_num);
@@ -302,7 +303,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid);
+		  comment_likeClick(comment_num, userid, target);
 
 	  }
 	  
@@ -337,7 +338,7 @@ $(document).ready(function(){
 	  const target = $(e.currentTarget);	  
 	  const comment_write_nickname = target.parent().prev().prev().val();
 	  const comment_num = target.parent().prev().val();
-	  const content = target.parent().parent().next().attr('id');
+	  const content = target.parent().parent().parent().next().find('div.detail_comment').text();
 	  // alert(comment_write_nickname);
 	  // alert(comment_num);
 	  alert(content);
@@ -351,7 +352,7 @@ $(document).ready(function(){
 	  const target = $(e.currentTarget);	 	  
 	  const comment_write_nickname = target.parent().prev().prev().val();
 	  const comment_num = target.parent().prev().val();
-	  const content = target.parent().parent().next().attr('id');
+	  const content = target.parent().parent().parent().next().find('div.detail_comment_of_comment').text();
 	  // alert(comment_write_nickname);
 	  // alert(comment_num);
 	  alert(content);
@@ -389,7 +390,7 @@ function likeClick(data){
 			} else if(json.JavaData == 'insert'){	// 좋아요를 추가하였다면
 				// alert("좋아요 추가함");
 				
-				$("span#like_icon").html(" &#x1F497;"); // 꽉찬하트
+				$("span#like_icon").html("&#x1F497;"); // 꽉찬하트
 				const like_cnt = parseInt($("span#like_cnt").text()) + 1;	// 좋아요개수
 																			// 1더하기
 				$("span#like_cnt").html(like_cnt);
@@ -409,7 +410,7 @@ function likeClick(data){
 
 
 // 댓글 좋아요
-function comment_likeClick(comment_num, userid){
+function comment_likeClick(comment_num, userid, target){
 	$.ajax({
 		url:getContextPath()+"/comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -421,11 +422,20 @@ function comment_likeClick(comment_num, userid){
 				$("button.btn_login").trigger("click");// 로그인페이지로 보내기
 			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("댓글 좋아요 취소.");
-				  window.location.reload();
+				window.location.reload();
+				target.find('span#comment_like_icon').html("&#129293;");
+			//	const comment_like_cnt = target.find.parseInt($("span.comment_like_cnt").text()) - 1;	// 좋아요개수
+				// 1빼기
+
+				$("span.comment_like_cnt").html(comment_like_cnt);	
 				
 			} else if(json.JavaData == 'insert'){	// 좋아요를 추가하였다면
 				// alert("댓글 좋아요.");
-				  window.location.reload();
+				window.location.reload();
+				target.find('span#comment_like_icon').html("&#x1F497;");
+			//	const comment_like_cnt = target.find.parseInt($("span.comment_like_cnt").text()) + 1;	// 좋아요개수
+				// 1더하기
+				$("span.comment_like_cnt").html(comment_like_cnt);
 				
 			} else{
 				alert("좋아요 기능 오류");

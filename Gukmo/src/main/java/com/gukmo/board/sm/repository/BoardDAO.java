@@ -226,6 +226,12 @@ public class BoardDAO implements InterBoardDAO {
 		return likeCnt;
 	}
 	
+	@Override
+	public int comment_likethis(Map<String, String> paraMap) {
+		int comment_likethis = gukmo_sql.selectOne("hgb.comment_likethis", paraMap);
+		return comment_likethis;
+	}
+	
 	
 	/**
 	 * 댓글좋아요 테이블에 delete하기
@@ -274,6 +280,8 @@ public class BoardDAO implements InterBoardDAO {
 		int result = gukmo_sql.selectOne("hgb.getDelCommentCnt", paraMap);		
 		return result;
 	}
+
+	
 
 
 	
