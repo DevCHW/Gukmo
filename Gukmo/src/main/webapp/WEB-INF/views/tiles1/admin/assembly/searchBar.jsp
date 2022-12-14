@@ -163,10 +163,6 @@ $(document).ready(function(){
           <div id="btn_search_menu">
             <i class="fa-sharp fa-solid fa-bars"></i>
           </div>
-          <!-- 검색옵션 시작(페이지에 따라서 자바스크립트로 넣음)-->
-          <div id="search_option" class="hidden border px-2 py-2">
-          </div>
-          <!-- 검색옵션 끝 -->
         </div>
         
         <input type="text" id="searchWord" name="searchWord" class="pl-3" value="${requestScope.paraMap.searchWord}" placeholder="검색어를 입력해주세요"></input>

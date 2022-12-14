@@ -1,6 +1,9 @@
 package com.gukmo.board.hw.admin.service;
 
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.util.MultiValueMap;
 
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
@@ -41,6 +44,27 @@ public interface InterAdminMemberService {
 	 * 회원에게 이메일 전송하기
 	 */
 	boolean sendEmail(Map<String, String> paraMap);
+
+	/**
+	 * 교육기관회원 총 수 구하기
+	 */
+	int getTotalCntAcaMember(Map<String, String> paraMap);
+	
+	/**
+	 * 교육기관회원 페이징 처리 한 데이터 갖고오기
+	 */
+	List<Map<String, String>> getAcaMemberList(Map<String, String> paraMap);
+
+	/**
+	 * 일반회원 총 수 구하기
+	 */
+	int getTotalCntNormalMember(Map<String, String> paraMap);
+
+	/**
+	 * 일반회원 페이징 처리 한 데이터 갖고오기
+	 */
+	List<Map<String, String>> getNormalMemberList(Map<String, String> paraMap);
+
 
 
 

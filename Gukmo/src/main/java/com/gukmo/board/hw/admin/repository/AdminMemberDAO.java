@@ -1,6 +1,7 @@
 package com.gukmo.board.hw.admin.repository;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -71,6 +72,58 @@ public class AdminMemberDAO implements InterAdminMemberDAO{
 		int result = gukmo_sql.delete("chw.penaltyDelete" ,nickname);
 		return result;
 	}
+
+
+	/**
+	 * 교육기관회원 총 갯수 구하기
+	 */
+	@Override
+	public int getTotalCntAcaMember(Map<String, String> paraMap) {
+		int totalCnt = gukmo_sql.selectOne("chw.getTotalCnt_academy",paraMap);
+		return totalCnt;
+	}
+
+
+	/**
+	 * 교육기관회원리스트 얻기 
+	 */
+	@Override
+	public List<Map<String,String>> getAcaMemberList(Map<String, String> paraMap) {
+		List<Map<String,String>> data = gukmo_sql.selectList("chw.getAcaMemberList",paraMap);
+		if(data != null && data.size() != 0) {
+			for(int i=0; i<data.size(); i++) {
+				String homepage = data.get(i).get("HOMEPAGE");
+				homepage = "<a href="+homepage+">"+data.get(i).get("ACADEMY_NAME")+"</a>";
+				data.get(i).put("HOMEPAGE", homepage);
+			}//end of for--(링크걸기)
+		}
+		return data;
+	}
+
+
+	/**
+	 * 일반회원 총 수 구하기
+	 */
+	@Override
+	public int getTotalCntNormalMember(Map<String, String> paraMap) {
+		int totalCnt = gukmo_sql.selectOne("chw.getTotalCntNormalMember",paraMap);
+		return totalCnt;
+	}
+
+
+	/**
+	 * 일반회원리스트 얻기 
+	 */
+	@Override
+	public List<Map<String, String>> getNormalMemberList(Map<String, String> paraMap) {
+		List<Map<String,String>> data = gukmo_sql.selectList("chw.getNormalMemberList",paraMap);
+		return data;
+	}
+
+
+	
+	
+	
 
 
 

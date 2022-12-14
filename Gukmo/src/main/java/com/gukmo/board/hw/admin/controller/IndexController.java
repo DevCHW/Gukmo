@@ -1,7 +1,6 @@
 package com.gukmo.board.hw.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,13 +33,7 @@ public class IndexController {
 	}
 	
 	
-	/**
-	 * 교육기관회원페이지 매핑
-	 */
-	@RequestMapping(value="/admin/member/academy/list2.do", method= {RequestMethod.GET})
-	public String viewAcaMember(HttpServletRequest request) {
-		return "admin/member/academy/list2.tiles2";
-	}
+	
 	
 	
 	

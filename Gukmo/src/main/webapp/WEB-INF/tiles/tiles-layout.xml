@@ -45,7 +45,7 @@
 		<put-attribute name="content" value="/WEB-INF/views/tiles2/{1}/{2}/{3}.jsp"/>
 	</definition>
 	<definition name="*/*/*/*.tiles2" extends="layout-tiles2">
-		<put-attribute name="content" value="/WEB-INF/views/tiles1/{1}/{2}/{3}/{4}.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/views/tiles2/{1}/{2}/{3}/{4}.jsp"/>
 	</definition>
 
 </tiles-definitions> 

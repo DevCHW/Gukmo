@@ -1028,6 +1028,106 @@
 	
 	
 	
+	<!-- 교육기관회원 총 갯수 구하기 -->
+	<select id="getTotalCnt_academy" parameterType="HashMap" resultType="Integer">
+		select count(*) from tbl_academy_member
+		where 1=1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='status != ""'>
+			and status = #{status} 
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and join_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	<!-- 교육기관회원리스트 얻기  -->
+	<select id="getAcaMemberList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select userid,nickname,academy_name,to_char(join_date,'yyyy-mm-dd') join_date,status,homepage
+				from 
+					tbl_academy_member A
+				left join 
+					tbl_member B
+				on A.fk_userid = B.fk_userid
+				left join 
+					tbl_member_login C
+				on A.fk_userid = C.userid
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='status != ""'>
+					and status = #{status} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and join_date between #{start_date} and #{end_date} 
+				</if>
+					order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	<!-- 일반회원 총 갯수 구하기 -->
+	<select id="getTotalCntNormalMember" parameterType="HashMap" resultType="Integer">
+		select count(*) from tbl_member
+		where 1=1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='status != ""'>
+			and status = #{status} 
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and join_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	
+	<!-- 일반회원리스트 얻기  -->
+	<select id="getNormalMemberList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select nickname,userid,email,to_char(join_date,'yyyy-mm-dd') join_date,status
+				from 
+					tbl_member A
+				left join 
+					tbl_member_login B
+				on A.fk_userid = B.userid
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='status != ""'>
+					and status = #{status} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and join_date between #{start_date} and #{end_date} 
+				</if>
+					order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
 	
 	
 	

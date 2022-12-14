@@ -1,9 +1,11 @@
 package com.gukmo.board.hw.admin.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.gukmo.board.hw.admin.repository.InterAdminMemberDAO;
 import com.gukmo.board.hw.email.GoogleMail;
@@ -98,6 +100,45 @@ public class AdminMemberService implements InterAdminMemberService{
 		}//end of try-catch()----
 		
 		return sendMailSuccess;
+	}
+
+
+	/**
+	 * 교육기관회원 총 수 구하기
+	 */
+	@Override
+	public int getTotalCntAcaMember(Map<String, String> paraMap) {
+		int totalCnt = dao.getTotalCntAcaMember(paraMap);
+		return totalCnt;
+	}
+
+
+	/**
+	 * 교육기관회원 페이징 처리 한 데이터 갖고오기
+	 */
+	@Override
+	public List<Map<String, String>> getAcaMemberList(Map<String, String> paraMap) {
+		List<Map<String, String>> data = dao.getAcaMemberList(paraMap);
+		return data;
+	}
+
+
+	/**
+	 * 일반회원 총 수 구하기
+	 */
+	@Override
+	public int getTotalCntNormalMember(Map<String, String> paraMap) {
+		int totalCnt = dao.getTotalCntNormalMember(paraMap);
+		return totalCnt;
+	}
+
+	/**
+	 * 일반회원 페이징 처리 한 데이터 갖고오기
+	 */
+	@Override
+	public List<Map<String, String>> getNormalMemberList(Map<String, String> paraMap) {
+		List<Map<String, String>> data = dao.getNormalMemberList(paraMap);
+		return data;
 	}
 
 	
