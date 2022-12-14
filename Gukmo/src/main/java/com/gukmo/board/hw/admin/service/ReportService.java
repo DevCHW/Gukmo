@@ -63,6 +63,24 @@ public class ReportService implements InterReportService{
 		boolean success = result1*result2 == 1?true:false;
 		return success;
 	}
+
+	/**
+	 * 신고내역 총 수 얻기
+	 */
+	@Override
+	public int getTotalCntReport(Map<String, String> paraMap) {
+		int totalCnt = dao.getTotalCntReport(paraMap);
+		return totalCnt;
+	}
+
+	/**
+	 * 페이징 된 신고내역 리스트 얻기
+	 */
+	@Override
+	public List<Map<String, String>> getReportList(Map<String, String> paraMap) {
+		List<Map<String, String>> data = dao.getReportList(paraMap);
+		return data;
+	}
 	
 	
 	

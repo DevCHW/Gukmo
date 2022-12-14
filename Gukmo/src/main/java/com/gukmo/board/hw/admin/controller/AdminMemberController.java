@@ -207,7 +207,7 @@ public class AdminMemberController {
 	    	end_date = join_date.substring(commaIdx+1);
 	    }
 	    
-//	    //확인용
+	    //확인용
 //	    System.out.println("====================================\n");
 //	    System.out.println(formData);
 //	    System.out.println("searchType : " + searchType);
