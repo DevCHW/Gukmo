@@ -116,8 +116,10 @@ public class BoardDAO implements InterBoardDAO {
 
 		// 좋아요 1 더한값 업데이트
 		int result2 = gukmo_sql.update("hgb.likeCntChange", paraMap);
+		
+		int result3 = gukmo_sql.insert("hgb.addActivityLike", paraMap);
 
-		return result1 * result2;
+		return result1 * result2 * result3;
 	}
 
 	/**
@@ -157,6 +159,10 @@ public class BoardDAO implements InterBoardDAO {
 	@Override
 	public int addComment_of_Comment(Map<String, String> paraMap) {
 		int n = gukmo_sql.insert("hgb.addComment_of_Comment", paraMap);
+		
+		if(n == 1) {
+			n = gukmo_sql.insert("hgb.addActivityBigCommentLike", paraMap);
+		}
 		return n;
 	}
 
@@ -216,13 +222,24 @@ public class BoardDAO implements InterBoardDAO {
 	}
 
 	/**
-	 * 좋아요 체크하기
+	 * 댓글좋아요 체크하기
 	 * @param paraMap(댓글번호,userid)
 	 * @return 좋아요 갯수
 	 */
 	@Override
 	public int comment_likeCheck(Map<String, String> paraMap) {
 		int likeCnt = gukmo_sql.selectOne("hgb.comment_likeCheck", paraMap);
+		return likeCnt;
+	}
+	
+	/**
+	 * 대댓글 좋아요 체크하기
+	 * @param paraMap(댓글번호,userid)
+	 * @return 좋아요 갯수
+	 */
+	@Override
+	public int big_comment_likeCheck(Map<String, String> paraMap) {
+		int likeCnt = gukmo_sql.selectOne("hgb.big_comment_likeCheck", paraMap);
 		return likeCnt;
 	}
 	
@@ -271,7 +288,32 @@ public class BoardDAO implements InterBoardDAO {
 		//좋아요 1 더한값 업데이트
 		int result2 = gukmo_sql.update("hgb.comment_likeCntChange", paraMap);
 		
-		return result1*result2;
+		int result3 = gukmo_sql.insert("hgb.addActivityCommentLike", paraMap);
+		
+		return result1*result2*result3;
+	}
+	
+	/**
+	 * 대댓글좋아요 테이블에 insert하기
+	 * @param paraMap(댓글번호,userid)
+	 * @return 성공 1 실패 0
+	 */
+	@Override
+	public int big_comment_likeInsert(Map<String, String> paraMap) {
+		int result1 = gukmo_sql.insert("hgb.big_comment_likeInsert", paraMap);
+		
+		//좋아요 개수 알아오기
+		int comment_like_cnt = gukmo_sql.selectOne("hgb.getComment_like_cnt", paraMap);
+		comment_like_cnt = comment_like_cnt + 1;
+		
+		paraMap.put("comment_like_cnt",comment_like_cnt+"");
+		
+		//좋아요 1 더한값 업데이트
+		int result2 = gukmo_sql.update("hgb.comment_likeCntChange", paraMap);
+		
+		int result3 = gukmo_sql.insert("hgb.addActivityCommentLike", paraMap);
+		
+		return result1*result2*result3;
 	}
 
 	// 삭제된 댓글의 총 개수 알아오기
@@ -280,6 +322,8 @@ public class BoardDAO implements InterBoardDAO {
 		int result = gukmo_sql.selectOne("hgb.getDelCommentCnt", paraMap);		
 		return result;
 	}
+
+	
 
 	
 

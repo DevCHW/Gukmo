@@ -70,6 +70,9 @@ public interface InterBoardService {
 	// 댓글 좋아요 체크 여부 확인
 	int comment_likethis(Map<String, String> paraMap);
 
+	// 대댓글 좋아요
+	String big_comment_likeProcess(Map<String, String> paraMap);
+
 
 
 

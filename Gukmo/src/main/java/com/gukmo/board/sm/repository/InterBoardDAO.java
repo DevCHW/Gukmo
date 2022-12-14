@@ -123,6 +123,17 @@ public interface InterBoardDAO {
 	// 글 상세페이지 진입시 로그인한 회원의 댓글좋아요여부 체크하기
 	int comment_likethis(Map<String, String> paraMap);
 
+	// 대댓글 좋아요 체크
+	int big_comment_likeCheck(Map<String, String> paraMap);
+
+
+	/**
+	 * 대댓글좋아요 테이블에 insert하기
+	 * @param paraMap(댓글번호,userid)
+	 * @return 성공 1 실패 0
+	 */
+	int big_comment_likeInsert(Map<String, String> paraMap);
+
 
 
 

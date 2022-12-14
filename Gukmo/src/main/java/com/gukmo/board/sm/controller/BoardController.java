@@ -66,8 +66,8 @@ public class BoardController {
 		    
 		    
 		    
-			//하나의 boardvo 불러오기
-			BoardVO board = service.getBoardDetail(paraMap);   
+			  //하나의 boardvo 불러오기
+			  BoardVO board = service.getBoardDetail(paraMap);   
 		      if(user != null) {
 		          String userid = user.getUserid();      
 		       
@@ -102,12 +102,20 @@ public class BoardController {
 		         }
 		              
 		      }//end of ooouter if        
+		    
+		      String userid = "";
 		      
-		       
+		      if(user != null) {
+		    	  userid = user.getUserid();
+		      }
+		      
+		      paraMap.put("userid",userid);
+		      
+		     // System.out.println("확인한다 => " + userid);
 			
-			//기본 댓글 리스트 불러오기(기본 : 그냥 댓글, 특수 : 대댓글)
-			List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
-			List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 	
+			 //기본 댓글 리스트 불러오기(기본 : 그냥 댓글, 특수 : 대댓글)
+			 List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
+			 List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 	
 			
 			
 
@@ -383,6 +391,29 @@ public class BoardController {
          } else {   //로그인중이라면
             String comment_likeResult = service.comment_likeProcess(paraMap); //좋아요 처리하기
             jsonObj.put("JavaData", comment_likeResult);
+         }
+         
+         return jsonObj.toString();
+      }
+       
+       
+    // === 대댓글 좋아요 === //
+       @ResponseBody
+       @RequestMapping(value="/big_comment_likeProcess.do",method=RequestMethod.POST)
+       public String setAlarm_big_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
+             //확인용 board_num,userid
+//	         System.out.println(paraMap);
+         
+		  // 알람 값 넣는 AOP 용 ~
+		  paraMap.put("cmd", "cmtLike");
+		  
+         JSONObject jsonObj = new JSONObject();
+         
+         if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면
+            jsonObj.put("JavaData", "login");
+         } else {   //로그인중이라면
+            String big_comment_likeResult = service.big_comment_likeProcess(paraMap); //좋아요 처리하기
+            jsonObj.put("JavaData", big_comment_likeResult);
          }
          
          return jsonObj.toString();

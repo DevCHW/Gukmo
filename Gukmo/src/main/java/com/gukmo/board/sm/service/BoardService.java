@@ -106,6 +106,30 @@ public class BoardService implements InterBoardService{
 		
 		return comment_likeResult;
 	}
+	
+	/**
+	 * 대댓글 좋아요 처리하기
+	 * @param paraMap(글번호,userid)
+	 */
+	@Override
+	public String big_comment_likeProcess(Map<String, String> paraMap) {
+		int big_comment_likeCnt = dao.big_comment_likeCheck(paraMap);	//좋아요 개수 체크하기
+		String big_comment_likeResult = "";
+		int result = 0;
+		if(big_comment_likeCnt > 0) {	//좋아요를 눌렀다면
+			result = dao.comment_likeDelete(paraMap); //좋아요 테이블에 delete하기
+			big_comment_likeResult = "delete";
+		} else {	//좋아요를 누르지 않았다면
+			result = dao.comment_likeInsert(paraMap);	//좋아요 테이블에 insert하기
+			big_comment_likeResult = "insert";
+		}
+		
+		if(result != 1) {	//delete나 insert 성공시
+			big_comment_likeResult = "error";
+		}
+		
+		return big_comment_likeResult;
+	}
 
 
 	// 댓글 쓰기
@@ -269,6 +293,9 @@ public class BoardService implements InterBoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	
 
 
 

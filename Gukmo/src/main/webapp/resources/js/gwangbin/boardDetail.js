@@ -84,6 +84,42 @@ $(document).ready(function(){
 // $("div.comment_edit1").show();
 		  target.parent().parent().parent().parent().next().find('.content3').val(content)
 		  $("input#c_num").val(comment_num);
+		  $("textarea.content3").focus();
+		  $("div#mask").trigger();
+	  }
+	  else {
+		  alert("댓글 수정은 본인만 가능합니다.");
+		  return false;
+	  }  
+  });
+  
+  
+  
+//대댓글 "..." 클릭시 나오는 수정하기 버튼 클릭시
+  $("span.comment_edit2").click(function(e) {
+	  const target = $(e.currentTarget);
+	  const login_nickname = $("input#nickname").val();
+	  const c_c_nickname = target.parent().parent().parent().prev().find('div.big_comment_writer_nickname').text();
+	  const content = target.parent().parent().parent().parent().next().attr('id');
+	  const c_of_comment_num = target.parent().prev().val();
+	  
+	  
+	  
+	  // alert(c_c_nickname);
+	  // alert(comment_writer_nickname);
+	  // alert(login_nickname);
+	  // alert(content);
+	  
+	  // 대댓글 작성자와 현재 로그인한 사용자의 닉네임이 같은 경우 댓글 수정 가능
+	  if(login_nickname == c_c_nickname) {
+		  $("div.detail_comment_of_comment").hide();
+		  target.parent().parent().parent().parent().next().find('div.c_of_comment_edit').show();
+		  
+		  target.parent().parent().parent().parent().next().find('.content4').val(content);
+		  $("input#c_of_c_num").val(c_of_comment_num);
+		  // alert(content);
+		  // alert(c_of_comment_num);
+		  $("textarea.content4").focus();
 	  }
 	  else {
 		  alert("댓글 수정은 본인만 가능합니다.");
@@ -147,34 +183,7 @@ $(document).ready(function(){
   });// end of Event--
 
 
-  // 대댓글 "..." 클릭시 나오는 수정하기 버튼 클릭시
-  $("span.comment_edit2").click(function(e) {
-	  const target = $(e.currentTarget);
-	  const login_nickname = $("input#nickname").val();
-	  const c_c_nickname = target.prev().prev().val();
-	  
-	  
-	  // alert(c_c_nickname);
-	  // alert(comment_writer_nickname);
-	  // alert(login_nickname);
-	  // alert(content);
-	  
-	  // 대댓글 작성자와 현재 로그인한 사용자의 닉네임이 같은 경우 댓글 수정 가능
-	  if(login_nickname == c_c_nickname) {
-		  $("div.detail_comment_of_comment").hide();
-		  target.parent().parent().parent().parent().next().find('div.c_of_comment_edit').show();
-		  const content = target.parent().parent().parent().parent().next().attr('id');
-		  const c_of_comment_num = target.prev().val();
-		  target.parent().parent().parent().parent().next().find('.content4').val(content);
-		  $("input#c_of_c_num").val(c_of_comment_num);
-		  // alert(content);
-		  // alert(c_of_comment_num);
-	  }
-	  else {
-		  alert("댓글 수정은 본인만 가능합니다.");
-		  return false;
-	  }  
-  });
+  
 
   
   // 대댓글 수정하기 버튼 클릭시
@@ -196,12 +205,12 @@ $(document).ready(function(){
   // 대댓글 삭제하기 버튼 클릭시
     $("span.comment_delete2").click(function(e) {
   	  const target = $(e.currentTarget);
-	  const comment_num = target.prev().prev().val();
-	  const c_of_comment_writer_nickname = target.prev().prev().prev().val();
+	  const comment_num = target.parent().prev().val();
+	  const c_of_comment_writer_nickname = target.parent().parent().parent().prev().find('div.big_comment_writer_nickname').text();
 	  const login_nickname = $("input#nickname").val();
 	  // alert(login_nickname);
-
-	  
+      console.log(comment_num,c_of_comment_writer_nickname,login_nickname);
+     
 	  if(c_of_comment_writer_nickname == login_nickname) {
 
 		  if(confirm('정말 삭제하시겠습니까?')) {
@@ -254,12 +263,15 @@ $(document).ready(function(){
   });
   
   
-  // 좋아요 버튼 클릭시 이벤트 잡기
+  // 게시글 좋아요 버튼 클릭시 이벤트 잡기
   $("div#btn_like").click(e=>{
 	const board_num = $("input#board_num").val();
 	const userid = $("input#userid").val();
+	const nickname = $("a#board_writer_nickname").text();	
+	const subject = $("h2#board_subject").text();
+	const detail_category = $("input#detail_category").val();
 	
-	const data = {board_num: board_num,userid: userid};
+	const data = {board_num: board_num,userid: userid,nickname: nickname,subject: subject,detail_category: detail_category,nickname: nickname};
 	
 	likeClick(data);	// 좋아요 클릭시 처리 메소드 호출
   });// end of Event----
@@ -268,6 +280,10 @@ $(document).ready(function(){
   $("div.comment_like").click(e=>{
 	  const target = $(e.currentTarget);
 	  const userid = $("input#userid").val();
+	  const writer_nickname = $("a#board_writer_nickname").text();	
+	  const board_num = $("input#board_num").val();
+	  const subject = $("h2#board_subject").text();
+	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.comment_writer_nickname').attr('id');
 	  
 	  
@@ -280,7 +296,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid, target);
+		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname);
 
 	  }
 	  
@@ -294,6 +310,10 @@ $(document).ready(function(){
   $("div.big_comment_like").click(e=>{
 	  const target = $(e.currentTarget);
 	  const userid = $("input#userid").val();
+	  const writer_nickname = $("a#board_writer_nickname").text();	
+	  const board_num = $("input#board_num").val();
+	  const subject = $("h2#board_subject").text();
+	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
 //	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
 	  const nickname = $("input#nickname").val();	  
@@ -303,7 +323,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid, target);
+		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname);
 
 	  }
 	  
@@ -410,11 +430,64 @@ function likeClick(data){
 
 
 // 댓글 좋아요
-function comment_likeClick(comment_num, userid, target){
+function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname){
 	$.ajax({
 		url:getContextPath()+"/comment_likeProcess.do", 
 		data:{"comment_num":comment_num
-			 ,"userid":userid},
+			 ,"userid":userid
+			 ,"writer_nickname":writer_nickname
+			 ,"board_num":board_num
+			 ,"subject":subject
+			 ,"detail_category":detail_category
+			 ,"comment_num":comment_num
+			 ,"nickname":nickname},			 
+		type:'POST',
+		dataType:"json",
+		success:function(json){	
+			if(json.JavaData == 'login'){	// 로그인 중이 아니라면
+				$("button.btn_login").trigger("click");// 로그인페이지로 보내기
+			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
+				// alert("댓글 좋아요 취소.");
+				window.location.reload();
+				target.find('span#comment_like_icon').html("&#129293;");
+			//	const comment_like_cnt = target.find.parseInt($("span.comment_like_cnt").text()) - 1;	// 좋아요개수
+				// 1빼기
+
+				$("span.comment_like_cnt").html(comment_like_cnt);	
+				
+			} else if(json.JavaData == 'insert'){	// 좋아요를 추가하였다면
+				// alert("댓글 좋아요.");
+				window.location.reload();
+				target.find('span#comment_like_icon').html("&#x1F497;");
+			//	const comment_like_cnt = target.find.parseInt($("span.comment_like_cnt").text()) + 1;	// 좋아요개수
+				// 1더하기
+				$("span.comment_like_cnt").html(comment_like_cnt);
+				
+			} else{
+				alert("좋아요 기능 오류");
+			}			
+			
+		},// end of success
+		// success 대신 error가 발생하면 실행될 코드
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });// end of $.ajax({})---
+}
+
+
+//대댓글 좋아요
+function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname){
+	$.ajax({
+		url:getContextPath()+"/big_comment_likeProcess.do", 
+		data:{"comment_num":comment_num
+			 ,"userid":userid
+			 ,"writer_nickname":writer_nickname
+			 ,"board_num":board_num
+			 ,"subject":subject
+			 ,"detail_category":detail_category
+			 ,"comment_num":comment_num
+			 ,"nickname":nickname},			 
 		type:'POST',
 		dataType:"json",
 		success:function(json){	

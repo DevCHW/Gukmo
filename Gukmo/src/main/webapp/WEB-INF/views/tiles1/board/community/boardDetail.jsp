@@ -22,7 +22,7 @@
   <div class="container my-5"> 
 
     <div class="line my-4" style="width:1150px; margin-left: -20px;">
-      <div>${requestScope.board.category}&nbsp;</div><span>/</span><div>&nbsp;${requestScope.board.detail_category}</div>   <%-- ${requestScope.board.detail_category} --%>
+      <div>${requestScope.board.category}&nbsp;</div><span>/</span><div id="board_detail_category">&nbsp;${requestScope.board.detail_category}</div>   <%-- ${requestScope.board.detail_category} --%>
     </div>
 
 
@@ -42,9 +42,10 @@
 
 
       <div id="writer_profile_body" class="d-flex flex-column w-100 px-2 py-1">
-        <%-- 작성자 닉네임 들어가면 해당 유저의 활동내역을 볼수 있는 페이지로 이동--%>
-        <div onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${board.nickname}'" id="board_writer_nickname" class="pl-2" style="cursor:pointer";>${requestScope.board.nickname}</div>
-
+        <%-- 작성자 닉네임 들어가면 해당 유저의 활동내역을 볼수 있는 페이지로 이동--%>   
+        <div>
+        <a onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${board.nickname}'" id="board_writer_nickname" class="pl-2" style="font-size: 18px; color:#212529;">${requestScope.board.nickname}</a>       
+        </div>
         <%-- 활동점수,작성일자,조회수 영역--%>
         <div class="d-flex">
           <%-- 활동점수 --%>
@@ -84,7 +85,7 @@
         <div id="mask"></div>
         
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority != '관리자'}">
-          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
+          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
               <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
@@ -93,7 +94,7 @@
         </c:if>
         
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority == '관리자'}">
-          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 15px;">&#8230;
+          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
               <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
@@ -120,7 +121,7 @@
     <%-------------------- 글 본문 시작 ------------------%>
     <div id="content_area" class="d-flex flex-column py-2">
       <div id="subject" class="mt-3">
-        <h2>${requestScope.board.subject}</h2>
+        <h2 id="board_subject">${requestScope.board.subject}</h2>
       </div>
 
 
@@ -293,7 +294,7 @@
           <input type="hidden" id="" name="fk_comment_num"/>
           <div class="d-flex flex-column w-100 asdf1">
             <div class="comment_writer_nickname" id ="${bcommentList.comment_num}"
-                 onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer">
+                 onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer; width:20%;">
               	${bcommentList.nickname}
             </div>
   			
@@ -318,7 +319,7 @@
           <div>
 	          <div class="comment_like" style="width: 50px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	            <span id="comment_like_icon">&#129293;</span>
+	            	<span id="comment_like_icon">&#129293;</span>	         
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 	          </div>
@@ -329,7 +330,13 @@
                   <div style="padding-right: 20px; display: flex;">
 			          <div class="comment_like" style="width: 45px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-			            <span id="comment_like_icon">&#129293;</span>
+			            <c:if test="${bcommentList.likeExist == '1'}">
+			            	<span id="comment_like_icon">&#x1F497;</span>
+			            </c:if>
+			            
+			            <c:if test="${bcommentList.likeExist == '0'}">
+			            	<span id="comment_like_icon">&#129293;</span>
+			            </c:if>
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 			          </div>
@@ -346,7 +353,13 @@
           <div  style="display: flex;">
           	<div class="comment_like" style="width: 45px; margin-top: 4px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	            <span id="comment_like_icon">&#129293;</span>
+	            <c:if test="${bcommentList.likeExist == '1'}">
+	            	<span id="comment_like_icon">&#x1F497;</span>
+	            </c:if>
+	            
+	            <c:if test="${bcommentList.likeExist == '0'}">
+	            	<span id="comment_like_icon">&#129293;</span>
+	            </c:if>
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 	          </div>
@@ -363,7 +376,13 @@
           <div style="display: flex;">
           	<div class="comment_like" style="width: 45px; margin-top: 4px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-	            <span id="comment_like_icon">&#129293;</span>
+	            <c:if test="${bcommentList.likeExist == '1'}">
+	            	<span id="comment_like_icon">&#x1F497;</span>
+	            </c:if>
+	            
+	            <c:if test="${bcommentList.likeExist == '0'}">
+	            	<span id="comment_like_icon">&#129293;</span>
+	            </c:if>
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
           	</div>
@@ -474,9 +493,7 @@
 	 
 	            <div class="d-flex flex-column w-100">
 	              <div class="big_comment_writer_nickname" id="${spcial_commentList.comment_num}"
-	                   onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${spcial_commentList.nickname}'" style="cursor:pointer">
-              		${spcial_commentList.nickname}
-	              </div>	    
+	                   onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${spcial_commentList.nickname}'" style="cursor:pointer; width:20%;">${spcial_commentList.nickname}</div>	    
 	              <div class="mt-1">
 	                <%-- 대댓글작성자 활동점수 --%>
 	                <span class="mr-2">
@@ -539,7 +556,13 @@
                   <div style="padding-right: 35px; display: flex;">
 			          <div class="big_comment_like" style="width: 45px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-			            <span id="big_comment_like_icon">&#129293;</span>
+			            <c:if test="${spcial_commentList.likeExist == '1'}">
+			            	<span id="big_comment_like_icon">&#x1F497;</span>
+			            </c:if>
+			            
+			            <c:if test="${spcial_commentList.likeExist == '0'}">
+			            	<span id="big_comment_like_icon">&#129293;</span>
+			            </c:if>
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 			          </div>
@@ -552,14 +575,21 @@
           	  </c:if>
           
           	  <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname == spcial_commentList.nickname}">
-          	  <div>
-	          	  <div class="big_comment_like" style="width: 50px;">
+          	  <div style="display: flex;">
+	          	  <div class="big_comment_like" style="width: 45px; margin-top: 4px;">
 		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-		            <span id="big_comment_like_icon">&#129293;</span>
+		            <c:if test="${spcial_commentList.likeExist == '1'}">
+		            	<span id="big_comment_like_icon">&#x1F497;</span>
+		            </c:if>
+		            
+		            <c:if test="${spcial_commentList.likeExist == '0'}">
+		            	<span id="big_comment_like_icon">&#129293;</span>
+		            </c:if>
 		            <%-- 댓글 좋아요 갯수 --%>
 		            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          </div>
 		          <span id="" class="border rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;">&#8230;
+		          <input type="hidden" id="" value="${spcial_commentList.comment_num}" />
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
 		            	<span class="comment_edit2">수정하기</span>
 		            	<span class="comment_delete2">삭제하기</span>
@@ -572,7 +602,13 @@
 	            <div style="padding-right: 16px; display: flex;">
 		          	<div class="big_comment_like" style="width: 45px; margin-top: 4px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
-			            <span id="big_comment_like_icon">&#129293;</span>
+			            <c:if test="${spcial_commentList.likeExist == '1'}">
+			            	<span id="big_comment_like_icon">&#x1F497;</span>
+			            </c:if>
+			            
+			            <c:if test="${spcial_commentList.likeExist == '0'}">
+			            	<span id="big_comment_like_icon">&#129293;</span>
+			            </c:if>
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          	</div>
