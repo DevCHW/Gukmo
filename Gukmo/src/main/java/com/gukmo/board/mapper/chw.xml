@@ -1030,7 +1030,14 @@
 	
 	<!-- 교육기관회원 총 갯수 구하기 -->
 	<select id="getTotalCnt_academy" parameterType="HashMap" resultType="Integer">
-		select count(*) from tbl_academy_member
+		select count(*) from 
+			tbl_academy_member A
+		left join 
+			tbl_member B
+		on A.fk_userid = B.fk_userid
+		left join
+			tbl_member_login C
+		on A.fk_userid = C.userid
 		where 1=1
 		<if test='searchType != "" and searchWord != ""'>
 			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
@@ -1081,7 +1088,12 @@
 	
 	<!-- 일반회원 총 갯수 구하기 -->
 	<select id="getTotalCntNormalMember" parameterType="HashMap" resultType="Integer">
-		select count(*) from tbl_member
+		select count(*) 
+		from 
+			tbl_member A
+		left join
+			tbl_member_login B
+		on A.fk_userid = B.userid
 		where 1=1
 		<if test='searchType != "" and searchWord != ""'>
 			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
