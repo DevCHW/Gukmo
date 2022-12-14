@@ -33,4 +33,14 @@ public interface InterReportDAO {
 	 * 회원 정지로 바꿔주기
 	 */
 	int memberStatusChange(Map<String, String> paraMap);
+
+	/**
+	 * 신고내역 총 수 얻기
+	 */
+	int getTotalCntReport(Map<String, String> paraMap);
+
+	/**
+	 * 페이징 된 신고내역 리스트 얻기
+	 */
+	List<Map<String, String>> getReportList(Map<String, String> paraMap);
 }

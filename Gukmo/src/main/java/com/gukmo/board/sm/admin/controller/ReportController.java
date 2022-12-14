@@ -28,7 +28,7 @@ public class ReportController {
 	
 	
 	//신고 리스트 보여주기(전체)
-	@RequestMapping(value="/admin/report/list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/report/list.do2", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_reportManage_List(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<ReportVO> reportList = null;
 	    
@@ -95,7 +95,7 @@ public class ReportController {
 	} // end of 신고내역 리스트 보기
 	
 //신고 리스트 보여주기(신고전)
-@RequestMapping(value="/admin/report/before_receipt_list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+@RequestMapping(value="/admin/report/before_receipt_list.do2", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 public ModelAndView requiredAdminLogin_reportManage_List_before(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     List<ReportVO> reportList = null;
     
@@ -163,7 +163,7 @@ public ModelAndView requiredAdminLogin_reportManage_List_before(HttpServletReque
 	
 
 	//신고 리스트 보여주기(신고 완료)
-	@RequestMapping(value="/admin/report/after_receipt_list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/report/after_receipt_list.do2", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_reportManage_List_after(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	List<ReportVO> reportList = null;
 	
@@ -233,7 +233,7 @@ public ModelAndView requiredAdminLogin_reportManage_List_before(HttpServletReque
 	
 		
 	// 신고 관련 정보 상세보기 
-	@RequestMapping(value="/admin/reportDetail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/report/detail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_reportDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		Map<String, String> paraMap = new HashMap<>();
 		String report_num = request.getParameter("report_num");
@@ -268,7 +268,7 @@ public ModelAndView requiredAdminLogin_reportManage_List_before(HttpServletReque
 		
 		mav.addObject("reportDetail", reportDetail);
 				
-		mav.setViewName("admin/report/detail.tiles1");
+		mav.setViewName("admin/report/detail.tiles2");
 		return mav;
 	}// 신고 관련 정보 상세보기 끝
 	

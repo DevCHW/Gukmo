@@ -1141,6 +1141,164 @@
 	
 	
 	
+	<!-- 광고내역 총 수 구하기 -->
+	<select id="getTotalCntAdvertisement" parameterType="HashMap" resultType="Integer">
+		select count(*) 
+		from 
+			tbl_advertisement
+		where 1=1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='status != ""'>
+			and status = #{status} 
+		</if>
+		<if test='division != ""'>
+			and division = #{division} 
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and start_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	<!-- 페이징처리한 광고내역 가지고오기  -->
+	<select id="getAdvertisementList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select advertisement_num,
+					   division,
+					   client_name,
+					   client_phone,
+					   to_char(start_date,'yyyy-mm-dd') || ' ~ ' || to_char((start_date + period),'yyyy-mm-dd') || ' (' || period || ')일 ' period, 
+					   case status when 0 then '진행중' else '종료' end as status 
+				from 
+					tbl_advertisement
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='status != ""'>
+					and status = #{status} 
+				</if>
+				<if test='division != ""'>
+					and division = #{division} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and start_date between #{start_date} and #{end_date} 
+				</if>
+					order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 신고내역 총 수 구하기 -->
+	<select id="getTotalCntReport" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from
+		(
+			select report_num, fk_board_num as fk_num,
+				report_nickname,
+				reported_nickname, simple_report_reason,
+				detail_report_reason,
+				report_date, report_type, receipt
+			from
+				tbl_board_report
+			union all
+			select report_num, fk_comment_num as fk_num,
+				report_nickname,
+				reported_nickname, simple_report_reason,
+				detail_report_reason,
+				report_date, report_type, receipt
+			from
+				tbl_comment_report
+		)
+		where 1 = 1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='report_type != ""'>
+			and report_type = #{report_type} 
+		</if>
+		<if test='simple_report_reason != ""'>
+			and simple_report_reason = #{simple_report_reason} 
+		</if>
+		<if test='receipt == "접수전"'>
+			and receipt = 0
+		</if>
+		<if test='receipt == "접수완료"'>
+			and receipt = 1
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and report_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	<!-- 페이징처리한 신고내역 가지고오기  -->
+	<select id="getReportList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select report_num, fk_num, report_nickname,
+					   reported_nickname,
+					   simple_report_reason,
+					   report_date, report_type,
+					   receipt
+				from
+				(
+					select report_num, fk_board_num as fk_num,
+						   report_nickname,
+						   reported_nickname, simple_report_reason,
+						   report_date, report_type, 
+						   case receipt when 0 then '접수전' else '접수완료' end as receipt
+					from tbl_board_report
+					union all
+					select report_num, fk_comment_num as fk_num,
+						   report_nickname,
+					  	   reported_nickname, simple_report_reason,
+						   report_date, report_type, 
+						   case receipt when 0 then '접수전' else '접수완료' end as receipt
+					from tbl_comment_report
+				) A
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='report_type != ""'>
+					and report_type = #{report_type} 
+				</if>
+				<if test='simple_report_reason != ""'>
+					and simple_report_reason = #{simple_report_reason} 
+				</if>
+				<if test='receipt != ""'>
+					and receipt = #{receipt} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and report_date between #{start_date} and #{end_date} 
+				</if>
+				order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	
 	
 	
 	
