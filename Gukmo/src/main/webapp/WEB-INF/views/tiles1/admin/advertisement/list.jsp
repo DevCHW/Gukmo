@@ -42,13 +42,18 @@
         <div id="title" class="d-flex justify-content-between py-3 border-top border-bottom">
           <!-- division -->
           <div id="divDivision" class="division text-center">
-            <span>구분</span>
+            <span id="ad_division">구분</span>
             <span id="btn_division_option">
               <i class="fa-solid fa-caret-down"></i>
             </span>
             <div id="divisionOption" class="hidden border rounded px-3 py-2">
-              <div class="my-1">메인</div>
-              <div class="my-1">게시판</div>
+              <div id="division_all" class="my-1">전체</div>
+              <div id="division_main" class="my-1">메인</div>
+              <div id="division_board" class="my-1">게시판</div>
+	              <form name="divisionFrm">
+	                <input type="hidden" id="division" name="division" value="" />
+	                <input type="hidden" id="status" name="status" value="" />
+	              </form>
             </div>
           </div>
           
@@ -74,8 +79,9 @@
               <i class="fa-solid fa-caret-down"></i>
             </span>
             <div id="advertisementStatusOption" class="hidden border rounded px-3 py-2">
-              <div class="my-1">진행중</div>
-              <div class="my-1">종료</div>
+              <div id="status_all" class="my-1">전체</div>
+              <div id="status_ing" class="my-1">진행중</div>
+              <div id="status_end" class="my-1">종료</div>
             </div>
           </div>
         </div>
@@ -85,10 +91,12 @@
 
 
         <!------- 광고리스트 반복문 시작 ------->
+        <input type="hidden" id="page_division" value="${requestScope.division}"/>
+        <input type="hidden" id="page_status" value="${requestScope.division}"/>
         <c:forEach var="advo" items="${requestScope.adList}" varStatus="status">
         <div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath%>/admin/advertisement/detail.do?advertisement_num=${advo.advertisement_num}'">
           <!-- division -->
-          <div class="advertisement_info division text-center">
+          <div class="advertisement_info division text-center page_div">
             <div>${advo.division}</div>
           </div>
           

@@ -338,7 +338,7 @@ div#menu_close {
 
 /* 스크롤탑버튼 시작*/
 
-#scroll-to-top {
+div#scroll-to-top {
     position: fixed;
     font-size: 21px;
     bottom: 40px;
@@ -349,19 +349,22 @@ div#menu_close {
     transform: translateY(30%);
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
-#scroll-to-top:last-child {
-  transition: transform 0.7s ease-in-out;
+div#scroll-to-top:last-child {
+  transition: transform 0.7s ease-in-out !important;
 }
 
 @media (max-width: 600px) {
-	#scroll-to-top{
-        font-size: 20px;
+	div#scroll-to-top{
+        font-size: 20px !important;
 	}
 }
 
 #scroll-to-top span {
     cursor: pointer;
     color: #1a1d243f;
+}
+.fa-angle-double-up{
+	font-size:26.25px;
 }
 
 

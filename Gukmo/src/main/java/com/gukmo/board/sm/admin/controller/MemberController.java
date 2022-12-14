@@ -9,10 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gukmo.board.model.DataTableDTO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.sm.admin.service.InterMemberService;
 
@@ -24,7 +28,7 @@ public class MemberController {
 	
 	
 	// 회원관리 목록 페이지 요청
-	@RequestMapping(value="/admin/member/normal/list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/member/normal/list3.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_memberManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<MemberVO> memberList = null;
 	    
@@ -101,67 +105,23 @@ public class MemberController {
 	// ============= 학원회원 관리 시작 ============= //
 
 	// 교육기관회원관리 목록 페이지 요청
-	@RequestMapping(value="/admin/member/academy/list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requiredAdminLogin_academyManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-	    
-	    String searchType = request.getParameter("searchType");
-		String searchWord = request.getParameter("searchWord");
-		String memberStatus = request.getParameter("memberStatus");
-				
-		String str_page = request.getParameter("page");
-		
-		if(memberStatus == null) {
-			memberStatus = "";
-		}
-		
-		 if(searchType == null || (!"fk_userid".equals(searchType) && !"nickname".equals(searchType) && !"academy_name".equals(searchType)) ) {
-			searchType = "";
-		 }
-		
-		 if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty() ) {
-		 	searchWord = "";
-		 }
-		 Map<String,String> paraMap = new HashMap<>();
+	@ResponseBody
+	@RequestMapping(value="/admin/member/academy/list2.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
+	public DataTableDTO academyManageList(DataTableDTO dto,@RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
 		 
-		 paraMap.put("searchType",searchType);
-		 paraMap.put("searchWord",searchWord);
-		 paraMap.put("memberStatus",memberStatus);
-		 
-		 
-		 int totalCount = service.getTotalCount_academy(paraMap);           // 총 게시물 건수
-		 int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
-		 int totalPage = (int) Math.ceil( (double)totalCount/sizePerPage );            // 총 페이지수(웹브라우저상에서 보여줄 총 페이지 개수, 페이지바)
-		 int page = getPage(str_page,totalPage);    // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
-
-		 
-		 paraMap = getRno(page,sizePerPage,paraMap);
-		 String url = request.getContextPath()+"/admin/member/academy/list.do";
-
-		 List<MemberVO> academymemberList = service.academymemberList(paraMap);
+//	    int total = (int)service.getTotalCount_academy();
+	    int total = 1;
+//		List<MemberVO> data = service.academymemberList();
 		
-		Map<String,String> pageMap = new HashMap<>();
-		pageMap.put("searchWord",searchWord);
-		pageMap.put("searchType",searchType);
-		pageMap.put("memberStatus",memberStatus);
-		pageMap.put("keyWord", "memberStatus");
+		dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+//	    dto.setData(data);
 
-		String pageBar = getPageBar(page,totalPage,url,pageMap);
-
-		 if( !"".equals(searchType) && !"".equals(searchWord) ) {
-			 mav.addObject("paraMap", paraMap);
-		 }
-
-		mav.addObject("pageBar", pageBar);
-		mav.addObject("academymemberList", academymemberList);
-
-			
-		request.setAttribute("paraMap", paraMap);
-		request.setAttribute("totalCount", totalCount);
-		
-		
-		mav.setViewName("admin/member/academy/list.tiles1");
-		
-		return mav;
+	    return dto;
 	} // end of 학원회원 리스트 보기
 		
 		

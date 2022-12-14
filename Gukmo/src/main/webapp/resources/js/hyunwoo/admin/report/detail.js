@@ -18,15 +18,15 @@ function getContextPath(){
 // == Event Declaration == //
 $(document).ready(function(){
 
-  //신고자가 신고한 내역보기 버튼 클릭시
-  $("span#btn#view_list_report").click(function(){
+//신고자가 신고한 내역보기 버튼 클릭시
+  $("span#btn_view_list_report").click(function(){
     getHtmlReportList(sessionStorage.getItem("report_nickname"));
   });//end of Event--
-
+	
 
   //피신고자가 신고당한 내역보기 버튼 클릭시
-  $("span#btn#view_list_reported").click(function(){
-    getHtmlReportedList(sessionStorage.getItem("report_nickname"));
+  $("span#btn_view_list_reported").click(function(){
+    getHtmlReportedList(sessionStorage.getItem("reported_nickname"));
   });//end of Event--
 
 
@@ -57,14 +57,14 @@ $(document).ready(function(){
 
 /**
  * 신고자가 신고한 내역 html 넣어주기
- * @param {*} nickname 
+ * @param {*} nickname
  */
 function getHtmlReportList(nickname){
   let html="";
   $.ajax({
-    url:getContextPath()+"/신고내역가져오기url.do", 
+    url:getContextPath()+"/admin/get_reportList.do", 
     data:{"nickname": nickname},
-    type:"get",
+    type:"post",
     dataType:"json",
     success:function(json){
       let html = "";
@@ -78,18 +78,21 @@ function getHtmlReportList(nickname){
       html += `  <div class="d-flex flex-column text-center">`
       html += `    <span style="width:155px;" class="py-2 px-3">신고일자</span>`
       html += `  </div>`;
+      html += `</div>`;
       $.each(json, function(index, item){
         html += `<div class="d-flex justify-content-center my-2">`;
         html += `  <div class="d-flex flex-column text-center">`;
-        html += `    <span style="width:155px;" class="py-2 px-3">${item.report_nickname}</span>`;
+        html += `    <span style="width:155px;" class="py-2 px-3">${item.reported_nickname}</span>`;
         html += `  </div>`;
         html += `  <div class="d-flex flex-column text-center">`
         html += `    <span style="width:155px;" class="py-2 px-3">${item.simple_report_reason}</span>`
         html += `  </div>`
         html += `  <div class="d-flex flex-column text-center">`
         html += `    <span style="width:155px;" class="py-2 px-3">${item.report_date}</span>`
-        html += `  </div>`;
+        html += `  </div>`
+        html += `</div>`;
       });// end of for--
+      
 
       $("div#list_report").html(html);
     },//end of success
@@ -111,11 +114,10 @@ function getHtmlReportList(nickname){
  * @return html을 반환한다.
  */
 function getHtmlReportedList(nickname){
-  
   $.ajax({
-    url:getContextPath()+"/닉네임으로신고내역가져오기url.do", 
+    url:getContextPath()+"/admin/get_reportedList.do", 
     data:{"nickname": nickname},
-    type:"get",
+    type:"POST",
     dataType:"json",
     success:function(json){
       let html = "";
@@ -129,6 +131,7 @@ function getHtmlReportedList(nickname){
       html += `  <div class="d-flex flex-column text-center">`
       html += `    <span style="width:155px;" class="py-2 px-3">신고일자</span>`
       html += `  </div>`;
+      html += `</div>`;
       $.each(json, function(index, item){
         html += `<div class="d-flex justify-content-center my-2">`;
         html += `  <div class="d-flex flex-column text-center">`;
@@ -140,6 +143,7 @@ function getHtmlReportedList(nickname){
         html += `  <div class="d-flex flex-column text-center">`
         html += `    <span style="width:155px;" class="py-2 px-3">${item.report_date}</span>`
         html += `  </div>`;
+        html += `</div>`;
       });// end of for--
 
       $("div#list_reported").html(html);

@@ -39,7 +39,7 @@
 
 
 	  <%------------------------ 신고리스트영역 시작 ------------------------%>
-      <div class="reportList">
+      <div class="reportList" >
       
         <%----- 타이틀 시작 -----%>
         <div id="title" class="d-flex justify-content-between py-3 border-top border-bottom">
@@ -58,6 +58,9 @@
           <div class="report_date text-center">
           	<div>신고일자</div>
           </div>
+          <div class="receipt text-center">
+          	<div>접수 여부</div>
+          </div>
         </div>
         <%----- 타이틀 끝 -----%>
 
@@ -65,7 +68,7 @@
 
         <%-- 신고리스트 반복문 시작 --%>
         <c:forEach var="report" items="${requestScope.reportList}" varStatus="status">
-        <div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath %>/admin/reportDetail.do?report_num=${report.report_num}'">
+        <div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath %>/admin/reportDetail.do?report_num=${report.report_num}&report_nickname=${report.report_nickname}&reported_nickname=${report.reported_nickname}'">
           <%-- report_type --%>
           <div class="report_info report_type text-center">
             <div>${report.report_type}</div>
@@ -89,6 +92,18 @@
           <%-- report_date --%>
           <div class="report_info report_date text-center">
             <div class="m-auto">${report.report_date}</div>
+          </div>
+          
+          <%-- 접수 여부 --%>
+          <div class="report_info receipt text-center">
+            <div class="m-auto">
+	            <c:if test='${report.receipt == 0}' >
+	          	    접수 전
+	          	</c:if>
+	          	<c:if test='${report.receipt == 1}' >
+	          	    접수 완료
+	          	</c:if>
+            </div>
           </div>
           
         </div>

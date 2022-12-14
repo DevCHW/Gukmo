@@ -55,6 +55,7 @@
         <div>
           <span class="report_info_title py-3">피신고자 닉네임</span>
           <span class="py-3">${requestScope.reportDetail.reported_nickname}</span>
+          <input type="hidden" id="reported_nickname" value="${requestScope.reportDetail.reported_nickname}" /> 
         </div>
 
         <!-- 신고사유 -->
@@ -74,19 +75,38 @@
           <span class="report_info_title py-3">신고날짜</span>
           <span class="py-3">${requestScope.reportDetail.report_date}</span>
         </div>
+
+        <div id="receipt">
+          <span class="report_info_title py-3">신고날짜</span>
+          <span class="py-3">
+          	<c:if test='${requestScope.reportDetail.receipt == 0}' >
+          	  접수 전
+          	</c:if>
+          	<c:if test='${requestScope.reportDetail.receipt == 1}' >
+          	  접수 완료
+          	</c:if>
+          </span>
+        </div>
+
       </div>
       <!-- 신고상세보기 끝 -->
 
       <!-- 횟수 -->
       <div class="cnt_area d-flex flex-column mt-3">
+        
         <!-- 신고횟수 -->
-        <div class="mt-2">${requestScope.reportDetail.report_nickname} 회원이 신고한 횟수 : <span>리퀘스트스코프 데이터</span> 건</div>
+        <div class="mt-2">${requestScope.reportDetail.report_nickname} 회원이 신고한 횟수 : <span>게시글 : ${requestScope.report_cnt_board}건   /   댓글 : ${requestScope.report_cnt_comment}건</span></div>
         <!-- 신고횟수가 0건 이상이라면 -->
-        <span id="btn_view_list_report" data-toggle="modal" data-target="#reportListModal" data-dismiss="modal">내역보기</span>
+        <c:if test="${requestScope.report_cnt_comment+requestScope.report_cnt_board != 0}" >
+        	<span id="btn_view_list_report" data-toggle="modal" data-target="#reportListModal" data-dismiss="modal">내역보기</span>
+        </c:if>
+        
         <!-- 신고당한횟수 -->
-        <div class="mt-2">${requestScope.reportDetail.reported_nickname} 회원이 신고당한횟수 : <span>리퀘스트스코프 데이터</span>건</div>
+        <div class="mt-2">${requestScope.reportDetail.reported_nickname} 회원이 신고당한횟수 : <span>게시글 : ${requestScope.reported_cnt_board}건   /   댓글 : ${requestScope.reported_cnt_comment}건</span></div>
         <!-- 신고당한횟수가 0건 이상이라면 -->
-        <span id="btn_view_list_reported" data-toggle="modal" data-target="#reportedListModal" data-dismiss="modal">내역보기</span>
+        <c:if test="${requestScope.reported_cnt_comment+requestScope.reported_cnt_board != 0}" >
+        	<span id="btn_view_list_reported" data-toggle="modal" data-target="#reportedListModal" data-dismiss="modal">내역보기</span>
+        </c:if>
       </div>
 
       <div id="div_btn_area" class="d-flex justify-content-end mt-3">
@@ -110,7 +130,7 @@
 
 
   <!------------------------------------- Modal 시작------------------------------>
-  <!-- 신고자가 신고한내역 모달 시작 -->
+  <!-- 신고자가 신고한 내역 모달 시작 -->
   <div class="modal fade" id="reportListModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -139,13 +159,14 @@
 
 
 
-  <!-- 신고자가 신고당한내역 모달 시작 -->
+  <!-- 피신고자가 신고당한내역 모달 시작 -->
   <div class="modal fade" id="reportedListModal">
     <div class="modal-dialog">
       <div class="modal-content">
       
         <!-- Modal header -->
         <div class="modal-header">
+           <h5 class="modal-title">${requestScope.reportDetail.reported_nickname}님의 신고 당한 내역</h5>
           <button type="button" class="close reportedListModalClose" data-dismiss="modal">&times;</button>
         </div>
         

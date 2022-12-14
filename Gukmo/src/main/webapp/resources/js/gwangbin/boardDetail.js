@@ -380,7 +380,7 @@ function likeClick(data){
 			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("좋아요 취소");
 				
-				$("span#like_icon").html("&#9825;");	// 빈하트
+				$("span#like_icon").html("&#129293;");	// 빈하트
 				const like_cnt = parseInt($("span#like_cnt").text()) - 1;	// 좋아요개수
 																			// 1빼기
 				
@@ -508,6 +508,11 @@ function goAddComment() {
 	  
 }// end of function goAddWrite()--------------------------------------
 
+
+// 비로그인상태에서 댓글작성창 로그인버튼 클릭시 이벤트
+function no_login_comment() {
+	$("button.btn_login").trigger("click");// 로그인페이지로 보내기
+}
 
 
 // 댓글쓰기

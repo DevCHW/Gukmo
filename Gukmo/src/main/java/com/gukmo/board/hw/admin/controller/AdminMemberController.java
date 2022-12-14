@@ -1,6 +1,8 @@
 package com.gukmo.board.hw.admin.controller;
 
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,12 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gukmo.board.hw.admin.repository.InterAdminMemberDAO;
 import com.gukmo.board.hw.admin.service.InterAdminMemberService;
+import com.gukmo.board.model.DataTableDTO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 
@@ -23,6 +29,9 @@ import com.gukmo.board.model.PenaltyVO;
 public class AdminMemberController {
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterAdminMemberService service;
+	
+	@Autowired
+	private InterAdminMemberDAO dao;
 	
 	
 	/**
@@ -38,15 +47,8 @@ public class AdminMemberController {
 		}
 		
 		request.setAttribute("member", member);
-		return "admin/member/detail.tiles1";
+		return "admin/member/detail.tiles2";
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -117,6 +119,254 @@ public class AdminMemberController {
 		
 		return jsonObj.toString();
 	}
+	
+	
+	
+	/**
+	 * 교육기관회원내역페이지 매핑
+	 */
+	@RequestMapping(value="/admin/member/academy/list.do", method= {RequestMethod.GET})
+	public String viewAcaMember(HttpServletRequest request) {
+		return "admin/member/academy/list.tiles2";
+	}
+	
+	/**
+	 *  교육기관회원관리 데이터 넘겨주기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/academy/listSelect.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
+	public DataTableDTO acaMemberList(DataTableDTO dto,@RequestBody MultiValueMap<String, String> formData) {
+		//0->닉네임
+		//1->아이디
+		//2->학원명
+		//3->가입일자
+		//4->상태
+		//5->홈페이지
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    String nickname = formData.get("columns[0][search][value]").get(0);
+	    String userid = formData.get("columns[1][search][value]").get(0);
+	    String academy_name = formData.get("columns[2][search][value]").get(0);
+	    String join_date = formData.get("columns[3][search][value]").get(0);
+	    String status = formData.get("columns[4][search][value]").get(0);
+	    String homepage = formData.get("columns[5][search][value]").get(0);
+	    String sort = formData.get("order[0][column]").get(0);
+	    String direction = formData.get("order[0][dir]").get(0);
+	    String searchType = "";
+	    String searchWord = "";
+	    
+	    if(nickname != null && !nickname.trim().isEmpty()) {
+	    	searchType = "nickname";
+	    	searchWord = nickname;
+	    }
+	    if(userid != null && !userid.trim().isEmpty()) {
+	    	searchType = "userid";
+	    	searchWord = userid;
+	    }
+	    if(academy_name != null && !academy_name.trim().isEmpty()) {
+	    	searchType = "academy_name";
+	    	searchWord = academy_name;
+	    }
+	    if(homepage != null && !homepage.trim().isEmpty()) {
+	    	searchType = "homepage";
+	    	searchWord = homepage;
+	    }
+	    
+	    switch (sort) {
+			case "0":
+				sort = "nickname";
+				break;
+			case "1":
+				sort = "userid";
+				break;
+			case "2":
+				sort = "academy_name";
+				break;
+			case "3":
+				sort = "join_date";
+				break;
+			case "4":
+				sort = "status";
+				break;
+			case "5":
+				sort = "homepage";
+				break;
+			default:
+				sort = "join_date";
+				break;
+		}
+	    String start_date = "";
+	    String end_date ="";
+	    if(join_date != null && !join_date.trim().isEmpty()) {
+	    	int commaIdx = join_date.indexOf(",");
+	    	start_date = join_date.substring(0,commaIdx);
+	    	end_date = join_date.substring(commaIdx+1);
+	    }
+	    
+//	    //확인용
+//	    System.out.println("====================================\n");
+//	    System.out.println(formData);
+//	    System.out.println("searchType : " + searchType);
+//	    System.out.println("searchWord : " + searchWord);
+//	    System.out.println("join_date : " + join_date);
+//	    System.out.println("가입일자 시작날짜 조건 : " + start_date);
+//	    System.out.println("가입일자 끝일자 조건: " + end_date);
+//	    System.out.println("status : " + status);
+//	    System.out.println("startRno : " + startRno);
+//	    System.out.println("endRno : " + endRno);
+//	    System.out.println("정렬컬럼 : " + sort);
+//	    System.out.println("정렬방향 : " + direction);
+//	    System.out.println("====================================\n");
+	    
+	    Map<String,String> paraMap = new HashMap<>();
+	    
+	    paraMap.put("start_date",start_date);
+	    paraMap.put("end_date",end_date);
+	    paraMap.put("status",status);
+	    paraMap.put("searchType",searchType);
+	    paraMap.put("searchWord",searchWord);
+	    paraMap.put("startRno",startRno);
+	    paraMap.put("endRno",endRno);
+	    paraMap.put("sort",sort);
+	    paraMap.put("direction",direction);
+	    
+	    int total = (int)service.getTotalCntAcaMember(paraMap);
+		List<Map<String,String>> data = service.getAcaMemberList(paraMap);
+	    
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		
+//	         확인용
+//	    System.out.println(dto);
+	    return dto;
+	}
+	
+	
+	/**
+	 * 일반회원내역페이지 매핑
+	 */
+	@RequestMapping(value="/admin/member/normal/list.do", method= {RequestMethod.GET})
+	public String viewNormalMember(HttpServletRequest request) {
+		return "admin/member/normal/list.tiles2";
+	}
+	
+	
+	/**
+	 *  일반회원관리 데이터 넘겨주기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/normal/listSelect.do", method= {RequestMethod.POST})  // 오로지 GET 방식만 허락하는 것임.
+	public DataTableDTO MemberManageList(DataTableDTO dto,@RequestBody MultiValueMap<String, String> formData) {
+		//0->닉네임
+		//1->아이디
+		//2->이메일
+		//3->가입일자
+		//4->상태
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    String nickname = formData.get("columns[0][search][value]").get(0);
+	    String userid = formData.get("columns[1][search][value]").get(0);
+	    String email = formData.get("columns[2][search][value]").get(0);
+	    String join_date = formData.get("columns[3][search][value]").get(0);
+	    String status = formData.get("columns[4][search][value]").get(0);
+	    String sort = formData.get("order[0][column]").get(0);
+	    String direction = formData.get("order[0][dir]").get(0);
+	    String searchType = "";
+	    String searchWord = "";
+	    
+	    if(nickname != null && !nickname.trim().isEmpty()) {
+	    	searchType = "nickname";
+	    	searchWord = nickname;
+	    }
+	    if(userid != null && !userid.trim().isEmpty()) {
+	    	searchType = "userid";
+	    	searchWord = userid;
+	    }
+	    if(email != null && !email.trim().isEmpty()) {
+	    	searchType = "email";
+	    	searchWord = email;
+	    }
+	    
+	    switch (sort) {
+			case "0":
+				sort = "nickname";
+				break;
+			case "1":
+				sort = "userid";
+				break;
+			case "2":
+				sort = "email";
+				break;
+			case "3":
+				sort = "join_date";
+				break;
+			case "4":
+				sort = "status";
+				break;
+			default:
+				sort = "join_date";
+				break;
+		}
+	    String start_date = "";
+	    String end_date ="";
+	    if(join_date != null && !join_date.trim().isEmpty()) {
+	    	int commaIdx = join_date.indexOf(",");
+	    	start_date = join_date.substring(0,commaIdx);
+	    	end_date = join_date.substring(commaIdx+1);
+	    }
+	    
+	    //확인용
+	    System.out.println("====================================\n");
+	    System.out.println(formData);
+	    System.out.println("searchType : " + searchType);
+	    System.out.println("searchWord : " + searchWord);
+	    System.out.println("join_date : " + join_date);
+	    System.out.println("가입일자 시작날짜 조건 : " + start_date);
+	    System.out.println("가입일자 끝일자 조건: " + end_date);
+	    System.out.println("status : " + status);
+	    System.out.println("startRno : " + startRno);
+	    System.out.println("endRno : " + endRno);
+	    System.out.println("정렬컬럼 : " + sort);
+	    System.out.println("정렬방향 : " + direction);
+	    System.out.println("====================================\n");
+	    
+	    Map<String,String> paraMap = new HashMap<>();
+	    
+	    paraMap.put("start_date",start_date);
+	    paraMap.put("end_date",end_date);
+	    paraMap.put("status",status);
+	    paraMap.put("searchType",searchType);
+	    paraMap.put("searchWord",searchWord);
+	    paraMap.put("startRno",startRno);
+	    paraMap.put("endRno",endRno);
+	    paraMap.put("sort",sort);
+	    paraMap.put("direction",direction);
+	    
+	    int total = (int)service.getTotalCntNormalMember(paraMap);
+		List<Map<String,String>> data = service.getNormalMemberList(paraMap);
+	    
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		
+//			         확인용
+//			    System.out.println(dto);
+	    return dto;
+	}
+	
+	
+	
 	
 	
 	

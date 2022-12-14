@@ -1,5 +1,6 @@
 package com.gukmo.board.sm.admin.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class ReportDAO implements InterReportDAO{
 	private SqlSessionTemplate gukmo_sql;
 	
 	
+	// 전체 신고 총페이지수 불러오기
 	@Override
 	public int getTotalCount_report(Map<String, String> paraMap) {
 		int n = gukmo_sql.selectOne("ksm.getTotalCount_report", paraMap);
@@ -46,7 +48,79 @@ public class ReportDAO implements InterReportDAO{
 		String ReportedId = gukmo_sql.selectOne("ksm.getReportedId", reportedNickname);
 		return ReportedId;
 	}
+
+	// (신고 전) 대한 총 페이지 수 알아오기
+	@Override
+	public int getTotalCount_report_before(Map<String, String> paraMap) {
+		int n = gukmo_sql.selectOne("ksm.getTotalCount_report_before", paraMap);
+		return n;
+	}
+
+	// (신고 전) 리스트 알아오기
+	@Override
+	public List<ReportVO> reportList_before(Map<String, String> paraMap) {
+		List<ReportVO> reportList = gukmo_sql.selectList("ksm.reportList_before" ,paraMap);
+		return reportList;
+	}
+
+	// (신고 후) 총페이지수 알아오기
+	@Override
+	public int getTotalCount_report_after(Map<String, String> paraMap) {
+		int n = gukmo_sql.selectOne("ksm.getTotalCount_report_after", paraMap);
+		return n;
+	}
 	
+	// (신고 후) 리스트 알아오기
+	@Override
+	public List<ReportVO> reportList_after(Map<String, String> paraMap) {
+		List<ReportVO> reportList = gukmo_sql.selectList("ksm.reportList_after" ,paraMap);
+		return reportList;
+	}
+
+	// 신고한 자가 신고한 건수 뽑기
+	@Override
+	public List<Integer> getreport_cnt(Map<String, String> paraMap) {
+		int result1 = 0;
+		int result2 = 0;
+		List<Integer> nList = new ArrayList<>();
+		
+		result1 = gukmo_sql.selectOne("ksm.getreport_cnt_board", paraMap);
+		nList.add(result1);
+		
+		result2 = gukmo_sql.selectOne("ksm.getreport_cnt_comment", paraMap);
+		nList.add(result2);
+		return nList;
+	}
+
+	// 신고받은 자가 신고한 건수 뽑기
+	@Override
+	public List<Integer> getreported_cnt(Map<String, String> paraMap) {
+		int result1 = 0;
+		int result2 = 0;
+		List<Integer> nList = new ArrayList<>();
+		
+		result1 = gukmo_sql.selectOne("ksm.getreported_cnt_board", paraMap);
+		nList.add(result1);
+		
+		result2 = gukmo_sql.selectOne("ksm.getreported_cnt_comment", paraMap);
+		nList.add(result2);
+		return nList;
+	}
+
+	// 신고자가 신고한 내역 뽑기
+	@Override
+	public List<ReportVO> getReport_List(Map<String, String> paraMap) {
+		List<ReportVO> report_List = gukmo_sql.selectList("ksm.getReport_List", paraMap);
+		return report_List;
+	}
+
+	// 피신고자가 신고당한 내역 뽑기
+	@Override
+	public List<ReportVO> getReported_List(Map<String, String> paraMap) {
+		List<ReportVO> reported_List = gukmo_sql.selectList("ksm.getReported_List", paraMap);
+		return reported_List;
+	}
+
 	
 
 }

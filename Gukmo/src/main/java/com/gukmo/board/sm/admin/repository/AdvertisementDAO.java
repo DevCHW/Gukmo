@@ -19,6 +19,7 @@ public class AdvertisementDAO implements InterAdvertisementDAO{
 	@Override
 	public int getTotalCount_ad(Map<String, String> paraMap) {
 		int n = gukmo_sql.selectOne("ksm.getTotalCount_ad", paraMap);
+		System.out.println('n');
 		return n;
 	}
 

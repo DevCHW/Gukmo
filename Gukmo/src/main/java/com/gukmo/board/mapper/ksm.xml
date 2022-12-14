@@ -6,40 +6,66 @@
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="ksm">
 
-	<!--  ============일반회원 관리 시작 ===========  -->
+	<!-- ============일반회원 관리 시작 =========== -->
 	<!-- 회원관리 리스트 총 페이지 수 -->
-	<select id="getTotalCount" parameterType="HashMap" resultType="Integer">
-	    select count(*)
-	    from tbl_member M
-	    left join tbl_member_login L
-	    on fk_userid = userid
-	    where 1 = 1
-	    <if test='memberStatus != "" '>
-	      and status = #{memberStatus}
-	    </if>	    
-	    <if test='searchType != "" and searchWord != "" '>
-	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    
+	<select id="getTotalCount" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_member M
+		left join tbl_member_login L
+		on
+		fk_userid = userid
+		where 1 = 1
+		<if test='memberStatus != "" '>
+			and status = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
 	</select>
-	
+
 	<!-- 회원관리 목록 페이지 요청 -->
-	<select id="memberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
+	<select id="memberList" parameterType="HashMap"
+		resultType="com.gukmo.board.model.MemberVO">
 		select rnum, userid, email, email_acept, nickname, point, join_date
-		, profile_image, username, kakao, naver, google, facebook, authority 
-		, academy_name, company_num, homepage, tel, status
-		from
-		(        
-		select rownum as rnum, userid, email, email_acept, nickname, point, to_char(join_date, 'yyyy-mm-dd') as join_date
-		, profile_image, username, kakao, naver, google, facebook, authority 
-		, academy_name, company_num, homepage, tel, status
-		from        
-		(        
-		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, nvl(join_date, to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
-		, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
-		, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
+		,
+		profile_image, username, kakao, naver, google, facebook, authority
+		,
+		academy_name, company_num, homepage, tel, status
 		from
 		(
-		select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook, authority, status
+		select rownum as
+		rnum, userid, email, email_acept, nickname, point,
+		to_char(join_date,
+		'yyyy-mm-dd') as join_date
+		, profile_image,
+		username, kakao, naver,
+		google, facebook, authority
+		, academy_name, company_num, homepage, tel,
+		status
+		from
+		(
+		select V.userid as userid, V.email as email, V.email_acept
+		as email_acept,
+		V.nickname as nickname, V.point as point,
+		nvl(join_date,
+		to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
+		,
+		V.profile_image as
+		profile_image, V.username as username, V.kakao as
+		kakao, V.naver as
+		naver, V.google as google, V.facebook as facebook
+		,
+		V.authority as
+		authority, C.academy_name as academy_name, C.company_num
+		as
+		company_num, C.homepage as homepage, C.tel as tel, status
+		from
+		(
+		select
+		A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook,
+		authority, status
 		from
 		(
 		select userid, status from tbl_member_login
@@ -51,73 +77,106 @@
 		left join
 		tbl_academy_member C
 		on V.userid = C.fk_userid
-	    <if test='memberStatus != "" '>
-	      where status = #{memberStatus}
-	    	<if test='searchType != "" and searchWord != "" '>
-	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    	</if>
-	    </if>	    
-	    <if test='memberStatus == "" '>
-	    	where 1 = 1
-		    <if test='searchType != "" and searchWord != "" '>
-		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-		    </if>	    		
-	    </if>
+		<if test='memberStatus != "" '>
+			where status = #{memberStatus}
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			where 1 = 1
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
 		order by join_date desc
 		) D
 		where company_num is null
 		) E
-		where rnum between #{startRno} and #{endRno}
-		
-	</select>
-	
-	
-	<!-- 회원정보 상세보기 페이지 -->
-		<select id="getMemberDetail" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
-			select fk_userid as userid, email, email_acept, username, nickname, to_char(join_date, 'yyyy-mm-dd') as join_date, status, point, profile_image
-			from tbl_member M
-			left join tbl_member_login L
-			on fk_userid = userid
-		    where userid = #{userid}
-		</select>
-	<!--  ============일반회원 관리 끝 ===========  -->
+		where rnum
+		between #{startRno} and #{endRno}
 
-	<!-- @@@@@@@@@@ 학원회원 관리 시작 @@@@@@@@@@  -->
-	
-	<!-- 학원관리 리스트 총 페이지 수 -->
-	<select id="getTotalCount_academy" parameterType="HashMap" resultType="Integer">
-	    select count(*)
-	    from tbl_academy_member A
-	    left join tbl_member_login L
-	    on fk_userid = userid
-	    where 1 = 1 
-	    <if test='memberStatus != "" '>
-	      and status = #{memberStatus}
-	    </if>	    
-	    <if test='searchType != "" and searchWord != "" '>
-	      and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    
 	</select>
-		
-		
+
+
+	<!-- 회원정보 상세보기 페이지 -->
+	<select id="getMemberDetail" parameterType="HashMap"
+		resultType="com.gukmo.board.model.MemberVO">
+		select fk_userid as userid, email, email_acept, username,
+		nickname,
+		to_char(join_date, 'yyyy-mm-dd') as join_date, status, point,
+		profile_image
+		from tbl_member M
+		left join tbl_member_login L
+		on fk_userid
+		= userid
+		where userid = #{userid}
+	</select>
+	<!-- ============일반회원 관리 끝 =========== -->
+
+	<!-- @@@@@@@@@@ 학원회원 관리 시작 @@@@@@@@@@ -->
+
+	<!-- 학원관리 리스트 총 페이지 수 -->
+	<select id="getTotalCount_academy" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_academy_member A
+		left join tbl_member_login L
+		on fk_userid = userid
+		where 1 = 1
+		<if test='memberStatus != "" '>
+			and status = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
+	</select>
+
+
 	<!-- 학원관리 목록 페이지 요청 -->
-	<select id="academymemberList" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
-		select rnum, userid, email, email_acept, nickname, point, join_date 
-		, profile_image, username, kakao, naver, google, facebook, authority 
-		, academy_name, company_num, homepage, tel, status
-		from
-		(        
-		select rownum as rnum, userid, email, email_acept, nickname, point, to_char(join_date, 'yyyy-mm-dd') as join_date
-		, profile_image, username, kakao, naver, google, facebook, authority 
-		, academy_name, company_num, homepage, tel, status
-		from        
-		(        
-		select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, nvl(join_date, to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
-		, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
-		, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
+	<select id="academymemberList" parameterType="HashMap"
+		resultType="com.gukmo.board.model.MemberVO">
+		select rnum, userid, email, email_acept, nickname, point, join_date
+		,
+		profile_image, username, kakao, naver, google, facebook, authority
+		,
+		academy_name, company_num, homepage, tel, status
 		from
 		(
-		select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook, authority, status
+		select rownum as
+		rnum, userid, email, email_acept, nickname, point,
+		to_char(join_date,
+		'yyyy-mm-dd') as join_date
+		, profile_image,
+		username, kakao, naver,
+		google, facebook, authority
+		, academy_name, company_num, homepage, tel,
+		status
+		from
+		(
+		select V.userid as userid, V.email as email, V.email_acept
+		as email_acept,
+		V.nickname as nickname, V.point as point,
+		nvl(join_date,
+		to_char(sysdate-30, 'yyyy-mm-dd')) as join_date
+		,
+		V.profile_image as
+		profile_image, V.username as username, V.kakao as
+		kakao, V.naver as
+		naver, V.google as google, V.facebook as facebook
+		,
+		V.authority as
+		authority, C.academy_name as academy_name, C.company_num
+		as
+		company_num, C.homepage as homepage, C.tel as tel, status
+		from
+		(
+		select
+		A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook,
+		authority, status
 		from
 		(
 		select userid, status from tbl_member_login
@@ -129,369 +188,774 @@
 		left join
 		tbl_academy_member C
 		on V.userid = C.fk_userid
-	    <if test='memberStatus != "" '>
-	      where status = #{memberStatus}
-	    	<if test='searchType != "" and searchWord != "" '>
-	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    	</if>
-	    </if>	    
-	    <if test='memberStatus == "" '>
-	    	where 1 = 1
-		    <if test='searchType != "" and searchWord != "" '>
-		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-		    </if>	    		
-	    </if>
+		<if test='memberStatus != "" '>
+			where status = #{memberStatus}
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			where 1 = 1
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
 		order by join_date desc
 		) D
-			where tel is not null
+		where tel is not null
 		) E
-		where rnum between #{startRno} and #{endRno}		
+		where rnum between
+		#{startRno} and #{endRno}
 
-	
+
 	</select>
-		
+
 	<!-- 학원회원정보 상세보기 페이지 -->
-		<select id="aca_MemberDetail" parameterType="HashMap" resultType="com.gukmo.board.model.MemberVO">
-			select V.userid as userid, V.email as email, V.email_acept as email_acept, V.nickname as nickname, V.point as point, to_char(V.join_date, 'yyyy-mm-dd') as join_date
-			, V.profile_image as profile_image, V.username as username, V.kakao as kakao, V.naver as naver, V.google as google, V.facebook as facebook
-			, V.authority as authority, C.academy_name as academy_name, C.company_num as company_num, C.homepage as homepage, C.tel as tel, status
-			from
-			(
-			select A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook, authority, status
-			from
-			(
-			select userid, status from tbl_member_login
-			)A
-			left join
-			tbl_member B
-			on A.userid = B.fk_userid
-			) V
-			left join
-			tbl_academy_member C
-			on V.userid = C.fk_userid
-		    where userid = #{userid}
-		</select>
-		
-	<!-- 회원가입 요청 승인 (대기 > 활동)-->
-		<update id="Regi_agree" parameterType="HashMap">
-		    update tbl_member_login
-		    set status = '활동'
-		    where userid = #{userid}
-    	</update>	
-
-	<!-- @@@@@@@@@@ 학원회원 관리 끝 @@@@@@@@@@  -->
-
-	<!-- @@@@@@@@@@ 회원 공통(정지 등록, 해제, 휴면 해제 ) 시작 @@@@@@@@@@  -->
-	
-	<!-- 정지 테이블에 해당 회원 정지 등록(insert) -->
-		<insert id="addPenalty" parameterType="com.gukmo.board.model.PenaltyVO">
-		    insert into tbl_penalty
-		    values(seq_penalty.nextval, #{nickname}, #{simple_penalty_reason}, #{detail_penalty_reason}, sysdate, #{penalty_period} )
-		</insert>	
-		
-	<!-- 정지된 회원의 status 변경 (활동 > 정지로)-->
-		<update id="updateMemberStatus" parameterType="String">
-		    update tbl_member_login
-		    set status = '정지'
-		    where userid = #{userid}
-    	</update>	
-		
-	<!-- 정지된 회원의 status 변경 (정지 > 활동)-->
-		<update id="block_recovery" parameterType="HashMap">
-		    update tbl_member_login
-		    set status = '활동'
-		    where userid = #{userid}
-    	</update>	
-		
-	<!-- 정지된 회원의 status 변경 (휴면 > 활동)-->
-		<update id="sleep_recovery" parameterType="HashMap">
-		    update tbl_member_login
-		    set status = '활동'
-		    where userid = #{userid}
-    	</update>	
-		
-	<!-- @@@@@@@@@@ 회원 공통(정지 등록, 해제, 휴면 해제 ) 끝 @@@@@@@@@@  -->
-	
-	
-	<!-- @@@@@@@@@@ 광고 관리 시작 @@@@@@@@@@  -->
-	
-	<!-- 광고리스트 총 페이지수 알아오기 -->
-	<select id="getTotalCount_ad" parameterType="HashMap" resultType="Integer">
-	    select count(*)
-	    from tbl_advertisement
-	    where 1 = 1 
-	    <if test='memberStatus != "" '>
-	      and division = #{memberStatus}
-	    </if>	    
-	    <if test='searchType != "" and searchWord != "" '>
-	      and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    
-	</select>		
-	
-	<!-- 광고리스트 불러오기 -->
-	<select id="adList" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
-       select rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, period, status, to_char(end_date, 'yyyy-mm-dd') as end_date
-        from
-        (
-        select rownum as rnum, advertisement_num, division, client_name, client_phone, filename, orgfilename, url, start_date, period, status, (start_date+period) as end_date 
-        from tbl_advertisement       
-        <if test='memberStatus != "" '>
-	      where division = #{memberStatus}
-	    	<if test='searchType != "" and searchWord != "" '>
-	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    	</if>
-	    </if>	    
-	    <if test='memberStatus == "" '>
-	    	where 1 = 1
-		    <if test='searchType != "" and searchWord != "" '>
-		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-		    </if>	    		
-	    </if>
-        order by start_date desc
+	<select id="aca_MemberDetail" parameterType="HashMap"
+		resultType="com.gukmo.board.model.MemberVO">
+		select V.userid as userid, V.email as email, V.email_acept
+		as email_acept,
+		V.nickname as nickname, V.point as point,
+		to_char(V.join_date,
+		'yyyy-mm-dd') as join_date
+		, V.profile_image as
+		profile_image, V.username as username, V.kakao as
+		kakao, V.naver as
+		naver, V.google as google, V.facebook as facebook
+		, V.authority as
+		authority, C.academy_name as academy_name,
+		C.company_num as
+		company_num, C.homepage as homepage, C.tel as tel,
+		status
+		from
+		(
+		select
+		A.userid,email,email_acept,nickname,point,join_date,profile_image,username,kakao,google,naver,facebook,
+		authority, status
+		from
+		(
+		select userid, status from tbl_member_login
+		)A
+		left join
+		tbl_member B
+		on A.userid = B.fk_userid
 		) V
-		where rnum between #{startRno} and #{endRno}		
+		left join
+		tbl_academy_member C
+		on V.userid = C.fk_userid
+		where userid = #{userid}
+	</select>
+
+	<!-- 회원가입 요청 승인 (대기 > 활동) -->
+	<update id="Regi_agree" parameterType="HashMap">
+		update tbl_member_login
+		set status = '활동'
+		where userid = #{userid}
+	</update>
+
+	<!-- @@@@@@@@@@ 학원회원 관리 끝 @@@@@@@@@@ -->
+
+	<!-- @@@@@@@@@@ 회원 공통(정지 등록, 해제, 휴면 해제 ) 시작 @@@@@@@@@@ -->
+
+	<!-- 정지 테이블에 해당 회원 정지 등록(insert) -->
+	<insert id="addPenalty"
+		parameterType="com.gukmo.board.model.PenaltyVO">
+		insert into tbl_penalty
+		values(seq_penalty.nextval,
+		#{nickname}, #{simple_penalty_reason}, #{detail_penalty_reason},
+		sysdate, #{penalty_period} )
+	</insert>
+
+	<!-- 정지된 회원의 status 변경 (활동 > 정지로) -->
+	<update id="updateMemberStatus" parameterType="String">
+		update
+		tbl_member_login
+		set status = '정지'
+		where userid = #{userid}
+	</update>
+
+	<!-- 정지된 회원의 status 변경 (정지 > 활동) -->
+	<update id="block_recovery" parameterType="HashMap">
+		update
+		tbl_member_login
+		set status = '활동'
+		where userid = #{userid}
+	</update>
+
+	<!-- 정지된 회원의 status 변경 (휴면 > 활동) -->
+	<update id="sleep_recovery" parameterType="HashMap">
+		update
+		tbl_member_login
+		set status = '활동'
+		where userid = #{userid}
+	</update>
+
+	<!-- @@@@@@@@@@ 회원 공통(정지 등록, 해제, 휴면 해제 ) 끝 @@@@@@@@@@ -->
+
+
+	<!-- @@@@@@@@@@ 광고 관리 시작 @@@@@@@@@@ -->
+
+	<!-- 광고리스트 총 페이지수 알아오기 -->
+	<select id="getTotalCount_ad" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_advertisement
+		where 1 = 1
+		<if test='memberStatus != "" '>
+			and division = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
+	</select>
+
+	<!-- 광고리스트 불러오기 -->
+	<select id="adList" parameterType="HashMap"
+		resultType="com.gukmo.board.model.AdVO">
+		select rnum, advertisement_num, division, client_name, client_phone,
+		filename, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as
+		start_date, period, status, to_char(end_date, 'yyyy-mm-dd') as
+		end_date
+		from
+		(
+		select rownum as rnum, advertisement_num, division,
+		client_name,
+		client_phone, filename, orgfilename, url, start_date,
+		period, status,
+		(start_date+period) as end_date
+		from tbl_advertisement
+		<if test='memberStatus != "" '>
+			where division = #{memberStatus}
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			where 1 = 1
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		order by start_date desc
+		) V
+		where rnum between #{startRno} and
+		#{endRno}
 	</select>
 
 	<!-- 광고 관련 상세보기 페이지 -->
-		<select id="getAdDetail" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
-	        select advertisement_num, division, client_name, client_phone, orgfilename, url, to_char(start_date, 'yyyy-mm-dd') as start_date, to_char((start_date+period), 'yyyy-mm-dd') as end_date, period, status, filename, filesize
-	        from tbl_advertisement       
-			where advertisement_num = #{advertisement_num}
-		</select>
-		
+	<select id="getAdDetail" parameterType="HashMap"
+		resultType="com.gukmo.board.model.AdVO">
+		select advertisement_num, division, client_name,
+		client_phone, orgfilename,
+		url, to_char(start_date, 'yyyy-mm-dd') as
+		start_date,
+		to_char((start_date+period), 'yyyy-mm-dd') as end_date,
+		period,
+		status, filename, filesize
+		from tbl_advertisement
+		where
+		advertisement_num = #{advertisement_num}
+	</select>
+
 	<!-- 광고 테이블에 해당 광고 등록(insert) -->
-		<insert id="addAd" parameterType="com.gukmo.board.model.AdVO">
-		    insert into tbl_advertisement (advertisement_num, division, client_name, client_phone, url, start_date, period, status, filename, orgfilename, filesize)
-		    values(seq_advertisement.nextval, #{division}, #{client_name}, #{client_phone}, #{url}, sysdate, #{period}, default, #{filename}, #{orgfilename}, #{filesize})
-		</insert>	
+	<insert id="addAd" parameterType="com.gukmo.board.model.AdVO">
+		insert into tbl_advertisement
+		(advertisement_num, division, client_name,
+		client_phone, url,
+		start_date, period, status, filename, orgfilename,
+		filesize)
+		values(seq_advertisement.nextval, #{division}, #{client_name},
+		#{client_phone}, #{url}, sysdate,
+		#{period}, default, #{filename},
+		#{orgfilename}, #{filesize})
+	</insert>
 
 	<!-- 광고 날짜 변경시 tbl_advertisement 에서 start_date 변경 -->
-		<update id="edit_Ad_start_date" parameterType="HashMap">
-		    update tbl_advertisement
-		    set start_date =  to_char(to_date(#{start_date}), 'yyyy-mm-dd') 
-		    where advertisement_num = #{advertisement_num}		    
-		</update>	
+	<update id="edit_Ad_start_date" parameterType="HashMap">
+		update
+		tbl_advertisement
+		set start_date = to_char(to_date(#{start_date}),
+		'yyyy-mm-dd')
+		where advertisement_num = #{advertisement_num}
+	</update>
 
 	<!-- 광고 날짜 변경시 tbl_advertisement 에서 period 변경 -->
-		<update id="edit_Ad_period" parameterType="HashMap">
-			update tbl_advertisement
-			set period = trunc(to_date(#{end_date}) - start_date) 
-			where advertisement_num = #{advertisement_num}
-		</update>	
+	<update id="edit_Ad_period" parameterType="HashMap">
+		update
+		tbl_advertisement
+		set period = trunc(to_date(#{end_date}) - start_date)
+		where advertisement_num = #{advertisement_num}
+	</update>
 
-	<!-- @@@@@@@@@@ 광고 관리 끝 @@@@@@@@@@  -->
-	
-	
-	
-	<!-- @@@@@@@@@@ 신고내역 관리 시작 @@@@@@@@@@  -->
-	
-	<!-- 신고 총페이지수 알아오기 -->
-	<select id="getTotalCount_report" parameterType="HashMap" resultType="Integer">
+	<!-- @@@@@@@@@@ 광고 관리 끝 @@@@@@@@@@ -->
+
+
+
+	<!-- @@@@@@@@@@ 신고내역 관리 시작 @@@@@@@@@@ -->
+
+	<!-- 신고(전체) 총페이지수 알아오기 -->
+	<select id="getTotalCount_report" parameterType="HashMap"
+		resultType="Integer">
 		select count(*)
-		from 
+		from
 		(
-		select report_num, fk_board_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from tbl_board_report
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
 		union all
-		select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from tbl_comment_report
+		select
+		report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
 		)
-	    where 1 = 1 
-	    <if test='memberStatus != "" '>
-	      and report_type = #{memberStatus}
-	    </if>	    
-	    <if test='searchType != "" and searchWord != "" '>
-	      and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    
+		where 1 = 1
+		<if test='memberStatus != "" '>
+			and report_type = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
 	</select>
-	
 
-	<!-- 신고요청 리스트 불러오기 -->
-	<select id="reportList" parameterType="HashMap" resultType="com.gukmo.board.model.ReportVO">
-		select rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, to_char(report_date, 'yyyy-mm-dd') as report_date, report_type
-		from 
+	<!-- 신고(신고전) 총페이지수 알아오기 -->
+	<select id="getTotalCount_report_before" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from
 		(
-		select rownum as rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from 
-		(
-		select report_num, fk_board_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from tbl_board_report
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
 		union all
-		select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from tbl_comment_report
-	    order by report_date desc
+		select
+		report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
+		)
+		where receipt = 0
+		<if test='memberStatus != "" '>
+			and report_type = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
+	</select>
+
+	<!-- 신고(신고후) 총페이지수 알아오기 -->
+	<select id="getTotalCount_report_after" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from
+		(
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
+		union all
+		select
+		report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
+		)
+		where receipt = 1
+		<if test='memberStatus != "" '>
+			and report_type = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
+	</select>
+
+	<!-- 신고요청(전체) 리스트 불러오기 -->
+	<select id="reportList" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ReportVO">
+		select rnum, report_num, fk_num, report_nickname, reported_nickname,
+		simple_report_reason, detail_report_reason, to_char(report_date,
+		'yyyy-mm-dd') as report_date, report_type, receipt
+		from
+		(
+		select rownum
+		as rnum, report_num, fk_num, report_nickname,
+		reported_nickname,
+		simple_report_reason, detail_report_reason,
+		report_date, report_type,
+		receipt
+		from
+		(
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
+		union all
+		select
+		report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
+		order by report_date desc
 		) V
 		<if test='memberStatus != "" '>
-	      where report_type = #{memberStatus}
-	    	<if test='searchType != "" and searchWord != "" '>
-	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    	</if>
-	    </if>	    
-	    <if test='memberStatus == "" '>
-	    	where 1 = 1
-		    <if test='searchType != "" and searchWord != "" '>
-		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-		    </if>	    		
-	    </if>
-		) D
-		where rnum between #{startRno} and #{endRno}		
-	</select>
-
-	<!-- 신고 관련 내용 상세보기 -->
-	<select id="getReportDetail" parameterType="HashMap" resultType="com.gukmo.board.model.ReportVO">
-		select rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, to_char(report_date, 'yyyy-mm-dd') as report_date, report_type
-		from 
-		(
-		select rownum as rnum, report_num, fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from 
-		(
-		select report_num, fk_board_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from tbl_board_report
-		union all
-		select report_num, fk_comment_num as fk_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type
-		from tbl_comment_report
-		) V
-		) D
-		where report_num = #{report_num}
-	</select>
-
-	<!-- 신고 받은 회원의 아이디값 알아오기  -->
-	<select id="getReportedId" parameterType="String" resultType="String">
-		select fk_userid, nickname
-		from tbl_member
-		where nickname = #{reportedNickname}	
-	</select>
-	
-	<!-- 활동내역 리스트 불러오기 -->
-	<select id="getActList" parameterType="HashMap" resultType="com.gukmo.board.model.ActivityVO">
-        select activity_num, fk_userid, fk_board_num, to_char(activity_date, 'yyyy-mm-dd') as activity_date, subject, detail_category, division, nickname
-        from tbl_activity 
-        where fk_userid = #{userid}	
-	</select>
-	
-	<!-- 활동내역 총 페이지수 알아오기 -->
-	<select id="getTotalActCount" parameterType="HashMap" resultType="Integer">
-	    select count(*)
-	    from tbl_activity
-	    where fk_userid = #{userid}
-	    <if test='memberStatus != "" '>
-	      and division = #{memberStatus}
-	    </if>	    
-	    <if test='searchType != "" and searchWord != "" '>
-	    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    
-	</select>	
-	
-	
-	<!-- 활동내역 리스트 불러오기 -->
-	<select id="getDetailActList" parameterType="HashMap" resultType="com.gukmo.board.model.ActivityVO">
-        select rnum, activity_num, fk_userid, fk_board_num, activity_date, subject, detail_category, division, nickname
-        from 
-        (
-        select rownum as rnum, activity_num, fk_userid, fk_board_num, activity_date, subject, detail_category, division, nickname
-        from 
-        (
-        select activity_num, fk_userid, fk_board_num, to_char(activity_date, 'yyyy-mm-dd') as activity_date, subject, detail_category, division, nickname
-        from tbl_activity 
-        where fk_userid = #{userid}
-		<if test='memberStatus != "" '>
-	      and division = #{memberStatus}
-	    	<if test='searchType != "" and searchWord != "" '>
-	    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    	</if>
-	    </if>	    
-	    <if test='memberStatus == "" '>
-		    <if test='searchType != "" and searchWord != "" '>
-		    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-		    </if>	    		
-	    </if>
-		order by activity_date desc
-		) V        
+			where report_type = #{memberStatus}
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			where 1 = 1
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
 		) D
 		where rnum between #{startRno} and #{endRno}
-		
 	</select>
-	
-	
+
+	<!-- 신고요청(신고전) 리스트 불러오기 -->
+	<select id="reportList_before" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ReportVO">
+		select rnum, report_num, fk_num, report_nickname, reported_nickname,
+		simple_report_reason, detail_report_reason, to_char(report_date,
+		'yyyy-mm-dd') as report_date, report_type, receipt
+		from
+		(
+		select rownum
+		as rnum, report_num, fk_num, report_nickname,
+		reported_nickname,
+		simple_report_reason, detail_report_reason,
+		report_date, report_type,
+		receipt
+		from
+		(
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
+		union all
+		select
+		report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
+		order by report_date desc
+		) V
+		<if test='memberStatus != "" '>
+			where report_type = #{memberStatus} and receipt = 0
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			where receipt = 0
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		) D
+		where rnum between #{startRno} and #{endRno}
+	</select>
+
+	<!-- 신고요청(신고전) 리스트 불러오기 -->
+	<select id="reportList_after" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ReportVO">
+		select rnum, report_num, fk_num, report_nickname, reported_nickname,
+		simple_report_reason, detail_report_reason, to_char(report_date,
+		'yyyy-mm-dd') as report_date, report_type, receipt
+		from
+		(
+		select rownum
+		as rnum, report_num, fk_num, report_nickname,
+		reported_nickname,
+		simple_report_reason, detail_report_reason,
+		report_date, report_type,
+		receipt
+		from
+		(
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
+		union all
+		select
+		report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
+		order by report_date desc
+		) V
+		<if test='memberStatus != "" '>
+			where report_type = #{memberStatus} and receipt = 1
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			where receipt = 1
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		) D
+		where rnum between #{startRno} and #{endRno}
+	</select>
+
+
+	<!-- 신고 관련 내용 상세보기 -->
+	<select id="getReportDetail" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ReportVO">
+		select rnum, report_num, fk_num, report_nickname,
+		reported_nickname, simple_report_reason, detail_report_reason,
+		to_char(report_date, 'yyyy-mm-dd') as report_date, report_type
+		from
+		(
+		select rownum as rnum, report_num, fk_num, report_nickname,
+		reported_nickname, simple_report_reason, detail_report_reason,
+		report_date, report_type
+		from
+		(
+		select report_num, fk_board_num as
+		fk_num, report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type
+		from tbl_board_report
+		union all
+		select
+		report_num, fk_comment_num as fk_num, report_nickname,
+		reported_nickname, simple_report_reason, detail_report_reason,
+		report_date, report_type
+		from tbl_comment_report
+		) V
+		) D
+		where report_num
+		= #{report_num}
+	</select>
+
+	<!-- 신고 받은 회원의 아이디값 알아오기 -->
+	<select id="getReportedId" parameterType="String"
+		resultType="String">
+		select fk_userid, nickname
+		from tbl_member
+		where nickname =
+		#{reportedNickname}
+	</select>
+
+	<!-- 활동내역 리스트 불러오기 -->
+	<select id="getActList" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ActivityVO">
+		select activity_num, fk_userid, fk_board_num,
+		to_char(activity_date,
+		'yyyy-mm-dd') as activity_date, subject,
+		detail_category, division,
+		nickname
+		from tbl_activity
+		where fk_userid =
+		#{userid}
+	</select>
+
+	<!-- 활동내역 총 페이지수 알아오기 -->
+	<select id="getTotalActCount" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_activity
+		where fk_userid = #{userid}
+		<if test='memberStatus != "" '>
+			and division = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
+	</select>
+
+
+	<!-- 활동내역 리스트 불러오기 -->
+	<select id="getDetailActList" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ActivityVO">
+		select rnum, activity_num, fk_userid, fk_board_num, activity_date,
+		subject, detail_category, division, nickname
+		from
+		(
+		select rownum as
+		rnum, activity_num, fk_userid, fk_board_num, activity_date,
+		subject,
+		detail_category, division, nickname
+		from
+		(
+		select activity_num,
+		fk_userid, fk_board_num, to_char(activity_date,
+		'yyyy-mm-dd') as
+		activity_date, subject, detail_category, division,
+		nickname
+		from
+		tbl_activity
+		where fk_userid = #{userid}
+		<if test='memberStatus != "" '>
+			and division = #{memberStatus}
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		order by activity_date desc
+		) V
+		) D
+		where rnum between #{startRno} and
+		#{endRno}
+
+	</select>
+
+
 	<!-- 정지회원 총페이지수 알아오기 -->
-	<select id="getTotalCount_penalty" parameterType="HashMap" resultType="Integer">
+	<select id="getTotalCount_penalty" parameterType="HashMap"
+		resultType="Integer">
 		select count(*)
 		from tbl_penalty
-	    where 1 = 1 
-	    <if test='memberStatus != "" '>
-	      and simple_penalty_reason = #{memberStatus}
-	    </if>	    
-	    <if test='searchType != "" and searchWord != "" '>
-	      and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-	    </if>	    
+		where 1 = 1
+		<if test='memberStatus != "" '>
+			and simple_penalty_reason = #{memberStatus}
+		</if>
+		<if test='searchType != "" and searchWord != "" '>
+			and lower(${searchType}) like
+			'%'||lower(#{searchWord})||'%'
+		</if>
 	</select>
-	
+
 	<!-- 정지회원 리스트 불러오기 -->
-	<select id="getPenaltyList" parameterType="HashMap" resultType="com.gukmo.board.model.PenaltyVO">
-		select rnum, penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, penalty_start_date, penalty_period
+	<select id="getPenaltyList" parameterType="HashMap"
+		resultType="com.gukmo.board.model.PenaltyVO">
+		select rnum, penalty_num, nickname, simple_penalty_reason,
+		detail_penalty_reason, penalty_start_date, penalty_period
 		from
 		(
-		select rownum as rnum, penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, to_char(penalty_start_date, 'yyyy-mm-dd') as penalty_start_date, penalty_period
+		select
+		rownum as rnum, penalty_num, nickname, simple_penalty_reason,
+		detail_penalty_reason, to_char(penalty_start_date, 'yyyy-mm-dd') as
+		penalty_start_date, penalty_period
 		from
 		(
-		select penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, penalty_start_date, penalty_period
+		select penalty_num, nickname,
+		simple_penalty_reason, detail_penalty_reason, penalty_start_date,
+		penalty_period
 		from tbl_penalty
 		where 1 = 1
-			<if test='memberStatus != "" '>
-		      and simple_penalty_reason = #{memberStatus}
-		    	<if test='searchType != "" and searchWord != "" '>
-		    	  and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-		    	</if>
-		    </if>	    
-		    <if test='memberStatus == "" '>
-			    <if test='searchType != "" and searchWord != "" '>
-			    and lower(${searchType}) like '%'||lower(#{searchWord})||'%'
-			    </if>	    		
-		    </if>
+		<if test='memberStatus != "" '>
+			and simple_penalty_reason = #{memberStatus}
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
+		<if test='memberStatus == "" '>
+			<if test='searchType != "" and searchWord != "" '>
+				and lower(${searchType}) like
+				'%'||lower(#{searchWord})||'%'
+			</if>
+		</if>
 		order by penalty_start_date desc
 		) A
 		) B
-		where rnum between #{startRno} and #{endRno}		
+		where rnum between #{startRno}
+		and #{endRno}
 	</select>
-	
-	
+
+
 	<!-- 정지 관련 상세보기 페이지 -->
-		<select id="getPenaltyDetail" parameterType="HashMap" resultType="com.gukmo.board.model.PenaltyVO">
-			select penalty_num, nickname, simple_penalty_reason, detail_penalty_reason, penalty_start_date, penalty_period
-			from tbl_penalty
-			where penalty_num = #{penalty_num}
-		</select>
-		
+	<select id="getPenaltyDetail" parameterType="HashMap"
+		resultType="com.gukmo.board.model.PenaltyVO">
+		select penalty_num, nickname, simple_penalty_reason,
+		detail_penalty_reason,
+		penalty_start_date, penalty_period
+		from
+		tbl_penalty
+		where penalty_num = #{penalty_num}
+	</select>
+
 	<!-- 정지회원의 아이디값 가져오기 -->
-		<select id="getPenaltyId" parameterType="HashMap" resultType="String">
-			select fk_userid
-			from
-			(
-			select nickname, penalty_num
-			from tbl_penalty
-			where penalty_num = #{penalty_num}
-			) P
-			join
-			(
-			select nickname, fk_userid
-			from tbl_member
-			) M
-			on P.nickname = M.nickname			
-		</select>
+	<select id="getPenaltyId" parameterType="HashMap"
+		resultType="String">
+		select fk_userid
+		from
+		(
+		select nickname, penalty_num
+		from
+		tbl_penalty
+		where penalty_num = #{penalty_num}
+		) P
+		join
+		(
+		select nickname,
+		fk_userid
+		from tbl_member
+		) M
+		on P.nickname = M.nickname
+	</select>
 
 
 	<!-- 정지 해제시 정지 테이블에 해당 회원 삭제 -->
-		<delete id="del_penalty" parameterType="HashMap">
-		    delete from tbl_penalty
-		    where nickname = #{nickname}
-    	</delete>
+	<delete id="del_penalty" parameterType="HashMap">
+		delete from tbl_penalty
+		where nickname = #{nickname}
+	</delete>
 
 	<!-- 정지 해제시 정지 테이블에 해당 회원 삭제 -->
-		<insert id="comment_reportInsert" parameterType="HashMap">
-		    insert into tbl_comment_report
-		    values(seq_report.nextval, #{fk_comment_num}, #{report_nickname}, #{reported_nickname}, #{simple_report_reason}, #{detail_report_reason}, sysdate, default, default)
-    	</insert>
+	<insert id="comment_reportInsert" parameterType="HashMap">
+		insert into
+		tbl_comment_report
+		values(seq_report.nextval, #{fk_comment_num},
+		#{report_nickname}, #{reported_nickname},
+		#{simple_report_reason},
+		#{detail_report_reason}, sysdate, default,
+		default)
+	</insert>
+
+	<!-- 신고 상세에서 신고한자가 신고한 건수(게시글) -->
+	<select id="getreport_cnt_board" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_board_report
+		where report_nickname =
+		#{report_nickname}
+	</select>
+
+	<!-- 신고 상세에서 신고한자가 신고한 건수(댓글) -->
+	<select id="getreport_cnt_comment" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_comment_report
+		where report_nickname
+		= #{report_nickname}
+	</select>
+
+	<!-- 신고 상세에서 신고 당한자가 신고당한 건수(게시글) -->
+	<select id="getreported_cnt_board" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_board_report
+		where reported_nickname
+		= #{reported_nickname}
+	</select>
+
+	<!-- 신고 상세에서 신고 당한자가 신고당한 건수(댓글) -->
+	<select id="getreported_cnt_comment" parameterType="HashMap"
+		resultType="Integer">
+		select count(*)
+		from tbl_comment_report
+		where
+		reported_nickname = #{reported_nickname}
+	</select>
+
+	<!-- 신고 상세에서 "내역보기"를 클릭했을 때 나오는 상세 내역 -->
+	<select id="getReport_List" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ReportVO">
+		select *
+		from
+		(
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
+		union all
+		select report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
+		)
+		where report_nickname = #{report_nickname}
+	</select>
 
 
-	
+	<!-- 신고 상세에서 "내역보기"를 클릭했을 때 나오는 상세 내역 -->
+	<select id="getReported_List" parameterType="HashMap"
+		resultType="com.gukmo.board.model.ReportVO">
+		select *
+		from
+		(
+		select report_num, fk_board_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_board_report
+		union all
+		select report_num, fk_comment_num as fk_num,
+		report_nickname,
+		reported_nickname, simple_report_reason,
+		detail_report_reason,
+		report_date, report_type, receipt
+		from
+		tbl_comment_report
+		)
+		where reported_nickname = #{reported_nickname}
+	</select>
+
+
+
 </mapper>

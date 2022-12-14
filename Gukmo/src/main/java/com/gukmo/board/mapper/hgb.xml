@@ -92,7 +92,7 @@
             (select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a  join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) H 
         on B.board_num = H.fk_board_num
         left join
-        (select point,nickname from tbl_member )D
+        (select point as writer_point,nickname from tbl_member )D
         on B.nickname = D.nickname
         
         left join 
@@ -225,10 +225,10 @@
    
       <!--  기본댓글 리스트 불러오기  -->
       <select id="getBasic_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">      
-	      select comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, D.fk_comment_num, write_date, point, nvl(comment_of_comment_cnt,0) as comment_of_comment_cnt, comment_like_cnt
+	      select comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, D.fk_comment_num, write_date, point, nvl(comment_of_comment_cnt,0) as comment_of_comment_cnt, comment_like_cnt, profile_image
 	      from
 	      (
-	      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt
+	      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt,profile_image
 	      from tbl_comment C
 	      join tbl_member M
 	      on C.nickname = M.nickname
@@ -247,7 +247,7 @@
    
    <!--  대댓글 리스트 불러오기  -->
     <select id="getSpecial_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">      
-      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt
+      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt, profile_image
       from tbl_comment C
       join tbl_member M
       on C.nickname = M.nickname

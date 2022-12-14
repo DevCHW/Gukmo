@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String ctxPath = request.getContextPath();
+%>
 
 <%-- ======= #27. tile1 중 footer 페이지 만들기  ======= --%>
 <script type="text/javascript">
@@ -150,7 +153,7 @@ function connectWs(){
 
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="#!" class="text-reset">회사소개</a>
+            <a href="<%=ctxPath %>/about.do" class="text-reset">회사소개</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
