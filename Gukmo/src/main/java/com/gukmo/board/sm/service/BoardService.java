@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gukmo.board.sm.repository.InterBoardDAO;
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 import com.gukmo.board.model.HashtagVO;
@@ -80,6 +81,42 @@ public class BoardService implements InterBoardService{
 		
 		return likeResult;
 		
+	}
+	
+	/**
+	 * 댓글,대댓글 블라인드 처리하기
+	 * @param paraMap(댓글번호)
+	 */
+	@Override
+	public String comment_blind(Map<String, String> paraMap) {
+		
+		String comment_blind = "";
+		
+		int comment_blind_go = dao.comment_blind_go(paraMap);
+		
+		if(comment_blind_go == 1) {
+			comment_blind = "blind";
+		}
+		
+		return comment_blind;
+	}
+	
+	/**
+	 * 댓글,대댓글 블라인드 해제 처리하기
+	 * @param paraMap(댓글번호)
+	 */
+	@Override
+	public String del_comment_blind(Map<String, String> paraMap) {
+		
+		String del_comment_blind = "";
+		
+		int comment_blind_back = dao.comment_blind_back(paraMap);
+		
+		if(comment_blind_back == 1) {
+			del_comment_blind = "del_blind";
+		}
+		
+		return del_comment_blind;
 	}
 	
 	
@@ -234,6 +271,13 @@ public class BoardService implements InterBoardService{
 		List<CommentVO> special_commentList = dao.getSpecial_commentList(paraMap);
 		return special_commentList;
 	}
+	
+	// 광고 리스트 불러오기
+	@Override
+	public List<AdVO> getAdvertisement_List(Map<String, String> paraMap) {
+		List<AdVO> advertisement_List = dao.getAdvertisement_List(paraMap);
+		return advertisement_List;
+	}
 
 
 	// 댓글 삭제 및 그 대댓도 삭제
@@ -293,6 +337,15 @@ public class BoardService implements InterBoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	
+
+
+	
+
+
+	
 
 
 	

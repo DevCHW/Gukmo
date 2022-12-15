@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 
@@ -186,6 +187,13 @@ public class BoardDAO implements InterBoardDAO {
 		List<CommentVO> special_commentList = gukmo_sql.selectList("hgb.getSpecial_commentList", paraMap);
 		return special_commentList;
 	}
+	
+	// 광고 리스트 불러오기
+	@Override
+	public List<AdVO> getAdvertisement_List(Map<String, String> paraMap) {
+		List<AdVO> advertisement_List = gukmo_sql.selectList("hgb.getAdvertisement_List", paraMap);
+		return advertisement_List;
+	}
 
 	// 댓글 삭제 및 그 대댓도 삭제
 	@Override
@@ -322,6 +330,22 @@ public class BoardDAO implements InterBoardDAO {
 		int result = gukmo_sql.selectOne("hgb.getDelCommentCnt", paraMap);		
 		return result;
 	}
+
+	// 댓글,대댓글 블라인드 처리하기
+	@Override
+	public int comment_blind_go(Map<String, String> paraMap) {
+		int comment_blind_go = gukmo_sql.update("hgb.commentBlindGo", paraMap);
+		return comment_blind_go;
+	}
+
+	// 댓글,대댓글 블라인드 해제 처리하기
+	@Override
+	public int comment_blind_back(Map<String, String> paraMap) {
+		int comment_blind_back = gukmo_sql.update("hgb.commentBlindBack", paraMap);
+		return comment_blind_back;
+	}
+
+	
 
 	
 

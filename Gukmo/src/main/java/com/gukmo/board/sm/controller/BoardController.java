@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.sm.repository.InterBoardDAO;
 import com.gukmo.board.sm.service.InterBoardService;
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 import com.gukmo.board.model.MemberVO;
@@ -117,10 +118,12 @@ public class BoardController {
 			 List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
 			 List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 	
 			
+			 List<AdVO> advertisement_List = service.getAdvertisement_List(paraMap);
 			
 
 		    request.setAttribute("basic_commentList", basic_commentList);
 		    request.setAttribute("special_commentList", special_commentList);	      
+		    request.setAttribute("advertisement_List", advertisement_List);	      
 		    request.setAttribute("board", board);
 		    request.setAttribute("like", like);
 	      
@@ -397,7 +400,7 @@ public class BoardController {
       }
        
        
-    // === 대댓글 좋아요 === //
+       // === 대댓글 좋아요 === //
        @ResponseBody
        @RequestMapping(value="/big_comment_likeProcess.do",method=RequestMethod.POST)
        public String setAlarm_big_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
@@ -418,6 +421,38 @@ public class BoardController {
          
          return jsonObj.toString();
       }
+       
+       // 댓글,대댓글 블라인드 처리하기
+       @ResponseBody
+       @RequestMapping(value="/comment_blind.do",method=RequestMethod.POST)
+       public String setAlarm_comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
+    	   
+	    	// 알람 값 넣는 AOP 용 ~
+	 		paraMap.put("cmd", "cmtLike");
+	    	 
+	 		JSONObject jsonObj = new JSONObject();
+	 		
+	 		String comment_blind = service.comment_blind(paraMap);
+	 		jsonObj.put("JavaData", comment_blind);
+	
+	 		return jsonObj.toString();
+       }
+       
+       // 댓글,대댓글 블라인드 처리하기
+       @ResponseBody
+       @RequestMapping(value="/del_comment_blind.do",method=RequestMethod.POST)
+       public String setAlarm_del_comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
+    	   
+	    	// 알람 값 넣는 AOP 용 ~
+	 		paraMap.put("cmd", "cmtLike");
+	    	 
+	 		JSONObject jsonObj = new JSONObject();
+	 		
+	 		String del_comment_blind = service.del_comment_blind(paraMap);
+	 		jsonObj.put("JavaData", del_comment_blind);
+	
+	 		return jsonObj.toString();
+       }
 	      
-
+       
 }

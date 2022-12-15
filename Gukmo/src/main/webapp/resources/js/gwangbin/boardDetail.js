@@ -171,7 +171,51 @@ $(document).ready(function(){
 	  
   });  
   
-
+  // 댓글 블라인드 버튼 클릭시
+  $("span#commentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	comment_blind(comment_num);
+	  
+  });
+  
+  //대댓글 블라인드 버튼 클릭시
+  $("span#bigCommentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	comment_blind(comment_num);
+	  
+  });
+  
+  //댓글 블라인드해제  버튼 클릭시
+  $("span#delCommentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	del_comment_blind(comment_num);
+	  
+  });
+  
+  //대댓글 블라인드 해제 버튼 클릭시
+  $("span#delBigCommentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	del_comment_blind(comment_num);
+	  
+  });
+  
+  
 
   // 대댓글 쓰기 버튼 클릭시 이벤트
   $("div.btn_write_comment").click(e=>{
@@ -532,6 +576,50 @@ function big_comment_likeClick(comment_num, userid, target, writer_nickname,boar
 	  });// end of $.ajax({})---
 }
 
+// 댓글,대댓글 블라인드 버튼 클릭시
+function comment_blind(comment_num) {		
+	$.ajax({
+		url:getContextPath()+"/comment_blind.do", 
+		data:{"comment_num":comment_num},			 
+		type:'POST',
+		dataType:"json",
+		success:function(json){	
+			if(json.JavaData == 'blind') {
+				alert("블라인드 성공!!");	
+				window.location.reload();
+			} else{
+				alert("블라인드 기능 오류");
+			}		
+		},// end of success
+		// success 대신 error가 발생하면 실행될 코드
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });
+}
+
+//댓글,대댓글 블라인드 해제 버튼 클릭시
+function del_comment_blind(comment_num) {	
+	$.ajax({
+		url:getContextPath()+"/del_comment_blind.do", 
+		data:{"comment_num":comment_num},			 
+		type:'POST',
+		dataType:"json",
+		success:function(json){	
+			if(json.JavaData == 'del_blind') {
+				alert("블라인드 해제 성공!!");	
+				window.location.reload();
+			} else{
+				alert("블라인드 해제기능 오류");
+			}		
+		},// end of success
+		// success 대신 error가 발생하면 실행될 코드
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });
+}
+
 // 게시글 신고버튼 클릭시
 function openReport() {
 	
@@ -610,6 +698,8 @@ function goAddComment() {
 function no_login_comment() {
 	$("button.btn_login").trigger("click");// 로그인페이지로 보내기
 }
+
+
 
 
 // 댓글쓰기
