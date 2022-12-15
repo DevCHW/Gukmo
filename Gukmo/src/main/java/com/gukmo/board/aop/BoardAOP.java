@@ -62,30 +62,31 @@ public class BoardAOP {
 	
 	
 	// 알람에 값 넢는 AOP
-	//@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
-	//public void setAlarm() {}
+	@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
+	public void setAlarm() {}
 	
-	//@Autowired  
-	//private InterAlarmService alarm_service;
+	@Autowired  
+	private InterAlarmService alarm_service;
 	
-	//@SuppressWarnings("unchecked")
-	//@After("setAlarm()")
-	//public void setAlarm(JoinPoint joinpoint) {
+	@SuppressWarnings("unchecked")
+	@After("setAlarm()")
+	public void setAlarm(JoinPoint joinpoint) {
 		
 //		System.out.println("여기 와?");
 		
 //		System.out.println("joinpoint "+joinpoint);
-		//HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];		
+		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];		
 		
-		//Map<String,String> paraMap = (Map<String, String>) request.getAttribute("alarmMap");
+		Map<String,String> paraMap = (Map<String, String>) request.getAttribute("paraMap");
 		
-		// System.out.println(paraMap);
+		System.out.println("alamr" +paraMap);
 		// System.out.println("여기 와?");
 
-		//int result = alarm_service.setAlarm(paraMap);
+		 int result = alarm_service.setAlarm(paraMap);
 	//	System.out.println("aop 확인용 : " + n);
 	
-	//} //end of setAlarm
+	} //end of setAlarm
+	
 	
 	
 		
