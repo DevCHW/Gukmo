@@ -451,9 +451,7 @@ public class BoardController {
    @RequestMapping(value="/image/multiplePhotoUpload.do", method= {RequestMethod.POST} )
 	public void multiplePhotoUpload(HttpServletRequest request, HttpServletResponse response) {
 		
-		HttpSession session = request.getSession();
-		String root = session.getServletContext().getRealPath("/");
-		String path = root + "resources"+File.separator+"photo_upload";
+		String path = "C:\\Users\\sist\\git\\Gukmo\\Gukmo\\src\\main\\webapp\\resources"+File.separator+"photo_upload"; // 사진 첨부시 업로드 되는 경로
 		
 		// System.out.println("~~~~ 확인용 path => " + path);
 		
@@ -612,13 +610,13 @@ public class BoardController {
 			
 			String orgin_hashTag = request.getParameter("orgin_hashTag");
 			
-			if(orgin_hashTag != "") {
+			if(orgin_hashTag != null && !orgin_hashTag.trim().isEmpty()) {
 				n = service.hashTagDel(board_num); // 기존 해시태그 맵핑테이블에 있는 데이터 삭제
 			}
 			
 			String str_hashTag = request.getParameter("str_hashTag");
 			
-			if(str_hashTag != null) {
+			if(str_hashTag != null && !str_hashTag.trim().isEmpty()) {
 				// System.out.println("str_해시태그" + str_hashTag);
 				List<String> hashTags = Arrays.asList(str_hashTag.split(","));
 				// 해시태그 처리 시작
@@ -664,13 +662,7 @@ public class BoardController {
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		
-		if( !user.getNickname().equals(boardvo.getNickname()) ) {
-			
-			request.setAttribute("message", "다른 사용자의 글은 삭제가 불가합니다.");
-			request.setAttribute("loc", "javascript:history.back()");
-		}
-		else {// 본인 글을 삭제하는 경우
-			
+		if( user.getNickname().equals(boardvo.getNickname()) || "관리자".equals(user.getAuthority())) {
 			int n = service.boardDel(paraMap);
 			
 			if(n==0) {
@@ -681,6 +673,12 @@ public class BoardController {
 				request.setAttribute("message", "글 삭제 성공!!");
 				request.setAttribute("loc", request.getContextPath()+"/community/freeBoards.do");
 			}
+			
+		}
+		else {// 본인 글을 삭제하는 경우
+			request.setAttribute("message", "다른 사용자의 글은 삭제가 불가합니다.");
+			request.setAttribute("loc", "javascript:history.back()");
+			
 		}
 		return "msg";
 		
