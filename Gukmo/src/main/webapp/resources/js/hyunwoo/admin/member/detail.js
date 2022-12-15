@@ -200,31 +200,20 @@ $(document).ready(function(){
 
   
   //정렬버튼 클릭시
-  $("div#sort").click(function(){
-    $("div#mask").show();
-    $("div#sort_option").fadeIn(200);
-    $("div#sort_option").css("display","flex");
-    $("div#sort_option").css("flex-direction","column");
-  });
-
-  //정렬버튼 클릭 후, 바깥쪽 아무데나 클릭시
-  $("div#mask").click(function(){
-    $("div#sort_option").fadeOut(200);
-    $("div#mask").hide();
-  });
   
+ 
   //정렬옵션 클릭시 이벤트
-  $("div#sort_option span").click(e=>{
+  $("select#sort").change(e=>{
     const target = $(e.currentTarget);
-    const sort = target.text();
+    const sort = target.val();
     
-    $("span#current_sort").text(sort);
+    console.log(sort);
     
     activitiesChart_nav(sessionStorage.getItem("userid"));
   }); 
   
   
-  $("button.datepicker").click(function (){
+  $("button#btn_activityChart").click(function (){
 	  activitiesChart_nav(sessionStorage.getItem("userid"));
   });
   
@@ -390,28 +379,18 @@ function activities_nav(userid){
     dataType:"JSON",
     success:function(json){ //활동내역을 가져오는데 성공했다면
 
-        var html = "<table>" +
-	        			"<thead>" +
-		        			"<tr>" +
-			        			"<th>활동날짜</th>" +
-			        			"<th>활동구분</th>" +
-			        			"<th>상세카테고리</th>"+
-			        			"<th>글번호</th>" +
-			        			"<th>글제목</th>" +
-		        			"</tr>"+
-	        			"</thead>"+
-        			"<tbody>";
+        var html = `<div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath %>/admin/reportDetail.do?report_num=${report.report_num}&report_nickname=${report.report_nickname}&reported_nickname=${report.reported_nickname}'">`;
         
         for(var i=0; i<json.length; i++) {
             var obj;
             
-            html += "<tr>" +
-	            		"<td>"+json[i].activity_date+"</td>" +
-	            		"<td>"+json[i].division+"</td>" +
-	            		"<td>"+json[i].detail_category+"</td>" +
-	            		"<td>"+json[i].fk_board_num+"</td>" +
-	            		"<td>"+json[i].subject+"</td>" +
-            		"</tr>";             
+            html += `<div class='text-center'>
+              			<div class='m-auto'>json[i].fk_board_num</div>
+      				</div>`
+            
+      
+            
+            
         }// end of for------------------------------
         
                
@@ -435,7 +414,7 @@ function activities_nav(userid){
  */ 
 function activitiesChart_nav (userid) {
 	
-	const sort = $("span#current_sort").text();
+	const sort =  $("select#sort option").val();
 	
 	if(sort != '일자별') {
 		$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
