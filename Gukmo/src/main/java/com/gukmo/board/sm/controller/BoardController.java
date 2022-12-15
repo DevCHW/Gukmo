@@ -45,8 +45,9 @@ public class BoardController {
 	@RequestMapping(value="/detail.do", method= {RequestMethod.GET})
 	   public String viewBoardDetail(HttpServletRequest request) {
 			// 나중에 주석 풀기
+
 		String board_num = request.getParameter("boardNum");
-						
+		
 			Map<String,String> paraMap = new HashMap<>();			
 			paraMap.put("board_num", board_num);
 			
@@ -119,7 +120,7 @@ public class BoardController {
 	
 	// === 글삭제 하기 === //
 	@RequestMapping(value="/del_board.do")
-	public ModelAndView delEnd(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView setAlarm_delEnd(ModelAndView mav, HttpServletRequest request) {
 		
 		String board_num = request.getParameter("board_num");
 		
@@ -145,48 +146,36 @@ public class BoardController {
 	// 댓글 작성 이벤트
 	@ResponseBody
 	@RequestMapping(value="/addComment.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String setAlarm_addComment(HttpServletRequest request, Map<String,String> paraMap) {
-		int n = 0;
-		String cmt_board_num = request.getParameter("cmt_board_num");
-		String nickname = request.getParameter("nickname");
-		String content = request.getParameter("content");
-		String parent_write_nickname = request.getParameter("parent_write_nickname");
-		String subject = request.getParameter("subject");
-		String detail_category = request.getParameter("detail_category");
+	public String setAlarm_addComment(HttpServletRequest request,@RequestParam Map<String,String> paraMap) {
+		int result = 0;
 
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
 		
-		paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
-		paraMap.put("cmt_board_num", cmt_board_num);
-		paraMap.put("nickname", nickname);
-		paraMap.put("content", content);
-		paraMap.put("parent_write_nickname", parent_write_nickname);
-		paraMap.put("subject", subject);
-		paraMap.put("detail_category", detail_category);
 		
 		// 알람값 넣는 AOP 용
-		String board_num = paraMap.get("cmt_board_num");
-		paraMap.put("board_num", board_num);
+		paraMap.put("board_num", paraMap.get("cmt_board_num"));
 		paraMap.put("cmd", "reply");
+		
+		request.setAttribute("alarmMap", paraMap);
 		
 		try {
 			// tbl_comment 테이블에 추가, tbl_board 의 comment_cnt +1, 해당 회원의 포인트 10점 증가, 활동내역에 등록
-			n = service.addComment(paraMap);
+			result = service.addComment(paraMap);
 			
 		} catch (Throwable e) {
 			e.printStackTrace();
-		}
+		} 
 		
 		JSONObject jsonObj = new JSONObject();
-		if(n == 1) {
-			jsonObj.put("n", n);
+		if(result == 1) {
+			jsonObj.put("result", true);
 			return jsonObj.toString();
 		}
 		else {
-			jsonObj.put("n", n);
+			jsonObj.put("result", false);
 			return jsonObj.toString();
 		}
 	}//end of addComment
@@ -267,6 +256,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="/commentDelete.do", method=RequestMethod.POST)
 	public String commentDelete(@RequestParam Map<String,String> paraMap) {				
+		
 		String result = "";
 		int n2 = 0;
 		try {

@@ -119,6 +119,7 @@
 
 					<%-- 알림 --%>
 					<jsp:include page="/WEB-INF/views/tiles1/board/alarm/alarm.jsp" />
+					
 					<%-- 프로필 drop --%>
 					<div class="dropdown">
 						<div class="dropbtn">

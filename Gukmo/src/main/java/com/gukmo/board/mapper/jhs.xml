@@ -383,7 +383,7 @@
 
 
 
-	<!-- association 으로 선언된 CommentVO 매핑 -->
+	<!-- association 으로 선언된 CommentVO 매핑 
 	<resultMap id="comment" type="com.gukmo.board.model.CommentVO">
 		<result property="cmt_board_num" column="alarm_board_num" />
 		<result property="parent_write_nickname" column="alarm_nickname" />	
@@ -395,19 +395,15 @@
 		<result property="cmd" column="cmd"/>
 		<result property="alarm_nickname" column="alarm_nickname"/>
 		<result property="subject" column="subject"/>
-		<result property="cmt_content" column="cmt_contetn"/>
+		<result property="cmt_content" column="cmt_content"/>
 	</resultMap>
 
 
 	<insert id="setAlarm" parameterType="HashMap">
-		<if test="cmd == 'reply' or cmd == 'like' or cmd == 'penalty'">
+
 			insert into tbl_alarm (ALARMNO, alarm_board_num ,alarm_comment_num, alarm_userid, cmd, alarm_date, isread )
-			values (seq_alarm.nextval, #{board_num}, 0 , #{userid}, ${cmd}, sysdate, 'n' )
-		</if>
-		<if test="cmd == 'recomment' or cmd == 'cmtLike' or cmd == 'cmtPenalty'">
-			insert into tbl_alarm (ALARMNO, alarm_board_num, alarm_comment_num, alarm_userid, cmd, alarm_date, isread )
-			values (seq_alarm.nextval, #{board_num}, #{fk_comment_num}, #{userid}, ${cmd}, sysdate, 'n' )
-		</if>
+			values (seq_alarm.nextval, #{board_num},'{#comment_num}', #{userid}, ${cmd}, sysdate, 'n' )
+
 	</insert>
 
 	<select id="notReadAlarmList" parameterType="HashMap" resultMap="alarmList" >
@@ -439,5 +435,6 @@
 		where alarmno = #{alarm_num}
 	</update>
 
+-->
 
 </mapper>

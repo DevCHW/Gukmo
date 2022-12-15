@@ -1,7 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ page import="java.net.InetAddress" %>
+
 <%-- ======= #27. tile1 중 footer 페이지 만들기  ======= --%>
+    
+<%
+
+	String ctxPath = request.getContextPath();
+	// === 서버 IP 주소 알아오기(사용중인 IP주소가 유동IP 이라면 IP주소를 알아와야 한다.) ===
+	InetAddress inet = InetAddress.getLocalHost(); 
+	String serverIP = inet.getHostAddress();
+	
+  //System.out.println("serverIP : " + serverIP);
+  // serverIP : 192.168.10.127
+	
+	// === 서버 포트번호 알아오기   ===
+	int portnumber = request.getServerPort();
+ // System.out.println("portnumber : " + portnumber);
+ // portnumber : 9090
+	
+ 	String serverName = serverIP + ":" + portnumber;
+ // String serverName = "http://"+serverIP+":"+portnumber; 
+ // System.out.println("serverName : " + serverName);
+ // serverName : 192.168.10.127:9090
+ 
+    session.setAttribute("serverName", serverName); 
+ 
+ %>
+
 <script type="text/javascript">
 
 let socket = null;
@@ -13,7 +40,9 @@ $(document).ready(function (){
 
 function connectWs(){
 	
-	const url = window.location.host; // 웹브라우저의 주소창의 포트까지 가져옴
+	const url = "${sessionScope.serverName}";
+		
+//	const url = window.location.host; // 웹브라우저의 주소창의 포트까지 가져옴
 	//alert("결과값 url : " + url);
 	 // 결과값 url : 211.238.142.40:9090
 	 
@@ -26,25 +55,25 @@ function connectWs(){
 	// 결과값 appCtx : /board/chatting
 
     const root = url + appCtx;
-	//alert(root)
+//	alert(root);
 	
     const wsUrl = "ws://" + root + "/alarm.do";
-    // alert(wsUrl)
-    // ws://localhost:9090/board/alarm.do
-    
-	const ws = new WebSocket(wsUrl);
+     //alert(wsUrl);
+    // ws://192.168.10.127:9090/board/alarm.do
+    console.log(wsUrl)
+	const ws = new WebSocket(wsUrl); 
 	socket = ws;
 
 	ws.onopen = function() {
 		alert("웹소켓 연결됨!!");
 		console.log('info: connection opened.');   
-  };
+    };
 
- ws.onmessage = function(evt) {
+   /*  ws.onmessage = function(evt) {
 	 	let data = evt.data;
 	   	console.log("ReceivMessage : " + data + "\n");
 
-/* 	   	$.ajax({
+	   	$.ajax({
 			url : '/mentor/member/countAlarm',
 			type : 'POST',
 			dataType: 'text',
@@ -58,7 +87,7 @@ function connectWs(){
 			error : function(err){
 				alert('err');
 			}
-	   	}); */
+	   	}); 
 
 	   	let html = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-animation='true' data-delay='5000'  style='width:300px;'>" +
 	      		   		"<div class='toast-header'>" +
@@ -79,11 +108,11 @@ function connectWs(){
 	   	$('#myToast').on('hidden.bs.toast', function () {
 	   		$('.toast').toast('dispose');
 	   	})
- };
+ }; */
 
  ws.onclose = function() {
    	console.log('connect close');
-   	/* setTimeout(function(){conntectWs();} , 1000); */
+
  };
 
  ws.onerror = function (err) {console.log('Errors : ' , err);};
@@ -126,7 +155,7 @@ function connectWs(){
         <div class="col-md col-lg col-xl mx-auto">
           <!-- Content -->
           <h2 class="text-uppercase fw-bold">
-            국모
+            GM
           </h2>
           <!-- Section: Social media -->
            
@@ -155,7 +184,7 @@ function connectWs(){
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="#!" class="text-reset">공지사항</a>
+            <a href="<%= ctxPath%>/notices.do" class="text-reset">공지사항</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
@@ -170,12 +199,12 @@ function connectWs(){
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="#!" class="text-reset">개인정보 처리방침</a>
+            <a href="<%=ctxPath %>/resources/TOS/guide.html" class="text-reset">개인정보 처리방침</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="#!" class="text-reset">서비스 이용약관</a>
+            <a href="<%=ctxPath %>/resources/TOS/TOStext.html" class="text-reset">서비스 이용약관</a>
           </p>
         </div>
         <!-- Grid column -->

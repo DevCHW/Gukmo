@@ -4,15 +4,17 @@
 body {font-family: 'Noto Sans KR', sans-serif;}
 
 
-#mycontainer	{ font-size: 13px; }
+
 #myheader		{ font-size: 13px; }
 
 /* 모든 content 에 기본 폰트 값 설정 */
-#mycontent { font-size:13px; }
-
+#mycontainer	{ font-size: 15px; }
 
 /* 모든 input focus 시 테두리 설정 제거 */
 #mycontent input:focus{outline:none;}
+#mycontent textarea:focus {outline: none;}
+#mycontent button:focus {outline: none;}
+
 
 /* 모든 input 테두리 회색에 둥글게 설정, #searchWord 선택자는 제외되므로 확인 필 */
 #mycontent input:not(#searchWord) {
