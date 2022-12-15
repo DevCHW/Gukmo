@@ -35,32 +35,38 @@ $(document).ready(function(){
 	// input 을 datepicker로 선언
   $("input#fromDate").datepicker();                    
   $("input#toDate").datepicker(); 
+  $("input#fromDate2").datepicker();                    
+  $("input#toDate2").datepicker(); 
 
 
     //From의 초기값을 오늘 날짜로 설정
-    //$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 	$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+	$('input#fromDate2').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		
 
     //To의 초기값을 3일후로 설정
-    $('input#toDate').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    $('input#toDate2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
     
     // datepicker 날짜 범위 제한
-    $('input#fromDate, input#toDate').datepicker("option",'minDate', '-2Y'); 
-		 $('input#fromDate, input#toDate').datepicker("option",'maxDate', '-1D');
+    $('input#fromDate, input#toDate, input#fromDate2, input#toDate2').datepicker("option",'minDate', '-2Y'); 
+		 $('input#fromDate, input#toDate, input#fromDate2, input#toDate2').datepicker("option",'maxDate', 'today');
 		 
-		 $('input#toDate').datepicker("option",'onClose', function (selectedDate) {
+		 $('input#toDate, input#toDate2').datepicker("option",'onClose', function (selectedDate) {
 			if(selectedDate.length==10)
-         $("#fromDate").datepicker("option", "maxDate", selectedDate);
+         $("#fromDate, input#fromDate2").datepicker("option", "maxDate", selectedDate);
      	else
-     		$("#fromDate").datepicker("option", "maxDate", max);
+     		$("#fromDate, input#fromDate2").datepicker("option", "maxDate", max);
      });
-    $('#fromDate').datepicker("option", "onClose", function (selectedDate) {
+    $('#fromDate, input#fromDate2').datepicker("option", "onClose", function (selectedDate) {
     	if(selectedDate.length==10)
-            $("#toDate").datepicker("option", "minDate", selectedDate);
+            $("#toDate, input#toDate2").datepicker("option", "minDate", selectedDate);
         else
-            $("#toDate").datepicker("option", "minDate", min);
+            $("#toDate, input#toDate2").datepicker("option", "minDate", min);
     });
+    
+    
+  
 
 
   //네비게이션 바 클릭시 해당 메뉴 글자 색상 변경하기
@@ -75,7 +81,7 @@ $(document).ready(function(){
     $("div#member_navbar > div").css("color","");
 
     target.css("border-bottom","solid 3px #208EC9");
-    target.css("font-size","16px");
+    target.css("font-size","14px");
     target.css("font-weight","bold");
     target.css("color","#208EC9");
 
@@ -101,6 +107,9 @@ $(document).ready(function(){
     }//end of switch-case
 
   });//end of Event--
+  
+  //기본값 활동내역 네비바 클릭시키기
+  $("div#activities_nav").trigger("click");
 
   //정지사유등록 버튼 클릭시 클릭횟수 증가
   $("span#btn_insert_penalty_modal").click(()=>{btn_insert_penalty_modal_click++;})
@@ -210,11 +219,18 @@ $(document).ready(function(){
     const sort = target.text();
     
     $("span#current_sort").text(sort);
+    
     activitiesChart_nav(sessionStorage.getItem("userid"));
   }); 
   
+  
   $("button.datepicker").click(function (){
 	  activitiesChart_nav(sessionStorage.getItem("userid"));
+  });
+  
+  
+  $("button#btn_loginChart").click(function(){
+	  login_record_nav(sessionStorage.getItem("userid"));
   });
   
 });//end of $(document).ready(function(){})-
@@ -423,7 +439,7 @@ function activitiesChart_nav (userid) {
 	
 	if(sort != '일자별') {
 		$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-		$('input#toDate').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		$('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		$(".datepicker").hide();
 	}
 	else if(sort == '일자별') {
@@ -457,8 +473,9 @@ function activitiesChart_nav (userid) {
 	            	dateArr.push(obj2); // 배열속에 객체를 넣기
 	            }// end of for------------------------------
 	         
+	            
      
-		        Highcharts.chart('chart_container',  {
+		        Highcharts.chart('activityChart_container',  {
 		            chart: {
 		                type: 'line'
 		            },
@@ -506,7 +523,6 @@ function activitiesChart_nav (userid) {
  * 네비게이션 바에서 검색기록 클릭시 실행될 함수
  */
 function search_nav(userid){
-  alert("검색기록보여주기 메소드 호출");
   $("div#member_search").css("display","block");
 
   $.ajax({
@@ -516,21 +532,42 @@ function search_nav(userid){
     dataType:"json",
     success:function(json){ //검색기록을 가져오는데 성공했다면
 
-         	var data = [];
-         	
-	            for(var i=0; i<json.length; i++) {
-	            	var obj;
-	        	    
-	            	obj = { 
-	         				name:json[i].key,
-	         				weight: Number(json[i].cnt)
-	         			  };
-         	
-	            	data.push(obj); // 배열속에 객체를 넣기
-	            }// end of for------------------------------
-     
-	            console.log(data);
-	            Highcharts.chart('chart2_container', {
+    	// 리스트용
+    	var html = "<table>" +
+	       			 "<thead>" +
+	       			  "<tr>" +
+		        			"<th>검색어</th>" +
+		        			"<th>횟수</th>" +
+	   			      "</tr>"+
+	       			 "</thead>"+
+			         "<tbody>";
+    	// 차트용
+     	var data = [];
+     	
+            for(var i=0; i<json.length; i++) {
+            	
+            	var obj;
+        	    
+            	obj = { 
+         				name:json[i].key,
+         				weight: Number(json[i].cnt)
+         			  };
+     	
+            	data.push(obj); // 배열속에 객체를 넣기
+            	
+	            html += "<tr>" +
+		            		"<td>"+json[i].key+"</td>" +
+		            		"<td>"+Number(json[i].cnt)+"</td>" +
+	         		    "</tr>"; 
+			         
+	     }// end of for------------------------------
+	     
+	     html +="</tbody>" +
+	     		"</table>";
+		     
+	     $("div#many_keyword_area").html(html);
+			            	
+	            Highcharts.chart('searchChart_container', {
 	                accessibility: {
 	                    screenReaderSection: {
 	                        beforeChartFormat: '<h5>{chartTitle}</h5>' +
@@ -542,14 +579,14 @@ function search_nav(userid){
 	                series: [{
 	                    type: 'wordcloud',
 	                    data,
-	                    name: 'Occurrences'
+	                    name: '해당 키워드 검색횟수'
 	                }],
 	                title: {
-	                    text: 'Wordcloud of Alice\'s Adventures in Wonderland',
+	                    text: '검색어 통계차트',
 	                    align: 'left'
 	                },
 	                subtitle: {
-	                    text: 'An excerpt from chapter 1: Down the Rabbit-Hole',
+	                    text: sessionStorage.getItem("nickname")+'님의 검색어 통계',
 	                    align: 'left'
 	                },
 	                tooltip: {
@@ -573,16 +610,45 @@ function search_nav(userid){
  * 네비게이션 바에서 로그인기록 클릭시 실행될 함수
  */
 function login_record_nav(userid){
-  alert("로그인기록보여주기 메소드 호출");
-  $("div#member_login_record").css("display","block");
- 
+	$("div#member_login_record").css("display","block");
+	
+	var fromDate = $("input#fromDate2").val();
+	var toDate = $("input#toDate2").val();
+	
   $.ajax({
-    url:getContextPath()+"/admin/member/detail/getLogin_record.do", 
-    data:{"userid": userid},
+    url:getContextPath()+"/admin/member/detail/loginRecordList.do", 
+    data:{"userid": userid,
+	 	   "fromDate": fromDate,
+	 	   "toDate": toDate},
     type:"get",
     dataType:"json",
     success:function(json){ //작성게시물을 가져오는데 성공했다면
 
+    	var html = "<table>" +
+					"<thead>" +
+						"<tr>" +
+				    			"<th>로그인날짜</th>" +
+				    			"<th>IP</th>" +
+							"</tr>"+
+						"</thead>"+
+					"<tbody>";
+	
+		for(var i=0; i<json.length; i++) {
+		var obj;
+		
+		html += "<tr>" +
+				"<td>"+json[i].login_date+"</td>" +
+				"<td>"+json[i].login_ip+"</td>" +
+			"</tr>"; 
+		
+		}// end of for------------------------------
+		
+		
+		html +="</tbody>" +
+		"</table>";
+		
+		$("div#login_record_chart_area").html(html);
+    	
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
@@ -598,15 +664,46 @@ function login_record_nav(userid){
  * 네비게이션 바에서 작성게시물 클릭시 실행될 함수
  */
 function write_board_list_nav(nickname){
-  alert("작성게시물보여주기 메소드 호출");
   $("div#member_write_board_list").css("display","block");
+  
+  
   $.ajax({
-    url:getContextPath()+"/작성게시물select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/boardList.do", 
     data:{"nickname": nickname},
     type:"get",
     dataType:"json",
     success:function(json){ //작성게시물을 가져오는데 성공했다면
+    	var html = "<table>" +
+		"<thead>" +
+			"<tr>" +
+			 "<th>게시글번호</th>" +
+			 "<th>카테고리</th>" +
+			 "<th>상세카테고리</th>" +
+			 "<th>제목</th>" +
+			 "<th>작성일자</th>" +
+			"</tr>"+
+		"</thead>"+
+		"<tbody>";
 
+		for(var i=0; i<json.length; i++) {
+		var obj;
+		
+		html += "<tr>" +
+			"<td>"+json[i].board_num+"</td>" +
+			"<td>"+json[i].category+"</td>" +
+			"<td>"+json[i].detail_category+"</td>" +
+			"<td>"+json[i].subject+"</td>" +
+			"<td>"+json[i].write_date+"</td>" +
+		"</tr>"; 
+		
+		}// end of for------------------------------
+		
+		
+		html +="</tbody>" +
+		"</table>";
+		
+		$("div#write_board_list_area").html(html);
+		    
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
@@ -621,22 +718,96 @@ function write_board_list_nav(nickname){
  * 네비게이션 바에서 신고내역 클릭시 실행될 함수
  */
 function report_nav(nickname){
-  alert("신고내역 보여주기 메소드 호출");
   $("div#member_report_list").css("display","block");
 
   $.ajax({
-    url:getContextPath()+"/신고내역select할빽단url.do", 
+    url:getContextPath()+"/admin/member/detail/reportList.do", 
     data:{"nickname": nickname},
     type:"get",
     dataType:"json",
     success:function(json){ //신고내역을 가져오는데 성공했다면
+    	var html = "<table>" +
+		"<thead>" +
+			"<tr>" +
+			 "<th>신고번호</th>" +
+			 "<th>신고분류</th>" +
+			 "<th>피신고자 닉네임</th>" +
+			 "<th>사유</th>" +
+			 "<th>신고일자</th>" +
+			"</tr>"+
+		"</thead>"+
+		"<tbody>";
 
+		for(var i=0; i<json.length; i++) {
+		var obj;
+		
+		html += "<tr>" +
+			"<td>"+json[i].report_num+"</td>" +
+			"<td>"+json[i].report_type+"</td>" +
+			"<td>"+json[i].reported_nickname+"</td>" +
+			"<td>"+json[i].simple_report_reason+"</td>" +
+			"<td>"+json[i].report_date+"</td>" +
+		"</tr>"; 
+		
+		}// end of for------------------------------
+		
+		
+		html +="</tbody>" +
+		"</table>";
+		
+		$("div#report_list_area").html(html);
+		    
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
       alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });//end of $.ajax({})---
+  
+  
+  $.ajax({
+	    url:getContextPath()+"/admin/member/detail/reportedList.do", 
+	    data:{"nickname": nickname},
+	    type:"get",
+	    dataType:"json",
+	    success:function(json){ //신고내역을 가져오는데 성공했다면
+	    	var html = "<table>" +
+			"<thead>" +
+				"<tr>" +
+				 "<th>신고번호</th>" +
+				 "<th>신고분류</th>" +
+				 "<th>신고자 닉네임</th>" +
+				 "<th>사유</th>" +
+				 "<th>신고일자</th>" +
+				"</tr>"+
+			"</thead>"+
+			"<tbody>";
+
+			for(var i=0; i<json.length; i++) {
+			var obj;
+			
+			html += "<tr>" +
+				"<td>"+json[i].report_num+"</td>" +
+				"<td>"+json[i].report_type+"</td>" +
+				"<td>"+json[i].report_nickname+"</td>" +
+				"<td>"+json[i].simple_report_reason+"</td>" +
+				"<td>"+json[i].report_date+"</td>" +
+			"</tr>"; 
+			
+			}// end of for------------------------------
+			
+			
+			html +="</tbody>" +
+			"</table>";
+			
+			$("div#reported_list_area").html(html);
+			    
+	    },//end of success
+	    //success 대신 error가 발생하면 실행될 코드 
+	    error: function(request,status,error){
+	      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    }
+	  });//end of $.ajax({})---
 }//end of method--
 
 

@@ -181,7 +181,7 @@ $(document).ready(function(){
 
   //닉네임 칸 값 입력시 이벤트
   $("input#nickname").keyup(()=>{
-	
+	 
 	const nickname = $("input#nickname").val();
 	
     nickname_ok = false;
@@ -494,8 +494,9 @@ function sendCertificationCode(email){
  * @returns 유효성검사를 통과하면 true, 통과하지 못하면 false를 반환
  */
 function test_nickname(nickname){
+  const regExp = /^[가-힣]{2,15}$/;
   nickname = nickname + "";
-  if(nickname == "" || !(nickname.length < 10) ){ //유효성검사를 통과하지 못할시
+  if(nickname == "" || !regExp.test(nickname) || nickname.length < 2){ //유효성검사를 통과하지 못할시
     $("input#nickname").css("border","solid 1px red");  //빨간색 테두리
     $("p#nickname_error").css("display","block");  //에러문구
     $("label[for='nickname']").css("color","red");  //라벨 빨간색
@@ -601,7 +602,6 @@ const timer = function timer(){
 /**
  * 모든 유효성 검사 통과시 회원가입 버튼을 활성화시키기
  */
-
 function test_all(){
   if(!userid_ok || !passwd_ok || !email_ok || !nickname_ok ||
      !email_certification || !username_ok) { // 유효성검사를 하나라도 통과하지 못했다면

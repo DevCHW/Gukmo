@@ -44,10 +44,12 @@ public class BoardController {
 	
 	@RequestMapping(value="/detail.do", method= {RequestMethod.GET})
 	   public String viewBoardDetail(HttpServletRequest request) {
-			// 나중에 주석 풀기
-
-		String board_num = request.getParameter("boardNum");
+		    
 		
+		    try {
+			// 나중에 주석 풀기
+		    String board_num = request.getParameter("boardNum");
+						
 			Map<String,String> paraMap = new HashMap<>();			
 			paraMap.put("board_num", board_num);
 			
@@ -57,13 +59,15 @@ public class BoardController {
 		    HttpSession session = request.getSession();
 		    MemberVO user = (MemberVO)session.getAttribute("user");   
 		     
+		    
 			// 디테일 카테고리 가져오기
 	      	String detail_category = service.getCategory(paraMap);	      
 			paraMap.put("detail_category",detail_category);
-		    	
 		    
-			//하나의 boardvo 불러오기
-			BoardVO board = service.getBoardDetail(paraMap);   
+		    
+		    
+			  //하나의 boardvo 불러오기
+			  BoardVO board = service.getBoardDetail(paraMap);   
 		      if(user != null) {
 		          String userid = user.getUserid();      
 		       
@@ -98,19 +102,37 @@ public class BoardController {
 		         }
 		              
 		      }//end of ooouter if        
+		    
+		      String userid = "";
 		      
-		       
+		      if(user != null) {
+		    	  userid = user.getUserid();
+		      }
+		      
+		      paraMap.put("userid",userid);
+		      
+		     // System.out.println("확인한다 => " + userid);
 			
-			//기본 댓글 리스트 불러오기(기본 : 그냥 댓글, 특수 : 대댓글)
-			List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
-			List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 
+			 //기본 댓글 리스트 불러오기(기본 : 그냥 댓글, 특수 : 대댓글)
+			 List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
+			 List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 	
 			
 			
 
-	      request.setAttribute("basic_commentList", basic_commentList);
-	      request.setAttribute("special_commentList", special_commentList);	      
-	      request.setAttribute("board", board);
-	      request.setAttribute("like", like);
+		    request.setAttribute("basic_commentList", basic_commentList);
+		    request.setAttribute("special_commentList", special_commentList);	      
+		    request.setAttribute("board", board);
+		    request.setAttribute("like", like);
+	      
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    	String message = "존재하지않는 페이지입니다.";
+				String loc = request.getContextPath()+"/index.do";
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+				return "msg";
+			}
+		    
 	      return "board/community/boardDetail.tiles1";
 	      
 	   }
@@ -120,7 +142,7 @@ public class BoardController {
 	
 	// === 글삭제 하기 === //
 	@RequestMapping(value="/del_board.do")
-	public ModelAndView setAlarm_delEnd(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView delEnd(ModelAndView mav, HttpServletRequest request) {
 		
 		String board_num = request.getParameter("board_num");
 		
@@ -146,36 +168,48 @@ public class BoardController {
 	// 댓글 작성 이벤트
 	@ResponseBody
 	@RequestMapping(value="/addComment.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String setAlarm_addComment(HttpServletRequest request,@RequestParam Map<String,String> paraMap) {
-		int result = 0;
+	public String setAlarm_addComment(HttpServletRequest request, Map<String,String> paraMap) {
+		int n = 0;
+		String cmt_board_num = request.getParameter("cmt_board_num");
+		String nickname = request.getParameter("nickname");
+		String content = request.getParameter("content");
+		String parent_write_nickname = request.getParameter("parent_write_nickname");
+		String subject = request.getParameter("subject");
+		String detail_category = request.getParameter("detail_category");
 
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
 		
+		paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
+		paraMap.put("cmt_board_num", cmt_board_num);
+		paraMap.put("nickname", nickname);
+		paraMap.put("content", content);
+		paraMap.put("parent_write_nickname", parent_write_nickname);
+		paraMap.put("subject", subject);
+		paraMap.put("detail_category", detail_category);
 		
 		// 알람값 넣는 AOP 용
-		paraMap.put("board_num", paraMap.get("cmt_board_num"));
+		String board_num = paraMap.get("cmt_board_num");
+		paraMap.put("board_num", board_num);
 		paraMap.put("cmd", "reply");
-		
-		request.setAttribute("alarmMap", paraMap);
 		
 		try {
 			// tbl_comment 테이블에 추가, tbl_board 의 comment_cnt +1, 해당 회원의 포인트 10점 증가, 활동내역에 등록
-			result = service.addComment(paraMap);
+			n = service.addComment(paraMap);
 			
 		} catch (Throwable e) {
 			e.printStackTrace();
-		} 
+		}
 		
 		JSONObject jsonObj = new JSONObject();
-		if(result == 1) {
-			jsonObj.put("result", true);
+		if(n == 1) {
+			jsonObj.put("n", n);
 			return jsonObj.toString();
 		}
 		else {
-			jsonObj.put("result", false);
+			jsonObj.put("n", n);
 			return jsonObj.toString();
 		}
 	}//end of addComment
@@ -256,7 +290,6 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="/commentDelete.do", method=RequestMethod.POST)
 	public String commentDelete(@RequestParam Map<String,String> paraMap) {				
-		
 		String result = "";
 		int n2 = 0;
 		try {
@@ -342,26 +375,49 @@ public class BoardController {
 	   
 	   
 	   // === 댓글 좋아요 === //
-	      @ResponseBody
-	      @RequestMapping(value="/comment_likeProcess.do",method=RequestMethod.POST)
-	      public String setAlarm_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
-	         //확인용 board_num,userid
+       @ResponseBody
+       @RequestMapping(value="/comment_likeProcess.do",method=RequestMethod.POST)
+       public String setAlarm_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
+             //확인용 board_num,userid
 //	         System.out.println(paraMap);
-	         
-			  // 알람 값 넣는 AOP 용 ~
-			  paraMap.put("cmd", "cmtLike");
-			  
-	         JSONObject jsonObj = new JSONObject();
-	         
-	         if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면
-	            jsonObj.put("JavaData", "login");
-	         } else {   //로그인중이라면
-	            String comment_likeResult = service.comment_likeProcess(paraMap); //좋아요 처리하기
-	            jsonObj.put("JavaData", comment_likeResult);
-	         }
-	         
-	         return jsonObj.toString();
-	      }
+         
+		  // 알람 값 넣는 AOP 용 ~
+		  paraMap.put("cmd", "cmtLike");
+		  
+         JSONObject jsonObj = new JSONObject();
+         
+         if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면
+            jsonObj.put("JavaData", "login");
+         } else {   //로그인중이라면
+            String comment_likeResult = service.comment_likeProcess(paraMap); //좋아요 처리하기
+            jsonObj.put("JavaData", comment_likeResult);
+         }
+         
+         return jsonObj.toString();
+      }
+       
+       
+    // === 대댓글 좋아요 === //
+       @ResponseBody
+       @RequestMapping(value="/big_comment_likeProcess.do",method=RequestMethod.POST)
+       public String setAlarm_big_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
+             //확인용 board_num,userid
+//	         System.out.println(paraMap);
+         
+		  // 알람 값 넣는 AOP 용 ~
+		  paraMap.put("cmd", "cmtLike");
+		  
+         JSONObject jsonObj = new JSONObject();
+         
+         if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면
+            jsonObj.put("JavaData", "login");
+         } else {   //로그인중이라면
+            String big_comment_likeResult = service.big_comment_likeProcess(paraMap); //좋아요 처리하기
+            jsonObj.put("JavaData", big_comment_likeResult);
+         }
+         
+         return jsonObj.toString();
+      }
 	      
 
 }

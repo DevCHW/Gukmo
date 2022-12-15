@@ -91,19 +91,7 @@
               <div class="activity_date">${activity.activity_date}</div>
             </div>
             <%-- 활동이일어난 글제목 --%>
-            <c:if test="${activity.detail_category eq '국비학원'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/academy/academy.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
-            <c:if test="${activity.detail_category eq '교육기관'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/academy/curriculum.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
-            <c:if test="${activity.detail_category eq '자유게시판' || activity.detail_category eq 'QnA' || 
-            			  activity.detail_category eq '스터디' || activity.detail_category eq '취미모임' || activity.detail_category eq '수강/취업후기'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
-            <c:if test="${activity.detail_category eq '공지사항'}">
-              <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
-            </c:if>
+            <div class="activity_subject board mt-2" onclick="location.href='<%=ctxPath%>/detail.do?boardNum=${activity.fk_board_num}'">${activity.subject}</div>
           </div>
         </c:forEach>
       </div>

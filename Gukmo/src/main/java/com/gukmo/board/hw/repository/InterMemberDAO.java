@@ -168,6 +168,30 @@ public interface InterMemberDAO {
 	Map<String,String> getProfileByNickname(Map<String, String> paraMap);
 
 
+	/**
+	 * 교육기관회원 insert
+	 */
+	int insertAcaMember(Map<String, String> paraMap);
+
+	/**
+	 * 상태 업데이트하기
+	 */
+	int updateStatus(Map<String, String> paraMap);
+
+
+	/**
+	 * 소셜연동회원인지 체크하기
+	 * @param email
+	 */
+	boolean snsConnectionCheck(String email);
+
+
+	/**
+	 * 게시판에서도 프사 변경해주기
+	 */
+	int changeBoardByProfileImg(Map<String, String> paraMap);
+
+
 	
 
 

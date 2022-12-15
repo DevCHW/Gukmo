@@ -37,7 +37,7 @@ public class BoardService implements InterBoardService{
 	@Override
 	public BoardVO getBoardDetail(Map<String,String> paraMap) {				
 		BoardVO board = dao.getBoardDetail(paraMap);
-		dao.setAddReadCount(board.getBoard_num());
+		
 		
 		return board;
 	}
@@ -80,6 +80,55 @@ public class BoardService implements InterBoardService{
 		
 		return likeResult;
 		
+	}
+	
+	
+	/**
+	 * 댓글 좋아요 처리하기
+	 * @param paraMap(글번호,userid)
+	 */
+	@Override
+	public String comment_likeProcess(Map<String, String> paraMap) {
+		int comment_likeCnt = dao.comment_likeCheck(paraMap);	//좋아요 개수 체크하기
+		String comment_likeResult = "";
+		int result = 0;
+		if(comment_likeCnt > 0) {	//좋아요를 눌렀다면
+			result = dao.comment_likeDelete(paraMap); //좋아요 테이블에 delete하기
+			comment_likeResult = "delete";
+		} else {	//좋아요를 누르지 않았다면
+			result = dao.comment_likeInsert(paraMap);	//좋아요 테이블에 insert하기
+			comment_likeResult = "insert";
+		}
+		
+		if(result != 1) {	//delete나 insert 성공시
+			comment_likeResult = "error";
+		}
+		
+		return comment_likeResult;
+	}
+	
+	/**
+	 * 대댓글 좋아요 처리하기
+	 * @param paraMap(글번호,userid)
+	 */
+	@Override
+	public String big_comment_likeProcess(Map<String, String> paraMap) {
+		int big_comment_likeCnt = dao.big_comment_likeCheck(paraMap);	//좋아요 개수 체크하기
+		String big_comment_likeResult = "";
+		int result = 0;
+		if(big_comment_likeCnt > 0) {	//좋아요를 눌렀다면
+			result = dao.comment_likeDelete(paraMap); //좋아요 테이블에 delete하기
+			big_comment_likeResult = "delete";
+		} else {	//좋아요를 누르지 않았다면
+			result = dao.comment_likeInsert(paraMap);	//좋아요 테이블에 insert하기
+			big_comment_likeResult = "insert";
+		}
+		
+		if(result != 1) {	//delete나 insert 성공시
+			big_comment_likeResult = "error";
+		}
+		
+		return big_comment_likeResult;
 	}
 
 
@@ -218,38 +267,24 @@ public class BoardService implements InterBoardService{
 	}
 
 	// 글 상세페이지 진입시 로그인한 회원의 좋아요여부 체크하기
-	   @Override
-	   public int likethis(Map<String, String> paraMap) {
-	      
-	      int likethis = dao.likethis(paraMap);
-	      
-	      return likethis;
-	   }
+    @Override
+    public int likethis(Map<String, String> paraMap) {
+      
+      int likethis = dao.likethis(paraMap);
+      
+      return likethis;
+    }
 
 	
-	/**
-	 * 댓글 좋아요 처리하기
-	 * @param paraMap(글번호,userid)
-	 */
-	@Override
-	public String comment_likeProcess(Map<String, String> paraMap) {
-		int comment_likeCnt = dao.comment_likeCheck(paraMap);	//좋아요 개수 체크하기
-		String comment_likeResult = "";
-		int result = 0;
-		if(comment_likeCnt > 0) {	//좋아요를 눌렀다면
-			result = dao.comment_likeDelete(paraMap); //좋아요 테이블에 delete하기
-			comment_likeResult = "delete";
-		} else {	//좋아요를 누르지 않았다면
-			result = dao.comment_likeInsert(paraMap);	//좋아요 테이블에 insert하기
-			comment_likeResult = "insert";
-		}
-		
-		if(result != 1) {	//delete나 insert 성공시
-			comment_likeResult = "error";
-		}
-		
-		return comment_likeResult;
-	}
+    // 글 상세페이지 진입시 로그인한 회원의 좋아요여부 체크하기
+    @Override
+    public int comment_likethis(Map<String, String> paraMap) {
+      
+      int comment_likethis = dao.comment_likethis(paraMap);
+      
+      return comment_likethis;
+    }
+	
 
 
 	// id값 알아오기
@@ -258,6 +293,9 @@ public class BoardService implements InterBoardService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	
 
 
 

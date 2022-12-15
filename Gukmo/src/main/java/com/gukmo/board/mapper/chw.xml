@@ -40,10 +40,10 @@
 	<insert id="insert_member_login" parameterType="HashMap">
 		insert into tbl_member_login(userid, passwd, status)
 		<if test='academy_name != ""'>
-		  values(#{userid}, #{passwd},'대기')
+		  values(#{userid}, #{passwd},default)
 		</if>
 		<if test='academy_name == ""'>
-		  values(#{userid}, #{passwd},default)
+		  values(#{userid}, #{passwd}, '대기')
 		</if>
 	</insert>
 	
@@ -103,6 +103,7 @@
 			) V
 		) T
 	    where rno between #{startRno} and #{endRno}
+	    order by activity_date desc
 	</select>
 	
 	<!-- 회원의 활동내역 총 갯수 얻기 -->
@@ -135,6 +136,7 @@
 			) V
 		) T
 	    where rno between #{startRno} and #{endRno}
+	    order by activity_date desc
 	</select>
 	
 	<!-- 유저의 활동내역 총 갯수를 알아오기(닉네임으로) -->
@@ -173,14 +175,14 @@
 	
 	<!-- 계정찾기 비밀번호 변경 해주기 -->
 	<update id="editPasswd" parameterType="HashMap">
-		update tbl_member_login set passwd = #{passwd}
+		update tbl_member_login set passwd = #{passwd}, update_passwd_date = sysdate
 		where userid = #{userid}
 	</update>
 	
 	
 	<!-- 마이페이지에서 비밀번호 변경 시 업데이트 해주기 -->
 	<update id="editPasswdWithUserid" parameterType="HashMap">
-		update tbl_member_login set passwd = #{passwd}
+		update tbl_member_login set passwd = #{passwd}, update_passwd_date = sysdate
 		where userid = #{userid}
 	</update>
 	
@@ -197,6 +199,35 @@
 		update tbl_member set email_acept=#{email_acept,jdbcType=INTEGER},nickname=#{nickname},username=#{username},profile_image=#{newFileName}
 		where fk_userid = #{userid}
 	</update>
+	
+	<!-- 게시판에서도 프사 변경해주기 -->
+	<update id="changeBoardByProfileImg" parameterType="HashMap">
+		update tbl_board set profile_image=#{newFileName}
+		where nickname = #{nickname}
+	</update>
+	
+	
+	
+	<!-- 교육기관회원 insert -->
+	<insert id="insertAcaMember" parameterType="HashMap">
+		insert into tbl_academy_member(fk_userid,academy_name,company_num,tel,homepage)
+		values(#{userid},#{academy_name},#{company_num},#{tel},#{homepage})
+	</insert>
+	
+	<!-- 상태 업데이트하기 -->
+	<update id="updateStatus" parameterType="HashMap">
+		update tbl_member_login
+		set status = '대기'
+		where userid = #{userid}
+	</update>
+	
+	
+	<!-- 소셜연동회원인지 체크하기-->
+	<select id="snsConnectionCheck" parameterType="String" resultType="Integer">
+		select count(*) 
+		from tbl_member 
+		where (kakao = 1 or naver = 1 or facebook = 1 or google = 1) and email = #{email}
+	</select>
 	
 	
 	
@@ -994,6 +1025,276 @@
 	<update id="memberStatusChange" parameterType="HashMap">
 		update tbl_member_login set status = '정지' where userid = #{userid}
 	</update>
+	
+	
+	
+	<!-- 교육기관회원 총 갯수 구하기 -->
+	<select id="getTotalCnt_academy" parameterType="HashMap" resultType="Integer">
+		select count(*) from 
+			tbl_academy_member A
+		left join 
+			tbl_member B
+		on A.fk_userid = B.fk_userid
+		left join
+			tbl_member_login C
+		on A.fk_userid = C.userid
+		where 1=1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='status != ""'>
+			and status = #{status} 
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and join_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	<!-- 교육기관회원리스트 얻기  -->
+	<select id="getAcaMemberList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select userid,nickname,academy_name,to_char(join_date,'yyyy-mm-dd') join_date,status,homepage
+				from 
+					tbl_academy_member A
+				left join 
+					tbl_member B
+				on A.fk_userid = B.fk_userid
+				left join 
+					tbl_member_login C
+				on A.fk_userid = C.userid
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='status != ""'>
+					and status = #{status} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and join_date between #{start_date} and #{end_date} 
+				</if>
+					order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	<!-- 일반회원 총 갯수 구하기 -->
+	<select id="getTotalCntNormalMember" parameterType="HashMap" resultType="Integer">
+		select count(*) 
+		from 
+			tbl_member A
+		left join
+			tbl_member_login B
+		on A.fk_userid = B.userid
+		where 1=1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='status != ""'>
+			and status = #{status} 
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and join_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	
+	<!-- 일반회원리스트 얻기  -->
+	<select id="getNormalMemberList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select nickname,userid,email,to_char(join_date,'yyyy-mm-dd') join_date,status
+				from 
+					tbl_member A
+				left join 
+					tbl_member_login B
+				on A.fk_userid = B.userid
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='status != ""'>
+					and status = #{status} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and join_date between #{start_date} and #{end_date} 
+				</if>
+					order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	
+	<!-- 광고내역 총 수 구하기 -->
+	<select id="getTotalCntAdvertisement" parameterType="HashMap" resultType="Integer">
+		select count(*) 
+		from 
+			tbl_advertisement
+		where 1=1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='status != ""'>
+			and status = #{status} 
+		</if>
+		<if test='division != ""'>
+			and division = #{division} 
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and start_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	<!-- 페이징처리한 광고내역 가지고오기  -->
+	<select id="getAdvertisementList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select advertisement_num,
+					   division,
+					   client_name,
+					   client_phone,
+					   to_char(start_date,'yyyy-mm-dd') || ' ~ ' || to_char((start_date + period),'yyyy-mm-dd') || ' (' || period || ')일 ' period, 
+					   case status when 0 then '진행중' else '종료' end as status 
+				from 
+					tbl_advertisement
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='status != ""'>
+					and status = #{status} 
+				</if>
+				<if test='division != ""'>
+					and division = #{division} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and start_date between #{start_date} and #{end_date} 
+				</if>
+					order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 신고내역 총 수 구하기 -->
+	<select id="getTotalCntReport" parameterType="HashMap" resultType="Integer">
+		select count(*)
+		from
+		(
+			select report_num, fk_board_num as fk_num,
+				report_nickname,
+				reported_nickname, simple_report_reason,
+				detail_report_reason,
+				report_date, report_type, receipt
+			from
+				tbl_board_report
+			union all
+			select report_num, fk_comment_num as fk_num,
+				report_nickname,
+				reported_nickname, simple_report_reason,
+				detail_report_reason,
+				report_date, report_type, receipt
+			from
+				tbl_comment_report
+		)
+		where 1 = 1
+		<if test='searchType != "" and searchWord != ""'>
+			and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+		</if>
+		<if test='report_type != ""'>
+			and report_type = #{report_type} 
+		</if>
+		<if test='simple_report_reason != ""'>
+			and simple_report_reason = #{simple_report_reason} 
+		</if>
+		<if test='receipt == "접수전"'>
+			and receipt = 0
+		</if>
+		<if test='receipt == "접수완료"'>
+			and receipt = 1
+		</if>
+		<if test='start_date != "" and end_date != ""'>
+			and report_date between #{start_date} and #{end_date} 
+		</if>
+	</select>
+	
+	
+	<!-- 페이징처리한 신고내역 가지고오기  -->
+	<select id="getReportList" parameterType="HashMap" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select report_num, fk_num, report_nickname,
+					   reported_nickname,
+					   simple_report_reason,
+					   report_date, report_type,
+					   receipt
+				from
+				(
+					select report_num, fk_board_num as fk_num,
+						   report_nickname,
+						   reported_nickname, simple_report_reason,
+						   report_date, report_type, 
+						   case receipt when 0 then '접수전' else '접수완료' end as receipt
+					from tbl_board_report
+					union all
+					select report_num, fk_comment_num as fk_num,
+						   report_nickname,
+					  	   reported_nickname, simple_report_reason,
+						   report_date, report_type, 
+						   case receipt when 0 then '접수전' else '접수완료' end as receipt
+					from tbl_comment_report
+				) A
+				where 1=1
+				<if test='searchType != "" and searchWord != ""'>
+					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
+				</if>
+				<if test='report_type != ""'>
+					and report_type = #{report_type} 
+				</if>
+				<if test='simple_report_reason != ""'>
+					and simple_report_reason = #{simple_report_reason} 
+				</if>
+				<if test='receipt != ""'>
+					and receipt = #{receipt} 
+				</if>
+				<if test='start_date != "" and end_date != ""'>
+					and report_date between #{start_date} and #{end_date} 
+				</if>
+				order by ${sort} ${direction}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
 	
 	
 	

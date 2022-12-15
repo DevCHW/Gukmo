@@ -5,6 +5,9 @@ function getContextPath(){
   return contextPath;
 }
 
+/**
+ * js 파일은 전부 필드선언 - 이벤트(document.ready) - 함수선언 의 구성으로 이루어져 있음
+ */
 let recaptcha_ok = false;
 
 $(document).ready(function(){
@@ -75,20 +78,21 @@ $(document).ready(function(){
           });
       }
 
+      //해시태그 백스페이스로 지워지게 하기
+      $("input#hashtag").on("keydown",function(e){
+    	  if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
+          	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
+          		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
+                  hashtag[index] = "";
+          		$("input#hashtag").prev().remove();
+          		return;
+          	} 
+           }
+      });
+      
       
       $("input#hashtag").on("keyup", function (e) {
           let self = $(this);
-          
-
-          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
-        	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
-        		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
-                hashtag[index] = "";
-        		$("input#hashtag").prev().remove();
-        		return;
-        	} 
-          }
-          
           
           // input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
           if (e.key === "Enter" || e.keyCode == 32) {

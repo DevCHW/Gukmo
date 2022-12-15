@@ -322,6 +322,7 @@ public class MemberService implements InterMemberService{
 	 * @param profileImage
 	 */
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public int editMyInfo(MemberVO member,Map<String,String> paraMap) {
 		String path = paraMap.get("path");
 		String currentProfileImage = paraMap.get("profile_image");
@@ -336,8 +337,8 @@ public class MemberService implements InterMemberService{
 			fileManager.doFileDelete(currentProfileImage, path);
 		}
 		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
-		
-		return result1;
+		int result2 = dao.changeBoardByProfileImg(paraMap);	//게시판에서도 프사 변경해주기
+		return result1*result2;
 	}
 
 	
@@ -387,6 +388,35 @@ public class MemberService implements InterMemberService{
 	public Map<String,String> getProfileByNickname(Map<String, String> paraMap) {
 		Map<String,String> memberMap = dao.getProfileByNickname(paraMap);
 		return memberMap;
+	}
+
+	/**
+	 * 일반회원에서 교육기관회원으로 전환하기
+	 */
+	@Override
+	public boolean ChangeAcaMember(Map<String, String> paraMap) {
+		int result1 = dao.insertAcaMember(paraMap);
+		int result2 = dao.updateStatus(paraMap);
+		
+		return result1*result2 == 1?true:false;
+	}
+
+	
+	
+	/**
+	 * 가입된 이메일이 존재하는지 여부 검사 + 소셜연동회원인지 검사
+	 * @param email
+	 * @return 가입된 이메일이 존재하고 소셜연동회원이 아니라면 true, 존재하지 않는이메일이거나 소셜연동회원이라면 false를 반환한다.
+	 */
+	@Override
+	public boolean emailExistAndSnsCheck(String email) {
+		boolean emailExist = dao.emailExistCheck(email);
+		boolean snsConnectionExist = dao.snsConnectionCheck(email);
+		
+		System.out.println("emailExist : "+emailExist);
+		System.out.println("snsConnectionExist : "+snsConnectionExist);
+		
+		return emailExist && !snsConnectionExist?true:false;
 	}
 
 	

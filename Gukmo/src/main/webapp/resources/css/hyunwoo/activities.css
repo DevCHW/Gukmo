@@ -13,6 +13,9 @@ div#main{
   width:100%;
   margin-left:48px;
 }
+div#alarm{
+  display:none;
+}
 
 h3#user_nickname{
   font-weight: bold;

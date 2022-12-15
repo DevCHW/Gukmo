@@ -322,6 +322,52 @@ public class MemberDAO implements InterMemberDAO{
 
 
 
+	/**
+	 * 교육기관회원 insert
+	 */
+	@Override
+	public int insertAcaMember(Map<String, String> paraMap) {
+		int result = gukmo_sql.insert("chw.insertAcaMember",paraMap);
+		return result;
+	}
+
+
+
+	/**
+	 * 상태 업데이트하기
+	 */
+	@Override
+	public int updateStatus(Map<String, String> paraMap) {
+		int result = gukmo_sql.update("chw.updateStatus",paraMap);
+		return result;
+	}
+
+
+
+	/**
+	 * 소셜연동회원인지 체크하기
+	 * @param email
+	 * @return 연동회원이면 true 아니면 false
+	 */
+	@Override
+	public boolean snsConnectionCheck(String email) {
+		int cnt = gukmo_sql.selectOne("chw.snsConnectionCheck",email);
+		return cnt ==1?true:false;
+	}
+
+
+
+	/**
+	 * 게시판에서도 프사 변경해주기
+	 */
+	@Override
+	public int changeBoardByProfileImg(Map<String, String> paraMap) {
+		int result = gukmo_sql.update("chw.changeBoardByProfileImg",paraMap);
+		return result;
+	}
+
+
+
 	
 
 

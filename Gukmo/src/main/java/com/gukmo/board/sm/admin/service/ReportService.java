@@ -44,6 +44,63 @@ public class ReportService implements InterReportService{
 		String getReportedId = dao.getReportedId(reportedNickname);
 		return getReportedId;
 	}
+
+	// (신고 전) 총 페이지 수 알아오기
+	@Override
+	public int getTotalCount_report_before(Map<String, String> paraMap) {
+		int n = dao.getTotalCount_report_before(paraMap);
+		return n;
+	}
+
+	// (신고 전) 리스트 알아오기
+	@Override
+	public List<ReportVO> reportList_before(Map<String, String> paraMap) {
+		List<ReportVO> reportList = dao.reportList_before(paraMap);
+		return reportList;
+	}
+
+	// (신고 후) 총 페이지 수 알아오기
+	@Override
+	public int getTotalCount_report_after(Map<String, String> paraMap) {
+		int n = dao.getTotalCount_report_after(paraMap);
+		return n;
+	}
 	
+	// (신고 후) 리스트 알아오기
+	@Override
+	public List<ReportVO> reportList_after(Map<String, String> paraMap) {
+		List<ReportVO> reportList = dao.reportList_after(paraMap);
+		return reportList;
+	}
+
+	// 신고한 자가 신고한 건수 뽑기
+	@Override
+	public List<Integer> getreport_cnt(Map<String, String> paraMap) {
+		List<Integer> nList = dao.getreport_cnt(paraMap);									
+		return nList;		
+	}
+
+	// 신고받은 자가 신고한 건수 뽑기
+	@Override
+	public List<Integer> getreported_cnt(Map<String, String> paraMap) {
+		List<Integer> nList = dao.getreported_cnt(paraMap);									
+		return nList;		
+	}
+
+	// 신고자가 신고한 내역 뽑기
+	@Override
+	public List<ReportVO> getReport_List(Map<String, String> paraMap) {
+		List<ReportVO> report_List = dao.getReport_List(paraMap);		
+		return report_List;
+	}
+
+
+	// 피신고자가 신고당한 내역 뽑기
+	@Override
+	public List<ReportVO> getReported_List(Map<String, String> paraMap) {
+		List<ReportVO> reported_List = dao.getReported_List(paraMap);		
+		return reported_List;
+	}
+
 	
 }

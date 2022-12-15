@@ -38,9 +38,10 @@ public class AdvertisementController {
 	
 	//
 	
-	
+
+ 	
 	// 광고관리 목록 페이지 요청
-	@RequestMapping(value="/admin/advertisement/list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/advertisement/list2.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_adManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<AdVO> adList = null;
 	    
@@ -96,6 +97,7 @@ public class AdvertisementController {
 		mav.addObject("pageBar", pageBar);
 		mav.addObject("adList", adList);
 
+		request.setAttribute("division", memberStatus);
 		request.setAttribute("paraMap", paraMap);
 		request.setAttribute("totalCount", totalCount);
 		
@@ -126,7 +128,7 @@ public class AdvertisementController {
 //				mav.setViewName("admin/adDetail.tiles1");
 		
 		//재탄생한페이지
-		mav.setViewName("admin/advertisement/detail.tiles1");
+		mav.setViewName("admin/advertisement/detail.tiles2");
 		
 		
 		return mav;
@@ -137,7 +139,7 @@ public class AdvertisementController {
 	// 광고 등록 페이지 보여주기
 	@RequestMapping(value="/admin/advertisement/new.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_adRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-	    mav.setViewName("admin/advertisement/new.tiles1");
+	    mav.setViewName("admin/advertisement/new.tiles2");
 		return mav;
 	} // end of 광고 등록 페이지
 	
@@ -218,6 +220,7 @@ public class AdvertisementController {
 	}
 	
 
+	
 	// 광고 상세에서 파일 다운로드하는 메소드
 	@RequestMapping(value="/admin/download.do")
 	public void  download(HttpServletRequest request, HttpServletResponse response) {
@@ -276,18 +279,19 @@ public class AdvertisementController {
 		}
 	} // 광고 상세에서 파일 다운로드하는 메소드 끝
 	
+
 	
-	// 광고 날짜 변경시 tbl_advertisement 에서 날짜 변경
+	// 광고 날짜 변경시 tbl_advertisement 에서 start_date, period 변경
 	@ResponseBody
-	@RequestMapping(value="/admin/advertisement/edit_ad.do", method= {RequestMethod.POST},  produces="text/plain;charset=UTF-8") 
-	public String ajax_insert(@RequestParam Map<String, String> paraMap) {
+	@RequestMapping(value="/admin/advertisement/edit_ad.do", method={RequestMethod.POST},  produces="text/plain;charset=UTF-8") 
+	public String edit_ad(@RequestParam Map<String, String> paraMap) {
 		System.out.println(paraMap);
 		int result = service.edit_ad(paraMap);
 		
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("result", result);  // "result":1}
+		jsonObj.put("result", result);  // {"result":1}
 		
-		return jsonObj.toString(); // "result"n":1}"
+		return jsonObj.toString(); // {"result":1}
 	}
 	// ========== Ajax 연습끝  ========== //
 	

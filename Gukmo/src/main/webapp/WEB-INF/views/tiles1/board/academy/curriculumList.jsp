@@ -124,7 +124,7 @@
             <%-- 해시태그 리스트 들어갈 곳--%>
             <%-- 해시태그리스트 반복문시작 --%>
             <c:forEach var="hashtag" items="${boardvo.hashtags}">
-            <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+            <a href="/board/main_search.do?searchWord=${hashtag.hashtag}" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
             </c:forEach>
             <%-- 해시태그리스트 반복문 끝--%>
           </div>
@@ -174,7 +174,7 @@
 	  <%-- 총 건수 변수 들어갈 곳 --%>
       <div id="total_cnt">총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건</div>
 
-	  <c:if test="${not empty sessionScope.user.academy_name}">
+	  <c:if test="${not empty sessionScope.user.academy_name || sessionScope.user.authority == '관리자'}">
         <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/academy/curriculum/new.do'">
           <i class="fa-sharp fa-solid fa-plus"></i><span>교육과정&nbsp;등록</span>
         </button>

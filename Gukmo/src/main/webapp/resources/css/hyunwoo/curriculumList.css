@@ -183,9 +183,9 @@ a.page-link:active {
 .my.pagination > .active > a:focus, 
 .my.pagination > .active > span:focus {
   z-index:0;
-  background: #14587D;
-  border-color:#14587D;
-  color: white;
+  background: #208EC9;
+  border-color:#208EC9;
+  color: white !important;
 }
 
 /* 페이지 바 끝 */
@@ -193,10 +193,13 @@ a.page-link:active {
 
 /* button */
 button#btn_write{
-  background-color: #14587D;
+  background-color: #208EC9;
   color:white;
   height: 40px;
   width:136px;
+}
+button#btn_write:hover{
+	background-color: #14587D;
 }
 
 /* 정렬  */

@@ -40,6 +40,9 @@ $(document).ready(function(){
   $("#start_date, #end_date").datepicker({
     dateFormat: 'yy-mm-dd'
   });//end of Event--
+  
+  //Selectpicker 적용
+  $('.selectpicker').selectpicker();
 
 
   //이미지 업로드시 미리보기보여주기

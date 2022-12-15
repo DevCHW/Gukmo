@@ -10,6 +10,7 @@ public class ReportVO {
 	private String report_date;
 	private String report_type;
 	private String userid;
+	private String receipt;
 	
 	protected ReportVO() {};
 	
@@ -17,7 +18,7 @@ public class ReportVO {
 	
 	public ReportVO(String report_num, String fk_num
 					, String report_nickname, String reported_nickname
-					, String simple_report_reason, String detail_report_reason, String report_date, String report_type, String userid) {
+					, String simple_report_reason, String detail_report_reason, String report_date, String report_type, String userid, String receipt) {
 		
 		this.report_num = report_num;
 		this.fk_num = fk_num;
@@ -28,9 +29,16 @@ public class ReportVO {
 		this.report_date = report_date;
 		this.report_type = report_type;
 		this.userid = userid;
+		this.receipt = receipt; 
 	}
 
 	
+	public String getReceipt() {
+		return receipt;
+	}
+
+
+
 	// Getter 
 	public String getReport_num() {
 		return report_num;
