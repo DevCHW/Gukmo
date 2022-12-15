@@ -41,7 +41,7 @@ public class AdvertisementController {
 
  	
 	// 광고관리 목록 페이지 요청
-	@RequestMapping(value="/admin/advertisement/list.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
+	@RequestMapping(value="/admin/advertisement/list2.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_adManageList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    List<AdVO> adList = null;
 	    
@@ -128,7 +128,7 @@ public class AdvertisementController {
 //				mav.setViewName("admin/adDetail.tiles1");
 		
 		//재탄생한페이지
-		mav.setViewName("admin/advertisement/detail.tiles1");
+		mav.setViewName("admin/advertisement/detail.tiles2");
 		
 		
 		return mav;
@@ -139,7 +139,7 @@ public class AdvertisementController {
 	// 광고 등록 페이지 보여주기
 	@RequestMapping(value="/admin/advertisement/new.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
 	public ModelAndView requiredAdminLogin_adRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-	    mav.setViewName("admin/advertisement/new.tiles1");
+	    mav.setViewName("admin/advertisement/new.tiles2");
 		return mav;
 	} // end of 광고 등록 페이지
 	
@@ -155,7 +155,7 @@ public class AdvertisementController {
 
 		// WAS 의 webapp 의 절대경로를 알아와야 한다.
 		HttpSession session = mrequest.getSession();
-		String root = session.getServletContext().getRealPath("/");
+		String root = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images/";
 		System.out.println(root);
 		String path = root+"resources"+ File.separator +"files";
 		// path 가 첨부파일이 저장될 WAS(톰캣)의 폴더가 된다.
@@ -244,13 +244,12 @@ public class AdvertisementController {
 				 return; // 종료
 		     }
 		     else {
-			
-				
+							
 				String filename = advo.getFilename();
 				String orgfilename = advo.getOrgfilename();
 				
 				HttpSession session = request.getSession();
-				String root = session.getServletContext().getRealPath("/");
+				String root = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images/";
 		 
 				 String path = root+"resources"+ File.separator +"files";
 	

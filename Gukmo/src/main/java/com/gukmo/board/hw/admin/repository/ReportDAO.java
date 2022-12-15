@@ -15,8 +15,6 @@ public class ReportDAO implements InterReportDAO{
 	@Resource
 	private SqlSessionTemplate gukmo_sql;
 	
-	
-	
 	/**
 	 * 신고내역 접수처리하기(게시글)
 	 */
@@ -64,5 +62,25 @@ public class ReportDAO implements InterReportDAO{
 		paraMap.put("userid",userid);
 		int result = gukmo_sql.update("chw.memberStatusChange", paraMap);
 		return result;
+	}
+
+	
+	/**
+	 * 신고내역 총 수 얻기
+	 */
+	@Override
+	public int getTotalCntReport(Map<String, String> paraMap) {
+		int totalCnt = gukmo_sql.selectOne("chw.getTotalCntReport", paraMap);
+		return totalCnt;
+	}
+
+	
+	/**
+	 * 페이징 된 신고내역 리스트 얻기
+	 */
+	@Override
+	public List<Map<String, String>> getReportList(Map<String, String> paraMap) {
+		List<Map<String, String>> data = gukmo_sql.selectList("chw.getReportList", paraMap);
+		return data;
 	}
 }

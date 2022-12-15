@@ -38,6 +38,7 @@ public class AlarmDAO implements InterAlarmDAO {
 	//알람테이블에 값넣기
 	@Override
 	public int setAlarm(Map<String, String> paraMap) {
+		System.out.println("dao:"+paraMap);
 		int n = gukmo_sql.insert("jhs.setAlarm");
 		return n;
 	}

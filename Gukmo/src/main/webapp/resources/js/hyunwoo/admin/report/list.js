@@ -4,7 +4,11 @@ function getContextPath(){
   let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
   return contextPath;
 }
-//일반회원 내역 js파일입니다.
+
+
+//신고내역 js파일입니다.
+
+
 const today = new Date();   
 
 const year = today.getFullYear(); // 년도
@@ -17,6 +21,7 @@ const sysdate = year + '-' + month + '-' + date;
 let btn_filter_click_cnt = 0;
 let data_ok = false;
 
+//datepicker 설정
 $.datepicker.setDefaults({
   dateFormat: 'yy-mm',
   prevText: '이전 달',
@@ -29,6 +34,7 @@ $.datepicker.setDefaults({
   showMonthAfterYear: true,
   yearSuffix: '년'
 });
+
 
 //excel 다운로드시에 전체가 client에서 보여주는 값 이외의 값들도 다운로드 되도록 하는 소스
 var oldExportAction = function (self, e, dt, button, config) {
@@ -94,10 +100,10 @@ $(document).ready(function() {
   
   $('#dataTable').DataTable({
 	"serverSide": true,
-	"order": [[3, 'desc']],
+	"order": [[0, 'desc']],
     "processing": true,
     "ajax": {
-        "url": getContextPath()+"/admin/member/normal/listSelect.do",
+        "url": getContextPath()+"/admin/report/listSelect.do",
         "type": "POST",
         "dataSrc": function(res) {
             let data = res.data;
@@ -105,40 +111,42 @@ $(document).ready(function() {
         },
     },
     "columns" : [
-        {"data": "NICKNAME"},
-        {"data": "USERID"},
-        {"data": "EMAIL"},
-        {"data": "JOIN_DATE"},
-        {"data": "STATUS"},
+    	{"data": "REPORT_NUM"},
+        {"data": "REPORT_TYPE"},
+        {"data": "REPORT_NICKNAME"},
+        {"data": "REPORTED_NICKNAME"},
+        {"data": "SIMPLE_REPORT_REASON"},
+        {"data": "REPORT_DATE"},
+        {"data": "RECEIPT"},
     ],
     dom: 'Bfrtip',
     buttons: [
 		{
 			extend: 'excel'
 			,text: "<img src='"+getContextPath()+"/resources/images/dataTable/excel.png' style='width:25px; height:17px;'/>Excel&nbsp;&nbsp;"
-			,filename: '국모 일반회원내역'+year+month+date
-			,title: '국비의모든것 교육기관회원내역'+year+month+date
+			,filename: '국비의모든것 신고내역'+year+month+date
+			,title: '국비의모든것 신고내역'+year+month+date
 			,action: newExportAction
 		},
 		{
 			extend: 'copy'
 			,text: '📋&nbsp;Copy&nbsp;'
-			,title: '국비의모든것 교육기관회원내역'+year+month+date
+			,title: '국비의모든것 신고내역'+year+month+date
 		},
 		{
 			extend: 'pdf'
 			,text: "<img src='https://toppng.com/public/uploads/preview/pdf-icon-11549528510ilxx4eex38.png' style='width:25px; height:20px;'/>&nbsp;PDF&nbsp;"
-			,filename: '국비의모든것 교육기관회원내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 신고내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
 		},
 		{
 			extend: 'csv'
 			,text: "<img src='"+getContextPath()+"/resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;"
-			,filename: '국비의모든것 교육기관회원내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 신고내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
 		},
 		{
 			extend: 'print'
 			,text: '️🖨&nbsp;Print&nbsp;'
-			,filename: '국비의모든것 교육기관회원내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 신고내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
 		},
 	]
   });//end of Event---
@@ -155,6 +163,8 @@ $(document).ready(function() {
   
   //기존 dataTable 검색바 숨기기
   $("#dataTable_filter").attr("hidden", "hidden");
+  
+  
   
   //검색조건 변경시 이벤트
   $('#searchType').change(function (e) {
@@ -175,10 +185,18 @@ $(document).ready(function() {
       
       if($("#start_date").val() != ''){
     	  searchWord = $("#start_date").val() + "," +$("#end_date").val();
-    	  table.column(3).search(searchWord);
+    	  table.column(5).search(searchWord);
       }
-      if($("#status").val() != '상태선택'){
-    	  searchWord = $("status").val();
+      if($("#receipt").val() != '접수여부선택'){
+    	  searchWord = $("#receipt").val();
+    	  table.column(6).search(searchWord);
+      }
+      if($("#report_type").val() != '신고분류선택'){
+    	  searchWord = $("#report_type").val();
+    	  table.column(1).search(searchWord);
+      }
+      if($("#simple_report_reason").val() != '사유선택'){
+    	  searchWord = $("#simple_report_reason").val();
     	  table.column(4).search(searchWord);
       }
       table.draw();
@@ -188,16 +206,20 @@ $(document).ready(function() {
   //필터버튼 클릭시
   $("#btn_filter").click(function(){
 	  btn_filter_click_cnt++;
-	  
-	  if(btn_filter_click_cnt%2==0){
+	  if(btn_filter_click_cnt%2==0){	//짝수번 클릭시 숨기기
 		  $("#filter_area").css("display","none");
-		  $('#status').selectpicker('hide');
-		  $("#status").val('상태선택');
+		  $('#receipt').selectpicker('hide');
+		  $("#receipt").val('접수여부선택');
+		  $('#simple_report_reason').selectpicker('hide');
+		  $("#simple_report_reason").val('사유선택');
+		  $("#report_type").val('신고분류선택');
+		  $("#report_type").selectpicker('hide');
 		  $("#start_date").val('');
 		  $("#end_date").val(sysdate);
-	  }else{
+	  }else{							//홀수번 클릭시 보이기
 		  $("#filter_area").css("display","flex");
-		  $('#status').selectpicker('show');
+		  $('#receipt').selectpicker('show');
+		  $('#simple_report_reason').selectpicker('show');
 	  }
   });//end of Event--
   
@@ -212,17 +234,26 @@ $(document).ready(function() {
 		    	for(let i=0; i<numCols; i++) { table.column(i).search(''); }
 		    	
 		    	let join_date = $("#start_date").val() + "," +$("#end_date").val();
-		    	table.column(3).search(join_date);
+		    	table.column(5).search(join_date);
 		    	
 		    	let searchType = $("#searchType").val();
-		        
 		    	let searchWord = $("#searchWord").val();
+		    	
 		        table.column(searchType).search(searchWord);
 		        
-		        if($("#status").val() != '상태선택'){
-		      	  searchWord = $("#status").val();
+		        if($("#receipt").val() != '접수여부선택'){
+		      	  searchWord = $("#receipt").val();
+		      	  table.column(6).search(searchWord);
+		        }
+		        if($("#simple_report_reason").val() != '사유선택'){
+		      	  searchWord = $("#simple_report_reason").val();
 		      	  table.column(4).search(searchWord);
 		        }
+		        //신고분류 체크
+		 	    if($("#report_type").val() != '신고분류선택'){
+		     	  searchWord = $("#report_type").val();
+		     	  table.column(1).search(searchWord);
+		 	    }
 		        
 		        table.draw();
 	    	}else{
@@ -233,25 +264,116 @@ $(document).ready(function() {
    });//end of Event--
    
    
-   //status 변경시 검색
-   $("#status").change(function(){
-	   let status = $("#status").val();
+   //receipt 변경시 검색
+   $("#receipt").change(function(){
+	   let receipt = $("#receipt").val();
 	   let numCols = table.columns().nodes().length;
+	   //초기화
 	   for(let i=0; i<numCols; i++) { table.column(i).search(''); }
-	   	
-	   let searchWord = $("#start_date").val() + "," +$("#end_date").val();
-	   table.column(3).search(searchWord);
-	   	
-	   let searchType = $("#searchType").val();
+	   
 	       
-	   searchWord = $("#searchWord").val();
+	   //검색조건
+	   let searchType = $("#searchType").val();
+	   let searchWord = $("#searchWord").val();
+	   table.column(searchType).search(searchWord);
+	   
+	   //날짜넣기
+	   if($("#start_date").val() !=''){
+		   searchWord = $("#start_date").val() + "," +$("#end_date").val();
+		   table.column(5).search(searchWord);
+	   }
+	       
+	   //접수여부선택체크
+	   if(receipt != '접수여부선택'){
+		   searchWord = receipt;
+	       table.column(6).search(searchWord);
+	   }
+	   //신고분류 체크
+	   if($("#report_type").val() != '신고분류선택'){
+	    	  searchWord = $("#report_type").val();
+	    	  table.column(1).search(searchWord);
+	   }
+	   //사유체크
+	   if($("#simple_report_reason").val() != '사유선택'){
+    	  searchWord = $("#simple_report_reason").val();
+    	  table.column(4).search(searchWord);
+       }
+       table.draw();
+   });//end of Event
+   
+   
+   
+   //simple_report_reason 변경시 검색
+   $("#simple_report_reason").change(function(){
+	   let receipt = $("#receipt").val();
+	   let numCols = table.columns().nodes().length;
+	   //초기화
+	   for(let i=0; i<numCols; i++) { table.column(i).search(''); }
+	   
+	   //날짜넣기
+	   if($("#start_date").val() !=''){
+		   let searchWord = $("#start_date").val() + "," +$("#end_date").val();
+		   table.column(5).search(searchWord);
+	   }
+	       
+	   //검색조건
+	   let searchType = $("#searchType").val();
+	   let searchWord = $("#searchWord").val();
 	   table.column(searchType).search(searchWord);
 	       
-	   if($("#status").val() != '상태선택'){
-		   searchWord = $("#status").val();
-	       table.column(4).search(searchWord);
+	   //상태체크
+	   if(receipt != '접수여부선택'){
+		   searchWord = receipt;
+	       table.column(6).search(searchWord);
 	   }
-       
+	   //신고분류 체크
+	   if($("#report_type").val() != '신고분류선택'){
+    	  searchWord = $("#report_type").val();
+    	  table.column(1).search(searchWord);
+	   }
+	   //구분체크
+	   if($("#simple_report_reason").val() != '사유선택'){
+    	  searchWord = $("#simple_report_reason").val();
+    	  table.column(4).search(searchWord);
+       }
+       table.draw();
+   });//end of Event
+   
+   
+   
+   //report_type 변경시 검색
+   $("#report_type").change(function(){
+	   let receipt = $("#receipt").val();
+	   let numCols = table.columns().nodes().length;
+	   //초기화
+	   for(let i=0; i<numCols; i++) { table.column(i).search(''); }
+	   
+	   //날짜넣기
+	   if($("#start_date").val() !=''){
+		   let searchWord = $("#start_date").val() + "," +$("#end_date").val();
+		   table.column(5).search(searchWord);
+	   }
+	       
+	   //검색조건
+	   let searchType = $("#searchType").val();
+	   let searchWord = $("#searchWord").val();
+	   table.column(searchType).search(searchWord);
+	       
+	   //상태체크
+	   if(receipt != '접수여부선택'){
+		   searchWord = receipt;
+	       table.column(6).search(searchWord);
+	   }
+	   //신고분류 체크
+	   if($("#report_type").val() != '신고분류선택'){
+    	  searchWord = $("#report_type").val();
+    	  table.column(1).search(searchWord);
+	   }
+	   //구분체크
+	   if($("#simple_report_reason").val() != '사유선택'){
+    	  searchWord = $("#simple_report_reason").val();
+    	  table.column(4).search(searchWord);
+       }
        table.draw();
    });//end of Event
    
@@ -272,8 +394,9 @@ $(document).ready(function() {
   $(document).on('click', '#dataTable > tbody > tr' , function(e){
 	//아이디가 id 인거를 'click', 클릭할때마다 이벤트가 일어난다.
 	const target = $(e.currentTarget);
-	const userid = target.children().eq(1).text();
-	location.href = getContextPath()+"/admin/member/detail.do?userid="+userid;
+	const report_num = target.children(":first").text();
+	const report_type = target.children().eq("").text();
+	location.href = getContextPath()+"/admin/report/detail.do?report_num="+report_num+"&report_type="+report_type;
   });
 });//end of $(document).ready(function() {})--
 

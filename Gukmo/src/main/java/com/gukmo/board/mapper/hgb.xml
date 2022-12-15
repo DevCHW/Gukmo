@@ -135,6 +135,13 @@
       from tbl_comment_like
       where fk_comment_num = #{comment_num} and fk_userid = #{userid}
    </select>
+   
+   <!-- 댓글좋아요 체크하기 -->
+   <select id="big_comment_likeCheck" parameterType="HashMap" resultType="Integer">
+      select count(*)
+      from tbl_comment_like
+      where fk_comment_num = #{comment_num} and fk_userid = #{userid}
+   </select>
 
    <!-- 댓글좋아요 테이블에 delete하기 -->
    <delete id="comment_likeDelete" parameterType="HashMap">
@@ -225,7 +232,9 @@
    
       <!--  기본댓글 리스트 불러오기  -->
       <select id="getBasic_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">      
-	      select comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, D.fk_comment_num, write_date, point, nvl(comment_of_comment_cnt,0) as comment_of_comment_cnt, comment_like_cnt, profile_image
+	      select *
+          from (
+          select comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, D.fk_comment_num, write_date, point, nvl(comment_of_comment_cnt,0) as comment_of_comment_cnt, comment_like_cnt, profile_image
 	      from
 	      (
 	      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt,profile_image
@@ -242,17 +251,46 @@
 	      group by fk_comment_num
 	      ) V
 	      on V.fk_comment_num = D.comment_num
-	      order by write_date desc     
+	      order by write_date desc 
+          ) BCL
+          <if test='userid != ""'>		    		    
+          inner join 
+          (
+            select nvl2(fk_userid,'1',0)as likeExist, a.comment_num    
+            from
+            (select * from tbl_comment where cmt_board_num = #{board_num} and comment_level = 0) A
+            left join
+            (select fk_comment_num,fk_userid from tbl_comment_like where fk_userid = #{userid}) B
+            on A.comment_num = B.fk_comment_num
+            ) ULC
+           ON BCL.comment_num = ULC.comment_num
+           </if>
       </select>
    
    <!--  대댓글 리스트 불러오기  -->
-    <select id="getSpecial_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">      
+    <select id="getSpecial_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">  
+      select *
+      from (     
       select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt, profile_image
       from tbl_comment C
       join tbl_member M
       on C.nickname = M.nickname
       where comment_level = 1 and cmt_board_num = #{board_num}
       order by write_date desc
+      ) SCL
+      <if test='userid != ""'>		    		    
+          inner join 
+          (
+            select nvl2(fk_userid,'1',0)as likeExist, a.comment_num    
+            from
+            (select * from tbl_comment where cmt_board_num = #{board_num} and comment_level = 1) A
+            left join
+            (select fk_comment_num,fk_userid from tbl_comment_like where fk_userid = #{userid}) B
+            on A.comment_num = B.fk_comment_num
+            ) ULC
+           ON SCL.comment_num = ULC.comment_num
+       </if>
+      
    </select>
    
     <!-- 삭제될 댓글의 갯수 구해오기  --> 
@@ -302,6 +340,23 @@
       insert into tbl_activity
       values(seq_activity.nextval, #{userid}, #{cmt_board_num}, sysdate, #{subject}, #{detail_category}, '댓글작성', #{nickname} )
    </insert>
+   
+   <insert id="addActivityLike" parameterType="HashMap">
+      insert into tbl_activity
+      values(seq_activity.nextval, #{userid}, #{board_num}, sysdate, #{subject}, #{detail_category}, '게시글좋아요', #{nickname} )
+   </insert>
+   
+   <insert id="addActivityCommentLike" parameterType="HashMap">
+      insert into tbl_activity
+      values(seq_activity.nextval, #{userid}, #{board_num}, sysdate, #{subject}, #{detail_category}, '댓글좋아요', #{nickname} )
+   </insert>
+   
+   <insert id="addActivityBigCommentLike" parameterType="HashMap">
+      insert into tbl_activity
+      values(seq_activity.nextval, #{userid}, #{board_num}, sysdate, #{subject}, #{detail_category}, '댓글좋아요', #{nickname} )
+   </insert>
+   
+   
    
    
    

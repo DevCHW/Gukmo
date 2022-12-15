@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-* {
-	font-size: 13px;
-}
-
 a {
 	padding: 0;
 }
@@ -158,6 +154,10 @@ div.list_searchRank a {
 /* ------------------------------------- */
 
 /* 게시글 CSS */
+div.div_writerInfo {
+	font-size:12px;	
+}
+
 div.writer_image_box {
 	width: 18px;
 	height: 18px;
@@ -223,6 +223,14 @@ a.subject {
 	font-size: 16px;
 	font-weight: 500;
 	color: black;
+	line-height: 16px;
+	max-height: 16px;
+	max-width: 300px;
+	overflow: hidden;
+	word-wrap: break-word;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical
 }
 
 /* ========== 게시판 정보 영역 CSS 끝 ========= */
