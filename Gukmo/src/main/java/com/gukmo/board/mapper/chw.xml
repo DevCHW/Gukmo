@@ -1298,6 +1298,50 @@
 	
 	
 	
+	<!-- 인기 게시물 3개 가져오기(조회높은것)-->
+	<select id="getPopularBoard" resultType="com.gukmo.board.model.BoardVO">
+		select *
+		from
+			(
+			select rownum rno,V.*
+			from
+				(
+				select board_num,nickname,detail_category,subject,write_date,views,comment_cnt,like_cnt
+			    from tbl_board
+			    where to_char(write_date,'yyyy-mm-dd') =  to_char(sysdate, 'yyyy-mm-dd')
+			    	  and detail_category != '공지사항'
+			    order by views desc
+			    ) V
+			) T
+		where rno between 1 and 3
+	</select>
+	
+	
+	<!-- 멤버로그인테이블에 회원가입정보 insert -->
+	<insert id="insertVisitor" parameterType="HashMap">
+		insert into tbl_visitor
+			(
+                visit_num,
+                visit_ip,
+                visit_time,
+                <if test="visit_refer != null and visit_refer !=''">
+                visit_refer,
+                </if>
+                visit_agent
+            )
+            values
+            (
+                seq_visitor.nextval,
+                #{visit_ip},
+                sysdate,
+                <if test="visit_refer != null and visit_refer !=''">
+                #{visit_refer},
+                </if>
+                #{visit_agent}
+            )
+	</insert>
+	
+	
 	
 	
 	

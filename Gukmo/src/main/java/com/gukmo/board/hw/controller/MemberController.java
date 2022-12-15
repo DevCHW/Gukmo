@@ -329,7 +329,7 @@ public class MemberController {
 		int pageNo = ((page - 1)/blockSize) * blockSize + 1;
 		
 		String pageBar = "<ul class='my pagination pagination-md justify-content-center mt-5'>";
-		String url = request.getContextPath()+"/member/activities.do";
+		String url = request.getContextPath()+"/member/activityOther.do";
 		
 		// === [<<][<] 만들기 === //
 		if(pageNo != 1) {
