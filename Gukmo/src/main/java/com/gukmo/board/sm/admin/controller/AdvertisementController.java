@@ -294,9 +294,6 @@ public class AdvertisementController {
 		return jsonObj.toString(); // {"result":1}
 	}
 	
-	
-	
-	
 	// 광고일정 페이지 매핑
 	@RequestMapping(value="/admin/advertisement/calendar.do", method={RequestMethod.GET})
 	public String viewCalendar(HttpServletRequest request) {
@@ -306,6 +303,11 @@ public class AdvertisementController {
 		
 		return "admin/advertisement/calendar.tiles2";
 	}
+	
+	
+	
+	
+	
 	
 	
 	
