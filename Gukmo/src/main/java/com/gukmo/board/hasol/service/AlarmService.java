@@ -15,6 +15,7 @@ public class AlarmService implements InterAlarmService {
 	@Autowired
 	private InterAlarmDAO dao;
 	
+	@Override
 	public int getNotReadAlarm_count(String userid) {
 		int n = dao.getNotReadAlarm_count();
 		return n;
@@ -35,6 +36,7 @@ public class AlarmService implements InterAlarmService {
 	// 알람테이블에 값 넣기
 	@Override
 	public int setAlarm(Map<String, String> paraMap) {
+		System.out.println("service:"+paraMap);
 		int n = dao.setAlarm(paraMap);
 		return n;
 	}

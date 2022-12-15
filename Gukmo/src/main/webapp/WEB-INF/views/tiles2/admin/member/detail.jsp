@@ -50,7 +50,6 @@
 
 <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
 
-    
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/member/detail.css" />
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/seonwoo/chart.css" />
@@ -63,7 +62,7 @@
 
 
 <%-- Main Content --%>
-<div id="content">
+<div id="content" class="px-5 py-3">
    <%-- 회원 기본정보 박스 시작 --%>
    <div id="member_basic_info_box">
      <div id="id_image_box" class="align-items-center my-3">
@@ -246,38 +245,32 @@
    <%-- 회원의 활동내역 시작 꺾은선그래프로 일자별,월별,년도별 활동횟수를 나타낼 수 있음 --%>
    <div id="member_activities" class="detail_info_area my-3">
 	  
-	  
       <%-- 날짜필터 영역  시작 --%>
-	  <div id="nav" class="d-flex align-items-center py-2">
+	  <div id="nav" class="d-flex justify-content-between py-3">
 	   <%-- datepicker 영역  시작 --%>
 	    <div id="date" class="datepicker d-flex justify-content-center align-content-center">
-		    <div class="datepicker" style="width: 30%; font-weight: bold;">시작일</div>
-			<div class="datepicker" style="width: 50%; text-align: left;">
-			   <input type="text" id="fromDate">
+		    <div class="datepicker mr-2 mt-1" style="font-weight: bold;">시작일</div>
+			<div class="datepicker mr-2" style="text-align: left;">
+			   <input type="text" id="fromDate" style="width: 100px; height:30px; outline:none;" class="border rounded pl-2">
 			</div>
-			<div class="datepicker" style="width: 30%; font-weight: bold;">종료일</div>
-			<div class="datepicker" style="width: 50%; text-align: left;">
-			   <input type="text" id="toDate">
+			<div class="datepicker mr-2 ml-3 mt-1" style="font-weight: bold;">종료일</div>
+			<div class="datepicker mr-2" style="text-align: left;">
+			   <input type="text" id="toDate" style="width: 100px; height:30px; outline:none;" class="border rounded pl-2" placeholder="검색시작일자">
 			</div>
-			<button class="datepicker" type="button" id="search" style="width: 20%;" >검색</button>
+			<button type="button" class="datepicker btn btn-light border rounded  ml-3" style="padding: 2px 10px" id="btn_activityChart" >검색</button>
 		</div>
 		<%-- datepicker 영역  끝 --%>  
 		
 	  	<%-- sort 영역 시작 --%>
-	      <div class="d-flex ml-auto">
-	        <div id="mask"></div>
-	        <div id="sort" class="d-flex ml-3 border rounded justify-content-center align-items-center">
-	          <i class="fa-solid fa-arrow-down-short-wide"></i>
-					<span id=current_sort>일자별</span>
-	          <div id="sort_option" class="border rounded px-3 py-2">
-	            <span>일자별</span>
-	            <span>월별</span>
-	            <span>연도별</span>
-	          </div>
-	        </div>
-	      </div>
+       <div id="filter_area" class="align-items-center">
+        <select id="sort" class="selectpicker border rounded" data-style="btn-light border">
+           	<option selected>일자별</option>
+           	<option>월별</option>
+			<option>연도별</option>
+		</select>
 	    <%-- sort 영역 끝 --%>
 	    
+	    </div>
 	    </div>
 	  <%-- 날짜필터 영역  끝--%>
  	      
@@ -286,6 +279,28 @@
         </div>
 
         <div id="member_activities_area" class="border rounded">
+        
+        
+        
+        
+        </div>
+        
+        <div id="title" class="d-flex justify-content-between py-3 border-top border-bottom">
+          <div class="text-center">
+            <div>활동날짜</div>
+          </div>
+          <div class="text-center">
+            <div>활동구분</div>
+          </div>
+          <div class="text-center">
+            <div>상세카테고리</div>
+          </div>
+          <div class="text-center">
+          	<div>글번호</div>
+          </div>
+          <div class="text-center">
+          	<div>글제목</div>
+          </div>
         </div>
       </div>
       <%-- 회원의 활동내역 끝 꺾은선그래프로 일자별,월별,년도별 활동횟수를 나타낼 수 있음 --%>
@@ -319,18 +334,19 @@
       <%-- 회원의 로그인 기록 시작: 꺾은선그래프로 일자별,월별,년도별 로그인횟수를 나타낼 수 있음 --%>
       <div id="member_login_record" class="detail_info_area my-3">
       <%-- datepicker 영역  시작 --%>
-	    <div class="datepicker2 d-flex justify-content-center align-content-center">
-		    <div class="datepicker2" style="width: 30%; font-weight: bold;">시작일</div>
-			<div class="datepicker2" style="width: 50%; text-align: left;">
-			   <input type="text" id="fromDate2">
+		<div class="datepicker2 d-flex justify-content-center align-content-center py-3">
+		    <div class="datepicker2 mr-2 mt-1" style="font-weight: bold;">시작일</div>
+			<div class="datepicker2 mr-2" style="text-align: left;">
+			   <input type="text" id="fromDate2" style="width: 100px; height:30px; outline:none;" class="border rounded pl-2">
 			</div>
-			<div class="datepicker2" style="width: 30%; font-weight: bold;">종료일</div>
-			<div class="datepicker2" style="width: 50%; text-align: left;">
-			   <input type="text" id="toDate2">
+			<div class="datepicker2 mr-2 ml-3 mt-1" style="font-weight: bold;">종료일</div>
+			<div class="datepicker2 mr-2" style="text-align: left;">
+			   <input type="text" id="toDate2" style="width: 100px; height:30px; outline:none;" class="border rounded pl-2" placeholder="검색시작일자">
 			</div>
-			<button class="datepicker2" type="button" id="btn_loginChart" style="width: 20%;" >검색</button>
+			<button type="button" class="datepicker2 btn btn-light border rounded  ml-3" style="padding: 2px 10px" id="btn_loginChart" >검색</button>
 		</div>
 	  <%-- datepicker 영역  끝 --%>  
+	  
         <div id="login_record_chart_area" class="border rounded">
           로그인기록차트영역
         </div>

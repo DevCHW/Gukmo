@@ -3,6 +3,8 @@ package com.gukmo.board.aop;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,14 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.hasol.service.InterAlarmService;
-import com.gukmo.board.sun.service.InterBoardService;
+import com.gukmo.board.sm.controller.BoardController;
 
 @Aspect     
 @Component  
@@ -56,26 +61,32 @@ public class BoardAOP {
 	}
 	
 	
-//	// 알람에 값 넢는 AOP
-//	@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
-//	public void setAlarm() {}
-//	
-//	@Autowired  
-//	private InterAlarmService alarm_service;
-//	
-//	@SuppressWarnings("unchecked")
-//	@After("setAlarm()")
-//	public void setAlarm(JoinPoint joinpoint) {
-//		
-//		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
-//		Map<String,String> paraMap = (Map<String, String>) joinpoint.getArgs()[1];
-//		
-//		int n = alarm_service.setAlarm(paraMap);
-//		System.out.println("aop 확인용 : " + n);
-//		
-//	
-//	} //end of setAlarm
-//	
+	// 알람에 값 넢는 AOP
+	//@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
+	//public void setAlarm() {}
+	
+	//@Autowired  
+	//private InterAlarmService alarm_service;
+	
+	//@SuppressWarnings("unchecked")
+	//@After("setAlarm()")
+	//public void setAlarm(JoinPoint joinpoint) {
+		
+//		System.out.println("여기 와?");
+		
+//		System.out.println("joinpoint "+joinpoint);
+		//HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];		
+		
+		//Map<String,String> paraMap = (Map<String, String>) request.getAttribute("alarmMap");
+		
+		// System.out.println(paraMap);
+		// System.out.println("여기 와?");
+
+		//int result = alarm_service.setAlarm(paraMap);
+	//	System.out.println("aop 확인용 : " + n);
+	
+	//} //end of setAlarm
+	
 	
 		
 		
