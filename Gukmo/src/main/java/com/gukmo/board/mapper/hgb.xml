@@ -226,18 +226,18 @@
    
    <!-- 대댓글 테이블에 insert하기  -->
    <insert id="addComment_of_Comment" parameterType="HashMap">
-      insert into tbl_comment(comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date)
-      values(seq_comment.nextval, 1, #{content}, #{nickname}, #{parent_write_nickname}, #{cmt_board_num, jdbcType=VARCHAR}, #{fk_comment_num}, sysdate)
+      insert into tbl_comment(comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, blind)
+      values(seq_comment.nextval, 1, #{content}, #{nickname}, #{parent_write_nickname}, #{cmt_board_num, jdbcType=VARCHAR}, #{fk_comment_num}, sysdate, default)
    </insert>
    
       <!--  기본댓글 리스트 불러오기  -->
       <select id="getBasic_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">      
 	      select *
           from (
-          select comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, D.fk_comment_num, write_date, point, nvl(comment_of_comment_cnt,0) as comment_of_comment_cnt, comment_like_cnt, profile_image
+          select comment_num, comment_level, content, nickname, parent_write_nickname, cmt_board_num, D.fk_comment_num, write_date, point, nvl(comment_of_comment_cnt,0) as comment_of_comment_cnt, comment_like_cnt, profile_image,blind
 	      from
 	      (
-	      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt,profile_image
+	      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt,profile_image,blind
 	      from tbl_comment C
 	      join tbl_member M
 	      on C.nickname = M.nickname
@@ -271,7 +271,7 @@
     <select id="getSpecial_commentList" parameterType="HashMap" resultType="com.gukmo.board.model.CommentVO">  
       select *
       from (     
-      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt, profile_image
+      select comment_num, comment_level, content, C.nickname as nickname, parent_write_nickname, cmt_board_num, fk_comment_num, write_date, point, comment_like_cnt, profile_image,blind
       from tbl_comment C
       join tbl_member M
       on C.nickname = M.nickname
@@ -353,11 +353,21 @@
    
    <insert id="addActivityBigCommentLike" parameterType="HashMap">
       insert into tbl_activity
-      values(seq_activity.nextval, #{userid}, #{board_num}, sysdate, #{subject}, #{detail_category}, '댓글좋아요', #{nickname} )
+      values(seq_activity.nextval, #{userid}, #{cmt_board_num}, sysdate, #{subject}, #{detail_category}, '댓글좋아요', #{nickname} )
    </insert>
    
+   <select id="getAdvertisement_List" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
+   	  select * from tbl_advertisement
+   	  where division = '게시판'
+   </select>
    
+   <update id="commentBlindGo" parameterType="HashMap">
+      update tbl_comment set blind = 1 where comment_num=#{comment_num}
+   </update>
    
+   <update id="commentBlindBack" parameterType="HashMap">
+      update tbl_comment set blind = 0 where comment_num=#{comment_num}
+   </update>
    
    
 </mapper>

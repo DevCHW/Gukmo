@@ -211,12 +211,18 @@
     
 
 
-
-
-    <%---------------------- 광고 영역 시작 ----------------------%>
     <div id="advertisement_box" class="mt-4">
       <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/>
     </div>
+
+    <%---------------------- 광고 영역 시작 ----------------------%>
+    <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+    
+    <div id="advertisement_box" class="mt-4">
+      <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}"/>
+    </div>
+    
+	</c:forEach>
     <%---------------------- 광고 영역 끝 ----------------------%>
 
 
@@ -387,12 +393,29 @@
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
           	</div>
           	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+          	    <c:if test ="${sessionScope.user.nickname != bcommentList.nickname}">
+          	    <input type="hidden" id="comment_num" class="" name="" value="${bcommentList.comment_num}" />
           		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
-	            	<span class="comment_delete">블라인드</span>
+	            	<c:if test ="${bcommentList.blind == 0}">            	
+	            		<span id="commentBlind">블라인드</span>
+	            	</c:if>
+	            	
+	            	<c:if test ="${bcommentList.blind == 1}">            	
+	            		<span id="delCommentBlind">블라인드 해제</span>
+	            	</c:if>
           		</div>
+          		</c:if>
+          		<c:if test ="${sessionScope.user.nickname == bcommentList.nickname}">
+          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
+	            	<span class="comment_edit">수정하기</span>
+	            	<span class="comment_delete">삭제하기</span>
+          		</div>
+          		</c:if>
           	</span>
           </div>
           </c:if>
+          
+          
           
           
           <!--  
@@ -419,7 +442,13 @@
 
         <%-- 수정할 댓글 내용 --%>
         <div class="my-3 basic_comment_content" id="${bcommentList.content}">
-			<div class = "detail_comment" >${bcommentList.content}</div>
+            <c:if test="${bcommentList.blind == 0}">
+			  <div class = "detail_comment" >${bcommentList.content}</div>
+			</c:if>
+			
+			<c:if test="${bcommentList.blind == 1}">
+			  <div class = "detail_comment" >관리자에 의해서 블라인드 처리 되었습니다.</div>
+			</c:if>
  	        <div class="ml-3 w-100 comment_edit" id="">
 	          <textarea class="content3" class="pl-2 py-2 content3" rows="5"></textarea>  
 	          <input type="hidden" id="c_num" class="c_num" name="c_num" />
@@ -613,9 +642,25 @@
 			            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          	</div>
 		          	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+		          		<c:if test ="${sessionScope.user.nickname != spcial_commentList.nickname}">
+		          			<input type="hidden" id="c_of_c_num" class="" name="" value="${spcial_commentList.comment_num}" />
+		          			<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	
+		          		    <c:if test ="${spcial_commentList.blind == 0}">            	
+			            		<span id="bigCommentBlind">블라인드</span>
+			            	</c:if>
+			            	
+			            	<c:if test ="${spcial_commentList.blind == 1}">            	
+			            		<span id="delBigCommentBlind">블라인드 해제</span>
+			            	</c:if>
+		          			</div>
+		          			
+		          		</c:if>
+		          		<c:if test ="${sessionScope.user.nickname == spcial_commentList.nickname}">
 		          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
-			            	<span class="comment_delete">블라인드</span>
+			            	<span class="comment_edit2">수정하기</span>
+			            	<span class="comment_delete2">삭제하기</span>
 		          		</div>
+		          		</c:if>
 		          	</span>
 	          	</div>
 	          </c:if>
@@ -630,11 +675,17 @@
 	
 	
 		          <%-- 대댓글내용 --%>
-		       <div class="my-3 special_comment_content" id="${spcial_commentList.content}">
-		          <div class="detail_comment_of_comment my-3" id="">${spcial_commentList.content}</div>
+		       <div class="my-3 special_comment_content" id="${spcial_commentList.content}">		         
+		          <c:if test="${spcial_commentList.blind == 0}">
+					<div class = "detail_comment_of_comment my-3" >${spcial_commentList.content}</div>
+				  </c:if>
+					
+				  <c:if test="${spcial_commentList.blind == 1}">
+					<div class = "detail_comment_of_comment my-3" >관리자에 의해서 블라인드 처리 되었습니다.</div>
+				  </c:if>
 		          <div class="ml-3 w-100 c_of_comment_edit" id="">
 			          <textarea class="content4" class="pl-2 py-2 content4" rows="3"></textarea>  
-			          <input type="hidden" id="c_of_c_num" class="" name="" />
+			          <input type="hidden" id="c_of_c_num" class="" name="" value="${spcial_commentList.comment_num}" />
 			          <div class="d-flex justify-content-end mt-2">
 			          	<button type="button" class="btn btn-info edit_comment_of_comment">댓글 수정</button>
 			          </div>
