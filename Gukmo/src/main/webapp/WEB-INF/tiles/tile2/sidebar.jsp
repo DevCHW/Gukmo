@@ -29,6 +29,7 @@ $(document).ready(function(){
   	/admin/advertisement/list.do --광고내역 페이지
   	/admin/advertisement/detail.do --광고 상세페이지
   	/admin/advertisement/new.do -- 광고등록 페이지
+  	/admin/advertisement/calendar.do -- 광고일정 페이지
   	
   	[신고 관련 페이지]
   	/admin/report/list.do --신고내역 페이지

@@ -293,11 +293,22 @@ public class AdvertisementController {
 		
 		return jsonObj.toString(); // {"result":1}
 	}
-	// ========== Ajax 연습끝  ========== //
 	
 	
 	
-	//// ================ 광고 관련 일단 끝 =================== //
+	
+	// 광고일정 페이지 매핑
+	@RequestMapping(value="/admin/advertisement/calendar.do", method={RequestMethod.GET})
+	public String viewCalendar(HttpServletRequest request) {
+		//서비스에서 광고 데이터 받아와서 달력에 찍어줘야 할듯?
+		//구글캘린더는 모르겠고 뭔가 우리 오라클 DB 써야 할거같긴함.. 사이드바 작업은 이미 해둠
+		
+		
+		return "admin/advertisement/calendar.tiles2";
+	}
+	
+	
+	
 	
 	
 	

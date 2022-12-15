@@ -8,7 +8,6 @@
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/admin/advertisement/detail.css" />
-
 <%-- 직접만든 javascript --%>
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/admin/advertisement/detail.js" ></script>
 
