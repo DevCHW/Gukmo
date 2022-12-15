@@ -311,7 +311,7 @@ public class BoardDAO implements InterBoardDAO {
 		//좋아요 1 더한값 업데이트
 		int result2 = gukmo_sql.update("hgb.comment_likeCntChange", paraMap);
 		
-		int result3 = gukmo_sql.insert("hgb.addActivityCommentLike", paraMap);
+		int result3 = gukmo_sql.insert("hgb.addActivityBigCommentLike", paraMap);
 		
 		return result1*result2*result3;
 	}
