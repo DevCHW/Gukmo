@@ -60,7 +60,7 @@
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
 		<div class="academy_titel w-100 px-2 mt-5 mb-1 d-flex justify-content-between">
-			<span>현재 모집 중인 학원</span>
+			<span>현재 모집 중인 과정</span>
 			<a href="<%=ctxPath %>/academy/curricula.do"> 더 보기 </a>
 		</div>
 		
@@ -166,7 +166,7 @@
 					<!-- 테이블 제목 -->
 					<div class="title_board d-flex justify-content-start align-items-center">
 						<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F635;</p>
-						<a href="#" style="font-size:15px; margin-left:3px; color:white;">QnA </a>
+						<a href="<%= ctxPath%>/community/questions.do" style="font-size:15px; margin-left:3px; color:white;">QnA </a>
 					</div>
 					<!-- 테이블 리스트 -->
 					<div class="list_board d-flex flex-column">
@@ -175,7 +175,7 @@
 						<c:forEach var="boardvo" items="${requestScope.qnaBoardList}">
 					    <div class="div_boardList py-2 px-2">
 					    	<!-- 작성 정보 -->
-					      	<div class="d-flex justify-content-between align-items-center mb-1">
+					      	<div class="div_writerInfo d-flex justify-content-between align-items-center mb-1">
 						        <div class="d-flex" style="width:190px;">
 							        <!-- 작성자 프로필사진 -->
 							        <div class="writer_image_box">
@@ -184,7 +184,7 @@
 						
 							        <!-- 작성자 닉네임 -->
 							        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-							        <a href="#" class="writer_nickname ml-2">
+							        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_nickname ml-2">
 							         	 ${boardvo.nickname}
 							        </a>
 						
@@ -220,7 +220,7 @@
 				       		</div>
 	
 					       <!-- 글제목 -->
-					       <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+					       <a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}" class="subject align-items-center my-1">
 					         ${boardvo.subject}
 					       </a>
 						</div>
@@ -242,8 +242,8 @@
 					<c:forEach var="boardvo" items="${requestScope.studyBoardList}">
 				    <div class="div_boardList py-2 px-2">
 				    	<!-- 작성 정보 -->
-				      	<div class="d-flex justify-content-between align-items-center mb-1">
-					        <div class="d-flex" style="width:180px;">
+				      	<div class="div_writerInfo d-flex justify-content-between align-items-center mb-1">
+					        <div class="d-flex" style="width:250px;">
 						        <!-- 작성자 프로필사진 -->
 						        <div class="writer_image_box">
 						          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
@@ -251,7 +251,7 @@
 					
 						        <!-- 작성자 닉네임 -->
 						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-						        <a href="#" class="writer_nickname ml-2">
+						        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_nickname ml-2">
 						         	 ${boardvo.nickname}
 						        </a>
 					
@@ -287,7 +287,7 @@
 			       		</div>
 
 				        <!-- 글제목 -->
-				        <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+				        <a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}" class="subject align-items-center my-1">
 				          ${boardvo.subject}
 				        </a>
 					</div>
@@ -301,7 +301,7 @@
 				<div class="title_board d-flex justify-content-start align-items-center">
 				
 					<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F4AC;</p>
-					<a href="#" style="font-size:15px; margin-left:3px; color:white;"> 자유게시판 </a>
+					<a href="<%= ctxPath%>/community/freeBoards.do" style="font-size:15px; margin-left:3px; color:white;"> 자유게시판 </a>
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
@@ -309,8 +309,8 @@
 					<c:forEach var="boardvo" items="${requestScope.freeBoardList}">
 				    <div class="div_boardList py-2 px-2">
 				    	<!-- 작성 정보 -->
-				      	<div class="d-flex justify-content-between align-items-center mb-1">
-					        <div class="d-flex" style="width:180px;">
+				      	<div class="div_writerInfo d-flex justify-content-between align-items-center mb-1">
+					        <div class="d-flex" style="width:250px;">
 						        <!-- 작성자 프로필사진 -->
 						        <div class="writer_image_box">
 						          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
@@ -318,7 +318,7 @@
 					
 						        <!-- 작성자 닉네임 -->
 						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-						        <a href="#" class="writer_nickname ml-2">
+						        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_nickname ml-2">
 						         	 ${boardvo.nickname}
 						        </a>
 					
@@ -354,7 +354,7 @@
 			       		</div>
 
 				        <!-- 글제목 -->
-				        <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+				        <a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}" class="subject align-items-center my-1">
 				          ${boardvo.subject}
 				        </a>
 					</div>
@@ -368,7 +368,7 @@
 				<!-- 테이블 제목 -->
 				<div class="title_board d-flex justify-content-start align-items-center">
 					<p style="font-size:15px; font-weight: 500; margin: 0;" >&#x1F44D;</p>
-					<a href="#" style="font-size:15px; margin-left:3px; color:white;"> 후기/정보공유 </a>
+					<a href="<%= ctxPath%>/community/reviews.do" style="font-size:15px; margin-left:3px; color:white;"> 후기/정보공유 </a>
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
@@ -376,8 +376,8 @@
 					<c:forEach var="boardvo" items="${requestScope.reviewBoardList}">
 				    <div class="div_boardList py-2 px-2">
 				    	<!-- 작성 정보 -->
-				      	<div class="d-flex justify-content-between align-items-center mb-1">
-					        <div class="d-flex" style="width:180px;">
+				      	<div class="div_writerInfo d-flex justify-content-between align-items-center mb-1">
+					        <div class="d-flex" style="width:250px;">
 						        <!-- 작성자 프로필사진 -->
 						        <div class="writer_image_box">
 						          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
@@ -385,7 +385,7 @@
 					
 						        <!-- 작성자 닉네임 -->
 						        <!-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. -->
-						        <a href="#" class="writer_nickname ml-2">
+						        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_nickname ml-2">
 						         	 ${boardvo.nickname}
 						        </a>
 					
@@ -420,7 +420,7 @@
 			         		</div>
 			       		</div>
 				        <!-- 글제목 -->
-				        <a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}" class="subject align-items-center my-4">
+				        <a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}" class="subject align-items-center my-1">
 				          ${boardvo.subject}
 				        </a>
 					</div>

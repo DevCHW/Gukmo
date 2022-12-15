@@ -23,12 +23,6 @@
   <div id="section" class="d-flex">
   
   
-    <%---------------------------- 사이드바 호출 -------------------------------%>
-    
-    <jsp:include page="/WEB-INF/views/tiles1/admin/assembly/sidebar.jsp" />
-    
-    <%---------------------------- 사이드바 호출 --------------------------------------%>
-
 
     <div id="main" class="py-5 px-4 w-100">
     

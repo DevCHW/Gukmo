@@ -47,7 +47,7 @@
     <div class="container-fluid">
 
         <%-- Page Heading --%>
-        <h1 class="h3 mb-2 text-gray-800">교육기관회원내역</h1>
+        <h1 class="h3 my-2 text-gray-800">교육기관회원내역</h1>
         <p class="mb-4">승인 대기중인 교육기관회원은 심사 후 승인 부탁드립니다.</p>
 
         <%-- DataTales Example --%>

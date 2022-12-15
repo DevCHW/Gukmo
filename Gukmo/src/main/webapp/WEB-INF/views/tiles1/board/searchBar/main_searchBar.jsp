@@ -59,7 +59,7 @@ function goSearch (){
 function saveKeyword(keyword){
 	
 	  const data = {keyword:$("input#searchWord").val(),
-			  		userid : '${sessionScope.user.userid}'}
+			  		userid :'${sessionScope.user.userid}'}
 	  $.ajax({
 		type : 'GET',
 		url : '<%=ctxPath%>/saveKeyword.do',
@@ -88,10 +88,10 @@ function saveKeyword(keyword){
 </form>
 
 <!-- 해시태그 -->
-<div class="hashtag col-3 mt-2 px-5 d-flex justify-content-between align-items-center">
+<div class="hashtag col-3 mt-2 d-flex justify-content-between align-items-center">
 	<c:forEach var="topHash" items="${requestScope.topHashList}">
 	<div class="btn_hashtag border rounded px-2">
-		<a id="hashtag">#${topHash.hashtag}</a>
+		<a id="hashtag" style="color: grey;">#${topHash.hashtag}</a>
 	</div>
 	</c:forEach>
 </div>

@@ -51,7 +51,7 @@ public class BoardController {
 	 */
 	
 	@RequestMapping(value="/main_search.do")
-	public ModelAndView main_search(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView setAlarm_main_search(Map<String,String> paraMap, ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");
@@ -79,10 +79,11 @@ public class BoardController {
 		System.out.println("hashtag:" +hashtag);
 		
 		
-		Map<String, String> paraMap = new HashMap<>();
+		paraMap = new HashMap<>();
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("hashtag", hashtag);
 
+		System.out.println("잘 넘어가나 보자!!!!:" + searchWord);
 		
 		int totalCnt = 0; // 총 게시물 건 수
 		int sizePerpage = 10; // 한 페이지 당 보여줄 게시글 건 수

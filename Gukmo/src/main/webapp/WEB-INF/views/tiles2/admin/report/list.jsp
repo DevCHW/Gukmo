@@ -5,13 +5,16 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<%-- 일반회원리스트 페이지입니다. --%>
+<%-- 신고리스트 페이지입니다. --%>
 
 
 <%-- Custom styles for this page --%>
 <link href="<%=ctxPath %>/resources/css/hyunwoo/admin/dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
 <%-- Latest compiled and minified CSS --%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<%-- dataTableButton 
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
+--%>
 <%-- Latest compiled and minified JavaScript --%>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <%-- 직접만든 CSS --%>
@@ -34,7 +37,7 @@
 <%-- dataTables print button --%>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
 <%-- 직접만든 javascript --%>
-<script src="<%=ctxPath %>/resources/js/hyunwoo/admin/member/normal/list.js"></script>
+<script src="<%=ctxPath %>/resources/js/hyunwoo/admin/report/list.js"></script>
 
 
 <%-- Main Content --%>
@@ -44,13 +47,13 @@
     <div class="container-fluid">
 
         <%-- Page Heading --%>
-        <h1 class="h3 my-2 text-gray-800">일반회원 내역</h1>
-        <p class="mb-4"></p>
+        <h1 class="h3 my-2 text-gray-800">신고내역</h1>
+        <p class="mb-4">접수된 신고들을 상세히 검토 후 접수처리해주세요.</p>
 
         <%-- DataTales Example --%>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">일반회원 내역</h6>
+                <h6 class="m-0 font-weight-bold text-primary">신고내역</h6>
             </div>
             <%-- 검색영역(select박스,검색바) 시작 --%>
             <div class="d-flex justify-content-end align-items-center px-3 mt-3">
@@ -58,9 +61,9 @@
 			  
               <%-- 검색조건 selectBOX --%>
               <select id="searchType" class="selectpicker mr-3 border rounded" data-style="btn-info" data-width="120px">
-			      <option value="0">닉네임</option>
-			      <option value="1">아이디</option>
-			      <option value="2">이메일</option>
+			      <option value="0">신고번호</option>
+			      <option value="2">신고자 닉네임</option>
+			      <option value="3">피신고자 닉네임</option>
 			  </select>
 			  
 			  <%-- 검색바 시작 --%>
@@ -83,18 +86,36 @@
 			  <%-- 필터영역 시작 --%>
 			  <div class="d-flex justify-content-end align-items-center pt-3">
 				<div id="filter_area" class="align-items-center">
-					<%-- 필터버튼클릭시 나올 상태 selectBox --%>
-		            <select id="status" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="120px">
-		            	<option>상태선택</option>
-		            	<option>활동</option>
-						<option>정지</option>
-					    <option>휴면</option>
-					    <option>대기</option>
+					<%-- 필터버튼클릭시 나올 report_type selectBox --%>
+		            <select id="report_type" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="120px">
+		            	<option>신고분류선택</option>
+		            	<option>게시글</option>
+		            	<option>댓글</option>
+					</select>
+					
+					<%-- 필터버튼클릭시 나올 simple_report_reason selectBox --%>
+		            <select id="simple_report_reason" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="200px">
+		            	<option>사유선택</option>
+		            	<option>스팸홍보/도배글입니다.</option>
+		                <option>불법정보를 포함하고 있습니다.</option>
+		                <option>청소년에게 유해한 내용입니다.</option>
+		                <option>욕설/생명경시/혐오/차별적 표현입니다.</option>
+		                <option>개인정보 노출 게시물입니다.</option>
+		                <option>불쾌한 표현이 있습니다.</option>
+		                <option>기타</option>
+					</select>
+					
+					
+					<%-- 필터버튼클릭시 나올 receipt selectBox --%>
+		            <select id="receipt" class="selectpicker mr-4 mt-3 border rounded" data-style="btn-light border" data-width="140px">
+		            	<option>접수여부선택</option>
+		            	<option>접수전</option>
+		            	<option>접수완료</option>
 					</select>
 				    
 				    <%-- 검색조건을 가입일자를 눌렀을 시에 나올 selectBox --%>
 					<div id="join_date_box" class="mr-3">
-						<div style="font-weight:bold;">가입일자 입력</div>
+						<div style="font-weight:bold;">신고일자 범위</div>
 						<div class="mt-1">
 					  	  <input type="text" id="start_date" name="start_date" style="width: 100px; height:30px; outline:none;" class="border rounded pl-2" placeholder="검색시작일자" readonly>
 					      <span>&nbsp;부터&nbsp;</span>
@@ -112,11 +133,13 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>닉네임</th>
-                                <th>아이디</th>
-                                <th>이메일</th>
-                                <th>가입일자</th>
-                                <th>상태</th>
+                                <th>신고번호</th>
+                                <th>신고분류</th>
+                                <th>신고자 닉네임</th>
+                                <th>피신고자 닉네임</th>
+                                <th>사유</th>
+                                <th>신고일자</th>
+                                <th>접수여부</th>
                             </tr>
                         </thead>
                     </table>
