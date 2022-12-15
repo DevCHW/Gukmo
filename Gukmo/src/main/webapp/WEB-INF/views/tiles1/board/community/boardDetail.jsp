@@ -88,7 +88,7 @@
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
-              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -97,7 +97,7 @@
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
-              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -105,7 +105,7 @@
         <c:if test="${sessionScope.user.nickname != requestScope.board.nickname && sessionScope.user.authority eq '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">             
-              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
             </div>
           </span>
         </c:if>
