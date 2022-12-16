@@ -312,7 +312,7 @@ public class AdvertisementController {
 	public String view_AdSchedule() {
 
 		List<AdVO> adList = service.getAdList();		
-		System.out.println(adList);
+		// System.out.println(adList);
 
 		JSONArray jsonArr = new JSONArray();
 		
@@ -322,13 +322,13 @@ public class AdvertisementController {
 			hash.put("title", adList.get(i).getClient_name());
 			hash.put("start", adList.get(i).getStart_date());
 			hash.put("end", adList.get(i).getEnd_date());
-			
+			hash.put("advertisement_num", adList.get(i).getAdvertisement_num());
 			JSONObject jsonObj = new JSONObject(hash);			
 			jsonArr.put(jsonObj);
 
 		} //end of for
 		
-		System.out.println(jsonArr.toString());
+		// System.out.println(jsonArr.toString());
 		
 		return jsonArr.toString();
 	

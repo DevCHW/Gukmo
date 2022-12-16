@@ -10,7 +10,18 @@
 <script src='<%=ctxPath %>/resources/fullcalendar-6.0.0/dist/index.global.js'></script>
 <script type="text/javascript">
 
-$(document).ready(function(){
+$(document).ready(function(event){
+	
+	$(document).on("click",".fc-event-title-container",function() {
+		var bool = confirm("해당 광고 상세보기 페이지로 이동하시겠습니까?");		
+		if(bool){
+			console.log("go");
+		}
+
+		else {
+			return false;
+		}
+	});
 	
 	
 	var calendarEl = document.getElementById('calendar');
@@ -36,7 +47,8 @@ $(document).ready(function(){
           			   events.push({
                               title: item.title,
                               start: item.start,
-                              end: item.end
+                              end: item.end,
+                              url: '<%= ctxPath%>/admin/advertisement/detail.do?advertisement_num='+item.advertisement_num
                  		}); // end of events.push({})---------           		
 	        		 }) //end of $.each
 	        	 }//end of if
@@ -57,7 +69,9 @@ $(document).ready(function(){
 
 });
 		
+function schedule_click() {
 	
+}	
 	
 
 </script>
