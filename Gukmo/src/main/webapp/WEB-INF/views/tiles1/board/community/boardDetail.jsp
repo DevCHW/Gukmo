@@ -17,10 +17,6 @@
   <script type="text/javascript" src="<%=ctxPath %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 
-
-
-
-
   <div class="container my-5"> 
 
     <div class="line my-4" style="width:1150px; margin-left: -20px;">
@@ -214,18 +210,78 @@
     
 
 
-    <div id="advertisement_box" class="mt-4">
-      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/>
-    </div>
+    
 
     <%---------------------- 광고 영역 시작 ----------------------%>
+    <!--  
+    
     <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
     
     <div id="advertisement_box" class="mt-4">
-      <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}"/>
+     
+     
+        <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
+              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}">
+        </c:if>
+        <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
+              <img src="${advertisement_List.filename}">
+        </c:if>
+        
     </div>
     
+    
+    
 	</c:forEach>
+	-->  
+	
+	<div id="demo" class="carousel slide mt-4" data-ride="carousel" >
+
+<!-- Indicators -->
+     <ul class="carousel-indicators">
+       <li data-target="#demo" data-slide-to="1" class="active"></li>
+       <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+       <li data-target="#demo" data-slide-to="0"></li>
+       </c:forEach>
+     </ul>
+   
+     <!-- The slideshow -->
+     <div class="carousel-inner" style="height:160px;">
+     <div class="carousel-item active">
+     	<c:forEach begin="2" var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+        <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}">
+         </c:forEach>
+       </div>
+       
+       
+         <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+    
+    <div class="carousel-item ">
+     
+       
+        <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
+              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}">
+        </c:if>
+        <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
+              <img src="${advertisement_List.filename}">
+        </c:if>
+    
+    </div>
+    
+    
+	</c:forEach>
+       
+       
+     </div>
+   
+     <!-- Left and right controls -->
+     <a class="carousel-control-prev" href="#demo" data-slide="prev">
+       <span class="carousel-control-prev-icon"></span>
+     </a>
+     <a class="carousel-control-next" href="#demo" data-slide="next">
+       <span class="carousel-control-next-icon"></span>
+     </a>
+   
+</div>	
     <%---------------------- 광고 영역 끝 ----------------------%>
 
 
@@ -253,10 +309,9 @@
 	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
 	        <div class="ml-3 w-100">
 	          <div class="mb-1">내용</div>
-	          <textarea id="comment_content_area" name="comment_content_area" class="pl-2 py-2" rows="5"></textarea>
-	  
+	          <textarea id="comment_content_area" name="comment_content_area" class="pl-2 py-2" rows="5"></textarea>	  
 	          <div class="d-flex justify-content-end mt-2">
-	            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
+	            <button type="button" class="btn btn-info" id="go_comment">댓글 쓰기</button>
 	          </div>
 	        </div>
 	     
@@ -495,7 +550,7 @@
           
           <div class="ml-3 w-100">
             <div class="mb-1">${sessionScope.user.nickname}</div>
-    		<textarea id="" class="pl-2 py-2 content2" name="content2" rows="5"></textarea>   		
+    		<textarea id="big_comment_content_area" class="pl-2 py-2 content2" name="content2" rows="5"></textarea>   		
             <div class="d-flex justify-content-end mt-2" id = "asdf1">
               <button type="button" class="btn_big_comment_close btn btn-light border rounded mr-3">취소</button>
               <button type="button" class="btn_big_comment_write btn btn-info">댓글 쓰기</button>
