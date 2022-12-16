@@ -29,6 +29,7 @@ $(document).ready(function(){
   	/admin/advertisement/list.do --광고내역 페이지
   	/admin/advertisement/detail.do --광고 상세페이지
   	/admin/advertisement/new.do -- 광고등록 페이지
+  	/admin/advertisement/calendar.do -- 광고일정 페이지
   	
   	[신고 관련 페이지]
   	/admin/report/list.do --신고내역 페이지
@@ -96,7 +97,7 @@ $(document).ready(function(){
 	  case "/admin/advertisement/calendar.do" :							   //광고일정 URL일 경우
 		  	$("li.advertisementMenu").children(":first").trigger("click"); //메뉴 클릭시키기
 		    $("li.advertisementMenu").addClass("active");				   //광고메뉴 활성화
-	  		$("a.advertisementNew").addClass("active");					   //광고일정메뉴 활성화
+	  		$("a.advertisementCalendar").addClass("active");					   //광고일정메뉴 활성화
 		    break;
 		    
 		 // ====================== 광고관련   끝  ========================== //
@@ -183,7 +184,7 @@ $(document).ready(function(){
                 <h6 class="collapse-header">Advertisement</h6>
                 <a class="collapse-item advertisementList" href="<%=ctxPath %>/admin/advertisement/list.do">광고내역</a>
                 <a class="collapse-item advertisementNew" href="<%=ctxPath %>/admin/advertisement/new.do">광고등록</a>
-                <a class="collapse-item advertisementNew" href="<%=ctxPath %>/admin/advertisement/calendar.do">광고일정</a>
+                <a class="collapse-item advertisementCalendar" href="<%=ctxPath %>/admin/advertisement/calendar.do">광고일정</a>
             </div>
         </div>
     </li>

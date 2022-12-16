@@ -100,10 +100,10 @@
 					   nickname
 			    from tbl_activity
 			    where fk_userid = #{userid}
+			    order by activity_date desc
 			) V
 		) T
 	    where rno between #{startRno} and #{endRno}
-	    order by activity_date desc
 	</select>
 	
 	<!-- 회원의 활동내역 총 갯수 얻기 -->

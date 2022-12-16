@@ -134,6 +134,11 @@ $(document).ready(function(){
 	  const comment_num = $("input#c_num").val();
 	  const content3 = target.parent().prev().prev().val();
 	  
+	  if(content3 == "") {
+		  alert("수정할 내용을 입력하세요 !");
+		  return;
+	  }
+	  
 	  // alert(comment_num);
 	  // alert(content3);
 	  
@@ -193,6 +198,10 @@ $(document).ready(function(){
 	  const comment_num = $("input#c_of_c_num").val();
 	  const content3 = target.parent().prev().prev().val();
 	  
+	  if(content3 == "") {
+		  alert("수정할 내용을 입력하세요 !");
+		  return;
+	  }
 	  // alert(comment_num);
 	  // alert(content3);
 	  
@@ -314,7 +323,7 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
-	  const re_content = target.parent().parent().parent().next().find('div.detail_comment_of_comment').text();
+	  const re_content = target.parent().parent().parent().parent().find('div.detail_comment_of_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
 //	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
@@ -339,6 +348,7 @@ $(document).ready(function(){
   // 대댓글 작성 버튼 클릭시 이벤트 잡기
   $("button.btn_big_comment_write").click(function(e){
 	  const target = $(e.currentTarget);
+	  const alarm_nickname = target.parent().parent().parent().parent().prev();
 	  const content = target.parent().prev().val();
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
@@ -480,7 +490,7 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 
 
 //대댓글 좋아요
-function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname){
+function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname){
 	$.ajax({
 		url:getContextPath()+"/big_comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -500,19 +510,19 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 			} else if(json.JavaData == 'delete'){	// 좋아요를 삭제하였다면
 				// alert("댓글 좋아요 취소.");
 				window.location.reload();
-				target.find('span#comment_like_icon').html("&#129293;");
+				target.find('span#big_comment_like_icon').html("&#129293;");
 			//	const comment_like_cnt = target.find.parseInt($("span.comment_like_cnt").text()) - 1;	// 좋아요개수
 				// 1빼기
 
-				$("span.comment_like_cnt").html(comment_like_cnt);	
+				$("span.big_comment_like_cnt").html(big_comment_like_cnt);	
 				
 			} else if(json.JavaData == 'insert'){	// 좋아요를 추가하였다면
 				// alert("댓글 좋아요.");
 				window.location.reload();
-				target.find('span#comment_like_icon').html("&#x1F497;");
+				target.find('span#big_comment_like_icon').html("&#x1F497;");
 			//	const comment_like_cnt = target.find.parseInt($("span.comment_like_cnt").text()) + 1;	// 좋아요개수
 				// 1더하기
-				$("span.comment_like_cnt").html(comment_like_cnt);
+				$("span.big_comment_like_cnt").html(big_comment_like_cnt);
 				
 			} else{
 				alert("좋아요 기능 오류");
@@ -575,11 +585,13 @@ function openReport_comment_of_comment(comment_write_nickname, comment_num,conte
 function del_board(board_num){
 	  if(confirm('정말 삭제하시겠습니까?')) {		  
 		  alert("삭제백단");
-		  location.href="del_board.do?board_num="+board_num;		  		  
+		   location.href = getContextPath()+"/community/del.do?boardNum="+board_num;		  		  
 		  return true;
 	  }  			
 		else 
 			return false;
+			
+	//  location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}
 };// end of Event--
 
 
@@ -602,9 +614,8 @@ function no_login_comment() {
 }
 
 
-// 댓글쓰기
+// 댓글쓰기 (완)
 function goAddWrite_noAttach() {
-	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
@@ -612,11 +623,16 @@ function goAddWrite_noAttach() {
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
+	if(content == "") {
+		alert("댓글내용을 입력하세요!!");
+		return;
+	}
+	
 	  $.ajax({
 		  url:getContextPath()+"/addComment.do",
 		  data:{ "cmt_board_num":cmt_board_num
 				,"nickname":nickname
-				,"parent_write_nickname":parent_write_nickname
+				,"alarm_nickname":parent_write_nickname
 				,"content":content
 				,"subject":subject
 				,"detail_category":detail_category},
@@ -649,21 +665,26 @@ function goAddWrite_noAttach() {
 
 
 
-function addCommentOfComment(content, fk_comment_num) {
-	
+// 대댓글 작성
+function addCommentOfComment(content, fk_comment_num) {	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
-
-	  $.ajax({
+	
+	if(content == "") {
+		alert("댓글내용을 입력하세요!!");
+		return;
+	}
+	
+	$.ajax({
 		  url:getContextPath()+"/addCommentOfComment.do",
-		  data:{ "board_num":cmt_board_num
+		  data:{ "cmt_board_num":cmt_board_num
 				,"nickname":nickname
-				,"parent_write_nickname":parent_write_nickname
-				,"fk_comment_num":fk_comment_num
+				,"alarm_nickname":parent_write_nickname
 				,"content":content
+				,"fk_comment_num":fk_comment_num
 				,"subject":subject
 				,"detail_category":detail_category},
 		  type:"POST",

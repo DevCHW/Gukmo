@@ -353,7 +353,7 @@
    
    <insert id="addActivityBigCommentLike" parameterType="HashMap">
       insert into tbl_activity
-      values(seq_activity.nextval, #{userid}, #{board_num}, sysdate, #{subject}, #{detail_category}, '댓글좋아요', #{nickname} )
+      values(seq_activity.nextval, #{userid}, #{cmt_board_num}, sysdate, #{subject}, #{detail_category}, '댓글좋아요', #{nickname} )
    </insert>
    
    

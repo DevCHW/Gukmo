@@ -178,16 +178,18 @@ public class BoardController {
 
 		paraMap.put("userid", userid);
 		
+		System.out.println("paraMap:" + paraMap);
+		
 		// 알람값 넣는 AOP 용
-		paraMap.put("cmd", "reply");
-		paraMap.put("url", "/detail.do?boardNum=");
-		paraMap.put("content", paraMap.get("subject"));
-		paraMap.put("url_num", paraMap.get("cmt_board_num"));
+		Map<String,String> alarmMap = new HashMap<>();
+		alarmMap.put("alarm_nickname",paraMap.get("alarm_nickname"));
+		alarmMap.put("cmd", "reply");
+		alarmMap.put("url", "/detail.do?boardNum=");
+		alarmMap.put("content", paraMap.get("subject"));
+		alarmMap.put("url_num", paraMap.get("cmt_board_num"));
 
-		request.setAttribute("paraMap", paraMap);
+		request.setAttribute("paraMap", alarmMap);
 
-		request.setAttribute("paraMap", paraMap);
-		// System.out.println("paraMap: " + paraMap);
 		
 		try {
 			// tbl_comment 테이블에 추가, tbl_board 의 comment_cnt +1, 해당 회원의 포인트 10점 증가, 활동내역에 등록
@@ -223,14 +225,17 @@ public class BoardController {
 		String userid = user.getUserid();
 		paraMap.put("userid", userid);
 
+		System.out.println("paraMap:" + paraMap);
 
 		// 알람값 넣는 AOP 용
-		paraMap.put("cmd", "recomment");
-		paraMap.put("url", "/detail.do?boardNum=");
-		paraMap.put("content", paraMap.get("content"));
-		paraMap.put("url_num", paraMap.get("board_num"));
+		Map<String,String> alarmMap = new HashMap<>();
+		alarmMap.put("nickname",paraMap.get("parent_write_nickname"));
+		alarmMap.put("cmd", "recomment");
+		alarmMap.put("url", "/detail.do?boardNum=");
+		alarmMap.put("content", paraMap.get("content"));
+		alarmMap.put("url_num", paraMap.get("cmt_board_num"));
 
-		request.setAttribute("paraMap", paraMap);
+		request.setAttribute("paraMap", alarmMap);
 		
 		int n = 0;
 		
@@ -359,15 +364,18 @@ public class BoardController {
 	   @RequestMapping(value="/likeProcess.do",method=RequestMethod.POST)
 	   public String setAlarm_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
 	      //확인용 board_num,userid
-//	      System.out.println(paraMap);
 
+		  System.out.println("paraMap:" + paraMap);
+		  
 		  // 알람 값 넣는 AOP 용 ~
-			paraMap.put("cmd", "like");
-			paraMap.put("url", "/detail.do?boardNum=");
-			paraMap.put("content", paraMap.get("subject"));
-			paraMap.put("url_num", paraMap.get("board_num"));
+	      Map<String,String> alarmMap = new HashMap<>();
+	      alarmMap.put("nickname", paraMap.get("nickname"));
+	      alarmMap.put("cmd", "like");
+	      alarmMap.put("url", "/detail.do?boardNum=");
+	      alarmMap.put("content", paraMap.get("subject"));
+	      alarmMap.put("url_num", paraMap.get("board_num"));
 
-			request.setAttribute("paraMap", paraMap);
+		  request.setAttribute("paraMap", alarmMap);
 		  
 	      JSONObject jsonObj = new JSONObject();
 	      
@@ -387,15 +395,17 @@ public class BoardController {
        @RequestMapping(value="/comment_likeProcess.do",method=RequestMethod.POST)
        public String setAlarm_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
              //확인용 board_num,userid
-//	         System.out.println(paraMap);
+   		 System.out.println("paraMap:" + paraMap);
          
 		  // 알람 값 넣는 AOP 용 ~
-			paraMap.put("cmd", "cmtlike");
-			paraMap.put("url", "/detail.do?boardNum=");
-			paraMap.put("content", paraMap.get("content"));
-			paraMap.put("url_num", paraMap.get("board_num"));
+      	 Map<String,String> alarmMap = new HashMap<>();
+      	 alarmMap.put("alarm_nickname", paraMap.get("alarm_nickname"));
+      	 alarmMap.put("cmd", "cmtlike");
+      	 alarmMap.put("url", "/detail.do?boardNum=");
+      	 alarmMap.put("content", paraMap.get("content"));
+      	 alarmMap.put("url_num", paraMap.get("board_num"));
 
-			request.setAttribute("paraMap", paraMap);
+		 request.setAttribute("alarmMap", alarmMap);
 		  
          JSONObject jsonObj = new JSONObject();
          
@@ -418,12 +428,14 @@ public class BoardController {
 //	         System.out.println(paraMap);
          
 		 // 알람 값 넣는 AOP 용 ~
-		 paraMap.put("cmd", "cmt_cmtLike");
-		 paraMap.put("url", "/detail.do?boardNum=");
-		 paraMap.put("content", paraMap.get("content"));
-	     paraMap.put("url_num", paraMap.get("board_num"));
+    	 Map<String,String> alarmMap = new HashMap<>();
+    	 alarmMap.put("alarm_nickname", paraMap.get("alarm_nickname"));
+    	 alarmMap.put("cmd", "cmt_cmtLike");
+    	 alarmMap.put("url", "/detail.do?boardNum=");
+    	 alarmMap.put("content", paraMap.get("content"));
+    	 alarmMap.put("url_num", paraMap.get("board_num"));
 
-		 request.setAttribute("paraMap", paraMap);
+		 request.setAttribute("AlarmMap", alarmMap);
 		  
          JSONObject jsonObj = new JSONObject();
          
