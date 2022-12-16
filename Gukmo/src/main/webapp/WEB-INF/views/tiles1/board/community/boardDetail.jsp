@@ -13,6 +13,8 @@
   
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/gwangbin/boardDetail.js" ></script>
+  
+  <script type="text/javascript" src="<%=ctxPath %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 
 
@@ -162,7 +164,8 @@
             <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}" />
             <input id="board_subject"  type="hidden" name="board_subject" value="${board.subject}" />
             <input id="detail_category"  type="hidden" name="detail_category" value="${requestScope.board.detail_category}" />
-        
+            <input id="board_writer_nick" type="text" name="board_writer_nick" value="${board.nickname}" />
+            
         
         
       </div>
@@ -250,7 +253,7 @@
 	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
 	        <div class="ml-3 w-100">
 	          <div class="mb-1">내용</div>
-	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>
+	          <textarea id="comment_content_area" name="comment_content_area" class="pl-2 py-2" rows="5"></textarea>
 	  
 	          <div class="d-flex justify-content-end mt-2">
 	            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>

@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 import javax.mail.Session;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -44,7 +45,7 @@ public class BoardController {
 	InterBoardDAO dao;
 	
 	@RequestMapping(value="/detail.do", method= {RequestMethod.GET})
-	   public String viewBoardDetail(HttpServletRequest request) {
+	   public String viewBoardDetail(HttpServletRequest request, HttpServletResponse response) {
 		    
 		
 		    try {
@@ -65,10 +66,43 @@ public class BoardController {
 	      	String detail_category = service.getCategory(paraMap);	      
 			paraMap.put("detail_category",detail_category);
 		    
-		    
+			
+			
+		       
 		    
 			  //하나의 boardvo 불러오기
-			  BoardVO board = service.getBoardDetail(paraMap);   
+			  BoardVO board = service.getBoardDetail(paraMap);  
+			  
+			  
+			  Cookie oldCookie = null;
+			    Cookie[] cookies = request.getCookies();
+			    if (cookies != null) {
+			        for (Cookie cookie : cookies) {
+			            if (cookie.getName().equals("postView")) {
+			                oldCookie = cookie;
+			            }
+			        }
+			    }
+
+			    if (oldCookie != null) {
+			        if (!oldCookie.getValue().contains("[" + board.getBoard_num().toString() + "]")) {
+			        	dao.setAddReadCount(board.getBoard_num());
+			            oldCookie.setValue(oldCookie.getValue() + "_[" + board.getBoard_num() + "]");
+			            oldCookie.setPath("/");
+			            oldCookie.setMaxAge(60 * 3);
+			            response.addCookie(oldCookie);
+			        }
+			    } else {
+			    	dao.setAddReadCount(board.getBoard_num());
+			        Cookie newCookie = new Cookie("postView","[" + board.getBoard_num() + "]");
+			        newCookie.setPath("/");
+			        newCookie.setMaxAge(60 * 3);
+			        response.addCookie(newCookie);
+			    }
+			
+			  
+			//  dao.setAddReadCount(board.getBoard_num());
+			  
 		      if(user != null) {
 		          String userid = user.getUserid();      
 		       
@@ -91,17 +125,19 @@ public class BoardController {
 		         String writer_nickname = board.getNickname();
 		         // System.out.println("login_nickname => " + login_nickname);
 		         // System.out.println("writer_nickname => " + writer_nickname);
-		         
+		        
+		         /*
 		         if("yes".equals(session.getAttribute("readCountPermission"))) { // 게시글 목록을 통해 상세보기 페이지에 진입한경우
 		         
 		            if(login_nickname == null || !login_nickname.equals(writer_nickname)) {
 		               
-		               dao.setAddReadCount(board.getBoard_num()); // 조회수 1 증가하기		               
+		                // 조회수 1 증가하기		               
 		               session.removeAttribute("readCountPermission"); // session 에 저장된 readCountPermission 을 삭제한다.
 		            }
 		         
 		         }
-		              
+		         */
+		         
 		      }//end of ooouter if        
 		    
 		      String userid = "";

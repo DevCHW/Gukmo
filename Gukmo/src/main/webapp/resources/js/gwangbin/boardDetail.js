@@ -12,12 +12,44 @@ let btn_comment_toggle_click_cnt = 0;
 
 $(document).ready(function(){
 	
+	//전역변수
+    var obj = [];
+	
 	$("div.comment_edit").hide();
 	$("div.c_of_comment_edit").hide();			
 	
 	// 대댓 보여주는 함수
 	// viewCommentOfComment();
     // ////////////////////////////////////////////////////////////////////////////////
+	
+	
+	//스마트에디터 프레임생성
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: obj,
+        elPlaceHolder: "comment_content_area",
+        sSkinURI: getContextPath()+"/resources/smarteditor/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseToolbar : true,            
+            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseVerticalResizer : true,    
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseModeChanger : true,
+        }
+    });
+    
+    $("button#go_comment").click(function(){
+    	obj.getById["comment_content_area"].exec("UPDATE_CONTENTS_FIELD", []);
+    	
+    	const content = $("textarea#comment_content_area").val().trim();
+		if(content == "") {
+			alert("댓댓댓을 입력하세요!!");
+			return;
+		}
+    	
+    	
+    	
+    });
 
   // 게시글에 [...]클릭시 이벤트
   $("span#btn_more").click(()=>{
@@ -150,10 +182,19 @@ $(document).ready(function(){
   
   // 댓글 삭제하기 버튼 클릭시
   $("span.comment_delete").click(function(e) {
+	  
+	  const target = $(e.currentTarget);
+	  
+	  const big_comment = target.parent().parent().parent().parent().parent().next().find("div.detail_comment_of_comment").val();
 	  const comment_num = $(this).parent().parent().parent().parent().find("div.comment_writer_nickname").attr('id');
 	  const comment_writer_nickname = document.getElementById(comment_num).innerText;
 	  const login_nickname = $("input#nickname").val();
 	  // alert(login_nickname);
+	  
+	  if(big_comment != null) {
+		  alert("댓글이있는 댓글은 삭제할 수 없습니다!");
+		  return;
+	  }
 
 	  
 	  if(comment_writer_nickname == login_nickname) {
@@ -666,7 +707,8 @@ function openReport_comment_of_comment(comment_write_nickname, comment_num,conte
 }
 
 // [...]클릭후, 삭제버튼 클릭시 이벤트
-function del_board(board_num){
+function del_board(board_num){		  	
+	
 	  if(confirm('정말 삭제하시겠습니까?')) {		  
 		  alert("삭제백단");
 		  location.href = getContextPath()+"/community/del.do?boardNum="+board_num;		
@@ -708,7 +750,7 @@ function goAddWrite_noAttach() {
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
-	const content = $("textarea#content").val();
+	const content = $("textarea#comment_content_area").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
@@ -739,7 +781,7 @@ function goAddWrite_noAttach() {
 			  else {
 			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
 				  alert("댓글 작성 성공");
-				  $("textarea#content").val("");
+				  $("textarea#comment_content_area").val("");
 				  window.location.reload();
 			  }
 			  
