@@ -248,7 +248,9 @@
      <div class="carousel-inner" style="height:160px;">
      <div class="carousel-item active">
      	<c:forEach begin="2" var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
-        <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}">
+     	<a href="${advertisement_List.url}">
+       		<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+        </a>
          </c:forEach>
        </div>
        
@@ -259,10 +261,14 @@
      
        
         <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
-              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}">
+           <a href="${advertisement_List.url}">
+              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+           </a>
         </c:if>
         <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
-              <img src="${advertisement_List.filename}">
+           <a href="${advertisement_List.url}">
+              <img src="${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+           </a>
         </c:if>
     
     </div>
