@@ -8,78 +8,57 @@
 %>
 
 <script src='<%=ctxPath %>/resources/fullcalendar-6.0.0/dist/index.global.js'></script>
-<script>
+<script type="text/javascript">
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+$(document).ready(function(){
+	
+	
+	var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      locale:"ko",
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      selectable: true,
+  	  events:function(info, successCallback, failureCallback) {
+	   	  $.ajax({
+	         url: "<%= ctxPath%>/admin/view_AdSchedule.do",
+ 			 type: "post",
+	         dataType:"json",
+	         success:function(json) {
+	        	 var events = [];
+	        	 if(json.length > 0){
+	        		 $.each(json, function(index, item) {
+          			   events.push({
+                              title: item.title,
+                              start: item.start,
+                              end: item.end
+                 		}); // end of events.push({})---------           		
+	        		 }) //end of $.each
+	        	 }//end of if
+	        	successCallback(events);
+				
+			 },// end of success			
+			 error: function(request,error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			 }
+			 
+		  });// end of $.ajax({})---
+		  
+  	    } //end of function function(info, successCallback, failureCallback)
+      
+    });
+      
+    calendar.render();
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          locale:"ko",
-          navLinks: true, // can click day/week names to navigate views
-          businessHours: true, // display business hours
-          editable: true,
-          selectable: true,
-          events: [
-            {
-              title: 'Business Lunch',
-              start: '2022-12-03T13:00:00',
-              constraint: 'businessHours'
-            },
-            {
-              title: 'Meeting',
-              start: '2022-12-13T11:00:00',
-              constraint: 'availableForMeeting', // defined below
-              color: '#257e4a'
-            },
-            {
-              title: 'Conference',
-              start: '2022-12-18',
-              end: '2022-12-22'
-            },
-            {
-              title: 'Party',
-              start: '2022-12-29T20:00:00'
-            },
-
-            // areas where "Meeting" must be dropped
-            {
-              groupId: 'availableForMeeting',
-              start: '2022-12-11T10:00:00',
-              end: '2022-12-11T16:00:00',
-              display: 'background'
-            },
-            {
-              groupId: 'availableForMeeting',
-              start: '2022-12-13T10:00:00',
-              end: '2022-12-13T16:00:00',
-              display: 'background'
-            },
-
-            // red areas where no events can be dropped
-            {
-              start: '2022-12-24',
-              end: '2022-12-28',
-              overlap: false,
-              display: 'background',
-              color: '#ff9f89'
-            },
-            {
-              start: '2022-12-06',
-              end: '2022-12-09',
-              overlap: false,
-              display: 'background',
-              color: '#ff9f89'
-            }
-          ]
-        });
-
-        calendar.render();
-      });
+});
+		
+	
+	
 
 </script>
 

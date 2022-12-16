@@ -22,4 +22,7 @@ public interface InterAdvertisementDAO {
 	// 광고 날짜 변경시 tbl_advertisement 에서 날짜 변경
 	int edit_ad(Map<String, String> paraMap);
 
+	// 광고 일정 캘린더에 광고 일정 박기(ajax)
+	List<AdVO> adList_cal();
+
 }
