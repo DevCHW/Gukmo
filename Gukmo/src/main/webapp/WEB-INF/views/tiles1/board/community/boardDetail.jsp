@@ -164,7 +164,7 @@
             <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}" />
             <input id="board_subject"  type="hidden" name="board_subject" value="${board.subject}" />
             <input id="detail_category"  type="hidden" name="detail_category" value="${requestScope.board.detail_category}" />
-            <input id="board_writer_nick" type="text" name="board_writer_nick" value="${board.nickname}" />
+            <input id="board_writer_nick" type="hidden" name="board_writer_nick" value="${board.nickname}" />
             
         
         
