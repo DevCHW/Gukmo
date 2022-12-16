@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 import javax.mail.Session;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.sm.repository.InterBoardDAO;
 import com.gukmo.board.sm.service.InterBoardService;
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 import com.gukmo.board.model.MemberVO;
@@ -43,7 +45,7 @@ public class BoardController {
 	InterBoardDAO dao;
 	
 	@RequestMapping(value="/detail.do", method= {RequestMethod.GET})
-	   public String viewBoardDetail(HttpServletRequest request) {
+	   public String viewBoardDetail(HttpServletRequest request, HttpServletResponse response) {
 		    
 		
 		    try {
@@ -64,10 +66,43 @@ public class BoardController {
 	      	String detail_category = service.getCategory(paraMap);	      
 			paraMap.put("detail_category",detail_category);
 		    
-		    
+			
+			
+		       
 		    
 			  //하나의 boardvo 불러오기
-			  BoardVO board = service.getBoardDetail(paraMap);   
+			  BoardVO board = service.getBoardDetail(paraMap);  
+			  
+			  
+			  Cookie oldCookie = null;
+			    Cookie[] cookies = request.getCookies();
+			    if (cookies != null) {
+			        for (Cookie cookie : cookies) {
+			            if (cookie.getName().equals("postView")) {
+			                oldCookie = cookie;
+			            }
+			        }
+			    }
+
+			    if (oldCookie != null) {
+			        if (!oldCookie.getValue().contains("[" + board.getBoard_num().toString() + "]")) {
+			        	dao.setAddReadCount(board.getBoard_num());
+			            oldCookie.setValue(oldCookie.getValue() + "_[" + board.getBoard_num() + "]");
+			            oldCookie.setPath("/");
+			            oldCookie.setMaxAge(60 * 3);
+			            response.addCookie(oldCookie);
+			        }
+			    } else {
+			    	dao.setAddReadCount(board.getBoard_num());
+			        Cookie newCookie = new Cookie("postView","[" + board.getBoard_num() + "]");
+			        newCookie.setPath("/");
+			        newCookie.setMaxAge(60 * 3);
+			        response.addCookie(newCookie);
+			    }
+			
+			  
+			//  dao.setAddReadCount(board.getBoard_num());
+			  
 		      if(user != null) {
 		          String userid = user.getUserid();      
 		       
@@ -90,17 +125,19 @@ public class BoardController {
 		         String writer_nickname = board.getNickname();
 		         // System.out.println("login_nickname => " + login_nickname);
 		         // System.out.println("writer_nickname => " + writer_nickname);
-		         
+		        
+		         /*
 		         if("yes".equals(session.getAttribute("readCountPermission"))) { // 게시글 목록을 통해 상세보기 페이지에 진입한경우
 		         
 		            if(login_nickname == null || !login_nickname.equals(writer_nickname)) {
 		               
-		               dao.setAddReadCount(board.getBoard_num()); // 조회수 1 증가하기		               
+		                // 조회수 1 증가하기		               
 		               session.removeAttribute("readCountPermission"); // session 에 저장된 readCountPermission 을 삭제한다.
 		            }
 		         
 		         }
-		              
+		         */
+		         
 		      }//end of ooouter if        
 		    
 		      String userid = "";
@@ -117,10 +154,12 @@ public class BoardController {
 			 List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
 			 List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 	
 			
+			 List<AdVO> advertisement_List = service.getAdvertisement_List(paraMap);
 			
 
 		    request.setAttribute("basic_commentList", basic_commentList);
 		    request.setAttribute("special_commentList", special_commentList);	      
+		    request.setAttribute("advertisement_List", advertisement_List);	      
 		    request.setAttribute("board", board);
 		    request.setAttribute("like", like);
 	      
@@ -397,7 +436,7 @@ public class BoardController {
       }
        
        
-    // === 대댓글 좋아요 === //
+       // === 대댓글 좋아요 === //
        @ResponseBody
        @RequestMapping(value="/big_comment_likeProcess.do",method=RequestMethod.POST)
        public String setAlarm_big_comment_likeProcess(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) {            
@@ -418,6 +457,38 @@ public class BoardController {
          
          return jsonObj.toString();
       }
+       
+       // 댓글,대댓글 블라인드 처리하기
+       @ResponseBody
+       @RequestMapping(value="/comment_blind.do",method=RequestMethod.POST)
+       public String setAlarm_comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
+    	   
+	    	// 알람 값 넣는 AOP 용 ~
+	 		paraMap.put("cmd", "cmtLike");
+	    	 
+	 		JSONObject jsonObj = new JSONObject();
+	 		
+	 		String comment_blind = service.comment_blind(paraMap);
+	 		jsonObj.put("JavaData", comment_blind);
+	
+	 		return jsonObj.toString();
+       }
+       
+       // 댓글,대댓글 블라인드 처리하기
+       @ResponseBody
+       @RequestMapping(value="/del_comment_blind.do",method=RequestMethod.POST)
+       public String setAlarm_del_comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
+    	   
+	    	// 알람 값 넣는 AOP 용 ~
+	 		paraMap.put("cmd", "cmtLike");
+	    	 
+	 		JSONObject jsonObj = new JSONObject();
+	 		
+	 		String del_comment_blind = service.del_comment_blind(paraMap);
+	 		jsonObj.put("JavaData", del_comment_blind);
+	
+	 		return jsonObj.toString();
+       }
 	      
-
+       
 }

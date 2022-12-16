@@ -12,12 +12,44 @@ let btn_comment_toggle_click_cnt = 0;
 
 $(document).ready(function(){
 	
+	//전역변수
+    var obj = [];
+	
 	$("div.comment_edit").hide();
 	$("div.c_of_comment_edit").hide();			
 	
 	// 대댓 보여주는 함수
 	// viewCommentOfComment();
     // ////////////////////////////////////////////////////////////////////////////////
+	
+	
+	//스마트에디터 프레임생성
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: obj,
+        elPlaceHolder: "comment_content_area",
+        sSkinURI: getContextPath()+"/resources/smarteditor/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseToolbar : true,            
+            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseVerticalResizer : true,    
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseModeChanger : true,
+        }
+    });
+    
+    $("button#go_comment").click(function(){
+    	obj.getById["comment_content_area"].exec("UPDATE_CONTENTS_FIELD", []);
+    	
+    	const content = $("textarea#comment_content_area").val().trim();
+		if(content == "") {
+			alert("댓댓댓을 입력하세요!!");
+			return;
+		}
+    	
+    	
+    	
+    });
 
   // 게시글에 [...]클릭시 이벤트
   $("span#btn_more").click(()=>{
@@ -150,10 +182,19 @@ $(document).ready(function(){
   
   // 댓글 삭제하기 버튼 클릭시
   $("span.comment_delete").click(function(e) {
+	  
+	  const target = $(e.currentTarget);
+	  
+	  const big_comment = target.parent().parent().parent().parent().parent().next().find("div.detail_comment_of_comment").val();
 	  const comment_num = $(this).parent().parent().parent().parent().find("div.comment_writer_nickname").attr('id');
 	  const comment_writer_nickname = document.getElementById(comment_num).innerText;
 	  const login_nickname = $("input#nickname").val();
 	  // alert(login_nickname);
+	  
+	  if(big_comment != null) {
+		  alert("댓글이있는 댓글은 삭제할 수 없습니다!");
+		  return;
+	  }
 
 	  
 	  if(comment_writer_nickname == login_nickname) {
@@ -171,7 +212,51 @@ $(document).ready(function(){
 	  
   });  
   
-
+  // 댓글 블라인드 버튼 클릭시
+  $("span#commentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	comment_blind(comment_num);
+	  
+  });
+  
+  //대댓글 블라인드 버튼 클릭시
+  $("span#bigCommentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	comment_blind(comment_num);
+	  
+  });
+  
+  //댓글 블라인드해제  버튼 클릭시
+  $("span#delCommentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	del_comment_blind(comment_num);
+	  
+  });
+  
+  //대댓글 블라인드 해제 버튼 클릭시
+  $("span#delBigCommentBlind").click(e=>{
+	 
+	const target = $(e.currentTarget);
+	
+	const comment_num = target.parent().prev().val();
+	
+	del_comment_blind(comment_num);
+	  
+  });
+  
+  
 
   // 대댓글 쓰기 버튼 클릭시 이벤트
   $("div.btn_write_comment").click(e=>{
@@ -532,6 +617,50 @@ function big_comment_likeClick(comment_num, userid, target, writer_nickname,boar
 	  });// end of $.ajax({})---
 }
 
+// 댓글,대댓글 블라인드 버튼 클릭시
+function comment_blind(comment_num) {		
+	$.ajax({
+		url:getContextPath()+"/comment_blind.do", 
+		data:{"comment_num":comment_num},			 
+		type:'POST',
+		dataType:"json",
+		success:function(json){	
+			if(json.JavaData == 'blind') {
+				alert("블라인드 성공!!");	
+				window.location.reload();
+			} else{
+				alert("블라인드 기능 오류");
+			}		
+		},// end of success
+		// success 대신 error가 발생하면 실행될 코드
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });
+}
+
+//댓글,대댓글 블라인드 해제 버튼 클릭시
+function del_comment_blind(comment_num) {	
+	$.ajax({
+		url:getContextPath()+"/del_comment_blind.do", 
+		data:{"comment_num":comment_num},			 
+		type:'POST',
+		dataType:"json",
+		success:function(json){	
+			if(json.JavaData == 'del_blind') {
+				alert("블라인드 해제 성공!!");	
+				window.location.reload();
+			} else{
+				alert("블라인드 해제기능 오류");
+			}		
+		},// end of success
+		// success 대신 error가 발생하면 실행될 코드
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	  });
+}
+
 // 게시글 신고버튼 클릭시
 function openReport() {
 	
@@ -578,7 +707,8 @@ function openReport_comment_of_comment(comment_write_nickname, comment_num,conte
 }
 
 // [...]클릭후, 삭제버튼 클릭시 이벤트
-function del_board(board_num){
+function del_board(board_num){		  	
+	
 	  if(confirm('정말 삭제하시겠습니까?')) {		  
 		  alert("삭제백단");
 		  location.href = getContextPath()+"/community/del.do?boardNum="+board_num;		
@@ -612,13 +742,15 @@ function no_login_comment() {
 }
 
 
+
+
 // 댓글쓰기
 function goAddWrite_noAttach() {
 	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
-	const content = $("textarea#content").val();
+	const content = $("textarea#comment_content_area").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
@@ -649,7 +781,7 @@ function goAddWrite_noAttach() {
 			  else {
 			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
 				  alert("댓글 작성 성공");
-				  $("textarea#content").val("");
+				  $("textarea#comment_content_area").val("");
 				  window.location.reload();
 			  }
 			  
