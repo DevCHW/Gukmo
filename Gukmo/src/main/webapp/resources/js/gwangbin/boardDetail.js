@@ -38,15 +38,69 @@ $(document).ready(function(){
         }
     });
     
-    $("button#go_comment").click(function(){
+  
+ 
+    
+    $("button#go_comment").click(function(){    	   	    	
+    	
     	obj.getById["comment_content_area"].exec("UPDATE_CONTENTS_FIELD", []);
     	
-    	const content = $("textarea#comment_content_area").val().trim();
-		if(content == "") {
-			alert("댓댓댓을 입력하세요!!");
-			return;
-		}
+    	var content = $("textarea#comment_content_area").val();
     	
+    	content = content.replace(/&nbsp;/gi, ""); // 공백을 "" 으로 변환
+    	
+    	content = content.substring(content.indexOf("<p>")+3);   // "             </p>"
+        content = content.substring(0, content.indexOf("</p>")); // "             "
+        
+    	if(content.trim().length == 0) {
+    		alert("댓댓댓을 입력하세요!!");
+    		return;
+    	}
+    	
+    	const cmt_board_num = $("input#cmt_board_num").val();
+    	const nickname = $("input#nickname").val();
+    	const parent_write_nickname = $("input#parent_write_nickname").val();
+    	
+    	const subject = $("input#board_subject").val();
+    	const detail_category = $("input#detail_category").val();
+    	
+    	if(content == "") {
+    		alert("댓글내용을 입력하세요!!");
+    		return;
+    	}
+    	
+    	  $.ajax({
+    		  url:getContextPath()+"/addComment.do",
+    		  data:{ "cmt_board_num":cmt_board_num
+    				,"nickname":nickname
+    				,"parent_write_nickname":parent_write_nickname
+    				,"content":content
+    				,"subject":subject
+    				,"detail_category":detail_category},
+    		/*
+    		 * 또는 data:queryString,
+    		 */
+    		  type:"POST",
+    		  dataType:"JSON",
+    		  success:function(json){
+    			  // json ==> {"n":1,"name":"서영학"} 또는 {"n":0,"name":"서영학"}
+    			  const n = json.n;
+    			  if(n==0) {
+    				  alert("댓글 작성 실패");
+    			  }
+    			  else {
+    			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
+    				  alert("댓글 작성 성공");
+    				  $("textarea#comment_content_area").val("");
+    				  window.location.reload();
+    			  }
+    			  
+    			  // $("input#commentContent").val("");
+    		  },
+    		  error: function(request, status, error){
+    			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+    		  }
+    	  });
     	
     	
     });
@@ -483,6 +537,10 @@ $(document).ready(function(){
 
 // == Function Declaration == //
 
+function random(n) {
+    return (Math.floor(Math.random()*100000)%6);
+}
+
 function likeClick(data){
 	$.ajax({ 
 		url:getContextPath()+"/likeProcess.do", 
@@ -743,21 +801,17 @@ function no_login_comment() {
 
 
 
-
-// 댓글쓰기
-function goAddWrite_noAttach() {
+/*
+// 댓글쓰기 
+function goAddWrite_noAttach() {		
 	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
-	const content = $("textarea#comment_content_area").val();
+	
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
-	if(content == "") {
-		alert("댓글내용을 입력하세요!!");
-		return;
-	}
 	
 	  $.ajax({
 		  url:getContextPath()+"/addComment.do",
@@ -767,9 +821,7 @@ function goAddWrite_noAttach() {
 				,"content":content
 				,"subject":subject
 				,"detail_category":detail_category},
-		/*
-		 * 또는 data:queryString,
-		 */
+		
 		  type:"POST",
 		  dataType:"JSON",
 		  success:function(json){
@@ -793,10 +845,13 @@ function goAddWrite_noAttach() {
 	  });
 
 }// end of function goAddWrite_noAttach()---------------------
+*/
 
 
 
 function addCommentOfComment(content, fk_comment_num) {
+	
+	
 	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
