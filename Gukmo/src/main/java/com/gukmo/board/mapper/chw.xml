@@ -1546,6 +1546,81 @@
 	
 	
 	
+	<!--tbl_board에 insert -->
+	<insert id="writeNoticeByBoard" parameterType="HashMap">
+		insert into tbl_board(board_num,nickname,category,detail_category,subject,content,write_date,views,profile_image,comment_cnt,like_cnt)
+		values(#{board_num},#{nickname},'공지사항','공지사항',#{subject},#{content},sysdate,default,#{profile_image},default,default)
+	</insert>
+	
+	
+	<!--tbl_notice에 insert  -->
+	<insert id="insertNotice" parameterType="HashMap">
+		insert into tbl_notice(fk_board_num,must_read)
+		values(#{board_num},#{must_read})
+	</insert>
+	
+	
+	
+	<resultMap id="noticeMap" type="com.gukmo.board.model.BoardVO">
+		<id property="board_num" column="board_num"/><!-- property는 VO필드이름, column은 오라클 컬럼명 -->
+		<result property="nickname" column="nickname" />
+		<result property="category" column="category" />
+		<result property="detail_category" column="detail_category" />
+		<result property="subject" column="subject" />
+		<result property="write_date" column="write_date" />
+		<result property="views" column="views" />
+		<result property="profile_image" column="profile_image" />
+		<result property="comment_cnt" column="comment_cnt" />
+		<result property="like_cnt" column="like_cnt" />
+		<result property="writer_point" column="writer_point" />
+		<result property="must_read" column="must_read" />
+		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
+			<id property="hashtag_num" column="hashtag_num"/>
+			<result property="hashtag" column="hashtag"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getNoticeOne" parameterType="String" resultMap="noticeMap">
+	    select A.board_num,A.nickname,A.detail_category,A.subject,A.content,A.must_read
+	      	  ,h.hashtag_num,h.hashtag
+	    from 
+	    (
+	    	select D.*,E.must_read
+			from
+				(select * from tbl_board where board_num = #{board_num}) D
+			join
+				(select * from tbl_notice where fk_board_num = #{board_num}) E
+			on D.board_num = E.fk_board_num
+	    ) A
+	    left join 
+	    	(select a.hashtag_num, hashtag, fk_board_num 
+	    	 from 
+	    	 	tbl_hashtag a
+	    	 join
+	    	 	(
+	    	 	select *
+	    	 	from tbl_hashtag_board_map
+	    	 	where fk_board_num = #{board_num}
+	    	 	) b
+	    	 on a.hashtag_num = b.hashtag_num) h
+	    on a.board_num = h.fk_board_num
+	</select>
+	
+	
+	<!-- 멤버테이블에 이메일변경시 update -->
+	<update id="updateNotice" parameterType="HashMap">
+		update tbl_board set subject = #{subject}
+                           , content = #{content}
+        where board_num = #{board_num}
+	</update>
+	
+	<!-- 멤버테이블에 이메일변경시 update -->
+	<update id="updateMustRead" parameterType="HashMap">
+		update tbl_notice set must_read = #{must_read} where fk_board_num = #{board_num} 
+	</update>
+	
+	
+	
 	
 	
 	<!--================================================================================================================================-->

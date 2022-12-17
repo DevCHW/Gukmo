@@ -100,7 +100,6 @@ public class BoardAOP {
 	
 	@Before("noticeSelect()")
 	public void getNoticeRequiredRead(JoinPoint joinpoint) {
-		System.out.println("AOP는 호출댐");
 		
 		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
 		

@@ -226,11 +226,6 @@
         총&nbsp;<span style="font-weight:bold;">${requestScope.totalCount}&nbsp;</span>건
       </div>
 		
-	  <c:if test="${sessionScope.user.authority == '관리자'}">
-        <button type="button" id="btn_write" class="btn border-0 rounded" onclick="location.href='<%=ctxPath%>/community/new.do'">
-          <i class="fa-sharp fa-solid fa-plus"></i><span>공지사항 작성</span>
-        </button>
-      </c:if>
     </div>
 
 

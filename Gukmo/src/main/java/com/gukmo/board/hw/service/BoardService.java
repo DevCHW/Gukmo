@@ -165,10 +165,11 @@ public class BoardService implements InterBoardService{
 
 
 	/**
-	 * 학원 글 등록하기
+	 * 교육과정 글 등록하기
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public boolean insertCurriculum(Map<String, Object> paraMap) {
 		String board_num = dao.getBoarSeq();
 		paraMap.put("board_num",board_num);

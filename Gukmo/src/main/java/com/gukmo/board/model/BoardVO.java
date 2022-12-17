@@ -35,6 +35,7 @@ public class BoardVO {
 	
 	//select 용도
 	private String dday;
+	private String must_read;
     
 	
 
@@ -57,7 +58,7 @@ public class BoardVO {
 	public BoardVO(String board_num, String nickname, String category, String detail_category, String subject,
 			String content, Date write_date, String views, String profile_image, String comment_cnt, String like_cnt,
 			String previousseq, String previoussubject, String nextseq, String nextsubject, String writer_point,
-			AcademyVO academy, CurriculumVO curriculum, List<HashtagVO> hashtags, List<CommentVO> comment, List<CommentVO> like) {
+			AcademyVO academy, CurriculumVO curriculum, List<HashtagVO> hashtags, List<CommentVO> comment, List<CommentVO> like,String must_read) {
 		this.board_num = board_num;
 		this.nickname = nickname;
 		this.category = category;
@@ -79,6 +80,7 @@ public class BoardVO {
 		this.hashtags = hashtags;
 		this.comment = comment;
 		this.comment = like;
+		this.must_read = must_read;
 	}
 
 
@@ -208,6 +210,9 @@ public class BoardVO {
 	public List<CommentVO> getLike() {
 		return like;
 	}
+	public String getMust_read() {
+		return must_read;
+	}
 
 
 	@Override
@@ -218,7 +223,7 @@ public class BoardVO {
 				+ ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", previousseq=" + previousseq
 				+ ", previoussubject=" + previoussubject + ", nextseq=" + nextseq + ", nextsubject=" + nextsubject
 				+ ", writer_point=" + writer_point + ", academy=" + academy + ", curriculum=" + curriculum
-				+ ", hashtags=" + hashtags + ", comment=" + comment + ", like=" + like + "]";
+				+ ", hashtags=" + hashtags + ", comment=" + comment + ", like=" + like + "]" + "must_read=" + must_read;
 	}
 
 
