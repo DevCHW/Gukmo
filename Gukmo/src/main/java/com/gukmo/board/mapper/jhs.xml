@@ -416,5 +416,11 @@
 		where alarmno = #{alarmno} and alarm_nickname= #{alarm_nickname}
 	</update> 
 
+	<select id="getTotalAlarmCnt" parameterType="String" resultType="int">
+	    select count(*)
+	    from tbl_alarm
+	    where alarm_nickname= #{nickname} 
+	    order by alarm_date desc
+	</select>
 
 </mapper>

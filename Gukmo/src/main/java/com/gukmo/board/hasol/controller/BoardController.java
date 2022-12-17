@@ -76,14 +76,14 @@ public class BoardController {
 			searchWord = "";
 		}
 		
-		System.out.println("hashtag:" +hashtag);
+		// System.out.println("hashtag:" +hashtag);
 		
 		
 		paraMap = new HashMap<>();
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("hashtag", hashtag);
 
-		System.out.println("잘 넘어가나 보자!!!!:" + searchWord);
+		// System.out.println("잘 넘어가나 보자!!!!:" + searchWord);
 		
 		int totalCnt = 0; // 총 게시물 건 수
 		int sizePerpage = 10; // 한 페이지 당 보여줄 게시글 건 수
