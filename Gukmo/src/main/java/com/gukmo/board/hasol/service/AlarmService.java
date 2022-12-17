@@ -36,7 +36,6 @@ public class AlarmService implements InterAlarmService {
 	// 알람테이블에 값 넣기
 	@Override
 	public int setAlarm(Map<String, String> paraMap) {
-		System.out.println("service:"+paraMap);
 		int n = dao.setAlarm(paraMap);
 		return n;
 	}

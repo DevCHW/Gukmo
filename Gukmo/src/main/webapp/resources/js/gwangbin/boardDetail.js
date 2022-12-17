@@ -432,6 +432,7 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
+	  const content = target.parent().parent().parent().parent().find('div.detail_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.comment_writer_nickname').attr('id');
 	  
@@ -445,7 +446,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname);
+		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,content,detail_category,comment_num,nickname);
 
 	  }
 	  
@@ -462,6 +463,7 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
+	  const re_content = target.parent().parent().parent().next().find('div.detail_comment_of_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
 //	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
@@ -472,7 +474,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname);
+		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname);
 
 	  }
 	  
@@ -583,7 +585,7 @@ function likeClick(data){
 
 
 // 댓글 좋아요
-function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname){
+function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,content,detail_category,comment_num,nickname){
 	$.ajax({
 		url:getContextPath()+"/comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -591,6 +593,7 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 			 ,"writer_nickname":writer_nickname
 			 ,"board_num":board_num
 			 ,"subject":subject
+			 ,"content":content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
 			 ,"nickname":nickname},			 
@@ -630,7 +633,7 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 
 
 //대댓글 좋아요
-function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname){
+function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname){
 	$.ajax({
 		url:getContextPath()+"/big_comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -638,6 +641,7 @@ function big_comment_likeClick(comment_num, userid, target, writer_nickname,boar
 			 ,"writer_nickname":writer_nickname
 			 ,"board_num":board_num
 			 ,"subject":subject
+			 ,"content":re_content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
 			 ,"nickname":nickname},			 
@@ -866,11 +870,11 @@ function addCommentOfComment(content, fk_comment_num) {
 
 	  $.ajax({
 		  url:getContextPath()+"/addCommentOfComment.do",
-		  data:{ "cmt_board_num":cmt_board_num
+		  data:{ "board_num":cmt_board_num
 				,"nickname":nickname
 				,"parent_write_nickname":parent_write_nickname
-				,"content":content
 				,"fk_comment_num":fk_comment_num
+				,"content":content
 				,"subject":subject
 				,"detail_category":detail_category},
 		  type:"POST",
@@ -953,5 +957,3 @@ function comment_edit(content3, comment_num) {
 		  }
 	  });
 }
-
-

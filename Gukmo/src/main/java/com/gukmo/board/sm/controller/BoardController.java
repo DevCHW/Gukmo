@@ -207,32 +207,26 @@ public class BoardController {
 	// 댓글 작성 이벤트
 	@ResponseBody
 	@RequestMapping(value="/addComment.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String setAlarm_addComment(HttpServletRequest request, Map<String,String> paraMap) {
+	public String setAlarm_addComment(HttpServletRequest request, @RequestParam Map<String,String> paraMap) {
+		
 		int n = 0;
-		String cmt_board_num = request.getParameter("cmt_board_num");
-		String nickname = request.getParameter("nickname");
-		String content = request.getParameter("content");
-		String parent_write_nickname = request.getParameter("parent_write_nickname");
-		String subject = request.getParameter("subject");
-		String detail_category = request.getParameter("detail_category");
-
+	
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
-		
-		paraMap = new HashMap<>();
+
 		paraMap.put("userid", userid);
-		paraMap.put("cmt_board_num", cmt_board_num);
-		paraMap.put("nickname", nickname);
-		paraMap.put("content", content);
-		paraMap.put("parent_write_nickname", parent_write_nickname);
-		paraMap.put("subject", subject);
-		paraMap.put("detail_category", detail_category);
 		
 		// 알람값 넣는 AOP 용
-		String board_num = paraMap.get("cmt_board_num");
-		paraMap.put("board_num", board_num);
 		paraMap.put("cmd", "reply");
+		paraMap.put("url", "/detail.do?boardNum=");
+		paraMap.put("content", paraMap.get("subject"));
+		paraMap.put("url_num", paraMap.get("cmt_board_num"));
+
+		request.setAttribute("paraMap", paraMap);
+
+		request.setAttribute("paraMap", paraMap);
+		// System.out.println("paraMap: " + paraMap);
 		
 		try {
 			// tbl_comment 테이블에 추가, tbl_board 의 comment_cnt +1, 해당 회원의 포인트 10점 증가, 활동내역에 등록
@@ -242,14 +236,17 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
+		System.out.println("result:" + n);
+		
 		JSONObject jsonObj = new JSONObject();
 		if(n == 1) {
-			jsonObj.put("n", n);
+			jsonObj.put("n", true);
 			return jsonObj.toString();
 		}
 		else {
-			jsonObj.put("n", n);
+			jsonObj.put("n", false);
 			return jsonObj.toString();
+
 		}
 	}//end of addComment
 	
@@ -258,8 +255,6 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="/addCommentOfComment.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String setAlarm_addComment_of_Comment(HttpServletRequest request, @RequestParam Map<String, String> paraMap) {
-
-		// System.out.println(paraMap);
 		
 		// 대댓글 작성시 nullpointer 뜰 수 있음.
 		HttpSession session = request.getSession();
@@ -269,9 +264,12 @@ public class BoardController {
 
 
 		// 알람값 넣는 AOP 용
-		String board_num = paraMap.get("cmt_board_num");
-		paraMap.put("board_num", board_num);	
 		paraMap.put("cmd", "recomment");
+		paraMap.put("url", "/detail.do?boardNum=");
+		paraMap.put("content", paraMap.get("content"));
+		paraMap.put("url_num", paraMap.get("board_num"));
+
+		request.setAttribute("paraMap", paraMap);
 		
 		int n = 0;
 		
@@ -283,14 +281,19 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
+		System.out.println("result:" + n);
+		
 		JSONObject jsonObj = new JSONObject();
 		if(n == 1) {
-			jsonObj.put("n", n);
+			jsonObj.put("n", true);
+			System.out.println("if=1");
 			return jsonObj.toString();
+
 		}
 		else {
-			jsonObj.put("n", n);
+			jsonObj.put("n", false);
 			return jsonObj.toString();
+
 		}
 		
 
@@ -398,7 +401,12 @@ public class BoardController {
 //	      System.out.println(paraMap);
 
 		  // 알람 값 넣는 AOP 용 ~
-		  paraMap.put("cmd", "like");
+			paraMap.put("cmd", "like");
+			paraMap.put("url", "/detail.do?boardNum=");
+			paraMap.put("content", paraMap.get("subject"));
+			paraMap.put("url_num", paraMap.get("board_num"));
+
+			request.setAttribute("paraMap", paraMap);
 		  
 	      JSONObject jsonObj = new JSONObject();
 	      
@@ -421,7 +429,12 @@ public class BoardController {
 //	         System.out.println(paraMap);
          
 		  // 알람 값 넣는 AOP 용 ~
-		  paraMap.put("cmd", "cmtLike");
+			paraMap.put("cmd", "cmtlike");
+			paraMap.put("url", "/detail.do?boardNum=");
+			paraMap.put("content", paraMap.get("content"));
+			paraMap.put("url_num", paraMap.get("board_num"));
+
+			request.setAttribute("paraMap", paraMap);
 		  
          JSONObject jsonObj = new JSONObject();
          
@@ -443,8 +456,13 @@ public class BoardController {
              //확인용 board_num,userid
 //	         System.out.println(paraMap);
          
-		  // 알람 값 넣는 AOP 용 ~
-		  paraMap.put("cmd", "cmtLike");
+		 // 알람 값 넣는 AOP 용 ~
+		 paraMap.put("cmd", "cmt_cmtLike");
+		 paraMap.put("url", "/detail.do?boardNum=");
+		 paraMap.put("content", paraMap.get("content"));
+	     paraMap.put("url_num", paraMap.get("board_num"));
+
+		 request.setAttribute("paraMap", paraMap);
 		  
          JSONObject jsonObj = new JSONObject();
          
