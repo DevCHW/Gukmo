@@ -13,6 +13,9 @@
   
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/gwangbin/boardDetail.js" ></script>
+  
+  <script type="text/javascript" src="<%=ctxPath %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
 
 
 
@@ -88,7 +91,7 @@
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
-              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -97,7 +100,7 @@
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
-              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -105,7 +108,7 @@
         <c:if test="${sessionScope.user.nickname != requestScope.board.nickname && sessionScope.user.authority eq '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">             
-              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -162,9 +165,7 @@
             <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}" />
             <input id="board_subject"  type="hidden" name="board_subject" value="${board.subject}" />
             <input id="detail_category"  type="hidden" name="detail_category" value="${requestScope.board.detail_category}" />
-        
-        
-        
+
       </div>
     </div>
     <%-------------------- 글 본문 끝 ------------------%>
@@ -492,7 +493,7 @@
 	            </div>
 	 
 	            <div class="d-flex flex-column w-100">
-	              <div class=" " id="${spcial_commentList.comment_num}"
+	              <div class="big_comment_writer_nickname" id="${spcial_commentList.comment_num}"
 	                   onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${spcial_commentList.nickname}'" style="cursor:pointer; width:20%;">${spcial_commentList.nickname}</div>	    
 	              <div class="mt-1">
 	                <%-- 대댓글작성자 활동점수 --%>

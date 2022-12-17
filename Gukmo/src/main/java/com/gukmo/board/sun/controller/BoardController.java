@@ -707,9 +707,19 @@ public class BoardController {
 	
 	// 신고하기
 	@RequestMapping(value="/community/reportEnd.do", method= {RequestMethod.POST} )
-	public String requiredLogin_reportEnd(HttpServletRequest request, HttpServletResponse response, ReportVO reportvo){
+	public String requiredLogin_reportEnd(HttpServletRequest request, HttpServletResponse response, ReportVO reportvo, @RequestParam Map<String,String> paraMap){
 		
 		int n = service.reportInsert(reportvo);
+		
+	      //AOP 용
+	      Map<String,String> alarmMap = new HashMap<>();
+	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
+    	  alarmMap.put("cmd", "panalty");
+    	  alarmMap.put("url", "/detail.do?boardNum=");
+    	  alarmMap.put("content", paraMap.get("subject"));
+    	  alarmMap.put("url_num", paraMap.get("board_num"));
+
+		 request.setAttribute("alarmMap", alarmMap);
 		
 		if(n==0) {
 			request.setAttribute("message", "시스템 오류로 실패했습니다. 다시 시도해주세요.");
@@ -737,9 +747,20 @@ public class BoardController {
 	   
 	   // 댓글 신고하기
 	   @RequestMapping(value="/community/comment_reportEnd.do", method= {RequestMethod.POST} )
-	   public String requiredLogin_comment_reportEnd(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paraMap){
-	      
+	   public String setAlarm_requiredLogin_comment_reportEnd(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paraMap){
+		   
 	      int n = service.comment_reportInsert(paraMap);
+	      
+	      //AOP 용
+	      Map<String,String> alarmMap = new HashMap<>();
+	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
+      	  alarmMap.put("cmd", "commentPanalty");
+      	  alarmMap.put("url", "/detail.do?boardNum=");
+      	  alarmMap.put("content", paraMap.get("subject"));
+      	  alarmMap.put("url_num", paraMap.get("board_num"));
+
+		 request.setAttribute("alarmMap", alarmMap);
+	      
 	      
 	      if(n==0) {
 	         request.setAttribute("message", "시스템 오류로 실패했습니다. 다시 시도해주세요.");

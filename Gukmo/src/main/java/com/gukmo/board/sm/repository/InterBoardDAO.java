@@ -3,6 +3,7 @@ package com.gukmo.board.sm.repository;
 import java.util.List;
 import java.util.Map;
 
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 import com.gukmo.board.model.HashtagVO;
@@ -87,7 +88,10 @@ public interface InterBoardDAO {
 	List<CommentVO> getBasic_commentList(Map<String, String> paraMap);
 	List<CommentVO> getSpecial_commentList(Map<String, String> paraMap);
 
+	// 광고리스트 불러오기
+	List<AdVO> getAdvertisement_List(Map<String, String> paraMap);
 
+	
 	// 댓글 삭제 및 그 대댓도 삭제
 	int commentDelete(Map<String, String> paraMap);
 
@@ -134,6 +138,14 @@ public interface InterBoardDAO {
 	 */
 	int big_comment_likeInsert(Map<String, String> paraMap);
 
+    // 댓글,대댓글 블라인드 처리하기
+	int comment_blind_go(Map<String, String> paraMap);
+
+    // 댓글,대댓글 블라인드 해제 처리하기
+	int comment_blind_back(Map<String, String> paraMap);
+
+
+	
 
 
 

@@ -8,7 +8,7 @@ import com.gukmo.board.model.AlarmVO;
 public interface InterAlarmDAO {
 
 	// 안읽은 알람 카운트
-	int getNotReadAlarm_count();
+	int getNotReadAlarm_count(String userid);
 
 	// 안읽은 알람 리스트
 	List<AlarmVO> getNotReadAlarmList();
@@ -24,6 +24,7 @@ public interface InterAlarmDAO {
 
 	// 안읽음 컬럼 카운트
 	int showAlarmCnt(String userid);
+
 
 
 }

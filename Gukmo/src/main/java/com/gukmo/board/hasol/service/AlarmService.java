@@ -17,8 +17,10 @@ public class AlarmService implements InterAlarmService {
 	
 	@Override
 	public int getNotReadAlarm_count(String userid) {
-		int n = dao.getNotReadAlarm_count();
-		return n;
+		System.out.println("왜 안디ㅗ");
+		int result = dao.getNotReadAlarm_count(userid);
+		System.out.println("result: " + result);
+		return result;
 	}
 
 	@Override
@@ -53,5 +55,7 @@ public class AlarmService implements InterAlarmService {
 		int n = dao.showAlarmCnt(userid);
 		return n;
 	}
+
+
 
 }

@@ -1,4 +1,3 @@
-// js파일에서 contextPath를 알아내는 함수
 function getContextPath(){
   let hostIndex = location.href.indexOf(location.host) + location.host.length;
   let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
@@ -276,11 +275,11 @@ $(document).ready(function(){
   $("div#btn_like").click(e=>{
 	const board_num = $("input#board_num").val();
 	const userid = $("input#userid").val();
-	const nickname = $("a#board_writer_nickname").text();	
+	const nickname = $("a#board_writer_nickname").text(); // 알림 닉네임 넘기는 값	
 	const subject = $("h2#board_subject").text();
 	const detail_category = $("input#detail_category").val();
 	
-	const data = {board_num: board_num,userid: userid,nickname: nickname,subject: subject,detail_category: detail_category,nickname: nickname};
+	const data = {board_num: board_num,userid: userid,nickname: nickname,subject: subject,detail_category: detail_category};
 	
 	likeClick(data);	// 좋아요 클릭시 처리 메소드 호출
   });// end of Event----
@@ -289,7 +288,7 @@ $(document).ready(function(){
   $("div.comment_like").click(e=>{
 	  const target = $(e.currentTarget);
 	  const userid = $("input#userid").val();
-	  const writer_nickname = $("a#board_writer_nickname").text();	
+	  const writer_nickname = $("a#board_writer_nickname").text();
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
 	  const content = target.parent().parent().parent().parent().find('div.detail_comment').text();
@@ -348,7 +347,6 @@ $(document).ready(function(){
   // 대댓글 작성 버튼 클릭시 이벤트 잡기
   $("button.btn_big_comment_write").click(function(e){
 	  const target = $(e.currentTarget);
-	  const alarm_nickname = target.parent().parent().parent().parent().prev();
 	  const content = target.parent().prev().val();
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
@@ -542,6 +540,7 @@ function openReport() {
 	// 신고 버튼
 	var openWin;
 	const board_num = $("input#board_num").val();
+	//const board_nick = $("input#board_writer_nick").val();
 	
 	// alert(board_num)
     // window.name = "부모창 이름";
@@ -618,7 +617,7 @@ function no_login_comment() {
 function goAddWrite_noAttach() {
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
-	const parent_write_nickname = $("input#parent_write_nickname").val();
+	const parent_write_nickname = $("input#parent_write_nickname").val(); // 알람으로 넘기는 닉네임
 	const content = $("textarea#content").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
@@ -669,7 +668,8 @@ function goAddWrite_noAttach() {
 function addCommentOfComment(content, fk_comment_num) {	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
-	const parent_write_nickname = $("input#parent_write_nickname").val();
+	const alarm_nickname = $("input#big_comment_alarm_nicnkname").val();
+	// const parent_write_nickname = $("input#parent_write_nickname").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
@@ -682,7 +682,7 @@ function addCommentOfComment(content, fk_comment_num) {
 		  url:getContextPath()+"/addCommentOfComment.do",
 		  data:{ "cmt_board_num":cmt_board_num
 				,"nickname":nickname
-				,"alarm_nickname":parent_write_nickname
+				,"alarm_nickname":alarm_nickname
 				,"content":content
 				,"fk_comment_num":fk_comment_num
 				,"subject":subject

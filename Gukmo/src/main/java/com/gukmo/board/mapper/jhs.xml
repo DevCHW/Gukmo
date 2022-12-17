@@ -400,23 +400,18 @@
 
 
 	<insert id="setAlarm" parameterType="HashMap">
-		insert into tbl_alarm (alarmno, alarm_userid, cmd, url, url_num, content , alarm_date, isread )
+		insert into tbl_alarm (alarmno, alarm_nickname, cmd, url, url_num, content , alarm_date, isread )
 		values (seq_alarm.nextval, #{alarm_nickname} ,#{cmd}, #{url}, #{url_num}, #{content}, sysdate, 'n' )
 	</insert>
 	
-	<select id="notReadAlarmList" parameterType="HashMap" resultMap="alarmList" >
-		select alarmno, alarm_board_num , subject, alarm_comment_num, content, alarm_userid, cmd, alarm_date, isread
-        from
-		(
-        	select alarmno, alarm_board_num , subject, alarm_comment_num, alarm_userid, cmd, alarm_date, isread
-			from tbl_alarm A join tbl_board B
-			on A.alarm_board_num = B.board_num
-        ) left join tbl_comment C
-        on alarm_comment_num = comment_num
-		where isread = 'n' and alarm_userid = #{userid}
+	<select id="getNotReadAlarm_count" parameterType="String" resultType="integer">
+		select count(*)
+		from tbl_alarm
+		where alarm_nickname='#{userid}' and isread='n'
 	</select>
+	
 
-	<select id="getAlarm" parameterType="HashMap" resultMap="alarmList" >
+<!-- 	<select id="getAlarm" parameterType="HashMap" resultMap="alarmList" >
 		select alarmno, alarm_board_num , subject, alarm_comment_num, content, alarm_userid, cmd, alarm_date, isread
         from
 		(
@@ -432,6 +427,6 @@
 		update tbl_alarm set isread = 'y'
 		where alarmno = #{alarm_num}
 	</update>
-
+ -->
 
 </mapper>

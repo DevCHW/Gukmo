@@ -3,6 +3,7 @@ package com.gukmo.board.sm.service;
 import java.util.List;
 import java.util.Map;
 
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CommentVO;
 
@@ -72,6 +73,15 @@ public interface InterBoardService {
 
 	// 대댓글 좋아요
 	String big_comment_likeProcess(Map<String, String> paraMap);
+
+	// 광고 리스트 불러오기
+	List<AdVO> getAdvertisement_List(Map<String, String> paraMap);
+
+	// 댓글,대댓글 블라인드 처리하기
+	String comment_blind(Map<String, String> paraMap);
+
+	// 댓글,대댓글 블라인드 해제 처리하기
+	String del_comment_blind(Map<String, String> paraMap);
 
 
 

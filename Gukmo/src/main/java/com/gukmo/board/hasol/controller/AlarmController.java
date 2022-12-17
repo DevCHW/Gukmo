@@ -26,50 +26,80 @@ public class AlarmController {
 	@Autowired // Type 에 따라 알아서 Bean 을 주입해준다.
 	private InterAlarmService service;
 
-	@RequestMapping(value="/showAlarmCnt.do")
-	public ModelAndView showAlarmCnt(ModelAndView mav, HttpServletRequest request) {
-	
-		HttpSession session = request.getSession();
-		MemberVO user = (MemberVO)session.getAttribute("user");
-		String userid = user.getUserid();
-		
-		int n = service.showAlarmCnt(userid);
-		
-	    mav.setViewName("board/alarm/alarm.tiles1");
-	    return mav;
-	}
-	
+	// 모든 알람 개수
 	@ResponseBody
-	@RequestMapping(value="/getNotAlarmList.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String getNotAlarmList(HttpServletRequest request, @RequestParam Map<String, String> paraMap) {
+	@RequestMapping(value="/showAlarmCnt.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String showAlarmCnt(HttpServletRequest request) {
 	
 		HttpSession session = request.getSession();
-		MemberVO user = (MemberVO)session.getAttribute("user");
-		String userid = user.getUserid();
-			
-	    // 읽지 않은 알림 데이터 전체 가져오기
-	    List<AlarmVO> notReadAlarmList = service.getNotReadAlarmList(userid);
-	    
+		MemberVO userid = (MemberVO)session.getAttribute("user");
+		String nickname = userid.getNickname();
+		
+		int result = service.showAlarmCnt(nickname);
+		
 	    JSONObject jsonObj = new JSONObject();
-	    jsonObj.put("notReadAlarmList" ,  notReadAlarmList);
-		return jsonObj.toString();
+	    jsonObj.put("alarmCnt" ,  result);
+
+	    return jsonObj.toString();
 	}
 	
+	
+	// 모든 알람 개수
 	@RequestMapping(value="/getAlarmList.do")
 	public ModelAndView getAlarmList(ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		MemberVO user = (MemberVO)session.getAttribute("user");
-		String userid = user.getUserid();
+		MemberVO userid = (MemberVO)session.getAttribute("user");
+		String nickname = userid.getNickname();
 		
 	    //1.해당 유저 알림데이터 전체 가져오기
-	    List<AlarmVO> getAlarm = service.getAlarm(userid);
+	    List<AlarmVO> getAlarm = service.getAlarm(nickname);
 	    //for(InformDTO informDTO :getInform) {
 	        //System.out.println("getInform : "+informDTO.toString());  
 	    //}
 	    
 	    return mav;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getNotReadAlarm_count.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String getNotReadAlarm_count(HttpServletRequest request) {
+		
+		System.out.println(" 흠");
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String userid = user.getUserid();
+		
+		System.out.println("nickname" + userid);
+		
+		int notReadAlarmCnt = service.getNotReadAlarm_count(userid);
+		System.out.println(notReadAlarmCnt);
+		
+	    JSONObject jsonObj = new JSONObject();
+	    jsonObj.put("notReadAlarmCnt" ,  notReadAlarmCnt);
+		return jsonObj.toString();
+	}
+	
+	
+	// 읽지 않은 알람 리스트
+	@ResponseBody
+	@RequestMapping(value="/getNotReadAlarmList.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String getNotAlarmList(HttpServletRequest request, @RequestParam Map<String, String> paraMap) {
+	
+		HttpSession session = request.getSession();
+		MemberVO userid = (MemberVO)session.getAttribute("user");
+		String nickname = userid.getNickname();
+			
+	    // 읽지 않은 알림 데이터 전체 가져오기
+	    List<AlarmVO> notReadAlarmList = service.getNotReadAlarmList(nickname);
+	    
+	    JSONObject jsonObj = new JSONObject();
+	    
+	    jsonObj.put("notReadAlarmList" ,  notReadAlarmList);
+		return jsonObj.toString();
+	}
+	
+
 	
 	@RequestMapping(value="/changeIsRead.do")
 	public void changeIsread(HttpServletRequest request) {

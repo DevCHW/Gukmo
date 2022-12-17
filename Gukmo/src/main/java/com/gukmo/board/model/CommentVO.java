@@ -18,6 +18,7 @@ public class CommentVO {
 	private String comment_like_cnt;	
 	private String comment_of_comment_cnt;
 	private String likeExist;
+	private String blind;
 	
 	// 셀렉용
 	private String profile_image;
@@ -37,7 +38,9 @@ public class CommentVO {
 	
 	//파라미터가 있는 생성자
 	public CommentVO(String comment_num, String comment_level, String content, String nickname,
-			String parent_write_nickname, String cmt_board_num, String fk_comment_num, Date write_date, String comment_like_cnt, String point, String comment_of_comment_cnt, String profile_image, String likeExist) {
+					 String parent_write_nickname, String cmt_board_num, String fk_comment_num,
+					 Date write_date, String comment_like_cnt, String point, String comment_of_comment_cnt, String profile_image,
+					 String likeExist, String blind) {
 		this.comment_num = comment_num;
 		this.comment_level = comment_level;
 		this.content = content;
@@ -51,6 +54,7 @@ public class CommentVO {
 		this.comment_of_comment_cnt = comment_of_comment_cnt;
 		this.profile_image = profile_image;
 		this.likeExist = likeExist;
+		this.blind = blind;
 	}
 	
 	
@@ -95,6 +99,11 @@ public class CommentVO {
 	public String getLikeExist() {
 		return likeExist;
 	}
+	public String getBlind() {
+		return blind;
+	}
+
+	
 
 	
 
@@ -107,8 +116,8 @@ public class CommentVO {
 				+ ", nickname=" + nickname + ", parent_write_nickname=" + parent_write_nickname + ", cmt_board_num="
 				+ cmt_board_num + ", fk_comment_num=" + fk_comment_num + ", write_date=" + write_date + ", point="
 				+ point + ", totalcount=" + totalcount + ", comment_like_cnt=" + comment_like_cnt
-				+ ", comment_of_comment_cnt=" + comment_of_comment_cnt + ", likeExist=" + likeExist + ", profile_image="
-				+ profile_image + "]";
+				+ ", comment_of_comment_cnt=" + comment_of_comment_cnt + ", likeExist=" + likeExist + ", blind=" + blind
+				+ ", profile_image=" + profile_image + "]";
 	}
 	
 	

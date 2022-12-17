@@ -18,9 +18,13 @@ public class AlarmDAO implements InterAlarmDAO {
 	
 	
 	@Override
-	public int getNotReadAlarm_count() {
-		int n = gukmo_sql.selectOne("jhs.getNotReadAlarm_count");
-		return n;
+	public int getNotReadAlarm_count(String userid) {
+		System.out.println("와?냐고");
+		System.out.println(userid);
+		int result = gukmo_sql.selectOne("jhs.getNotReadAlarm_count" , userid);
+		System.out.println(result);
+		
+		return result;
 	}
 
 	@Override
@@ -45,14 +49,14 @@ public class AlarmDAO implements InterAlarmDAO {
 	// 읽음 컬럼값 변경하기
 	@Override
 	public int changeIsRead(String userid) {
-		int n = gukmo_sql.insert("jhs.changeIsRead");
+		int n = gukmo_sql.insert("jhs.changeIsRead", userid);
 		return n;
 	}
 	
 	// 안읽음 컬럼 카운트
 	@Override
 	public int showAlarmCnt(String userid) {
-		int n = gukmo_sql.selectOne("jhs.showAlarmcnt");
+		int n = gukmo_sql.selectOne("jhs.showAlarmcnt", userid);
 		return n;
 	}
 	
