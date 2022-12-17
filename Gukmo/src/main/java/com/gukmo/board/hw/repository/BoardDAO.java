@@ -215,6 +215,16 @@ public class BoardDAO implements InterBoardDAO{
 	}
 
 
+	/**
+	 * 필독 공지사항 리스트 가져오기
+	 */
+	@Override
+	public List<BoardVO> getRequiredReadNotice() {
+		List<BoardVO> noticeListRequiredRead = gukmo_sql.selectList("chw.getRequiredReadNotice");
+		return noticeListRequiredRead;
+	}
+
+
 	
 
 

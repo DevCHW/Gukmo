@@ -54,6 +54,77 @@
       </div>
     </div>
     <%-- 필터 끝 --%>
+    
+    
+    
+    	 <%------------------------------------- 필독 공지사항 리스트 시작 -------------------------------------%>
+	 <c:forEach var="notice" items="${requestScope.mustReadNotice}">
+     <%-- 이 div가 반복문 시작 --%>
+      <div class="border-top px-2 py-2" style="background-color:#F0F6FA;">
+        <div class="d-flex align-items-center my-2">
+         <%-- 작성자 프로필사진 --%>
+        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${notice.nickname}" class="writer_image_box border">
+          <img src="<%=ctxPath %>/resources/images/${notice.profile_image}"/>
+        </a>
+        
+     	<%-- 작성자 닉네임 --%>
+        <%-- 클릭하면 해당 유저의 활동내역 페이지로 이동하게 링크 거세요. --%>
+        <a href="<%=ctxPath %>/member/activityOther.do?nickname=${notice.nickname}" class="writer_nickname ml-2"> ${notice.nickname} </a>
+
+         <%-- 작성자 활동점수 --%>
+         <div class="writer_point ml-2">
+           <i class="fa-solid fa-bolt"></i>
+           <span>${notice.writer_point}</span>
+         </div>
+
+         <%-- 작성일자 --%>
+         <div class="write_date ml-2">${notice.write_date}</div>
+       </div>
+
+       <%-- 글제목 --%>
+       <a href="<%=ctxPath %>/detail.do?boardNum=${notice.board_num}" class="subject align-items-center my-2">
+         ${notice.subject}
+       </a>
+
+       <div class="d-flex justify-content-between align-items-center my-2">
+         <div class="d-flex align-items-center">
+           <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 --%>
+           <div class="detail_category border rounded px-2 py-1">${notice.detail_category}</div>
+           <div class="hashtag ml-1">
+             <%-- 해시태그 리스트 들어갈 곳--%>
+             <%-- 해시태그리스트 반복문시작 --%>
+             <c:forEach var="hashtag" items="${notice.hashtags}">
+            	<a href="/board/main_search.do?searchWord=${hashtag.hashtag}" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+             </c:forEach>
+             <%-- 해시태그리스트 반복문 끝--%>
+           </div>
+         </div>
+
+         <%-- 조회수,댓글수,추천수 --%>
+         <div class="board_info_box d-flex justify-content-end">
+           <%-- 조회수 --%>
+           <div>
+             <i class="fa-solid fa-eye"></i>
+             <span>${notice.views}</span>
+           </div>
+
+           <%-- 댓글수 --%>
+           <div class="ml-2">
+             <i class="fa-solid fa-comment-dots"></i>
+             <span>${notice.comment_cnt}</span>
+           </div>
+
+           <%-- 추천수 --%>
+           <div class="ml-2">
+             <i class="fa-solid fa-heart"></i>
+             <span>${notice.like_cnt}</span>
+           </div>
+         </div>
+       </div>
+     </div>
+     </c:forEach>
+     <%-- 이 div가 반복문 끝 --%>
+	 <%------------------------------------- 필독 공지사항 리스트 끝 -------------------------------------%>
 
 
 

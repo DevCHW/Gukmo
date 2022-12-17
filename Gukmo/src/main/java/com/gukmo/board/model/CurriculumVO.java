@@ -11,6 +11,8 @@ public class CurriculumVO {
 	private String recruitment_end_date;	//모집마감일
 	private String cnt_recruits;			//모집인원
 	private String join_url;				//신청URL
+	private String recruitment_period;		//모집기간
+	private String curriculum_period;		//과정기간
 	
 	
 	//기본생성자 protected로 막기
@@ -19,7 +21,8 @@ public class CurriculumVO {
 	
 	//파라미터가 있는 생성자만으로 값 주입
 	public CurriculumVO(String fk_board_num, String core_technology, String academy_name, String curriculum_start_date,
-			String curriculum_end_date, String recruitment_start_date, String recruitment_end_date, String cnt_recruits, String join_url) {
+			String curriculum_end_date, String recruitment_start_date, String recruitment_end_date, String cnt_recruits, String join_url,
+			String recruitment_period,String curriculum_period) {
 		this.fk_board_num = fk_board_num;
 		this.core_technology = core_technology;
 		this.academy_name = academy_name;
@@ -29,6 +32,8 @@ public class CurriculumVO {
 		this.recruitment_end_date = recruitment_end_date;
 		this.cnt_recruits = cnt_recruits;
 		this.join_url = join_url;
+		this.recruitment_period = recruitment_period;
+		this.curriculum_period = curriculum_period;
 	}
 
 
@@ -58,6 +63,12 @@ public class CurriculumVO {
 	}
 	public String getJoin_url() {
 		return join_url;
+	}
+	public String getCurriculum_period() {
+		return curriculum_period;
+	}
+	public String getRecruitment_period() {
+		return recruitment_period;
 	}
 
 	
