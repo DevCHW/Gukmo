@@ -253,7 +253,7 @@
         </a>
          </c:forEach>
        </div>
-       
+        
        
          <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
     
@@ -315,9 +315,9 @@
 	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
 	        <div class="ml-3 w-100">
 	          <div class="mb-1">내용</div>
-	          <textarea id="comment_content_area" name="comment_content_area" class="pl-2 py-2" rows="5"></textarea>	  
+	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>	  
 	          <div class="d-flex justify-content-end mt-2">
-	            <button type="button" class="btn btn-info" id="go_comment">댓글 쓰기</button>
+	            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
 	          </div>
 	        </div>
 	     
@@ -363,11 +363,7 @@
           </div>
           <input type="hidden" id="" name="fk_comment_num"/>
           <div class="d-flex flex-column w-100 asdf1">
-            <div class="comment_writer_nickname" id ="${bcommentList.comment_num}"
-                 onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer; width:20%;">
-              	${bcommentList.nickname}
-            </div>
-  			
+            <div class="comment_writer_nickname" id ="${bcommentList.comment_num}" onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer; width:20%;">${bcommentList.nickname}</div>
             <div class="mt-1">
               <%-- 댓글작성자 활동점수 --%>
               <span class="mr-2">
@@ -556,7 +552,7 @@
           
           <div class="ml-3 w-100">
             <div class="mb-1">${sessionScope.user.nickname}</div>
-    		<textarea id="big_comment_content_area" class="pl-2 py-2 content2" name="content2" rows="5"></textarea>   		
+    		<textarea id="" class="pl-2 py-2 content2" name="content2" rows="5"></textarea>   		
             <div class="d-flex justify-content-end mt-2" id = "asdf1">
               <button type="button" class="btn_big_comment_close btn btn-light border rounded mr-3">취소</button>
               <button type="button" class="btn_big_comment_write btn btn-info">댓글 쓰기</button>
