@@ -66,11 +66,6 @@ $(document).ready(function(){
 		    }
 		    break;
 		    
-	  case "/admin/report/list.do" :								//신고내역 URL일 경우
-		  	$("li.memberMenu").children(":first").trigger("click"); //메뉴 클릭시키기
-		    $("li.memberMenu").addClass("active");					//회원메뉴 활성화
-	  		$("a.reportMenu").addClass("active");					//신고내역 메뉴 활성화
-		    break;
 	  // ====================== 회원관련   끝  ========================== //
 	  	
 	  	
@@ -118,6 +113,8 @@ $(document).ready(function(){
 	  case "/admin/calendar.do" :							    //일정 URL일 경우
 		    $("li.calendarMenu").addClass("active");			//일정메뉴 활성화
 		    break;
+		    
+		    
 	  case "/admin/notice/new.do" :							    //공지사항 작성 URL일 경우
 		    $("li.noticeMenu").addClass("active");				//공지사항 작성메뉴 활성화
 		    break;
@@ -187,8 +184,9 @@ $(document).ready(function(){
 	<%-- Nav Item - Member Collapse Menu --%>
     <li class="nav-item reportMenu">
     	<a class="nav-link" href="<%=ctxPath %>/admin/report/list.do">
-            <i class="fa-solid fa-emergency"></i>
-            <span>신고</span></a>
+            <i class="fas fa-siren"></i>
+            <span>신고</span>
+         </a>
     </li>
 	
 	<%--------------------------------신고 영역 끝--------------------------------------%>
@@ -250,8 +248,8 @@ $(document).ready(function(){
     <%-- Nav Item - Member Collapse Menu --%>
     <li class="nav-item noticeMenu">
     	<a class="nav-link" href="<%=ctxPath %>/admin/notice/new.do">
-            <i class="fa-solid fa-calendar-days"></i>
-            <span>공지사항 작성</span></a>
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>공지</span></a>
     </li>
     <%-------------------------------- 공지사항 작성메뉴 영역 끝--------------------------------------%>
 	

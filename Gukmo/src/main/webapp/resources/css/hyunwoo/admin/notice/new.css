@@ -1,0 +1,97 @@
+@charset "UTF-8";
+/* label */
+label.community_label{
+  font-size:small;
+  font-weight: bold;
+}
+
+
+/* input,select,textarea */
+input.community_input,
+select.community_input{
+  font-size:small;
+  height: 40px;
+  outline: none;
+}
+textarea#content{
+  outline: none;
+}
+input#hashtag{
+  outline: none;
+}
+input#hashtag::placeholder{
+  font-size:small;
+}
+
+
+
+/* placeholder */
+input.community_input::placeholder{
+  font-size:small;
+}
+
+
+
+textarea#content::placeholder{
+  font-size:small;
+}
+
+
+/* hashtag */
+div#hashtag_box{
+  height: 40px;
+}
+input#hashtag{
+  height: 100%;
+}
+ul#hashtag_list{
+  height: 100%;
+  list-style: none;
+  padding:0;
+  margin:0;
+  text-align:center;
+}
+ul#hashtag_list > li{
+  display:inline-block;
+  font-size:small;
+  padding-left: 8px;
+}
+
+input#must_read{
+	width:20px;
+	height:20px;
+}
+input#must_read:checked{
+	accent-color:black;
+}
+
+/* hashtag */
+div#hashtag_box{
+  height: 40px;
+}
+input#hashtag{
+  height: 100%;
+}
+ul#hashtag_list{
+  height: 100%;
+  list-style: none;
+  padding:0;
+  margin:0;
+  text-align:center;
+}
+ul#hashtag_list > li{
+  display:inline-block;
+  font-size:small;
+  padding-left: 8px;
+  background-color:#E5E7EB;
+  border-radius:15px;
+}
+
+
+/* button */
+button#btn_write, button#btn_modify{
+  background-color: #14587D;
+  color:white;
+}
+
+
