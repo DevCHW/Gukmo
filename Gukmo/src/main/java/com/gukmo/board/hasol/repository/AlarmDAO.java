@@ -19,17 +19,14 @@ public class AlarmDAO implements InterAlarmDAO {
 	
 	@Override
 	public int getNotReadAlarm_count(String userid) {
-		System.out.println("와?냐고");
-		System.out.println(userid);
-		int result = gukmo_sql.selectOne("jhs.getNotReadAlarm_count" , userid);
-		System.out.println(result);
-		
-		return result;
+		int n = gukmo_sql.selectOne("jhs.getNotReadAlarm_count", userid);
+		return n;
 	}
 
 	@Override
-	public List<AlarmVO> getNotReadAlarmList() {
-		List<AlarmVO> notReadAlarmList = gukmo_sql.selectList("jhs.getNotReadAlarmList");
+	public List<AlarmVO> getNotReadAlarmList(String userid) {
+		List<AlarmVO> notReadAlarmList = gukmo_sql.selectList("jhs.getNotReadAlarmList", userid);
+		//System.out.println("dao:"+notReadAlarmList);
 		return notReadAlarmList;
 	}
 
@@ -48,15 +45,16 @@ public class AlarmDAO implements InterAlarmDAO {
 
 	// 읽음 컬럼값 변경하기
 	@Override
-	public int changeIsRead(String userid) {
-		int n = gukmo_sql.insert("jhs.changeIsRead", userid);
-		return n;
+	public int changeIsRead(Map<String, String> paraMap) {
+		int result = gukmo_sql.insert("jhs.changeIsRead", paraMap);
+		System.out.println("dao:" +result);
+		return result;
 	}
 	
 	// 안읽음 컬럼 카운트
 	@Override
 	public int showAlarmCnt(String userid) {
-		int n = gukmo_sql.selectOne("jhs.showAlarmcnt", userid);
+		int n = gukmo_sql.selectOne("jhs.showAlarmcnt");
 		return n;
 	}
 	

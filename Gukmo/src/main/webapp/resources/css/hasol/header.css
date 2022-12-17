@@ -193,6 +193,9 @@ div#btn_slide_menu_open{
 }
 
 /* 알람 dropcontent 밑줄 설정 */
+.div_alarm_content {
+	overflow: hidden;
+}
 .div_alarm_content > .alarm_content:not(.alarm_content:first-child) {
    border-top: solid 1px #E1E2E1;
 }
@@ -213,11 +216,11 @@ div#btn_slide_menu_open{
     justify-content: space-between;
 }
 
-.like, .reple {
+.like, .reply {
     color: #208EC9;
 }
 
-.declare {
+.panelty {
 	color: red;
 }
 

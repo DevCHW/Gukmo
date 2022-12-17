@@ -2,64 +2,52 @@ package com.gukmo.board.model;
 
 import java.util.Date;
 
+import com.gukmo.board.common.MyUtil;
+
 public class AlarmVO {
 
-	private int alarmno;      
-	private int alarm_board_num;       
-	private int alarm_comment_num;       
-	private String alarm_nickname;  
+	private int alarmno;     
+	private String alarm_nickname; 
 	private String cmd; 
+	private String url;    
+	private int url_num;   
+	private String content;          
 	private Date alarm_date;          
-	private String isread;
+	private String isread; 
 	
 	
 	// select 용
 	private String subject;
 	private String cmt_content;
-	
-	
 	public int getAlarmno() {
 		return alarmno;
 	}
-	public void setAlarmno(int alarmno) {
-		this.alarmno = alarmno;
-	}
-	public int getalarm_board_num() {
-		return alarm_board_num;
-	}
-	public void setalarm_board_num(int alarm_board_num) {
-		this.alarm_board_num = alarm_board_num;
-	}
-	public int getalarm_comment_num() {
-		return alarm_comment_num;
-	}
-	public void setalarm_comment_num(int alarm_comment_num) {
-		this.alarm_comment_num = alarm_comment_num;
-	}
-	public String getalarm_nickname() {
+	public String getAlarm_nickname() {
 		return alarm_nickname;
-	}
-	public void setalarm_nickname(String alarm_nickname) {
-		this.alarm_nickname = alarm_nickname;
 	}
 	public String getCmd() {
 		return cmd;
 	}
-	public void setCmd(String cmd) {
-		this.cmd = cmd;
+	public String getUrl() {
+		return url;
 	}
-	public Date getAlarm_date() {
-		return alarm_date;
+	public int getUrl_num() {
+		return url_num;
 	}
-	public void setAlarm_date(Date alarm_date) {
-		this.alarm_date = alarm_date;
+	public String getContent() {
+		return content;
+	}
+	public String getAlarm_date() {
+		return MyUtil.calculateTime(alarm_date); // 기존의 getter, setter에서 변경된 부분
 	}
 	public String getIsread() {
 		return isread;
 	}
-	public void setIsread(String isread) {
-		this.isread = isread;
-	} 
-	
-	
+	public String getSubject() {
+		return subject;
+	}
+	public String getCmt_content() {
+		return cmt_content;
+	}
+
 }

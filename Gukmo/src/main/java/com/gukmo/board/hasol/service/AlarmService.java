@@ -25,7 +25,7 @@ public class AlarmService implements InterAlarmService {
 
 	@Override
 	public List<AlarmVO> getNotReadAlarmList(String userid) {
-		List<AlarmVO> notReadAlarmList = dao.getNotReadAlarmList();
+		List<AlarmVO> notReadAlarmList = dao.getNotReadAlarmList(userid);
 		return notReadAlarmList;
 	}
 
@@ -44,9 +44,9 @@ public class AlarmService implements InterAlarmService {
 
 	// 읽음 컬럼값 변경하기
 	@Override
-	public int changeIsRead(String userid) {
-		int n = dao.changeIsRead(userid);
-		return n;
+	public int changeIsRead(Map<String, String> paraMap) {
+		int result = dao.changeIsRead(paraMap);
+		return result;
 	}
 
 	// 안읽음 컬럼 카운트

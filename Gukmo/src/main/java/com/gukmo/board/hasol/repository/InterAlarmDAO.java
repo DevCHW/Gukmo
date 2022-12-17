@@ -11,7 +11,7 @@ public interface InterAlarmDAO {
 	int getNotReadAlarm_count(String userid);
 
 	// 안읽은 알람 리스트
-	List<AlarmVO> getNotReadAlarmList();
+	List<AlarmVO> getNotReadAlarmList(String userid);
 
 	// 전체 알람 리스트
 	List<AlarmVO> getAlarmList();
@@ -20,7 +20,7 @@ public interface InterAlarmDAO {
 	int setAlarm(Map<String, String> paraMap);
 
 	// 읽음 컬럼값 변경하기
-	int changeIsRead(String userid);
+	int changeIsRead(Map<String, String> paraMap);
 
 	// 안읽음 컬럼 카운트
 	int showAlarmCnt(String userid);

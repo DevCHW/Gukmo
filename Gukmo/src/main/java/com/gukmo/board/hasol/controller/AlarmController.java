@@ -1,5 +1,6 @@
 package com.gukmo.board.hasol.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public class AlarmController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
 		
-		System.out.println("nickname" + userid);
+		System.out.println("userid" + userid);
 		
 		int notReadAlarmCnt = service.getNotReadAlarm_count(userid);
 		System.out.println(notReadAlarmCnt);
@@ -84,33 +85,37 @@ public class AlarmController {
 	// 읽지 않은 알람 리스트
 	@ResponseBody
 	@RequestMapping(value="/getNotReadAlarmList.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String getNotAlarmList(HttpServletRequest request, @RequestParam Map<String, String> paraMap) {
+	public String getNotAlarmList(HttpServletRequest request) {
 	
+		System.out.println("히히");
 		HttpSession session = request.getSession();
-		MemberVO userid = (MemberVO)session.getAttribute("user");
-		String nickname = userid.getNickname();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String userid = user.getUserid();
 			
 	    // 읽지 않은 알림 데이터 전체 가져오기
-	    List<AlarmVO> notReadAlarmList = service.getNotReadAlarmList(nickname);
+	    List<AlarmVO> notReadAlarmList = service.getNotReadAlarmList(userid);
+	    // System.out.println(notReadAlarmList);
 	    
-	    JSONObject jsonObj = new JSONObject();
-	    
+	    JSONObject jsonObj = new JSONObject();	    
 	    jsonObj.put("notReadAlarmList" ,  notReadAlarmList);
 		return jsonObj.toString();
 	}
 	
 
-	
-	@RequestMapping(value="/changeIsRead.do")
-	public void changeIsread(HttpServletRequest request) {
+	// 읽음으로 변경 
+	@ResponseBody
+	@RequestMapping(value="/changeIsRead.do", method= {RequestMethod.POST})
+	public boolean changeIsread(HttpServletRequest request, @RequestParam Map<String,String> paraMap) {
+		System.out.println("paraMap:" + paraMap);
 		
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
 		
+		paraMap.put("userid", userid);
+		
 		// 읽음 컬럼값 변경하기
-		int n = service.changeIsRead(userid);
-		
-		
+		int result = service.changeIsRead(paraMap);
+		return result>0?true:false;
 	}
 }

@@ -21,6 +21,7 @@ public class CommonExceptionAdvice {
 		// 예외가 발생하게 되면 해당 예외 필드가 메모리에 할당된다.
 		// 할당된 예외 필드의 주소 값을 받을 객체가 필요하므로 매개변수에 Exception타입의
 		// e 객체를 선언해놓는다.		
+		e.printStackTrace();
 		model.addAttribute("exception", e);
 		return "error/500";
 	}

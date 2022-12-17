@@ -407,26 +407,27 @@
 	<select id="getNotReadAlarm_count" parameterType="String" resultType="integer">
 		select count(*)
 		from tbl_alarm
-		where alarm_nickname='#{userid}' and isread='n'
+		where alarm_nickname= #{userid} and isread='n'
 	</select>
 	
 
-<!-- 	<select id="getAlarm" parameterType="HashMap" resultMap="alarmList" >
-		select alarmno, alarm_board_num , subject, alarm_comment_num, content, alarm_userid, cmd, alarm_date, isread
-        from
+  	<select id="getNotReadAlarmList" parameterType="HashMap" resultType="com.gukmo.board.model.AlarmVO" >
+		select  ALARMNO, alarm_nickname, cmd, content, url, url_num,  alarm_date, isread 
+		from
 		(
-        	select alarmno, alarm_board_num , subject, alarm_comment_num, alarm_userid, cmd, alarm_date, isread
-			from tbl_alarm A join tbl_board B
-			on A.alarm_board_num = B.board_num
-        ) left join tbl_comment C
-        on alarm_comment_num = comment_num
-        alarm_userid = #{userid}
+		    select ALARMNO, alarm_nickname, cmd, content, url, url_num,  alarm_date, isread 
+		    from tbl_alarm
+		    where alarm_nickname= #{userid} and isread='n'
+		    order by alarm_date desc
+		)
+		where rownum between 1 and 3
 	</select>	
+
 	
-	<update id="changeIsRead" parameterType="String">
+ 	<update id="changeIsRead" parameterType="HashMap">
 		update tbl_alarm set isread = 'y'
-		where alarmno = #{alarm_num}
-	</update>
- -->
+		where alarmno = #{alarmno} and alarm_nickname= #{userid}
+	</update> 
+
 
 </mapper>
