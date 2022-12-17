@@ -640,7 +640,7 @@ function goAddWrite_noAttach() {
 		  url:getContextPath()+"/addComment.do",
 		  data:{ "cmt_board_num":cmt_board_num
 				,"nickname":nickname
-				,"alarm_nickname":parent_write_nickname
+				,"parent_write_nickname":parent_write_nickname
 				,"content":content
 				,"subject":subject
 				,"detail_category":detail_category},

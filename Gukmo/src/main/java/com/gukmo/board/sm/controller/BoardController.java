@@ -223,13 +223,13 @@ public class BoardController {
 		System.out.println("paraMap:" + paraMap);
 
 		Map<String,String> alarmMap = new HashMap<>();
-		alarmMap.put("alarm_nickname",paraMap.get("alarm_nickname"));
+		alarmMap.put("alarm_nickname",paraMap.get("parent_write_nickname"));
 		alarmMap.put("cmd", "reply");
 		alarmMap.put("url", "/detail.do?boardNum=");
 		alarmMap.put("content", paraMap.get("subject"));
 		alarmMap.put("url_num", paraMap.get("cmt_board_num"));
 
-		request.setAttribute("paraMap", alarmMap);
+		request.setAttribute("alarmMap", alarmMap);
 		
 		try {
 			// tbl_comment 테이블에 추가, tbl_board 의 comment_cnt +1, 해당 회원의 포인트 10점 증가, 활동내역에 등록
