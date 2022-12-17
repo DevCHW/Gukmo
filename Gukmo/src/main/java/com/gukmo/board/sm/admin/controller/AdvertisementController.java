@@ -157,9 +157,9 @@ public class AdvertisementController {
 
 		// WAS 의 webapp 의 절대경로를 알아와야 한다.
 		HttpSession session = mrequest.getSession();
-		String root = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images/";
+		String root = session.getServletContext().getRealPath("/");
 		System.out.println(root);
-		String path = root+"resources"+ File.separator +"files";
+		String path = root+"resources"+ File.separator +"images";
 		// path 가 첨부파일이 저장될 WAS(톰캣)의 폴더가 된다.
 		
 		String newFileName = "";
