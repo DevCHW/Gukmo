@@ -68,8 +68,9 @@ $(document).ready(function(){
   // ///////////////////////// 댓글 관련 //////////////////////
   
   // 댓글에서 ... 버튼 클릭후 수정하기 버튼 클릭시
-  $("span.comment_edit").click(function(e) {
-	  const target = $(e.currentTarget);
+  $("span.comment_edit").click(function(e) {	 
+	  
+	  const target = $(e.currentTarget);	  
 	  const comment_num = $(this).parent().parent().parent().parent().find("div.comment_writer_nickname").attr('id');
 	  const comment_writer_nickname = document.getElementById(comment_num).innerText;
 	  const login_nickname = $("input#nickname").val();
