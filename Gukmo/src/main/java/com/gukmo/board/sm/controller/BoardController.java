@@ -65,6 +65,36 @@ public class BoardController {
 			// 디테일 카테고리 가져오기
 	      	String detail_category = service.getCategory(paraMap);	      
 			paraMap.put("detail_category",detail_category);
+			
+			
+			Cookie oldCookie = null;
+		    Cookie[] cookies = request.getCookies();
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if (cookie.getName().equals("postView")) {
+		                oldCookie = cookie;
+		            }
+		        }
+		    }
+
+		    if (oldCookie != null) {
+		        if (!oldCookie.getValue().contains("[" + board_num.toString() + "]")) {
+		        	dao.setAddReadCount(board_num);
+		            oldCookie.setValue(oldCookie.getValue() + "_[" + board_num + "]");
+		            oldCookie.setPath("/");
+		            oldCookie.setMaxAge(60 * 3);
+		            response.addCookie(oldCookie);
+		        }
+		    } else {
+		    	dao.setAddReadCount(board_num);
+		        Cookie newCookie = new Cookie("postView","[" + board_num + "]");
+		        newCookie.setPath("/");
+		        newCookie.setMaxAge(60 * 3);
+		        response.addCookie(newCookie);
+		    }
+		
+		  
+		//  dao.setAddReadCount(board.getBoard_num());
 		    
 			
 			
@@ -74,34 +104,7 @@ public class BoardController {
 			  BoardVO board = service.getBoardDetail(paraMap);  
 			  
 			  
-			  Cookie oldCookie = null;
-			    Cookie[] cookies = request.getCookies();
-			    if (cookies != null) {
-			        for (Cookie cookie : cookies) {
-			            if (cookie.getName().equals("postView")) {
-			                oldCookie = cookie;
-			            }
-			        }
-			    }
-
-			    if (oldCookie != null) {
-			        if (!oldCookie.getValue().contains("[" + board.getBoard_num().toString() + "]")) {
-			        	dao.setAddReadCount(board.getBoard_num());
-			            oldCookie.setValue(oldCookie.getValue() + "_[" + board.getBoard_num() + "]");
-			            oldCookie.setPath("/");
-			            oldCookie.setMaxAge(60 * 3);
-			            response.addCookie(oldCookie);
-			        }
-			    } else {
-			    	dao.setAddReadCount(board.getBoard_num());
-			        Cookie newCookie = new Cookie("postView","[" + board.getBoard_num() + "]");
-			        newCookie.setPath("/");
-			        newCookie.setMaxAge(60 * 3);
-			        response.addCookie(newCookie);
-			    }
-			
 			  
-			//  dao.setAddReadCount(board.getBoard_num());
 			  
 		      if(user != null) {
 		          String userid = user.getUserid();      
@@ -154,16 +157,14 @@ public class BoardController {
 			 List<CommentVO> basic_commentList = service.getBasic_commentList(paraMap); 
 			 List<CommentVO> special_commentList = service.getSpecial_commentList(paraMap); 	
 			
-			 List<AdVO> advertisement_List = service.getAdvertisement_List(paraMap);
+			 List<AdVO> advertisement_List = service.getAdvertisement_List(paraMap);			
 			
-			 System.out.println(board);
 		    request.setAttribute("basic_commentList", basic_commentList);
 		    request.setAttribute("special_commentList", special_commentList);	      
 		    request.setAttribute("advertisement_List", advertisement_List);	      
 		    request.setAttribute("board", board);
 		    request.setAttribute("like", like);
 		    
-		     System.out.println(board);
 	      
 		    } catch (Exception e) {
 		    	e.printStackTrace();

@@ -17,14 +17,6 @@
   <script type="text/javascript" src="<%=ctxPath %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> branch 'main' of https://github.com/hyunwoocastle/Gukmo.git
   <div class="container my-5"> 
 
     <div class="line my-4" style="width:1150px; margin-left: -20px;">
@@ -92,9 +84,24 @@
         
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority != '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
-            <div id="update_or_delete" class="border rounded px-3 py-2">
+            <div id="update_or_delete" class="border rounded px-3 py-2">             
+             <c:if test="${board.category == '커뮤니티'}">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
-              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+             </c:if>
+              
+             <c:if test="${board.detail_category == '국비학원'}">
+              <span onclick="location.href='<%=ctxPath %>국비학원수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+             </c:if>
+             
+             <c:if test="${board.detail_category == '교육과정'}">
+              <span onclick="location.href='<%=ctxPath %>교육과정수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+             </c:if>
+             
+             <c:if test="${board.category == '공지사항'}">
+              <span onclick="location.href='<%=ctxPath %>공지사항수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+             </c:if>
+              
+              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -102,8 +109,23 @@
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority == '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">
+              <c:if test="${board.category == '커뮤니티'}">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
-              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+             </c:if>
+              
+             <c:if test="${board.detail_category == '국비학원'}">
+              <span onclick="location.href='<%=ctxPath %>국비학원수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+             </c:if>
+             
+             <c:if test="${board.detail_category == '교육과정'}">
+              <span onclick="location.href='<%=ctxPath %>교육과정수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+             </c:if>
+             
+             <c:if test="${board.category == '공지사항'}">
+              <span onclick="location.href='<%=ctxPath %>공지사항수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+             </c:if>
+             
+              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -111,7 +133,7 @@
         <c:if test="${sessionScope.user.nickname != requestScope.board.nickname && sessionScope.user.authority eq '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
             <div id="update_or_delete" class="border rounded px-3 py-2">             
-              <span id="board_delete" onclick="location.href='<%=ctxPath %>/community/del.do?boardNum=${board.board_num}'">삭제하기</span>
+              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
             </div>
           </span>
         </c:if>
@@ -182,7 +204,10 @@
             <input id="nickname"  type="hidden" name="nickname" value="${sessionScope.user.nickname}" />
             <input id="board_subject"  type="hidden" name="board_subject" value="${board.subject}" />
             <input id="detail_category"  type="hidden" name="detail_category" value="${requestScope.board.detail_category}" />
-
+            <input id="board_writer_nick" type="hidden" name="board_writer_nick" value="${board.nickname}" />
+            
+        
+        
       </div>
     </div>
     <%-------------------- 글 본문 끝 ------------------%>
@@ -229,14 +254,6 @@
     
 
 
-<<<<<<< HEAD
-
-
-    <%---------------------- 광고 영역 시작 ----------------------%>
-    <div id="advertisement_box" class="mt-4">
-      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/>
-    </div>
-=======
     
 
     <%---------------------- 광고 영역 시작 ----------------------%>
@@ -261,48 +278,54 @@
 	</c:forEach>
 	-->  
 	
+	<c:if test="${empty requestScope.advertisement_List}">
+	
 	<div id="demo" class="carousel slide mt-4" data-ride="carousel" >
 
 <!-- Indicators -->
+     <!-- 
      <ul class="carousel-indicators">
-       <li data-target="#demo" data-slide-to="1" class="active"></li>
+       <li data-target="#demo" data-slide-to="0" class="active"></li>
        <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
        <li data-target="#demo" data-slide-to="0"></li>
        </c:forEach>
      </ul>
-   
+     -->
+     
      <!-- The slideshow -->
-     <div class="carousel-inner" style="height:160px;">
+     <div class="carousel-inner" style="height:160px;">         
+     
+       
      <div class="carousel-item active">
-     	<c:forEach begin="2" var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+     	<c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
      	<a href="${advertisement_List.url}">
-       		<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+       	<!-- 	<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+       		<c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
+              <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            </c:if>
+            <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
+               <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            </c:if>
         </a>
          </c:forEach>
        </div>
         
        
-         <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+         <c:forEach begin="1" var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
     
-    <div class="carousel-item ">
-     
-       
+    <div class="carousel-item ">              
         <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
-           <a href="${advertisement_List.url}">
-              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
-           </a>
-        </c:if>
-        <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
-           <a href="${advertisement_List.url}">
-              <img src="${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
-           </a>
-        </c:if>
+              <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            </c:if>
+            <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
+               <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            </c:if>
     
     </div>
     
     
 	</c:forEach>
-       
+     
        
      </div>
    
@@ -315,7 +338,13 @@
      </a>
    
 </div>	
->>>>>>> branch 'main' of https://github.com/hyunwoocastle/Gukmo.git
+</c:if>
+
+<c:if test="${empty requestScope.advertisement_List}">
+	<div id="advertisement_box" class="mt-4">
+      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/>
+    </div>
+</c:if>
     <%---------------------- 광고 영역 끝 ----------------------%>
 
 
@@ -343,12 +372,7 @@
 	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
 	        <div class="ml-3 w-100">
 	          <div class="mb-1">내용</div>
-<<<<<<< HEAD
-	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>
-	  
-=======
 	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>	  
->>>>>>> branch 'main' of https://github.com/hyunwoocastle/Gukmo.git
 	          <div class="d-flex justify-content-end mt-2">
 	            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
 	          </div>
@@ -486,12 +510,29 @@
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
           	</div>
           	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+          	    <c:if test ="${sessionScope.user.nickname != bcommentList.nickname}">
+          	    <input type="hidden" id="comment_num" class="" name="" value="${bcommentList.comment_num}" />
           		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
-	            	<span class="comment_delete">블라인드</span>
+	            	<c:if test ="${bcommentList.blind == 0}">            	
+	            		<span id="commentBlind">블라인드</span>
+	            	</c:if>
+	            	
+	            	<c:if test ="${bcommentList.blind == 1}">            	
+	            		<span id="delCommentBlind">블라인드 해제</span>
+	            	</c:if>
           		</div>
+          		</c:if>
+          		<c:if test ="${sessionScope.user.nickname == bcommentList.nickname}">
+          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
+	            	<span class="comment_edit">수정하기</span>
+	            	<span class="comment_delete">삭제하기</span>
+          		</div>
+          		</c:if>
           	</span>
           </div>
           </c:if>
+          
+          
           
           
           <!--  
@@ -518,7 +559,13 @@
 
         <%-- 수정할 댓글 내용 --%>
         <div class="my-3 basic_comment_content" id="${bcommentList.content}">
-			<div class = "detail_comment" >${bcommentList.content}</div>
+            <c:if test="${bcommentList.blind == 0}">
+			  <div class = "detail_comment" >${bcommentList.content}</div>
+			</c:if>
+			
+			<c:if test="${bcommentList.blind == 1}">
+			  <div class = "detail_comment" >관리자에 의해서 블라인드 처리 되었습니다.</div>
+			</c:if>
  	        <div class="ml-3 w-100 comment_edit" id="">
 	          <textarea class="content3" class="pl-2 py-2 content3" rows="5"></textarea>  
 	          <input type="hidden" id="c_num" class="c_num" name="c_num" />
@@ -712,9 +759,25 @@
 			            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          	</div>
 		          	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+		          		<c:if test ="${sessionScope.user.nickname != spcial_commentList.nickname}">
+		          			<input type="hidden" id="c_of_c_num" class="" name="" value="${spcial_commentList.comment_num}" />
+		          			<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	
+		          		    <c:if test ="${spcial_commentList.blind == 0}">            	
+			            		<span id="bigCommentBlind">블라인드</span>
+			            	</c:if>
+			            	
+			            	<c:if test ="${spcial_commentList.blind == 1}">            	
+			            		<span id="delBigCommentBlind">블라인드 해제</span>
+			            	</c:if>
+		          			</div>
+		          			
+		          		</c:if>
+		          		<c:if test ="${sessionScope.user.nickname == spcial_commentList.nickname}">
 		          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
-			            	<span class="comment_delete">블라인드</span>
+			            	<span class="comment_edit2">수정하기</span>
+			            	<span class="comment_delete2">삭제하기</span>
 		          		</div>
+		          		</c:if>
 		          	</span>
 	          	</div>
 	          </c:if>
@@ -729,11 +792,17 @@
 	
 	
 		          <%-- 대댓글내용 --%>
-		       <div class="my-3 special_comment_content" id="${spcial_commentList.content}">
-		          <div class="detail_comment_of_comment my-3" id="">${spcial_commentList.content}</div>
+		       <div class="my-3 special_comment_content" id="${spcial_commentList.content}">		         
+		          <c:if test="${spcial_commentList.blind == 0}">
+					<div class = "detail_comment_of_comment my-3" >${spcial_commentList.content}</div>
+				  </c:if>
+					
+				  <c:if test="${spcial_commentList.blind == 1}">
+					<div class = "detail_comment_of_comment my-3" >관리자에 의해서 블라인드 처리 되었습니다.</div>
+				  </c:if>
 		          <div class="ml-3 w-100 c_of_comment_edit" id="">
 			          <textarea class="content4" class="pl-2 py-2 content4" rows="3"></textarea>  
-			          <input type="hidden" id="c_of_c_num" class="" name="" />
+			          <input type="hidden" id="c_of_c_num" class="" name="" value="${spcial_commentList.comment_num}" />
 			          <div class="d-flex justify-content-end mt-2">
 			          	<button type="button" class="btn btn-info edit_comment_of_comment">댓글 수정</button>
 			          </div>
