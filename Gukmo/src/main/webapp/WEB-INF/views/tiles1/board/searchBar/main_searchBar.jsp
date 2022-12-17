@@ -88,7 +88,7 @@ function saveKeyword(keyword){
 </form>
 
 <!-- 해시태그 -->
-<div class="hashtag col-3 mt-2 d-flex justify-content-between align-items-center">
+<div class="hashtag mt-2 d-flex justify-content-between align-items-center">
 	<c:forEach var="topHash" items="${requestScope.topHashList}">
 	<div class="btn_hashtag border rounded px-2">
 		<a id="hashtag" style="color: grey;">#${topHash.hashtag}</a>

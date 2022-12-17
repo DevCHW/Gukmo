@@ -132,7 +132,7 @@ function getNotReadAlarmList(){
 								"<input id='alarmno' type='hidden' value='"+ item.alarmno +"'>";		
 					}
 					
-					if(item.cmd == 'commentPenalty') {
+					if(item.cmd == 'cmtPenalty') {
 						html += 	"<span class='penalty'>신고</span>" +
 									"<span>"+ item.alarm_date +"</span>" +
 								"</div>"+
@@ -143,6 +143,9 @@ function getNotReadAlarmList(){
 					html += "</div>";
 					
 				});
+			}
+			else{
+				html="<p> 조회된 최신 알람이 없습니다. </p>"
 			}
 			
 			//console.log(html);

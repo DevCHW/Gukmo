@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -26,7 +25,6 @@ import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.hasol.service.InterAlarmService;
 import com.gukmo.board.hw.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
-import com.gukmo.board.sm.controller.BoardController;
 
 @Aspect     
 @Component  
@@ -64,7 +62,7 @@ public class BoardAOP {
 	}
 	
 	
-	// 알람에 값 넢는 AOP
+	// 알람에 값 넣는 AOP
 	@Pointcut("execution(public * com.gukmo..*Controller.setAlarm_*(..) )")
 	public void setAlarm() {}
 	
@@ -78,9 +76,6 @@ public class BoardAOP {
 		
 		// comment_writer_nickname 값 잡는 선택자 필요 -> 댓글 좋아요, 대댓글 작성에 필요
 		
-//		System.out.println("여기 와?");
-		
-//		System.out.println("joinpoint "+joinpoint);
 		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];		
 
 		Map<String,String> alarmMap = (Map<String, String>) request.getAttribute("alarmMap");

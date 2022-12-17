@@ -16,21 +16,21 @@ public class AlarmService implements InterAlarmService {
 	private InterAlarmDAO dao;
 	
 	@Override
-	public int getNotReadAlarm_count(String userid) {
+	public int getNotReadAlarm_count(String nickname) {
 		System.out.println("왜 안디ㅗ");
-		int result = dao.getNotReadAlarm_count(userid);
+		int result = dao.getNotReadAlarm_count(nickname);
 		System.out.println("result: " + result);
 		return result;
 	}
 
 	@Override
-	public List<AlarmVO> getNotReadAlarmList(String userid) {
-		List<AlarmVO> notReadAlarmList = dao.getNotReadAlarmList(userid);
+	public List<AlarmVO> getNotReadAlarmList(String nickname) {
+		List<AlarmVO> notReadAlarmList = dao.getNotReadAlarmList(nickname);
 		return notReadAlarmList;
 	}
 
 	@Override
-	public List<AlarmVO> getAlarm(String userid) {
+	public List<AlarmVO> getAlarm(String nickname) {
 		List<AlarmVO> alarmList = dao.getAlarmList();
 		return alarmList;
 	}
@@ -51,8 +51,8 @@ public class AlarmService implements InterAlarmService {
 
 	// 안읽음 컬럼 카운트
 	@Override
-	public int showAlarmCnt(String userid) {
-		int n = dao.showAlarmCnt(userid);
+	public int showAlarmCnt(String nickname) {
+		int n = dao.showAlarmCnt(nickname);
 		return n;
 	}
 

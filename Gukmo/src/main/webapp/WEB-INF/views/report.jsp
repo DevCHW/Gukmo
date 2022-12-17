@@ -60,6 +60,9 @@
 		 <input type="hidden" name="fk_num" value="${requestScope.boardvo.board_num}" />
 		 <input type="hidden" name="report_nickname" value="${sessionScope.user.nickname}" />
 		 <input type="hidden" name="reported_nickname" value="${requestScope.boardvo.nickname}" />
+		 <!-- AOP 등록용 -->
+		 <input type="hidden" name="subject" value="${requestScope.boardvo.subject}" />
+		 <input type="hidden" name="board_num" value="${requestScope.paraMap.board_num}" />
   
   
   	 <div class="mt-3">

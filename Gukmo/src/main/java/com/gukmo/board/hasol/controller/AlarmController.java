@@ -31,8 +31,8 @@ public class AlarmController {
 	public String showAlarmCnt(HttpServletRequest request) {
 	
 		HttpSession session = request.getSession();
-		MemberVO userid = (MemberVO)session.getAttribute("user");
-		String nickname = userid.getNickname();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String nickname = user.getNickname();
 		
 		int result = service.showAlarmCnt(nickname);
 		
@@ -48,8 +48,8 @@ public class AlarmController {
 	public ModelAndView getAlarmList(ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		MemberVO userid = (MemberVO)session.getAttribute("user");
-		String nickname = userid.getNickname();
+		MemberVO user= (MemberVO)session.getAttribute("user");
+		String nickname = user.getNickname();
 		
 	    //1.해당 유저 알림데이터 전체 가져오기
 	    List<AlarmVO> getAlarm = service.getAlarm(nickname);
@@ -67,11 +67,9 @@ public class AlarmController {
 		System.out.println(" 흠");
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		String userid = user.getUserid();
+		String nickname = user.getNickname();
 		
-		System.out.println("userid" + userid);
-		
-		int notReadAlarmCnt = service.getNotReadAlarm_count(userid);
+		int notReadAlarmCnt = service.getNotReadAlarm_count(nickname);
 		System.out.println(notReadAlarmCnt);
 		
 	    JSONObject jsonObj = new JSONObject();
@@ -88,10 +86,10 @@ public class AlarmController {
 		System.out.println("히히");
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		String userid = user.getUserid();
+		String nickname = user.getNickname();
 			
 	    // 읽지 않은 알림 데이터 전체 가져오기
-	    List<AlarmVO> notReadAlarmList = service.getNotReadAlarmList(userid);
+	    List<AlarmVO> notReadAlarmList = service.getNotReadAlarmList(nickname);
 	    // System.out.println(notReadAlarmList);
 	    
 	    JSONObject jsonObj = new JSONObject();	    
@@ -108,9 +106,9 @@ public class AlarmController {
 		
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		String userid = user.getUserid();
+		String nickname = user.getNickname();
 		
-		paraMap.put("userid", userid);
+		paraMap.put("userid", nickname);
 		
 		// 읽음 컬럼값 변경하기
 		int result = service.changeIsRead(paraMap);

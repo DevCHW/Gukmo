@@ -363,8 +363,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname,alarm_nickname);
-
+		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject, content, detail_category,comment_num,nickname,alarm_nickname);
 	  }
 	  
 	  else {
@@ -408,7 +407,7 @@ $(document).ready(function(){
 	  const content = target.parent().prev().val();
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
-	  const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();	  
+	  const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();
 
 	  if(nickname != "") {
 		   addCommentOfComment(content, fk_comment_num, alarm_nickname);
@@ -499,7 +498,9 @@ function likeClick(data){
 
 
 // 댓글 좋아요
-function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname,alarm_nickname){
+
+function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject, content,detail_category,comment_num,nickname,alarm_nickname){
+
 	$.ajax({
 		url:getContextPath()+"/comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -767,9 +768,10 @@ function goAddWrite_noAttach() {
 
 }// end of function goAddWrite_noAttach()---------------------
 
-// 대댓글 작성하기
-function addCommentOfComment(content, fk_comment_num,alarm_nickname) {		
-	
+
+// 대댓글 작성
+function addCommentOfComment(content, fk_comment_num, alarm_nickname) {	
+
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
