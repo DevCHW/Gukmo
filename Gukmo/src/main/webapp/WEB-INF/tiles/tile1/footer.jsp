@@ -32,12 +32,14 @@
 <script type="text/javascript">
 
 let socket = null;
-
+/*
 $(document).ready(function (){
 	 
 	   connectWs();
 });
+*/
 
+/*
 function connectWs(){
 	
 	const url = "${sessionScope.serverName}";
@@ -70,8 +72,14 @@ function connectWs(){
     };
 
    /*  ws.onmessage = function(evt) {
+  };
+  */
+/*
+ ws.onmessage = function(evt) {
+>>>>>>> refs/remotes/origin/chw
 	 	let data = evt.data;
 	   	console.log("ReceivMessage : " + data + "\n");
+*/
 
 	   	$.ajax({
 			url : '/mentor/member/countAlarm',
@@ -89,6 +97,7 @@ function connectWs(){
 			}
 	   	}); 
 
+/*
 	   	let html = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-animation='true' data-delay='5000'  style='width:300px;'>" +
 	      		   		"<div class='toast-header'>" +
 	        				"<img src='...' class='rounded mr-2' alt='...'>" +
@@ -108,16 +117,25 @@ function connectWs(){
 	   	$('#myToast').on('hidden.bs.toast', function () {
 	   		$('.toast').toast('dispose');
 	   	})
+<<<<<<< HEAD
  }; */
 
+/*
+>>>>>>> refs/remotes/origin/chw
  ws.onclose = function() {
+<<<<<<< HEAD
    	console.log('connect close');
 
  };
+=======
+   	console.log('connect close');*/
+   	/* setTimeout(function(){conntectWs();} , 1000); */
+// };
 
- ws.onerror = function (err) {console.log('Errors : ' , err);};
+ //ws.onerror = function (err) {console.log('Errors : ' , err);};
 
-}
+//}
+
 
 
 </script>

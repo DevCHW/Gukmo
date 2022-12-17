@@ -1298,6 +1298,172 @@
 	
 	
 	
+	<!-- 인기 게시물 3개 가져오기(조회높은것)-->
+	<select id="getPopularBoard" resultType="com.gukmo.board.model.BoardVO">
+		select *
+		from
+			(
+			select rownum rno,V.*
+			from
+				(
+				select board_num,nickname,detail_category,subject,write_date,views,comment_cnt,like_cnt
+			    from tbl_board
+			    where to_char(write_date,'yyyy-mm-dd') =  to_char(sysdate, 'yyyy-mm-dd')
+			    	  and detail_category != '공지사항'
+			    order by views desc
+			    ) V
+			) T
+		where rno between 1 and 3
+	</select>
+	
+	
+	
+	<!-- 멤버로그인테이블에 회원가입정보 insert -->
+	<insert id="insertVisitor" parameterType="com.gukmo.board.model.VisitCountVO">
+		insert into tbl_visitor
+			(
+                visit_num,
+                visit_ip,
+                visit_time,
+                <if test="visit_refer != null and visit_refer !=''">
+                visit_refer,
+                </if>
+                visit_browser
+            )
+            values
+            (
+                seq_visitor.nextval,
+                #{visit_ip},
+                sysdate,
+                <if test="visit_refer != null and visit_refer !=''">
+                #{visit_refer},
+                </if>
+                #{visit_browser}
+            )
+	</insert>
+	
+   
+	<!-- 월별 방문자 수 구하기-->
+	<select id="getVisitCountMonthlyData" resultType="Integer">
+		select nvl(count,0) count
+		from
+		(
+			select 
+			  count(*) as count, 
+			  to_char(visit_time, 'yyyy-mm') as monthlydata
+			from
+			  tbl_visitor 
+			where 1=1
+			  and visit_time between to_date(to_char(sysdate,'yyyy')||'-01-01') and to_date(to_char(sysdate,'yyyy')||'-12-31')
+			group by to_char(visit_time, 'yyyy-mm')
+		)a
+		right join
+		(
+			select to_char(add_months(to_date(to_char(sysdate,'yyyy')||'-12-31'),- (level-1)),'yyyy-mm') monthlydata
+			from dual
+			connect by add_months(to_date(to_char(sysdate,'yyyy')||'-12-31'),- (level-1)) &gt;= add_months(to_date(to_char(sysdate,'yyyy')||'-12-31'),-11)
+		) b
+		on a.monthlydata = b.monthlydata
+		order by b.monthlydata
+	</select>
+	
+	
+	
+	<!-- 오늘 회원가입수, 오늘 방문자 수, 오늘 작성 게시물 수 구하기 -->
+	<select id="getSummary" resultType="HashMap">
+		select *
+	    from
+	    (
+		    select count(*) as cnt_visit
+		    from tbl_visitor
+		    where visit_time between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	    ) A
+	    cross join
+	    (
+		    select count(*) as cnt_join_member
+		    from tbl_member
+		    where join_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	    ) B
+	    cross join
+	    (
+		    select count(*) as cnt_board
+		    from tbl_board
+		    where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	    ) C
+	    cross join
+	    (
+		    select max(count(*)) as max_cnt_visit
+		    from tbl_visitor
+		    group by to_date(visit_time,'yyyy-mm-dd')
+	    ) D
+	    cross join
+	    (
+		    select max(count(*)) as max_cnt_join_member
+		    from tbl_member
+		    group by to_date(join_date,'yyyy-mm-dd')
+	    ) E
+	    cross join
+	    (
+		    select max(count(*)) as max_cnt_board
+	        from tbl_board
+	        group by to_date(write_date,'yyyy-mm-dd')
+	    )
+	</select>
+	
+	
+	
+	<select id="getCommunityActiveData" resultType="java.util.LinkedHashMap">
+		select round(cnt_free/cnt_all*100) free_percentage,
+	           round(cnt_qna/cnt_all*100) qna_percentage,
+	           round(cnt_study/cnt_all*100) study_percentage,
+	           round(cnt_hobby/cnt_all*100) hobby_percentage,
+	           round(cnt_review/cnt_all*100) review_percentage
+	    from
+	    (
+	        select count(*) as cnt_free
+	        from tbl_board 
+	        where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	              and category='커뮤니티' and detail_category = '자유게시판'
+	    ) A
+	    cross join
+	    (
+	        select count(*) as cnt_qna
+	        from tbl_board 
+	        where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	              and category='커뮤니티' and detail_category = 'QnA'
+	    ) B 
+	    cross join
+	    (
+	        select count(*) as cnt_study
+	        from tbl_board 
+	        where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	              and category='커뮤니티' and detail_category = '스터디'
+	    ) C
+	    cross join
+	    (
+	        select count(*) as cnt_hobby
+	        from tbl_board 
+	        where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	              and category='커뮤니티' and detail_category = '취미모임'
+	    ) D
+	    cross join
+	    (
+	        select count(*) as cnt_review
+	        from tbl_board 
+	        where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	              and category='커뮤니티' and detail_category = '수강/취업후기'
+	    ) E
+	    cross join
+	    (
+	        select count(*) as cnt_all
+	        from tbl_board 
+	        where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+	              and category='커뮤니티'
+	    ) F
+	
+	
+	</select>
+	
 	
 	
 	
