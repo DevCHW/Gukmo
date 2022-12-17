@@ -455,9 +455,9 @@ $(document).ready(function(){
 
 
 
+
+
 // == Function Declaration == //
-
-
 
 function likeClick(data){
 	$.ajax({ 
