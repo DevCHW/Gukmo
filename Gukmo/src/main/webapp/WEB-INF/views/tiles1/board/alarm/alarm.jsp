@@ -19,8 +19,10 @@
 	</div>
 	<div id="alarm_dropContent" class="dropdown-content1 mt-1">
 		<div>
-			<a href="#">알림</a>
-			<span id="alarm_cnt" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-white bg-danger"></span>
+			<a href="#">알림
+				(<span id="alarm_cnt2"></span>)
+			</a>
+
 		</div>
 		<div class="div_alarm_content px-3 d-flex flex-column ">
 			<!-- 알림 콘텐츠 나오는 영역 -->

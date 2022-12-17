@@ -42,11 +42,21 @@ function getNotReadAlarm_count(){
 			const notReadAlarmCnt = json.notReadAlarmCnt;
 			console.log(notReadAlarmCnt)
 			if(notReadAlarmCnt == null || notReadAlarmCnt == '0') {
+				// 헤더 그 자체
 				$("span#alarm_cnt").hide();
+				
+				// 알림 창 안		
+				$("span#alarm_cnt2").hide();
 			}
 			else {
+				// 헤더 그 자체
 				$("span#alarm_cnt").text(notReadAlarmCnt);
 				$("span#alarm_cnt").show();
+				
+				// 알림 창 안
+				$("span#alarm_cnt2").text(notReadAlarmCnt);
+				$("span#alarm_cnt2").show();
+				
 			}	
 		},
 		error: function(request,error){
@@ -145,7 +155,7 @@ function getNotReadAlarmList(){
 				});
 			}
 			else{
-				html="<p> 조회된 최신 알람이 없습니다. </p>"
+				html="<p style='margin:auto;'> 조회된 최신 알람이 없습니다. </p>"
 			}
 			
 			//console.log(html);

@@ -413,7 +413,7 @@
 	
  	<update id="changeIsRead" parameterType="HashMap">
 		update tbl_alarm set isread = 'y'
-		where alarmno = #{alarmno} and alarm_nickname= #{userid}
+		where alarmno = #{alarmno} and alarm_nickname= #{alarm_nickname}
 	</update> 
 
 

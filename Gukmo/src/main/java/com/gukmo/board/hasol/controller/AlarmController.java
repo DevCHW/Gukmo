@@ -108,7 +108,7 @@ public class AlarmController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String nickname = user.getNickname();
 		
-		paraMap.put("userid", nickname);
+		paraMap.put("alarm_nickname", nickname);
 		
 		// 읽음 컬럼값 변경하기
 		int result = service.changeIsRead(paraMap);

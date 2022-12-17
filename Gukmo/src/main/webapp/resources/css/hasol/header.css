@@ -120,7 +120,7 @@ div#btn_slide_menu_open{
 
 /* 로그인 시 아이콘 디자인 */
 .login {
-   width:150px;
+   width:90px;
    height:100%;
 }
 
@@ -183,7 +183,7 @@ div#btn_slide_menu_open{
 /* 알람 dropcontent 의 title */
 .dropdown-content1 a:first-child {
    width: 100%;
-   line-height: 30px;
+   line-height: 20px;
    background-color: #FAFAFA;
    border-radius: 10px 10px 0 0;
    text-align: start;
@@ -194,7 +194,7 @@ div#btn_slide_menu_open{
 
 /* 알람 dropcontent 밑줄 설정 */
 .div_alarm_content {
-	overflow: hidden;
+	height:86%;
 }
 .div_alarm_content > .alarm_content:not(.alarm_content:first-child) {
    border-top: solid 1px #E1E2E1;

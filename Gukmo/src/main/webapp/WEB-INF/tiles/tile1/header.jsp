@@ -113,10 +113,6 @@
 			<c:if test="${not empty sessionScope.user}">
 				<div id="start_login" class="login justify-content-between align-items-center">
 
-					<%-- 북마크(스크랩) --%>
-					<a class="login_icon"> <i class="fa-regular fa-bookmark fa-lg"></i>
-					</a>
-
 					<%-- 알림 --%>
 					<jsp:include page="/WEB-INF/views/tiles1/board/alarm/alarm.jsp" />
 					

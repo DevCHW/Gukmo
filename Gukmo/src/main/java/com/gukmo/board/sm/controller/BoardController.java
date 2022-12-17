@@ -276,7 +276,7 @@ public class BoardController {
 		alarmMap.put("content", paraMap.get("content"));
 		alarmMap.put("url_num", paraMap.get("cmt_board_num"));
 
-		request.setAttribute("alamrMap", alarmMap);
+		request.setAttribute("alarmMap", alarmMap);
 		
 		int n = 0;
 		
@@ -441,7 +441,7 @@ public class BoardController {
 		  // 알람 값 넣는 AOP 용 ~
       	 Map<String,String> alarmMap = new HashMap<>();
       	 alarmMap.put("alarm_nickname", paraMap.get("alarm_nickname"));
-      	 alarmMap.put("cmd", "cmtlike");
+      	 alarmMap.put("cmd", "cmtLike");
       	 alarmMap.put("url", "/detail.do?boardNum=");
       	 alarmMap.put("content", paraMap.get("content"));
       	 alarmMap.put("url_num", paraMap.get("board_num"));
@@ -469,7 +469,7 @@ public class BoardController {
     	 System.out.println(paraMap);
          
     	 Map<String,String> alarmMap = new HashMap<>();
-    	 // alarmMap.put("alarm_nickname", paraMap.get("writer_nickname"));
+    	 alarmMap.put("alarm_nickname", paraMap.get("alarm_nickname"));
     	 alarmMap.put("cmd", "cmt_cmtLike");
     	 alarmMap.put("url", "/detail.do?boardNum=");
     	 alarmMap.put("content", paraMap.get("content"));
