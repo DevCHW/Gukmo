@@ -122,7 +122,7 @@
              </c:if>
              
              <c:if test="${board.category == '공지사항'}">
-              <span onclick="location.href='<%=ctxPath %>공지사항수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.board_num}'">수정하기</span>
              </c:if>
              
               <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
@@ -315,11 +315,15 @@
     
     <div class="carousel-item ">              
         <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
-              <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
-            </c:if>
-            <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
-               <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
-            </c:if>
+         <a href="${advertisement_List.url}">
+          <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+         </a>
+        </c:if>
+        <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
+         <a href="${advertisement_List.url}">
+           <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+         </a>
+        </c:if>
     
     </div>
     
@@ -486,8 +490,8 @@
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 	          </div>
-	          <span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
-          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
+	          <span class="border rounded px-2 py-1 comment_btn_more">&#8230;
+          		<div id="comment_menu_box" class="border rounded px-3 py-2 comment_update_or_delete">
 	            	<span class="comment_edit">수정하기</span>
 	            	<span class="comment_delete">삭제하기</span>
           		</div>
