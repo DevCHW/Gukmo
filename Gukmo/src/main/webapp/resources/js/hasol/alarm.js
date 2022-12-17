@@ -71,7 +71,7 @@ function getNotReadAlarm_count(){
 // 알람 리스트 가져오기
 function getNotReadAlarmList(){
 	
-	console.log("와?");
+	// console.log("와?");
 	
 	$.ajax({
 		url:getContextPath()+'/getNotReadAlarmList.do',
@@ -127,7 +127,7 @@ function getNotReadAlarmList(){
 					
 					// 댓글에 댓글, 좋아요, 신고
 					if(item.cmd == 'recomment') {
-						html +=  	"<span class='reply'>신고</span>" +
+						html +=  	"<span class='reply'>댓글</span>" +
 									"<span>"+ item.alarm_date +"</span>" +
 								"</div>"+
 								"<p class='alarm_text' id="+item.url_num+"> [" +content+ "] 댓글에 댓글이 달렸습니다.</p>" +

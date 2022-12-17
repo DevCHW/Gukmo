@@ -86,8 +86,23 @@ function goDetailCategory(detail_category){
  * 알림영역 보이게 만들기
  */
 function viewAlarm(){
-	alert("viewAlarm() 호출. activities.js 파일에서 이 메소드 부분 코딩하면 됩니다 파일 맨아래보면있어유.");
-	//html은 activities.jsp파일에서 div#alarm 안쪽에 코딩하면 됨 
+	
+	console.log("와?");
+	
+	const currentPageNo = $("input#currentPageNo");
+	
+	$.ajax({
+		url:getContextPath()+'/getAlarmList.do',
+		data: {"currentPageNo" : currentPageNo},
+		dataType:"json",
+		success:function(json){		
+			
+		},
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});
+	
 	
 }//end of method---
 

@@ -8,13 +8,10 @@ import com.gukmo.board.model.AlarmVO;
 public interface InterAlarmDAO {
 
 	// 안읽은 알람 카운트
-	int getNotReadAlarm_count(String userid);
+	int getNotReadAlarm_count(String nickname);
 
 	// 안읽은 알람 리스트
-	List<AlarmVO> getNotReadAlarmList(String userid);
-
-	// 전체 알람 리스트
-	List<AlarmVO> getAlarmList();
+	List<AlarmVO> getNotReadAlarmList(String nickname);
 
 	// 알람테이블에 값 넣기
 	int setAlarm(Map<String, String> paraMap);
@@ -22,8 +19,11 @@ public interface InterAlarmDAO {
 	// 읽음 컬럼값 변경하기
 	int changeIsRead(Map<String, String> paraMap);
 
-	// 안읽음 컬럼 카운트
-	int showAlarmCnt(String userid);
+	// 전체 알람 카운트
+	int getTotalAlarmCnt(String nickname);
+
+	// 전체 알람 리스트
+	List<AlarmVO> getAlarmList();
 
 
 

@@ -16,24 +16,19 @@ public class AlarmDAO implements InterAlarmDAO {
 	@Resource
 	private SqlSessionTemplate gukmo_sql;
 	
-	
+	// 안 읽은 알람 카운트
 	@Override
 	public int getNotReadAlarm_count(String nickname) {
 		int n = gukmo_sql.selectOne("jhs.getNotReadAlarm_count", nickname);
 		return n;
 	}
 
+	// 안 읽은 알림 리스트
 	@Override
 	public List<AlarmVO> getNotReadAlarmList(String nickname) {
 		List<AlarmVO> notReadAlarmList = gukmo_sql.selectList("jhs.getNotReadAlarmList", nickname);
 		//System.out.println("dao:"+notReadAlarmList);
 		return notReadAlarmList;
-	}
-
-	@Override
-	public List<AlarmVO> getAlarmList() {
-		List<AlarmVO> alarmList = gukmo_sql.selectList("jhs.getAlarmList");
-		return alarmList;
 	}
 
 	//알람테이블에 값넣기
@@ -51,12 +46,17 @@ public class AlarmDAO implements InterAlarmDAO {
 		return result;
 	}
 	
-	// 안읽음 컬럼 카운트
+	// 전체 알람 카운트
 	@Override
-	public int showAlarmCnt(String nickname) {
-		int n = gukmo_sql.selectOne("jhs.showAlarmcnt");
-		return n;
+	public int getTotalAlarmCnt(String nickname) {
+		int result = gukmo_sql.selectOne("jhs.getTotalAlarmCnt", nickname);
+		return result;
 	}
 	
+	@Override
+	public List<AlarmVO> getAlarmList() {
+		List<AlarmVO> alarmList = gukmo_sql.selectList("jhs.getAlarmList");
+		return alarmList;
+	}
 
 }
