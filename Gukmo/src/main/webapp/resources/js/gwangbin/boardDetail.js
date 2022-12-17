@@ -21,89 +21,7 @@ $(document).ready(function(){
 	// 대댓 보여주는 함수
 	// viewCommentOfComment();
     // ////////////////////////////////////////////////////////////////////////////////
-	
-	
-	//스마트에디터 프레임생성
-    nhn.husky.EZCreator.createInIFrame({
-        oAppRef: obj,
-        elPlaceHolder: "comment_content_area",
-        sSkinURI: getContextPath()+"/resources/smarteditor/SmartEditor2Skin.html",
-        htParams : {
-            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseToolbar : true,            
-            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseVerticalResizer : true,    
-            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseModeChanger : true,
-        }
-    });
-    
   
- 
-    
-    $("button#go_comment").click(function(){    	   	    	
-    	
-    	obj.getById["comment_content_area"].exec("UPDATE_CONTENTS_FIELD", []);
-    	
-    	var content = $("textarea#comment_content_area").val();
-    	
-    	content = content.replace(/&nbsp;/gi, ""); // 공백을 "" 으로 변환
-    	
-    	content = content.substring(content.indexOf("<p>")+3);   // "             </p>"
-        content = content.substring(0, content.indexOf("</p>")); // "             "
-        
-    	if(content.trim().length == 0) {
-    		alert("댓댓댓을 입력하세요!!");
-    		return;
-    	}
-    	
-    	const cmt_board_num = $("input#cmt_board_num").val();
-    	const nickname = $("input#nickname").val();
-    	const parent_write_nickname = $("input#parent_write_nickname").val();
-    	
-    	const subject = $("input#board_subject").val();
-    	const detail_category = $("input#detail_category").val();
-    	
-    	if(content == "") {
-    		alert("댓글내용을 입력하세요!!");
-    		return;
-    	}
-    	
-    	  $.ajax({
-    		  url:getContextPath()+"/addComment.do",
-    		  data:{ "cmt_board_num":cmt_board_num
-    				,"nickname":nickname
-    				,"parent_write_nickname":parent_write_nickname
-    				,"content":content
-    				,"subject":subject
-    				,"detail_category":detail_category},
-    		/*
-    		 * 또는 data:queryString,
-    		 */
-    		  type:"POST",
-    		  dataType:"JSON",
-    		  success:function(json){
-    			  // json ==> {"n":1,"name":"서영학"} 또는 {"n":0,"name":"서영학"}
-    			  const n = json.n;
-    			  if(n==0) {
-    				  alert("댓글 작성 실패");
-    			  }
-    			  else {
-    			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
-    				  alert("댓글 작성 성공");
-    				  $("textarea#comment_content_area").val("");
-    				  window.location.reload();
-    			  }
-    			  
-    			  // $("input#commentContent").val("");
-    		  },
-    		  error: function(request, status, error){
-    			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    		  }
-    	  });
-    	
-    	
-    });
 
   // 게시글에 [...]클릭시 이벤트
   $("span#btn_more").click(()=>{
@@ -432,10 +350,9 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
-	  const content = target.parent().parent().parent().parent().find('div.detail_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.comment_writer_nickname').attr('id');
-	  
+	  const alarm_nickname = target.parent().prev().find('div.comment_writer_nickname').text();	  	  
 	  
   //  const comment_write_nickname = target.next().val();
 	  const nickname = $("input#nickname").val();
@@ -446,7 +363,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,content,detail_category,comment_num,nickname);
+		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname,alarm_nickname);
 
 	  }
 	  
@@ -463,7 +380,6 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
-	  const re_content = target.parent().parent().parent().next().find('div.detail_comment_of_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
 //	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
@@ -474,7 +390,7 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname);
+		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname);
 
 	  }
 	  
@@ -491,11 +407,10 @@ $(document).ready(function(){
 	  const content = target.parent().prev().val();
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
-	  
-	  
+	  const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();	  
 
 	  if(nickname != "") {
-		  addCommentOfComment(content, fk_comment_num);
+		   addCommentOfComment(content, fk_comment_num, alarm_nickname);
 	  }
 	  
 	  else {
@@ -539,9 +454,7 @@ $(document).ready(function(){
 
 // == Function Declaration == //
 
-function random(n) {
-    return (Math.floor(Math.random()*100000)%6);
-}
+
 
 function likeClick(data){
 	$.ajax({ 
@@ -585,7 +498,7 @@ function likeClick(data){
 
 
 // 댓글 좋아요
-function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,content,detail_category,comment_num,nickname){
+function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname,alarm_nickname){
 	$.ajax({
 		url:getContextPath()+"/comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -593,10 +506,10 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 			 ,"writer_nickname":writer_nickname
 			 ,"board_num":board_num
 			 ,"subject":subject
-			 ,"content":content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
-			 ,"nickname":nickname},			 
+			 ,"nickname":nickname
+			 ,"alarm_nickname":alarm_nickname},			 
 		type:'POST',
 		dataType:"json",
 		success:function(json){	
@@ -633,7 +546,7 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 
 
 //대댓글 좋아요
-function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname){
+function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname){
 	$.ajax({
 		url:getContextPath()+"/big_comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -641,7 +554,6 @@ function big_comment_likeClick(comment_num, userid, target, writer_nickname,boar
 			 ,"writer_nickname":writer_nickname
 			 ,"board_num":board_num
 			 ,"subject":subject
-			 ,"content":re_content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
 			 ,"nickname":nickname},			 
@@ -744,7 +656,8 @@ function openReport_comment(comment_write_nickname, comment_num,content) {
 	// 신고 버튼
 	var openWin;
 	const board_num = $("input#board_num").val();
-	const nickname = comment_write_nickname;
+	const nickname = comment_write_nickname;	
+	
 	
     // window.name = "부모창 이름";
     window.name = "boardDetail";
@@ -760,6 +673,8 @@ function openReport_comment_of_comment(comment_write_nickname, comment_num,conte
 	var openWin;
 	const board_num = $("input#board_num").val();
 	const nickname = comment_write_nickname;
+	
+	alert(nickname);
 	
     // window.name = "부모창 이름";
     window.name = "boardDetail";
@@ -805,14 +720,14 @@ function no_login_comment() {
 
 
 
-/*
+
 // 댓글쓰기 
 function goAddWrite_noAttach() {		
 	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
-	
+	const content = $("textarea#content").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
@@ -849,13 +764,9 @@ function goAddWrite_noAttach() {
 	  });
 
 }// end of function goAddWrite_noAttach()---------------------
-*/
 
-
-
-function addCommentOfComment(content, fk_comment_num) {
-	
-	
+// 대댓글 작성하기
+function addCommentOfComment(content, fk_comment_num,alarm_nickname) {		
 	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
@@ -870,13 +781,14 @@ function addCommentOfComment(content, fk_comment_num) {
 
 	  $.ajax({
 		  url:getContextPath()+"/addCommentOfComment.do",
-		  data:{ "board_num":cmt_board_num
+		  data:{ "cmt_board_num":cmt_board_num
 				,"nickname":nickname
 				,"parent_write_nickname":parent_write_nickname
-				,"fk_comment_num":fk_comment_num
 				,"content":content
+				,"fk_comment_num":fk_comment_num
 				,"subject":subject
-				,"detail_category":detail_category},
+				,"detail_category":detail_category
+				,"alarm_nickname":alarm_nickname},
 		  type:"POST",
 		  dataType:"JSON",		  
 		  success:function(json){
@@ -957,3 +869,5 @@ function comment_edit(content3, comment_num) {
 		  }
 	  });
 }
+
+

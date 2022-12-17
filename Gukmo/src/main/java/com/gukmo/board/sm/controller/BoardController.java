@@ -162,6 +162,8 @@ public class BoardController {
 		    request.setAttribute("advertisement_List", advertisement_List);	      
 		    request.setAttribute("board", board);
 		    request.setAttribute("like", like);
+		    
+		     System.out.println(board);
 	      
 		    } catch (Exception e) {
 		    	e.printStackTrace();
