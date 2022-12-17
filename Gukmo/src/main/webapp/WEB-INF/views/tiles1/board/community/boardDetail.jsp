@@ -17,11 +17,14 @@
   <script type="text/javascript" src="<%=ctxPath %>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> branch 'main' of https://github.com/hyunwoocastle/Gukmo.git
   <div class="container my-5"> 
 
     <div class="line my-4" style="width:1150px; margin-left: -20px;">
@@ -212,12 +215,93 @@
     
 
 
+<<<<<<< HEAD
 
 
     <%---------------------- 광고 영역 시작 ----------------------%>
     <div id="advertisement_box" class="mt-4">
       <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/>
     </div>
+=======
+    
+
+    <%---------------------- 광고 영역 시작 ----------------------%>
+    <!--  
+    
+    <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+    
+    <div id="advertisement_box" class="mt-4">
+     
+     
+        <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
+              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}">
+        </c:if>
+        <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
+              <img src="${advertisement_List.filename}">
+        </c:if>
+        
+    </div>
+    
+    
+    
+	</c:forEach>
+	-->  
+	
+	<div id="demo" class="carousel slide mt-4" data-ride="carousel" >
+
+<!-- Indicators -->
+     <ul class="carousel-indicators">
+       <li data-target="#demo" data-slide-to="1" class="active"></li>
+       <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+       <li data-target="#demo" data-slide-to="0"></li>
+       </c:forEach>
+     </ul>
+   
+     <!-- The slideshow -->
+     <div class="carousel-inner" style="height:160px;">
+     <div class="carousel-item active">
+     	<c:forEach begin="2" var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+     	<a href="${advertisement_List.url}">
+       		<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+        </a>
+         </c:forEach>
+       </div>
+        
+       
+         <c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
+    
+    <div class="carousel-item ">
+     
+       
+        <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
+           <a href="${advertisement_List.url}">
+              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+           </a>
+        </c:if>
+        <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
+           <a href="${advertisement_List.url}">
+              <img src="${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+           </a>
+        </c:if>
+    
+    </div>
+    
+    
+	</c:forEach>
+       
+       
+     </div>
+   
+     <!-- Left and right controls -->
+     <a class="carousel-control-prev" href="#demo" data-slide="prev">
+       <span class="carousel-control-prev-icon"></span>
+     </a>
+     <a class="carousel-control-next" href="#demo" data-slide="next">
+       <span class="carousel-control-next-icon"></span>
+     </a>
+   
+</div>	
+>>>>>>> branch 'main' of https://github.com/hyunwoocastle/Gukmo.git
     <%---------------------- 광고 영역 끝 ----------------------%>
 
 
@@ -245,8 +329,12 @@
 	            <input id="parent_write_nickname" type="hidden" name="parent_write_nickname" value="${requestScope.board.nickname}"  />            
 	        <div class="ml-3 w-100">
 	          <div class="mb-1">내용</div>
+<<<<<<< HEAD
 	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>
 	  
+=======
+	          <textarea id="content" name="content" class="pl-2 py-2" rows="5"></textarea>	  
+>>>>>>> branch 'main' of https://github.com/hyunwoocastle/Gukmo.git
 	          <div class="d-flex justify-content-end mt-2">
 	            <button type="button" class="btn btn-info" id="go_comment" onclick="goAddComment()">댓글 쓰기</button>
 	          </div>
@@ -294,11 +382,7 @@
           </div>
           <input type="hidden" id="" name="fk_comment_num"/>
           <div class="d-flex flex-column w-100 asdf1">
-            <div class="comment_writer_nickname" id ="${bcommentList.comment_num}"
-                 onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer; width:20%;">
-              	${bcommentList.nickname}
-            </div>
-  			
+            <div class="comment_writer_nickname" id ="${bcommentList.comment_num}" onclick="location.href='<%=ctxPath %>/member/activityOther.do?nickname=${bcommentList.nickname}'" style="cursor:pointer; width:20%;">${bcommentList.nickname}</div>
             <div class="mt-1">
               <%-- 댓글작성자 활동점수 --%>
               <span class="mr-2">

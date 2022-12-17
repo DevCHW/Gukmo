@@ -18,6 +18,7 @@ $(document).ready(function(){
 	// viewCommentOfComment();
     // ////////////////////////////////////////////////////////////////////////////////
 
+
   // 게시글에 [...]클릭시 이벤트
   $("span#btn_more").click(()=>{
     $("div#mask").show();
@@ -294,7 +295,7 @@ $(document).ready(function(){
 	  const content = target.parent().parent().parent().parent().find('div.detail_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.comment_writer_nickname').attr('id');
-	  
+	  const alarm_nickname = target.parent().prev().find('div.comment_writer_nickname').text();	  	  
 	  
   //  const comment_write_nickname = target.next().val();
 	  const nickname = $("input#nickname").val();
@@ -305,7 +306,8 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,content,detail_category,comment_num,nickname);
+
+		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,detail_category,comment_num,nickname,alarm_nickname);
 
 	  }
 	  
@@ -350,11 +352,10 @@ $(document).ready(function(){
 	  const content = target.parent().prev().val();
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
-	  
-	  
+	  const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();	  
 
 	  if(nickname != "") {
-		  addCommentOfComment(content, fk_comment_num);
+		   addCommentOfComment(content, fk_comment_num, alarm_nickname);
 	  }
 	  
 	  else {
@@ -398,6 +399,8 @@ $(document).ready(function(){
 
 // == Function Declaration == //
 
+
+
 function likeClick(data){
 	$.ajax({ 
 		url:getContextPath()+"/likeProcess.do", 
@@ -440,7 +443,9 @@ function likeClick(data){
 
 
 // 댓글 좋아요
-function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,content,detail_category,comment_num,nickname){
+
+function comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,detail_category,comment_num,nickname,alarm_nickname){
+
 	$.ajax({
 		url:getContextPath()+"/comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -451,7 +456,8 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 			 ,"content":content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
-			 ,"nickname":nickname},			 
+			 ,"nickname":nickname
+			 ,"alarm_nickname":alarm_nickname},			 
 		type:'POST',
 		dataType:"json",
 		success:function(json){	
@@ -556,7 +562,8 @@ function openReport_comment(comment_write_nickname, comment_num,content) {
 	// 신고 버튼
 	var openWin;
 	const board_num = $("input#board_num").val();
-	const nickname = comment_write_nickname;
+	const nickname = comment_write_nickname;	
+	
 	
     // window.name = "부모창 이름";
     window.name = "boardDetail";
@@ -572,6 +579,8 @@ function openReport_comment_of_comment(comment_write_nickname, comment_num,conte
 	var openWin;
 	const board_num = $("input#board_num").val();
 	const nickname = comment_write_nickname;
+	
+	alert(nickname);
 	
     // window.name = "부모창 이름";
     window.name = "boardDetail";
@@ -613,19 +622,17 @@ function no_login_comment() {
 }
 
 
-// 댓글쓰기 (완)
-function goAddWrite_noAttach() {
+
+// 댓글쓰기 
+function goAddWrite_noAttach() {		
+	
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
-	const parent_write_nickname = $("input#parent_write_nickname").val(); // 알람으로 넘기는 닉네임
+	const parent_write_nickname = $("input#parent_write_nickname").val();// 알람으로 넘기는 닉네임
 	const content = $("textarea#content").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
-	if(content == "") {
-		alert("댓글내용을 입력하세요!!");
-		return;
-	}
 	
 	  $.ajax({
 		  url:getContextPath()+"/addComment.do",
@@ -635,9 +642,7 @@ function goAddWrite_noAttach() {
 				,"content":content
 				,"subject":subject
 				,"detail_category":detail_category},
-		/*
-		 * 또는 data:queryString,
-		 */
+		
 		  type:"POST",
 		  dataType:"JSON",
 		  success:function(json){
@@ -666,10 +671,10 @@ function goAddWrite_noAttach() {
 
 // 대댓글 작성
 function addCommentOfComment(content, fk_comment_num) {	
+
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
-	const alarm_nickname = $("input#big_comment_alarm_nicnkname").val();
-	// const parent_write_nickname = $("input#parent_write_nickname").val();
+	const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
@@ -686,7 +691,8 @@ function addCommentOfComment(content, fk_comment_num) {
 				,"content":content
 				,"fk_comment_num":fk_comment_num
 				,"subject":subject
-				,"detail_category":detail_category},
+				,"detail_category":detail_category
+				,"alarm_nickname":alarm_nickname},
 		  type:"POST",
 		  dataType:"JSON",		  
 		  success:function(json){

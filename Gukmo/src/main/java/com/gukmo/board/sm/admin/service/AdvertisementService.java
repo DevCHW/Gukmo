@@ -51,4 +51,12 @@ public class AdvertisementService implements InterAdvertisementService{
 		return n;
 	}
 
+	// 광고 일정 캘린더에 광고 일정 박기(ajax)
+	@Override
+	public List<AdVO> getAdList() {
+		List<AdVO> adList = dao.adList_cal();
+		// System.out.println(memberList);
+		return adList;
+	}
+
 }

@@ -16,8 +16,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <%-- 직접만든 CSS(어드민 리스트페이지 공통) --%>
 <link rel="stylesheet" href="<%=ctxPath %>/resources/css/hyunwoo/admin/listPage.css">
-<%-- Core plugin JavaScript--%>
-<script src="<%=ctxPath %>/resources/js/hyunwoo/admin/jquery.easing.min.js"></script>
 <%-- dataTable bootstrap4 --%>
 <script src="<%=ctxPath %>/resources/js/hyunwoo/admin/dataTable/jquery.dataTables.min.js"></script>
 <script src="<%=ctxPath %>/resources/js/hyunwoo/admin/dataTable/dataTables.bootstrap4.min.js"></script>

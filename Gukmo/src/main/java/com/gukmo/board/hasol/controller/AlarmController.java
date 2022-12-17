@@ -1,10 +1,8 @@
 package com.gukmo.board.hasol.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 

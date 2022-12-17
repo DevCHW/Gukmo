@@ -58,6 +58,13 @@ public class AdvertisementDAO implements InterAdvertisementDAO{
 		
 		return result1 * result2;
 	}
+
+	// 광고 일정 캘린더에 광고 일정 박기(ajax)
+	@Override
+	public List<AdVO> adList_cal() {
+		List<AdVO> adList = gukmo_sql.selectList("ksm.adList_cal");
+		return adList;
+	}
 	
 	
 	

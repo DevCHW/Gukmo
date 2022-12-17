@@ -273,7 +273,7 @@ public class MemberController {
 	@RequestMapping(value="/member/activityOther.do", method= {RequestMethod.GET})
 	public String viewActivityOther(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
 		String str_page = request.getParameter("page");
-		
+		String nickname = paraMap.get("nickname");
 		int totalCount = 0;           // 총 게시물 건수
 		int sizePerPage = 10;         // 한 페이지당 보여줄 게시물 건수 
 		int page = 0;    			  // 현재 보여주는 페이지번호로서, 초기치로는 1페이지로 설정함.
@@ -329,19 +329,19 @@ public class MemberController {
 		int pageNo = ((page - 1)/blockSize) * blockSize + 1;
 		
 		String pageBar = "<ul class='my pagination pagination-md justify-content-center mt-5'>";
-		String url = request.getContextPath()+"/member/activities.do";
+		String url = request.getContextPath()+"/member/activityOther.do";
 		
 		// === [<<][<] 만들기 === //
 		if(pageNo != 1) {
 			//[<<]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?page=1'>" + 
+					   "  <a class='page-link' href='"+url+"?page=1&nickname="+nickname+"'>" + 
 					   "    <i class='fa-solid fa-angles-left'></i>" + 
 					   "  </a>" + 
 					   "</li>";
 			//[<]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?page="+(pageNo-1)+"'>" + 
+					   "  <a class='page-link' href='"+url+"?page="+(pageNo-1)+"&nickname="+nickname+"'>" + 
 					   "    <i class='fa-solid fa-angle-left'></i>" + 
 					   "  </a>" + 
 					   "</li>"; 
@@ -357,7 +357,7 @@ public class MemberController {
 			
 			else {	//페이지번호가 현재페이지번호랑 다르다면 .active 뺌
 				pageBar += "<li class='page-item'>" + 
-						   "  <a class='page-link' href='"+url+"?page="+pageNo+"'>"+pageNo+"</a>" + 
+						   "  <a class='page-link' href='"+url+"?page="+pageNo+"&nickname="+nickname+"'>"+pageNo+"</a>" + 
 						   "</li>";        
 			}
 			
@@ -369,14 +369,14 @@ public class MemberController {
 		if( pageNo <= totalPage) {
 			//[>]
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?page="+pageNo+"'>"+
+					   "  <a class='page-link' href='"+url+"?page="+pageNo+"&nickname="+nickname+"'>"+
 					   "    <i class='fa-solid fa-angle-right'></i>"+
 					   "  </a>" + 
 					   "</li>";
 			
 			//[>>] 
 			pageBar += "<li class='page-item'>" + 
-					   "  <a class='page-link' href='"+url+"?page="+totalPage+"'>"+
+					   "  <a class='page-link' href='"+url+"?page="+totalPage+"&nickname="+nickname+"'>"+
 					   "    <i class='fas fa-solid fa-angles-right'></i>"+
 					   "  </a>" + 
 					   "</li>";

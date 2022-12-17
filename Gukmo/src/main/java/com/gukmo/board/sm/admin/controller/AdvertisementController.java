@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonArray;
 import com.gukmo.board.common.FileManager;
 import com.gukmo.board.model.AdVO;
 import com.gukmo.board.sm.admin.service.InterAdvertisementService;
@@ -304,7 +306,33 @@ public class AdvertisementController {
 	}
 	
 	
+	// 광고 일정 캘린더에 광고 일정 박기(ajax)
+	@ResponseBody
+	@RequestMapping(value="/admin/view_AdSchedule.do", method={RequestMethod.POST},  produces="text/plain;charset=UTF-8") 
+	public String view_AdSchedule() {
+
+		List<AdVO> adList = service.getAdList();		
+		// System.out.println(adList);
+
+		JSONArray jsonArr = new JSONArray();
+		
+		Map<String, Object> hash = new HashMap<>();
+		
+		for(int i=0; i < adList.size(); i++) {			
+			hash.put("title", adList.get(i).getClient_name());
+			hash.put("start", adList.get(i).getStart_date());
+			hash.put("end", adList.get(i).getEnd_date());
+			hash.put("advertisement_num", adList.get(i).getAdvertisement_num());
+			JSONObject jsonObj = new JSONObject(hash);			
+			jsonArr.put(jsonObj);
+
+		} //end of for
+		
+		// System.out.println(jsonArr.toString());
+		
+		return jsonArr.toString();
 	
+	}
 	
 	
 	

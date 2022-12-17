@@ -162,6 +162,8 @@ public class BoardController {
 		    request.setAttribute("advertisement_List", advertisement_List);	      
 		    request.setAttribute("board", board);
 		    request.setAttribute("like", like);
+		    
+		     System.out.println(board);
 	      
 		    } catch (Exception e) {
 		    	e.printStackTrace();
@@ -216,10 +218,9 @@ public class BoardController {
 		String userid = user.getUserid();
 
 		paraMap.put("userid", userid);
-		
+
 		System.out.println("paraMap:" + paraMap);
-		
-		// 알람값 넣는 AOP 용
+
 		Map<String,String> alarmMap = new HashMap<>();
 		alarmMap.put("alarm_nickname",paraMap.get("alarm_nickname"));
 		alarmMap.put("cmd", "reply");
@@ -228,7 +229,6 @@ public class BoardController {
 		alarmMap.put("url_num", paraMap.get("cmt_board_num"));
 
 		request.setAttribute("paraMap", alarmMap);
-
 		
 		try {
 			// tbl_comment 테이블에 추가, tbl_board 의 comment_cnt +1, 해당 회원의 포인트 10점 증가, 활동내역에 등록
@@ -274,7 +274,7 @@ public class BoardController {
 		alarmMap.put("content", paraMap.get("content"));
 		alarmMap.put("url_num", paraMap.get("cmt_board_num"));
 
-		request.setAttribute("paraMap", alarmMap);
+		request.setAttribute("alamrMap", alarmMap);
 		
 		int n = 0;
 		
@@ -415,7 +415,7 @@ public class BoardController {
 	      alarmMap.put("url_num", paraMap.get("board_num"));
 
 		  request.setAttribute("alarmMap", alarmMap);
-		  
+
 	      JSONObject jsonObj = new JSONObject();
 	      
 	      if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면
@@ -438,14 +438,14 @@ public class BoardController {
          
 		  // 알람 값 넣는 AOP 용 ~
       	 Map<String,String> alarmMap = new HashMap<>();
-      	 // alarmMap.put("alarm_nickname", paraMap.get("writer_nickname"));
+      	 alarmMap.put("alarm_nickname", paraMap.get("alarm_nickname"));
       	 alarmMap.put("cmd", "cmtlike");
       	 alarmMap.put("url", "/detail.do?boardNum=");
       	 alarmMap.put("content", paraMap.get("content"));
       	 alarmMap.put("url_num", paraMap.get("board_num"));
 
 		 request.setAttribute("alarmMap", alarmMap);
-		 
+
          JSONObject jsonObj = new JSONObject();
          
          if("".equals(paraMap.get("userid")) || paraMap.get("userid") == null) {   //로그인을 안했다면
@@ -466,15 +466,15 @@ public class BoardController {
              //확인용 board_num,userid
     	 System.out.println(paraMap);
          
-		 // 알람 값 넣는 AOP 용 ~
     	 Map<String,String> alarmMap = new HashMap<>();
-    	 alarmMap.put("alarm_nickname", paraMap.get("writer_nickname"));
+    	 // alarmMap.put("alarm_nickname", paraMap.get("writer_nickname"));
     	 alarmMap.put("cmd", "cmt_cmtLike");
     	 alarmMap.put("url", "/detail.do?boardNum=");
     	 alarmMap.put("content", paraMap.get("content"));
     	 alarmMap.put("url_num", paraMap.get("board_num"));
 
 		 request.setAttribute("alarmMap", alarmMap);
+
 		  
          JSONObject jsonObj = new JSONObject();
          

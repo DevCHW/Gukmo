@@ -97,10 +97,21 @@ $(document).ready(function(){
 	  case "/admin/advertisement/calendar.do" :							   //광고일정 URL일 경우
 		  	$("li.advertisementMenu").children(":first").trigger("click"); //메뉴 클릭시키기
 		    $("li.advertisementMenu").addClass("active");				   //광고메뉴 활성화
-	  		$("a.advertisementCalendar").addClass("active");					   //광고일정메뉴 활성화
+	  		$("a.advertisementCalendar").addClass("active");			   //광고일정메뉴 활성화
 		    break;
 		    
 		 // ====================== 광고관련   끝  ========================== //
+		 
+		 
+		 
+		 
+		 // ====================== 광고관련   끝  ========================== //
+		 
+	  case "/admin/calendar.do" :							    //일정 URL일 경우
+		    $("li.calendarMenu").addClass("active");				   		//일정메뉴 활성화
+		    break;
+		 
+		    
 		 
 		 
   }//end of switch-case---
@@ -112,13 +123,14 @@ $(document).ready(function(){
 </script>
 <%-- Sidebar --%>
 <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
-	<%-------------------------------- 대시보드 영역 시작 --------------------------------------%>
+	
     <%-- Sidebar - Brand --%>
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=ctxPath %>/index.do">
         <img src="<%=ctxPath %>/resources/images/titleicon.png" style="width:60px; height:60px;">
         <div class="sidebar-brand-text mx-3">ADMIN MENU</div>
     </a>
-
+	
+	<%-------------------------------- 대시보드 영역 시작 --------------------------------------%>
     <%-- Divider --%>
     <hr class="sidebar-divider my-0">
 
@@ -126,7 +138,8 @@ $(document).ready(function(){
     <li class="nav-item dashboardMenu">
         <a class="nav-link" href="<%=ctxPath %>/admin/index.do">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>대시보드</span></a>
+            <span>대시보드</span>
+        </a>
     </li>
     <%-------------------------------- 대시보드 영역 끝 --------------------------------------%>
 
@@ -138,7 +151,7 @@ $(document).ready(function(){
     <hr class="sidebar-divider">
 
     <%-- Heading --%>
-    <div class="sidebar-heading">Member</div>
+    <div class="sidebar-heading">Management</div>
 
     <%-- Nav Item - Member Collapse Menu --%>
     <li class="nav-item memberMenu">
@@ -146,7 +159,7 @@ $(document).ready(function(){
             aria-expanded="true" aria-controls="collapseTwo">
             <%-- 회원관련 아이콘 --%>
             <i class="fas fa-fw fa-cog"></i>
-            <span>회원관리</span>
+            <span>회원</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -166,17 +179,12 @@ $(document).ready(function(){
 
 
 	<%-------------------------------- 광고관리 영역 시작--------------------------------------%>
-	<%-- Divider --%>
-    <hr class="sidebar-divider">
-
-    <%-- Heading --%>
-    <div class="sidebar-heading">Advertisement</div>
     <%-- Nav Item - Advertisement Collapse Menu --%>
     <li class="nav-item advertisementMenu">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>광고관리</span>
+            <span>광고</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
@@ -189,6 +197,34 @@ $(document).ready(function(){
         </div>
     </li>
 	<%-------------------------------- 광고관리 영역 끝--------------------------------------%>
+	
+	
+	
+	<%-------------------------------- 통계메뉴 영역 시작--------------------------------------%>
+	<%-- Divider --%>
+    <hr class="sidebar-divider">
+
+    <%-- Heading --%>
+    <div class="sidebar-heading">view</div>
+
+    <%-- Nav Item - Member Collapse Menu --%>
+    <li class="nav-item statisticsMenu">
+    	<a class="nav-link" href="<%=ctxPath %>/admin/statistics.do">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>통계</span></a>
+    </li>
+    <%-------------------------------- 통계메뉴 영역 끝--------------------------------------%>
+    
+    
+    <%-------------------------------- 일정메뉴 영역 시작--------------------------------------%>
+
+    <%-- Nav Item - Member Collapse Menu --%>
+    <li class="nav-item calendarMenu">
+    	<a class="nav-link" href="<%=ctxPath %>/admin/calendar.do">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>일정</span></a>
+    </li>
+    <%-------------------------------- 일정메뉴 영역 끝--------------------------------------%>
 	
 	
 	

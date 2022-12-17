@@ -18,9 +18,9 @@
         <%-- 404 Error Text --%>
         <div class="text-center mt-5 pt-5">
             <div class="error mx-auto" data-text="500">500</div>
-            <p class="lead text-gray-800 mb-5">서버 문제로 연결이 불가능해요.</p>
+            <p class="lead text-gray-800 mb-5">서버 문제로 연결이 불가능합니다.</p>
             <p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
-            <a href="<%=ctxPath %>index.do">&larr; Back to GUKMO</a>
+            <a href="<%=ctxPath %>/index.do">&larr; Back to GUKMO</a>
         </div>
 
     </div>

@@ -957,5 +957,10 @@
 	</select>
 
 
+	<!-- 광고리스트 불러오기 -->
+	<select id="adList_cal" resultType="com.gukmo.board.model.AdVO">
+		select advertisement_num, division, client_name, client_phone, url, to_char(start_date, 'yyyy-mm-dd') as start_date, to_char((start_date+period), 'yyyy-mm-dd') as end_date, period, status
+		from tbl_advertisement
+	</select>
 
 </mapper>

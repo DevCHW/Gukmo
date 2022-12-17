@@ -79,13 +79,13 @@ public class BoardAOP {
 		
 //		System.out.println("joinpoint "+joinpoint);
 		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];		
-		
+
 		Map<String,String> alarmMap = (Map<String, String>) request.getAttribute("alarmMap");
-		
+
 		System.out.println("alamr" +alarmMap);
-		// System.out.println("여기 와?");
 
 		 int result = alarm_service.setAlarm(alarmMap);
+
 	//	System.out.println("aop 확인용 : " + n);
 	
 	} //end of setAlarm

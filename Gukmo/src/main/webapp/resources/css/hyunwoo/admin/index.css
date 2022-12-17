@@ -1,9 +1,68 @@
 @charset "UTF-8";
 
+#popular-content{
+  font-size:small;
+}
+#popular-subject{
+  font-size:20px;
+  font-weight:bold;
+  
+}
+div.write_date{
+  font-size:10px;
+  color : darkgray;
+}
+a.writer_nickname:link {
+  color : black;
+  text-decoration: none;
+}
+a.writer_nickname:visited {
+  color : black;
+  text-decoration: none;
+}
+a.writer_nickname:hover {
+  color : #0090F9;
+  text-decoration: none;
+}
+a.writer_nickname:active {
+  color : black;
+  text-decoration: none;
+}
 
-/* 768px 미만 미디어쿼리 */
-@media screen and (max-width: 768px){
-  div#section{
-    flex-direction: column-reverse;
-  }
+
+a.subject:link{
+  color : black;
+  text-decoration: none;
+}
+a.subject:visited {
+  color : black;
+  text-decoration: none;
+}
+a.subject:hover,
+a.detail_category:hover {
+  color : #0090F9;
+  text-decoration: none;
+  cursor:pointer;
+}
+a.subject:active,
+a.detail_category:active {
+  color : black;
+  text-decoration: none;
+}
+
+
+a.detail_category{
+  font-size:10px;
+  font-weight: bold;
+  color:#0090F9;
+  background-color:#D1E9FA;
+}
+a.detail_category:hover{
+  color:#74ADE5;
+}
+
+div.board_info_box{
+  /* color:#374151; */
+  color:darkgray;
+  width:50%;
 }
