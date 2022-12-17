@@ -37,7 +37,7 @@ public class BoardController {
 	 * 공지사항 페이지 매핑
 	 */
 	@RequestMapping(value="/notices.do", method= {RequestMethod.GET})
-	public String viewNotice(HttpServletRequest request) {
+	public String getNotice_viewNotice(HttpServletRequest request) {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		String searchWord = request.getParameter("searchWord");
@@ -119,7 +119,7 @@ public class BoardController {
 	 * 국비학원 페이지 매핑
 	 */
 	@RequestMapping(value="academy/academies.do", method= {RequestMethod.GET})
-	public String viewAcademies(HttpServletRequest request) {
+	public String getNotice_viewAcademies(HttpServletRequest request) {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		String searchWord = request.getParameter("searchWord");
@@ -203,7 +203,7 @@ public class BoardController {
 	 * 교육과정페이지 매핑
 	 */
 	@RequestMapping(value="/academy/curricula.do", method= {RequestMethod.GET})
-	public String viewCurricula(HttpServletRequest request) {
+	public String getNotice_viewCurricula(HttpServletRequest request) {
 		Map<String, String> paraMap = new HashMap<>();
 		String searchWord = request.getParameter("searchWord");
 		String sort = request.getParameter("sort");
@@ -279,38 +279,6 @@ public class BoardController {
 	
 	
 	
-	
-	/**
-	 * 학원상세보기 페이지 매핑
-	 */
-	@RequestMapping(value="/academy/academy.do", method= {RequestMethod.GET})
-	public String viewAcademy(HttpServletRequest request) {
-		String str_board_num = request.getParameter("boardNum");
-		int boardNum = 0;
-		try {
-			boardNum = Integer.parseInt(str_board_num); 
-		} catch (NullPointerException e) {	//글번호에 한글을 입력했다면
-			return "redirect:index.do";
-		}//end of try-catch--
-		
-		int board_num = 3;// 글번호(해시태그 있는 글번호 임시 설정)
-		BoardVO academy = service.getBoardDetail(boardNum);	//하나의 글 불러오기(학원게시판)
-		
-		//확인용
-		System.out.println(academy);
-		
-		request.setAttribute("academy", academy);
-		
-		return "board/academy/academyDetail.tiles1";
-		
-		
-	}
-	
-	
-	
-	
-	
-	
 	/**
 	 * 학원글작성 페이지 매핑(교육기관회원 로그인 필수)
 	 */
@@ -371,10 +339,6 @@ public class BoardController {
 		mrequest.setAttribute("loc", loc);
 		return "msg";
 	}
-	
-	
-	
-	
 	
 	
 	

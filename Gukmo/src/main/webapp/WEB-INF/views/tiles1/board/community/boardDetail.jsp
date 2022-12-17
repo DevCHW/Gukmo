@@ -122,7 +122,21 @@
         <h2 id="board_subject">${requestScope.board.subject}</h2>
       </div>
 
-
+	<c:if test="${not empty requestScope.board.academy.address}">
+		<%-------------------- academyDetail 호출 시작----------------------%>
+		<%-- academyDetail 호출 --%>
+		<jsp:include page="/WEB-INF/views/tiles1/board/academy/academyDetail.jsp" />
+		<%-------------------- academyDetail 호출 시작 ----------------------%>
+	</c:if>
+	
+	<c:if test="${not empty requestScope.board.curriculum.academy_name}">
+		<%-------------------- curriculumDetail 호출 시작----------------------%>
+		<%-- curriculumDetail 호출 --%>
+		<jsp:include page="/WEB-INF/views/tiles1/board/academy/curriculumDetail.jsp" />
+		<%-------------------- curriculumDetail 호출 시작 ----------------------%>
+	</c:if>
+	
+	
      <%-- 글내용 --%>
       <div id="content" class="mt-3">${requestScope.board.content} </div>
 

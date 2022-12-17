@@ -123,6 +123,12 @@ public interface InterBoardDAO {
 	BoardVO getAcademyDetail(Map<String, String> paraMap);
 
 
+	/**
+	 * 필독 공지사항 가져오기
+	 */
+	List<BoardVO> getRequiredReadNotice();
+
+
 	
 
 

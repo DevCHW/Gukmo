@@ -156,7 +156,7 @@ public class BoardController {
 			
 			 List<AdVO> advertisement_List = service.getAdvertisement_List(paraMap);
 			
-
+			 System.out.println(board);
 		    request.setAttribute("basic_commentList", basic_commentList);
 		    request.setAttribute("special_commentList", special_commentList);	      
 		    request.setAttribute("advertisement_List", advertisement_List);	      
@@ -171,6 +171,7 @@ public class BoardController {
 				request.setAttribute("loc", loc);
 				return "msg";
 			}
+		    
 		    
 	      return "board/community/boardDetail.tiles1";
 	      
