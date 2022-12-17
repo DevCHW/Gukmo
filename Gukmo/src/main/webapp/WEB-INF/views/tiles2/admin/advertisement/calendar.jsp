@@ -82,8 +82,8 @@ function schedule_click() {
   <%-- Begin Page Content --%>
   <div class="container-fluid">
   	  <%-- Page Heading --%>
-      <h1 class="h3 my-2 text-gray-800">일정 관리 </h1>
-      <p class="mb-4">일정 관리</p>
+      <h1 class="h3 my-2 text-gray-800">광고일정</h1>
+      <p class="mb-4">광고일정에 맞게 광고상태를 바꿔주세요.</p>
       
       <div class="card shadow mb-4">
      	<div class="card-body">

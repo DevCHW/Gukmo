@@ -97,10 +97,21 @@ $(document).ready(function(){
 	  case "/admin/advertisement/calendar.do" :							   //광고일정 URL일 경우
 		  	$("li.advertisementMenu").children(":first").trigger("click"); //메뉴 클릭시키기
 		    $("li.advertisementMenu").addClass("active");				   //광고메뉴 활성화
-	  		$("a.advertisementCalendar").addClass("active");					   //광고일정메뉴 활성화
+	  		$("a.advertisementCalendar").addClass("active");			   //광고일정메뉴 활성화
 		    break;
 		    
 		 // ====================== 광고관련   끝  ========================== //
+		 
+		 
+		 
+		 
+		 // ====================== 광고관련   끝  ========================== //
+		 
+	  case "/admin/calendar.do" :							    //일정 URL일 경우
+		    $("li.calendarMenu").addClass("active");				   		//일정메뉴 활성화
+		    break;
+		 
+		    
 		 
 		 
   }//end of switch-case---
@@ -203,6 +214,17 @@ $(document).ready(function(){
             <span>통계</span></a>
     </li>
     <%-------------------------------- 통계메뉴 영역 끝--------------------------------------%>
+    
+    
+    <%-------------------------------- 일정메뉴 영역 시작--------------------------------------%>
+
+    <%-- Nav Item - Member Collapse Menu --%>
+    <li class="nav-item calendarMenu">
+    	<a class="nav-link" href="<%=ctxPath %>/admin/calendar.do">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>일정</span></a>
+    </li>
+    <%-------------------------------- 일정메뉴 영역 끝--------------------------------------%>
 	
 	
 	
