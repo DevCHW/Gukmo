@@ -15,7 +15,7 @@ import com.gukmo.board.model.VisitCountVO;
 public class IndexDAO implements InterIndexDAO{
 	@Resource
 	private SqlSessionTemplate gukmo_sql;
-
+	
 	/**
 	 * 인기 게시물 3개 가져오기(조회높은것)
 	 */
@@ -24,13 +24,37 @@ public class IndexDAO implements InterIndexDAO{
 		List<BoardVO> popularBoardList = gukmo_sql.selectList("chw.getPopularBoard");
 		return popularBoardList;
 	}
+
 	
 	/**
-	 * 방문자 정보 insert하기
+	 * 이번년도 월별 방문자 수 구하기
 	 */
-    public int insertVisitor(Map<String,String> paraMap) throws Exception{
-    	System.out.println("호출은되는건가");
-        return gukmo_sql.insert("chw.insertVisitor",paraMap);
-    }
+	@Override
+	public List<Integer> getVisitCountMonthlyData() {
+		return gukmo_sql.selectList("chw.getVisitCountMonthlyData");
+	}
+
+
+	/**
+	 * 이번년도 월별 방문자 수 구하기
+	 */
+	@Override
+	public Map<String, Integer> getSummary() {
+		return gukmo_sql.selectOne("chw.getSummary");
+	}
+
+
+	/**
+	 * 오늘자 커뮤니티활성 데이터 얻기
+	 */
+	@Override
+	public Map<String, Integer> getCommunityActiveData() {
+		return gukmo_sql.selectOne("chw.getCommunityActiveData");
+	}
+	
+	
+	
+	
+	
 
 }

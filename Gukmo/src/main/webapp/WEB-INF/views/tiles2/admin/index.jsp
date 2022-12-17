@@ -45,7 +45,7 @@
                     <%-- Card Header - Dropdown --%>
                     <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">월별 사이트 방문자 수</h6>
+                        <h6 id="area-chart-title" class="m-0 font-weight-bold text-primary"></h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,7 +71,7 @@
                 <%-- 인기콘텐츠 --%>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">오늘 베스트 콘텐츠 TOP3</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">오늘의 베스트 콘텐츠 TOP3</h6>
                     </div>
                     <%-- 인기콘텐츠 card-body 시작 --%>
                     <div id="popular-content" class="card-body">
@@ -181,34 +181,53 @@
                     </div>
                     <%-- Card Body(신규회원,방문자,트래픽,주간평균방문자) --%>
                     <div class="card-body">
-                    	<h4 class="small font-weight-bold">오늘 신규회원 0 <span
-                                class="float-right">평균대비 20%</span></h4>
+                    	
+                    	<h4 class="small font-weight-bold">오늘 신규회원  : ${summaryMap.CNT_JOIN_MEMBER}명
+                    		<c:if test="${member_percentage != 100}">
+                    		<span class="float-right">${member_percentage}%</span>
+                    		</c:if>
+                    		<c:if test="${member_percentage == 100}">
+                    		<span class="float-right">기록갱신!</span>
+                    		</c:if>
+                        </h4>
                         <div class="progress mb-4">
-                            <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: 20%"
-                                aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${member_percentage}%"
+                                aria-valuenow="${member_percentage}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         
-                        <h4 class="small font-weight-bold">오늘 방문자 0<span
-                                class="float-right">평균대비  40%</span></h4>
+                        
+                        <h4 class="small font-weight-bold">오늘 접속량 : ${summaryMap.CNT_VISIT}
+                        	<c:if test="${visit_percentage != 100}">
+                    		<span class="float-right">${visit_percentage}%</span>
+                    		</c:if>
+                    		<c:if test="${visit_percentage == 100}">
+                    		<span class="float-right">기록갱신!</span>
+                    		</c:if>
+                        </h4>
                         <div class="progress mb-4">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 40%"
-                                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: ${visit_percentage}%"
+                                aria-valuenow="${visit_percentage}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         
                         
-                        <h4 class="small font-weight-bold progress-bar-striped progress-bar-animated">주간 평균 방문자 0<span
-                                class="float-right">Max!</span></h4>
+                        <h4 class="small font-weight-bold progress-bar-striped progress-bar-animated">오늘 작성된 게시물 : ${summaryMap.CNT_BOARD}개
+                        	<c:if test="${board_percentage != 100}">
+                    		<span class="float-right">${board_percentage}%</span>
+                    		</c:if>
+                    		<c:if test="${board_percentage == 100}">
+                    		<span class="float-right">기록갱신!</span>
+                    		</c:if>
+                        </h4>
                         <div class="progress">
-                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"
-                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${board_percentage}%"
+                                aria-valuenow="${board_percentage}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        
                     </div>
                 </div>
                 <%-- donut chart --%>
                 <div class="card shadow mb-4">
                 	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                		<h6 class="m-0 font-weight-bold text-primary">방문자 브라우저 비중</h6>
+                		<h6 id="pie-chart-title" class="m-0 font-weight-bold text-primary">오늘 현재 커뮤니티 활성 비율</h6>
                 	</div>
                 	<div class="card-body">
                 		<div class="chart-pie pt-4">
@@ -216,22 +235,32 @@
                          </div>
                          <div class="mt-4 text-center small">
                             <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Chrome
+                                <i class="fas fa-circle text-primary"></i> 자유게시판
                             </span>
                             <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Safari
+                                <i class="fas fa-circle text-success"></i> Q&A
                             </span>
                             <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Firefox
+                                <i class="fas fa-circle text-info"></i> 스터디
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-warning"></i> 취미모임
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-danger"></i> 수강/취업후기
                             </span>
                         </div>
                 	</div>
                 </div>
             </div>
         </div>
-
-
+        
+        <div class="row">
+			        
+        </div>
     </div>
     <%-- /.container-fluid --%>
+    
+    
 </div>
 <%-- End of Main Content --%>

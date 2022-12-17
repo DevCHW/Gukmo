@@ -20,6 +20,8 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
 	
+	
+	
 	<!-- ==== Spring Scheduler(스프링스케줄러1) 어노테이션을 사용하여 스프링스케줄러를 구현하도록 한다. ==== -->
 	<task:annotation-driven/>
 	
@@ -70,11 +72,13 @@
 	</beans:bean>
 	
 	
+	
 	<beans:bean id="aes" class="com.gukmo.board.common.AES256">
 		<beans:constructor-arg>
 			<beans:value>abcd0070#aclass$</beans:value> <!-- abcd0070#aclass$ 은 각자 com.spring.board.common.SecretMyKey 에 사용되던 암호화/복호화 키 이다. -->   
 		</beans:constructor-arg>
 	</beans:bean>
+	
 	
 	<context:component-scan base-package="com.gukmo.*" name-generator="com.gukmo.board.common.FullBeanNameGenerator" />
 	

@@ -1,15 +1,27 @@
+// js파일에서 contextPath를 알아내는 함수
+function getContextPath(){
+  let hostIndex = location.href.indexOf(location.host) + location.host.length;
+  let contextPath = location.href.substring(hostIndex, location.href.indexOf('/',hostIndex+1));
+  return contextPath;
+}
+
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
+const today = new Date();   
 
+const year = today.getFullYear(); // 년도
+const month = today.getMonth() + 1;  // 월
+const date = today.getDate();  // 날짜
 
 $("document").ready(function(){
-	let data = [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000];
-	getAreaChart(data);
+	$("#area-chart-title").html(year+"년 월별 사이트 접속량 수")
+	let areaChartData = getVisitCountMonthlyData();
+	getAreaChart(areaChartData);
 	
-	data = [55, 30, 15];
-	getPieChart(data);
-});
+	let pieChartData = getCommunityActiveData();
+	getPieChart(pieChartData);
+});//end of $("document").ready(function(){})--
 
 
 
@@ -146,11 +158,11 @@ function getPieChart(data){
 	var myPieChart = new Chart(ctx, {
 	  type: 'doughnut',
 	  data: {
-	    labels: ["Direct", "Referral", "Social"],
+	    labels: ["자유게시판", "Q&A", "스터디", "취미모임", "수강/취업후기"],
 	    datasets: [{
 	      data: data,
-	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],
+	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#f4b619' ,'#e02d1b'],
 	      hoverBorderColor: "rgba(234, 236, 244, 1)",
 	    }],
 	  },
@@ -172,6 +184,50 @@ function getPieChart(data){
 	    cutoutPercentage: 80,
 	  },
 	});
+}//end of method--
+
+
+/**
+ * 이번년도 월별 방문자 수 데이터 얻기
+ */
+function getVisitCountMonthlyData(){
+	let visitCountMonthlydata = [];
+	$.ajax({
+		type : 'get',
+		url:getContextPath()+"/admin/getVisitCountMonthlyData.do",
+		async:false,
+		dataType : 'json',
+		success : function(res){
+			visitCountMonthlydata.push(...res);
+		},//end of success
+		error: function(xhr, status, error){
+			alert(status+":"+error);
+		}
+	  });//end of ajax
+	return visitCountMonthlydata;
+}//end of method--
+
+
+
+/**
+ * 오늘자 커뮤니티활성 데이터 얻기
+ */
+function getCommunityActiveData(){
+	let communityActiveData = [];
+	$.ajax({
+		type : 'get',
+		url:getContextPath()+"/admin/getCommunityActiveData.do",
+		async:false,
+		dataType : 'json',
+		success : function(res){
+			communityActiveData.push(...res);
+		},//end of success
+		error: function(xhr, status, error){
+			alert(status+":"+error);
+		}
+	  });//end of ajax
+	console.log(communityActiveData);
+	return communityActiveData;
 }//end of method--
 
 
