@@ -408,7 +408,6 @@ $(document).ready(function(){
   $("button.btn_big_comment_write").click(function(e){
 	  const target = $(e.currentTarget);
 	  const content = target.parent().prev().val();
-	  const origin_content = target.parent().parent().parent().parent().find('div.detail_comment').text(); // 알람 넘기기 위한 원래 댓글 값
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
 	  const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();
