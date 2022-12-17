@@ -278,7 +278,7 @@
 	</c:forEach>
 	-->  
 	
-	<c:if test="${empty requestScope.advertisement_List}">
+	<c:if test="${not empty advertisement_List}">
 	
 	<div id="demo" class="carousel slide mt-4" data-ride="carousel" >
 
