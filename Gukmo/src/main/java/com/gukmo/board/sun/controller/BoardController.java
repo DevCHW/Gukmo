@@ -707,8 +707,8 @@ public class BoardController {
 	
 	// 신고하기
 	@RequestMapping(value="/community/reportEnd.do", method= {RequestMethod.POST} )
-	public String requiredLogin_reportEnd(HttpServletRequest request, HttpServletResponse response, ReportVO reportvo, @RequestParam Map<String,String> paraMap){
-		
+	public String setAlaram_reportEnd(HttpServletRequest request, HttpServletResponse response, ReportVO reportvo, @RequestParam Map<String,String> paraMap){
+		// ㅎㅎ... 로그인 안하면 신고버튼 안보이길래 냅다 setAlarm 으로 aop 박아용 ㅎㅎ!
 		int n = service.reportInsert(reportvo);
 		
 	      //AOP 용
@@ -747,14 +747,15 @@ public class BoardController {
 	   
 	   // 댓글 신고하기
 	   @RequestMapping(value="/community/comment_reportEnd.do", method= {RequestMethod.POST} )
-	   public String setAlarm_requiredLogin_comment_reportEnd(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paraMap){
+	   public String setAlarm_comment_reportEnd(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paraMap){
 		   
 	      int n = service.comment_reportInsert(paraMap);
 	      
+	      System.out.println(paraMap.get("board_num"));
 	      //AOP 용
 	      Map<String,String> alarmMap = new HashMap<>();
 	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
-      	  alarmMap.put("cmd", "commentPanalty");
+      	  alarmMap.put("cmd", "cmtPenalty");
       	  alarmMap.put("url", "/detail.do?boardNum=");
       	  alarmMap.put("content", paraMap.get("subject"));
       	  alarmMap.put("url_num", paraMap.get("board_num"));

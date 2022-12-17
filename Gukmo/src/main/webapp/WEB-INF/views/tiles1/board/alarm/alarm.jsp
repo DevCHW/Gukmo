@@ -12,20 +12,18 @@
 
 <div class="dropdown">
 	<div>
-	<a class="login_icon alarm_drop position-relative"> 
-		<i class="fa-solid fa-bell fa-lg alarm_drop"></i>
-	</a>
-	<span id="alarm_cnt" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-white bg-danger"></span>
+		<a class="login_icon alarm_drop position-relative"> 
+			<i class="fa-solid fa-bell fa-lg alarm_drop"></i>
+		</a>
+		<span id="alarm_cnt" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-white bg-danger"></span>
 	</div>
 	<div id="alarm_dropContent" class="dropdown-content1 mt-1">
-		<a href="#">알림</a>
+		<div>
+			<a href="#">알림</a>
+			<span id="alarm_cnt" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-white bg-danger"></span>
+		</div>
 		<div class="div_alarm_content px-3 d-flex flex-column ">
-			<!-- 알림 내용이 없을 경우 -->
-			<!-- <p>받으신 알림이 없습니다.</p> -->
-
-			<!-- 알림 내용이 있을 경우 (반복문) -->
-			
-
+			<!-- 알림 콘텐츠 나오는 영역 -->
 		</div>
 	</div>
 </div>

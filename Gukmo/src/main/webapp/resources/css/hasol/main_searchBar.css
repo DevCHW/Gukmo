@@ -31,6 +31,9 @@
 
 
 /* Hashtag 영역 */
+div.btn_hashtag {
+	max-width: 90%;
+}
 
 div.btn_hashtag:not(:last-child) {
 	margin-right: 10px;	

@@ -59,6 +59,9 @@
 		 <input type="hidden" name="fk_comment_num" value="${requestScope.paraMap.comment_num}" />
 		 <input type="hidden" name="reported_nickname" value="${requestScope.paraMap.comment_write_nickname}" />
 		 <input type="hidden" name="report_nickname" value="${requestScope.paraMap.nickname}" />
+		 <!-- AOP 등록용 -->
+		 <input type="hidden" name="subject" value="${requestScope.paraMap.content}" />
+		 <input type="hidden" name="board_num" value="${requestScope.paraMap.board_num}" />
   
   
   	 <div class="mt-3">
