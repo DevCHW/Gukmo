@@ -327,16 +327,16 @@ $(document).ready(function(){
 	  const re_content = target.parent().parent().parent().parent().find('div.detail_comment_of_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
-//	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
+	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
 	  const nickname = $("input#nickname").val();	  
+	  const alarm_nickname = target.parent().prev().find('div.big_comment_writer_nickname').text();
 	  
-	  // alert(comment_num);
+	   alert(alarm_nickname);
 	  // alert(userid);
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname);
-
+		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname,alarm_nickname);
 	  }
 	  
 	  else {
@@ -494,7 +494,8 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 
 
 //대댓글 좋아요
-function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname){
+function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject,re_content,detail_category,comment_num,nickname, alarm_nickname){
+
 	$.ajax({
 		url:getContextPath()+"/big_comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -505,7 +506,8 @@ function big_comment_likeClick(comment_num, userid, target, writer_nickname,boar
 			 ,"content":re_content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
-			 ,"nickname":nickname},			 
+			 ,"nickname":nickname
+			 ,"alarm_nickname":alarm_nickname},			 
 		type:'POST',
 		dataType:"json",
 		success:function(json){	

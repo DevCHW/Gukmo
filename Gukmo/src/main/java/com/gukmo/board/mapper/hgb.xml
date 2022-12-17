@@ -63,8 +63,10 @@
 		<result property="academy_name" column="academy_name" />
 		<result property="curriculum_start_date" column="curriculum_start_date" />
 		<result property="curriculum_end_date" column="curriculum_end_date" />
+		<result property="curriculum_period" column="curriculum_period" />
 		<result property="recruitment_start_date" column="recruitment_start_date" />
 		<result property="recruitment_end_date" column="recruitment_end_date" />
+		<result property="recruitment_period" column="recruitment_period" />
 		<result property="cnt_recruits" column="cnt_recruits" />
 		<result property="join_url" column="join_url" />
 	</resultMap>
@@ -99,7 +101,21 @@
 			(select fk_board_num,representative_name,address,phone,jurisdiction,homepage,academy_image from tbl_academy where fk_board_num = #{board_num}) AC
          on B.board_num = AC.fk_board_num
 		 left join
-		 	(select fk_board_num,core_technology,academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, cnt_recruits, join_url, recruitment_start_date from tbl_curriculum where fk_board_num = #{board_num}) CU
+		 	(
+		 	select fk_board_num,
+		 		   (curriculum_end_date - curriculum_start_date) curriculum_period,
+		 		   (recruitment_end_date - recruitment_start_date) recruitment_period,
+	               core_technology,
+	               academy_name,
+	               to_char(curriculum_start_date,'yyyy-mm-dd') curriculum_start_date,
+	               to_char(curriculum_end_date,'yyyy-mm-dd') curriculum_end_date,
+	               to_char(recruitment_start_date,'yyyy-mm-dd') recruitment_start_date,
+	               to_char(recruitment_end_date,'yyyy-mm-dd') recruitment_end_date,
+	               cnt_recruits,
+	               join_url
+        	from tbl_curriculum 
+		 	where fk_board_num = #{board_num}
+		 	) CU
 	 	 on B.board_num = CU.fk_board_num
         where B.board_num = #{board_num, jdbcType=BIGINT}
         

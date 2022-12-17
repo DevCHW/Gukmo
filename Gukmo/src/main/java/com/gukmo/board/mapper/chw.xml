@@ -505,6 +505,53 @@
 	</resultMap>
 	
 	
+	<!-- 필독 공지사항 리스트 얻기 -->
+	<select id="getRequiredReadNotice" resultMap="boardList">
+		select V.*
+		from
+			(
+			select C.board_num
+		          ,C.nickname
+		          ,C.category
+		          ,C.detail_category
+		          ,C.subject
+		          ,C.write_date
+		          ,C.views
+		          ,C.profile_image
+		          ,C.comment_cnt
+		          ,C.like_cnt
+		          ,C.hashtag_num
+		          ,C.hashtag
+		          ,C.fk_board_num
+		          ,D.point writer_point
+		    from
+				(
+				select A.board_num,A.nickname,A.category,A.detail_category,A.subject,A.write_date,A.views,A.profile_image,A.comment_cnt,A.Like_cnt
+				  ,B.hashtag_num,B.fk_board_num,B.hashtag
+				from
+					(
+					select *
+					from
+						(
+							select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
+							from tbl_board where category = '공지사항'
+						)AB
+					join
+						(select * from tbl_notice where must_read = 1) ABC
+					on AB.board_num = ABC.fk_board_num
+					) A
+				left join 
+					(select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B
+				on A.board_num = B.fk_board_num
+				) C
+			left join
+                (select point,nickname from tbl_member) D
+			on C.nickname = D.nickname
+			) V
+			order by write_date desc
+	</select>
+	
+	
 	
 	
 	
@@ -513,18 +560,39 @@
 	
 	<!-- 공지사항 총 갯수 얻기 -->
 	<select id="getTotalNoticesCount" parameterType="HashMap" resultType="Integer">
-		
 		<if test='searchWord != ""'>
 			select count(*)
-			from tbl_board
-			where category='공지사항' and detail_category='공지사항'
-			and lower(subject) like '%'|| lower(#{searchWord}) ||'%'
+			from
+			(
+				select
+				from tbl_board
+				where category='공지사항' and detail_category='공지사항'
+				and lower(subject) like '%'|| lower(#{searchWord}) ||'%'
+			) A
+			join
+			(
+				select *
+				from tbl_notice
+				and must_read = 0
+			) B
+			on A.board_num = B.fk_board_num
 		</if>
 		
 		<if test='searchWord == ""'>
 			select count(*)
-			from tbl_board
-			where category='공지사항' and detail_category='공지사항'
+			from
+			(
+				select * 
+				from tbl_board
+				where category='공지사항' and detail_category='공지사항'
+			) A
+			join
+			(
+				select *
+				from tbl_notice
+				where must_read = 0
+			) B
+			on A.board_num = B.fk_board_num
 		</if>
 	</select>
 	
@@ -560,11 +628,23 @@
 				  ,B.hashtag_num,B.fk_board_num,B.hashtag
 				from
 					(
-					select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
-					from tbl_board where category = '공지사항'
-					<if test='searchWord != ""'>
-					  and subject like '%'|| lower(#{searchWord}) ||'%'
-					</if>
+					select *
+					from
+						(
+							select board_num,nickname,category,detail_category,subject,write_date,views,profile_image,comment_cnt,Like_cnt
+							from tbl_board where category = '공지사항'
+							<if test='searchWord != ""'>
+							  and subject like '%'|| lower(#{searchWord}) ||'%'
+							</if>
+						) AB
+						join
+						(
+							select *
+							from tbl_notice
+							where must_read = 0
+						) BB
+						on
+						AB.board_num = BB.fk_board_num
 					) A
 				left join 
 					(select a.hashtag_num, hashtag, fk_board_num from tbl_hashtag a join tbl_hashtag_board_map b on a.hashtag_num = b.hashtag_num) B

@@ -40,7 +40,7 @@ public class BoardController {
 	
 	// 게시판 글목록 보기 페이지 요청
 	@RequestMapping(value="/community/freeBoards.do", method= {RequestMethod.GET})
-	public String viewFreeBoards(HttpServletRequest request) {
+	public String getNotice_viewFreeBoards(HttpServletRequest request) {
 		List<BoardVO> boardList = null;
 		
 		Map<String, String> paraMap = new HashMap<>();
@@ -120,7 +120,7 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/community/questions.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public String viewQuestions(HttpServletRequest request) {
+	public String getNotice_viewQuestions(HttpServletRequest request) {
 		List<BoardVO> boardList = null;
 		
 		Map<String, String> paraMap = new HashMap<>();
@@ -198,7 +198,7 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/community/studies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public String viewStudies(HttpServletRequest request) {
+	public String getNotice_viewStudies(HttpServletRequest request) {
 		List<BoardVO> boardList = null;
 		
 		Map<String, String> paraMap = new HashMap<>();
@@ -276,7 +276,7 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/community/hobbies.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public String viewHobbies(HttpServletRequest request) {
+	public String getNotice_viewHobbies(HttpServletRequest request) {
 		List<BoardVO> boardList = null;
 		
 		Map<String, String> paraMap = new HashMap<>();
@@ -355,7 +355,7 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/community/reviews.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임. 
-	public String viewReviews(HttpServletRequest request) {
+	public String getNotice_viewReviews(HttpServletRequest request) {
 		List<BoardVO> boardList = null;
 		
 		Map<String, String> paraMap = new HashMap<>();

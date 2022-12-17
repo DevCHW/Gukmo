@@ -130,7 +130,21 @@
         <h2 id="board_subject">${requestScope.board.subject}</h2>
       </div>
 
-
+	<c:if test="${not empty requestScope.board.academy.address}">
+		<%-------------------- academyDetail 호출 시작----------------------%>
+		<%-- academyDetail 호출 --%>
+		<jsp:include page="/WEB-INF/views/tiles1/board/academy/academyDetail.jsp" />
+		<%-------------------- academyDetail 호출 시작 ----------------------%>
+	</c:if>
+	
+	<c:if test="${not empty requestScope.board.curriculum.academy_name}">
+		<%-------------------- curriculumDetail 호출 시작----------------------%>
+		<%-- curriculumDetail 호출 --%>
+		<jsp:include page="/WEB-INF/views/tiles1/board/academy/curriculumDetail.jsp" />
+		<%-------------------- curriculumDetail 호출 시작 ----------------------%>
+	</c:if>
+	
+	
      <%-- 글내용 --%>
       <div id="content" class="mt-3">${requestScope.board.content} </div>
 
@@ -262,7 +276,7 @@
      <div class="carousel-item active">
      	<c:forEach begin="2" var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
      	<a href="${advertisement_List.url}">
-       		<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+       		<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
         </a>
          </c:forEach>
        </div>
@@ -275,7 +289,7 @@
        
         <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
            <a href="${advertisement_List.url}">
-              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 690px; height:160px;">
+              <img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
            </a>
         </c:if>
         <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">

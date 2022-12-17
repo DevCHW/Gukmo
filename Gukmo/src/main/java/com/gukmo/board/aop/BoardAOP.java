@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Component;
 
 import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.hasol.service.InterAlarmService;
+import com.gukmo.board.hw.repository.InterBoardDAO;
+import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.sm.controller.BoardController;
 
 @Aspect     
@@ -90,6 +93,27 @@ public class BoardAOP {
 	
 	} //end of setAlarm
 	
+	
+	
+	
+	
+	@Pointcut("execution(public * com.gukmo..*Controller.getNotice_*(..) )")
+	public void noticeSelect() {}
+	
+	@Autowired
+	private InterBoardDAO dao;
+	
+	@Before("noticeSelect()")
+	public void getNoticeRequiredRead(JoinPoint joinpoint) {
+		System.out.println("AOP는 호출댐");
+		
+		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];    
+		
+		List<BoardVO> noticeListRequiredRead = dao.getRequiredReadNotice();
+		
+		request.setAttribute("mustReadNotice", noticeListRequiredRead);
+		
+	}
 	
 	
 		

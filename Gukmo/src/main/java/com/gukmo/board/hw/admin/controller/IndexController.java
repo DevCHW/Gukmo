@@ -85,9 +85,8 @@ public class IndexController {
 	@ResponseBody
 	@RequestMapping(value="/admin/getCommunityActiveData.do", method= {RequestMethod.GET})
 	public List<Integer> getCommunityActiveData(HttpServletRequest request) {
-		List<Integer> data = service.getCommunityActiveData();
 		//오늘자 커뮤니티활성 데이터 얻기
-		return data;
+		return service.getCommunityActiveData();
 	}
 	
 	

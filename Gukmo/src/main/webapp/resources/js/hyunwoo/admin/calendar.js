@@ -29,8 +29,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			  attends += "<button class='btn btn-info rounded' onclick=location.href='"+item.fileUrl+"'>첨부파일</button>";
 		  });
 
-		  if(info.event.extendedProps.description === undefined || info.event.extendedProps.description == ""
-			  || typeOf(info.event.extendedProps.description) == "undefined") {
+		  if(info.event.extendedProps.description === undefined){
 			  info.event.extendedProps.description = "내용이 없습니다.";
 		  }
 		  let contents = `
