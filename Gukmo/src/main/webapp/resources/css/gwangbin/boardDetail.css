@@ -1,4 +1,10 @@
+a#category_area:hover {
+	color:#0090F9;
+}
 
+a#detail_category_area:hover {
+	color:#0090F9;
+}
 
 div.container{
   font-size:small;

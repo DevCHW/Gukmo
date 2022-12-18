@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.hasol.service.InterIndexService;
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.HashtagVO;
 import com.gukmo.board.model.SearchVO;
@@ -71,13 +72,18 @@ public class IndexController {
 
 		// 후기/정보공유 게시판 목록 불러오는 메소드
 		List<BoardVO> reviewBoardList = service.getReviewBoardList();
-
+		
+		List<AdVO> advertisementList = service.getAdvertisementList();
+		        
 		mav.addObject("topHashList", topHashList);
 		mav.addObject("topSearchList", topSearchList);
 		mav.addObject("freeBoardList", freeBoardList);
 		mav.addObject("studyBoardList", studyBoardList);
 		mav.addObject("qnaBoardList", qnaBoardList);
 		mav.addObject("reviewBoardList", reviewBoardList);
+		mav.addObject("advertisementList", advertisementList);
+		
+		System.out.println("ㅎ하" +advertisementList);
 
 		mav.setViewName("index.tiles1");
 

@@ -163,8 +163,7 @@ public class BoardController {
 		    request.setAttribute("special_commentList", special_commentList);	      
 		    request.setAttribute("advertisement_List", advertisement_List);	      
 		    request.setAttribute("board", board);
-		    request.setAttribute("like", like);
-		    
+		    request.setAttribute("like", like);		    
 	      
 		    } catch (Exception e) {
 		    	e.printStackTrace();

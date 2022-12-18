@@ -180,7 +180,7 @@
 	</update>
 	
 	
-	<insert id="reportInsert" parameterType="com.gukmo.board.model.ReportVO">
+	<insert id="reportInsert" parameterType="HashMap">
 		insert into tbl_board_report (report_num, fk_board_num, report_nickname, reported_nickname, simple_report_reason, detail_report_reason, report_date, report_type)
 		values(seq_report.nextval, #{fk_num}, #{report_nickname}, #{reported_nickname}, #{simple_report_reason}, #{detail_report_reason}, sysdate, default)
 	</insert>
