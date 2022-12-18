@@ -1,5 +1,6 @@
 package com.gukmo.board.hw.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +143,6 @@ public class BoardService implements InterBoardService{
 
             // 등록된 태그가 아니라면 태그부터 추가
             if (hashtagvo == null) {
-            	System.out.println("왜안들어가냐?"+hashTag);
             	dao.saveHashTag(hashTag);
             }
             
@@ -173,7 +173,6 @@ public class BoardService implements InterBoardService{
 	public boolean insertCurriculum(Map<String, Object> paraMap) {
 		String board_num = dao.getBoarSeq();
 		paraMap.put("board_num",board_num);
-		System.out.println("insertCurriculum 파라맵  : "+paraMap);
 		
 		int result1 = dao.insertBoardByCurriculum(paraMap);	//tbl_board에 insert 해주기	
 		int result2 = dao.insertCurriculum(paraMap);		//tbl_curriculum에 insert해주기
@@ -205,6 +204,107 @@ public class BoardService implements InterBoardService{
 
 		boolean success = result1*result2*result3*result4 == 1?true:false;
 		return success;
+	}
+
+
+	/**
+	 * 국비학원 수정하기
+	 */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public boolean editAcademy(Map<String, Object> paraMap) {
+		int result1 = dao.updateBoard(paraMap);	//아카데미글 수정
+		int result2 = 1;
+		int result3 = 0;
+		String board_num = (String) paraMap.get("board_num");
+		String orgin_hashTag = (String) paraMap.get("orgin_hashTag");
+		if(orgin_hashTag != null && !orgin_hashTag.trim().isEmpty()) {
+			result1 = dao.hashTagDel(board_num); // 기존 해시태그 맵핑테이블에 있는 데이터 삭제
+		}
+		String str_hashTag = (String) paraMap.get("str_hashTag");
+		
+		if(str_hashTag != null && !str_hashTag.trim().isEmpty()) {
+			// System.out.println("str_해시태그" + str_hashTag);
+			List<String> hashTags = Arrays.asList(str_hashTag.split(","));
+			// 해시태그 처리 시작
+			for (String hashTag : hashTags) {
+	        	
+	            HashtagVO hashtagvo = dao.findHashtag(hashTag);
+
+	            // 등록된 태그가 아니라면 태그부터 추가
+	            if (hashtagvo == null) {
+	            	dao.saveHashTag(hashTag);
+	            }
+	            
+	            // 태그-보드 매핑 테이블에 데이터 추가
+	            hashtagvo = dao.findHashtag(hashTag);
+	            int hashtag_num = hashtagvo.getHashtag_num();
+	           
+	            result3 = dao.upHashTagCount(hashtag_num); // 언급 카운트 올리기
+	            
+	            paraMap.put("hashtag_num", hashtag_num);
+	            paraMap.put("board_num", board_num);
+	            
+	            result2 = dao.hashtagBoardMapping(paraMap);
+	        };
+		}
+        
+        int result4 = dao.pointPlusActivityRecord(paraMap);
+
+		boolean success = result1 * result2 * result3 * result4 == 1?true:false;
+		return success;
+	}
+
+
+	
+	
+	
+	
+	
+	
+	/**
+	 * 교육과정 수정하기
+	 */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public boolean editCurriculum(Map<String, Object> paraMap) {
+		int result1 = 0;
+		int result2 = 0;
+		int result3 = 0;
+		int result4 = dao.updateCurriculum(paraMap);
+		String board_num = (String) paraMap.get("board_num");
+		String orgin_hashTag = (String) paraMap.get("orgin_hashTag");
+		if(orgin_hashTag != null && !orgin_hashTag.trim().isEmpty()) {
+			result1 = dao.hashTagDel(board_num); // 기존 해시태그 맵핑테이블에 있는 데이터 삭제
+		}
+		String str_hashTag = (String) paraMap.get("str_hashTag");
+		
+		if(str_hashTag != null && !str_hashTag.trim().isEmpty()) {
+			// System.out.println("str_해시태그" + str_hashTag);
+			List<String> hashTags = Arrays.asList(str_hashTag.split(","));
+			// 해시태그 처리 시작
+			for (String hashTag : hashTags) {
+	        	
+	            HashtagVO hashtagvo = dao.findHashtag(hashTag);
+
+	            // 등록된 태그가 아니라면 태그부터 추가
+	            if (hashtagvo == null) {
+	            	dao.saveHashTag(hashTag);
+	            }
+	            
+	            // 태그-보드 매핑 테이블에 데이터 추가
+	            hashtagvo = dao.findHashtag(hashTag);
+	            int hashtag_num = hashtagvo.getHashtag_num();
+	           
+	            result3 = dao.upHashTagCount(hashtag_num); // 언급 카운트 올리기
+	            
+	            paraMap.put("hashtag_num", hashtag_num);
+	            paraMap.put("board_num", board_num);
+	            
+	            result2 = dao.hashtagBoardMapping(paraMap);
+	        };
+		}
+		return result1*result2*result3*result4>0?true:false;
 	}
 
 

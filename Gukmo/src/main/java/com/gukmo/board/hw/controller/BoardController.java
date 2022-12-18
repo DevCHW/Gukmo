@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gukmo.board.common.FileManager;
 import com.gukmo.board.common.MyUtil;
+import com.gukmo.board.hw.repository.InterBoardDAO;
 import com.gukmo.board.hw.service.InterBoardService;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
@@ -32,6 +33,8 @@ public class BoardController {
 	private InterBoardService service;
 	@Autowired
 	private FileManager fileManager;
+	@Autowired
+	private InterBoardDAO dao;
 	
 	/**
 	 * 공지사항 페이지 매핑
@@ -283,11 +286,7 @@ public class BoardController {
 	 * 학원글작성 페이지 매핑(교육기관회원 로그인 필수)
 	 */
 	@RequestMapping(value="/academy/new.do", method= {RequestMethod.GET})
-		public String viewAcademyNew(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null) {	//로그인중이 아니라면
-			return "redirect:/login.do";
-		}
+	public String viewAcademyNew(HttpServletRequest request) {
 		return "board/academy/academyNew.tiles1";
 	}
 	
@@ -320,12 +319,7 @@ public class BoardController {
 			String realFileName = academy_image.getOriginalFilename();
 			// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
 			newFileName = fileManager.doFileUpload(bytes, realFileName, path);
-			
-			
-			MemberVO loginUser = (MemberVO)session.getAttribute("user");
 			paraMap.put("academy_image",newFileName);
-			
-			
 			result = service.insertAcademy(paraMap);
 			
 		} catch (Exception e) {
@@ -341,6 +335,99 @@ public class BoardController {
 	}
 	
 	
+	/**
+	 * 교육과정글수정 페이지 매핑(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/curriculum/edit.do", method= {RequestMethod.GET})
+	public String required_login_curriculumEdit(HttpServletRequest request,@RequestParam String boardNum) {
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("board_num",boardNum);
+		paraMap.put("detail_category","교육과정");
+		BoardVO curriculum = dao.getBoardVO(paraMap);
+		request.setAttribute("board", curriculum);
+		return "board/academy/curriculumNew.tiles1";
+	}
+	/**
+	 * 학원글수정 페이지 매핑(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/edit.do", method= {RequestMethod.GET})
+	public String required_academyEdit(HttpServletRequest request,@RequestParam String boardNum) {
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("board_num",boardNum);
+		paraMap.put("detail_category","교육과정");
+		BoardVO academy = dao.getBoardVO(paraMap);
+		request.setAttribute("board", academy);
+		return "board/academy/academyNew.tiles1";
+	}
+	
+	
+	
+	
+	/**
+	 * 교육과정글수정완료 페이지 (교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/curriculum/editEnd.do", method= {RequestMethod.POST})
+	public String curriculumEditEnd(MultipartHttpServletRequest mrequest,@RequestParam Map<String,Object> paraMap) {
+		paraMap.put("content",MyUtil.secureCode((String)paraMap.get("content")));
+		List<String> hashTags = Arrays.asList(String.valueOf(paraMap.get("str_hashTag")).split(","));
+		paraMap.put("hashTags",hashTags);
+		boolean result = service.editCurriculum(paraMap);
+		String message = result?"글수정 성공 !":"글 수정이 실패하였습니다. 다시 시도해주세요";
+		String loc = mrequest.getContextPath() + "/detail.do?boardNum="+paraMap.get("board_num");
+		mrequest.setAttribute("message", message);
+		mrequest.setAttribute("loc", loc);
+		return "msg";
+	}
+	
+	
+	
+	/**
+	 * 학원글수정 페이지 매핑(교육기관회원 로그인 필수)
+	 */
+	@RequestMapping(value="/academy/editEnd.do", method= {RequestMethod.POST})
+	public String academyEditEnd(MultipartHttpServletRequest mrequest,MultipartFile academy_image, @RequestParam Map<String,Object> paraMap) {
+		HttpSession session = mrequest.getSession();
+		paraMap.put("content",MyUtil.secureCode((String)paraMap.get("content")));
+		List<String> hashTags = Arrays.asList(String.valueOf(paraMap.get("str_hashTag")).split(","));
+		paraMap.put("hashTags",hashTags);
+		boolean result = false;
+		String root = session.getServletContext().getRealPath("/");
+		
+		String path = root+"resources"+ File.separator +"images";
+		
+		String newFileName = "";
+		// WAS(톰캣)의 디스크에 저장될 파일명 
+		byte[] bytes = null;
+		// 첨부파일의 내용물을 담는 변수
+		try {
+			// 첨부파일의 내용물을 읽어오기
+			bytes = academy_image.getBytes();
+			
+			//유저가 업로드한 프로필이미지명
+			String realFileName = academy_image.getOriginalFilename();
+			// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
+			newFileName = fileManager.doFileUpload(bytes, realFileName, path);
+			paraMap.put("academy_image",newFileName);
+			
+			
+			 result = service.editAcademy(paraMap);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		String message = result?"글수정 성공 !":"글 수정이 실패하였습니다. 다시 시도해주세요";
+		String loc = mrequest.getContextPath() + "/detail.do?boardNum="+paraMap.get("boardNum");
+		mrequest.setAttribute("message", message);
+		mrequest.setAttribute("loc", loc);
+		return "msg";
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -350,12 +437,7 @@ public class BoardController {
 	 * 교육과정글작성 페이지 매핑(교육기관회원 로그인 필수)
 	 */
 	@RequestMapping(value="/academy/curriculum/new.do", method= {RequestMethod.GET})
-		public String viewCurriculumNew(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null) {	//로그인중이 아니라면
-			return "redirect:/login.do";
-		}
-		
+	public String viewCurriculumNew(HttpServletRequest request) {
 		return "board/academy/curriculumNew.tiles1";
 	}
 	

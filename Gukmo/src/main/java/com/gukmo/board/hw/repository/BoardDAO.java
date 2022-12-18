@@ -1,6 +1,7 @@
 package com.gukmo.board.hw.repository;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -189,8 +190,8 @@ public class BoardDAO implements InterBoardDAO{
 
 	// tbl_hashtag에 카운트 올리기
 	@Override
-	public void upHashTagCount(int hashtag_num) {
-		gukmo_sql.update("sun.upHashTagCount", hashtag_num);
+	public int upHashTagCount(int hashtag_num) {
+		return gukmo_sql.update("sun.upHashTagCount", hashtag_num);
 	}
 
 
@@ -222,6 +223,43 @@ public class BoardDAO implements InterBoardDAO{
 	public List<BoardVO> getRequiredReadNotice() {
 		List<BoardVO> noticeListRequiredRead = gukmo_sql.selectList("chw.getRequiredReadNotice");
 		return noticeListRequiredRead;
+	}
+
+	/**
+	 * 글번호로 글 하나 가져오기
+	 */
+	@Override
+	public BoardVO getBoardVO(Map<String,String> paraMap) {
+		BoardVO board = gukmo_sql.selectOne("hgb.getBoardDetail",paraMap);
+		return board;
+	}
+
+	
+	/**
+	 * 교육과정 수정하기
+	 */
+	@Override
+	public int updateCurriculum(Map<String, Object> paraMap) {
+		int result1 = gukmo_sql.update("chw.updateNotice", paraMap);
+		int result2 = gukmo_sql.update("chw.updateCurriculum", paraMap);
+		return result1 * result2;
+	}
+
+
+	/**
+	 * 기존 해시태그 매핑테이블에서 삭제처리
+	 */
+	@Override
+	public int hashTagDel(String board_num) {
+		return gukmo_sql.delete("sun.hashTagDel", board_num);
+	}
+
+
+	@Override
+	public int updateBoard(Map<String, Object> paraMap) {
+		int result1 = gukmo_sql.update("chw.updateNotice", paraMap);
+		int result2 = gukmo_sql.update("chw.updateAcademy", paraMap);
+		return result1 * result2;
 	}
 
 

@@ -38,6 +38,8 @@ public interface InterAdminDAO {
 	List<ReportVO> reportList(Map<String, String> paraMap);
 
 	List<ReportVO> reportedList(Map<String, String> paraMap);
+	//활동내역 갯수 구하기
+	int activityListCnt(Map<String, String> paraMap);
 
 
 }

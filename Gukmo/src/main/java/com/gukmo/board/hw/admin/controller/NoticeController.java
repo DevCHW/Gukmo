@@ -76,7 +76,6 @@ public class NoticeController {
 	 */
 	@RequestMapping(value="/admin/notice/editEnd.do", method= {RequestMethod.POST})
 	public String editEndNotice(MultipartHttpServletRequest mrequest,@RequestParam Map<String,Object> paraMap) {
-		System.out.println("수정쪽에서 print 하기 : " + paraMap);
 		paraMap.put("content",MyUtil.secureCode((String)paraMap.get("content")));
 		List<String> hashTags = Arrays.asList(String.valueOf(paraMap.get("str_hashTag")).split(","));
 		paraMap.put("hashTags",hashTags);

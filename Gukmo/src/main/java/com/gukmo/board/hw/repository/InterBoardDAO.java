@@ -107,8 +107,8 @@ public interface InterBoardDAO {
 	//선우누나 해시태그insert
 	HashtagVO findHashtag(String hashTag);
 
-	//선우누나 해시태그insert
-	void upHashTagCount(int hashtag_num);
+	//선우누나 해시태그
+	int upHashTagCount(int hashtag_num);
 
 	//선우누나 해시태그insert
 	int hashtagBoardMapping(Map<String, Object> paraMap);
@@ -127,6 +127,30 @@ public interface InterBoardDAO {
 	 * 필독 공지사항 가져오기
 	 */
 	List<BoardVO> getRequiredReadNotice();
+
+	/**
+	 * 글번호로 글 정보 얻기
+	 */
+	BoardVO getBoardVO(Map<String,String> paraMap);
+
+	
+	
+	/**
+	 * 교육과정 수정하기
+	 */
+	int updateCurriculum(Map<String, Object> paraMap);
+
+	
+	/*
+	 *	해시태그 삭제하기 
+	 */
+	int hashTagDel(String board_num);
+
+
+	/**
+	 * 학원글 수정하기
+	 */
+	int updateBoard(Map<String, Object> paraMap);
 
 
 	

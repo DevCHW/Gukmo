@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/hyunwoo/academyDetail.css" />
 
 <div id="academy_img_box" class="w-100">
-  <img src="${board.academy.academy_image}">
+  <img src="<%=ctxPath%>/resource/images/${board.academy.academy_image}">
 </div>
 <div id="academy-detail-box" class="border mt-4">
   <%-- 대표자명 --%>

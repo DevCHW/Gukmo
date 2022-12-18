@@ -56,6 +56,57 @@ public interface InterAdminMemberDAO {
 	 */
 	List<Map<String, String>> getNormalMemberList(Map<String, String> paraMap);
 
+	/**
+	 * 검색데이터 갯수얻기
+	 */
+	int getTotalSearchCnt(Map<String, String> paraMap);
+
+	/**
+	 * 검색데이터 내역 가져오기
+	 */
+	List<Map<String, String>> getSearchData(Map<String, String> paraMap);
+
+	/**
+	 * 회원이 작성한 게시물 총갯수 얻기
+	 */
+	int getTotalWriteBoard(Map<String, String> paraMap);
+
+	/**
+	 * 회원이 작성한 게시물 내역 얻기
+	 */
+	List<Map<String, String>> getWriteBoardData(Map<String, String> paraMap);
+
+	/**
+	 * 회원 로그인 기록 총 갯수 얻기
+	 */
+	int getTotalLoginRecord(Map<String, String> paraMap);
+	
+	/**
+	 * 회원 로그인 기록 데이터 얻기
+	 */
+	List<Map<String, String>> getLoginRecordData(Map<String, String> paraMap);
+
+	/**
+	 * 신고한내역 얻기
+	 */
+	List<Map<String, String>> getReportData(Map<String, String> paraMap);
+
+	/**
+	 * 신고한 내역 갯수 얻기
+	 */
+	int getTotalReportData(Map<String, String> paraMap);
+	
+	
+	/**
+	 * 신고당한내역 얻기
+	 */
+	List<Map<String, String>> getReportedData(Map<String, String> paraMap);
+	
+	/**
+	 * 신고당한내역 총 갯수가지고 오기
+	 */
+	int getTotalReportedData(Map<String, String> paraMap);
+
 
 
 

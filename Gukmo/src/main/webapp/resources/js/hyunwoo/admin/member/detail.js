@@ -371,51 +371,41 @@ function memberDetailAreaClear(){
  */
 function activities_nav(userid){
   $("div#member_activities").css("display","block");
-  
-  $.ajax({
-    url:getContextPath()+"/admin/member/detail/activityList.do", 
-    data:{"userid": userid},
-    type:"get",
-    dataType:"JSON",
-    success:function(json){ //활동내역을 가져오는데 성공했다면
-
-        var html = `<div class="list_box d-flex justify-content-between py-3 border-bottom" onclick="location.href='<%=ctxPath %>/admin/reportDetail.do?report_num=${report.report_num}&report_nickname=${report.report_nickname}&reported_nickname=${report.reported_nickname}'">`;
-        
-        for(var i=0; i<json.length; i++) {
-            var obj;
-            
-            html += `<div class='text-center'>
-              			<div class='m-auto'>json[i].fk_board_num</div>
-      				</div>`
-            
-      
-            
-            
-        }// end of for------------------------------
-        
-               
-        html +="</tbody>" +
-        		"</table>";
-        
-        $("div#member_activities_area").html(html);
-        
-        activitiesChart_nav(userid);
-    },//end of success
-    //success 대신 error가 발생하면 실행될 코드 
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
+  let table = $("#dataTable-activities").DataTable();
+  table.destroy();
+  $('#dataTable-activities').DataTable({
+		"serverSide": true,
+		"aaSorting": [],
+		"order" : [[ 0, "desc" ]],
+		"paging":true,
+	    "processing": true,
+	    "searching": false,
+	    "ajax": {
+	        "url": getContextPath()+"/admin/member/detail/activityList.do",
+	        "type": "POST",
+	        "data":{userid:userid},
+	        "dataSrc": function(res) {
+	            let data = res.data;
+	            return data;
+	        },
+	    },
+	    "columns" : [
+	        {"data": "activity_date"},
+	        {"data": "division"},
+	        {"data": "detail_category"},
+	        {"data": "fk_board_num"},
+	        {"data": "subject"},
+	    ],
+	  });//end of Event---
+  activitiesChart_nav(userid);	//차트함수 실행
 }//end of method--
 
 
 /**
  * 네비게이션 바에서 활동내역 클릭시 실행되는 차트 ajax
  */ 
-function activitiesChart_nav (userid) {
-	
-	const sort =  $("select#sort option").val();
-	
+function activitiesChart_nav(userid) {
+	const sort =  $("select#sort").val();
 	if(sort != '일자별') {
 		$('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		$('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
@@ -503,7 +493,6 @@ function activitiesChart_nav (userid) {
  */
 function search_nav(userid){
   $("div#member_search").css("display","block");
-
   $.ajax({
     url:getContextPath()+"/admin/member/detail/searchCntList.do", 
     data:{"userid": userid},
@@ -511,15 +500,6 @@ function search_nav(userid){
     dataType:"json",
     success:function(json){ //검색기록을 가져오는데 성공했다면
 
-    	// 리스트용
-    	var html = "<table>" +
-	       			 "<thead>" +
-	       			  "<tr>" +
-		        			"<th>검색어</th>" +
-		        			"<th>횟수</th>" +
-	   			      "</tr>"+
-	       			 "</thead>"+
-			         "<tbody>";
     	// 차트용
      	var data = [];
      	
@@ -533,55 +513,64 @@ function search_nav(userid){
          			  };
      	
             	data.push(obj); // 배열속에 객체를 넣기
-            	
-	            html += "<tr>" +
-		            		"<td>"+json[i].key+"</td>" +
-		            		"<td>"+Number(json[i].cnt)+"</td>" +
-	         		    "</tr>"; 
 			         
 	     }// end of for------------------------------
-	     
-	     html +="</tbody>" +
-	     		"</table>";
-		     
-	     $("div#many_keyword_area").html(html);
-			            	
-	            Highcharts.chart('searchChart_container', {
-	                accessibility: {
-	                    screenReaderSection: {
-	                        beforeChartFormat: '<h5>{chartTitle}</h5>' +
-	                            '<div>{chartSubtitle}</div>' +
-	                            '<div>{chartLongdesc}</div>' +
-	                            '<div>{viewTableButton}</div>'
-	                    }
-	                },
-	                series: [{
-	                    type: 'wordcloud',
-	                    data,
-	                    name: '해당 키워드 검색횟수'
-	                }],
-	                title: {
-	                    text: '검색어 통계차트',
-	                    align: 'left'
-	                },
-	                subtitle: {
-	                    text: sessionStorage.getItem("nickname")+'님의 검색어 통계',
-	                    align: 'left'
-	                },
-	                tooltip: {
-	                    headerFormat: '<span style="font-size: 16px"><b>{point.key}</b></span><br>'
-	                }
-	            });
-
-    	
+        Highcharts.chart('searchChart_container', {
+            accessibility: {
+                screenReaderSection: {
+                    beforeChartFormat: '<h5>{chartTitle}</h5>' +
+                        '<div>{chartSubtitle}</div>' +
+                        '<div>{chartLongdesc}</div>' +
+                        '<div>{viewTableButton}</div>'
+                }
+            },
+            series: [{
+                type: 'wordcloud',
+                data,
+                name: '해당 키워드 검색횟수'
+            }],
+            tooltip: {
+                headerFormat: '<span style="font-size: 16px"><b>{point.key}</b></span><br>'
+            }
+        });
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 
     error: function(request,status,error){
       alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });//end of $.ajax({})---
+  tableDraw(userid);
 }//end of method--
 
+/**
+ * 회원의 검색기록 찍기
+ */
+function tableDraw(userid){
+  let table = $("#dataTable-keyword").DataTable();
+  table.destroy();
+  $('#dataTable-keyword').DataTable({
+	"serverSide": true,
+	"aaSorting": [],
+	"order" : [[ 0, "desc" ]],
+	"paging":true,
+    "processing": true,
+    "searching": false,
+    "ajax": {
+        "url": getContextPath()+"/admin/member/getSearchData.do",
+        "type": "POST",
+        "data":{userid:userid},
+        "dataSrc": function(res) {
+            let data = res.data;
+            return data;
+        },
+    },
+    "columns" : [
+        {"data": "SEARCH_NUM"},
+        {"data": "KEYWORD"},
+        {"data": "SEARCH_DATE"},
+    ],
+  });//end of Event---
+}
 
 
 
@@ -591,49 +580,30 @@ function search_nav(userid){
 function login_record_nav(userid){
 	$("div#member_login_record").css("display","block");
 	
-	var fromDate = $("input#fromDate2").val();
-	var toDate = $("input#toDate2").val();
-	
-  $.ajax({
-    url:getContextPath()+"/admin/member/detail/loginRecordList.do", 
-    data:{"userid": userid,
-	 	   "fromDate": fromDate,
-	 	   "toDate": toDate},
-    type:"get",
-    dataType:"json",
-    success:function(json){ //작성게시물을 가져오는데 성공했다면
-
-    	var html = "<table>" +
-					"<thead>" +
-						"<tr>" +
-				    			"<th>로그인날짜</th>" +
-				    			"<th>IP</th>" +
-							"</tr>"+
-						"</thead>"+
-					"<tbody>";
-	
-		for(var i=0; i<json.length; i++) {
-		var obj;
-		
-		html += "<tr>" +
-				"<td>"+json[i].login_date+"</td>" +
-				"<td>"+json[i].login_ip+"</td>" +
-			"</tr>"; 
-		
-		}// end of for------------------------------
-		
-		
-		html +="</tbody>" +
-		"</table>";
-		
-		$("div#login_record_chart_area").html(html);
-    	
-    },//end of success
-    //success 대신 error가 발생하면 실행될 코드 
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
+	let table = $("#dataTable-login-record").DataTable();
+	table.destroy();
+	$('#dataTable-login-record').DataTable({
+	"serverSide": true,
+	"aaSorting": [],
+	"order" : [[ 0, "desc" ]],
+	"paging":true,
+	  "processing": true,
+	  "searching": false,
+	  "ajax": {
+	      "url": getContextPath()+"/admin/member/getLoginRecordData.do",
+	      "type": "POST",
+	      "data":{userid:userid},
+	      "dataSrc": function(res) {
+	          let data = res.data;
+	          return data;
+	      },
+	  },
+	  "columns" : [
+	  	  {"data": "R"},
+	      {"data": "LOGIN_DATE"},
+	      {"data": "LOGIN_IP"},
+	  ],
+	});//end of Event----
 }//end of method--
 
 
@@ -644,51 +614,32 @@ function login_record_nav(userid){
  */
 function write_board_list_nav(nickname){
   $("div#member_write_board_list").css("display","block");
-  
-  
-  $.ajax({
-    url:getContextPath()+"/admin/member/detail/boardList.do", 
-    data:{"nickname": nickname},
-    type:"get",
-    dataType:"json",
-    success:function(json){ //작성게시물을 가져오는데 성공했다면
-    	var html = "<table>" +
-		"<thead>" +
-			"<tr>" +
-			 "<th>게시글번호</th>" +
-			 "<th>카테고리</th>" +
-			 "<th>상세카테고리</th>" +
-			 "<th>제목</th>" +
-			 "<th>작성일자</th>" +
-			"</tr>"+
-		"</thead>"+
-		"<tbody>";
-
-		for(var i=0; i<json.length; i++) {
-		var obj;
-		
-		html += "<tr>" +
-			"<td>"+json[i].board_num+"</td>" +
-			"<td>"+json[i].category+"</td>" +
-			"<td>"+json[i].detail_category+"</td>" +
-			"<td>"+json[i].subject+"</td>" +
-			"<td>"+json[i].write_date+"</td>" +
-		"</tr>"; 
-		
-		}// end of for------------------------------
-		
-		
-		html +="</tbody>" +
-		"</table>";
-		
-		$("div#write_board_list_area").html(html);
-		    
-    },//end of success
-    //success 대신 error가 발생하면 실행될 코드 
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
+  let table = $("#dataTable-write-board").DataTable();
+  table.destroy();
+  $('#dataTable-write-board').DataTable({
+	"serverSide": true,
+	"aaSorting": [],
+	"order" : [[ 0, "desc" ]],
+	"paging":true,
+    "processing": true,
+    "searching": false,
+    "ajax": {
+        "url": getContextPath()+"/admin/member/getWriteBoardData.do",
+        "type": "POST",
+        "data":{nickname:nickname},
+        "dataSrc": function(res) {
+            let data = res.data;
+            return data;
+        },
+    },
+    "columns" : [
+        {"data": "BOARD_NUM"},
+        {"data": "CATEGORY"},
+        {"data": "DETAIL_CATEGORY"},
+        {"data": "SUBJECT"},
+        {"data": "WRITE_DATE"},
+    ],
+  });//end of Event----
 }//end of method--
 
 
@@ -699,94 +650,61 @@ function write_board_list_nav(nickname){
 function report_nav(nickname){
   $("div#member_report_list").css("display","block");
 
-  $.ajax({
-    url:getContextPath()+"/admin/member/detail/reportList.do", 
-    data:{"nickname": nickname},
-    type:"get",
-    dataType:"json",
-    success:function(json){ //신고내역을 가져오는데 성공했다면
-    	var html = "<table>" +
-		"<thead>" +
-			"<tr>" +
-			 "<th>신고번호</th>" +
-			 "<th>신고분류</th>" +
-			 "<th>피신고자 닉네임</th>" +
-			 "<th>사유</th>" +
-			 "<th>신고일자</th>" +
-			"</tr>"+
-		"</thead>"+
-		"<tbody>";
-
-		for(var i=0; i<json.length; i++) {
-		var obj;
-		
-		html += "<tr>" +
-			"<td>"+json[i].report_num+"</td>" +
-			"<td>"+json[i].report_type+"</td>" +
-			"<td>"+json[i].reported_nickname+"</td>" +
-			"<td>"+json[i].simple_report_reason+"</td>" +
-			"<td>"+json[i].report_date+"</td>" +
-		"</tr>"; 
-		
-		}// end of for------------------------------
-		
-		
-		html +="</tbody>" +
-		"</table>";
-		
-		$("div#report_list_area").html(html);
-		    
-    },//end of success
-    //success 대신 error가 발생하면 실행될 코드 
-    error: function(request,status,error){
-      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    }
-  });//end of $.ajax({})---
+  let table = $("#dataTable-report").DataTable();
+  table.destroy();
+  $('#dataTable-report').DataTable({
+	"serverSide": true,
+	"aaSorting": [],
+	"order" : [[ 0, "desc" ]],
+	"paging":true,
+    "processing": true,
+    "searching": false,
+    "ajax": {
+        "url": getContextPath()+"/admin/member/getReportData.do",
+        "type": "POST",
+        "data":{nickname:nickname},
+        "dataSrc": function(res) {
+            let data = res.data;
+            return data;
+        },
+    },
+    "columns" : [
+        {"data": "REPORT_TYPE"},
+        {"data": "REPORT_NICKNAME"},
+        {"data": "SIMPLE_REPORT_REASON"},
+        {"data": "REPORT_DATE"},
+        {"data": "RECEIPT"},
+    ],
+  });//end of Event----
   
   
-  $.ajax({
-	    url:getContextPath()+"/admin/member/detail/reportedList.do", 
-	    data:{"nickname": nickname},
-	    type:"get",
-	    dataType:"json",
-	    success:function(json){ //신고내역을 가져오는데 성공했다면
-	    	var html = "<table>" +
-			"<thead>" +
-				"<tr>" +
-				 "<th>신고번호</th>" +
-				 "<th>신고분류</th>" +
-				 "<th>신고자 닉네임</th>" +
-				 "<th>사유</th>" +
-				 "<th>신고일자</th>" +
-				"</tr>"+
-			"</thead>"+
-			"<tbody>";
-
-			for(var i=0; i<json.length; i++) {
-			var obj;
-			
-			html += "<tr>" +
-				"<td>"+json[i].report_num+"</td>" +
-				"<td>"+json[i].report_type+"</td>" +
-				"<td>"+json[i].report_nickname+"</td>" +
-				"<td>"+json[i].simple_report_reason+"</td>" +
-				"<td>"+json[i].report_date+"</td>" +
-			"</tr>"; 
-			
-			}// end of for------------------------------
-			
-			
-			html +="</tbody>" +
-			"</table>";
-			
-			$("div#reported_list_area").html(html);
-			    
-	    },//end of success
-	    //success 대신 error가 발생하면 실행될 코드 
-	    error: function(request,status,error){
-	      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	    }
-	  });//end of $.ajax({})---
+  
+  table = $("#dataTable-reported").DataTable();
+  table.destroy();
+  $('#dataTable-reported').DataTable({
+	"serverSide": true,
+	"aaSorting": [],
+	"order" : [[ 0, "desc" ]],
+	"paging":true,
+    "processing": true,
+    "searching": false,
+    "ajax": {
+        "url": getContextPath()+"/admin/member/getReportedData.do",
+        "type": "POST",
+        "data":{nickname:nickname},
+        "dataSrc": function(res) {
+            let data = res.data;
+            return data;
+        },
+    },
+    "columns" : [
+        {"data": "REPORT_TYPE"},
+        {"data": "REPORTED_NICKNAME"},
+        {"data": "SIMPLE_REPORT_REASON"},
+        {"data": "REPORT_DATE"},
+        {"data": "RECEIPT"},
+    ],
+  });//end of Event----
 }//end of method--
 
 

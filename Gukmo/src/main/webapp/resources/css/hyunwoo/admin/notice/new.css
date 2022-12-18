@@ -57,11 +57,11 @@ ul#hashtag_list > li{
   padding-left: 8px;
 }
 
-input#must_read{
+input#must_read_checkbox{
 	width:20px;
 	height:20px;
 }
-input#must_read:checked{
+input#must_read_checkbox:checked{
 	accent-color:black;
 }
 

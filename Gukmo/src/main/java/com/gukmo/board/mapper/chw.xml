@@ -505,6 +505,35 @@
 	</resultMap>
 	
 	
+	<!-- 교육과정 수정해주기 -->
+	<update id="updateCurriculum" parameterType="HashMap">
+		update tbl_curriculum 
+		set core_technology = #{core_technology},
+		    academy_name =#{academy_name},
+		    curriculum_start_date = #{curriculum_start_date},
+		    curriculum_end_date = #{curriculum_end_date},
+		    recruitment_start_date = #{recruitment_start_date},
+		    recruitment_end_date = #{recruitment_end_date},
+		    cnt_recruits = #{cnt_recruits},
+		    join_url = #{join_url}
+		where fk_board_num = #{board_num}
+	</update>
+	
+	
+	
+	<!-- 국비학원 수정해주기 -->
+	<update id="updateAcademy" parameterType="HashMap">
+		update tbl_academy
+		set representative_name = #{representative_name},
+			address = #{address},
+			phone = #{phone},
+			jurisdiction = #{jurisdiction},
+			homepage = #{homepage},
+			academy_image = #{academy_image}
+		where fk_board_num = #{board_num}
+	</update>
+	
+	
 	<!-- 필독 공지사항 리스트 얻기 -->
 	<select id="getRequiredReadNotice" resultMap="boardList">
 		select V.*
@@ -882,7 +911,7 @@
 	
 	
 	
-	<!-- tbl_curriculum에 insert 해주기(교육과정글)-->
+	<!-- tbl_board에 insert 해주기(교육과정글)-->
 	<insert id="insertBoardByCurriculum" parameterType="HashMap">
 		insert into tbl_board(board_num,nickname,category,detail_category,subject,content,write_date,views,profile_image,comment_cnt,like_cnt)
 		values(#{board_num},#{nickname},'국비학원','교육과정',#{subject},#{content},sysdate,0,#{profile_image},0,0)
@@ -1026,10 +1055,6 @@
 			values(seq_search.nextval,#{keyword},sysdate,#{search_ip},#{userid})
 		</if>
 	</insert>
-	
-	
-	
-	
 	
 	
 	
@@ -1618,6 +1643,199 @@
 	<update id="updateMustRead" parameterType="HashMap">
 		update tbl_notice set must_read = #{must_read} where fk_board_num = #{board_num} 
 	</update>
+	
+	
+	<!-- 검색데이터 갯수 가져오기 -->
+	<select id="getTotalSearchCnt" parameterType="String" resultType="Integer">
+		select count(*)
+		from tbl_search
+		where userid = #{userid}
+	</select>
+	
+	<!-- 검색데이터 내역 가져오기 -->
+	<select id="getSearchData" parameterType="String" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno , V.*
+			from
+				(
+					select search_num,keyword,to_char(search_date,'yyyy-mm-dd') search_date
+					from tbl_search
+					where userid = #{userid}
+					order by search_date desc
+				) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	<!-- 회원이 작성한 게시물 총갯수 얻기 -->
+	<select id="getTotalWriteBoard" parameterType="String" resultType="Integer">
+		select count(*)
+		from tbl_board
+		where nickname = #{nickname}
+	</select>
+	
+	<!-- 회원이 작성한 게시물 내역 얻기 -->
+	<select id="getWriteBoardData" parameterType="String" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno , V.*
+			from
+				(
+					select BOARD_NUM,CATEGORY,DETAIL_CATEGORY,SUBJECT,to_char(write_date,'yyyy-mm-dd') write_date
+					from tbl_board
+					where nickname = #{nickname}
+					order by write_date desc
+				) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	
+	<!-- 회원이 작성한 게시물 총갯수 얻기 -->
+	<select id="getTotalLoginRecord" parameterType="String" resultType="Integer">
+		select count(*)
+		from tbl_login_record
+		where fk_userid = #{userid}
+	</select>
+	
+	<!-- 회원이 작성한 게시물 내역 얻기 -->
+	<select id="getLoginRecordData" parameterType="String" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno , V.*
+			from
+				(
+					select rownum R,to_char(login_date,'yyyy-mm-dd') login_date,login_ip
+					from tbl_login_record
+					where fk_userid = #{userid}
+					order by login_date desc
+				) V
+			order by R desc
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	
+	<!-- 신고한내역 갯수 얻기 -->
+	<select id="getTotalReportData" parameterType="String" resultType="Integer">
+		select count(*)
+		from 
+		(
+			select report_num, fk_board_num as fk_num,
+				report_nickname,
+				reported_nickname, simple_report_reason,
+				to_char(report_date,'yyyy-mm-dd') report_date, report_type, receipt
+			from
+				tbl_board_report
+			where report_nickname = #{nickname}
+			union all
+			select report_num, fk_comment_num as fk_num,
+				report_nickname,
+				reported_nickname, simple_report_reason,
+				to_char(report_date,'yyyy-mm-dd') report_date
+				, report_type, receipt
+			from
+				tbl_comment_report
+			where report_nickname = #{nickname}
+		) V
+	</select>
+	
+	<!-- 신고한내역 얻기 -->
+	<select id="getReportData" parameterType="String" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select report_num, fk_board_num as fk_num,
+					   report_nickname,
+					   reported_nickname, simple_report_reason,
+				       to_char(report_date,'yyyy-mm-dd') report_date
+				       , report_type, receipt
+				from
+					tbl_board_report
+					where report_nickname = #{nickname}
+				union all
+				select report_num, fk_comment_num as fk_num,
+					report_nickname,
+					reported_nickname, simple_report_reason,
+					to_char(report_date,'yyyy-mm-dd') report_date
+					, report_type, receipt
+				from
+					tbl_comment_report
+				where report_nickname = #{nickname}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
+	
+	
+	
+	<!-- 신고당한내역 갯수 얻기 -->
+	<select id="getTotalReportedData" parameterType="String" resultType="Integer">
+		select count(*)
+		from 
+		(
+			select report_num, fk_board_num as fk_num,
+				   report_nickname,
+				   reported_nickname, simple_report_reason,
+				   to_char(report_date,'yyyy-mm-dd') report_date
+				   , report_type, receipt
+			from
+				tbl_board_report
+			where reported_nickname = #{nickname}
+			union all
+			select report_num, fk_comment_num as fk_num,
+				   report_nickname,
+				   reported_nickname, simple_report_reason,
+				   to_char(report_date,'yyyy-mm-dd') report_date
+				   , report_type, receipt
+			from
+				tbl_comment_report
+			where report_nickname = #{nickname}
+		) V
+	</select>
+	
+	<!-- 신고당한내역 얻기 -->
+	<select id="getReportedData" parameterType="String" resultType="HashMap">
+		select *
+		from
+		(
+			select rownum rno,V.*
+			from
+			(
+				select report_num, fk_board_num as fk_num,
+					   report_nickname,
+					   reported_nickname, simple_report_reason,
+				       to_char(report_date,'yyyy-mm-dd') report_date
+				       , report_type, receipt
+				from
+					tbl_board_report
+					where reported_nickname = #{nickname}
+				union all
+				select report_num, fk_comment_num as fk_num,
+					report_nickname,
+					reported_nickname, simple_report_reason,
+					to_char(report_date,'yyyy-mm-dd') report_date
+					, report_type, receipt
+				from
+					tbl_comment_report
+				where reported_nickname = #{nickname}
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+	</select>
 	
 	
 	

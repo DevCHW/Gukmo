@@ -42,9 +42,7 @@ public class SearchDAO implements InterSearchDAO{
 	 */
 	@Override
 	public String getUseridWithIp(String search_ip) {
-		System.out.println("왔지!befor sql");
 		String userid = gukmo_sql.selectOne("chw.getUseridWithIp",search_ip);
-		System.out.println("왔지!");
 		return userid;
 	}
 

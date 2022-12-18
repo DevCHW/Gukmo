@@ -11,11 +11,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.DataTableDTO;
 import com.gukmo.board.model.ReportVO;
 import com.gukmo.board.sun.service.InterAdminService;
 
@@ -73,33 +77,31 @@ public class AdminController {
 	
 	
 	/**
-	 * 관리자 게시물 통계
+	 * 관리자 회원 활동내역 리스트
 	 */
 	@ResponseBody
-	@RequestMapping(value="/admin/member/detail/activityList.do", produces="text/plain;charset=UTF-8")
-	//public String requiredAdminLogin_newMemberCnt(@RequestParam String userid, HttpServletRequest request) {
-	public String activityList(@RequestParam Map<String, String> paraMap, HttpServletRequest request, HttpServletResponse response) {
-		
-		System.out.println(paraMap.get("userid"));
-		
-		List<Map<String, String>> activityList = service.activityList(paraMap);
-		
-		JSONArray jsonArr = new JSONArray();  // []
-		
-		if(activityList != null) {
-			for(Map<String, String> map : activityList) {
-				JSONObject jsonObj = new JSONObject(); // {}
-				jsonObj.put("fk_board_num", map.get("fk_board_num")); 
-				jsonObj.put("activity_date", map.get("activity_date"));
-				jsonObj.put("subject", map.get("subject"));
-				jsonObj.put("detail_category", map.get("detail_category"));
-				jsonObj.put("division", map.get("division"));
-				
-				jsonArr.put(jsonObj);
-			}// end of for---------------------------
-		}
-		
-		return jsonArr.toString();
+	@RequestMapping(value="/admin/member/detail/activityList.do", method= {RequestMethod.POST})
+	public DataTableDTO activityList(DataTableDTO dto,String userid,@RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    //확인용
+//	    System.out.println("startRno : " + startRno);
+//	    System.out.println("endRno : " + endRno);
+	    
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("startRno",startRno);
+		paraMap.put("endRno",endRno);
+		paraMap.put("userid",userid);
+		int total = (int)service.activityListCnt(paraMap);
+		List<Map<String, String>> data = service.activityList(paraMap);
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		return dto;
 	}
 	
 	

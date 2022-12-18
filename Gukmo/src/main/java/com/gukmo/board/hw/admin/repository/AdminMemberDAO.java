@@ -122,6 +122,108 @@ public class AdminMemberDAO implements InterAdminMemberDAO{
 
 
 	
+	/**
+	 * 검색데이터 갯수 가져오기
+	 */
+	@Override
+	public int getTotalSearchCnt(Map<String, String> paraMap) {
+		return gukmo_sql.selectOne("chw.getTotalSearchCnt",paraMap);
+	}
+
+
+	/**
+	 * 검색데이터 내역 가져오기
+	 */
+	@Override
+	public List<Map<String, String>> getSearchData(Map<String, String> paraMap) {
+		return gukmo_sql.selectList("chw.getSearchData",paraMap);
+	}
+
+
+	/**
+	 * 회원이 작성한 게시물 총갯수 얻기
+	 */
+	@Override
+	public int getTotalWriteBoard(Map<String, String> paraMap) {
+		return gukmo_sql.selectOne("chw.getTotalWriteBoard",paraMap);
+	}
+
+
+	/**
+	 * 회원이 작성한 게시물 내역 얻기
+	 */
+	@Override
+	public List<Map<String, String>> getWriteBoardData(Map<String, String> paraMap) {
+		List<Map<String, String>> data = gukmo_sql.selectList("chw.getWriteBoardData",paraMap);
+		for(int i=0; i<data.size(); i++) {
+			String subject = data.get(i).get("SUBJECT");
+			if(subject.length() > 14) {
+				subject = "<a href='http://localhost:9090/board/detail.do?board_num="+String.valueOf(data.get(i).get("BOARD_NUM"))+"'>"+subject.substring(0,15)+"...</a>";
+				data.get(i).put("SUBJECT",subject);
+			} else {
+				subject = "<a href='http://localhost:9090/board/detail.do?board_num="+String.valueOf(data.get(i).get("BOARD_NUM"))+"'>"+subject+"</a>";
+				data.get(i).put("SUBJECT",subject);
+			}
+		}
+		return data;
+	}
+
+
+	/**
+	 * 회원 로그인 기록 총 갯수 얻기
+	 */
+	@Override
+	public int getTotalLoginRecord(Map<String, String> paraMap) {
+		return gukmo_sql.selectOne("chw.getTotalLoginRecord",paraMap);
+	}
+
+
+	/**
+	 * 회원 로그인 기록 데이터 얻기
+	 */
+	@Override
+	public List<Map<String, String>> getLoginRecordData(Map<String, String> paraMap) {
+		return gukmo_sql.selectList("chw.getLoginRecordData",paraMap);
+	}
+
+
+	/**
+	 * 신고한내역 얻기
+	 */
+	@Override
+	public List<Map<String, String>> getReportData(Map<String, String> paraMap) {
+		return gukmo_sql.selectList("chw.getReportData",paraMap);
+	}
+
+
+	/**
+	 * 신고한내역 갯수 얻기
+	 */
+	@Override
+	public int getTotalReportData(Map<String, String> paraMap) {
+		return gukmo_sql.selectOne("chw.getTotalReportData",paraMap);
+	}
+
+
+	/**
+	 * 신고당한내역 얻기
+	 */
+	@Override
+	public List<Map<String, String>> getReportedData(Map<String, String> paraMap) {
+		return gukmo_sql.selectList("chw.getReportedData",paraMap);
+	}
+
+
+	/**
+	 * 신고당한내역 갯수 얻기
+	 */
+	@Override
+	public int getTotalReportedData(Map<String, String> paraMap) {
+		return gukmo_sql.selectOne("chw.getTotalReportedData",paraMap);
+	}
+
+
+	
 	
 	
 

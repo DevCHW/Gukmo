@@ -104,6 +104,12 @@ public class AdminServie implements InterAdminService {
 		return reportedList;
 	}
 
+	//활동내역 리스트 갯수 구하기
+	@Override
+	public int activityListCnt(Map<String, String> paraMap) {
+		return dao.activityListCnt(paraMap);
+	}
+
 	
 	
 	

@@ -141,6 +141,24 @@ public class AdminMemberService implements InterAdminMemberService{
 		return data;
 	}
 
+
+	/**
+	 * 회원 검색어 갯수 총갯수 가져오기
+	 */
+	@Override
+	public int getTotalSearchCnt(Map<String, String> paraMap) {
+		return dao.getTotalSearchCnt(paraMap);
+	}
+
+
+	/**
+	 * 검색데이터 내역 가져오기
+	 */
+	@Override
+	public List<Map<String, String>> getSearchData(Map<String, String> paraMap) {
+		return dao.getSearchData(paraMap);
+	}
+
 	
 	
 	

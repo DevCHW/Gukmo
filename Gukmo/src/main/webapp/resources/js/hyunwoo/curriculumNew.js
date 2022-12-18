@@ -248,11 +248,11 @@ $(document).ready(function(){
 		// 글내용 유효성 검사(스마트 에디터용)
 		let contentval = $("textarea#content").val();
 		contentval = contentval.replace(/&nbsp;/gi, "");
-	
 	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
 	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
 	            
-	    if(contentval.trim() == "") {
+	    
+	    if($("textarea#content").val() == "") {
 	  	  alert("글내용을 입력하세요!!");
 	      return;
 	    }
@@ -271,6 +271,123 @@ $(document).ready(function(){
 	    frm.submit();
 	});
     
+    
+    //수정 버튼을 클릭했을 때 이벤트
+    $("button#btn_edit").click(function() {
+    	
+    	let values = "";
+	  	$("li.tag-item").each(function( index, element) {
+	  	  let value = $(this).text().substr(1);
+	  	  values += value+ ",";
+		   });
+	  	
+	  	values = values.slice(0, -1);
+	  	$("#str_hashTag").val(values);
+		// console.log(values);
+        
+	  	
+	  	
+    	// id가 content인 textarea에 에디터에서 대입
+    	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+    	
+    	
+    	// 글제목 유효성 검사
+		let subject = $("input#subject").val().trim();
+		if(subject == "") {
+			alert("글제목을 입력하세요!!");
+			return;
+		}
+		
+		
+		//시작일자,마감일자 날짜변수잡기
+		const curriculum_start_date = $("input#curriculum_start_date").val();
+		const curriculum_end_date = $("input#curriculum_end_date").val();
+		const recuitment_start_date = $("input#curriculum_start_date").val();
+		const recuitment_end_date = $("input#curriculum_end_date").val();
+		//마감일자-시작일자 구하기(메소드호출)
+		const curriculumDateGap = getDateGap(curriculum_start_date,curriculum_end_date);
+		const recuitmentDateGap = getDateGap(recuitment_start_date,recuitment_end_date);
+		
+		//과정 날짜 유효성검사
+	    if(!isNaN(curriculumDateGap)){  //정상적인 날짜 입력시
+	      if(curriculumDateGap > 0){  //통과
+	      } else if(curriculumDateGap == 0){
+	        alert("과정 시작일은 종료일과 같을 수 없습니다.")
+	        return;
+	      } else{
+	        alert("과정 종료일자는 시작일자보다 나중이어야 합니다.");
+	        return;
+	      }
+	    } else{
+	      alert("Error! 과정 날짜를 날짜가 아닌 값을 선택하셨습니다!");
+	      return;
+	    }
+	    
+	    //모집 날짜 유효성검사
+	    if(!isNaN(recuitmentDateGap)){  //정상적인 날짜 입력시
+	      if(recuitmentDateGap > 0){  //통과
+	      } else if(recuitmentDateGap == 0){
+	        alert("과정 시작일은 종료일과 같을 수 없습니다.")
+	        return;
+	      } else{
+	        alert("과정 종료일자는 시작일자보다 나중이어야 합니다.");
+	        return;
+	      }
+	    } else{
+	      alert("Error! 과정 날짜를 날짜가 아닌 값을 선택하셨습니다!");
+	      return;
+	    }
+	    
+	    
+	    //신청링크 url 유효성검사
+	    const url = $("input#join_url").val();
+		if(!test_url(url)){	//신청링크 주소를 통과하지 못한다면
+			alert("올바른 신청링크를 입력해주세요!");
+			return;
+		}
+		
+		
+		const core_technology = $("input#core_technology").val();
+		
+		//핵심기술 유효성검사
+		if(core_technology == ""){
+			alert("핵심기술을 입력해주세요!");
+			return;
+		}
+		
+		const cnt_recruits = $("input#cnt_recruits").val();
+		
+		if(cnt_recruits == ""){
+			alert("모집인원을 입력해주세요!");
+		}
+		
+		
+		
+		// 글내용 유효성 검사(스마트 에디터용)
+		let contentval = $("textarea#content").val();
+		contentval = contentval.replace(/&nbsp;/gi, "");
+	
+	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
+	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
+	            
+	    if($("textarea#content").val() == "") {
+	  	  alert("글내용을 입력하세요!!");
+	      return;
+	    }
+	    
+	    reCAPTCHA();
+	    if(!recaptcha_ok){
+	    	alert("매크로방지 봇 통과 후 진행해주세요");
+	    	return;
+	    }
+	    
+
+	    // 폼을 전송
+	    const frm = document.writerFrm;
+	    frm.method = "POST";
+	    frm.action = getContextPath()+"/academy/curriculum/editEnd.do";
+	    frm.submit();
+	});
 });// end of document
 
 

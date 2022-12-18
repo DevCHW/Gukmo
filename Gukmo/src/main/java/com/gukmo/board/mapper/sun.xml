@@ -236,10 +236,24 @@
    </resultMap>
    
    <select id="activityList" parameterType="HashMap" resultMap="activityList_Map">
-	select fk_board_num, activity_date, subject, detail_category, division
-	from tbl_activity 
-	where fk_userid = #{userid}
-	order by activity_date
+	   select *
+	   from
+	   (
+		   	select rownum rno, V.*
+		   	from
+	   		(
+				select fk_board_num, activity_date, subject, detail_category, division
+				from tbl_activity 
+				where fk_userid = #{userid}
+				order by activity_date desc
+			) V
+		) T
+		where rno between #{startRno} and #{endRno}
+   </select>
+   
+   
+   <select id="activityListCnt" parameterType="HashMap" resultType="Integer">
+      select count(*) from tbl_activity where fk_userid = #{userid}
    </select>
 	
 	
@@ -310,7 +324,6 @@
 	group by b.period
 	order by b.period
    </select>
-   
    
    <resultMap type="HashMap" id="cnt_Map">
         <result property="key"    column="key"     javaType="String"/>

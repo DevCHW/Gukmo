@@ -103,4 +103,10 @@ public class AdminDAO implements InterAdminDAO {
 		List<ReportVO> reportedList = gukmo_sql.selectList("sun.adminReportedList", paraMap); 
 		return reportedList;
 	}
+
+	//활동내역 갯수 구하기
+	@Override
+	public int activityListCnt(Map<String, String> paraMap) {
+		return gukmo_sql.selectOne("sun.activityListCnt", paraMap); 
+	}
 }

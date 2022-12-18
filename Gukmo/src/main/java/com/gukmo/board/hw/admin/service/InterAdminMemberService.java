@@ -65,6 +65,17 @@ public interface InterAdminMemberService {
 	 */
 	List<Map<String, String>> getNormalMemberList(Map<String, String> paraMap);
 
+	/**
+	 * 회원 검색어 갯수 총갯수 가져오기
+	 */
+	int getTotalSearchCnt(Map<String, String> paraMap);
+
+	/**
+	 * 검색데이터 내역 가져오기
+	 */
+	List<Map<String, String>> getSearchData(Map<String, String> paraMap);
+
+
 
 
 

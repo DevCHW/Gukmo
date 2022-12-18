@@ -326,19 +326,19 @@ public class AdminMemberController {
 	    }
 	    
 	    //확인용
-	    System.out.println("====================================\n");
-	    System.out.println(formData);
-	    System.out.println("searchType : " + searchType);
-	    System.out.println("searchWord : " + searchWord);
-	    System.out.println("join_date : " + join_date);
-	    System.out.println("가입일자 시작날짜 조건 : " + start_date);
-	    System.out.println("가입일자 끝일자 조건: " + end_date);
-	    System.out.println("status : " + status);
-	    System.out.println("startRno : " + startRno);
-	    System.out.println("endRno : " + endRno);
-	    System.out.println("정렬컬럼 : " + sort);
-	    System.out.println("정렬방향 : " + direction);
-	    System.out.println("====================================\n");
+//	    System.out.println("====================================\n");
+//	    System.out.println(formData);
+//	    System.out.println("searchType : " + searchType);
+//	    System.out.println("searchWord : " + searchWord);
+//	    System.out.println("join_date : " + join_date);
+//	    System.out.println("가입일자 시작날짜 조건 : " + start_date);
+//	    System.out.println("가입일자 끝일자 조건: " + end_date);
+//	    System.out.println("status : " + status);
+//	    System.out.println("startRno : " + startRno);
+//	    System.out.println("endRno : " + endRno);
+//	    System.out.println("정렬컬럼 : " + sort);
+//	    System.out.println("정렬방향 : " + direction);
+//	    System.out.println("====================================\n");
 	    
 	    Map<String,String> paraMap = new HashMap<>();
 	    
@@ -363,6 +363,155 @@ public class AdminMemberController {
 //			         확인용
 //			    System.out.println(dto);
 	    return dto;
+	}
+	
+	
+	/**
+	 * 회원의 검색어 데이터 얻기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/getSearchData.do", method= {RequestMethod.POST})
+	public DataTableDTO getSearchData(DataTableDTO dto,String userid,@RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    //확인용
+//	    System.out.println("startRno : " + startRno);
+//	    System.out.println("endRno : " + endRno);
+	    
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("startRno",startRno);
+		paraMap.put("endRno",endRno);
+		paraMap.put("userid",userid);
+		int total = (int)service.getTotalSearchCnt(paraMap);
+		List<Map<String, String>> data = service.getSearchData(paraMap);
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		return dto;
+	}
+	
+	
+	
+	
+	/**
+	 * 회원이 작성한 게시물 데이터 얻기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/getWriteBoardData.do", method= {RequestMethod.POST})
+	public DataTableDTO getWriteBoardData(DataTableDTO dto,String nickname,@RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    //확인용
+//		    System.out.println("startRno : " + startRno);
+//		    System.out.println("endRno : " + endRno);
+	    
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("startRno",startRno);
+		paraMap.put("endRno",endRno);
+		paraMap.put("nickname",nickname);
+		int total = (int)dao.getTotalWriteBoard(paraMap);
+		List<Map<String, String>> data = dao.getWriteBoardData(paraMap);
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		return dto;
+	}
+	
+	
+	
+	/**
+	 * 회원 로그인 기록 데이터 얻기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/getLoginRecordData.do", method= {RequestMethod.POST})
+	public DataTableDTO getLoginRecordData(DataTableDTO dto,String userid,@RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    //확인용
+//		    System.out.println("startRno : " + startRno);
+//		    System.out.println("endRno : " + endRno);
+	    
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("startRno",startRno);
+		paraMap.put("endRno",endRno);
+		paraMap.put("userid",userid);
+		int total = (int)dao.getTotalLoginRecord(paraMap);
+		List<Map<String, String>> data = dao.getLoginRecordData(paraMap);
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		return dto;
+	}
+	
+	
+	
+	/**
+	 * 회원이 신고당한 내역 얻기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/getReportData.do", method= {RequestMethod.POST})
+	public DataTableDTO getReportData(DataTableDTO dto,String nickname,@RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    //확인용
+//		    System.out.println("startRno : " + startRno);
+//		    System.out.println("endRno : " + endRno);
+	    
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("startRno",startRno);
+		paraMap.put("endRno",endRno);
+		paraMap.put("nickname",nickname);
+		int total = (int)dao.getTotalReportData(paraMap);
+		List<Map<String, String>> data = dao.getReportData(paraMap);
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		return dto;
+	}
+	
+	
+	/**
+	 * 회원 로그인 기록 데이터 얻기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/getReportedData.do", method= {RequestMethod.POST})
+	public DataTableDTO getReportedData(DataTableDTO dto,String nickname,@RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+	    int start = Integer.parseInt(formData.get("start").get(0));
+	    int length = Integer.parseInt(formData.get("length").get(0));
+	    String startRno = start+1+"";
+	    String endRno = start+length+"";
+	    //확인용
+//		    System.out.println("startRno : " + startRno);
+//		    System.out.println("endRno : " + endRno);
+	    
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("startRno",startRno);
+		paraMap.put("endRno",endRno);
+		paraMap.put("nickname",nickname);
+		int total = (int)dao.getTotalReportedData(paraMap);
+		List<Map<String, String>> data = dao.getReportedData(paraMap);
+	    dto.setDraw(draw);
+	    dto.setRecordsFiltered(total);
+	    dto.setRecordsTotal(total);
+	    dto.setData(data);
+		return dto;
 	}
 	
 	

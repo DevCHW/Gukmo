@@ -22,18 +22,19 @@
 	  <input type="hidden" name="nickname" value="${sessionScope.user.nickname}" />
 	  <input type="hidden" name="profile_image" value="${sessionScope.user.profile_image}" />
 	  <input type="hidden" id="str_hashTag" name="str_hashTag" value=""/>
-
-
+	  <input type="hidden" name="orgin_hashTag" value="<c:forEach var="hashtags" items="${requestScope.board.hashtags}">
+			  ${hashtags.hashtag}</c:forEach>" >
+	  <input type="hidden" id="board_num" name="board_num" value="${requestScope.board.board_num}"/>
+	
 
 	  <%-- 학원명 --%>
       <div class="d-flex align-items-center my-3">
-      
         <label for="academy_name" class="curriculum_label mt-3">학원명</label>
         <c:if test="${not empty sessionScope.user.academy_name }">
         	<input type="text" id="academy_name" name="academy_name" class="curriculum_input border rounded pl-2 w-100" value="${sessionScope.user.academy_name}" readonly>
         </c:if>
         <c:if test="${sessionScope.user.authority == '관리자'}">
-        <input type="text" id="academy_name" name="academy_name" class="curriculum_input border rounded pl-2 w-100" placeholder="학원명을 입력해주세요!" maxlength="20">
+        <input type="text" id="academy_name" name="academy_name" class="curriculum_input border rounded pl-2 w-100" placeholder="학원명을 입력해주세요!" value="${requestScope.board.curriculum.academy_name}" maxlength="20">
         </c:if>
       </div>
       
@@ -42,58 +43,61 @@
       <%-- 과정명 --%>
       <div class="d-flex align-items-center my-3">
         <label for="subject" class="curriculum_label mt-3">교육과정명</label>
-        <input type="text" id="subject" name="subject" class="curriculum_input border rounded pl-2 w-100" placeholder="교육과정명을 입력해주세요!" maxlength="50">
+        <input type="text" id="subject" name="subject" class="curriculum_input border rounded pl-2 w-100" placeholder="교육과정명을 입력해주세요!" value="${requestScope.board.subject}" maxlength="50">
       </div>
       
       
       <%-- 과정기간 --%>
       <div class="d-flex align-items-center my-3">
         <label for="period" class="curriculum_label">과정기간</label>
-        <input type="text" id="curriculum_start_date" name="curriculum_start_date" class="curriculum_input border rounded pl-2 w-100" placeholder="과정 시작일자" readonly>
+        <input type="text" id="curriculum_start_date" name="curriculum_start_date" class="curriculum_input border rounded pl-2 w-100" placeholder="과정 시작일자" value="${requestScope.board.curriculum.curriculum_start_date}" readonly>
         <span class="tilde text-center">&nbsp;~&nbsp;</span>
-        <input type="text" id="curriculum_end_date" name="curriculum_end_date" class="curriculum_input border rounded pl-2 w-100" placeholder="과정 마감일자" readonly>
+        <input type="text" id="curriculum_end_date" name="curriculum_end_date" class="curriculum_input border rounded pl-2 w-100" placeholder="과정 마감일자" value="${requestScope.board.curriculum.curriculum_end_date }" readonly>
       </div>
       
       
       <%-- 모집기간 --%>
       <div class="d-flex align-items-center my-3">
         <label for="period" class="curriculum_label">모집기간</label>
-        <input type="text" id="recruitment_start_date" name="recruitment_start_date" class="curriculum_input border rounded pl-2 w-100" placeholder="모집 시작일자" readonly>
+        <input type="text" id="recruitment_start_date" name="recruitment_start_date" class="curriculum_input border rounded pl-2 w-100" placeholder="모집 시작일자" value="${requestScope.board.curriculum.recruitment_start_date}" readonly>
         <span class="tilde text-center">&nbsp;~&nbsp;</span>
-        <input type="text" id="recruitment_end_date" name="recruitment_end_date" class="curriculum_input border rounded pl-2 w-100" placeholder="모집 마감일자" readonly>
+        <input type="text" id="recruitment_end_date" name="recruitment_end_date" class="curriculum_input border rounded pl-2 w-100" placeholder="모집 마감일자" value="${requestScope.board.curriculum.recruitment_end_date }" readonly>
       </div>
       
       
       <%-- 모집인원 --%>
       <div class="d-flex align-items-center my-3">
         <label for="cnt_recruits" class="curriculum_label mt-3">모집인원(명)</label>
-        <input type="text" id="cnt_recruits" name="cnt_recruits" class="curriculum_input border rounded pl-2 w-100" placeholder="모집인원을 입력해주세요!(명)" maxlength="4">
+        <input type="text" id="cnt_recruits" name="cnt_recruits" class="curriculum_input border rounded pl-2 w-100" placeholder="모집인원을 입력해주세요!(명)" value="${requestScope.board.curriculum.cnt_recruits}" maxlength="4">
       </div>
       
       
       <%-- 신청URL --%>
       <div class="d-flex align-items-center my-3">
         <label for="join_url" class="curriculum_label mt-3">과정신청링크</label>
-        <input type="text" id="join_url" name="join_url" class="curriculum_input border rounded pl-2 w-100" placeholder="과정을 신청할 수 있는 URL을 입력해주세요!">
+        <input type="text" id="join_url" name="join_url" class="curriculum_input border rounded pl-2 w-100" value="${requestScope.board.curriculum.join_url}" placeholder="과정을 신청할 수 있는 URL을 입력해주세요!">
       </div>
       
       
       <%-- 핵심기술 --%>
       <div class="d-flex align-items-center my-3">
         <label for="core_technology" class="curriculum_label mt-3">핵심기술</label>
-        <input type="text" id="core_technology" name="core_technology" class="curriculum_input border rounded pl-2 w-100" placeholder="교육과정 중 핵심기술을 입력해주세요!">
+        <input type="text" id="core_technology" name="core_technology" class="curriculum_input border rounded pl-2 w-100" value="${requestScope.board.curriculum.core_technology}" placeholder="교육과정 중 핵심기술을 입력해주세요!">
       </div>
       
       
       <%-- content --%>
       <label for="content" class="curriculum_label my-3">과정소개글</label>
-      <textarea name="content" id="content" class="px-2 py-2 w-100 border rounded" cols="30" rows="15" placeholder="이제 학원을 설명해주세요!"></textarea>
+      <textarea name="content" id="content" class="px-2 py-2 w-100 border rounded" cols="30" rows="15" placeholder="이제 학원을 설명해주세요!">${requestScope.board.content}</textarea>
     
     
       <%-- hashtag --%>
       <label for="hashtag" class="curriculum_label my-3">태그</label>
       <div id="hashtag_box" class="border rounded pl-2">
         <ul id="hashtag_list" class="d-flex align-items-center">
+          <c:forEach var="hashtags" items="${requestScope.board.hashtags}" varStatus="status">
+          <li class='d-flex align-items-center flex-nowrap mr-2 tag-item'>#${hashtags.hashtag}<span class='btn_hashtag_delete mx-2' style='cursor:pointer; color:darkgray; idx='${status.count}'><i class='fa-solid fa-xmark'></i></span></li>
+		  </c:forEach>
           <input type="text" id="hashtag" name="hashtag" class="border-0 w-auto" placeholder="태그를 설정하세요(최대 5개)">
         </ul>
       </div>
@@ -107,7 +111,12 @@
 
     <%-- 수정일 경우에는 등록 대신 수정버튼 태그라이브러리로 구현예정 --%>
     <div id="btn_wrapper" class="d-flex justify-content-end my-3">
+      <c:if test="${not empty requestScope.board}" >
+      <button id="btn_edit" type="button" class="btn border rounded">수정</button>
+      </c:if>
+      <c:if test="${empty requestScope.board}" >
       <button id="btn_write" type="button" class="btn border rounded">등록</button>
+      </c:if>
       <button id="btn_cancle" type="button" class="btn border rounded ml-3" onclick="javascript:history.back()">취소</button>
     </div>
   </div>
