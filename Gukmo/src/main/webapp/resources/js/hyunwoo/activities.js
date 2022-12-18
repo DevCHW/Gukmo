@@ -118,21 +118,21 @@ function viewAlarm(currentPageNo){
 					
 					
 					if(item.isread == 'y') {
-						html += "<div class='activity_box border-top border-bottom py-4' style='background-color:#FAFAFA;'>";	
+						html += "<div class='activity_box border-top border-bottom px-2 py-4' style='background-color:#FAFAFA;'>";	
 					}
 					else {
-						html += "<div class='activity_box border-top border-bottom py-4'>";	
+						html += "<div class='activity_box border-top border-bottom px-2 py-4'>";	
 					}
 					
-					html += "<div class='activity_title align-items-center'>"+
-    							"<div class='d-flex w-100 justify-content-between align-items-center'>";
+					html += "<div class='activity_title alarm_title'>"+
+    							"<div class='d-flex w-100 justify-content-between align-items-center' onClick='goRead("+item.url_num+")'>";
 					
 					
 					// 게시글에 댓글, 좋아요, 신고
 					if(item.cmd == 'reply') { 
 	            		html += "<div class='d-flex align-items-center'>" +
 	            				"	<div class='detail_category border rounded-pill px-2 py-1'>댓글</div>"+
-		                	 		"	<div class='activity_content ml-2' id='"+item.url_num+"'>";
+		                	 		"	<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
      					
 	            		// 읽은 알람일 경우 디자인 
 	            		if(item.isread =='y') {
@@ -150,7 +150,7 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'like') { 
 	            		html += "<div class='d-flex align-items-center'>" +
         						"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
-            	 				"		<div class='activity_content ml-2' id='"+item.url_num+"'>";
+            	 				"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
@@ -167,7 +167,7 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'penalty') { 
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>신고</div>"+
-            	 				"		<div class='activity_content ml-2' id='"+item.url_num+"'>";
+            	 				"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
@@ -188,7 +188,7 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'recomment') {
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>댓글</div>"+
-								"		<div class='activity_content ml-2' id='"+item.url_num+"'>";
+								"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
@@ -206,7 +206,7 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'cmtLike' || item.cmd == 'cmt_cmtLike') {
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
-    	 						"		<div class='activity_content ml-2' id='"+item.url_num+"'>";
+    	 						"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
@@ -224,7 +224,7 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'cmtPenalty') {
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
-    	 						"		<div class='activity_content ml-2' id='"+item.url_num+"'>";
+    	 						"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
@@ -264,6 +264,9 @@ function viewAlarm(currentPageNo){
 }
 	
 	
+
+
+// 알람 페이지 알아오기
 function makeAlarmPageBar(currentPageNo) {
 		
 	  $.ajax({
@@ -352,6 +355,36 @@ function makeAlarmPageBar(currentPageNo) {
 	
 }//end of method---
 
+
+
+//읽음 컬럼 값 변경
+function goRead(url_num){
+
+	// console.log("하하");
+	console.log("url_num:" + url_num);
+	$.ajax({
+		url:getContextPath()+"/changeIsRead.do",
+		type:"post",
+		data:{"alarmno" : $("input#alarmno").val(), // alarmno 이라 수정 필요!
+			  "url_num" : url_num
+		},
+		dataType:"json",
+		success:function(json){
+			if(json){
+				location.href = getContextPath()+'/detail.do?boardNum='+ url_num;
+			}else{
+				alert("업데이트에 실패하였습니다 다시 시도해주세요.");			
+			}
+		
+		},
+		error: function(request,error){	
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});
+	
+
+	
+}//end of method---
 
 
 

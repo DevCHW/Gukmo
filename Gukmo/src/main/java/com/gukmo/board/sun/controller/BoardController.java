@@ -711,14 +711,18 @@ public class BoardController {
 		// ㅎㅎ... 로그인 안하면 신고버튼 안보이길래 냅다 setAlarm 으로 aop 박아용 ㅎㅎ!
 		int n = service.reportInsert(reportvo);
 		
+		System.out.println("report:" + reportvo.getReported_nickname());
+		
 		// System.out.println("여기아냐?");
 	      //AOP 용
 	      Map<String,String> alarmMap = new HashMap<>();
 	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
+	      System.out.println("파라맵의 nickname:" + paraMap.get("reported_nickname"));
+	      
     	  alarmMap.put("cmd", "penalty");
     	  alarmMap.put("url", "/detail.do?boardNum=");
     	  alarmMap.put("content", paraMap.get("subject"));
-    	  alarmMap.put("url_num", paraMap.get("board_num"));
+    	  alarmMap.put("url_num", paraMap.get("fk_num"));
     	  
     	  // System.out.println("alarm:" + alarmMap);
 
@@ -761,7 +765,7 @@ public class BoardController {
       	  alarmMap.put("cmd", "cmtPenalty");
       	  alarmMap.put("url", "/detail.do?boardNum=");
       	  alarmMap.put("content", paraMap.get("subject"));
-      	  alarmMap.put("url_num", paraMap.get("board_num"));
+      	  alarmMap.put("url_num", paraMap.get("fk_num"));
 
 		 request.setAttribute("alarmMap", alarmMap);
 	      

@@ -98,7 +98,13 @@ div.activity_subject:hover{
 
 
 
+div.alarm_title {
+	cursor:pointer;
+}
 
+div.alarm_content:hover   {
+	text-decoration:underline;
+}
 
 
 /* 페이지바 시작*/

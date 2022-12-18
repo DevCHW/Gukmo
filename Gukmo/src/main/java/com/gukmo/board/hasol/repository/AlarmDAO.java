@@ -42,7 +42,6 @@ public class AlarmDAO implements InterAlarmDAO {
 	@Override
 	public int changeIsRead(Map<String, String> paraMap) {
 		int result = gukmo_sql.insert("jhs.changeIsRead", paraMap);
-		System.out.println("dao:" +result);
 		return result;
 	}
 	

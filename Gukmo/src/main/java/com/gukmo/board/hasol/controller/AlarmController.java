@@ -96,13 +96,12 @@ public class AlarmController {
 	@RequestMapping(value="/getNotReadAlarm_count.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String getNotReadAlarm_count(HttpServletRequest request) {
 		
-		System.out.println(" 흠");
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String nickname = user.getNickname();
 		
 		int notReadAlarmCnt = service.getNotReadAlarm_count(nickname);
-		System.out.println(notReadAlarmCnt);
+		// System.out.println(notReadAlarmCnt);
 		
 	    JSONObject jsonObj = new JSONObject();
 	    jsonObj.put("notReadAlarmCnt" ,  notReadAlarmCnt);
@@ -144,6 +143,7 @@ public class AlarmController {
 		
 		// 읽음 컬럼값 변경하기
 		int result = service.changeIsRead(paraMap);
+		System.out.println(result);
 		return result>0?true:false;
 	}
 }
