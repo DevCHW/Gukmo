@@ -354,7 +354,8 @@ $(document).ready(function(){
 	  const content = target.parent().parent().parent().parent().find('div.detail_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.comment_writer_nickname').attr('id');
-	  const alarm_nickname = target.parent().prev().find('div.comment_writer_nickname').text();	  	  
+	  const alarm_nickname = target.parent().prev().find('div.comment_writer_nickname').text();
+
 	  
   //  const comment_write_nickname = target.next().val();
 	  const nickname = $("input#nickname").val();

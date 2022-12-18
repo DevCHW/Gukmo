@@ -368,7 +368,12 @@
 	      <div class="d-flex w-100">
 	        <div class="login_user_profile_img_box">
 	          <%-- 로그인되어있는 유저 프로필 이미지 --%>
-	          <img src="<%=ctxPath %>/resources/images/user.PNG"/>
+	          <c:if test="${fn:substring(sessionScope.user.profile_image,0,4) != 'http'}">
+              	<img src="<%=ctxPath %>/resources/images/${sessionScope.user.profile_image}"/>
+              </c:if>
+              <c:if test="${fn:substring(sessionScope.user.profile_image,0,4) == 'http'}">
+         	    <img src="${sessionScope.user.profile_image}"/>
+              </c:if>
 	        </div>
 	            <input id="userid" type="hidden" name="userid" value="${sessionScope.user.userid}"  />		
 	            <input id="cmt_board_num"  type="hidden" name="cmt_board_num" value="${requestScope.board.board_num}"  />		
