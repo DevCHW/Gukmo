@@ -299,7 +299,8 @@
      <div class="carousel-item active">
      	<c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
      	<a href="${advertisement_List.url}">
-       	<!-- 	<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+       	<!-- 	<img src="/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+       	
        		<c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
               <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
             </c:if>
