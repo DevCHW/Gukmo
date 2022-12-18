@@ -48,14 +48,15 @@ public class AlarmDAO implements InterAlarmDAO {
 	
 	// 전체 알람 카운트
 	@Override
-	public int getTotalAlarmCnt(String nickname) {
-		int result = gukmo_sql.selectOne("jhs.getTotalAlarmCnt", nickname);
+	public int getTotalAlarmPage(Map<String, String> paraMap) {
+		int result = gukmo_sql.selectOne("jhs.getTotalAlarmPage", paraMap);
 		return result;
 	}
 	
+	// 전체 알람 리스트
 	@Override
-	public List<AlarmVO> getAlarmList() {
-		List<AlarmVO> alarmList = gukmo_sql.selectList("jhs.getAlarmList");
+	public List<AlarmVO> getAlarmList(Map<String, String> paraMap) {
+		List<AlarmVO> alarmList = gukmo_sql.selectList("jhs.getAlarmList" , paraMap);
 		return alarmList;
 	}
 

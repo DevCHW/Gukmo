@@ -20,10 +20,11 @@ public interface InterAlarmDAO {
 	int changeIsRead(Map<String, String> paraMap);
 
 	// 전체 알람 카운트
-	int getTotalAlarmCnt(String nickname);
+	int getTotalAlarmPage(Map<String, String> paraMap);
 
 	// 전체 알람 리스트
-	List<AlarmVO> getAlarmList();
+	List<AlarmVO> getAlarmList(Map<String, String> paraMap);
+
 
 
 

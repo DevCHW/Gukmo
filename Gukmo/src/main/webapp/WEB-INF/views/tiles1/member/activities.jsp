@@ -65,7 +65,9 @@
 
 
       <%-- 활동내역 시작 --%>
-      <div id="activities" class="mt-4">
+      <%-- 알람 보는 페이지로 넘어온게 아니라면!!! --%>
+      <c:if test="${requestScope.checkTab == null}">
+	  <div id="activities" class="mt-4">
       
         <c:forEach var="activity" items="${requestScope.activities}">
           <%-- 1 --%>
@@ -128,23 +130,28 @@
 	      
         <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
       </div>
+      </c:if>
       
-      <%--하솔누나가 쓸 알람영역 시작 --%>
-      <div id="alarm">
-    	알람영역 하솔누나 코딩하셈
-    
+      
+      
+      <%-- 알람보는 영역에서 들어왔다면!!! --%>
+      <c:if test="${requestScope.checkTab == 'alarm' }">
+      <div id="alarm" class="d-flex justify-content-center mt-4">
+ 	
+ 		<%-- 알림 리스트 영역 --%>
+ 		<div id="alarmList"></div>
+ 		
+ 		<%-- 페이지 바 영역 --%>
+ 		<nav id="pageBar"></nav>
     
       </div>
-      <%--하솔누나가 쓸 알람영역 끝 --%>
+      </c:if>
+      
     </div>
     <%----------------------------------- main 끝-------------------------------------%>
     
     
   </div>
-
-
-  
-
 
 
 

@@ -14,7 +14,7 @@ public interface InterAlarmService {
 	List<AlarmVO> getNotReadAlarmList(String nickname);
 
 	// 전체 알람 가져오기
-	List<AlarmVO> getAlarm(String nickname);
+	List<AlarmVO> getAlarmList(Map<String, String> paraMap);
 
 	// 알람에 값 넣기
 	int setAlarm(Map<String, String> paraMap);
@@ -22,8 +22,10 @@ public interface InterAlarmService {
 	// 읽음 컬럼 값 변경하기
 	int changeIsRead(Map<String, String> paraMap);
 
-	// 모든 알람 컬럼 카운트
-	int getTotalAlarmCnt(String nickname);
+	// 모든 알람 컬럼 페이지 조회
+	int getTotalAlarmPage(Map<String, String> paraMap);
+
+
 
 
 }

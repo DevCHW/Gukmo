@@ -48,14 +48,15 @@ public class AlarmService implements InterAlarmService {
 
 	// 전체 알람 카운트
 	@Override
-	public int getTotalAlarmCnt(String nickname) {
-		int result = dao.getTotalAlarmCnt(nickname);
+	public int getTotalAlarmPage(Map<String,String>paraMap) {
+		int result = dao.getTotalAlarmPage(paraMap);
 		return result;
 	}
 
+	// 전체 알람 리스트
 	@Override
-	public List<AlarmVO> getAlarm(String nickname) {
-		List<AlarmVO> alarmList = dao.getAlarmList();
+	public List<AlarmVO> getAlarmList(Map<String, String> paraMap) {
+		List<AlarmVO> alarmList = dao.getAlarmList(paraMap);
 		return alarmList;
 	}
 
