@@ -16,26 +16,46 @@
 <!-- contents 시작 -->
 
 <!-- 배너 영역 -->
-<div id="demo" class="carousel slide" data-ride="carousel" >
 
 <!-- Indicators -->
-     <ul class="carousel-indicators">
-       <li data-target="#demo" data-slide-to="0" class="active"></li>
-       <li data-target="#demo" data-slide-to="1"></li>
-       <li data-target="#demo" data-slide-to="2"></li>
-     </ul>
-   
+ <c:if test="${not empty advertisementList}">
+	
+	<div id="demo" class="carousel slide" data-ride="carousel" >
+     
      <!-- The slideshow -->
-     <div class="carousel-inner" style="height:200px;">
-       <div class="carousel-item active">
-         <img src="<%= ctxPath %>/resources/images/main/fake_main_banner01.png" alt="">
-       </div>
-       <div class="carousel-item">
-         <img src="<%= ctxPath %>/resources/images/main/fake_main_banner02.png" alt="">
-       </div>
-       <div class="carousel-item">
-         <img src="<%= ctxPath %>/resources/images/main/fake_main_banner03.png" alt="">
-       </div>
+     <div class="carousel-inner" style="height:160px;">              
+       
+     <div class="carousel-item active">
+     	<c:forEach var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
+     	<a href="${advertisementList.url}">
+       	<!-- 	<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+       		<c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
+              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            </c:if>
+            <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
+               <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            </c:if>
+         </a>
+         </c:forEach>
+     </div>       
+       
+     <c:forEach begin="1" var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
+
+  	 <div class="carousel-item">              
+        <c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
+          <a href="${advertisementList.url}">
+           <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+          </a>
+        </c:if>
+        <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
+          <a href="${advertisementList.url}">
+            <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+          </a>
+        </c:if>    
+     </div>       
+	 </c:forEach>
+     
+       
      </div>
    
      <!-- Left and right controls -->
@@ -46,7 +66,14 @@
        <span class="carousel-control-next-icon"></span>
      </a>
    
-</div>
+</div>	
+</c:if>
+
+<c:if test="${empty requestScope.advertisementList}">
+	<div id="advertisement_box" style="width: 100%; height:160px;">
+      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/" style="width: 100%; height:160px;">
+    </div>
+</c:if>
 
 
 

@@ -3,6 +3,7 @@ package com.gukmo.board.hasol.service;
 import java.util.List;
 import java.util.Map;
 
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CurriculumVO;
 import com.gukmo.board.model.HashtagVO;
@@ -35,6 +36,9 @@ public interface InterIndexService {
 	
 	// 주간 검색어 순위를 구해오는 메소드
 	List<SearchVO> getTopSearchList();
+	
+	// 광고 리스트를 구해오는 메소드
+	List<AdVO> getAdvertisementList();
 
 
 

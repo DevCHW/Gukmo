@@ -70,7 +70,8 @@ $(document).ready(function(){
   // 댓글에서 ... 버튼 클릭후 수정하기 버튼 클릭시
   $("span.comment_edit").click(function(e) {	 
 	  
-	  const target = $(e.currentTarget);	  
+	  const target = $(e.currentTarget);	
+	  target.parent().css("display","none");
 	  const comment_num = $(this).parent().parent().parent().parent().find("div.comment_writer_nickname").attr('id');
 	  const comment_writer_nickname = document.getElementById(comment_num).innerText;
 	  const login_nickname = $("input#nickname").val();
@@ -743,6 +744,10 @@ function goAddWrite_noAttach() {
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
 	
+	if(content == "") {
+		alert("댓글내용을 입력하세요!!");
+		return;
+	}
 	
 	  $.ajax({
 		  url:getContextPath()+"/addComment.do",
@@ -882,4 +887,35 @@ function comment_edit(content3, comment_num) {
 			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		  }
 	  });
+}
+
+function goDetailCategory() {
+	
+	const detail_category = $("input#detail_category").val();	
+	
+	if(detail_category == '국비학원') {
+		location.href = getContextPath()+"/academy/academies.do";
+	}
+	if(detail_category == '교육과정') {
+		location.href = getContextPath()+"/academy/curricula.do";
+	}
+	if(detail_category == '자유게시판') {
+		location.href = getContextPath()+"/community/freeBoards.do";
+	}
+	if(detail_category == 'QnA') {
+		location.href = getContextPath()+"/community/questions.do";
+	}
+	if(detail_category == '스터디') {
+		location.href = getContextPath()+"/community/studies.do";
+	}
+	if(detail_category == '취미모임') {
+		location.href = getContextPath()+"/community/hobbies.do";
+	}
+	if(detail_category == '수강/취업후기') {
+		location.href = getContextPath()+"/community/reviews.do";
+	}
+	if(detail_category == '공지사항') {
+		location.href = getContextPath()+"/notices.do";
+	}
+	
 }

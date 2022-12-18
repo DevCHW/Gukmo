@@ -40,7 +40,7 @@
         <option value="스터디">스터디</option>
         <option value="자유게시판">자유게시판</option>
         <option value="QnA">Q&A</option>
-        <option value="정보공유">정보공유</option>
+        <option value="취미모임">취미모임</option>
         <option value="수강/취업후기">수강/취업 후기</option>
       </select>
 
@@ -61,7 +61,6 @@
           <input type="text" id="hashtag" name="hashtag" class="border-0" placeholder="태그를 설정하세요(최대 5개)">
         </ul>
       </div>
-      
       
       
       <%-- content --%>

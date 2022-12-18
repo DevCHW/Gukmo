@@ -20,7 +20,25 @@
   <div class="container my-5"> 
 
     <div class="line my-4" style="width:1150px; margin-left: -20px;">
-      <div>${requestScope.board.category}&nbsp;</div><span>/</span><div id="board_detail_category">&nbsp;${requestScope.board.detail_category}</div>   <%-- ${requestScope.board.detail_category} --%>
+      
+      <a id="category_area" >
+        <c:if test="${requestScope.board.category == '커뮤니티'}">
+      	  <div onclick="location.href='<%=ctxPath %>/community/freeBoards.do'">${requestScope.board.category}&nbsp;</div>
+        </c:if>
+        <c:if test="${requestScope.board.category == '국비학원'}">
+      	  <div onclick="location.href='<%=ctxPath %>/academy/academies.do'">${requestScope.board.category}&nbsp;</div>
+        </c:if>
+        <c:if test="${requestScope.board.category == '공지사항'}">
+      	  <div onclick="location.href='<%=ctxPath %>/notices.do'">${requestScope.board.category}&nbsp;</div>
+        </c:if>
+      </a>
+      
+      
+      <span>/</span>
+      
+      <a id="detail_category_area">
+      	<div id="board_detail_category" onclick="goDetailCategory()">&nbsp;${requestScope.board.detail_category}</div>
+      </a>
     </div>
 
 
@@ -90,11 +108,11 @@
              </c:if>
               
              <c:if test="${board.detail_category == '국비학원'}">
-              <span onclick="location.href='<%=ctxPath %>국비학원수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.board_num}'">수정하기</span>
              </c:if>
              
              <c:if test="${board.detail_category == '교육과정'}">
-              <span onclick="location.href='<%=ctxPath %>교육과정수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.board_num}'">수정하기</span>
              </c:if>
              
              <c:if test="${board.category == '공지사항'}">
@@ -114,11 +132,11 @@
              </c:if>
               
              <c:if test="${board.detail_category == '국비학원'}">
-              <span onclick="location.href='<%=ctxPath %>국비학원수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.board_num}'">수정하기</span>
              </c:if>
              
              <c:if test="${board.detail_category == '교육과정'}">
-              <span onclick="location.href='<%=ctxPath %>교육과정수정페이지url.do?boardNum=${board.board_num}'">수정하기</span>
+              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.board_num}'">수정하기</span>
              </c:if>
              
              <c:if test="${board.category == '공지사항'}">
@@ -128,13 +146,23 @@
               <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
             </div>
           </span>
-        </c:if>
+        </c:if>                
         
         <c:if test="${sessionScope.user.nickname != requestScope.board.nickname && sessionScope.user.authority eq '관리자'}">
           <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
-            <div id="update_or_delete" class="border rounded px-3 py-2">             
-              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>
+            <div id="update_or_delete" class="border rounded px-3 py-2">   
+            <c:if test="${requestScope.board.category == '공지사항'}">
+              <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.board_num}'">수정하기</span>
+            </c:if> 
+            <c:if test="${requestScope.board.category == '교육과정'}">
+              <span onclick="location.href='<%=ctxPath %>/academy/curriculum/edit.do?boardNum=${board.board_num}'">수정하기</span>
+            </c:if>
+            <c:if test="${requestScope.board.category == '국비학원'}">
+              <span onclick="location.href='<%=ctxPath %>/academy/edit.do?boardNum=${board.board_num}'">수정하기</span>
+            </c:if>        
+              <span id="board_delete" onclick="del_board(${board.board_num})">삭제하기</span>             
             </div>
+            
           </span>
         </c:if>
        
@@ -293,7 +321,7 @@
      -->
      
      <!-- The slideshow -->
-     <div class="carousel-inner" style="height:160px;">         
+     <div class="carousel-inner" style="height:140px;">         
      
        
      <div class="carousel-item active">
@@ -301,10 +329,10 @@
      	<a href="${advertisement_List.url}">
        	<!-- 	<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
        		<c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
-              <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+              <img src="${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:140px;">
             </c:if>
             <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
-               <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+               <img src="${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:140px;">
             </c:if>
         </a>
          </c:forEach>
@@ -316,12 +344,12 @@
     <div class="carousel-item ">              
         <c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
          <a href="${advertisement_List.url}">
-          <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+          <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:140px;">
          </a>
         </c:if>
         <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
          <a href="${advertisement_List.url}">
-           <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">
+           <img src="${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:140px;">
          </a>
         </c:if>
     

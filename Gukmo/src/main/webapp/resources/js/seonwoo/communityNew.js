@@ -9,7 +9,6 @@ function getContextPath(){
 let recaptcha_ok = false;
 
 $(document).ready(function(){
-  
 	
 	
     // select 값 잡기
@@ -42,6 +41,106 @@ $(document).ready(function(){
     });
     // ==== 스마트 에디터 구현 끝 ==== //
 	
+    
+    	
+    	setTimeout(function() {
+    		let detail_category = $("#detail_category").val();
+	    //	obj.getById["content"].exec("SET_IR", [""]); 
+	    	
+	    	console.log(detail_category);
+	    	var sHTML;
+	    	
+	    	switch (detail_category) {
+	    	case "자유게시판":
+				sHTML =`자유게시판 유의사항<br>
+						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+			case "QnA":
+				sHTML =`QnA 유의사항
+					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+			case "수강/취업후기":
+				sHTML=`수강/취업 후기 게시판 합격 후기를 자유롭게 남겨주세요 :)<br>
+						<br>
+						학원<br>
+							1.	지원한 학원에 대한 정보를 작성해주세요.<br>
+							&nbsp;&nbsp;-	지원시기 :<br>
+							&nbsp;&nbsp;-	학원위치 :<br>
+							&nbsp;&nbsp;-	교육기간 :<br>
+							&nbsp;&nbsp;-	프로그래밍 언어 :<br>
+							&nbsp;&nbsp;-	면접방식 :<br>
+							&nbsp;&nbsp;-	학원 후기 :<br>
+						    <br><br><br>
+						취업<br>
+							1.	지원한 회사에 대한 정보를 작성해주세요.<br>
+							&nbsp;&nbsp;-	지원시기 :<br>
+							&nbsp;&nbsp;-	지원회사와 부서 :<br>
+							&nbsp;&nbsp;-	나의 합격 스펙 :<br>							
+							2.	서류 단계 :<br>
+							3.	인적성 단계 :<br>
+							4.	면접 단계 :<br>
+							&nbsp;&nbsp;-	면접일자 :<br>
+							&nbsp;&nbsp;-	면접형태(ex.일대일, 다대다 등) :<br>
+							5.	본인만의 꿀팁 또는 노하우 :<br>
+						    <br><br><br>
+						수강/취업 후기 게시판 유의사항<br>
+							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+			case "스터디":
+				sHTML=`스터디 게시판<br>
+						1.	스터디 종류 :<br>
+						2.	모집 인원 :<br>
+						3.	장소/시간 :<br>
+						4.	회비 :<br>
+						5.	진행 방식 :<br>
+						6.	팀장 연락처 :<br>
+						7.	커리큘럼 :<br>
+						8.	기타 :<br>
+					     <br><br><br>
+					스터디 게시판 유의사항<br>
+						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+
+			case "취미모임":
+				sHTML=`
+				
+				취미 모임 게시판<br>
+				1.	모임 종류 :<br>
+				2.	모집 인원 :<br>
+				3.	장소/시간 :<br>
+				4.	회비 :<br>
+				5.	진행 방식 :<br>
+				6.	모임장 연락처 :<br>
+				7.	모임 방향성 :<br>
+				8.	기타 :<br>
+			    <br><br><br>
+			취미 모임 게시판 유의사항<br>
+				⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+				⁃	부적절한 모임 발견 시 신고해주세요.<br>
+				⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+				
+			}
+	    	
+	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
+
+    	}, 1000)
+    
+    
+
+    
+    
+    
+    
+
     
     // ==== 해시태그 구현 시작 ==== //
       var hashtag = {};
@@ -129,6 +228,108 @@ $(document).ready(function(){
       
       
       
+      
+		$("#detail_category").change(function(){
+	    	
+	    	let detail_category = $("#detail_category").val();
+	    	obj.getById["content"].exec("SET_IR", [""]); 
+	    	
+	    	console.log(detail_category);
+	    	var sHTML;
+	    	
+	    	switch (detail_category) {
+	    	case "자유게시판":
+				sHTML =`자유게시판 유의사항<br>
+						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+			case "QnA":
+				sHTML =`QnA 유의사항
+					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+			case "수강/취업후기":
+				sHTML=`수강/취업 후기 게시판 합격 후기를 자유롭게 남겨주세요 :)<br>
+						<br>
+						학원<br>
+							1.	지원한 학원에 대한 정보를 작성해주세요.<br>
+							&nbsp;&nbsp;-	지원시기 :<br>
+							&nbsp;&nbsp;-	학원위치 :<br>
+							&nbsp;&nbsp;-	교육기간 :<br>
+							&nbsp;&nbsp;-	프로그래밍 언어 :<br>
+							&nbsp;&nbsp;-	면접방식 :<br>
+							&nbsp;&nbsp;-	학원 후기 :<br>
+						    <br><br><br>
+						취업<br>
+							1.	지원한 회사에 대한 정보를 작성해주세요.<br>
+							&nbsp;&nbsp;-	지원시기 :<br>
+							&nbsp;&nbsp;-	지원회사와 부서 :<br>
+							&nbsp;&nbsp;-	나의 합격 스펙 :<br>							
+							2.	서류 단계 :<br>
+							3.	인적성 단계 :<br>
+							4.	면접 단계 :<br>
+							&nbsp;&nbsp;-	면접일자 :<br>
+							&nbsp;&nbsp;-	면접형태(ex.일대일, 다대다 등) :<br>
+							5.	본인만의 꿀팁 또는 노하우 :<br>
+						    <br><br><br>
+						수강/취업 후기 게시판 유의사항<br>
+							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+			case "스터디":
+				sHTML=`스터디 게시판<br>
+						1.	스터디 종류 :<br>
+						2.	모집 인원 :<br>
+						3.	장소/시간 :<br>
+						4.	회비 :<br>
+						5.	진행 방식 :<br>
+						6.	팀장 연락처 :<br>
+						7.	커리큘럼 :<br>
+						8.	기타 :<br>
+					     <br><br><br>
+					스터디 게시판 유의사항<br>
+						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+
+			case "취미모임":
+				sHTML=`
+				
+				취미 모임 게시판<br>
+				1.	모임 종류 :<br>
+				2.	모집 인원 :<br>
+				3.	장소/시간 :<br>
+				4.	회비 :<br>
+				5.	진행 방식 :<br>
+				6.	모임장 연락처 :<br>
+				7.	모임 방향성 :<br>
+				8.	기타 :<br>
+			    <br><br><br>
+			취미 모임 게시판 유의사항<br>
+				⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
+				⁃	부적절한 모임 발견 시 신고해주세요.<br>
+				⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
+				break;
+				
+			}
+	    	
+	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
+		
+		
+		
+	});
+      
+      
+      
+      
+      
+      
+      
+      
       let flag = false;
       
       
@@ -148,7 +349,7 @@ $(document).ready(function(){
           
       	// ==== 스마트 에디터 구현 시작 ==== //
       	// id가 content인 textarea에 에디터에서 대입
-      	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+      	obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);    	     	
       	
       	// 카테고리 유효성 검사
       	const detail_category = $("select#detail_category").val();
@@ -175,6 +376,11 @@ $(document).ready(function(){
   	  	  alert("글내용을 입력하세요!!");
   	  	  return;
   	    }
+
+  	    console.log(contentval);
+  	    
+  	    
+  	    
   	    
   	    reCAPTCHA();
 	    if(!recaptcha_ok){
@@ -186,7 +392,7 @@ $(document).ready(function(){
   	    flag = true;
   	}
      
-      
+
       
       
 	// 등록 버튼을 클릭했을시
