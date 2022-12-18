@@ -187,7 +187,7 @@ function goRead(url_num){
 			if(json){
 				location.href = getContextPath()+'/detail.do?boardNum='+ url_num;
 			}else{
-				alert("업데이트에 실패하였습니다 다시 시도해주세요.");
+				alert("업데이트에 실패하였습니다 다시 시도해주세요.");			
 			}
 		
 		},

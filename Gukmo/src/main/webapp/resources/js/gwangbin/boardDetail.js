@@ -371,7 +371,7 @@ $(document).ready(function(){
 	  else {
 		  $("button.btn_login").trigger("click");// 로그인페이지로 보내기
 	  }
-  });// end of Event----
+  });// end of Event---
   
   
   // 대댓글 좋아요 버튼 클릭시 이벤트 잡기
