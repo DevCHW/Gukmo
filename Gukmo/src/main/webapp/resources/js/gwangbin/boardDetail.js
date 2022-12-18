@@ -381,7 +381,7 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
-	  const re_content = target.parent().parent().parent().parent().find('div.detail_comment_of_comment').text();
+	  const re_content = target.parent().parent().parent().find('div.detail_comment_of_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
 	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
@@ -408,12 +408,15 @@ $(document).ready(function(){
   $("button.btn_big_comment_write").click(function(e){
 	  const target = $(e.currentTarget);
 	  const content = target.parent().prev().val();
+	  const re_content = target.parent().parent().parent().parent().parent().find('div.detail_comment').text();
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
 	  const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();
 
+	  // alert(re_content);
+	  
 	  if(nickname != "") {
-		   addCommentOfComment(content, fk_comment_num, alarm_nickname);
+		   addCommentOfComment(content, fk_comment_num, re_content, alarm_nickname);
 	  }
 	  
 	  else {
@@ -775,14 +778,14 @@ function goAddWrite_noAttach() {
 
 
 // 대댓글 작성
-function addCommentOfComment(content, fk_comment_num, alarm_nickname) {	
+function addCommentOfComment(content, fk_comment_num, re_content, alarm_nickname) {	
 
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
-	
+
 	if(content == "") {
 		alert("댓글내용을 입력하세요!!");
 		return;
@@ -794,6 +797,7 @@ function addCommentOfComment(content, fk_comment_num, alarm_nickname) {
 				,"nickname":nickname
 				,"parent_write_nickname":parent_write_nickname
 				,"content":content
+				,"re_content": re_content // 알람에 값 넣기 위한 원 댓글 내용
 				,"fk_comment_num":fk_comment_num
 				,"subject":subject
 				,"detail_category":detail_category

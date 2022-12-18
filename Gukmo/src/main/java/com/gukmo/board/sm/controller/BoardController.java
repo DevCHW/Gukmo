@@ -273,7 +273,7 @@ public class BoardController {
 		alarmMap.put("alarm_nickname",paraMap.get("alarm_nickname"));
 		alarmMap.put("cmd", "recomment");
 		alarmMap.put("url", "/detail.do?boardNum=");
-		alarmMap.put("content", paraMap.get("content"));
+		alarmMap.put("content", paraMap.get("re_content"));
 		alarmMap.put("url_num", paraMap.get("cmt_board_num"));
 
 		request.setAttribute("alarmMap", alarmMap);

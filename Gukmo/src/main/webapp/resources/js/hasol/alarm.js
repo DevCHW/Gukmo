@@ -40,7 +40,7 @@ function getNotReadAlarm_count(){
 		dataType:"json",
 		success:function(json){
 			const notReadAlarmCnt = json.notReadAlarmCnt;
-			console.log(notReadAlarmCnt)
+			// console.log(notReadAlarmCnt)
 			if(notReadAlarmCnt == null || notReadAlarmCnt == '0') {
 				// 헤더 그 자체
 				$("span#alarm_cnt").hide();
@@ -174,8 +174,8 @@ function getNotReadAlarmList(){
 // 읽음 컬럼 값 변경
 function goRead(url_num){
 
-	console.log("하하");
-	console.log("url_num:" + url_num);
+	// console.log("하하");
+	// console.log("url_num:" + url_num);
 	$.ajax({
 		url:getContextPath()+"/changeIsRead.do",
 		type:"post",

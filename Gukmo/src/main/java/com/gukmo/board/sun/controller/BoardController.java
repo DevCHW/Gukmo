@@ -707,7 +707,7 @@ public class BoardController {
 	
 	// 신고하기
 	@RequestMapping(value="/community/reportEnd.do", method= {RequestMethod.POST} )
-	public String setAlaram_reportEnd(HttpServletRequest request, HttpServletResponse response, ReportVO reportvo, @RequestParam Map<String,String> paraMap){
+	public String setAlarm_reportEnd(HttpServletRequest request, HttpServletResponse response, ReportVO reportvo, @RequestParam Map<String,String> paraMap){
 		// ㅎㅎ... 로그인 안하면 신고버튼 안보이길래 냅다 setAlarm 으로 aop 박아용 ㅎㅎ!
 		int n = service.reportInsert(reportvo);
 		
@@ -720,10 +720,10 @@ public class BoardController {
     	  alarmMap.put("content", paraMap.get("subject"));
     	  alarmMap.put("url_num", paraMap.get("board_num"));
     	  
-    	  System.out.println("alarm:" + alarmMap);
+    	  // System.out.println("alarm:" + alarmMap);
 
 		 request.setAttribute("alarmMap", alarmMap);
-		
+		 	
 		if(n==0) {
 			request.setAttribute("message", "시스템 오류로 실패했습니다. 다시 시도해주세요.");
 			request.setAttribute("loc", "javascript:history.back()");
