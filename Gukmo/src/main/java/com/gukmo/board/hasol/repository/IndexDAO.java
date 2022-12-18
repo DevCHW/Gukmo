@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CurriculumVO;
 import com.gukmo.board.model.HashtagVO;
@@ -90,6 +91,13 @@ public class IndexDAO implements InterIndexDAO {
 	public List<SearchVO> getTopSearchList() {
 		List<SearchVO> topSearchList = gukmo_sql.selectList("jhs.getTopSearchList");
 		return topSearchList;
+	}
+
+	// 광고 리스트를 구해오는 메소드
+	@Override
+	public List<AdVO> getAdvertisementList() {
+		List<AdVO> advertisementList = gukmo_sql.selectList("jhs.getAdvertisementList");
+		return advertisementList;
 	}
 
 

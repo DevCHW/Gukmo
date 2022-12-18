@@ -184,7 +184,7 @@ $(document).ready(function(){
 	<%-- Nav Item - Member Collapse Menu --%>
     <li class="nav-item reportMenu">
     	<a class="nav-link" href="<%=ctxPath %>/admin/report/list.do">
-            <i class="fas fa-siren"></i>
+            <i class="fa-solid fa-land-mine-on"></i>
             <span>신고</span>
          </a>
     </li>

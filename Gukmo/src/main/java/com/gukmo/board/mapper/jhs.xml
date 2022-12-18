@@ -409,7 +409,11 @@
 		)
 		where rownum between 1 and 3
 	</select>	
-
+	
+	<select id="getAdvertisementList" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO" >
+        select * from tbl_advertisement
+        where division = '메인'
+	</select>	
 	
  	<update id="changeIsRead" parameterType="HashMap">
 		update tbl_alarm set isread = 'y'
