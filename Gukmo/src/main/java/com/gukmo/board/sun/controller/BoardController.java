@@ -711,7 +711,6 @@ public class BoardController {
 		// ㅎㅎ... 로그인 안하면 신고버튼 안보이길래 냅다 setAlarm 으로 aop 박아용 ㅎㅎ!
 		int n = service.reportInsert(reportvo);
 		
-		System.out.println("report:" + reportvo.getReported_nickname());
 		
 		// System.out.println("여기아냐?");
 	      //AOP 용

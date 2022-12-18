@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gukmo.board.hasol.repository.InterIndexDAO;
+import com.gukmo.board.model.AdVO;
 import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.CurriculumVO;
 import com.gukmo.board.model.HashtagVO;
@@ -87,6 +88,13 @@ public class IndexService implements InterIndexService {
 	public List<SearchVO> getTopSearchList() {
 		List<SearchVO> topSearhList = dao.getTopSearchList();
 		return topSearhList;
+	}
+
+	// 광고 리스트를 구해오는 메소드
+	@Override
+	public List<AdVO> getAdvertisementList() {
+		List<AdVO> advertisementList = dao.getAdvertisementList();
+		return advertisementList;
 	}
 
 
