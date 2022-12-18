@@ -15,4 +15,9 @@ public interface InterAdvertisementDAO {
 	 */
 	List<Map<String, String>> getAdvertisementList(Map<String, String> paraMap);
 
+	/**
+	 * 글번호에 해당하는 광고 삭제하기
+	 */
+	int deleteAdvertisement(String advertisement_num);
+
 }

@@ -31,6 +31,14 @@ public class AdvertisementService implements InterAdvertisementService{
 		List<Map<String, String>> data = dao.getAdvertisementList(paraMap);
 		return data;
 	}
+
+	/**
+	 * 광고 삭제하기
+	 */
+	@Override
+	public boolean deleteAdvertisement(String advertisement_num) {
+		return dao.deleteAdvertisement(advertisement_num)==1?true:false;
+	}
 	
 	
 	

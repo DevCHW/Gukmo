@@ -32,6 +32,14 @@ public class AdvertisementDAO implements InterAdvertisementDAO{
 		return data;
 	}
 
+	/**
+	 * 글번호에 해당하는 광고 삭제하기
+	 */
+	@Override
+	public int deleteAdvertisement(String advertisement_num) {
+		return gukmo_sql.delete("chw.deleteAdvertisement", advertisement_num);
+	}
+
 	
 	
 }

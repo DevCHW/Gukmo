@@ -74,6 +74,9 @@ $(document).ready(function(){
 	  case "/admin/report/list.do" :								//신고내역 URL일 경우
 		  $("li.reportMenu").addClass("active");					//신고내역 메뉴 활성화
 		  break;
+	  case "/admin/report/detail.do" :								//신고상세보기URL일 경우
+		  $("li.reportMenu").addClass("active");					//신고상세보기 메뉴 활성화
+		  break;
 	 // ====================== 신고관련   끝  ========================== //
 	 
 	  	
@@ -113,7 +116,6 @@ $(document).ready(function(){
 	  case "/admin/calendar.do" :							    //일정 URL일 경우
 		    $("li.calendarMenu").addClass("active");			//일정메뉴 활성화
 		    break;
-		    
 		    
 	  case "/admin/notice/new.do" :							    //공지사항 작성 URL일 경우
 		    $("li.noticeMenu").addClass("active");				//공지사항 작성메뉴 활성화

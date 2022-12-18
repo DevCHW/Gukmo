@@ -395,8 +395,9 @@ $(document).ready(function() {
 	//아이디가 id 인거를 'click', 클릭할때마다 이벤트가 일어난다.
 	const target = $(e.currentTarget);
 	const report_num = target.children(":first").text();
-	const report_type = target.children().eq("").text();
-	location.href = getContextPath()+"/admin/report/detail.do?report_num="+report_num+"&report_type="+report_type;
+	const report_nickname = target.children().eq("2").text();
+	const reported_nickname = target.children().eq("3").text();
+	location.href = getContextPath()+"/admin/report/detail.do?report_num="+report_num+"&report_nickname="+report_nickname+"&reported_nickname="+reported_nickname;
   });
 });//end of $(document).ready(function() {})--
 

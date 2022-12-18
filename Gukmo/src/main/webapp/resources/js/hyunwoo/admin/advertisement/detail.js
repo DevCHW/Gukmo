@@ -84,7 +84,14 @@ $(document).ready(function(){
   });//end of Event--
 
 
-
+  let input_start_date = "";
+  let input_end_date = "";
+  $("input#start_date").click(function(){
+	 input_start_date = $("input#start_date").val(); 
+  });
+  $("input#end_date").click(function(){
+	 input_end_date = $("input#end_date").val(); 
+  });
   //날짜 변경시 유효성검사하기
   $("input#start_date").change(function(){
     date_change_cnt++;
@@ -94,14 +101,17 @@ $(document).ready(function(){
       if(dateGap > 0){  //통과
         date_ok = true;
       } else if(dateGap == 0){
-        alert("광고 시작일은 종료일과 같을 수 없습니다.")
+        alert("광고 시작일은 종료일과 같을 수 없습니다.");
+        $("input#start_date").val(input_start_date);
         date_ok = false;
       } else{
         alert("광고 종료일자는 시작일자보다 나중이어야 합니다.");
+        $("input#start_date").val(input_start_date);
         date_ok = false;
       }
     } else{
       alert("Error! 날짜가 아닌 값을 선택하셨습니다!");
+      $("input#start_date").val(input_start_date);
       date_ok = false;
     }
   });//end of Event--
@@ -115,18 +125,30 @@ $(document).ready(function(){
       if(dateGap > 0){  //통과
         date_ok = true;
       } else if(dateGap == 0){
-        alert("광고 시작일은 종료일과 같을 수 없습니다.")
+        alert("광고 시작일은 종료일과 같을 수 없습니다.");
+        $("input#end_date").val(input_end_date);
         date_ok = false;
       } else{
         alert("광고 종료일자는 시작일자보다 나중이어야 합니다.");
+        $("input#end_date").val(input_end_date);
         date_ok = false;
       }
     } else{
       alert("Error! 날짜가 아닌 값을 선택하셨습니다!");
+      $("input#end_date").val(input_end_date);
       date_ok = false;
     }
   });//end of Event--
-
+  
+  
+  
+  //삭제 버튼 클릭시
+  $("button#btn_delete").click(function(){
+	 let bool = confirm("해당광고를 삭제하시겠습니까?");
+	 if(bool){
+		 deleteAd();
+	 }
+  });//end of Event--
 
 
 });//end of $(document).ready(function(){})--
@@ -177,4 +199,28 @@ function test_date(){
   end_date = end_date.replace(/-/g,'');
   
   return end_date - start_date;
+}//end of method--
+
+/**
+ * 광고삭제하기
+ */
+function deleteAd(){
+	const advertisement_num = sessionStorage.getItem("advertisement_num");
+	$.ajax({
+        url: getContextPath()+'/admin/advertisement/delete.do',
+        type: 'post',
+        data: {"advertisement_num": advertisement_num},
+        dataType : 'json',
+        success: function(success) {
+        	if(success){
+        		alert("해당 광고가 삭제되었습니다!");
+        		location.href = getContextPath()+"/admin/advertisement/list.do";
+        	}else{
+        		alert("광고를 삭제하는데 실패하였습니다. 다시 시도해주세요");
+        	}
+        },
+    	error: function(request,status,error){
+    		alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+    	}
+    });//end of $.ajax({})
 }//end of method--

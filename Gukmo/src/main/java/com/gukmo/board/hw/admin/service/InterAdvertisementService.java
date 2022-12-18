@@ -15,6 +15,11 @@ public interface InterAdvertisementService {
 	 */
 	List<Map<String, String>> getAdvertisementList(Map<String, String> paraMap);
 
+	/**
+	 * 광고 삭제하기
+	 */
+	boolean deleteAdvertisement(String advertisement_num);
+
 	
 
 	

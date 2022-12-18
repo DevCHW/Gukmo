@@ -12,6 +12,7 @@
 <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/admin/advertisement/detail.js" ></script>
 
 <script type="text/javascript">
+	sessionStorage.setItem("advertisement_num","${requestScope.adDetail.advertisement_num}")
     $(document).ready(function(){
       const statusArr = ['진행중','종료'];
       let currentStatus = "${requestScope.adDetail.status}";
@@ -145,11 +146,9 @@
 			  <div class="d-flex justify-content-end">
 			  <button type="button" class="btn btn-light border rounded mr-3" onclick="javascript:history.back()">뒤로가기</button>
 			    <button id="btn_edit_advertisement" type="button" class="btn btn-light border rounded mr-3">수정</button>
+			    <button id="btn_delete" type="button" class="btn btn-light border rounded">삭제</button>
 			    <button id="btn_edit_close" type="button" class="btn btn-light border rounded">취소</button>
 			  </div>
-
-
-
 			</div>
 		</div>
 	</div>

@@ -1560,7 +1560,7 @@
 	    ) E
 	    cross join
 	    (
-	        select count(*) as cnt_all
+	        select case count(*) when 0 then 1 else count(*) end as cnt_all
 	        from tbl_board 
 	        where write_date between to_date(to_char(sysdate,'yyyy-mm-dd') || ' 00:00:00','yyyy-mm-dd hh24:mi:ss') and to_date(to_char(sysdate,'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')
 	              and category='커뮤니티'
@@ -1836,6 +1836,12 @@
 		) T
 		where rno between #{startRno} and #{endRno}
 	</select>
+	
+	
+	<!-- 글번호에 해당하는 광고 삭제하기 -->
+	<delete id="deleteAdvertisement" parameterType="String">
+		delete from tbl_advertisement where advertisement_num = #{advertisement_num}
+	</delete>
 	
 	
 	

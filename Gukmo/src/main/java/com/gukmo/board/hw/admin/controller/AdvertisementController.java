@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gukmo.board.hw.admin.service.InterAdvertisementService;
@@ -148,6 +149,16 @@ public class AdvertisementController {
 //	    System.out.println(dto);
 	    return dto;
 	}
+	
+	/**
+	 * 광고삭제하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/advertisement/delete.do", method= {RequestMethod.POST})
+	public boolean deleteAdvertisement(@RequestParam String advertisement_num) {
+		return service.deleteAdvertisement(advertisement_num);
+	}
+	
 	
 	
 	

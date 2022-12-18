@@ -233,10 +233,9 @@ public ModelAndView requiredAdminLogin_reportManage_List_before(HttpServletReque
 
 
 	
-/*		
 	// 신고 관련 정보 상세보기 
 	@RequestMapping(value="/admin/report/detail.do", method= {RequestMethod.GET})  // 오로지 GET 방식만 허락하는 것임.
-	public ModelAndView requiredAdminLogin_reportDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView reportDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		Map<String, String> paraMap = new HashMap<>();
 		String report_num = request.getParameter("report_num");
 		String report_nickname = request.getParameter("report_nickname");
@@ -274,7 +273,6 @@ public ModelAndView requiredAdminLogin_reportManage_List_before(HttpServletReque
 		return mav;
 	}// 신고 관련 정보 상세보기 끝
 	
-*/
 	
 	// 신고자가 신고한 내역보기 클릭시 
 	@ResponseBody
