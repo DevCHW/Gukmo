@@ -32,7 +32,7 @@ public class AlarmController {
 	@RequestMapping(value="/member/getAlarmList.do", method= {RequestMethod.GET})
 	public String getAlarmList(HttpServletRequest request,HttpServletResponse response, @RequestParam Map<String, String> paraMap) {
 		
-		System.out.println(" 오냐고용? ");
+		// System.out.println(" 오냐고용? ");
 		
 		HttpSession session = request.getSession();		
 		MemberVO user= (MemberVO)session.getAttribute("user");
@@ -57,7 +57,7 @@ public class AlarmController {
 		
 	    try {
 			List<AlarmVO> alarmList = service.getAlarmList(paraMap);
-				// System.out.println("searchList:" + searchList.toString() );
+			// System.out.println("searchList:" + alarmList.toString() );
 			jsonObj.put("alarmList", alarmList);
 
 		} catch (NullPointerException e) {
@@ -83,6 +83,7 @@ public class AlarmController {
 		paraMap.put("sizePerPage", paraMap.get("sizePerPage"));
 		
 		int totalPage = service.getTotalAlarmPage(paraMap);
+		// System.out.println("totalPAge:" + totalPage);
 
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("totalPage", totalPage); 
@@ -133,7 +134,7 @@ public class AlarmController {
 	@ResponseBody
 	@RequestMapping(value="/changeIsRead.do", method= {RequestMethod.POST})
 	public boolean changeIsread(HttpServletRequest request, @RequestParam Map<String,String> paraMap) {
-		System.out.println("paraMap:" + paraMap);
+		// System.out.println("paraMap:" + paraMap);
 		
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -143,7 +144,7 @@ public class AlarmController {
 		
 		// 읽음 컬럼값 변경하기
 		int result = service.changeIsRead(paraMap);
-		System.out.println(result);
+		// System.out.println(result);
 		return result>0?true:false;
 	}
 }

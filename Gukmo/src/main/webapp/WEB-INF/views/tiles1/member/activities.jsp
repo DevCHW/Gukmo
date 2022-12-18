@@ -13,6 +13,34 @@
   <%-- 직접만든 javascript --%>
   <script type="text/javascript" src="<%=ctxPath %>/resources/js/hyunwoo/activities.js" ></script>
 
+  <script type="text/javascript">
+  
+  		$(document).ready(function(){
+  			
+  			const checkTab = ${requestScope.checkTab};
+  			
+  			if(checkTab == null) {
+  				$("div#view_activities").css("color","#ffff00");
+  				$("div#view_activities").css("font-weight","#ffff00");
+  				$("div#view_alarm").css("color","");
+  				$("div#view_alarm").css("font-weight","");
+  				
+  				$("div#alarm").hide();	//알람 감추기
+  				$("div#activities").show();	//활동내역 보이기
+  			}
+  			else {
+  				$("div#view_activities").css("color","");
+  				$("div#view_activities").css("font-weight","");
+  				$("div#view_alarm").css("color","#ffff00");
+  				$("div#view_alarm").css("font-weight","bold");
+  				
+  				$("div#activities").hide();	//활동내역 감추기
+  				$("div#alarm").show();	//알람 보이기
+  				viewAlarm(1);
+  			}
+  		});
+  		
+  </script>
 
   <div class="container my-4">
   	<%-------------------- 사이드바 시작 ----------------------%>

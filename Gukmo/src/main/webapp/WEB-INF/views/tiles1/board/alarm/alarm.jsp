@@ -19,7 +19,7 @@
 	</div>
 	<div id="alarm_dropContent" class="dropdown-content1 mt-1">
 		<div>
-			<a href="<%=ctxPath%>/member/activities.do?">알림
+			<a href="<%=ctxPath%>/member/activities.do?checkTab=alarm">알림
 				(<span id="alarm_cnt2"></span>)
 			</a>
 

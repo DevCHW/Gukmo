@@ -49,5 +49,13 @@ public class AlarmVO {
 	public String getCmt_content() {
 		return cmt_content;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "AlarmVO [alarmno=" + alarmno + ", alarm_nickname=" + alarm_nickname + ", cmd=" + cmd + ", url=" + url
+				+ ", url_num=" + url_num + ", content=" + content + ", alarm_date=" + alarm_date + ", isread=" + isread
+				+ ", subject=" + subject + ", cmt_content=" + cmt_content + "]";
+	}
 
 }

@@ -30,7 +30,7 @@ $(document).ready(function(){
 		$("div#alarm").hide();	//알람 감추기
 		$("div#activities").show();	//활동내역 보이기
 		
-	})//end of Event--
+	});//end of Event--
 	
 	
 	//네비바에서 알림 클릭시 이벤트
@@ -89,6 +89,7 @@ function goDetailCategory(detail_category){
 function viewAlarm(currentPageNo){
 	
 	console.log("와?");
+	console.log(currentPageNo);
 	
 	$.ajax({
 		url:getContextPath()+"/member/getAlarmList.do",
@@ -99,9 +100,10 @@ function viewAlarm(currentPageNo){
 		success:function(json){		
 			
 			console.log(json.alarmList);
-			const message = json.message;
-			let html = "";
 			
+			let html = "";
+			const message = json.message;
+
 			if(message != null){ // 조회된 값이 없다는 문구가 있을 경우
 				$("div#alarmList").html(message);
 			}
@@ -343,8 +345,7 @@ function makeAlarmPageBar(currentPageNo) {
 					}
 	
 					pageBarHTML +="</ul>" +
-							  "<input type='hidden' id='currentPageNo' name='currentPageNo' value='"+currentPageNo+"'>";
-	
+							
 					$("nav#pageBar").html(pageBarHTML);
 				  }
 		  },
@@ -361,7 +362,7 @@ function makeAlarmPageBar(currentPageNo) {
 function goRead(url_num){
 
 	// console.log("하하");
-	console.log("url_num:" + url_num);
+	console.log("alarmno:" + $("input#alarmno").val());
 	$.ajax({
 		url:getContextPath()+"/changeIsRead.do",
 		type:"post",

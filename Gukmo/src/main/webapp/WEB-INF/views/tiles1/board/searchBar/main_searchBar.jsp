@@ -31,7 +31,7 @@ $(document).ready(function(){
 		$("input#hashtag").val(hashtag);
 	
 		goSearch();
-		saveKeyword(hashtag);
+		saveKeyword();
 	});
 	
 	
@@ -43,7 +43,7 @@ $(document).ready(function(){
 		$("input#searchWord").val(keyword);
 
 		goSearch();
-		saveKeyword(keyword);
+		saveKeyword();
 	});
 });
 
@@ -56,7 +56,7 @@ function goSearch (){
 }
 
 
-function saveKeyword(keyword){
+function saveKeyword(){
 	
 	  const data = {keyword:$("input#searchWord").val(),
 			  		userid :'${sessionScope.user.userid}'}
@@ -69,7 +69,7 @@ function saveKeyword(keyword){
 		success : function(data){
 		},
 		error: function(xhr, status, error){
-			alert("로그인에 실패했습니다."+error);
+			alert("검색에 실패했습니다."+error);
 		}
 	  });//end of ajax
 }
