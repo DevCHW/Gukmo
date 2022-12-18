@@ -75,14 +75,14 @@ public class BoardAOP {
 		// 게시글 좋아요, 댓글 작성, 댓글 좋아요(x), 대댓글 작성(x), 대댓글 좋아요(x)
 		
 		// comment_writer_nickname 값 잡는 선택자 필요 -> 댓글 좋아요, 대댓글 작성에 필요
-		
+		// System.out.println("와?");
 		HttpServletRequest request = (HttpServletRequest) joinpoint.getArgs()[0];		
 
 		Map<String,String> alarmMap = (Map<String, String>) request.getAttribute("alarmMap");
 
-		System.out.println("alamr" +alarmMap);
+		// System.out.println("alamr" +alarmMap);
 
-		 int result = alarm_service.setAlarm(alarmMap);
+		int result = alarm_service.setAlarm(alarmMap);
 
 	//	System.out.println("aop 확인용 : " + n);
 	

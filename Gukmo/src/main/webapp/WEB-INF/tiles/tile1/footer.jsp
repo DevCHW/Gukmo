@@ -30,9 +30,9 @@
  %>
 
   <!-- Position it -->
-  <div style="position: fixed; bottom: 0; right: 0; margin: 20px; z-index:2;">
+<!--   <div style="position: fixed; bottom: 0; right: 0; margin: 20px; z-index:2;">
 	<div id="toastPopup"></div>
-    <!-- Then put toasts within -->
+    Then put toasts within
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false" data-animation="true" data-delay="3000"  style="width:300px;">
       <div class="toast-header">
         <img src="..." class="rounded mr-2" alt="...">
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-  </div>
+  </div> -->
 
 
 

@@ -68,8 +68,9 @@ $(document).ready(function(){
   // ///////////////////////// 댓글 관련 //////////////////////
   
   // 댓글에서 ... 버튼 클릭후 수정하기 버튼 클릭시
-  $("span.comment_edit").click(function(e) {
-	  const target = $(e.currentTarget);
+  $("span.comment_edit").click(function(e) {	 
+	  
+	  const target = $(e.currentTarget);	  
 	  const comment_num = $(this).parent().parent().parent().parent().find("div.comment_writer_nickname").attr('id');
 	  const comment_writer_nickname = document.getElementById(comment_num).innerText;
 	  const login_nickname = $("input#nickname").val();
@@ -350,9 +351,11 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
+	  const content = target.parent().parent().parent().parent().find('div.detail_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.comment_writer_nickname').attr('id');
-	  const alarm_nickname = target.parent().prev().find('div.comment_writer_nickname').text();	  	  
+	  const alarm_nickname = target.parent().prev().find('div.comment_writer_nickname').text();
+
 	  
   //  const comment_write_nickname = target.next().val();
 	  const nickname = $("input#nickname").val();
@@ -363,13 +366,13 @@ $(document).ready(function(){
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject, content, detail_category,comment_num,nickname,alarm_nickname);
+		  comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,content, detail_category,comment_num,nickname,alarm_nickname);
 	  }
 	  
 	  else {
 		  $("button.btn_login").trigger("click");// 로그인페이지로 보내기
 	  }
-  });// end of Event----
+  });// end of Event---
   
   
   // 대댓글 좋아요 버튼 클릭시 이벤트 잡기
@@ -379,19 +382,19 @@ $(document).ready(function(){
 	  const writer_nickname = $("a#board_writer_nickname").text();	
 	  const board_num = $("input#board_num").val();
 	  const subject = $("h2#board_subject").text();
+	  const re_content = target.parent().parent().parent().find('div.detail_comment_of_comment').text();
 	  const detail_category = $("input#detail_category").val();
 	  const comment_num = target.parent().prev().find('div.big_comment_writer_nickname').attr('id');
 	  const comment_write_nickname = target.next().find('input.comment_of_comment_nickname').val();
 	  const nickname = $("input#nickname").val();	  
 	  const alarm_nickname = target.parent().prev().find('div.big_comment_writer_nickname').text();
-	  const content = target.parent().parent().parent().next().find('div.detail_comment_of_comment').text();
 	  
 	   alert(alarm_nickname);
 	  // alert(userid);
 	  
 	  if(nickname != "") {
 		  // alert("로그인 했다.");
-		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject,content,detail_category,comment_num,nickname,alarm_nickname);
+		  big_comment_likeClick(comment_num, userid, target,writer_nickname,board_num,subject, re_content, detail_category,comment_num,nickname,alarm_nickname);
 
 	  }
 	  
@@ -406,12 +409,15 @@ $(document).ready(function(){
   $("button.btn_big_comment_write").click(function(e){
 	  const target = $(e.currentTarget);
 	  const content = target.parent().prev().val();
+	  const re_content = target.parent().parent().parent().parent().parent().find('div.detail_comment').text(); // 알람에 원 댓글 내용 넘기기 위한 값
 	  const fk_comment_num = target.next().val();
 	  const nickname = $("input#nickname").val();
 	  const alarm_nickname = target.parent().parent().parent().parent().prev().find('div.comment_writer_nickname').text();
 
+	  // alert(re_content);
+	  
 	  if(nickname != "") {
-		   addCommentOfComment(content, fk_comment_num, alarm_nickname);
+		   addCommentOfComment(content, fk_comment_num, re_content, alarm_nickname);
 	  }
 	  
 	  else {
@@ -453,9 +459,9 @@ $(document).ready(function(){
 
 
 
+
+
 // == Function Declaration == //
-
-
 
 function likeClick(data){
 	$.ajax({ 
@@ -509,6 +515,7 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 			 ,"writer_nickname":writer_nickname
 			 ,"board_num":board_num
 			 ,"subject":subject
+			 ,"content":content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
 			 ,"nickname":nickname
@@ -549,7 +556,7 @@ function comment_likeClick(comment_num, userid, target, writer_nickname,board_nu
 
 
 //대댓글 좋아요
-function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject, content, detail_category,comment_num,nickname,alarm_nickname ){
+function big_comment_likeClick(comment_num, userid, target, writer_nickname,board_num,subject, re_content, detail_category,comment_num,nickname,alarm_nickname ){
 	$.ajax({
 		url:getContextPath()+"/big_comment_likeProcess.do", 
 		data:{"comment_num":comment_num
@@ -557,7 +564,7 @@ function big_comment_likeClick(comment_num, userid, target, writer_nickname,boar
 			 ,"writer_nickname":writer_nickname
 			 ,"board_num":board_num
 			 ,"subject":subject
-			 ,"content":content
+			 ,"content":re_content
 			 ,"detail_category":detail_category
 			 ,"comment_num":comment_num
 			 ,"nickname":nickname
@@ -772,14 +779,14 @@ function goAddWrite_noAttach() {
 
 
 // 대댓글 작성
-function addCommentOfComment(content, fk_comment_num, alarm_nickname) {	
+function addCommentOfComment(content, fk_comment_num, re_content, alarm_nickname) {	
 
 	const cmt_board_num = $("input#cmt_board_num").val();
 	const nickname = $("input#nickname").val();
 	const parent_write_nickname = $("input#parent_write_nickname").val();
 	const subject = $("input#board_subject").val();
 	const detail_category = $("input#detail_category").val();
-	
+
 	if(content == "") {
 		alert("댓글내용을 입력하세요!!");
 		return;
@@ -791,6 +798,7 @@ function addCommentOfComment(content, fk_comment_num, alarm_nickname) {
 				,"nickname":nickname
 				,"parent_write_nickname":parent_write_nickname
 				,"content":content
+				,"re_content": re_content // 알람에 값 넣기 위한 원 댓글 내용
 				,"fk_comment_num":fk_comment_num
 				,"subject":subject
 				,"detail_category":detail_category

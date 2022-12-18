@@ -15,6 +15,7 @@ function getContextPath(){
 
 //== Event Declaration == //
 $(document).ready(function(){
+	
 	$("div#view_activities").css("color","#ffff00");
 	$("div#view_activities").css("font-weight","bold");
 	
@@ -41,7 +42,7 @@ $(document).ready(function(){
 		
 		$("div#activities").hide();	//활동내역 감추기
 		$("div#alarm").show();	//알람 보이기
-		viewAlarm();
+		viewAlarm(1);
 	});//end of Event--
 	
 });//end of $(document).ready(function(){})--
@@ -85,12 +86,305 @@ function goDetailCategory(detail_category){
 /**
  * 알림영역 보이게 만들기
  */
-function viewAlarm(){
-	alert("viewAlarm() 호출. activities.js 파일에서 이 메소드 부분 코딩하면 됩니다 파일 맨아래보면있어유.");
-	//html은 activities.jsp파일에서 div#alarm 안쪽에 코딩하면 됨 
+function viewAlarm(currentPageNo){
+	
+	console.log("와?");
+	
+	$.ajax({
+		url:getContextPath()+"/member/getAlarmList.do",
+		data: {"currentPageNo" : currentPageNo,
+			   "checkTab" : "alarm" },
+		type:"GET",
+		dataType:"json",
+		success:function(json){		
+			
+			console.log(json.alarmList);
+			const message = json.message;
+			let html = "";
+			
+			if(message != null){ // 조회된 값이 없다는 문구가 있을 경우
+				$("div#alarmList").html(message);
+			}
+			else if(message == null && json.alarmList.length > 0 ){ // 정상적으로 알람 값이 조회됐을 경우
+				
+				$.each(json.alarmList, function(index, item){
+					
+					let content = item.content;
+					
+					// 글 제목이 13자 넘을 경우, 
+					if(content != null && content.length > 10){
+						content = content.substring(0, 10) + "...";
+					}
+					
+					
+					if(item.isread == 'y') {
+						html += "<div class='activity_box border-top border-bottom px-2 py-4' style='background-color:#FAFAFA;'>";	
+					}
+					else {
+						html += "<div class='activity_box border-top border-bottom px-2 py-4'>";	
+					}
+					
+					html += "<div class='activity_title alarm_title'>"+
+    							"<div class='d-flex w-100 justify-content-between align-items-center' onClick='goRead("+item.url_num+")'>";
+					
+					
+					// 게시글에 댓글, 좋아요, 신고
+					if(item.cmd == 'reply') { 
+	            		html += "<div class='d-flex align-items-center'>" +
+	            				"	<div class='detail_category border rounded-pill px-2 py-1'>댓글</div>"+
+		                	 		"	<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+     					
+	            		// 읽은 알람일 경우 디자인 
+	            		if(item.isread =='y') {
+     						html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+     					}
+     					else{
+     						html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
+     					}
+	                 					
+	                 	html += "<span>글에 댓글이 달렸습니다.</span>" +
+	                 			"</div>";				
+	         			
+					}
+					
+					if(item.cmd == 'like') { 
+	            		html += "<div class='d-flex align-items-center'>" +
+        						"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
+            	 				"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+				
+			    		// 읽은 알람일 경우 디자인 
+			    		if(item.isread =='y') {
+								html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+							}
+							else{
+								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
+							}
+			         					
+			         	html += "<span>글이 좋아요를 받았습니다.</span>"+				
+			         			"</div>";
+					}
+					
+					if(item.cmd == 'penalty') { 
+	            		html += "<div class='d-flex align-items-center'>" +
+								"	<div class='detail_category border rounded-pill px-2 py-1'>신고</div>"+
+            	 				"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+				
+			    		// 읽은 알람일 경우 디자인 
+			    		if(item.isread =='y') {
+								html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+							}
+							else{
+								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
+							}
+			         					
+			         	html += "<span>글에 신고가 접수되었습니다.</span>" +
+			         			"</div>";
+	         			
+					}			
+
+	
+										
+					// 댓글에 댓글, 좋아요, 신고
+					if(item.cmd == 'recomment') {
+	            		html += "<div class='d-flex align-items-center'>" +
+								"	<div class='detail_category border rounded-pill px-2 py-1'>댓글</div>"+
+								"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+				
+			    		// 읽은 알람일 경우 디자인 
+			    		if(item.isread =='y') {
+								html += "<span style='font-weight:500;'> [" +content+ "] </span>";
+							}
+							else{
+								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
+							}
+			         					
+			         	html += "<span> 댓글에 댓글이 달렸습니다.</span>" +
+			         			"</div>";
+			         			
+					}	
+										
+					if(item.cmd == 'cmtLike' || item.cmd == 'cmt_cmtLike') {
+	            		html += "<div class='d-flex align-items-center'>" +
+								"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
+    	 						"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+				
+			    		// 읽은 알람일 경우 디자인 
+			    		if(item.isread =='y') {
+								html += "<span style='font-weight:500;'> [" +content+ "] </span> ";
+							}
+							else{
+								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
+							}
+			         					
+			         	html += "<span> 댓글이 좋아요를 받았습니다.</span>" +
+	         					"</div>";			
+	         						
+					}	
+					
+					if(item.cmd == 'cmtPenalty') {
+	            		html += "<div class='d-flex align-items-center'>" +
+								"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
+    	 						"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+				
+			    		// 읽은 알람일 경우 디자인 
+			    		if(item.isread =='y') {
+								html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+							}
+							else{
+								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
+							}
+			         					
+			         	html += "<span>댓글에 신고가 접수되었습니다.</span>" +
+     							"</div>";	
+					
+			         			
+					}	
+					
+					html += "</div>";
+										
+		            // 활동일자
+					html += 			"<div class='activity_date d-flex justify-content-end'>"+item.alarm_date+"</div>"+
+		            				"</div>" +
+		            			"</div>" +
+		            		"</div>" +
+							"<input id='alarmno' type='hidden' value='"+ item.alarmno +"'/>";;
+				});
+				
+			}
+		    
+			$("div#alarmList").html(html);
+
+			makeAlarmPageBar(currentPageNo);
+			
+		},
+		error: function(request,error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});
+}
+	
+	
+
+
+// 알람 페이지 알아오기
+function makeAlarmPageBar(currentPageNo) {
+		
+	  $.ajax({
+		  url:getContextPath()+'/member/getAlarmCount.do',
+		  data:{ "sizePerPage":"10",
+			     "checkTab" : "alarm"},
+	      type:"GET",
+	      dataType:"JSON",
+	      success:function(json){
+	  
+			  if(json.totalPage > 0) {
+	    		  
+				  const totalPage = json.totalPage;
+	    		  
+	    		  const blockSize = 10;
+
+	    		  let loop = 1;
+
+	    		  if(typeof currentPageNo == "string") {
+	    			   currentPageNo = Number(currentPageNo);
+	    		  }	
+	    		   
+	    		  let blockStart = Math.floor( (currentPageNo - 1)/blockSize ) * blockSize + 1;
+	    		   
+	    		  let pageBarHTML = "<ul class='pagination'>";
+	    		   
+	    		  if(blockStart != 1) {
+					// 처음
+	    			pageBarHTML  += "<li class='page-item'>" +
+							   "	<a class='page-link' href='javascript:viewAlarm(\"1\")' aria-label='super_previous'>" +
+							   "		<i class='fa-solid fa-angles-left'></i>"+
+							   "	</a>" + 
+							   "</li>";
+					// 이전
+	    			pageBarHTML  += "<li class='page-item'>" +
+							   "	<a class='page-link' href='javascript:viewAlarm(\""+(blockStart-1)+ "\")' aria-label='previous'>" +
+							   "		<i class='fa-solid fa-angle-left'></i>"+
+							   "	</a>" + 
+							   "</li>";
+					}
+					
+					while (!(loop > blockSize || blockStart > totalPage)) {
+						
+						if(blockStart == currentPageNo) {
+							// 현재 보는 페이지와 블록 시작 페이지가 같을 경우 (선택된 경우)
+							pageBarHTML  += "<li class='page-item disabled'>" +
+									   "	<a class='page-link'>" +blockStart+ "</a>"+
+									   "</li>";
+						}
+						else {
+							// 현재 보는 페이지와 블록 시작 페이지가 다른경우(선택되지 않은 경우)
+							pageBarHTML  += "<li class='page-item'>" +
+									   "	<a class='page-link' href='javascript:viewAlarm(\""+blockStart+ "\")'>" +blockStart+ "</a>"+
+									   "</li>";
+						}
+						
+						loop++;
+						blockStart++;
+					}
+					
+					// 다음과 마지막 만들기		
+					if(blockStart <= totalPage) {
+						pageBarHTML  += "<li class='page-item'>" +
+								   "	<a class='page-link' href='javascript:viewAlarm(\""+blockStart+ "\")' aria-label='next'>" +
+								   "		<i class='fa-solid fa-angle-right'></i>"+
+								   "	</a>" + 
+								   "</li>";
+						
+						pageBarHTML  += "<li class='page-item'>" +
+								   "	<a class='page-link' href='javascript:viewAlarm(\""+totalPage+ "\")' aria-label='super-next'>" +
+								   "		<i class='fa-solid fa-angles-right'></i>"+
+								   "	</a>" + 
+								   "</li>" ;
+					}
+	
+					pageBarHTML +="</ul>" +
+							  "<input type='hidden' id='currentPageNo' name='currentPageNo' value='"+currentPageNo+"'>";
+	
+					$("nav#pageBar").html(pageBarHTML);
+				  }
+		  },
+	      error: function(request, status, error){
+			  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		  }
+	  });
 	
 }//end of method---
 
+
+
+//읽음 컬럼 값 변경
+function goRead(url_num){
+
+	// console.log("하하");
+	console.log("url_num:" + url_num);
+	$.ajax({
+		url:getContextPath()+"/changeIsRead.do",
+		type:"post",
+		data:{"alarmno" : $("input#alarmno").val(), // alarmno 이라 수정 필요!
+			  "url_num" : url_num
+		},
+		dataType:"json",
+		success:function(json){
+			if(json){
+				location.href = getContextPath()+'/detail.do?boardNum='+ url_num;
+			}else{
+				alert("업데이트에 실패하였습니다 다시 시도해주세요.");			
+			}
+		
+		},
+		error: function(request,error){	
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});
+	
+
+	
+}//end of method---
 
 
 

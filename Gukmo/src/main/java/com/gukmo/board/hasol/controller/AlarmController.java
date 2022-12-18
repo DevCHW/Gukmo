@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gukmo.board.hasol.service.InterAlarmService;
 import com.gukmo.board.model.AlarmVO;
+import com.gukmo.board.model.BoardVO;
 import com.gukmo.board.model.MemberVO;
 
 @Controller
@@ -27,50 +29,79 @@ public class AlarmController {
 
 	// 모든 알람 개수
 	@ResponseBody
-	@RequestMapping(value="/showAlarmCnt.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String showAlarmCnt(HttpServletRequest request) {
-	
-		HttpSession session = request.getSession();
-		MemberVO user = (MemberVO)session.getAttribute("user");
-		String nickname = user.getNickname();
+	@RequestMapping(value="/member/getAlarmList.do", method= {RequestMethod.GET})
+	public String getAlarmList(HttpServletRequest request,HttpServletResponse response, @RequestParam Map<String, String> paraMap) {
 		
-		int result = service.showAlarmCnt(nickname);
+		System.out.println(" 오냐고용? ");
+		
+		HttpSession session = request.getSession();		
+		MemberVO user= (MemberVO)session.getAttribute("user");
+		String nickname = user.getNickname();
+		paraMap.put("alarm_nickname", nickname);
+		
+		String currentPageNo = paraMap.get("currentPageNo"); // 현재 보고 있는 페이지 번호
+		
+		if(currentPageNo == null) {
+			currentPageNo = "1";
+		}
+		
+		int sizePerPage = 10;
+		
+		int startRno = (( Integer.parseInt(currentPageNo) - 1) * sizePerPage) + 1;
+		int endRno = startRno + sizePerPage - 1;
+		
+		paraMap.put("startRno", String.valueOf(startRno));
+		paraMap.put("endRno", String.valueOf(endRno));
 		
 	    JSONObject jsonObj = new JSONObject();
-	    jsonObj.put("alarmCnt" ,  result);
+		
+	    try {
+			List<AlarmVO> alarmList = service.getAlarmList(paraMap);
+				// System.out.println("searchList:" + searchList.toString() );
+			jsonObj.put("alarmList", alarmList);
 
-	    return jsonObj.toString();
+		} catch (NullPointerException e) {
+			String message = "<p> 조회된 검색 결과가 없습니다. </p>";
+			jsonObj.put("message", message);
+		}		
+
+		return jsonObj.toString();
 	}
 	
 	
-	// 모든 알람 개수
-	@RequestMapping(value="/getAlarmList.do")
-	public ModelAndView getAlarmList(ModelAndView mav, HttpServletRequest request) {
+	// 모든 알람 페이지 조회
+	@ResponseBody
+	@RequestMapping(value="/member/getAlarmCount.do", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	public String getAlarmPage(HttpServletRequest request,@RequestParam Map<String, String> paraMap) {
+		
+		// System.out.println("paraMap:" + paraMap);
 		
 		HttpSession session = request.getSession();
 		MemberVO user= (MemberVO)session.getAttribute("user");
 		String nickname = user.getNickname();
+		paraMap.put("alarm_nickname", nickname);
+		paraMap.put("sizePerPage", paraMap.get("sizePerPage"));
 		
-	    //1.해당 유저 알림데이터 전체 가져오기
-	    List<AlarmVO> getAlarm = service.getAlarm(nickname);
-	    //for(InformDTO informDTO :getInform) {
-	        //System.out.println("getInform : "+informDTO.toString());  
-	    //}
-	    
-	    return mav;
+		int totalPage = service.getTotalAlarmPage(paraMap);
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("totalPage", totalPage); 
+		
+		return jsonObj.toString();
 	}
 	
+	
+	// 읽지 않은 알람 카운트
 	@ResponseBody
 	@RequestMapping(value="/getNotReadAlarm_count.do", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String getNotReadAlarm_count(HttpServletRequest request) {
 		
-		System.out.println(" 흠");
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String nickname = user.getNickname();
 		
 		int notReadAlarmCnt = service.getNotReadAlarm_count(nickname);
-		System.out.println(notReadAlarmCnt);
+		// System.out.println(notReadAlarmCnt);
 		
 	    JSONObject jsonObj = new JSONObject();
 	    jsonObj.put("notReadAlarmCnt" ,  notReadAlarmCnt);
@@ -112,6 +143,7 @@ public class AlarmController {
 		
 		// 읽음 컬럼값 변경하기
 		int result = service.changeIsRead(paraMap);
+		System.out.println(result);
 		return result>0?true:false;
 	}
 }

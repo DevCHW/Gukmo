@@ -65,7 +65,7 @@
 
 
       <%-- 활동내역 시작 --%>
-      <div id="activities" class="mt-4">
+	  <div id="activities" class="mt-4">
       
         <c:forEach var="activity" items="${requestScope.activities}">
           <%-- 1 --%>
@@ -129,22 +129,25 @@
         <%----------------------------------------------------------- 페이지 바 끝 ---------------------------------------------%>
       </div>
       
-      <%--하솔누나가 쓸 알람영역 시작 --%>
-      <div id="alarm">
-    	알람영역 하솔누나 코딩하셈
-    
+      
+      
+      <div id="alarm" class="mt-4">
+ 	
+ 		<%-- 알림 리스트 영역 --%>
+ 		<div id="alarmList" class="mb-4"></div>
+ 		
+ 		<%-- 페이지 바 영역 --%>
+ 		<div>
+ 			<nav id="pageBar" class="d-flex justify-content-center"></nav>
+ 		</div>
     
       </div>
-      <%--하솔누나가 쓸 알람영역 끝 --%>
+      
     </div>
     <%----------------------------------- main 끝-------------------------------------%>
     
     
   </div>
-
-
-  
-
 
 
 

@@ -40,7 +40,7 @@ function getNotReadAlarm_count(){
 		dataType:"json",
 		success:function(json){
 			const notReadAlarmCnt = json.notReadAlarmCnt;
-			console.log(notReadAlarmCnt)
+			// console.log(notReadAlarmCnt)
 			if(notReadAlarmCnt == null || notReadAlarmCnt == '0') {
 				// 헤더 그 자체
 				$("span#alarm_cnt").hide();
@@ -71,7 +71,7 @@ function getNotReadAlarm_count(){
 // 알람 리스트 가져오기
 function getNotReadAlarmList(){
 	
-	console.log("와?");
+	// console.log("와?");
 	
 	$.ajax({
 		url:getContextPath()+'/getNotReadAlarmList.do',
@@ -127,7 +127,7 @@ function getNotReadAlarmList(){
 					
 					// 댓글에 댓글, 좋아요, 신고
 					if(item.cmd == 'recomment') {
-						html +=  	"<span class='reply'>신고</span>" +
+						html +=  	"<span class='reply'>댓글</span>" +
 									"<span>"+ item.alarm_date +"</span>" +
 								"</div>"+
 								"<p class='alarm_text' id="+item.url_num+"> [" +content+ "] 댓글에 댓글이 달렸습니다.</p>" +
@@ -174,8 +174,8 @@ function getNotReadAlarmList(){
 // 읽음 컬럼 값 변경
 function goRead(url_num){
 
-	console.log("하하");
-	console.log("url_num:" + url_num);
+	// console.log("하하");
+	// console.log("url_num:" + url_num);
 	$.ajax({
 		url:getContextPath()+"/changeIsRead.do",
 		type:"post",
@@ -187,7 +187,7 @@ function goRead(url_num){
 			if(json){
 				location.href = getContextPath()+'/detail.do?boardNum='+ url_num;
 			}else{
-				alert("업데이트에 실패하였습니다 다시 시도해주세요.");
+				alert("업데이트에 실패하였습니다 다시 시도해주세요.");			
 			}
 		
 		},

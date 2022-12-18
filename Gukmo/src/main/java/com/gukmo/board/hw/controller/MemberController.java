@@ -406,6 +406,18 @@ public class MemberController {
 			return "redirect:/index.do";
 		}
 		
+		String checkTab = request.getParameter("checkTab");
+		System.out.println(checkTab);
+		
+		if("alarm".equals(checkTab)) {
+			//System.out.println(checkTab);
+			
+			request.setAttribute("checkTab", checkTab);
+			
+			//String check = (String) request.getAttribute("checkTab");
+			//System.out.println(check);
+		}
+
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		String userid = user.getUserid();
 		

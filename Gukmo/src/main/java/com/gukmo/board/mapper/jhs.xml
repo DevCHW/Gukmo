@@ -416,5 +416,25 @@
 		where alarmno = #{alarmno} and alarm_nickname= #{alarm_nickname}
 	</update> 
 
+	<select id="getTotalAlarmPage" parameterType="String" resultType="int">
+	    select  ceil( count(*)/#{sizePerPage} )
+	    from tbl_alarm
+	    where alarm_nickname= #{alarm_nickname} 
+	    order by alarm_date desc
+	</select>
 
+
+	<select id="getAlarmList" parameterType="HashMap" resultType="com.gukmo.board.model.AlarmVO">
+		select  ALARMNO, alarm_nickname, cmd, content, url, url_num, alarm_date, isread 
+		from
+		(
+		    select ALARMNO, alarm_nickname, cmd, content, url, url_num, alarm_date, isread 
+		    from tbl_alarm
+		    where alarm_nickname= #{alarm_nickname} 
+		    order by alarm_date desc
+		)
+		where rownum between #{startRno} and #{endRno}
+	</select>
+	
+	
 </mapper>

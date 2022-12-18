@@ -15,24 +15,21 @@ public class AlarmService implements InterAlarmService {
 	@Autowired
 	private InterAlarmDAO dao;
 	
+	
+	// 안 읽은 알람 카운트
 	@Override
 	public int getNotReadAlarm_count(String nickname) {
-		System.out.println("왜 안디ㅗ");
+		// System.out.println("왜 안디ㅗ");
 		int result = dao.getNotReadAlarm_count(nickname);
-		System.out.println("result: " + result);
+		//System.out.println("result: " + result);
 		return result;
 	}
 
+	// 안 읽은 알람 리스트
 	@Override
 	public List<AlarmVO> getNotReadAlarmList(String nickname) {
 		List<AlarmVO> notReadAlarmList = dao.getNotReadAlarmList(nickname);
 		return notReadAlarmList;
-	}
-
-	@Override
-	public List<AlarmVO> getAlarm(String nickname) {
-		List<AlarmVO> alarmList = dao.getAlarmList();
-		return alarmList;
 	}
 
 	// 알람테이블에 값 넣기
@@ -49,13 +46,19 @@ public class AlarmService implements InterAlarmService {
 		return result;
 	}
 
-	// 안읽음 컬럼 카운트
+	// 전체 알람 카운트
 	@Override
-	public int showAlarmCnt(String nickname) {
-		int n = dao.showAlarmCnt(nickname);
-		return n;
+	public int getTotalAlarmPage(Map<String,String>paraMap) {
+		int result = dao.getTotalAlarmPage(paraMap);
+		return result;
 	}
 
+	// 전체 알람 리스트
+	@Override
+	public List<AlarmVO> getAlarmList(Map<String, String> paraMap) {
+		List<AlarmVO> alarmList = dao.getAlarmList(paraMap);
+		return alarmList;
+	}
 
 
 }
