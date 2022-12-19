@@ -127,12 +127,15 @@ $(document).ready(function(){
 				⁃	부적절한 모임 발견 시 신고해주세요.<br>
 				⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
+			default:
+				sHTML= "";
+				break;
 				
 			}
 	    	
 	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
 
-    	}, 1000)
+    	}, 1000);
     
     
 
@@ -162,19 +165,21 @@ $(document).ready(function(){
       function strTag() {
         return Object.values(hashtag).join(',');
       }
+      
+      $("#hashtag").on("keydown", function (e) {
+    	  if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
+            	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
+            		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
+                  hashtag[index] = "";
+            		$("input#hashtag").prev().remove();
+            		return;
+            	} 
+            }
+      });
 
       
       $("#hashtag").on("keyup", function (e) {
           var self = $(this);
-          
-          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
-          	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
-          		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
-                hashtag[index] = "";
-          		$("input#hashtag").prev().remove();
-          		return;
-          	} 
-          }
           
           // input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
           if (e.key === "Enter" || e.keyCode == 32) {

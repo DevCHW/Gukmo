@@ -161,7 +161,7 @@ public class AdvertisementController {
 		System.out.println(root);
 		String path = root+"resources"+ File.separator +"images";
 		// path 가 첨부파일이 저장될 WAS(톰캣)의 폴더가 된다.
-		
+		System.out.println("저장되는 실제 경로 : " + path);
 		String newFileName = "";
 		// WAS(톰캣)의 디스크에 저장될 파일명 
 		

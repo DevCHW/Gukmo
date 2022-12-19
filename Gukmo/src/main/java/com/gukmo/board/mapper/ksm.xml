@@ -659,30 +659,29 @@
 		resultType="com.gukmo.board.model.ReportVO">
 		select rnum, report_num, fk_num, report_nickname,
 		reported_nickname, simple_report_reason, detail_report_reason,
-		to_char(report_date, 'yyyy-mm-dd') as report_date, report_type
+		to_char(report_date, 'yyyy-mm-dd') as report_date, report_type,receipt
 		from
 		(
 		select rownum as rnum, report_num, fk_num, report_nickname,
 		reported_nickname, simple_report_reason, detail_report_reason,
-		report_date, report_type
+		report_date, report_type,receipt
 		from
 		(
 		select report_num, fk_board_num as
 		fk_num, report_nickname,
 		reported_nickname, simple_report_reason,
 		detail_report_reason,
-		report_date, report_type
+		report_date, report_type,receipt
 		from tbl_board_report
 		union all
 		select
 		report_num, fk_comment_num as fk_num, report_nickname,
 		reported_nickname, simple_report_reason, detail_report_reason,
-		report_date, report_type
+		report_date, report_type,receipt
 		from tbl_comment_report
 		) V
 		) D
-		where report_num
-		= #{report_num}
+		where report_num = #{report_num}
 	</select>
 
 	<!-- 신고 받은 회원의 아이디값 알아오기 -->
