@@ -10,9 +10,6 @@
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/hasol/index.css?after">
 
-<!-- 직접만든 javascript -->
-<script type="text/javascript" src="<%=ctxPath %>/resources/js/hasol/index.js" ></script>
-
 <!-- contents 시작 -->
 
 <!-- 배너 영역 -->
@@ -163,7 +160,7 @@
 				</div>
 				<div class="list_searchRank d-flex flex-column px-3">
 					<c:forEach var="topSearch" items="${requestScope.topSearchList}">
-					<a id="keyword"> ${topSearch.keyword}</a>
+					<a id="keyword">${topSearch.keyword}</a>
 					</c:forEach>
 				</div>
 			</div>

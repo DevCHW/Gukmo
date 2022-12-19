@@ -62,8 +62,15 @@
 		          <span class="mr-2 my-1">학원 명 : ${boardvo.curriculum.academy_name}</span>
 	        	  <span class="mr-2 mb-1">교육 일정 : ${boardvo.curriculum.curriculum_start_date} ~ ${boardvo.curriculum.curriculum_end_date} </span>
 	        	  <span class="mr-2">문의처: ${boardvo.curriculum.join_url}</span>
-		        </div>          
-	      	</div>
+		        </div>
+		        
+		        <%-- 해시태그 --%>
+		        <div class="d-flex mt-2">
+					<c:forEach var="hashtags" items="${boardvo.hashtags}">
+					<a class="search_hashtag mr-3"><span>#${hashtags.hashtag}</span></a>
+					</c:forEach>  
+				</div>           
+	      	</div>        
 			</c:if>   
 	
 			<!-- 국비학원-학원 카테고리일 경우 -->
@@ -96,6 +103,13 @@
 			          <span class="mr-2 mb-1">문의처 : ${boardvo.academy.phone}</span>
 					  <a class="mr-2" href="${boardvo.academy.homepage}"> 홈페이지 : ${boardvo.academy.homepage}</a>
 			        </div>
+	       
+		       		<%-- 해시태그 --%>
+			        <div class="d-flex mt-2">
+						<c:forEach var="hashtags" items="${boardvo.hashtags}">
+						<a class="search_hashtag mr-3"><span>#${hashtags.hashtag}</span></a>
+						</c:forEach>  
+					</div>
 	       
 		      	</div>
 	    	</div>  
@@ -152,9 +166,9 @@
 						
 					</a>
 				</div>	
-				<div class="hashtag d-flex ">
+				<div class="d-flex ">
 					<c:forEach var="hashtags" items="${boardvo.hashtags}">
-					<span class="mr-3">#${hashtags.hashtag}</span>
+					<a class="search_hashtag mr-3"><span>#${hashtags.hashtag}</span></a>
 					</c:forEach>  
 				</div>                                            
 			</div>
