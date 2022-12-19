@@ -712,10 +712,11 @@ public class MemberController {
 		HttpSession session = mrequest.getSession();
 		Map<String,String> paraMap = new HashMap<>();
 		if( profile_image!=null && !profile_image.isEmpty() ) { //프로필이미지를 첨부하였을 경우
-			String root = session.getServletContext().getRealPath("/");
+//			String root = session.getServletContext().getRealPath("/");
+//			String path = root+"resources"+ File.separator +"images";
 			
-			String path = root+"resources"+ File.separator +"images";
-			
+			String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images";
+			System.out.println("저장되는 실제 경로 : " + path);
 			String newFileName = "";
 			// WAS(톰캣)의 디스크에 저장될 파일명 
 			byte[] bytes = null;
@@ -723,12 +724,10 @@ public class MemberController {
 			try {
 				// 첨부파일의 내용물을 읽어오기
 				bytes = profile_image.getBytes();
-				
 				//유저가 업로드한 프로필이미지명
 				String realFileName = profile_image.getOriginalFilename();
 				// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
 				newFileName = fileManager.doFileUpload(bytes, realFileName, path);
-				
 				
 				MemberVO loginUser = (MemberVO)session.getAttribute("user");
 				paraMap.put("path",path);
