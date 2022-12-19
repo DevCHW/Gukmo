@@ -41,8 +41,7 @@ $(document).ready(function(){
     });
     // ==== 스마트 에디터 구현 끝 ==== //
 	
-    
-    	
+    if(!detail_category == null) { // 수정일때
     	setTimeout(function() {
     		let detail_category = $("#detail_category").val();
 	    	
@@ -56,7 +55,7 @@ $(document).ready(function(){
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
-				sHTML =`QnA 유의사항
+				sHTML =`QnA 유의사항<br>
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
 						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
@@ -134,14 +133,10 @@ $(document).ready(function(){
 	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
 
     	}, 1000);
-    
-    
+
+    }
 
     
-    
-    
-    
-
     
     // ==== 해시태그 구현 시작 ==== //
       var hashtag = {};
@@ -248,7 +243,7 @@ $(document).ready(function(){
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
-				sHTML =`QnA 유의사항
+				sHTML =`QnA 유의사항<br>
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
 						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;

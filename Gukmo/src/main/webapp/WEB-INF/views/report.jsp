@@ -33,10 +33,8 @@
    <!-- 신고 폼 시작 -->
    <form name="reportFrm">
   
-	  <div class="d-flex justify-content-between">
-	  	<div></div>
+	  <div class="d-flex justify-content-center">
 	  	<h2>신고하기</h2>
-	  	<button id="btn_close" class="btn rounded">X</button>
 	  </div>
 	
       <hr style="background-color: black; height: 1.2px;">
