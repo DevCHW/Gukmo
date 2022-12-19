@@ -152,7 +152,7 @@
 	
 	
 	<!-- 인기검색어 / 게시판 정보 영역  -->
-	<div class="div_infoBoard my-5 w-100 d-flex ">
+	<div class="div_infoBoard mt-2 mb-5 w-100 d-flex ">
 		
 		<!-- 인기 검색어 영역 -->
 		<div class="div_searchRank col-3" style="padding:0 0 0 2px;">

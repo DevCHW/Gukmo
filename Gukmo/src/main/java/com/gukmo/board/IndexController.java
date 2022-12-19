@@ -74,8 +74,6 @@ public class IndexController {
 
 		// 광고 목록 불러오는 메소드
 		List<AdVO> advertisementList = service.getAdvertisementList();
-		
-		System.out.println("확인:" + advertisementList.toString());
 
 		mav.addObject("advertisementList", advertisementList);
 		mav.addObject("topHashList", topHashList);

@@ -18,6 +18,9 @@ a {
 
 
 /* ----- 학원 정보 영역 CSS 시작 ----- */
+.carousel-inner {
+	min-height: 320px;
+}
 
 .div_academy {
 	width: 100%;
