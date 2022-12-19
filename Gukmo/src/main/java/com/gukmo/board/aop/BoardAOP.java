@@ -25,6 +25,7 @@ import com.gukmo.board.common.MyUtil;
 import com.gukmo.board.hasol.service.InterAlarmService;
 import com.gukmo.board.hw.repository.InterBoardDAO;
 import com.gukmo.board.model.BoardVO;
+import com.gukmo.board.model.MemberVO;
 
 @Aspect     
 @Component  
@@ -81,8 +82,21 @@ public class BoardAOP {
 		Map<String,String> alarmMap = (Map<String, String>) request.getAttribute("alarmMap");
 
 		// System.out.println("alamr" +alarmMap);
+		
+		// 현재 접속된 유저의 닉네임 알아오기
+		HttpSession session = request.getSession();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		String nickname = user.getNickname();
+		
+		System.out.println("nickname:" + nickname);
+		System.out.println("alarm nic"+ alarmMap.get("alarm_nickname"));
+		
+		if(!alarmMap.get("alarm_nickname").equals(nickname)) {
+			// 알람 닉네임과 로그인된 유저의 닉네임이 같지 않을 때만 알람에 값 넣어줌
+			System.out.println("틀림!");
+			int result = alarm_service.setAlarm(alarmMap);
+		}
 
-		int result = alarm_service.setAlarm(alarmMap);
 
 	//	System.out.println("aop 확인용 : " + n);
 	

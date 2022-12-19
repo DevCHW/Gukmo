@@ -45,20 +45,6 @@ $(document).ready(function(){
 		viewAlarm(1);
 	});//end of Event--
 	
-	
-	// 알람 - 각 리스트 클릭 시 읽음 처리
-	//$("div#goRead").click(function(e){
-		//alert("오닝");
-		//const target = $(e.currentTarget);
-		//const alarmno = target.parent().parent().find("input#alarmno").val();
-		//const url_num = $("div.alarm_content").attr("id");
-		
-		//alert(alarmno);
-		//alert(url_num);
-		//goRead(alarmno, url_num);
-
-	//});
-	
 });//end of $(document).ready(function(){})--
 
 
@@ -288,7 +274,7 @@ function makeAlarmPageBar(currentPageNo) {
 		
 	  $.ajax({
 		  url:getContextPath()+'/member/getAlarmCount.do',
-		  data:{ "sizePerPage":"2",
+		  data:{ "sizePerPage":"10",
 			     "checkTab" : "alarm"},
 	      type:"GET",
 	      dataType:"JSON",

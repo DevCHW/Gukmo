@@ -716,7 +716,7 @@ public class BoardController {
 	      //AOP 용
 	      Map<String,String> alarmMap = new HashMap<>();
 	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
-	      System.out.println("파라맵의 nickname:" + paraMap.get("reported_nickname"));
+	      //System.out.println("url_num:" + paraMap.get("fk_num"));
 	      
     	  alarmMap.put("cmd", "penalty");
     	  alarmMap.put("url", "/detail.do?boardNum=");
@@ -757,14 +757,14 @@ public class BoardController {
 		   
 	      int n = service.comment_reportInsert(paraMap);
 	      
-	      // System.out.println(paraMap.get("board_num"));
+	      //System.out.println("url_num:" + paraMap.get("board_num"));
 	      //AOP 용
 	      Map<String,String> alarmMap = new HashMap<>();
 	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
       	  alarmMap.put("cmd", "cmtPenalty");
       	  alarmMap.put("url", "/detail.do?boardNum=");
       	  alarmMap.put("content", paraMap.get("subject"));
-      	  alarmMap.put("url_num", paraMap.get("fk_num"));
+      	  alarmMap.put("url_num", paraMap.get("board_num"));
 
 		 request.setAttribute("alarmMap", alarmMap);
 	      
