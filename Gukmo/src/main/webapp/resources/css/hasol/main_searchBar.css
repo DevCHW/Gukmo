@@ -33,11 +33,13 @@
 /* Hashtag 영역 */
 div.btn_hashtag {
 	max-width: 90%;
+	color: grey;
 }
 
 div.btn_hashtag:not(:last-child) {
 	margin-right: 10px;	
 }
+
 .btn_hashtag:hover {
 	background-color: #208EC9;
 	color: white;
