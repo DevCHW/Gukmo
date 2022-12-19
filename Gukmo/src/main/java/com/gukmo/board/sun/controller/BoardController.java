@@ -717,7 +717,6 @@ public class BoardController {
 	      Map<String,String> alarmMap = new HashMap<>();
 	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
 	      //System.out.println("url_num:" + paraMap.get("fk_num"));
-	      
     	  alarmMap.put("cmd", "penalty");
     	  alarmMap.put("url", "/detail.do?boardNum=");
     	  alarmMap.put("content", paraMap.get("subject"));
