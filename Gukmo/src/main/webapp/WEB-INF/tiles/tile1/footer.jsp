@@ -96,17 +96,17 @@
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="#!" class="text-reset">버그제보</a>
+            <a href="<%=ctxPath %>/bug/new.do" class="text-reset">버그제보</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="#!" class="text-reset">광고문의</a>
+            <a href="<%=ctxPath %>/advertisement/inquiry.do" class="text-reset">광고문의</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">
           <p>
-            <a href="<%=ctxPath %>/resources/TOS/guide.html" class="text-reset">개인정보 처리방침</a>
+            <a href="<%=ctxPath %>/policy/privacy.do" class="text-reset">개인정보 처리방침</a>
           </p>
         </div>
         <div class="col-lg col-xl mx-auto pt-3">

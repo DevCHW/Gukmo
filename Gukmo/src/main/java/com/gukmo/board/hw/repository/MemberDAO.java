@@ -367,6 +367,15 @@ public class MemberDAO implements InterMemberDAO{
 	}
 
 
+	/**
+	 * 총 회원 수 세기
+	 */
+	@Override
+	public int cntMember() {
+		return gukmo_sql.selectOne("chw.cntMember");
+	}
+
+
 
 	
 

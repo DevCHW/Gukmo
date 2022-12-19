@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -351,7 +352,7 @@ public class BoardController {
 	 * 학원글수정 페이지 매핑(교육기관회원 로그인 필수)
 	 */
 	@RequestMapping(value="/academy/edit.do", method= {RequestMethod.GET})
-	public String required_academyEdit(HttpServletRequest request,@RequestParam String boardNum) {
+	public String required_academyEdit(HttpServletRequest request,HttpServletResponse response,@RequestParam String boardNum) {
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("board_num",boardNum);
 		paraMap.put("detail_category","교육과정");
@@ -466,6 +467,47 @@ public class BoardController {
 		mrequest.setAttribute("loc", loc);
 		return "msg";
 	}
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+	/**
+	 * 버그문의 페이지 매핑
+	 */
+	@RequestMapping(value="/bug/new.do", method= {RequestMethod.GET})
+	public String requiredLogin_bugNew(HttpServletRequest request,HttpServletResponse response) {
+		return "bug.tiles1";
+	}
+	
+	
+	
+	/**
+	 * 버그문의 완료
+	 */
+	@RequestMapping(value="/bug/newEnd.do", method= {RequestMethod.POST})
+	public String bugNewEnd(HttpServletRequest request,@RequestParam Map<String,String> paraMap) {
+		boolean result = dao.insertBug(paraMap);
+		String message = "";
+		String loc = request.getContextPath()+"/index.do";
+		if(result) {
+			message = "버그 제보가 성공적으로 완료되었습니다!";
+		} else {
+			message = "버그 제보에 실패하였습니다. 관리자에게 직접 문의해주세요 \n"
+					+ "문의처: 02-1234-5678";
+		}
+		request.setAttribute("message", message);
+		request.setAttribute("loc", loc);
+		return "msg";
+	}
+	
+	
+	
 	
 	
 	
@@ -603,6 +645,7 @@ public class BoardController {
 		paraMap.put("endRno", String.valueOf(endRno));
 		return paraMap;
 	}
+   
    
    
    

@@ -83,7 +83,7 @@
        </div>
 
        <%-- 글제목 --%>
-       <a href="<%=ctxPath %>/detail.do?boardNum=${notice.board_num}" class="subject align-items-center my-2">
+       <a href="<%=ctxPath %>/detail.do?boardNum=${notice.board_num}" class="subject align-items-center my-2" style="font-size:17px; font-weight:bold;">
          ${notice.subject}
        </a>
 

@@ -13,6 +13,9 @@ div#category div{
 div#category div:hover{
   color:#208EC9;
 }
+div#category div.active:hover{
+  color:white;
+}
 
 @media screen and (max-width: 768px){
   div#category{
