@@ -61,7 +61,7 @@
 	 <c:forEach var="notice" items="${requestScope.mustReadNotice}">
      <%-- 이 div가 반복문 시작 --%>
       <div class="border-top px-2 py-2" style="background-color:#F0F6FA;">
-        <div class="d-flex align-items-center my-2">
+        <div class="d-flex align-items-center my-2" style="font-size:15px;">
          <%-- 작성자 프로필사진 --%>
         <a href="<%=ctxPath %>/member/activityOther.do?nickname=${notice.nickname}" class="writer_image_box border">
           <img src="<%=ctxPath %>/resources/images/${notice.profile_image}"/>
@@ -82,7 +82,7 @@
        </div>
 
        <%-- 글제목 --%>
-       <a href="<%=ctxPath %>/detail.do?boardNum=${notice.board_num}" class="subject align-items-center my-2">
+       <a href="<%=ctxPath %>/detail.do?boardNum=${notice.board_num}" class="subject align-items-center my-2" style="font-size:17px;">
          ${notice.subject}
        </a>
 

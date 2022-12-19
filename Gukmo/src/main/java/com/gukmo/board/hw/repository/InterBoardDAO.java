@@ -152,6 +152,11 @@ public interface InterBoardDAO {
 	 */
 	int updateBoard(Map<String, Object> paraMap);
 
+	/**
+	 * 버그문의 완료
+	 */
+	boolean insertBug(Map<String, String> paraMap);
+
 
 	
 

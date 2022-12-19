@@ -191,6 +191,11 @@ public interface InterMemberDAO {
 	 */
 	int changeBoardByProfileImg(Map<String, String> paraMap);
 
+	/**
+	 * 총 회원 수 세기
+	 */
+	int cntMember();
+
 
 	
 

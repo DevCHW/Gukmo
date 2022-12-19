@@ -252,7 +252,11 @@
 		where (kakao = 1 or naver = 1 or facebook = 1 or google = 1) and email = #{email}
 	</select>
 	
-	
+	<!-- 총 회원 수 세기-->
+	<select id="cntMember" resultType="Integer">
+		select count(*) 
+		from tbl_member 
+	</select>
 	
 	
 	
@@ -986,6 +990,17 @@
 		insert into tbl_activity(activity_num,fk_userid,fk_board_num,activity_date,subject,detail_category,division,nickname)
 		values(seq_activity.nextval,#{userid},#{board_num},sysdate,#{subject},'국비학원','게시글작성',#{nickname})
 	</insert>
+	
+	
+	
+	<!-- 버그문의 -->
+	<insert id="insertBug" parameterType="HashMap">
+		insert into tbl_bug(bug_num,fk_userid,content,url)
+		values(seq_bug.nextval,#{userid},#{content},#{url})
+	</insert>
+	
+	
+	
 	
 	
 	
@@ -2129,6 +2144,25 @@
 		where fk_userid = #{userid}
 	</delete>
 	
+	
+	<select id="getBugList" resultType="HashMap">
+		select bug_num,fk_userid,content,url
+		from tbl_bug
+		order by bug_num desc
+	</select>
+	
+	<!-- 버그 하나 얻기 -->
+	<select id="getBug" parameterType="String" resultType="HashMap">
+		select bug_num,fk_userid,content,url
+		from tbl_bug
+		where bug_num = #{bugNum}
+	</select>
+	
+	<!-- 버그제보 삭제하기 -->
+	<delete id="deleteBug" parameterType="String">
+		delete from tbl_bug
+		where bug_num = #{bugNum}
+	</delete>
 	
 	
 	
