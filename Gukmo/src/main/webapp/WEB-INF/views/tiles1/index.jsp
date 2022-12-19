@@ -71,7 +71,7 @@
 	<%-- 학원 정보 영역 --%>
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
-		<div class="academy_titel w-100 px-2 mt-5 mb-1 d-flex justify-content-between">
+		<div class="academy_title w-100 px-2 mt-4 mb-1 d-flex justify-content-between">
 			<span>현재 모집 중인 과정</span>
 			<a href="<%=ctxPath %>/academy/curricula.do"> 더 보기 </a>
 		</div>
@@ -79,7 +79,7 @@
 		<%-- 배너 영역 --%>
 		<div id="div_academy_content" class="carousel slide w-100" data-ride="carousel" >
 		   		     
-			<div class="carousel-inner px-2">
+			<div class="carousel-inner academy-carousel px-2">
 			
 				<c:if test="${empty requestScope.curriList1}">
 				${html}

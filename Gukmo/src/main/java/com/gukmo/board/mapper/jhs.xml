@@ -357,23 +357,44 @@
 
 	<select id = "getSearchList" parameterType="HashMap" resultMap="searchList">
 		<if test='hashtag != ""'>
-		select board_num, category, detail_category, subject, content, hashtag, write_date -- 게시판 글
-	    from 
-	    (
-	    	select dense_rank()OVER (order by board_num desc) rno,
-		           board_num, subject, content, category, detail_category,
-		           NH.hashtag as hashtag, HB.write_date as write_date
-		    from
-		    (
-		        select board_num, subject, content, category, detail_category, B.write_date as write_date
-		        from tbl_board B left join tbl_hashtag_board_map HM
-		        on board_num = fk_board_num left join tbl_hashtag H
-		        on HM.hashtag_num = H.hashtag_num
-		        where hashtag like '%'||lower(#{searchWord})||'%'
-		    ) HB join tbl_hashtag_board_map NHM
-		    on board_num = fk_board_num join tbl_hashtag NH
-		    on NHM.hashtag_num = NH.hashtag_num
-		    order by board_num desc
+		select board_num, category, detail_category, subject, content, hashtag, write_date, -- 게시판 글
+            	representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
+            	core_technology, academy_name, to_char(curriculum_start_date,'yyyy-mm-dd') as curriculum_start_date,
+            	to_char(curriculum_end_date,'yyyy-mm-dd') as curriculum_end_date,
+            	to_char(recruitment_end_date,'yyyy-mm-dd') as recruitment_end_date, join_url -- 과정 글
+		from(
+    		select dense_rank()OVER (order by board_num desc) rno,
+			       board_num, subject, content, category, detail_category, hashtag, write_date, -- 게시판 글
+			       representative_name, address, phone, jurisdiction, homepage, academy_image, -- 학원 글
+			       core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url -- 과정 글
+			from
+			(
+                select B.board_num as board_num, subject, content, category, detail_category, hashtag, B.write_date as write_date
+                from tbl_board B join
+                (
+                    select board_num
+                    from tbl_board B left join tbl_hashtag_board_map HM
+                    on board_num = fk_board_num left join tbl_hashtag H
+                    on HM.hashtag_num = H.hashtag_num
+                    where 1=1 and hashtag like '%'||lower(#{searchWord})||'%'
+                   group by board_num
+                ) only_BN 
+                on B.board_num = only_BN.board_num left join tbl_hashtag_board_map NHM
+                on B.board_num = NHM.fk_board_num left join tbl_hashtag NH
+                on NHM.hashtag_num = NH.hashtag_num
+            ) join_BH
+            left join
+            (
+                select fk_board_num, representative_name, address, phone, jurisdiction, homepage, academy_image
+                from tbl_academy
+            ) A
+            on join_BH.board_num = A.fk_board_num
+            left join
+            ( 
+                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url                    from tbl_curriculum
+            ) C
+            on join_BH.board_num = C.fk_board_num
+            order by board_num desc
 		)V
 		where rno between #{startRno} and #{endRno}
 		</if>

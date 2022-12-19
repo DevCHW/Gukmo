@@ -52,7 +52,7 @@
 		          
 		        <%-- 글제목 --%>
 		        <div class="subject my-2">
-			        <a href="<%=ctxPath %>/academy/academy.do?boardNum=${boardvo.board_num}">
+			        <a href="<%=ctxPath %>/detail.do?boardNum=${boardvo.board_num}">
 			          ${boardvo.subject}
 			        </a>
 			    </div>
@@ -70,7 +70,7 @@
 			<c:if test="${boardvo.detail_category eq '국비학원'}">
 			<div class="div_searchResult d-flex w-100 px-2 py-3 border-top">			
 			    <%-- 학원 사진 --%>
-				<div class="academy_img_box mr-2" onclick="location.href='<%=ctxPath %>/academy/academy.do?boardNum=${boardvo.board_num}'">
+				<div class="academy_img_box mr-2" onclick="location.href='<%=ctxPath %>/detail.do?boardNum=${boardvo.board_num}'">
 					<img src="<%=ctxPath %>/resources/images/${boardvo.academy.academy_image}">
 				</div>
 				
@@ -78,14 +78,14 @@
 					<%-- 카테고리 정보 --%>
 					<div class="d-flex align-items-center">
 			            <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 변수 말고 아예 값 박아도 됨--%>
-			            <a class="detail_category border rounded px-2" href="<%=ctxPath %>academy/academies.do">
+			            <a class="detail_category border rounded px-2" href="<%=ctxPath %>/academy/academies.do">
 			            	  ${boardvo.detail_category}
 			            </a>
 			        </div>  
 			        
 			        <%-- 글제목 --%>
 			        <div class="subject my-2">
-				        <a href="<%=ctxPath %>/academy/academy.do?boardNum=${boardvo.board_num}">
+				        <a href="<%=ctxPath %>/detail.do?boardNum=${boardvo.board_num}">
 				          ${boardvo.subject}
 				        </a>
 			        </div>

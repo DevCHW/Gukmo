@@ -18,7 +18,7 @@ a {
 
 
 /* ----- 학원 정보 영역 CSS 시작 ----- */
-.carousel-inner {
+.academy-carousel {
 	min-height: 320px;
 }
 
@@ -26,12 +26,12 @@ a {
 	width: 100%;
 }
 
-.academy_titel > span {
+.academy_title > span {
 	font-size:25px;
 	font-weight: 700;
 }
 
-.academy_titel > a {
+.academy_title > a {
 	font-size:15px;
 	font-weight: 400;
 	color: gray;
