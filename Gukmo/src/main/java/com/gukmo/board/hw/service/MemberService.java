@@ -338,7 +338,8 @@ public class MemberService implements InterMemberService{
 		}
 		int result1 = dao.editMyInfo(paraMap);				//멤버테이블에서 파일이름 업데이트 해주기
 		int result2 = dao.changeBoardByProfileImg(paraMap);	//게시판에서도 프사 변경해주기
-		return result1*result2;
+		
+		return result1*result2>0?0:1;
 	}
 
 	

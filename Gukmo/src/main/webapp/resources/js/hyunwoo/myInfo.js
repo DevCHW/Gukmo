@@ -8,6 +8,7 @@ function getContextPath(){
 
 let nickname_ok = false;
 let username_ok = false;
+let image_ok = false;
 
 $(document).ready(function(){
 	$("button#btn_save").attr("disabled",true);
@@ -49,23 +50,23 @@ $(document).ready(function(){
   $("input#profile_select").change(function(e){
 	  let files = e.target.files;
       let filesArr = Array.prototype.slice.call(files);
-
       let regExp = /(.*?)\/(jpg|jpeg|png|bmp)$/;
 
       filesArr.forEach(function(f) {
           if (!f.type.match(regExp)) {
               alert("확장자는 이미지 확장자만 가능합니다.");
+              image_ok = false;
               return;
           }
-
           sel_file = f;
-
+          image_ok = true;
           let reader = new FileReader();
           reader.onload = function(e) {
               $("img#profile_img").attr("src", e.target.result);
               $("img.dropbtn").attr("src", e.target.result);
           }
           reader.readAsDataURL(f);
+          test_all();
      });
      
   });//end of Event --
@@ -157,6 +158,7 @@ function saveMember(){
  		 type:"POST",
  		 dataType:"JSON",
          success:function(json) {
+           console.log(json);
     	   if(json.result == 1){
     	     alert("회원정보 수정 성공!");
     	     location.reload();
@@ -264,7 +266,7 @@ function test_username(username){
  */
 
 function test_all(){
-  if(!nickname_ok && !username_ok) { // 유효성검사를 통과하지 못했다면
+  if(!nickname_ok && !username_ok && !image_ok) { // 유효성검사를 통과하지 못했다면
     $("button#btn_save").attr("disabled",true);
     $("button#btn_save").css("background","#EBEBEB");
     $("button#btn_save").css("color","white");
