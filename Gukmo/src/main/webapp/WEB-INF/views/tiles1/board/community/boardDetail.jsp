@@ -101,7 +101,7 @@
         <div id="mask"></div>
         
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority != '관리자'}">
-          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
+          <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">             
              <c:if test="${board.category == '커뮤니티'}">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
@@ -125,7 +125,7 @@
         </c:if>
         
         <c:if test="${sessionScope.user.nickname == requestScope.board.nickname && sessionScope.user.authority == '관리자'}">
-          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
+          <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">
               <c:if test="${board.category == '커뮤니티'}">
               <span onclick="location.href='<%=ctxPath %>/community/modify.do?boardNum=${board.board_num}'">수정하기</span>
@@ -149,7 +149,7 @@
         </c:if>                
         
         <c:if test="${sessionScope.user.nickname != requestScope.board.nickname && sessionScope.user.authority eq '관리자'}">
-          <span id="btn_more" class="border rounded px-2 py-1" style="margin-left: 30px;">&#8230;
+          <span id="btn_more" class="rounded px-2 py-1" style="margin-left: 30px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
             <div id="update_or_delete" class="border rounded px-3 py-2">   
             <c:if test="${requestScope.board.category == '공지사항'}">
               <span onclick="location.href='<%=ctxPath %>/admin/notice/edit.do?boardNum=${board.board_num}'">수정하기</span>
@@ -202,7 +202,7 @@
          <div>
              <%-- 해시태그리스트 반복문시작 --%>
               <c:forEach var="hashtag" items="${board.hashtags}">
-                <a href="#" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
+                <a id="hashtag" onclick="location.href='<%=ctxPath %>/main_search.do?searchWord=${hashtag.hashtag}&hashtag=${hashtag.hashtag}'" class="hashtag mx-1">#<span>${hashtag.hashtag}</span></a>
               </c:forEach>
               <%-- 해시태그리스트 반복문 끝--%>
          </div>
@@ -327,9 +327,10 @@
      <div class="carousel-item active">
      	<c:forEach var="advertisement_List" items="${requestScope.advertisement_List}" varStatus="status">
      	<a href="${advertisement_List.url}">
-       	<!-- 	<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+       	<!-- 	<img src="/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+       	
        		<c:if test="${advertisement_List.filename.substring(0,4) != 'http'}">
-              <img src="${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:140px;">
+              <img src="<%=ctxPath %>/resources/images/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:140px;">
             </c:if>
             <c:if test="${advertisement_List.filename.substring(0,4) == 'http'}">
                <img src="${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:140px;">
@@ -511,7 +512,7 @@
            
           <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname == bcommentList.nickname}">
           <div  style="display: flex;">
-          	<div class="comment_like" style="width: 45px; margin-top: 4px;">
+          	<div class="comment_like" style="width: 35px; margin-top: 9px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 	            <c:if test="${bcommentList.likeExist == '1'}">
 	            	<span id="comment_like_icon">&#x1F497;</span>
@@ -523,7 +524,7 @@
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
 	          </div>
-	          <span class="border rounded px-2 py-1 comment_btn_more">&#8230;
+	          <span class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
           		<div id="comment_menu_box" class="border rounded px-3 py-2 comment_update_or_delete">
 	            	<span class="comment_edit">수정하기</span>
 	            	<span class="comment_delete">삭제하기</span>
@@ -534,7 +535,7 @@
           
           <c:if test="${not empty sessionScope.user && sessionScope.user.authority == '관리자'}">
           <div style="display: flex;">
-          	<div class="comment_like" style="width: 45px; margin-top: 4px;">
+          	<div class="comment_like" style="width: 35px; margin-top: 9px;">
 	            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 	            <c:if test="${bcommentList.likeExist == '1'}">
 	            	<span id="comment_like_icon">&#x1F497;</span>
@@ -546,7 +547,7 @@
 	            <%-- 댓글 좋아요 갯수 --%>
 	            <span id="${bcommentList.comment_like_cnt}" class="comment_like_cnt">${bcommentList.comment_like_cnt}</span>
           	</div>
-          	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+          	<span id="" class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
           	    <c:if test ="${sessionScope.user.nickname != bcommentList.nickname}">
           	    <input type="hidden" id="comment_num" class="" name="" value="${bcommentList.comment_num}" />
           		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
@@ -759,7 +760,7 @@
           
           	  <c:if test="${not empty sessionScope.user && sessionScope.user.authority != '관리자' && sessionScope.user.nickname == spcial_commentList.nickname}">
           	  <div style="display: flex;">
-	          	  <div class="big_comment_like" style="width: 45px; margin-top: 4px;">
+	          	  <div class="big_comment_like" style="width: 35px; margin-top: 9px;">
 		            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 		            <c:if test="${spcial_commentList.likeExist == '1'}">
 		            	<span id="big_comment_like_icon">&#x1F497;</span>
@@ -771,7 +772,7 @@
 		            <%-- 댓글 좋아요 갯수 --%>
 		            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          </div>
-		          <span id="" class="border rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;">&#8230;
+		          <span id="" class="rounded px-2 py-1 comment_btn_more" style="margin-right: 15px;"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
 		          <input type="hidden" id="" value="${spcial_commentList.comment_num}" />
 	          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">
 		            	<span class="comment_edit2">수정하기</span>
@@ -783,7 +784,7 @@
           
 	          <c:if test="${not empty sessionScope.user && sessionScope.user.authority == '관리자'}">
 	            <div style="padding-right: 16px; display: flex;">
-		          	<div class="big_comment_like" style="width: 45px; margin-top: 4px;">
+		          	<div class="big_comment_like" style="width: 35px; margin-top: 9px;">
 			            <%-- 댓글 좋아요 아이콘, 눌렀을경우 &#x1F497; 안눌렀을경우 &#9825;--%>
 			            <c:if test="${spcial_commentList.likeExist == '1'}">
 			            	<span id="big_comment_like_icon">&#x1F497;</span>
@@ -795,7 +796,7 @@
 			            <%-- 댓글 좋아요 갯수 --%>
 			            <span id="${spcial_commentList.comment_like_cnt}" class="big_comment_like_cnt">${spcial_commentList.comment_like_cnt}</span>
 		          	</div>
-		          	<span id="" class="border rounded px-2 py-1 comment_btn_more">&#8230;
+		          	<span id="" class="rounded px-2 py-1 comment_btn_more"><span id="menu_icon" style="font-size: 20px;">&#8230;</span>
 		          		<c:if test ="${sessionScope.user.nickname != spcial_commentList.nickname}">
 		          			<input type="hidden" id="c_of_c_num" class="" name="" value="${spcial_commentList.comment_num}" />
 		          			<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	

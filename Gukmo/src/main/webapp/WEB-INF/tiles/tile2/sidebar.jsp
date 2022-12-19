@@ -120,6 +120,10 @@ $(document).ready(function(){
 	  case "/admin/notice/new.do" :							    //공지사항 작성 URL일 경우
 		    $("li.noticeMenu").addClass("active");				//공지사항 작성메뉴 활성화
 		    break;
+		    
+	  case "/admin/statistics.do" :							    //통계메뉴 URL일 경우
+		    $("li.statisticsMenu").addClass("active");				//통계메뉴 활성화
+		    break;
 		 
 		    
 		 
@@ -182,18 +186,6 @@ $(document).ready(function(){
     <%-------------------------------- 회원관리 영역 끝--------------------------------------%>
 
 
-	<%--------------------------------신고 영역 시작--------------------------------------%>
-	<%-- Nav Item - Member Collapse Menu --%>
-    <li class="nav-item reportMenu">
-    	<a class="nav-link" href="<%=ctxPath %>/admin/report/list.do">
-            <i class="fa-solid fa-land-mine-on"></i>
-            <span>신고</span>
-         </a>
-    </li>
-	
-	<%--------------------------------신고 영역 끝--------------------------------------%>
-	
-
 
 
 	<%-------------------------------- 광고관리 영역 시작--------------------------------------%>
@@ -216,6 +208,18 @@ $(document).ready(function(){
     </li>
 	<%-------------------------------- 광고관리 영역 끝--------------------------------------%>
 	
+	
+	
+	<%--------------------------------신고 영역 시작--------------------------------------%>
+	<%-- Nav Item - Member Collapse Menu --%>
+    <li class="nav-item reportMenu">
+    	<a class="nav-link" href="<%=ctxPath %>/admin/report/list.do">
+            <i class="fa-solid fa-land-mine-on"></i>
+            <span>신고</span>
+         </a>
+    </li>
+	
+	<%--------------------------------신고 영역 끝--------------------------------------%>
 	
 	
 	<%-------------------------------- 통계메뉴 영역 시작--------------------------------------%>
@@ -246,7 +250,13 @@ $(document).ready(function(){
     
     
     <%-------------------------------- 공지사항 작성메뉴 영역 시작--------------------------------------%>
+	<%-- Divider --%>
+    <hr class="sidebar-divider">
 
+    <%-- Heading --%>
+    <div class="sidebar-heading">Notice</div>
+    
+    
     <%-- Nav Item - Member Collapse Menu --%>
     <li class="nav-item noticeMenu">
     	<a class="nav-link" href="<%=ctxPath %>/admin/notice/new.do">

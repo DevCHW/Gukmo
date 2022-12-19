@@ -703,19 +703,17 @@ public class MemberController {
 	 * 내정보 변경 해주기
 	 */
 	@ResponseBody
-	@RequestMapping(value="member/infoChange.do", method= {RequestMethod.POST})
+	@RequestMapping(value="/member/infoChange.do", method= {RequestMethod.POST})
 	public String editMyInfo(MemberVO member,MultipartFile profile_image, MultipartHttpServletRequest mrequest) {
 		int result = 0;
-		
 		HttpSession session = mrequest.getSession();
 		Map<String,String> paraMap = new HashMap<>();
 		if( profile_image!=null && !profile_image.isEmpty() ) { //프로필이미지를 첨부하였을 경우
+//			String root = session.getServletContext().getRealPath("/");
+//			String path = root+"resources"+ File.separator +"images";
 			
-			
-			String root = session.getServletContext().getRealPath("/");
-			
-			String path = root+"resources"+ File.separator +"images";
-			
+			String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images";
+			System.out.println("저장되는 실제 경로 : " + path);
 			String newFileName = "";
 			// WAS(톰캣)의 디스크에 저장될 파일명 
 			byte[] bytes = null;
@@ -723,18 +721,16 @@ public class MemberController {
 			try {
 				// 첨부파일의 내용물을 읽어오기
 				bytes = profile_image.getBytes();
-				
 				//유저가 업로드한 프로필이미지명
 				String realFileName = profile_image.getOriginalFilename();
 				// 첨부되어진 파일을 업로드 하도록 하는 것이다. 
 				newFileName = fileManager.doFileUpload(bytes, realFileName, path);
 				
-				
 				MemberVO loginUser = (MemberVO)session.getAttribute("user");
 				paraMap.put("path",path);
 				paraMap.put("newFileName",newFileName);
 				paraMap.put("profile_image",loginUser.getProfile_image());
-				paraMap.put("before_nickname",mrequest.getParameter("before_nickname"));
+				paraMap.put("before_nickname",loginUser.getNickname());
 				
 				
 				//프로필이미지 첨부가 있는경우 회원정보 수정
@@ -749,7 +745,7 @@ public class MemberController {
 		session.removeAttribute("user");
 		MemberVO user = service.getUser(member.getUserid());
 		session.setAttribute("user", user);
-		
+		System.out.println(result);
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("result", result);
 		return jsonObj.toString();
@@ -761,7 +757,7 @@ public class MemberController {
 	 * 내가쓴 게시물 목록 가져오기
 	 */
 	@ResponseBody
-	@RequestMapping(value="member/myBoard.do", method= {RequestMethod.GET})
+	@RequestMapping(value="/member/myBoard.do", method= {RequestMethod.GET})
 	public String editMyInfo(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberVO loginUser = (MemberVO)session.getAttribute("user");

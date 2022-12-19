@@ -18,22 +18,21 @@
 <!-- 배너 영역 -->
 
 <!-- Indicators -->
- <c:if test="${not empty advertisementList}">
+ <c:if test="${requestScope.advertisementList != ''}">
 	
 	<div id="demo" class="carousel slide" data-ride="carousel" >
      
      <!-- The slideshow -->
-     <div class="carousel-inner" style="height:160px;">              
+     <div class="carousel-inner" style="height:230px;">              
        
      <div class="carousel-item active">
      	<c:forEach var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-     	<a href="${advertisementList.url}">
-       	<!-- 	<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+     	<a href="${advertisementList.url}">     
        		<c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
-              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
             </c:if>
             <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
-               <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+               <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
             </c:if>
          </a>
          </c:forEach>
@@ -44,12 +43,12 @@
   	 <div class="carousel-item">              
         <c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
           <a href="${advertisementList.url}">
-           <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+           <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
           </a>
         </c:if>
         <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
           <a href="${advertisementList.url}">
-            <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
           </a>
         </c:if>    
      </div>       
@@ -70,8 +69,8 @@
 </c:if>
 
 <c:if test="${empty requestScope.advertisementList}">
-	<div id="advertisement_box" style="width: 100%; height:160px;">
-      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/" style="width: 100%; height:160px;">
+	<div id="advertisement_box" style="width: 100%; height:230px; cursor: pointer;" onclick="location.href='https://kfq.or.kr/_KR/Default.aspx'">
+      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG" style="width: 100%; height:230px;">
     </div>
 </c:if>
 
@@ -197,13 +196,15 @@
 					</div>
 					<!-- 테이블 리스트 -->
 					<div class="list_board d-flex flex-column">
-						
+						<c:if test="${empty requestScope.qnaBoardList}">
+						 <span id="no_write_list">등록된 글이 없습니다.</span>
+						</c:if>
 						<!-- 게시글 1개 영역 -->
 						<c:forEach var="boardvo" items="${requestScope.qnaBoardList}">
 					    <div class="div_boardList py-2 px-2">
 					    	<!-- 작성 정보 -->
 					      	<div class="div_writerInfo d-flex justify-content-between align-items-center mb-1">
-						        <div class="d-flex" style="width:190px;">
+						        <div class="d-flex" style="width:250px;">
 							        <!-- 작성자 프로필사진 -->
 							        <div class="writer_image_box">
 							          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
@@ -264,7 +265,9 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
-					
+					<c:if test="${empty requestScope.studyBoardList}">
+						 <span id="no_write_list">등록된 글이 없습니다.</span>
+					</c:if>
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.studyBoardList}">
 				    <div class="div_boardList py-2 px-2">
@@ -332,6 +335,9 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
+				    <c:if test="${empty requestScope.freeBoardList}">
+					  <span id="no_write_list">등록된 글이 없습니다.</span>
+					</c:if>
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.freeBoardList}">
 				    <div class="div_boardList py-2 px-2">
@@ -399,6 +405,9 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
+				    <c:if test="${empty requestScope.reviewBoardList}">
+					  <span id="no_write_list">등록된 글이 없습니다.</span>
+					</c:if>
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.reviewBoardList}">
 				    <div class="div_boardList py-2 px-2">

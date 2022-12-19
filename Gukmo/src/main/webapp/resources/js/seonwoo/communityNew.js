@@ -41,26 +41,23 @@ $(document).ready(function(){
     });
     // ==== 스마트 에디터 구현 끝 ==== //
 	
-    
-    	
+    if(!detail_category == null) { // 수정일때
     	setTimeout(function() {
     		let detail_category = $("#detail_category").val();
-	    //	obj.getById["content"].exec("SET_IR", [""]); 
 	    	
-	    	console.log(detail_category);
 	    	var sHTML;
 	    	
 	    	switch (detail_category) {
 	    	case "자유게시판":
 				sHTML =`자유게시판 유의사항<br>
 						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
-				sHTML =`QnA 유의사항
+				sHTML =`QnA 유의사항<br>
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "수강/취업후기":
@@ -89,7 +86,7 @@ $(document).ready(function(){
 						    <br><br><br>
 						수강/취업 후기 게시판 유의사항<br>
 							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "스터디":
@@ -127,20 +124,19 @@ $(document).ready(function(){
 				⁃	부적절한 모임 발견 시 신고해주세요.<br>
 				⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
+			default:
+				sHTML= "";
+				break;
 				
 			}
 	    	
 	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
 
-    	}, 1000)
-    
-    
+    	}, 1000);
+
+    }
 
     
-    
-    
-    
-
     
     // ==== 해시태그 구현 시작 ==== //
       var hashtag = {};
@@ -162,19 +158,21 @@ $(document).ready(function(){
       function strTag() {
         return Object.values(hashtag).join(',');
       }
+      
+      $("#hashtag").on("keydown", function (e) {
+    	  if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
+            	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
+            		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
+                  hashtag[index] = "";
+            		$("input#hashtag").prev().remove();
+            		return;
+            	} 
+            }
+      });
 
       
       $("#hashtag").on("keyup", function (e) {
           var self = $(this);
-          
-          if(e.keyCode == 8 && $("input#hashtag").val() == ""){	//백스페이스를 눌렀을 때,인풋태그 값이 채워져있지 않다면 해시태그 지워주기
-          	if($("li.tag-item").text() != ""){	//써놓은 해시태그가 있다면
-          		let index = $("input#hashtag").prev().children("span.btn_hashtag_delete").attr("idx");
-                hashtag[index] = "";
-          		$("input#hashtag").prev().remove();
-          		return;
-          	} 
-          }
           
           // input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
           if (e.key === "Enter" || e.keyCode == 32) {
@@ -241,13 +239,13 @@ $(document).ready(function(){
 	    	case "자유게시판":
 				sHTML =`자유게시판 유의사항<br>
 						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
-				sHTML =`QnA 유의사항
+				sHTML =`QnA 유의사항<br>
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "수강/취업후기":
@@ -276,7 +274,7 @@ $(document).ready(function(){
 						    <br><br><br>
 						수강/취업 후기 게시판 유의사항<br>
 							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "스터디":

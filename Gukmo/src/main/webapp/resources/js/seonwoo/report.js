@@ -6,10 +6,6 @@ function getContextPath(){
 }
 
 $(document).ready(function(){
-	// X 버튼 눌러서 창 닫기
-	$("button#btn_close").click(function() {
-		window.close();
-	})
 	
 	$("button#reportWrite").click(function() {
 		const simple_report_reason = $("select#simple_report_reason").val();

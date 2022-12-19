@@ -33,10 +33,8 @@
    <!-- 신고 폼 시작 -->
    <form name="reportFrm">
   
-	  <div class="d-flex justify-content-between">
-	  	<div></div>
+	  <div class="d-flex justify-content-center">
 	  	<h2>신고하기</h2>
-	  	<button id="btn_close" class="btn rounded">X</button>
 	  </div>
 	
       <hr style="background-color: black; height: 1.2px;">
@@ -45,7 +43,7 @@
 		<table>
 			<tbody>
 				<tr>
-				 <td>작성자</td>
+				 <td style="width:13%">작성자</td>
 				 <td><span id="nickname" class="input_signup rounded pl-2" >${requestScope.boardvo.nickname}</span></td>
 				</tr>
 				
@@ -57,9 +55,9 @@
 		</table>
 	   </div>     
 	     <!-- 등록용 닉네임 -->
-		 <input type="hidden" name="fk_num" value="${requestScope.boardvo.board_num}" />
-		 <input type="hidden" name="report_nickname" value="${sessionScope.user.nickname}" />
-		 <input type="hidden" name="reported_nickname" value="${requestScope.boardvo.nickname}" />
+		 <input type="hidden" name="fk_num" value="${requestScope.boardvo.board_num}">
+		 <input type="hidden" name="report_nickname" value="${sessionScope.user.nickname}"/>
+		 <input type="hidden" name="reported_nickname" value="${requestScope.boardvo.nickname}"/>
 		 <!-- AOP 등록용 -->
 		 <input type="hidden" name="subject" value="${requestScope.boardvo.subject}" />
   

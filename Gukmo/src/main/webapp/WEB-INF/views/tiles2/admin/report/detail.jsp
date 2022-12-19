@@ -36,7 +36,7 @@
         <%-- 신고분류 --%>
         <div id="report_type">
           <span class="report_info_title py-3">신고분류</span>
-          <span class="py-3">${requestScope.reportDetail.report_type}</span>
+          <span id="span_report_type" class="py-3">${requestScope.reportDetail.report_type}</span>
         </div>
 
         <%-- 신고 글번호 --%>
@@ -77,7 +77,7 @@
         </div>
 
         <div id="receipt">
-          <span class="report_info_title py-3">신고날짜</span>
+          <span class="report_info_title py-3">접수여부</span>
           <span class="py-3">
           	<c:if test='${requestScope.reportDetail.receipt == 0}' >
           	  접수 전
@@ -112,7 +112,7 @@
       <div id="div_btn_area" class="d-flex justify-content-end mt-3">
       <button type="button" class="btn btn-light border rounded mr-3" onclick="javascript:history.back()">뒤로가기</button>
         <button type="button" class="btn btn-light border rounded mr-3" onclick="location.href='<%= ctxPath%>/detail.do?boardNum=${requestScope.reportDetail.fk_num}'">해당게시물로 이동</button>
-        <button type="button" id="btn_receipt" class="btn btn-light border rounded mr-3" onclick="receipt('${requestScope.reportDtail.report_num}')">접수처리</button>
+        <button type="button" id="btn_receipt" class="btn btn-light border rounded mr-3" onclick="receipt('${requestScope.reportDetail.report_num}')">접수처리</button>
         <button type="button" id="insert_penalty_modal_open" class="btn btn-light border rounded" data-toggle="modal" data-target="#insert_penalty_modal" data-dismiss="modal">피신고자 정지</button>
       </div>
 

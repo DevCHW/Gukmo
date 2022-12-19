@@ -18,6 +18,9 @@ a#no_previous {
 	cursor: default;
 }
 
+span#menu_icon:hover {
+	color:#007bff;
+}
 
 div.container a:link {
   color : black;
@@ -109,6 +112,14 @@ span.hashtag{
 }
 span.hashtag > span:hover{
   border-bottom:solid 1px #0090F9;
+}
+
+a#hashtag {
+	color:#212529;
+}
+
+a#hashtag:hover {
+	color:#007bff;
 }
 
 div#board_like{
