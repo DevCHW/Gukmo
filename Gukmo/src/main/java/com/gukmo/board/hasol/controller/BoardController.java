@@ -217,17 +217,17 @@ public class BoardController {
 			}
 
 			pageBar +="</ul>";
-			
-
+	
 			mav.addObject("pageBar", pageBar);
 			mav.addObject("searchList", searchList);
+			
+			System.out.println(searchList.toString());
 			
 		} catch (NullPointerException e) {
 			String message = "조회된 검색 결과가 없습니다.";
 			mav.addObject("message", message);
 		}		
-		
-		
+			
 		// 검색어 유지용
 		if(!"".equals(hashtag)) {
 			searchWord = hashtag;

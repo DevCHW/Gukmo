@@ -82,12 +82,8 @@ public class IndexService implements InterIndexService {
 	public List<HashtagVO> getTopHashList() {
 		List<HashtagVO> topHashList = dao.getTopHashList();
 		
-		if(topHashList == null) {
-			Map<String,String> paraMap = new HashMap<>();
-			paraMap.put("start_date", "TO_CHAR(TRUNC(sysdate,'iw'), 'yyyymmdd')");
-			paraMap.put("end_date", "TO_CHAR(TRUNC(sysdate,'iw')+7, 'yyyymmdd')");
-			
-			topHashList = dao.getTopHashList_nodata(paraMap);
+		if(topHashList.size() < 1) {
+			topHashList = dao.getTopHashList_nodata();
 		}
 		
 		return topHashList;
@@ -98,12 +94,8 @@ public class IndexService implements InterIndexService {
 	public List<SearchVO> getTopSearchList() {
 		List<SearchVO> topSearhList = dao.getTopSearchList();
 		
-		if(topSearhList == null) {
-			Map<String,String> paraMap = new HashMap<>();
-			paraMap.put("start_date", "TO_CHAR(TRUNC(sysdate,'iw'), 'yyyymmdd')");
-			paraMap.put("end_date", "TO_CHAR(TRUNC(sysdate,'iw')+7, 'yyyymmdd')");
-			
-			topSearhList = dao.getTopSearchList_nodata(paraMap);
+		if(topSearhList.size() < 1) {			
+			topSearhList = dao.getTopSearchList_nodata();
 		}
 		
 		return topSearhList;

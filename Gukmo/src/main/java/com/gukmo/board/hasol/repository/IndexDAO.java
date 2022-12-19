@@ -88,7 +88,7 @@ public class IndexDAO implements InterIndexDAO {
 	
 	// 주간 해시태그 순위  전주 기록 없으며이번주로 메소드
 	@Override
-	public List<HashtagVO> getTopHashList_nodata(Map<String, String> paraMap) {
+	public List<HashtagVO> getTopHashList_nodata() {
 		List<HashtagVO> topHashList = gukmo_sql.selectList("jhs.getTopHashList_nodata");
 		return topHashList;
 	}
@@ -102,7 +102,7 @@ public class IndexDAO implements InterIndexDAO {
 	
 	// 주간 검색어 저번주 기록 없음 이번주
 	@Override
-	public List<SearchVO> getTopSearchList_nodata(Map<String, String> paraMap) {
+	public List<SearchVO> getTopSearchList_nodata() {
 		List<SearchVO> topSearchList = gukmo_sql.selectList("jhs.getTopSearchList_nodata");
 		return topSearchList;
 	}

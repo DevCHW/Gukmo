@@ -395,6 +395,7 @@ $(document).ready(function(){
       
 	// 등록 버튼을 클릭했을시
     $("button#btn_write").click(function() {
+    	replace_content();
     	frm_check();
 	    // 폼을 전송
     	if(flag){
@@ -409,6 +410,7 @@ $(document).ready(function(){
     
 	// 수정 버튼을 클릭했을시
     $("button#btn_modify").click(function() {
+    	replace_content();
     	frm_check();
     	if(flag){
 		    // 폼을 전송
@@ -452,6 +454,52 @@ function reCAPTCHA(){
             }
         }
     });//end of $.ajax({})
+	
+}//end of method-----
+
+
+
+
+
+
+
+/**
+ * argBody 안의 내용 중 지정 문자열 삭제
+ * argBody : 삭제본문 ( ex : 가나다 <pre style="width:100px">안녕하세요</pre> )
+ * argStartSection : 삭제 시작 문자 ( ex : <pre )
+ * argEndSection : 삭제 끝 문자 ( ex : ;"> )
+ * argRemoveSection : 별도 replace 문자 ( ex : </pre> )
+  */
+
+	
+function replace_content(){
+	
+	var removeStyleAndImage  = function(argBody, argStartSection, argEndSection, argRemoveSection){
+
+	var bodyString = argBody;
+
+	var sectionChk = bodyString.match(new RegExp(argStartSection,'g'));
+
+	if(sectionChk != null){
+	    for(var i=0; i < sectionChk.length; i++){
+	        var tmpImg = bodyString.substring(bodyString.indexOf(argStartSection), (bodyString.indexOf(argEndSection)+(argEndSection.length)));
+	        bodyString = bodyString.replace(tmpImg, '').replace(/<br>/gi, '').replace(/&nbsp;/gi, ' ').replace(/<p>/gi, '').replace(/<\/p>/gi, ' ').replace(new RegExp(argRemoveSection,'gi'), '');
+	    }
+	}
+
+	return bodyString;
+
+	}
+	
+	const contentval = $("textarea#content").val();
+	let content = "";
+	
+	content = removeStyleAndImage(contentval, '<img src=', '">', '');      // 스마트에디터 내부의 이미지 제거
+	content = removeStyleAndImage(contentval, '<pre', ';">', '</pre>');    // 스마트에디터 내부의 스타일 제거
+	content = removeStyleAndImage(contentval, '<span', ';">', '</span>');  // 스마트에디터 내부의 스타일 제거
+
+	console.log(content);
+	$("input#replace_content").val(content);
 	
 }//end of method-----
 

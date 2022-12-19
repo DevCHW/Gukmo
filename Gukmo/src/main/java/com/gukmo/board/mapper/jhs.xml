@@ -56,7 +56,12 @@
 		where rno between 1 and 5
 	</select>
 	
-	<select id="getTopSearchList_nodata" parameterType="HashMap"  resultType="com.gukmo.board.model.SearchVO">
+	
+	<resultMap id="topSearchList_nodata" type="com.gukmo.board.model.SearchVO">
+		<result property="start_date" column="start_date"/>
+		<result property="end_date" column="end_date"/>
+	</resultMap>
+	<select id="getTopSearchList_nodata" parameterType="HashMap"  resultMap="topSearchList_nodata">
 		select keyword, count
 		from
 		(
@@ -65,7 +70,7 @@
 		    (
 		        select keyword, count(*) as count
 		        from tbl_search
-		        where TO_CHAR(search_date, 'yyyymmdd') between #{start_date} and #{end_date}
+		        where TO_CHAR(search_date, 'yyyymmdd') between TO_CHAR(TRUNC(sysdate,'iw'), 'yyyymmdd') and TO_CHAR(TRUNC(sysdate,'iw')+7, 'yyyymmdd')
 		        group by keyword
 		        order by count desc
 		    )
@@ -252,7 +257,7 @@
                 (
                     select hashtag_num, count(*) as count
                     from tbl_hashtag_board_map
-                    where TO_CHAR(write_date, 'yyyymmdd') between #{start_date} and #{end_date}
+                    where TO_CHAR(write_date, 'yyyymmdd') between TO_CHAR(TRUNC(sysdate,'iw'), 'yyyymmdd') and TO_CHAR(TRUNC(sysdate,'iw')+7, 'yyyymmdd')
                     group by hashtag_num
                 ) HM left join tbl_hashtag H
                 on HM.hashtag_num = H.hashtag_num

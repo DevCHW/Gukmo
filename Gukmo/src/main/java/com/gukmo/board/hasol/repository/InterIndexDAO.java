@@ -30,15 +30,16 @@ public interface InterIndexDAO {
 	// 주간 해시태그 순위를 불러오는 메소드
 	List<HashtagVO> getTopHashList();
 	// 주간 해시태그 검색 시, 전 주 기록 없으면 이번 주 기록으로 나옴
-	List<HashtagVO> getTopHashList_nodata(Map<String, String> paraMap);
+	List<HashtagVO> getTopHashList_nodata();
 
 	// 주간 검색어 순위르 불러온느 메소드
 	List<SearchVO> getTopSearchList();
 	// 주간 검색어 시, 전 주 기록 없으면 이번 주 기록으로 나옴
-	List<SearchVO> getTopSearchList_nodata(Map<String, String> paraMap);
+	List<SearchVO> getTopSearchList_nodata();
 
 	// 광고 리스트를 구해오는 메소드
 	List<AdVO> getAdvertisementList();
+
 
 
 

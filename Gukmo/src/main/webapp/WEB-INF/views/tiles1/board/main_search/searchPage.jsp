@@ -35,7 +35,7 @@
 		
 		<c:if test = "${requestScope.totalCnt ne '0'}">
 			<%-- 게시글 반복문 시작 --%>
-			<c:forEach var="boardvo" items="${requestScope.searchList}">
+			<c:forEach var="boardvo" items="${requestScope.searchList}" varStatus="status">
 			
 			<!-- 국비학원 카테고리일 경우 -->
 			<c:if test="${boardvo.category eq '국비학원'}">
@@ -144,7 +144,9 @@
 					<span class="write_date ml-3">${boardvo.write_date}</span>
 				</div> 
 				<div class="content my-1">
-					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}">${boardvo.content}</a>
+					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}"> ${boardvo.content}
+						<%-- <input id="hidden_content${status.index}" type="hidden" value="${boardvo.content}"></span> --%>
+					</a>
 				</div>	
 				<div class="hashtag d-flex ">
 					<c:forEach var="hashtags" items="${boardvo.hashtags}">
