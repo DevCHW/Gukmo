@@ -25,7 +25,7 @@
     <!-- 검새창 영역 -->
     <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/main_searchBar.jsp" />
 	
-	
+
 	<div class="div_searchList w-100 my-3 d-flex flex-column justify-content-start">
 		<span class="my-2"> 검색 결과 총 ${requestScope.totalCnt} 건</span>
 		

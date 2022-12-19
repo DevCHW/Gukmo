@@ -49,4 +49,10 @@ public class BoardDAO implements InterBoardDAO{
 		return topHashList;
 	}
 
+	@Override
+	public List<HashtagVO> getTopHashList_nodata() {
+		List<HashtagVO> topHashList = gukmo_sql.selectList("jhs.getTopHashList_nodata");
+		return topHashList;
+	}
+
 }

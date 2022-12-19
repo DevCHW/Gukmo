@@ -21,5 +21,8 @@ public interface InterBoardDAO {
 	// 주간 해시태그 검색 용도
 	List<HashtagVO> getTopHashList();
 
+	// 주간 해시태그 데이터 없을 경우 이전 날짜 불러옴
+	List<HashtagVO> getTopHashList_nodata();
+
 
 }

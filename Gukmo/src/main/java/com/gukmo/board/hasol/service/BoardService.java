@@ -42,6 +42,11 @@ public class BoardService implements InterBoardService{
 	@Override
 	public List<HashtagVO> getTopHashList() {
 		List<HashtagVO> topHashList = dao.getTopHashList();
+		
+		if(topHashList.size() < 1) {
+			topHashList = dao.getTopHashList_nodata();
+		}
+		
 		return topHashList;
 	}
 

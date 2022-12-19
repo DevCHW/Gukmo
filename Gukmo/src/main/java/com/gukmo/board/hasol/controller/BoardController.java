@@ -54,12 +54,7 @@ public class BoardController {
 	public ModelAndView main_search(Map<String,String> paraMap, ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("readCountPermission", "yes");
-		
-		// 주간 해시태그 순위를 불러오는 메소드
-		List<HashtagVO> topHashList = service.getTopHashList();
-		mav.addObject("topHashList", topHashList);
-		
+		session.setAttribute("readCountPermission", "yes");	
 		
 		String searchWord = request.getParameter("searchWord");
 		String hashtag = request.getParameter("hashtag");
@@ -234,6 +229,11 @@ public class BoardController {
 			paraMap.put("searchWord", searchWord);
 		}
 		if(!"".equals(searchWord)) { mav.addObject("paraMap", paraMap); }
+		
+		// 주간 해시태그 순위를 불러오는 메소드
+		List<HashtagVO> topHashList = service.getTopHashList();
+		mav.addObject("topHashList", topHashList);
+		System.out.println(topHashList);
 		
 		mav.addObject("totalCnt", totalCnt);
 		mav.setViewName("board/main_search/searchPage.tiles1");

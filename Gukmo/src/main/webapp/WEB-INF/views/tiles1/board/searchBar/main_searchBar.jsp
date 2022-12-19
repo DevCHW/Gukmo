@@ -51,7 +51,7 @@ $(document).ready(function(){
 function goSearch (){	
 	const frm = document.searchFrm;
 	frm.method="GET";
-	frm.action= getContextPath()+"/main_search.do"
+	frm.action= "<%=ctxPath%>/main_search.do"
 	frm.submit();	
 }
 
