@@ -723,6 +723,7 @@
 		          			
 		          		</c:if>
 		          		<c:if test ="${sessionScope.user.nickname == spcial_commentList.nickname}">
+		          		<input type="hidden" id="" value="${spcial_commentList.comment_num}" />
 		          		<div id="" class="border rounded px-3 py-2 comment_update_or_delete">	            	
 			            	<span class="comment_edit2">수정하기</span>
 			            	<span class="comment_delete2">삭제하기</span>

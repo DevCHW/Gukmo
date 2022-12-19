@@ -91,7 +91,7 @@
 					<div class="d-flex flex-wrap justify-content-between">
 					<c:forEach var="curriList1" items="${requestScope.curriList1}">
 						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList1.board_num}'">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/detail.do?boardNum=${curriList1.board_num}'">
 						    <h4 class="card-title">${curriList1.curriculum.academy_name}</h4>
 						    <p class="card-text">${curriList1.subject}</p>
 						    <p class="card-sub-text">${curriList1.curriculum.curriculum_start_date} ~ ${curriList1.curriculum.curriculum_end_date}</p>
@@ -108,7 +108,7 @@
 					<div class="d-flex flex-wrap justify-content-between">
 					<c:forEach var="curriList2" items="${requestScope.curriList2}">
 						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList2.board_num}'">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>/detail.do?boardNum=${curriList2.board_num}'">
 						    <h4 class="card-title">${curriList2.curriculum.academy_name}</h4>
 						    <p class="card-text">${curriList2.subject}</p>
 						    <p class="card-sub-text">${curriList2.curriculum.curriculum_start_date} ~ ${curriList2.curriculum.curriculum_end_date}</p>
@@ -125,7 +125,7 @@
 					<div class="d-flex flex-wrap justify-content-between">
 					<c:forEach var="curriList3" items="${requestScope.curriList3}">
 						<div class="card">
-						  <div class="card-body" onclick="location.href='<%=ctxPath %>/academy/curricula.do?boardNum=${curriList3.board_num}'">
+						  <div class="card-body" onclick="location.href='<%=ctxPath %>detail.do?boardNum=${curriList3.board_num}'">
 						    <h4 class="card-title">${curriList3.curriculum.academy_name}</h4>
 						    <p class="card-text">${curriList3.subject}</p>
 						    <p class="card-sub-text">${curriList3.curriculum.curriculum_start_date} ~ ${curriList3.curriculum.curriculum_end_date}</p>

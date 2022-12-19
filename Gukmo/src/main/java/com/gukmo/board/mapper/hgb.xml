@@ -374,7 +374,7 @@
    
    <select id="getAdvertisement_List" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO">
    	  select * from tbl_advertisement
-   	  where division = '게시판'
+   	  where division = '게시판' and status = '1'
    </select>
    
    <update id="commentBlindGo" parameterType="HashMap">
