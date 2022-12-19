@@ -197,13 +197,15 @@
 					</div>
 					<!-- 테이블 리스트 -->
 					<div class="list_board d-flex flex-column">
-						
+						<c:if test="${empty requestScope.qnaBoardList}">
+						 <span id="no_write_list">등록된 글이 없습니다.</span>
+						</c:if>
 						<!-- 게시글 1개 영역 -->
 						<c:forEach var="boardvo" items="${requestScope.qnaBoardList}">
 					    <div class="div_boardList py-2 px-2">
 					    	<!-- 작성 정보 -->
 					      	<div class="div_writerInfo d-flex justify-content-between align-items-center mb-1">
-						        <div class="d-flex" style="width:190px;">
+						        <div class="d-flex" style="width:250px;">
 							        <!-- 작성자 프로필사진 -->
 							        <div class="writer_image_box">
 							          <img src="<%= ctxPath%>/resources/images/${boardvo.profile_image}"/>
@@ -264,7 +266,9 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
-					
+					<c:if test="${empty requestScope.studyBoardList}">
+						 <span id="no_write_list">등록된 글이 없습니다.</span>
+					</c:if>
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.studyBoardList}">
 				    <div class="div_boardList py-2 px-2">
@@ -332,6 +336,9 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
+				    <c:if test="${empty requestScope.freeBoardList}">
+					  <span id="no_write_list">등록된 글이 없습니다.</span>
+					</c:if>
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.freeBoardList}">
 				    <div class="div_boardList py-2 px-2">
@@ -399,6 +406,9 @@
 				</div>
 				<!-- 테이블 리스트 -->
 				<div class="list_board d-flex flex-column">
+				    <c:if test="${empty requestScope.reviewBoardList}">
+					  <span id="no_write_list">등록된 글이 없습니다.</span>
+					</c:if>
 					<!-- 게시글 1개 영역 -->
 					<c:forEach var="boardvo" items="${requestScope.reviewBoardList}">
 				    <div class="div_boardList py-2 px-2">
