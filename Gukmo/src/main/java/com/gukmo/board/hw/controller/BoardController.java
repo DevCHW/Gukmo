@@ -391,9 +391,9 @@ public class BoardController {
 		List<String> hashTags = Arrays.asList(String.valueOf(paraMap.get("str_hashTag")).split(","));
 		paraMap.put("hashTags",hashTags);
 		boolean result = false;
-		String root = session.getServletContext().getRealPath("/");
-		
-		String path = root+"resources"+ File.separator +"images";
+//		String root = session.getServletContext().getRealPath("/");
+//		String path = root+"resources"+ File.separator +"images";
+		String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images";
 		
 		String newFileName = "";
 		// WAS(톰캣)의 디스크에 저장될 파일명 

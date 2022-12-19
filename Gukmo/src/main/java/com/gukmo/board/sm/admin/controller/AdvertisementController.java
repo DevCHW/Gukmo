@@ -157,9 +157,9 @@ public class AdvertisementController {
 
 		// WAS 의 webapp 의 절대경로를 알아와야 한다.
 		HttpSession session = mrequest.getSession();
-		String root = session.getServletContext().getRealPath("/");
-		System.out.println(root);
-		String path = root+"resources"+ File.separator +"images";
+//		String root = session.getServletContext().getRealPath("/");
+//		System.out.println(root);
+		String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images";
 		// path 가 첨부파일이 저장될 WAS(톰캣)의 폴더가 된다.
 		System.out.println("저장되는 실제 경로 : " + path);
 		String newFileName = "";
@@ -251,11 +251,11 @@ public class AdvertisementController {
 				String orgfilename = advo.getOrgfilename();
 				
 				HttpSession session = request.getSession();
-				String root = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images/";
+//				String root = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images/";
 		 
-				 String path = root+"resources"+ File.separator +"files";
-	
-				 
+//				 String path = root+"resources"+ File.separator +"files";
+				
+				String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images";
 				 boolean flag = false;  // file 다운로드 성공, 실패를 알려주는 용도
 				 flag = fileManager.doFileDownload(filename, orgfilename, path, response);
 	
