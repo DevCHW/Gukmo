@@ -208,7 +208,7 @@ div.comment_update_or_delete > span{
 /* 이전글,다음글 영역 시작 */
 div#previous_next_area{
   height:80px;
-  background-color: #F5F5F6;
+  background-color: #fafafa;
   font-size:medium;
 }
 

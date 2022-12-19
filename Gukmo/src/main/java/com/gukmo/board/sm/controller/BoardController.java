@@ -464,7 +464,7 @@ public class BoardController {
        // 댓글,대댓글 블라인드 처리하기
        @ResponseBody
        @RequestMapping(value="/comment_blind.do",method=RequestMethod.POST)
-       public String setAlarm_comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
+       public String comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
     	   
 	    	// 알람 값 넣는 AOP 용 ~
 	 		paraMap.put("cmd", "cmtLike");
@@ -480,7 +480,7 @@ public class BoardController {
        // 댓글,대댓글 블라인드 처리하기
        @ResponseBody
        @RequestMapping(value="/del_comment_blind.do",method=RequestMethod.POST)
-       public String setAlarm_del_comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
+       public String del_comment_blind_Process(HttpServletRequest request, @RequestParam Map<String,String> paraMap, HttpServletResponse response) { 
     	   
 	    	// 알람 값 넣는 AOP 용 ~
 	 		paraMap.put("cmd", "cmtLike");
