@@ -158,10 +158,10 @@ public class AdminMemberDAO implements InterAdminMemberDAO{
 		for(int i=0; i<data.size(); i++) {
 			String subject = data.get(i).get("SUBJECT");
 			if(subject.length() > 14) {
-				subject = "<a href='http://localhost:9090/board/detail.do?board_num="+String.valueOf(data.get(i).get("BOARD_NUM"))+"'>"+subject.substring(0,15)+"...</a>";
+				subject = "<a href='http://localhost:9090/board/detail.do?boardNum="+String.valueOf(data.get(i).get("BOARD_NUM"))+"'>"+subject.substring(0,15)+"...</a>";
 				data.get(i).put("SUBJECT",subject);
 			} else {
-				subject = "<a href='http://localhost:9090/board/detail.do?board_num="+String.valueOf(data.get(i).get("BOARD_NUM"))+"'>"+subject+"</a>";
+				subject = "<a href='http://localhost:9090/board/detail.do?boardNum="+String.valueOf(data.get(i).get("BOARD_NUM"))+"'>"+subject+"</a>";
 				data.get(i).put("SUBJECT",subject);
 			}
 		}

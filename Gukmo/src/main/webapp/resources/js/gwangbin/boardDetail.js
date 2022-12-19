@@ -321,16 +321,7 @@ $(document).ready(function(){
       bigCommentArea.show();// 대댓글영역 보이기
     }
     btn_comment_toggle_click_cnt++;
-  });// end of Event--
-
-
-  // 해시태그 클릭시 이벤트
-  $("span.hashtag").click(e=>{
-    const target = $(e.currentTarget);
-    const hashtag = target.text();  // 클릭한 해시태그 값 alert
-    alert(target.text()); // 클릭한 해시태그 값
-  });
-  
+  });// end of Event--  
   
   // 게시글 좋아요 버튼 클릭시 이벤트 잡기
   $("div#btn_like").click(e=>{
@@ -390,7 +381,7 @@ $(document).ready(function(){
 	  const nickname = $("input#nickname").val();	  
 	  const alarm_nickname = target.parent().prev().find('div.big_comment_writer_nickname').text();
 	  
-	   alert(alarm_nickname);
+	  
 	  // alert(userid);
 	  
 	  if(nickname != "") {
@@ -612,8 +603,7 @@ function comment_blind(comment_num) {
 		type:'POST',
 		dataType:"json",
 		success:function(json){	
-			if(json.JavaData == 'blind') {
-				alert("블라인드 성공!!");	
+			if(json.JavaData == 'blind') {				
 				window.location.reload();
 			} else{
 				alert("블라인드 기능 오류");
@@ -634,8 +624,7 @@ function del_comment_blind(comment_num) {
 		type:'POST',
 		dataType:"json",
 		success:function(json){	
-			if(json.JavaData == 'del_blind') {
-				alert("블라인드 해제 성공!!");	
+			if(json.JavaData == 'del_blind') {				
 				window.location.reload();
 			} else{
 				alert("블라인드 해제기능 오류");
@@ -700,7 +689,7 @@ function openReport_comment_of_comment(comment_write_nickname, comment_num,conte
 function del_board(board_num){		  	
 	
 	  if(confirm('정말 삭제하시겠습니까?')) {		  
-		  alert("삭제백단");
+		  alert("게시글이 삭제되었습니다.");
 		  location.href = getContextPath()+"/community/del.do?boardNum="+board_num;		
 		 
 		  return true;
@@ -767,8 +756,7 @@ function goAddWrite_noAttach() {
 				  alert("댓글 작성 실패");
 			  }
 			  else {
-			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
-				  alert("댓글 작성 성공");
+			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기				  
 				  $("textarea#comment_content_area").val("");
 				  window.location.reload();
 			  }
@@ -816,8 +804,7 @@ function addCommentOfComment(content, fk_comment_num, re_content, alarm_nickname
 				  alert("대댓글 작성 실패");
 			  }
 			  else {
-			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기
-				  alert("대댓글 작성 성공");
+			   // goReadComment(); // 페이징 처리 안한 댓글 읽어오기			
 				  $("textarea#content2").val("");
 				  $(".big_comment_write_area").hide();
 				  window.location.reload();
