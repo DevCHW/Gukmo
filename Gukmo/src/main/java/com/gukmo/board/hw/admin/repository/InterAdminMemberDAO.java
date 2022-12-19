@@ -107,6 +107,16 @@ public interface InterAdminMemberDAO {
 	 */
 	int getTotalReportedData(Map<String, String> paraMap);
 
+	/**
+	 * 승인 거부내역 등록
+	 */
+	boolean refuseNew(Map<String, String> paraMap);
+
+	/**
+	 * 승인 거부내역 삭제해주기
+	 */
+	boolean deleteRefuse(String userid);
+
 
 
 

@@ -121,10 +121,17 @@ $(document).ready(function(){
     const editStatusVal = $("select#select_status").val();
 
     if(editStatusVal == '정지'){
+      alert("정지사유를 작성해주세요");
+      $("span#btn_insert_refuse_modal").hide();
       $("span#btn_insert_penalty_modal").show();
+    } else if(editStatusVal == '승인거부'){
+    	alert("거부사유를 작성해주세요");
+    	$("span#btn_insert_penalty_modal").hide()
+    	$("span#btn_insert_refuse_modal").show();
     } else{
-      $("span#btn_insert_penalty_modal").hide();
-    }
+    	$("span#btn_insert_penalty_modal").hide();
+    	$("span#btn_insert_refuse_modal").hide();
+    } 
   });//end of Event--
 
 
@@ -143,6 +150,8 @@ $(document).ready(function(){
       $("select#select_authority").show();
       $("select#select_authority").next().hide();
       $("button#btn_editClose").show();
+      $("span#btn_insert_penalty_modal").hide();
+  	  $("span#btn_insert_refuse_modal").hide();
       target.text("완료");
 
     } else if (btnText == '완료'){  //완료버튼을 눌렀다면
@@ -150,6 +159,8 @@ $(document).ready(function(){
       const authority = $("select#select_authority").val();
       const userid = sessionStorage.getItem("userid");
       const editStatusVal = $("select#select_status").val();
+      
+      
       if(editStatusVal == '정지'){  //회원 상태를 정지로 변경하고자 했다면
     	if(sessionStorage.getItem("status") != '정지'){	//기존에 정지인 회원이 아니라면
     	  if(btn_insert_penalty_modal_click == 0){	//정지사유 등록 클릭을 한번도 하지 않았다면
@@ -157,18 +168,39 @@ $(document).ready(function(){
     	    return;
     	  } 
     	  const nickname = sessionStorage.getItem("nickname");
-    	  penaltyRegister(nickname,status,authority,userid)
+    	  penaltyRegister(nickname,status,authority,userid);
+    	  return;
     	} else{	//기존에 정지인 회원이였다면
     	  editMemberInfo(status,authority,userid);
+    	  return;
     	}
-      } else{	//회원 상태를 정지로 변경하는게 아니라면
+    	
+      }else if(editStatusVal == '승인거부'){	//회원상태를 승인거부로 선택하였다면
+    	  if(sessionStorage.getItem("status") != '승인거부'){
+    		  if($("textarea#refuse_reason").val().trim() == ""){
+    			  alert("승인거부사유를 작성해주세요!");
+    			  return;
+    		  }
+    		  const nickname = sessionStorage.getItem("nickname");
+    		  refuseRegister(status,authority,userid);
+    		  return;
+    	  } else{
+    		  editMemberInfo(status,authority,userid);
+    		  return;
+    	  }
+      }else{	//회원 상태를 정지로 변경하는게 아니라면
     	if(sessionStorage.getItem("status") == '정지'){	//기존에 정지인 회원이였다면
     	  deletePenalty(sessionStorage.getItem("nickname"),status,authority,userid);
-    	} else{
+    	  return;
+    	}else if(sessionStorage.getItem("status") == '승인거부'){	//기존에 승인거부인 회원이였다면 
+    	  deleteRefuse(sessionStorage.getItem("userid"),status,authority);
+    	  return;
+        }else{
     	  editMemberInfo(status,authority,userid);
+    	  return;
     	}
       }
-    }
+    }//end of else--
   });//end of Event--
 
 
@@ -182,6 +214,8 @@ $(document).ready(function(){
     $("select#select_authority").hide();
     $("select#select_authority").next().show();
     $("button#btn_editClose").hide();
+    $("span#btn_insert_penalty_modal").hide();
+	$("span#btn_insert_refuse_modal").hide();
   });//end of Event--
 
 
@@ -319,6 +353,31 @@ function penaltyRegister(nickname,status,authority,userid){
 }//end of method---
 
 
+/**
+ * 기존에 승인거부였던 회원을 다른상태로 바꾸려고 하였다면 거부내역 지워주기
+ */
+function deleteRefuse(userid,status,authority){
+	$.ajax({
+		url:getContextPath()+"/admin/member/refuse/delete.do", 
+	    data:{"userid": userid},
+	    type:"post",
+	    dataType:"json",
+	    async:false,
+	    success:function(json){
+	      if(json.result){	//회원정보 수정에 성공했다면
+	    	editMemberInfo(status,authority,userid)
+	      } else {	//회원정보 수정에 실패했다면
+	        alert("회원정보 수정에 실패하였습니다.다시 시도해주세요!");
+	      }
+	    },//end of success
+	    //success 대신 error가 발생하면 실행될 코드 
+	    error: function(request,status,error){
+	      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    }
+	});
+}//end of method--
+
+
 
 /**
  * 기존에 정지인회원을 다른상태로 바꾸려고 하였다면 정지내역에서 지워주기
@@ -342,6 +401,33 @@ function deletePenalty(nickname,status,authority,userid){
       alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
     }
   });//end of $.ajax({})---
+}//end of method--
+
+
+/**
+ * 승인 거부 등록하기
+ */
+function refuseRegister(status,authority,userid){
+	let queryString = $("form[name=refuseRegisterFrm]").serialize();
+	  $("form[name=refuseRegisterFrm]").ajaxForm({
+	    url : getContextPath()+"/admin/member/refuse/new.do", 
+	    data:queryString,
+	    async:false,
+	    enctype:"multipart/form-data",
+	    type:"POST",
+	    dataType:"JSON",
+	    success:function(json) {
+	      if(json.result){ //승인거부 등록에 성공했다면
+	        editMemberInfo(status,authority,userid)
+	      } else{ //승인거부 등록에 실패했다면
+	        alert("승인거부 실패했습니다. 다시 시도해주세요");
+	      }
+	    },
+	    error: function(request, status, error){
+	      alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    }
+	  });//end of ajax--
+	  $("form[name=refuseRegisterFrm]").submit();
 }
 
 

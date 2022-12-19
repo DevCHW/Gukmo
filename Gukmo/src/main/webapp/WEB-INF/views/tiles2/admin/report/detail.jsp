@@ -21,106 +21,116 @@
 </script>
 
 
-
-    <%---------------------------- (div#main) 시작 -------------------------------%>
-    <div id="main" class="container py-5 px-4 w-100">
-
-      <%-- 신고상세보기시작 --%>
-      <div id="report_detail_box">
-        <%-- 신고번호 --%>
-        <div id="report_num">
-          <span class="report_info_title py-3">신고번호</span>
-          <span class="py-3">${requestScope.reportDetail.report_num}</span>
-        </div>
-
-        <%-- 신고분류 --%>
-        <div id="report_type">
-          <span class="report_info_title py-3">신고분류</span>
-          <span id="span_report_type" class="py-3">${requestScope.reportDetail.report_type}</span>
-        </div>
-
-        <%-- 신고 글번호 --%>
-        <div id="report_num">
-          <span class="report_info_title py-3">신고 글번호</span>
-          <span class="py-3">${requestScope.reportDetail.fk_num}</span>
-        </div>
-
-        <%-- 신고자 닉네임 --%>
-        <div id="reported_nickname">
-          <span class="report_info_title py-3">신고자 닉네임</span>
-          <span class="py-3">${requestScope.reportDetail.report_nickname}</span>
-        </div>
-
-        <%-- 피신고자 닉네임 --%>
-        <div>
-          <span class="report_info_title py-3">피신고자 닉네임</span>
-          <span class="py-3">${requestScope.reportDetail.reported_nickname}</span>
-          <input type="hidden" id="reported_nickname" value="${requestScope.reportDetail.reported_nickname}" /> 
-        </div>
-
-        <%-- 신고사유 --%>
-        <div id="simple_report_reason">
-          <span class="report_info_title py-3">신고사유</span>
-          <span class="py-3">${requestScope.reportDetail.simple_report_reason}</span>
-        </div>
-  
-        <%-- 신고사유가 기타사유인경우 상세보기 --%>
-        <div id="detail_report_reason">
-          <span class="report_info_title py-3">상세사유</span>
-          <span class="py-3">${requestScope.reportDetail.detail_report_reason}</span>
-        </div>
-  
-        <%-- 신고날짜 --%>
-        <div id="report_date">
-          <span class="report_info_title py-3">신고날짜</span>
-          <span class="py-3">${requestScope.reportDetail.report_date}</span>
-        </div>
-
-        <div id="receipt">
-          <span class="report_info_title py-3">접수여부</span>
-          <span class="py-3">
-          	<c:if test='${requestScope.reportDetail.receipt == 0}' >
-          	  접수 전
-          	</c:if>
-          	<c:if test='${requestScope.reportDetail.receipt == 1}' >
-          	  접수 완료
-          	</c:if>
-          </span>
-        </div>
-
-      </div>
-      <%-- 신고상세보기 끝 --%>
-
-      <%-- 횟수 --%>
-      <div class="cnt_area d-flex flex-column mt-3">
-        
-        <%-- 신고횟수 --%>
-        <div class="mt-2">${requestScope.reportDetail.report_nickname} 회원이 신고한 횟수 : <span>게시글 : ${requestScope.report_cnt_board}건   /   댓글 : ${requestScope.report_cnt_comment}건</span></div>
-        <%-- 신고횟수가 0건 이상이라면 --%>
-        <c:if test="${requestScope.report_cnt_comment+requestScope.report_cnt_board != 0}" >
-        	<span id="btn_view_list_report" data-toggle="modal" data-target="#reportListModal" data-dismiss="modal">내역보기</span>
-        </c:if>
-        
-        <%-- 신고당한횟수 --%>
-        <div class="mt-2">${requestScope.reportDetail.reported_nickname} 회원이 신고당한횟수 : <span>게시글 : ${requestScope.reported_cnt_board}건   /   댓글 : ${requestScope.reported_cnt_comment}건</span></div>
-        <%-- 신고당한횟수가 0건 이상이라면 --%>
-        <c:if test="${requestScope.reported_cnt_comment+requestScope.reported_cnt_board != 0}" >
-        	<span id="btn_view_list_reported" data-toggle="modal" data-target="#reportedListModal" data-dismiss="modal">내역보기</span>
-        </c:if>
-      </div>
-
-      <div id="div_btn_area" class="d-flex justify-content-end mt-3">
-      <button type="button" class="btn btn-light border rounded mr-3" onclick="javascript:history.back()">뒤로가기</button>
-        <button type="button" class="btn btn-light border rounded mr-3" onclick="location.href='<%= ctxPath%>/detail.do?boardNum=${requestScope.reportDetail.fk_num}'">해당게시물로 이동</button>
-        <button type="button" id="btn_receipt" class="btn btn-light border rounded mr-3" onclick="receipt('${requestScope.reportDetail.report_num}')">접수처리</button>
-        <button type="button" id="insert_penalty_modal_open" class="btn btn-light border rounded" data-toggle="modal" data-target="#insert_penalty_modal" data-dismiss="modal">피신고자 정지</button>
-      </div>
-
-
+<%-- Main Content --%>
+<div id="content">
+	
+    <%-- Begin Page Content --%>
+    <div class="container-fluid">
+      <%-- Page Heading --%>
+      <h1 class="h3 my-2 text-gray-800">${requestScope.reportDetail.report_num}번 신고내용</h1>
+      <p class="mb-4">접수된 신고내용을 상세히 검토 후 접수처리해주세요.</p>
       
-
-    </div>
-    <%---------------------------------- (div#main) 끝 -------------------------------------%>
+      <%-- DataTales Example --%>
+      <div class="card shadow mb-4">
+      	<div class="card-header py-3">
+        	<h6 class="m-0 font-weight-bold text-primary">신고내역</h6>
+        </div>
+        <div class="card-body">
+	      <%-- 신고상세보기시작 --%>
+	      <div id="report_detail_box">
+	        <%-- 신고번호 --%>
+	        <div id="report_num">
+	          <span class="report_info_title py-3">신고번호</span>
+	          <span class="py-3">${requestScope.reportDetail.report_num}</span>
+	        </div>
+	
+	        <%-- 신고분류 --%>
+	        <div id="report_type">
+	          <span class="report_info_title py-3">신고분류</span>
+	          <span id="span_report_type" class="py-3">${requestScope.reportDetail.report_type}</span>
+	        </div>
+	
+	        <%-- 신고 글번호 --%>
+	        <div id="report_num">
+	          <span class="report_info_title py-3">신고 글번호</span>
+	          <span class="py-3">${requestScope.reportDetail.fk_num}</span>
+	        </div>
+	
+	        <%-- 신고자 닉네임 --%>
+	        <div id="reported_nickname">
+	          <span class="report_info_title py-3">신고자 닉네임</span>
+	          <span class="py-3">${requestScope.reportDetail.report_nickname}</span>
+	        </div>
+	
+	        <%-- 피신고자 닉네임 --%>
+	        <div>
+	          <span class="report_info_title py-3">피신고자 닉네임</span>
+	          <span class="py-3">${requestScope.reportDetail.reported_nickname}</span>
+	          <input type="hidden" id="reported_nickname" value="${requestScope.reportDetail.reported_nickname}" /> 
+	        </div>
+	
+	        <%-- 신고사유 --%>
+	        <div id="simple_report_reason">
+	          <span class="report_info_title py-3">신고사유</span>
+	          <span class="py-3">${requestScope.reportDetail.simple_report_reason}</span>
+	        </div>
+	  
+	        <%-- 신고사유가 기타사유인경우 상세보기 --%>
+	        <div id="detail_report_reason">
+	          <span class="report_info_title py-3">상세사유</span>
+	          <span class="py-3">${requestScope.reportDetail.detail_report_reason}</span>
+	        </div>
+	  
+	        <%-- 신고날짜 --%>
+	        <div id="report_date">
+	          <span class="report_info_title py-3">신고날짜</span>
+	          <span class="py-3">${requestScope.reportDetail.report_date}</span>
+	        </div>
+	
+	        <div id="receipt">
+	          <span class="report_info_title py-3">접수여부</span>
+	          <span class="py-3">
+	          	<c:if test='${requestScope.reportDetail.receipt == 0}' >
+	          	  접수 전
+	          	</c:if>
+	          	<c:if test='${requestScope.reportDetail.receipt == 1}' >
+	          	  접수 완료
+	          	</c:if>
+	          </span>
+	        </div>
+	
+	      </div>
+	      <%-- 신고상세보기 끝 --%>
+	
+	      <%-- 횟수 --%>
+	      <div class="cnt_area d-flex flex-column mt-3">
+	        
+	        <%-- 신고횟수 --%>
+	        <div class="mt-2">${requestScope.reportDetail.report_nickname} 회원이 신고한 횟수 : <span>게시글 : ${requestScope.report_cnt_board}건   /   댓글 : ${requestScope.report_cnt_comment}건</span></div>
+	        <%-- 신고횟수가 0건 이상이라면 --%>
+	        <c:if test="${requestScope.report_cnt_comment+requestScope.report_cnt_board != 0}" >
+	        	<span id="btn_view_list_report" data-toggle="modal" data-target="#reportListModal" data-dismiss="modal">내역보기</span>
+	        </c:if>
+	        
+	        <%-- 신고당한횟수 --%>
+	        <div class="mt-2">${requestScope.reportDetail.reported_nickname} 회원이 신고당한횟수 : <span>게시글 : ${requestScope.reported_cnt_board}건   /   댓글 : ${requestScope.reported_cnt_comment}건</span></div>
+	        <%-- 신고당한횟수가 0건 이상이라면 --%>
+	        <c:if test="${requestScope.reported_cnt_comment+requestScope.reported_cnt_board != 0}" >
+	        	<span id="btn_view_list_reported" data-toggle="modal" data-target="#reportedListModal" data-dismiss="modal">내역보기</span>
+	        </c:if>
+	      </div>
+	
+	      <div id="div_btn_area" class="d-flex justify-content-end mt-3">
+	      <button type="button" class="btn btn-light border rounded mr-3" onclick="javascript:history.back()">뒤로가기</button>
+	        <button type="button" class="btn btn-light border rounded mr-3" onclick="location.href='<%= ctxPath%>/detail.do?boardNum=${requestScope.reportDetail.fk_num}'">해당게시물로 이동</button>
+	        <button type="button" id="btn_receipt" class="btn btn-light border rounded mr-3" onclick="receipt('${requestScope.reportDetail.report_num}')">접수처리</button>
+	        <button type="button" id="insert_penalty_modal_open" class="btn btn-light border rounded" data-toggle="modal" data-target="#insert_penalty_modal" data-dismiss="modal">피신고자 정지</button>
+	      </div>
+        </div>
+      </div>
+	</div>
+</div>
+<%---------------------------------- (div#main) 끝 -------------------------------------%>
 
 
 

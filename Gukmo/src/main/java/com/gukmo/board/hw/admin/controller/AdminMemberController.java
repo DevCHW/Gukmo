@@ -87,6 +87,21 @@ public class AdminMemberController {
 		return jsonObj.toString();
 	}
 	
+	/**
+	 * 승인 거부사유 등록하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/refuse/new.do", method= {RequestMethod.POST})
+	public String refuseNew(@RequestParam Map<String,String> paraMap, HttpServletRequest request) {
+		
+		boolean result = dao.refuseNew(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		
+		return jsonObj.toString();
+	}
+	
 	
 	/**
 	 * 정지내역 delete하기
@@ -95,6 +110,21 @@ public class AdminMemberController {
 	@RequestMapping(value="/admin/member/penalty/delete.do", method= {RequestMethod.POST})
 	public String deletePenalty(@RequestParam String nickname, HttpServletRequest request) {
 		boolean result = service.penaltyDelete(nickname);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", result);
+		
+		return jsonObj.toString();
+	}
+	
+	
+	/**
+	 * 승인거부내역 delete하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/member/refuse/delete.do", method= {RequestMethod.POST})
+	public String deleteRefuse(@RequestParam String userid, HttpServletRequest request) {
+		boolean result = dao.deleteRefuse(userid);
 		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("result", result);
@@ -513,6 +543,10 @@ public class AdminMemberController {
 	    dto.setData(data);
 		return dto;
 	}
+	
+	
+	
+	
 	
 	
 	

@@ -19,7 +19,10 @@
     
     $(document).ready(function(){
       let html = "";
-      const statusArr = ['활동','정지','휴면','대기'];
+      let statusArr = ['활동','정지','휴면','대기'];
+      if("${requestScope.member.status}" == '대기'){
+    	  statusArr[statusArr.length] = '승인거부';
+      }
       const currentStatus = "${requestScope.member.status}";
       const authorityArr = ['일반회원','관리자'];
       const currentAuthority = "${requestScope.member.authority}";
@@ -142,6 +145,7 @@
 		         </select>
 		         <span class="mr-2">${requestScope.member.status}</span>
 		         <span id="btn_insert_penalty_modal" data-toggle="modal" data-target="#insert_penalty_modal" data-dismiss="modal">정지사유등록</span>
+		         <span id="btn_insert_refuse_modal" data-toggle="modal" data-target="#insert_refuse_modal" data-dismiss="modal">승인거부사유 등록</span>
 		         <%-- 회원상태가 정지일경우 정지사유보기 버튼 --%>
 		         <c:if test="${requestScope.member.status == '정지'}">
 		           <span id="view_reason" data-toggle="modal" data-target="#penalty_reason" data-dismiss="modal">정지사유보기</span>
@@ -599,11 +603,11 @@
 
               <%-- 닉네임 --%>
               <label for="nickname"></label>
-              <input type="text" id="nickname" name="nickname" value="${requestScope.member.nickname}">
+              <input type="text" id="nickname" name="nickname" value="${requestScope.member.nickname}" class="border rounded my-2" style="height:40px;" readonly>
 
               <%-- 정지간단사유 --%>
               <label for="simple_penalty_reason">정지사유</label>
-              <select name="simple_penalty_reason" id="simple_penalty_reason">
+              <select name="simple_penalty_reason" id="simple_penalty_reason" class="border rounded my-2" style="height:40px;">
                 <option>욕설/비방</option>
                 <option>허위글게시</option>
                 <option>정치적인글</option>
@@ -613,19 +617,18 @@
               <%-- 정지상세사유 --%>
               <div id="detail_penalty_reason_area" class="flex-column">
                 <label for="detail_penalty_reason">상세사유 작성</label>
-                <textarea name="detail_penalty_reason" id="detail_penalty_reason" cols="30" rows="10" placeholder="정지 사유를 상세하게 작성하세요." class="border rounded px-2 py-2"></textarea>
+                <textarea name="detail_penalty_reason" id="detail_penalty_reason" cols="30" rows="10" placeholder="정지 사유를 상세하게 작성하세요." class="border rounded px-2 py-2 my-2"></textarea>
               </div>
 
               <%-- 정지기간 --%>
               <label for="penalty_period">정지기간</label>
-              <select name="penalty_period" id="penalty_period">
+              <select name="penalty_period" id="penalty_period" class="border rounded my-2" style="height:40px;">
                 <option>7일</option>
                 <option>30일</option>
                 <option>90일</option>
                 <option>150일</option>
                 <option>300일</option>
               </select>
-
             </div>
           </form>
         </div>
@@ -639,6 +642,47 @@
     </div>
   </div>
   <%--------------------- 정지등록 폼 모달 끝 -------------------------%>
+  
+  <div class="modal fade" id="insert_refuse_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <%-- Modal header --%>
+        <div class="modal-header">
+          <h5 class="modal-title">승인거부사유</h5>
+          <button type="button" class="close email_certificationClose" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <%-- Modal body --%>
+        <div class="modal-body d-flex flex-column">
+          <form name="refuseRegisterFrm">
+
+            <div class="d-flex flex-column py-3 px-3">
+              <%-- 닉네임 --%>
+              <label for="nickname">승인거부닉네임</label>
+              <input type="text" id="nickname" name="nickname" value="${requestScope.member.nickname}" class="border rounded my-2 pl-2" style="height:40px; outline:none;" readonly>
+
+              <%-- 정지상세사유 --%>
+              <div class="d-flex flex-column mt-2">
+                <label for="refuse_reason">승인거부사유 작성</label>
+                <textarea name="refuse_reason" id="refuse_reason" cols="30" rows="10" placeholder="거부 사유를 작성해주세요." class="border rounded px-2 py-2" maxlength="200"></textarea>
+              </div>
+            </div>
+            <input type="hidden" name="userid" value="${requestScope.member.userid}">
+          </form>
+        </div>
+        
+        <%-- Modal footer --%>
+        <div class="modal-footer">
+          <button type="button" class="btn border insert_penalty_modal_close" data-dismiss="modal">저장</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  <%--------------------- 승인거부사유 등록 폼 모달 끝 -------------------------%>
 
 
 

@@ -23,15 +23,17 @@ public class LoginService implements InterLoginService{
 	@Override
 	public String statusCheck(String userid) {
 		String status = dao.getStatus(userid);
-		
-		if(!"휴면".equals(status)) {
+		if("승인거부".equals(status)){		//승인거부인 회원이라면
+			int result = dao.updateActive(userid);
+			return result > 0?status:"승인거부실패";
+		}
+		if(!"휴면".equals(status) && !"정지".equals(status)) {
 			try {
 				status = restMemberUpdate(userid,status);	//로그인되어질 회원이 로그인한지 1년이 지났다면 휴면으로 바꿔주기
 			}catch(SQLException e) {
 				e.printStackTrace();
 			}
-		}
-		
+		} 
 		int lastUpdateDay = dao.getLastUpdateDay(userid);	//비밀번호 변경날짜를 알아오기
 		if("활동".equals(status) && lastUpdateDay > 90) {		//user가 활동중인 상태지만 비밀번호 변경날짜가 3개월 이상 지났다면
 			status = "비밀번호 변경 권장";

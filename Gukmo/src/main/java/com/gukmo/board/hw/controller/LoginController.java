@@ -95,21 +95,37 @@ public class LoginController {
 	 * 		      비밀번호 변경시점 3개월 이상이라면 "비밀번호 변경 권장"
 	 */
 	@ResponseBody
-	@RequestMapping(value="/statusCheck.do",method= {RequestMethod.POST})
+	@RequestMapping(value="/statusCheck.do",method= {RequestMethod.POST},produces="text/plain;charset=UTF-8")
 	public String status_check(HttpServletRequest request) {
 		String userid = request.getParameter("userid");
 		
 		String status = service.statusCheck(userid);
-		
+		Map<String,String> penaltyReason = new HashMap<>();
+		String detailReason = "";
+		String refuseReason = "";
 		HttpSession session = request.getSession();
 		if("비밀번호 변경 권장".equals(status)) {
 			session.setAttribute("changePwd", true);
-		} else {
+		} else if("정지".equals(status)){	 					//정지상태라면
+			penaltyReason = dao.getPenaltyReason(userid);	//사유 불러오기
+			if("기타사유".equals(penaltyReason.get("SIMPLE_PENALTY_REASON"))) {	//사유가 기타사유 일경우
+				detailReason = dao.getDetailReason(userid);	//상세사유 불러오기
+				if(detailReason == null) {
+					detailReason = "사유 없음";
+				}
+			}
+		} else if("승인거부".equals(status)){	 					//승인거부상태라면
+			refuseReason = dao.getRefuseReason(userid);			//사유불러오기
+			session.setAttribute("changePwd", false);
+		}else {
 			session.setAttribute("changePwd", false);
 		}
 		
 		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("refuseReason", refuseReason);
 		jsonObj.put("status", status);
+		jsonObj.put("penaltyReason", penaltyReason);
+		jsonObj.put("detailReason", detailReason);
 		
 		return jsonObj.toString();
 	}
