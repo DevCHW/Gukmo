@@ -310,9 +310,9 @@
 	)a
 	, ( 
 	<if  test='sort == "월별"'>
-	    select to_char(add_months(sysdate,- (level-1)),'yyyy-mm') period
-	    from dual
-	    connect by add_months(sysdate,- (level-1)) &gt;= add_months(sysdate,-11) 
+	    select to_char(add_months(to_date(to_char(sysdate,'yyyy')||'-12-31'),- (level-1)),'yyyy-mm') period
+		from dual
+		connect by add_months(to_date(to_char(sysdate,'yyyy')||'-12-31'),- (level-1)) >= add_months(to_date(to_char(sysdate,'yyyy')||'-12-31'),-11)
 	</if>
     <if test='sort == "연도별"'>
 	    select to_char(add_months(sysdate,-24), 'yyyy')+ level - 1 period

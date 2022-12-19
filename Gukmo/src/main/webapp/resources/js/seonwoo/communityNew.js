@@ -45,22 +45,20 @@ $(document).ready(function(){
     	
     	setTimeout(function() {
     		let detail_category = $("#detail_category").val();
-	    //	obj.getById["content"].exec("SET_IR", [""]); 
 	    	
-	    	console.log(detail_category);
 	    	var sHTML;
 	    	
 	    	switch (detail_category) {
 	    	case "자유게시판":
 				sHTML =`자유게시판 유의사항<br>
 						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
 				sHTML =`QnA 유의사항
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "수강/취업후기":
@@ -89,7 +87,7 @@ $(document).ready(function(){
 						    <br><br><br>
 						수강/취업 후기 게시판 유의사항<br>
 							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "스터디":
@@ -246,13 +244,13 @@ $(document).ready(function(){
 	    	case "자유게시판":
 				sHTML =`자유게시판 유의사항<br>
 						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
 				sHTML =`QnA 유의사항
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "수강/취업후기":
@@ -281,7 +279,7 @@ $(document).ready(function(){
 						    <br><br><br>
 						수강/취업 후기 게시판 유의사항<br>
 							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "스터디":
