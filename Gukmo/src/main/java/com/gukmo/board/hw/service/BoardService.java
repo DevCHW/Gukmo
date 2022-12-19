@@ -145,7 +145,6 @@ public class BoardService implements InterBoardService{
             if (hashtagvo == null) {
             	dao.saveHashTag(hashTag);
             }
-            
             // 태그-보드 매핑 테이블에 데이터 추가
             hashtagvo = dao.findHashtag(hashTag);
             int hashtag_num = hashtagvo.getHashtag_num();
@@ -159,7 +158,7 @@ public class BoardService implements InterBoardService{
         
         int result4 = dao.pointPlusActivityRecord(paraMap);
 
-		boolean success = result1*result2*result3*result4 == 1?true:false;
+		boolean success = result1*result2*result3*result4 > 1?true:false;
 		return success;
 	}
 

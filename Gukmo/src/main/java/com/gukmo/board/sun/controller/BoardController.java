@@ -451,7 +451,8 @@ public class BoardController {
    @RequestMapping(value="/image/multiplePhotoUpload.do", method= {RequestMethod.POST} )
 	public void multiplePhotoUpload(HttpServletRequest request, HttpServletResponse response) {
 		
-		String path = "C:\\Users\\sist\\git\\Gukmo\\Gukmo\\src\\main\\webapp\\resources"+File.separator+"photo_upload"; // 사진 첨부시 업로드 되는 경로
+//		String path = "C:\\Users\\sist\\git\\Gukmo\\Gukmo\\src\\main\\webapp\\resources"+File.separator+"photo_upload"; // 사진 첨부시 업로드 되는 경로
+	    String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/photo_upload";
 		
 		// System.out.println("~~~~ 확인용 path => " + path);
 		
@@ -476,7 +477,6 @@ public class BoardController {
 		    }
 		    
 			String ctxPath = request.getContextPath();
-			
 			String strURL = "";
 			strURL += "&bNewLine=true&sFileName="+newFilename; 
 			strURL += "&sWidth="+width;
