@@ -303,9 +303,9 @@ public class BoardController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		paraMap.put("userid",user.getUserid());
 		boolean result = false;
-		String root = session.getServletContext().getRealPath("/");
-		
-		String path = root+"resources"+ File.separator +"images";
+//		String root = session.getServletContext().getRealPath("/");
+//		String path = root+"resources"+ File.separator +"images";
+		String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images";
 		
 		String newFileName = "";
 		// WAS(톰캣)의 디스크에 저장될 파일명 
