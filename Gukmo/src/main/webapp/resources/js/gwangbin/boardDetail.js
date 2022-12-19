@@ -426,7 +426,7 @@ $(document).ready(function(){
 	  const content = target.parent().parent().parent().next().find('div.detail_comment').text();
 	  // alert(comment_write_nickname);
 	  // alert(comment_num);
-	  alert(content);
+	  
 	  
 	  
 	  openReport_comment(comment_write_nickname, comment_num, content);
@@ -440,7 +440,7 @@ $(document).ready(function(){
 	  const content = target.parent().parent().parent().next().find('div.detail_comment_of_comment').text();
 	  // alert(comment_write_nickname);
 	  // alert(comment_num);
-	  alert(content);
+	  
 	  
 	  
 	  openReport_comment_of_comment(comment_write_nickname, comment_num, content);
@@ -674,9 +674,7 @@ function openReport_comment_of_comment(comment_write_nickname, comment_num,conte
 	// 신고 버튼
 	var openWin;
 	const board_num = $("input#board_num").val();
-	const nickname = comment_write_nickname;
-	
-	alert(nickname);
+	const nickname = comment_write_nickname;	
 	
     // window.name = "부모창 이름";
     window.name = "boardDetail";
