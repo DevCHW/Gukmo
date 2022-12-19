@@ -23,17 +23,16 @@
 	<div id="demo" class="carousel slide" data-ride="carousel" >
      
      <!-- The slideshow -->
-     <div class="carousel-inner" style="height:160px;">              
+     <div class="carousel-inner" style="height:230px;">              
        
      <div class="carousel-item active">
      	<c:forEach var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-     	<a href="${advertisementList.url}">
-       	<!-- 	<img src="<%=ctxPath %>/resources/images/resources/files/${advertisement_List.filename}" style="cursor: pointer; width: 100%; height:160px;">  -->
+     	<a href="${advertisementList.url}">     
        		<c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
-              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
             </c:if>
             <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
-               <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+               <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
             </c:if>
          </a>
          </c:forEach>
@@ -44,12 +43,12 @@
   	 <div class="carousel-item">              
         <c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
           <a href="${advertisementList.url}">
-           <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+           <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
           </a>
         </c:if>
         <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
           <a href="${advertisementList.url}">
-            <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:160px;">
+            <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
           </a>
         </c:if>    
      </div>       
@@ -70,8 +69,8 @@
 </c:if>
 
 <c:if test="${empty requestScope.advertisementList}">
-	<div id="advertisement_box" style="width: 100%; height:160px;">
-      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG"/" style="width: 100%; height:160px;">
+	<div id="advertisement_box" style="width: 100%; height:230px; cursor: pointer;" onclick="location.href='https://kfq.or.kr/_KR/Default.aspx'">
+      <img src="<%= ctxPath%>/resources/images/학원광고이미지1.PNG" style="width: 100%; height:230px;">
     </div>
 </c:if>
 
