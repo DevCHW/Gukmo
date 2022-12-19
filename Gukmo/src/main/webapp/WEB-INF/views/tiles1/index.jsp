@@ -18,7 +18,7 @@
 <!-- 배너 영역 -->
 
 <!-- Indicators -->
- <c:if test="${requestScope.advertisementList != ''}">
+ <c:if test="${not empty requestScope.advertisementList}">
 	
 	<div id="demo" class="carousel slide" data-ride="carousel" >
      
@@ -27,30 +27,17 @@
        
      <div class="carousel-item active">
      	<c:forEach var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-     	<a href="${advertisementList.url}">     
-       		<c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
-              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-            </c:if>
-            <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
-               <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-            </c:if>
+     	<a href="${advertisementList.url}">            		
+              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">                       
          </a>
          </c:forEach>
      </div>       
        
-     <c:forEach begin="1" var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-
-  	 <div class="carousel-item">              
-        <c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
+     <c:forEach var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
+  	 <div class="carousel-item">                      
           <a href="${advertisementList.url}">
            <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-          </a>
-        </c:if>
-        <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
-          <a href="${advertisementList.url}">
-            <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-          </a>
-        </c:if>    
+          </a>                  
      </div>       
 	 </c:forEach>
      
