@@ -26,7 +26,7 @@ $(document).ready(function(){
 	$("a#hashtag").click(function(e){
 		const $target = $(e.target);
 		let hashtag = $target.text().substr(1);
-		console.log(hashtag);
+		//console.log(hashtag);
 		$("input#searchWord").val(hashtag);
 		$("input#hashtag").val(hashtag);
 	
@@ -39,7 +39,7 @@ $(document).ready(function(){
 	$("a#keyword").click(function(e){
 		const $target = $(e.target);
 		let keyword = $target.text();
-		console.log(keyword);
+		//console.log(keyword);
 		$("input#searchWord").val(keyword);
 
 		goSearch();
@@ -91,7 +91,7 @@ function saveKeyword(){
 <div class="hashtag mt-2 d-flex justify-content-between align-items-center">
 	<c:forEach var="topHash" items="${requestScope.topHashList}">
 	<div class="btn_hashtag border rounded px-2">
-		<a id="hashtag" style="color: grey;">#${topHash.hashtag}</a>
+		<a id="hashtag">#${topHash.hashtag}</a>
 	</div>
 	</c:forEach>
 </div>
