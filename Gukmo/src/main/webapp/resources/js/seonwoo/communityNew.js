@@ -207,10 +207,6 @@ $(document).ready(function(){
             e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
           }
           
-          
-          
-          
-          
         });
 
       // 삭제 버튼
@@ -226,13 +222,11 @@ $(document).ready(function(){
       
       
       
-      
 		$("#detail_category").change(function(){
 	    	
 	    	let detail_category = $("#detail_category").val();
 	    	obj.getById["content"].exec("SET_IR", [""]); 
 	    	
-	    	console.log(detail_category);
 	    	var sHTML;
 	    	
 	    	switch (detail_category) {
@@ -316,16 +310,7 @@ $(document).ready(function(){
 			}
 	    	
 	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
-		
-		
-		
 	});
-      
-      
-      
-      
-      
-      
       
       
       let flag = false;
@@ -341,9 +326,6 @@ $(document).ready(function(){
     	  
     	  values = values.slice(0, -1);
     	  $("#str_hashTag").val(values);
-		   // console.log(values);
-		   
-
           
       	// ==== 스마트 에디터 구현 시작 ==== //
       	// id가 content인 textarea에 에디터에서 대입
@@ -362,30 +344,29 @@ $(document).ready(function(){
   			alert("글제목을 입력하세요!!");
   			return;
   		}
-  		
-  		// 글내용 유효성 검사(스마트 에디터용)
-  		var contentval = $("textarea#content").val();
-  		contentval = contentval.replace(/&nbsp;/gi, "");
-  	
-  	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
-  	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
-  	            
-  	    if(contentval.trim().length == 0) {
-  	  	  alert("글내용을 입력하세요!!");
-  	  	  return;
-  	    }
 
-  	    console.log(contentval);
-  	    
-  	    
-  	    
-  	    
+  		
+  		if(detail_category == "자유게시판" || detail_category == "QnA" ) {
+  			
+  			// 글내용 유효성 검사(스마트 에디터용)
+  			var contentval = $("textarea#content").val();
+  			contentval = contentval.replace(/&nbsp;/gi, "");
+  			
+  			contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
+  			contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
+  			
+  			if(contentval.trim().length == 0) {
+  				alert("글내용을 입력하세요!!");
+  				return;
+  			}
+  			
+  		}
+
   	    reCAPTCHA();
 	    if(!recaptcha_ok){
 	    	alert("매크로방지 봇 통과 후 진행해주세요");
 	    	return;
 	    }
-  	    
   	    
   	    flag = true;
   	}
