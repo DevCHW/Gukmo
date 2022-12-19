@@ -297,7 +297,8 @@
             on join_BH.board_num = A.fk_board_num
             left join
             ( 
-                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url                    from tbl_curriculum
+                select fk_board_num, core_technology, academy_name, curriculum_start_date, curriculum_end_date, recruitment_end_date, join_url
+                from tbl_curriculum
             ) C
             on join_BH.board_num = C.fk_board_num
 	        order by rno desc
@@ -429,15 +430,19 @@
 
 
 	<select id="getAlarmList" parameterType="HashMap" resultType="com.gukmo.board.model.AlarmVO">
-		select  ALARMNO, alarm_nickname, cmd, content, url, url_num, alarm_date, isread 
+		select  ALARMNO, alarm_nickname, cmd, content, url, url_num,  alarm_date, isread
 		from
 		(
-		    select ALARMNO, alarm_nickname, cmd, content, url, url_num, alarm_date, isread 
-		    from tbl_alarm
-		    where alarm_nickname= #{alarm_nickname} 
-		    order by alarm_date desc
+		    select  row_number() over(order by alarm_date desc) AS RNO
+		            , ALARMNO, alarm_nickname, cmd, content, url, url_num,  alarm_date, isread 
+		    from
+		    (
+		        select ALARMNO, alarm_nickname, cmd, content, url, url_num,  alarm_date, isread 
+		        from tbl_alarm
+		        where alarm_nickname= #{alarm_nickname}
+		    )
 		)
-		where rownum between #{startRno} and #{endRno}
+		where rno between #{startRno} and #{endRno}
 	</select>
 	
 	

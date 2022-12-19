@@ -140,11 +140,11 @@
 		        	
 		        </div>  
 				<div class="subject d-flex align-items-end my-2"> 
-					<a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}">${boardvo.subject}</a>
+					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}">${boardvo.subject}</a>
 					<span class="write_date ml-3">${boardvo.write_date}</span>
 				</div> 
 				<div class="content my-1">
-					<a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}">${boardvo.content}</a>
+					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}">${boardvo.content}</a>
 				</div>	
 				<div class="hashtag d-flex ">
 					<c:forEach var="hashtags" items="${boardvo.hashtags}">

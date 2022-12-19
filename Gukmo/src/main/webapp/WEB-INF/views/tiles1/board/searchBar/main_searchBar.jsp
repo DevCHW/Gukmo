@@ -26,12 +26,12 @@ $(document).ready(function(){
 	$("a#hashtag").click(function(e){
 		const $target = $(e.target);
 		let hashtag = $target.text().substr(1);
-		console.log(hashtag);
+		//console.log(hashtag);
 		$("input#searchWord").val(hashtag);
 		$("input#hashtag").val(hashtag);
 	
 		goSearch();
-		saveKeyword(hashtag);
+		saveKeyword();
 	});
 	
 	
@@ -43,7 +43,7 @@ $(document).ready(function(){
 		$("input#searchWord").val(keyword);
 
 		goSearch();
-		saveKeyword(keyword);
+		saveKeyword();
 	});
 });
 
@@ -56,7 +56,7 @@ function goSearch (){
 }
 
 
-function saveKeyword(keyword){
+function saveKeyword(){
 	
 	  const data = {keyword:$("input#searchWord").val(),
 			  		userid :'${sessionScope.user.userid}'}
@@ -69,7 +69,7 @@ function saveKeyword(keyword){
 		success : function(data){
 		},
 		error: function(xhr, status, error){
-			alert("로그인에 실패했습니다."+error);
+			alert("검색에 실패했습니다."+error);
 		}
 	  });//end of ajax
 }
@@ -91,7 +91,7 @@ function saveKeyword(keyword){
 <div class="hashtag mt-2 d-flex justify-content-between align-items-center">
 	<c:forEach var="topHash" items="${requestScope.topHashList}">
 	<div class="btn_hashtag border rounded px-2">
-		<a id="hashtag" style="color: grey;">#${topHash.hashtag}</a>
+		<a id="hashtag">#${topHash.hashtag}</a>
 	</div>
 	</c:forEach>
 </div>

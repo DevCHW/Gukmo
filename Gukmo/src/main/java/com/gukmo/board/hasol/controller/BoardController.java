@@ -51,7 +51,7 @@ public class BoardController {
 	 */
 	
 	@RequestMapping(value="/main_search.do")
-	public ModelAndView setAlarm_main_search(Map<String,String> paraMap, ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView main_search(Map<String,String> paraMap, ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("readCountPermission", "yes");

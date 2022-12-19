@@ -413,9 +413,6 @@ public class MemberController {
 			//System.out.println(checkTab);
 			
 			request.setAttribute("checkTab", checkTab);
-			
-			//String check = (String) request.getAttribute("checkTab");
-			//System.out.println(check);
 		}
 
 		MemberVO user = (MemberVO)session.getAttribute("user");

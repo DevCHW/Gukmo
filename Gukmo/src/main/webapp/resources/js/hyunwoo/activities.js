@@ -30,7 +30,7 @@ $(document).ready(function(){
 		$("div#alarm").hide();	//알람 감추기
 		$("div#activities").show();	//활동내역 보이기
 		
-	})//end of Event--
+	});//end of Event--
 	
 	
 	//네비바에서 알림 클릭시 이벤트
@@ -44,6 +44,20 @@ $(document).ready(function(){
 		$("div#alarm").show();	//알람 보이기
 		viewAlarm(1);
 	});//end of Event--
+	
+	
+	// 알람 - 각 리스트 클릭 시 읽음 처리
+	//$("div#goRead").click(function(e){
+		//alert("오닝");
+		//const target = $(e.currentTarget);
+		//const alarmno = target.parent().parent().find("input#alarmno").val();
+		//const url_num = $("div.alarm_content").attr("id");
+		
+		//alert(alarmno);
+		//alert(url_num);
+		//goRead(alarmno, url_num);
+
+	//});
 	
 });//end of $(document).ready(function(){})--
 
@@ -88,7 +102,8 @@ function goDetailCategory(detail_category){
  */
 function viewAlarm(currentPageNo){
 	
-	console.log("와?");
+	// console.log("와?");
+	// console.log(currentPageNo);
 	
 	$.ajax({
 		url:getContextPath()+"/member/getAlarmList.do",
@@ -99,9 +114,10 @@ function viewAlarm(currentPageNo){
 		success:function(json){		
 			
 			console.log(json.alarmList);
-			const message = json.message;
-			let html = "";
 			
+			let html = "";
+			const message = json.message;
+
 			if(message != null){ // 조회된 값이 없다는 문구가 있을 경우
 				$("div#alarmList").html(message);
 			}
@@ -125,18 +141,18 @@ function viewAlarm(currentPageNo){
 					}
 					
 					html += "<div class='activity_title alarm_title'>"+
-    							"<div class='d-flex w-100 justify-content-between align-items-center' onClick='goRead("+item.url_num+")'>";
+    							"<div class='d-flex w-100 justify-content-between align-items-center'>";
 					
 					
 					// 게시글에 댓글, 좋아요, 신고
 					if(item.cmd == 'reply') { 
 	            		html += "<div class='d-flex align-items-center'>" +
 	            				"	<div class='detail_category border rounded-pill px-2 py-1'>댓글</div>"+
-		                	 		"	<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+		                	 		"	<div class='activity_content alarm_content ml-2' onClick='goRead("+item.url_num+","+item.alarmno+")'>";
      					
 	            		// 읽은 알람일 경우 디자인 
 	            		if(item.isread =='y') {
-     						html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+     						html += "<span style='font-weight:500;'> [" +content+ "] </span>";
      					}
      					else{
      						html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
@@ -150,11 +166,11 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'like') { 
 	            		html += "<div class='d-flex align-items-center'>" +
         						"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
-            	 				"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+            	 				"		<div class='activity_content alarm_content ml-2' onClick='goRead("+item.url_num+","+item.alarmno+")'>";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
-								html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+								html += "<span style='font-weight:500;'> [" +content+ "] </span>";
 							}
 							else{
 								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
@@ -167,11 +183,11 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'penalty') { 
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>신고</div>"+
-            	 				"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+            	 				"		<div class='activity_content alarm_content ml-2' onClick='goRead("+item.url_num+","+item.alarmno+")' >";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
-								html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+								html += "<span style='font-weight:500;'> [" +content+ "] </span>";
 							}
 							else{
 								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
@@ -188,7 +204,7 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'recomment') {
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>댓글</div>"+
-								"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+								"		<div class='activity_content alarm_content ml-2' onClick='goRead("+item.url_num+","+item.alarmno+")' >";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
@@ -206,7 +222,7 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'cmtLike' || item.cmd == 'cmt_cmtLike') {
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
-    	 						"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+    	 						"		<div class='activity_content alarm_content ml-2' onClick='goRead("+item.url_num+","+item.alarmno+")' >";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
@@ -224,11 +240,11 @@ function viewAlarm(currentPageNo){
 					if(item.cmd == 'cmtPenalty') {
 	            		html += "<div class='d-flex align-items-center'>" +
 								"	<div class='detail_category border rounded-pill px-2 py-1'>좋아요</div>"+
-    	 						"		<div class='activity_content alarm_content ml-2' id='"+item.url_num+"'>";
+    	 						"		<div class='activity_content alarm_content ml-2' onClick='goRead("+item.url_num+","+item.alarmno+")' >";
 				
 			    		// 읽은 알람일 경우 디자인 
 			    		if(item.isread =='y') {
-								html += "<span style='font-weight:500;'> [" +content+ "] </span> +";
+								html += "<span style='font-weight:500;'> [" +content+ "] </span>";
 							}
 							else{
 								html += "<span style='color:black; font-weight:500;'> [" +content+ "] </span>";
@@ -246,14 +262,15 @@ function viewAlarm(currentPageNo){
 					html += 			"<div class='activity_date d-flex justify-content-end'>"+item.alarm_date+"</div>"+
 		            				"</div>" +
 		            			"</div>" +
-		            		"</div>" +
-							"<input id='alarmno' type='hidden' value='"+ item.alarmno +"'/>";;
+		            			"<input id='alarmno' type='hidden' value='"+ item.alarmno +"'/>" +
+		            		"</div>";
 				});
 				
 			}
 		    
 			$("div#alarmList").html(html);
 
+			console.log(html);
 			makeAlarmPageBar(currentPageNo);
 			
 		},
@@ -271,7 +288,7 @@ function makeAlarmPageBar(currentPageNo) {
 		
 	  $.ajax({
 		  url:getContextPath()+'/member/getAlarmCount.do',
-		  data:{ "sizePerPage":"10",
+		  data:{ "sizePerPage":"2",
 			     "checkTab" : "alarm"},
 	      type:"GET",
 	      dataType:"JSON",
@@ -343,8 +360,7 @@ function makeAlarmPageBar(currentPageNo) {
 					}
 	
 					pageBarHTML +="</ul>" +
-							  "<input type='hidden' id='currentPageNo' name='currentPageNo' value='"+currentPageNo+"'>";
-	
+							
 					$("nav#pageBar").html(pageBarHTML);
 				  }
 		  },
@@ -358,14 +374,15 @@ function makeAlarmPageBar(currentPageNo) {
 
 
 //읽음 컬럼 값 변경
-function goRead(url_num){
+function goRead(url_num, alarmno){
 
 	// console.log("하하");
-	console.log("url_num:" + url_num);
+	//alert("alarmno:" + alarmno);
+	//alert("url_num:" + url_num);
 	$.ajax({
 		url:getContextPath()+"/changeIsRead.do",
 		type:"post",
-		data:{"alarmno" : $("input#alarmno").val(), // alarmno 이라 수정 필요!
+		data:{"alarmno" : alarmno, // alarmno 이라 수정 필요!
 			  "url_num" : url_num
 		},
 		dataType:"json",
