@@ -164,12 +164,11 @@ function getHtmlReportedList(nickname){
  */
 function receipt(report_num){
   let url = "";
-  if( $("div#report_type").text() == '게시글' ){
+  if( $("span#span_report_type").text() == '게시글' ){
 	url = getContextPath()+"/admin/report/receiptBoard.do";
-  } else if ($("div#report_type").text() == '댓글'){
+  } else if ($("span#span_report_type").text() == '댓글'){
 	url = getContextPath()+"/admin/report/receiptComment.do";
   }
- 
   $.ajax({
 	url:url, 
     data:{"report_num":report_num},
@@ -178,8 +177,10 @@ function receipt(report_num){
     success:function(json){
       if(json.result){	//신고내역 접수에 성공했다면
         alert("신고내역 접수 성공!");
+        location.reload();
       } else {	//신고내역 접수에 실패했다면
         alert("신고내역 접수 실패!");
+        location.reload();
       }
     },//end of success
     //success 대신 error가 발생하면 실행될 코드 

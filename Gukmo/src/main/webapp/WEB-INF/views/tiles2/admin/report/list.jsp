@@ -133,8 +133,8 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>신고번호</th>
-                                <th>신고분류</th>
+                                <th>번호</th>
+                                <th>분류</th>
                                 <th>신고자 닉네임</th>
                                 <th>피신고자 닉네임</th>
                                 <th>사유</th>

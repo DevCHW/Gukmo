@@ -706,15 +706,12 @@ public class MemberController {
 	 * 내정보 변경 해주기
 	 */
 	@ResponseBody
-	@RequestMapping(value="member/infoChange.do", method= {RequestMethod.POST})
+	@RequestMapping(value="/member/infoChange.do", method= {RequestMethod.POST})
 	public String editMyInfo(MemberVO member,MultipartFile profile_image, MultipartHttpServletRequest mrequest) {
 		int result = 0;
-		
 		HttpSession session = mrequest.getSession();
 		Map<String,String> paraMap = new HashMap<>();
 		if( profile_image!=null && !profile_image.isEmpty() ) { //프로필이미지를 첨부하였을 경우
-			
-			
 			String root = session.getServletContext().getRealPath("/");
 			
 			String path = root+"resources"+ File.separator +"images";
@@ -737,7 +734,7 @@ public class MemberController {
 				paraMap.put("path",path);
 				paraMap.put("newFileName",newFileName);
 				paraMap.put("profile_image",loginUser.getProfile_image());
-				paraMap.put("before_nickname",mrequest.getParameter("before_nickname"));
+				paraMap.put("before_nickname",loginUser.getNickname());
 				
 				
 				//프로필이미지 첨부가 있는경우 회원정보 수정
@@ -752,7 +749,7 @@ public class MemberController {
 		session.removeAttribute("user");
 		MemberVO user = service.getUser(member.getUserid());
 		session.setAttribute("user", user);
-		
+		System.out.println(result);
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("result", result);
 		return jsonObj.toString();
@@ -764,7 +761,7 @@ public class MemberController {
 	 * 내가쓴 게시물 목록 가져오기
 	 */
 	@ResponseBody
-	@RequestMapping(value="member/myBoard.do", method= {RequestMethod.GET})
+	@RequestMapping(value="/member/myBoard.do", method= {RequestMethod.GET})
 	public String editMyInfo(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberVO loginUser = (MemberVO)session.getAttribute("user");

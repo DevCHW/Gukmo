@@ -1361,21 +1361,24 @@
 				select report_num, fk_num, report_nickname,
 					   reported_nickname,
 					   simple_report_reason,
-					   report_date, report_type,
+					   to_char(report_date,'yyyy-mm-dd') report_date, 
+					   report_type,
 					   receipt
 				from
 				(
 					select report_num, fk_board_num as fk_num,
 						   report_nickname,
 						   reported_nickname, simple_report_reason,
-						   report_date, report_type, 
+						   report_date,
+						   report_type, 
 						   case receipt when 0 then '접수전' else '접수완료' end as receipt
 					from tbl_board_report
 					union all
 					select report_num, fk_comment_num as fk_num,
 						   report_nickname,
 					  	   reported_nickname, simple_report_reason,
-						   report_date, report_type, 
+						   report_date, 
+						   report_type, 
 						   case receipt when 0 then '접수전' else '접수완료' end as receipt
 					from tbl_comment_report
 				) A
@@ -1846,10 +1849,200 @@
 	
 	
 	
+	<!-- 통계페이지 매핑데이터 얻기 -->
+	<select id="getTotalData" resultType="HashMap">
+		select round(CNT_MEMBER) CNT_MEMBER,
+			   round(CNT_COMMUNITY) CNT_COMMUNITY,
+			   round(CNT_ACADEMY) CNT_ACADEMY,
+			   round(CNT_CURRICULUM) CNT_CURRICULUM,
+			   round(AVG_JOIN_MEMBER) AVG_JOIN_MEMBER,
+			   round(AVG_WRITE_BOARD) AVG_WRITE_BOARD,
+			   round(AVG_VISIT) AVG_VISIT
+	    from
+	    (
+	        select count(*) as cnt_member
+	        from tbl_member 
+	    ) A
+	    cross join
+	    (
+	        select count(*) as cnt_community
+	        from tbl_board 
+	        where category ='커뮤니티'
+	    ) B 
+	    cross join
+	    (
+	        select count(*) as cnt_academy
+	        from tbl_academy 
+	    ) C
+	    cross join
+	    (
+	        select count(*) as cnt_curriculum
+	        from tbl_curriculum
+	    ) D
+	    cross join
+	    (
+	    	 select (
+		               select sum(cnt_join_member) sum
+		               from
+		                (
+		                    select count(*) as cnt_join_member
+		                    from tbl_member
+		                    group by to_date(join_date, 'yyyy-mm-dd')
+		                )
+		            ) /
+		            (
+		                select count(*)
+		                from
+		                (
+		                    select (select to_date(min(join_date),'yyyy-mm-dd')from tbl_member) + level - 1 as dates
+		                    from dual
+		                    connect by level &lt;= ( to_date(sysdate,'yyyy-mm-dd') - ( (select to_date(min(join_date),'yyyy-mm-dd') from tbl_member)-1 ) )
+		                ) V
+		            ) as avg_join_member
+	    	 from dual
+	    ) E
+	    cross join
+	    (
+	         select (
+               select sum(cnt_write_board) sum
+               from
+	                (
+	                    select count(*) as cnt_write_board
+	                    from tbl_board
+	                    group by to_date(write_date, 'yyyy-mm-dd')
+	                )
+		            ) /
+		            (
+		                select count(*)
+		                from
+		                (
+		                    select (select to_date(min(write_date),'yyyy-mm-dd')from tbl_board) + level - 1 as dates
+		                    from dual
+		                    connect by level &lt;= ( to_date(sysdate,'yyyy-mm-dd') - ( (select to_date(min(write_date),'yyyy-mm-dd') from tbl_board)-1 ) )
+		                ) V
+		            ) as avg_write_board
+		    from dual
+	    ) F
+	    cross join
+	    (
+	    	select (
+               select sum(cnt_visit) sum
+               from
+                (
+                    select count(*) as cnt_visit
+                    from tbl_board
+                    group by to_date(write_date, 'yyyy-mm-dd')
+                )
+		            ) /
+		            (
+		                select count(*)
+		                from
+		                (
+		                    select (select to_date(min(visit_time),'yyyy-mm-dd')from tbl_visitor) + level - 1 as dates
+		                    from dual
+		                    connect by level &lt;= ( to_date(sysdate,'yyyy-mm-dd') - ( (select to_date(min(visit_time),'yyyy-mm-dd') from tbl_visitor)-1 ) )
+		                ) V
+		            ) as avg_visit
+		    from dual
+	    ) G
+	</select>
+	
+	
+	<!-- 국모 접속브라우저 비중 데이터 얻기 -->
+	<select id="getBrowserData" resultType="Integer">
+		select count(*)
+        from tbl_visitor
+        where visit_browser = 'Chrome'
+        union all
+        select count(*)
+        from tbl_visitor
+        where visit_browser = 'Edge'
+        union all
+        select count(*)
+        from tbl_visitor
+        where visit_browser = 'Firefox'
+        union all
+        select count(*)
+        from tbl_visitor
+        where visit_browser = 'IE'
+        union all
+        select count(*)
+        from tbl_visitor
+        where visit_browser = 'Opera'
+	</select>
+	
+	
+	<select id="getMemberRateData" resultType="HashMap">
+		select round(cnt_aca_member*100) cnt_aca_member,
+               round((1-cnt_aca_member)*100) cnt_normal_member
+        from
+        (
+            select count(A.fk_userid)/count(B.fk_userid) cnt_aca_member
+            from
+                (select fk_userid from tbl_academy_member) A
+            right join
+                (select fk_userid from tbl_member) B
+            on A.fk_userid = B.fk_userid
+        ) V
+	</select>
+	
+	
+	
+	
+	<select id="getJoinMemberData" resultType="Integer">
+		select count(cnt) cnt
+	        from
+	        (
+	            select lpad(LEVEL, 2, '0') STIME
+	            from dual
+	            connect by level &lt;= to_char(last_day(sysdate),'dd')
+	        ) A
+	        left join
+	        (
+	            select to_char(join_date,'dd') join_date,
+	                   count(*) as cnt
+	            from tbl_member
+	            where join_date between TRUNC(sysdate,'MM') and LAST_DAY(sysdate)
+	            group by join_date
+	        ) B
+        on A.STIME = B.join_date
+        group by A.STIME
+        order by STIME asc
+     </select>
+     
+     
+     <select id="getTotalVisit" resultType="String">
+	     select count(*)
+	     from
+	     	(
+		     	select visit_refer,count(*) visit_cnt
+		        from tbl_visitor
+		        where visit_refer is not null
+		        group by visit_refer
+	        ) V
+     
+     </select>
+     <select id="getVisitMap" parameterType="HashMap" resultType="HashMap">
+	     select *
+	     from
+		     (
+		     select rownum rno,V.*
+		     from
+		     	(
+			     	select visit_refer,count(*) visit_cnt
+			        from tbl_visitor
+			        where visit_refer is not null
+			        group by visit_refer
+			        order by visit_cnt desc
+		        ) V
+		     ) T
+		 where rno between 1 and #{endRno}
+     </select>
+	
+	
+	
 	
 	<!--================================================================================================================================-->
 	<!--====================================================== Admin 끝 =================================================================-->
 	<!--================================================================================================================================-->
-	
-	
 </mapper>
