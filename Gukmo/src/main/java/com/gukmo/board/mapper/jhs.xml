@@ -56,6 +56,23 @@
 		where rno between 1 and 5
 	</select>
 	
+	<select id="getTopSearchList_nodata" parameterType="HashMap"  resultType="com.gukmo.board.model.SearchVO">
+		select keyword, count
+		from
+		(
+		    select rownum as rno, keyword, count
+		    from
+		    (
+		        select keyword, count(*) as count
+		        from tbl_search
+		        where TO_CHAR(search_date, 'yyyymmdd') between #{start_date} and #{end_date}
+		        group by keyword
+		        order by count desc
+		    )
+		)
+		where rno between 1 and 5
+	</select>
+	
 	<!-- 학원 목록 불러오기 위한 mapping  -->
 	<resultMap id="curriList" type="com.gukmo.board.model.BoardVO">
 		<result property="board_num" column="board_num"/>
@@ -212,6 +229,30 @@
                     select hashtag_num, count(*) as count
                     from tbl_hashtag_board_map
                     where TO_CHAR(write_date, 'yyyymmdd') between TO_CHAR(TRUNC(sysdate,'iw')-7, 'yyyymmdd') and TO_CHAR(TRUNC(sysdate,'iw')-1, 'yyyymmdd')
+                    group by hashtag_num
+                ) HM left join tbl_hashtag H
+                on HM.hashtag_num = H.hashtag_num
+                order by count desc
+            )
+        )
+		where rno between 1 and 3
+	</select>
+	
+
+	
+	<select id="getTopHashList_nodata" parameterType="HashMap" resultType="com.gukmo.board.model.HashtagVO">
+		select hashtag_num, hashtag, count
+        from
+        (
+            select rownum as rno, hashtag_num, hashtag, count
+            from
+            (
+                select HM.hashtag_num as hashtag_num, hashtag, count
+                from
+                (
+                    select hashtag_num, count(*) as count
+                    from tbl_hashtag_board_map
+                    where TO_CHAR(write_date, 'yyyymmdd') between #{start_date} and #{end_date}
                     group by hashtag_num
                 ) HM left join tbl_hashtag H
                 on HM.hashtag_num = H.hashtag_num
@@ -413,7 +454,7 @@
 	
 	<select id="getAdvertisementList" parameterType="HashMap" resultType="com.gukmo.board.model.AdVO" >
         select * from tbl_advertisement
-        where division = '메인'
+        where division = '메인'       
 	</select>	
 	
  	<update id="changeIsRead" parameterType="HashMap">

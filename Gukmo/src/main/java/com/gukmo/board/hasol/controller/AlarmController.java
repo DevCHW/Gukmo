@@ -80,10 +80,12 @@ public class AlarmController {
 		MemberVO user= (MemberVO)session.getAttribute("user");
 		String nickname = user.getNickname();
 		paraMap.put("alarm_nickname", nickname);
+		
+		System.out.println("sizePerPAge:" + paraMap.get("sizePerPage"));
 		paraMap.put("sizePerPage", paraMap.get("sizePerPage"));
 		
 		int totalPage = service.getTotalAlarmPage(paraMap);
-		// System.out.println("totalPAge:" + totalPage);
+		System.out.println("totalPAge:" + totalPage);
 
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("totalPage", totalPage); 

@@ -192,7 +192,7 @@ public class BoardController {
 
 		paraMap.put("userid", userid);
 
-		System.out.println("paraMap:" + paraMap);
+		// System.out.println("paraMap:" + paraMap);
 
 		Map<String,String> alarmMap = new HashMap<>();
 		alarmMap.put("alarm_nickname",paraMap.get("parent_write_nickname"));

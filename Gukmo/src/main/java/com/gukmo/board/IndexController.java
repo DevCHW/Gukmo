@@ -73,6 +73,7 @@ public class IndexController {
 		// 후기/정보공유 게시판 목록 불러오는 메소드
 		List<BoardVO> reviewBoardList = service.getReviewBoardList();
 		
+		// 광고 목록 불러오는 메소드
 		List<AdVO> advertisementList = service.getAdvertisementList();
 		        
 		mav.addObject("topHashList", topHashList);

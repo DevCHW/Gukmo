@@ -18,7 +18,7 @@
 <!-- 배너 영역 -->
 
 <!-- Indicators -->
- <c:if test="${not empty advertisementList}">
+ <c:if test="${requestScope.advertisementList != ''}">
 	
 	<div id="demo" class="carousel slide" data-ride="carousel" >
      
