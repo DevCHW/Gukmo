@@ -1,46 +1,10 @@
 @charset "UTF-8";
 
 
-
-/* ----- 검색창 영역 CSS 시작 ----- */
-
-/* input 영역 수정*/
-#searchWord {
-	width: 80%;
-	height: 50px;
-	border: solid 3px #208EC9;
-	border-radius: 100px 0 0 100px;
-	border-right: none;
-	padding: 2px 0 0 20px;
+/* 검색 리스트 영역 */
+.detail_category {
+	font-size:13px;
 }
-
-#searchWord::placeholder {
-	/* color:#F5F5F6; */
-}
-
-/* select 영역 수정 */
-
-
-/* 검색 버튼 css */
-#btn_search {
-	border: 3px solid #208EC9;
-	border-radius: 0 100px 100px 0; /* border 동그란 정도 설정 */
-	border-left: none;
-	background-color: white;
-	width: 50px;
-	padding-right:20px;
-}
-
-
-/* Hashtag 영역 */
-div.hashtag > a {
-	margin-right: 10px;
-	color: grey;
-}
-div.hashtag > a:hover {
-	color: #208EC9;
-}
-
 
 .subject > a {
 	font-weight: 700;
@@ -68,6 +32,7 @@ div.hashtag > a:hover {
 
 .content > a,span {
 	color: #848484;
+	font-size: 13px;
 	white-space: normal;
 	line-height: 15px;
 	max-height: 30px;
@@ -80,7 +45,17 @@ div.hashtag > a:hover {
 
 
 
-.hashtag {
-	
-	
+/* Hashtag*/
+a.search_hashtag {
+	margin-right: 10px;
+	font-size:13px;
+	color: black;
+}
+
+a.search_hashtag > span {
+	color: black;
+}
+
+a.search_hashtag:hover > span {
+	color: #208EC9;
 }
