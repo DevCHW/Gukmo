@@ -152,8 +152,6 @@ public class MemberController {
 		//프로필사진 기본프사로 지정
 		paraMap.put("profile_image","user.PNG");
 		
-		//확인용 회원가입 시도한 회원정보
-		System.out.println("회원가입 시도한 회원정보 :" + paraMap);
 		
 		if(paraMap.get("academy_name") != null && !"".equals(paraMap.get("academy_name"))) {	//교육기관회원 가입인경우
 			service.saveAcademyMember(paraMap);

@@ -109,7 +109,6 @@ public class BoardController {
 		      if(user != null) {
 		          String userid = user.getUserid();      
 		       
-		       System.out.println("로그인아이디확인" + userid);         
 		       
 		       if(userid != null) { // 로그인 중이라면                  	          
 		          paraMap.put("userid", userid);   
@@ -117,7 +116,6 @@ public class BoardController {
 		                               
 		          int likethis = service.likethis(paraMap);
 		          
-		          System.out.println("확인용 n " + likethis);                  
 		          
 		          if (likethis == 1) {            
 		              like = "1";            

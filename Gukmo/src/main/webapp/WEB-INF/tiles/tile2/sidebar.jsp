@@ -122,7 +122,11 @@ $(document).ready(function(){
 		    break;
 		    
 	  case "/admin/statistics.do" :							    //통계메뉴 URL일 경우
-		    $("li.statisticsMenu").addClass("active");				//통계메뉴 활성화
+	    	$("li.statisticsMenu").addClass("active");			//통계메뉴 활성화
+		    break;
+		    
+	  case "/admin/bug/list.do" :							    //버그메뉴 URL일 경우
+	    	$("li.bugMenu").addClass("active");			//버그메뉴 활성화
 		    break;
 		 
 		    
@@ -272,6 +276,25 @@ $(document).ready(function(){
 	
 	
 	
+	<%---------------------------------------- 버그메뉴 시작 ------------------------------------------------%>
+	<%-- Divider --%>
+    <hr class="sidebar-divider d-none d-md-block">
+    <%-- Heading --%>
+    <div class="sidebar-heading">DEVELOPEMENT</div>
+    
+	<%-- Nav Item - Member Collapse Menu --%>
+    <li class="nav-item bugMenu">
+    	<a class="nav-link" href="<%=ctxPath %>/admin/bug/list.do">
+            <i class="fa-solid fa-bug"></i>
+            <span>버그</span>
+         </a>
+    </li>
+	<%------------------------------------------ 버그메뉴 끝---------------------------------------%>
+	
+	
+	
+	
+	
 	<%-------------------------------- 토글버튼(왼쪽으로 살짝닫기) 영역 시작--------------------------------------%>
     <%-- Divider --%>
     <hr class="sidebar-divider d-none d-md-block">
@@ -284,6 +307,8 @@ $(document).ready(function(){
     <%-------------------------------- 토글버튼(왼쪽으로 살짝닫기) 영역 끝--------------------------------------%>
 
 
+
+	
 
 
 

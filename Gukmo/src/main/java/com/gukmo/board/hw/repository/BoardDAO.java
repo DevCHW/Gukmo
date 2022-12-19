@@ -262,6 +262,15 @@ public class BoardDAO implements InterBoardDAO{
 		return result1 * result2;
 	}
 
+	
+	/**
+	 * 버그문의 완료
+	 */
+	@Override
+	public boolean insertBug(Map<String, String> paraMap) {
+		return gukmo_sql.insert("chw.insertBug", paraMap) == 1?true:false;
+	}
+
 
 	
 
