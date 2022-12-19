@@ -39,7 +39,7 @@ $(document).ready(function(){
 	$("a#keyword").click(function(e){
 		const $target = $(e.target);
 		let keyword = $target.text();
-		console.log(keyword);
+		//console.log(keyword);
 		$("input#searchWord").val(keyword);
 
 		goSearch();
