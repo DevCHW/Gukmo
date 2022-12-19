@@ -82,8 +82,6 @@ public class IndexController {
 		mav.addObject("qnaBoardList", qnaBoardList);
 		mav.addObject("reviewBoardList", reviewBoardList);
 		mav.addObject("advertisementList", advertisementList);
-		
-		System.out.println("ㅎ하" +advertisementList);
 
 		mav.setViewName("index.tiles1");
 
