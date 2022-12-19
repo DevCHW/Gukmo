@@ -267,7 +267,7 @@
 	      group by fk_comment_num
 	      ) V
 	      on V.fk_comment_num = D.comment_num
-	      order by write_date desc 
+	      order by write_date
           ) BCL
           <if test='userid != ""'>		    		    
           inner join 
@@ -292,7 +292,7 @@
       join tbl_member M
       on C.nickname = M.nickname
       where comment_level = 1 and cmt_board_num = #{board_num}
-      order by write_date desc
+      order by write_date
       ) SCL
       <if test='userid != ""'>		    		    
           inner join 
