@@ -59,6 +59,10 @@ a {
 	margin: 5px 0 5px 5px;
 }
 
+.card:hover {
+	cursor: pointer;
+}
+
 .card-body {
 	padding: 5px 15px;
 }
@@ -201,6 +205,12 @@ div.div_tbl_board {
 	margin: 0 0 3% 2%
 }
 
+span#no_write_list {
+    padding-top: 130px;
+    padding-left: 115px;
+    font-size: 18px;
+}
+
 .title_board {
 	height: 45px;
 	border-radius: 5px 5px 0 0;
@@ -213,9 +223,10 @@ div.div_tbl_board {
 	border-radius: 0 0 5px 5px;
 	border-top: none;
 	padding: 0.5em;
+	height: 310px;
 }
 
-.list_board > .div_boardList:not(:last-child) {
+.list_board > .div_boardList:not(:nth-child(5)) {
 	border-bottom:solid 1px lightgrey;
 }
 

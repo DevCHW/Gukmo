@@ -43,33 +43,26 @@
 			<!-- 국비학원 - 교육과정일 경우 -->
 			<c:if test="${boardvo.detail_category eq '교육과정'}">
 			<div class="div_searchResult w-100 px-2 py-3 border-top">							
-
+				<%-- 카테고리 영역 --%>
 				<div class="d-flex align-items-center">
-					<%-- 카테고리 영역 --%>
-		            <a class="detail_category border rounded px-2 mr-2" href="<%=ctxPath %>/academy/curricula.do"> 
+		            <a class="detail_category border rounded px-2" href="<%=ctxPath %>/academy/curricula.do"> 
 		            	  ${boardvo.detail_category}
 		        	</a>
-		        	<%-- 글제목 --%>
-		        	<span class="subject my-2">
-			        	<a href="<%=ctxPath %>/academy/academies.do?boardNum=${boardvo.board_num}">
-			          	${boardvo.subject}
-			        	</a>
-			    	</span>
 		        </div>
+		          
+		        <%-- 글제목 --%>
+		        <div class="subject my-2">
+			        <a href="<%=ctxPath %>/academy/academy.do?boardNum=${boardvo.board_num}">
+			          ${boardvo.subject}
+			        </a>
+			    </div>
 	     
 		        <%-- 학원이름 --%>
 		        <div class="content d-flex flex-column">
 		          <span class="mr-2 my-1">학원 명 : ${boardvo.curriculum.academy_name}</span>
 	        	  <span class="mr-2 mb-1">교육 일정 : ${boardvo.curriculum.curriculum_start_date} ~ ${boardvo.curriculum.curriculum_end_date} </span>
 	        	  <span class="mr-2">문의처: ${boardvo.curriculum.join_url}</span>
-		        </div>
-		        
-		        <%-- 해시태그 --%>
-		        <div class="d-flex mt-2">
-					<c:forEach var="hashtags" items="${boardvo.hashtags}">
-					<a class="search_hashtag mr-3"><span>#${hashtags.hashtag}</span></a>
-					</c:forEach>  
-				</div>           
+		        </div>          
 	      	</div>
 			</c:if>   
 	
@@ -77,105 +70,96 @@
 			<c:if test="${boardvo.detail_category eq '국비학원'}">
 			<div class="div_searchResult d-flex w-100 px-2 py-3 border-top">			
 			    <%-- 학원 사진 --%>
-				<div class="academy_img_box mr-2" onclick="location.href='<%=ctxPath %>/academy/academies.do?boardNum=${boardvo.board_num}'">
+				<div class="academy_img_box mr-2" onclick="location.href='<%=ctxPath %>/academy/academy.do?boardNum=${boardvo.board_num}'">
 					<img src="<%=ctxPath %>/resources/images/${boardvo.academy.academy_image}">
 				</div>
 				
-				<div class="d-flex align-items-center">
-					<%-- 카테고리 영역 --%>
-		            <a class="detail_category border rounded px-2 mr-2" href="<%=ctxPath %>academy/academies.do"> 
+				<div class="d-flex flex-column">     		
+					<%-- 카테고리 정보 --%>
+					<div class="d-flex align-items-center">
+			            <%-- 게시판상세카테고리 클릭하면 해당 게시판으로 이동하게 하세요 변수 말고 아예 값 박아도 됨--%>
+			            <a class="detail_category border rounded px-2" href="<%=ctxPath %>academy/academies.do">
+			            	  ${boardvo.detail_category}
+			            </a>
+			        </div>  
+			        
+			        <%-- 글제목 --%>
+			        <div class="subject my-2">
+				        <a href="<%=ctxPath %>/academy/academy.do?boardNum=${boardvo.board_num}">
+				          ${boardvo.subject}
+				        </a>
+			        </div>
+		     
+			        <%-- 학원주소 --%>
+			        <div class="content">
+			          <span class="mr-2 my-1">주소 : ${boardvo.academy.address}</span>
+			          <span class="mr-2 mb-1">문의처 : ${boardvo.academy.phone}</span>
+					  <a class="mr-2" href="${boardvo.academy.homepage}"> 홈페이지 : ${boardvo.academy.homepage}</a>
+			        </div>
+	       
+		      	</div>
+	    	</div>  
+	
+			</c:if>   
+			</c:if>
+			
+	    	<!-- 일반 커뮤니티 게시글 -->
+			<c:if test="${boardvo.category ne '국비학원'}">
+			<div class="div_searchResult w-100 px-2 py-3 border-top">	
+			<%-- 카테고리 영역 --%>
+				<div class="d-flex align-items-bottom">
+		            <c:if test="${boardvo.detail_category eq '자유게시판'}">
+		            <a class="detail_category border rounded px-2" href="<%=ctxPath %>/community/freeBoards.do"> 
 		            	  ${boardvo.detail_category}
 		        	</a>
-		        	<%-- 글제목 --%>
-		        	<span class="subject my-2">
-			        	<a href="<%=ctxPath %>/academy/academies.do?boardNum=${boardvo.board_num}">
-			          	${boardvo.subject}
-			        	</a>
-			    	</span>
-		        </div>
-				<div class="d-flex flex-column">     		
-
-		     
-		        <%-- 학원주소 --%>
-		        <div class="content">
-		          <span class="mr-2 my-1">주소 : ${boardvo.academy.address}</span>
-		          <span class="mr-2 mb-1">문의처 : ${boardvo.academy.phone}</span>
-				  <a class="mr-2" href="${boardvo.academy.homepage}"> 홈페이지 : ${boardvo.academy.homepage}</a>
-		        </div>
-		        
-		        <%-- 해시태그 --%>
-		        <div class="d-flex mt-2">
-					<c:forEach var="hashtags" items="${boardvo.hashtags}">
-					<a class="search_hashtag mr-3"><span>#${hashtags.hashtag}</span></a>
-					</c:forEach>  
-				</div>
-       
-	      	</div>
-	    </div>  
-	
-		</c:if>   
-		</c:if>
-		
-
-    	<!-- 일반 커뮤니티 게시글 -->
-		<c:if test="${boardvo.category ne '국비학원'}">
-		<div class="div_searchResult w-100 px-2 py-3 border-top">	
-
-			<div class="d-flex align-items-center">
-				<%-- 카테고리 영역 --%>
-	            <c:if test="${boardvo.detail_category eq '자유게시판'}">
-	            <a class="detail_category border rounded px-2 mr-2" href="<%=ctxPath %>/community/freeBoards.do"> 
-	            	  ${boardvo.detail_category}
-	        	</a>
-	        	</c:if>
-	        	
-	        	<c:if test="${boardvo.detail_category eq '스터디'}">
-	            <a class="detail_category border rounded px-2 mr-2" href="<%=ctxPath %>/community/studies.do"> 
-	            	  ${boardvo.detail_category}
-	        	</a>
-	        	</c:if>
+		        	</c:if>
 		        	
-	        	<c:if test="${boardvo.detail_category eq 'QnA'}">
-	            <a class="detail_category border rounded px-2 mr-2" href="<%=ctxPath %>/community/questions.do"> 
-	            	  ${boardvo.detail_category}
-	        	</a>
-	        	</c:if>
-	        	
-	        	<c:if test="${boardvo.detail_category eq '수강/취업후기'}">
-	            <a class="detail_category border rounded px-2 mr-2" href="<%=ctxPath %>/community/hobbies.do"> 
-	            	  ${boardvo.detail_category}
-	        	</a>
-	        	</c:if>
-	        	
-	        	<c:if test="${boardvo.detail_category eq '공지사항'}">
-	            <a class="detail_category border rounded px-2 mr-2" href="<%=ctxPath %>/community/freeBoards.do"> 
-	            	  ${boardvo.detail_category}
-	        	</a>
-	        	</c:if>
- 
+		        	<c:if test="${boardvo.detail_category eq '스터디'}">
+		            <a class="detail_category border rounded px-2" href="<%=ctxPath %>/community/studies.do"> 
+		            	  ${boardvo.detail_category}
+		        	</a>
+		        	</c:if>
+		        	
+		        	<c:if test="${boardvo.detail_category eq 'QnA'}">
+		            <a class="detail_category border rounded px-2" href="<%=ctxPath %>/community/questions.do"> 
+		            	  ${boardvo.detail_category}
+		        	</a>
+		        	</c:if>
+		        	
+		        	<c:if test="${boardvo.detail_category eq '수강/취업후기'}">
+		            <a class="detail_category border rounded px-2" href="<%=ctxPath %>/community/hobbies.do"> 
+		            	  ${boardvo.detail_category}
+		        	</a>
+		        	</c:if>
+		        	
+		        	<c:if test="${boardvo.detail_category eq '공지사항'}">
+		            <a class="detail_category border rounded px-2" href="<%=ctxPath %>/community/freeBoards.do"> 
+		            	  ${boardvo.detail_category}
+		        	</a>
+		        	</c:if>
+		        	
+		        </div>  
 				<div class="subject d-flex align-items-end my-2"> 
-					<a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}">${boardvo.subject}</a>
+					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}">${boardvo.subject}</a>
 					<span class="write_date ml-3">${boardvo.write_date}</span>
 				</div> 
+				<div class="content my-1">
+					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}">${boardvo.content}</a>
+				</div>	
+				<div class="hashtag d-flex ">
+					<c:forEach var="hashtags" items="${boardvo.hashtags}">
+					<span class="mr-3">#${hashtags.hashtag}</span>
+					</c:forEach>  
+				</div>                                            
 			</div>
-			<div class="content my-1">
-				<a href="<%= ctxPath%>/detail.do?board_num=${boardvo.board_num}">${boardvo.content}</a>
-			</div>	
-			<div class="d-flex ">
-				<c:forEach var="hashtags" items="${boardvo.hashtags}">
-				<a class="search_hashtag mr-3"><span>#${hashtags.hashtag}</span></a>
-				</c:forEach>  
-			</div>                                            
+			</c:if>
+			</c:forEach>
+			<%-- 게시글 반복문 끝 --%>
 		</div>
-		</c:if>
-		</c:forEach>
-		<%-- 게시글 반복문 끝 --%>
-	</div>
-	
-	<nav>
-		${requestScope.pageBar}
-	</nav>
+		
+		<nav>
+			${requestScope.pageBar}
+		</nav>
+
 	</c:if>
-	
-	
 </div>
