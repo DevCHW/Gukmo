@@ -3,6 +3,7 @@ package com.gukmo.board.model;
 import org.springframework.web.multipart.MultipartFile;
 
 public class AdVO {
+
 	private String advertisement_num;		// 광고글 번호
 	private String division;				// 구분(메인/게시판)
 	private String client_name;				// 클라이언트 명
@@ -126,6 +127,14 @@ public class AdVO {
 	}
 
 
+	@Override
+	public String toString() {
+		return "AdVO [advertisement_num=" + advertisement_num + ", division=" + division + ", client_name="
+				+ client_name + ", client_phone=" + client_phone + ", file_name=" + file_name + ", url=" + url
+				+ ", start_date=" + start_date + ", period=" + period + ", status=" + status + ", attach=" + attach
+				+ ", orgfilename=" + orgfilename + ", filename=" + filename + ", filesize=" + filesize + ", end_date="
+				+ end_date + "]";
+	}
 
 
 
