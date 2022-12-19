@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -32,10 +33,8 @@
   <div class="container mt-3" class="d-flex flex-column">
    <!-- 신고 폼 시작 -->
    <form name="reportFrm">
-	  <div class="d-flex justify-content-between">
-	  	<div></div>
+	  <div class="d-flex justify-content-center">
 	  	<h2>신고하기</h2>
-	  	<button id="btn_close" class="btn rounded">X</button>
 	  </div>
 	
       <hr style="background-color: black; height: 1.2px;">
@@ -44,21 +43,32 @@
 		<table>
 			<tbody>
 				<tr>
-				 <td>작성자</td>
+				 <td style="width:13%">작성자</td>
 				 <td><span id="nickname" class="input_signup rounded pl-2" >${requestScope.paraMap.nickname}</span></td>
 				</tr>
-				
 				<tr>
 				 <td>내 용</td>
-				 <td><span id="subject" class="input_signup rounded pl-2" >${requestScope.paraMap.content}</span></td>
+				 <td>
+				 <span id="subject" class="input_signup rounded pl-2" >
+				<c:set var="content" value='${requestScope.paraMap.content}' />
+				 <c:choose>
+			        <c:when test="${fn:length(content) gt 80}">
+			        <c:out value="${fn:substring(content, 0, 80)}"></c:out>...
+			        </c:when>
+			        <c:otherwise>
+			        ${requestScope.paraMap.content}
+			        </c:otherwise>
+				 </c:choose>
+				 </span>
+				 </td>
 				</tr>
 			</tbody>
 		</table>
 	   </div>     
 	     <!-- 등록용 닉네임 -->
-		 <input type="hidden" name="fk_comment_num" value="${requestScope.paraMap.comment_num}" />
-		 <input type="hidden" name="reported_nickname" value="${requestScope.paraMap.comment_write_nickname}" />
-		 <input type="hidden" name="report_nickname" value="${requestScope.paraMap.nickname}" />
+		 <input type="hidden" name="fk_comment_num" value="${requestScope.paraMap.comment_num}"/>
+		 <input type="hidden" name="reported_nickname" value="${requestScope.paraMap.comment_write_nickname}"/>
+		 <input type="hidden" name="report_nickname" value="${requestScope.paraMap.nickname}"/>
 		 <!-- AOP 등록용 -->
 		 <input type="hidden" name="subject" value="${requestScope.paraMap.content}" />
 		 <input type="hidden" name="board_num" value="${requestScope.paraMap.board_num}" />
@@ -87,8 +97,8 @@
         </div>
 	</div>
 	<footer>
-		  <button id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
-	      <button id="btn_close" class="btn border rounded w-100 mt-3">취소</button>
+		  <button type="button" id="reportWrite" class="btn border rounded w-100 mt-3">신고하기</button>
+	      <button type="button" id="btn_close" class="btn border rounded w-100 mt-3">취소</button>
 	</footer>
 	</form>
 	
