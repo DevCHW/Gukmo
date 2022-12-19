@@ -16,25 +16,45 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("a#hashtag").click(function(e){
+	
+	// 게시글 밑 해시태그 클릭 시 input
+	$("a.search_hashtag").click(function(e){
 		const $target = $(e.target);
-		let hashtag = $target.text();
+		let hashtag = $target.text().substr(1);
 		$("input#searchWord").val(hashtag);
-		
+		$("input#hashtag").val(hashtag);
+	
 		goSearch();
+		saveKeyword();
 	});
-
  
 });
 
 
 
 //검색
-function goSearch (){
-	
+function goSearch (){	
 	const frm = document.searchFrm;
 	frm.method="GET";
 	frm.action= getContextPath()+"/main_search.do"
-	frm.submit();
+	frm.submit();	
+}
+
+
+function saveKeyword(){
 	
+	  const data = {keyword:$("input#searchWord").val(),
+			  		userid :'${sessionScope.user.userid}'}
+	  $.ajax({
+		type : 'GET',
+		url : '<%=ctxPath%>/saveKeyword.do',
+		data : data,
+		dataType : 'json',
+		async : false,
+		success : function(data){
+		},
+		error: function(xhr, status, error){
+			alert("검색에 실패했습니다."+error);
+		}
+	  });//end of ajax
 }
