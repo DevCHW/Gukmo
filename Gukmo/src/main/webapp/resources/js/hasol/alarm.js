@@ -45,8 +45,8 @@ function getNotReadAlarm_count(){
 				// 헤더 그 자체
 				$("span#alarm_cnt").hide();
 				
-				// 알림 창 안		
-				$("span#alarm_cnt2").hide();
+				// 알림 창 안
+				$("span#alarm_cnt2").text("0");
 			}
 			else {
 				// 헤더 그 자체
@@ -55,7 +55,6 @@ function getNotReadAlarm_count(){
 				
 				// 알림 창 안
 				$("span#alarm_cnt2").text(notReadAlarmCnt);
-				$("span#alarm_cnt2").show();
 				
 			}	
 		},
@@ -79,7 +78,7 @@ function getNotReadAlarmList(){
 		dataType:"json",
 		success:function(json){
 
-			console.log(json);
+			//console.log(json);
 			let html = "";
 			
 			if(json.notReadAlarmList.length>0) {
@@ -95,7 +94,7 @@ function getNotReadAlarmList(){
 						content = content.substring(0, 10) + "...";
 					}
 
-					html += "<div class='alarm_content' onClick='goRead("+item.url_num+")'>" +							
+					html += "<div class='alarm_content' onClick='goRead("+item.url_num+","+item.alarmno+")'>" +							
 								"<div class='alarm_info'>";
 					
 					// 게시글에 댓글, 좋아요, 신고
@@ -103,8 +102,7 @@ function getNotReadAlarmList(){
 						html += 	"<span class='reply'>댓글</span>" +
 									"<span>"+ item.alarm_date +"</span>" +
 								"</div>"+
-								"<p class='alarm_text' id="+item.url_num+"> [" +content+ "] 글에 댓글이 달렸습니다.</p>" +
-								"<input id='alarmno' type='hidden' value='"+ item.alarmno +"'>";
+								"<p class='alarm_text' id="+item.url_num+"> [" +content+ "] 글에 댓글이 달렸습니다.</p>";
 						// console.log("여기는:");
 								
 					}
@@ -113,8 +111,7 @@ function getNotReadAlarmList(){
 						html +=  	"<span class='like'>좋아요</span>" +
 									"<span>"+ item.alarm_date +"</span>" +
 								"</div>"+
-								"<p class='alarm_text' id="+item.url_num+"> [" +content+ "] 글이 좋아요를 받았습니다.</p>" +
-								"<input id='alarmno' type='hidden' value='"+ item.alarmno +"'>";			
+								"<p class='alarm_text' id="+item.url_num+"> [" +content+ "] 글이 좋아요를 받았습니다.</p>";			
 					}
 					
 					if(item.cmd == 'penalty') {
@@ -172,14 +169,13 @@ function getNotReadAlarmList(){
 }
 
 // 읽음 컬럼 값 변경
-function goRead(url_num){
+function goRead(url_num, alarmno){
 
 	// console.log("하하");
-	// console.log("url_num:" + url_num);
 	$.ajax({
 		url:getContextPath()+"/changeIsRead.do",
 		type:"post",
-		data:{"alarmno" : $("input#alarmno").val(), // alarmno 이라 수정 필요!
+		data:{"alarmno" : alarmno, // alarmno 이라 수정 필요!
 			  "url_num" : url_num
 		},
 		dataType:"json",
