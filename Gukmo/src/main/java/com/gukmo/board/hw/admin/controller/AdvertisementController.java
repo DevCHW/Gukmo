@@ -75,7 +75,7 @@ public class AdvertisementController {
 	    	searchWord = client_phone;
 	    }
 	    if(status != null && !status.trim().isEmpty()) {
-	    	status = "진행중".equals(status)?"1":"0";
+	    	status = "진행중".equals(status)?"0":"1";
 	    }
 	    
 	    switch (sort) {

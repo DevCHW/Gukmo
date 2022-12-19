@@ -123,6 +123,57 @@ public class LoginDAO implements InterLoginDAO{
 	}
 
 
+
+	/**
+	 * 정지 사유 불러오기
+	 */
+	@Override
+	public Map<String,String> getPenaltyReason(String userid) {
+		String nickname = gukmo_sql.selectOne("chw.getNickname",userid);
+		Map<String,String> PenaltyReason = gukmo_sql.selectOne("chw.getPenaltyReason",nickname);
+		return PenaltyReason;
+	}
+
+
+
+	/**
+	 * 정지 상세사유 불러오기
+	 */
+	@Override
+	public String getDetailReason(String userid) {
+		String nickname = gukmo_sql.selectOne("chw.getNickname",userid);
+		String detailReason = gukmo_sql.selectOne("chw.getDetailReason",nickname);
+		return detailReason;
+	}
+
+
+
+	/**
+	 * 승인 거부였던 회원 활동으로 바꿔주기
+	 */
+	@Override
+	public int updateActive(String userid) {
+		return gukmo_sql.update("chw.updateActive",userid);
+	}
+
+
+
+	/**
+	 * 승인거부사유 얻기
+	 */
+	@Override
+	public String getRefuseReason(String userid) {
+		String reason = gukmo_sql.selectOne("chw.getRefuseReason",userid);
+		int result = gukmo_sql.delete("chw.delRefuse",userid);
+		if(result > 0) {
+			return reason;
+		} else {
+			return "승인거부내역 삭제에 실패하였습니다.";
+		}
+		
+	}
+
+
 	
 
 

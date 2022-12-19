@@ -223,6 +223,27 @@ public class AdminMemberDAO implements InterAdminMemberDAO{
 	}
 
 
+	/**
+	 * 승인거부 내역 등록
+	 */
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public boolean refuseNew(Map<String, String> paraMap) {
+		int result1 = gukmo_sql.insert("chw.refuseNew",paraMap);
+		int result2 = gukmo_sql.delete("chw.deleteAcademy",paraMap);
+		return (result1+result2 > 0)?true:false;
+	}
+
+
+	/**
+	 * 승인 거부내역 삭제
+	 */
+	@Override
+	public boolean deleteRefuse(String userid) {
+		return gukmo_sql.delete("chw.deleteRefuse",userid) == 1?true:false;
+	}
+
+
 	
 	
 	

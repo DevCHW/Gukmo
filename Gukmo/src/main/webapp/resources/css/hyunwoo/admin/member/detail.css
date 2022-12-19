@@ -56,16 +56,22 @@ div.detail_info_area{
 }
 
 span#view_reason,
-span#btn_insert_penalty_modal{
+span#btn_insert_penalty_modal,
+span#btn_insert_refuse_modal{
   color:#0090F9;
   border-bottom:solid 1px #0090F9;
   font-size:12px;
   cursor:pointer;
 }
 span#view_reason:hover,
-span#btn_insert_penalty_modal:hover{
+span#btn_insert_penalty_modal:hover,
+span#btn_insert_refuse_modal:hover{
   color:#0B7FD3;
   border-bottom:solid 1px #0B7FD3;
+}
+
+span#btn_insert_refuse_modal{
+	display:none;
 }
 
 
@@ -105,7 +111,8 @@ div#detail_penalty_reason_area{
 }
 
 textarea#email_message,
-textarea#detail_penalty_reason{
+textarea#detail_penalty_reason,
+textarea#refuse_reason{
   outline: none;
 }
 

@@ -146,9 +146,16 @@ function user_status(userid){
 					break;
 					
 				case '정지':
-					alert("정지된 회원입니다. 정지사유 : "+json.penaltyReason);
+					if(json.penaltyReason.SIMPLE_PENALTY_REASON != '기타사유'){
+						alert("정지된 회원입니다. \n" +
+							  "정지사유 : "+json.penaltyReason.SIMPLE_PENALTY_REASON + "\n" +
+							  "정지기간 : " + json.penaltyReason.START_DATE + " ~ " + json.penaltyReason.END_DATE + "(" + json.penaltyReason.PERIOD + "일)");
+					}else{
+						alert("정지된 회원입니다. \n" +
+							  "정지사유 : " + json.detailReason + "\n" +
+							  "정지기간 : " + json.penaltyReason.START_DATE + " ~ " + json.penaltyReason.END_DATE + "(" + json.penaltyReason.PERIOD + "일)");
+					}
 					break;
-					
 				case '휴면':
 					let result = confirm("로그인한지 1년이상 지나서 휴면회원으로 전환되었습니다. 휴면을 푸시겠습니까?");
 					if(result){	//휴면을 풀겠다고 했다면
@@ -160,6 +167,7 @@ function user_status(userid){
 						    success:function(json){
 						    	if(json.result){
 						    		alert("휴면이 풀렸습니다!");
+						    		login(userid);
 						    	} else{
 						    		alert("휴면을 푸는 도중 문제가 발생하였습니다. 다시 시도하여주세요.");
 						    	}
@@ -172,7 +180,15 @@ function user_status(userid){
 					break;
 					
 				case '대기':
-					alert("승인대기중인 회원입니다. 관리자가 승인할 때 까지 대기해주세요.");
+					alert("승인대기중인 회원입니다. 관리자가 승인할 때 까지 기다려주세요!\n" +
+						  "승인에는 1~2일정도 소요될 수 있습니다.");
+					break;
+					
+				case '승인거부':
+					alert("승인이 거절되어 일반회원으로 전환되었습니다. \n" +
+						  "거부사유를  상세히 읽고 다시 교육기관회원으로 전환해주세요\n" +
+						  "승인 거부사유  : "+json.refuseReason);
+					login(userid);
 					break;
 				
 				case '비밀번호 변경 권장':

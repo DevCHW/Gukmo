@@ -59,8 +59,31 @@
 	<!-- 멤버테이블에 이메일변경시 update -->
 	<update id="editEmail" parameterType="HashMap">
 		update tbl_member set email = #{email} 
+		where fk_userid = #{userid}
+	</update>
+	
+	
+	
+	<!-- 승인 거부였던 회원 활동으로 바꿔주기 -->
+	<update id="updateActive" parameterType="String">
+		update tbl_member_login set status = '활동' 
 		where userid = #{userid}
 	</update>
+	
+	<!-- 승인거부사유 얻기  --> 
+	<select id="getRefuseReason" parameterType="String" resultType="String">
+		select reason
+		from tbl_refuse
+		where fk_userid = #{userid}
+	</select>
+	
+	<!-- 승인거부사유 얻기  --> 
+	<delete id="delRefuse" parameterType="String">
+		delete from tbl_refuse
+		where fk_userid = #{userid}
+	</delete>
+	
+	
 	
 	
 	
@@ -409,6 +432,32 @@
 	<select id="getUserid" parameterType="String" resultType="String">
 		select fk_userid from tbl_member
 		where email = #{email} 
+	</select>
+	
+	
+	
+	<!-- 아이디값으로 유저닉네임 알아내기 -->
+	<select id="getNickname" parameterType="String" resultType="String">
+		select nickname from tbl_member
+		where fk_userid = #{userid} 
+	</select>
+	
+	
+	<!-- 정지 사유 불러오기 -->
+	<select id="getPenaltyReason" parameterType="String" resultType="HashMap">
+		select SIMPLE_PENALTY_REASON
+			  ,to_char(PENALTY_START_DATE,'yyyy-mm-dd') START_DATE
+			  ,PENALTY_PERIOD PERIOD
+			  ,to_char((PENALTY_START_DATE + PENALTY_PERIOD),'yyyy-mm-dd') END_DATE
+		from tbl_penalty
+		where nickname = #{nickname} 
+	</select>
+	
+	<!-- 정지 상세사유 불러오기 -->
+	<select id="getDetailReason" parameterType="String" resultType="String">
+		select DETAIL_PENALTY_REASON 
+		from tbl_penalty
+		where nickname = #{nickname} 
 	</select>
 	
 	
@@ -1303,7 +1352,7 @@
 					   client_name,
 					   client_phone,
 					   to_char(start_date,'yyyy-mm-dd') || ' ~ ' || to_char((start_date + period),'yyyy-mm-dd') || ' (' || period || ')일 ' period, 
-					   case status when 0 then '진행중' else '종료' end as status 
+					   case status when 0 then '종료' else '진행중' end as status 
 				from 
 					tbl_advertisement
 				where 1=1
@@ -2061,6 +2110,24 @@
 		     ) T
 		 where rno between 1 and #{endRno}
      </select>
+
+
+
+	<!-- 멤버로그인테이블에 회원가입정보 insert -->
+	<insert id="refuseNew" parameterType="HashMap">
+		insert into tbl_refuse(fk_userid,reason)
+		values(#{userid},#{refuse_reason})
+	</insert>
+	<!-- 관리자가 승인 거부를 하여 학원에서의 정보 삭제하기 -->
+	<delete id="deleteAcademy" parameterType="HashMap">
+		delete from tbl_academy_member
+		where fk_userid = #{userid}
+	</delete>
+	
+	<delete id="deleteRefuse" parameterType="String">
+		delete from tbl_refuse
+		where fk_userid = #{userid}
+	</delete>
 	
 	
 	

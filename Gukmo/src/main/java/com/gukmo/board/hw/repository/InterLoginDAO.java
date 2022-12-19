@@ -66,6 +66,26 @@ public interface InterLoginDAO {
 	 */
 	int adminLoginRecordSave(Map<String, String> paraMap);
 
+	/**
+	 * 정지사유 불러오기
+	 */
+	Map<String,String> getPenaltyReason(String userid);
+
+	/**
+	 * 정지 상세사유 불러오기
+	 */
+	String getDetailReason(String userid);
+
+	/**
+	 * 승인 거부였던 회원 활동으로 바꿔주기
+	 */
+	int updateActive(String userid);
+
+	/**
+	 * 승인 거부사유 알아오기
+	 */
+	String getRefuseReason(String userid);
+
 
 	
 
