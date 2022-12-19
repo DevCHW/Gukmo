@@ -85,11 +85,25 @@ public class IndexDAO implements InterIndexDAO {
 		List<HashtagVO> topHashList = gukmo_sql.selectList("jhs.getTopHashList");
 		return topHashList;
 	}
+	
+	// 주간 해시태그 순위  전주 기록 없으며이번주로 메소드
+	@Override
+	public List<HashtagVO> getTopHashList_nodata() {
+		List<HashtagVO> topHashList = gukmo_sql.selectList("jhs.getTopHashList_nodata");
+		return topHashList;
+	}
 
 	// 주간 검색어 순위 구하는 메소드
 	@Override
 	public List<SearchVO> getTopSearchList() {
 		List<SearchVO> topSearchList = gukmo_sql.selectList("jhs.getTopSearchList");
+		return topSearchList;
+	}
+	
+	// 주간 검색어 저번주 기록 없음 이번주
+	@Override
+	public List<SearchVO> getTopSearchList_nodata() {
+		List<SearchVO> topSearchList = gukmo_sql.selectList("jhs.getTopSearchList_nodata");
 		return topSearchList;
 	}
 
@@ -99,6 +113,10 @@ public class IndexDAO implements InterIndexDAO {
 		List<AdVO> advertisementList = gukmo_sql.selectList("jhs.getAdvertisementList");
 		return advertisementList;
 	}
+
+
+
+
 
 
 

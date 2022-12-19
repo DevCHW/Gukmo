@@ -38,7 +38,7 @@ public class BoardController {
 	private FileManager fileManager;
 	
 	
-	// 게시판 글목록 보기 페이지 요청
+	// 자유게시판 글목록 보기 페이지 요청
 	@RequestMapping(value="/community/freeBoards.do", method= {RequestMethod.GET})
 	public String getNotice_viewFreeBoards(HttpServletRequest request) {
 		List<BoardVO> boardList = null;
@@ -81,11 +81,7 @@ public class BoardController {
 		 if(!"".equals(searchWord) ) {
 			 request.setAttribute("paraMap", paraMap);
 		 }
-		 
-		 String url = "freeBoards.do";
-		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
-
+		
 		//정렬기준 넣기
 	      switch (sort) {
 	         case "write_date":
@@ -104,6 +100,10 @@ public class BoardController {
 	            sort = "최신순";
 	            break;
 	      }
+	      
+	    String url = "freeBoards.do";
+		//페이지바 얻기
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 		 
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("page", page);
@@ -162,11 +162,7 @@ public class BoardController {
 			 request.setAttribute("paraMap", paraMap);
 		 }
 		 
-		 String url = "questions.do";
-		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
-
-			//정렬기준 넣기
+		  //정렬기준 넣기
 	      switch (sort) {
 	         case "write_date":
 	            sort = "최신순";
@@ -184,6 +180,11 @@ public class BoardController {
 	            sort = "최신순";
 	            break;
 	      }
+	      
+	    String url = "questions.do";
+		//페이지바 얻기
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
+		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
@@ -240,9 +241,6 @@ public class BoardController {
 			request.setAttribute("paraMap", paraMap);
 		}
 		
-		String url = "studies.do";
-		//페이지바 얻기
-		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 		
 		//정렬기준 넣기
 	      switch (sort) {
@@ -262,6 +260,10 @@ public class BoardController {
 	            sort = "최신순";
 	            break;
 	      }
+	      
+	    String url = "studies.do";
+		//페이지바 얻기
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 	            
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("page", page);
@@ -318,10 +320,6 @@ public class BoardController {
 			 request.setAttribute("paraMap", paraMap);
 		 }
 		 
-		 String url = "hobbies.do";
-		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
-
 		//정렬기준 넣기
       switch (sort) {
          case "write_date":
@@ -340,6 +338,11 @@ public class BoardController {
             sort = "최신순";
             break;
       }
+      
+		String url = "hobbies.do";
+		//페이지바 얻기
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
+
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
@@ -368,9 +371,11 @@ public class BoardController {
 		 	searchWord = "";
 		 }
 		 
-		 if(sort == null ||sort == "") {
-			 sort = "write_date";
-		 }
+		 if(sort == null || sort.trim() == "") {   //sort 값이 없다면
+	         sort = "write_date";
+	      } else {                        //sort 값이 있다면 아래 sort 값 구하기 메서드 호출
+	         sort = getSort(sort);
+	      }
 		 
 		 paraMap.put("searchWord", searchWord);
 		 paraMap.put("sort", sort);
@@ -394,10 +399,6 @@ public class BoardController {
 		 if(!"".equals(searchWord) ) {
 			 request.setAttribute("paraMap", paraMap);
 		 }
-		 
-		 String url = "reviews.do";
-		 //페이지바 얻기
-		 String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
 
 		 
 		//정렬기준 넣기
@@ -418,6 +419,11 @@ public class BoardController {
 	            sort = "최신순";
 	            break;
 	      }
+	      
+	    String url = "reviews.do";
+		//페이지바 얻기
+		String pageBar = getPageBar(page,totalPage, url, searchWord, sort);
+
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("page", page);
 		request.setAttribute("totalCount", totalCount);
@@ -716,8 +722,6 @@ public class BoardController {
 	      //AOP 용
 	      Map<String,String> alarmMap = new HashMap<>();
 	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
-	      System.out.println("파라맵의 nickname:" + paraMap.get("reported_nickname"));
-	      
     	  alarmMap.put("cmd", "penalty");
     	  alarmMap.put("url", "/detail.do?boardNum=");
     	  alarmMap.put("content", paraMap.get("subject"));
@@ -757,14 +761,14 @@ public class BoardController {
 		   
 	      int n = service.comment_reportInsert(paraMap);
 	      
-	      // System.out.println(paraMap.get("board_num"));
+	      //System.out.println("url_num:" + paraMap.get("board_num"));
 	      //AOP 용
 	      Map<String,String> alarmMap = new HashMap<>();
 	      alarmMap.put("alarm_nickname", paraMap.get("reported_nickname"));
       	  alarmMap.put("cmd", "cmtPenalty");
       	  alarmMap.put("url", "/detail.do?boardNum=");
       	  alarmMap.put("content", paraMap.get("subject"));
-      	  alarmMap.put("url_num", paraMap.get("fk_num"));
+      	  alarmMap.put("url_num", paraMap.get("board_num"));
 
 		 request.setAttribute("alarmMap", alarmMap);
 	      

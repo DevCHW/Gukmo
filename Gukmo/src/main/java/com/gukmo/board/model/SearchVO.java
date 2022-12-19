@@ -12,6 +12,8 @@ public class SearchVO {
 	
 	// select 용
 	private String count; // 검색어 순위 카운트용
+	private String start_data; // 이전 날짜 검색 때문에...
+	private String end_date;  // 이전 날짜 검색 때문에...
 	
 	
 	public int getSearch_num() {

@@ -41,26 +41,23 @@ $(document).ready(function(){
     });
     // ==== 스마트 에디터 구현 끝 ==== //
 	
-    
-    	
+    if(!detail_category == null) { // 수정일때
     	setTimeout(function() {
     		let detail_category = $("#detail_category").val();
-	    //	obj.getById["content"].exec("SET_IR", [""]); 
 	    	
-	    	console.log(detail_category);
 	    	var sHTML;
 	    	
 	    	switch (detail_category) {
 	    	case "자유게시판":
 				sHTML =`자유게시판 유의사항<br>
 						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
-				sHTML =`QnA 유의사항
+				sHTML =`QnA 유의사항<br>
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "수강/취업후기":
@@ -89,7 +86,7 @@ $(document).ready(function(){
 						    <br><br><br>
 						수강/취업 후기 게시판 유의사항<br>
 							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "스터디":
@@ -136,14 +133,10 @@ $(document).ready(function(){
 	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
 
     	}, 1000);
-    
-    
+
+    }
 
     
-    
-    
-    
-
     
     // ==== 해시태그 구현 시작 ==== //
       var hashtag = {};
@@ -214,10 +207,6 @@ $(document).ready(function(){
             e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
           }
           
-          
-          
-          
-          
         });
 
       // 삭제 버튼
@@ -233,26 +222,24 @@ $(document).ready(function(){
       
       
       
-      
 		$("#detail_category").change(function(){
 	    	
 	    	let detail_category = $("#detail_category").val();
 	    	obj.getById["content"].exec("SET_IR", [""]); 
 	    	
-	    	console.log(detail_category);
 	    	var sHTML;
 	    	
 	    	switch (detail_category) {
 	    	case "자유게시판":
 				sHTML =`자유게시판 유의사항<br>
 						⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "QnA":
-				sHTML =`QnA 유의사항
+				sHTML =`QnA 유의사항<br>
 					    ⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-						⁃	부적절한 스터디 발견 시 신고해주세요.<br>
+						⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 						⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "수강/취업후기":
@@ -281,7 +268,7 @@ $(document).ready(function(){
 						    <br><br><br>
 						수강/취업 후기 게시판 유의사항<br>
 							⁃	신고가 된 게시글도 통보없이 삭제될 수 있습니다.<br>
-							⁃	부적절한 모임 발견 시 신고해주세요.<br>
+							⁃	부적절한 게시글 발견 시 신고해주세요.<br>
 							⁃	광고 및 사기성 게시물은 통보없이 삭제될 수 있습니다.`;
 				break;
 			case "스터디":
@@ -323,16 +310,7 @@ $(document).ready(function(){
 			}
 	    	
 	    	obj.getById["content"].exec("PASTE_HTML", [sHTML]);
-		
-		
-		
 	});
-      
-      
-      
-      
-      
-      
       
       
       let flag = false;
@@ -348,9 +326,6 @@ $(document).ready(function(){
     	  
     	  values = values.slice(0, -1);
     	  $("#str_hashTag").val(values);
-		   // console.log(values);
-		   
-
           
       	// ==== 스마트 에디터 구현 시작 ==== //
       	// id가 content인 textarea에 에디터에서 대입
@@ -369,30 +344,29 @@ $(document).ready(function(){
   			alert("글제목을 입력하세요!!");
   			return;
   		}
-  		
-  		// 글내용 유효성 검사(스마트 에디터용)
-  		var contentval = $("textarea#content").val();
-  		contentval = contentval.replace(/&nbsp;/gi, "");
-  	
-  	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
-  	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
-  	            
-  	    if(contentval.trim().length == 0) {
-  	  	  alert("글내용을 입력하세요!!");
-  	  	  return;
-  	    }
 
-  	    console.log(contentval);
-  	    
-  	    
-  	    
-  	    
+  		
+  		if(detail_category == "자유게시판" || detail_category == "QnA" ) {
+  			
+  			// 글내용 유효성 검사(스마트 에디터용)
+  			var contentval = $("textarea#content").val();
+  			contentval = contentval.replace(/&nbsp;/gi, "");
+  			
+  			contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
+  			contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
+  			
+  			if(contentval.trim().length == 0) {
+  				alert("글내용을 입력하세요!!");
+  				return;
+  			}
+  			
+  		}
+
   	    reCAPTCHA();
 	    if(!recaptcha_ok){
 	    	alert("매크로방지 봇 통과 후 진행해주세요");
 	    	return;
 	    }
-  	    
   	    
   	    flag = true;
   	}
@@ -402,6 +376,7 @@ $(document).ready(function(){
       
 	// 등록 버튼을 클릭했을시
     $("button#btn_write").click(function() {
+    	replace_content();
     	frm_check();
 	    // 폼을 전송
     	if(flag){
@@ -416,6 +391,7 @@ $(document).ready(function(){
     
 	// 수정 버튼을 클릭했을시
     $("button#btn_modify").click(function() {
+    	replace_content();
     	frm_check();
     	if(flag){
 		    // 폼을 전송
@@ -459,6 +435,52 @@ function reCAPTCHA(){
             }
         }
     });//end of $.ajax({})
+	
+}//end of method-----
+
+
+
+
+
+
+
+/**
+ * argBody 안의 내용 중 지정 문자열 삭제
+ * argBody : 삭제본문 ( ex : 가나다 <pre style="width:100px">안녕하세요</pre> )
+ * argStartSection : 삭제 시작 문자 ( ex : <pre )
+ * argEndSection : 삭제 끝 문자 ( ex : ;"> )
+ * argRemoveSection : 별도 replace 문자 ( ex : </pre> )
+  */
+
+	
+function replace_content(){
+	
+	var removeStyleAndImage  = function(argBody, argStartSection, argEndSection, argRemoveSection){
+
+	var bodyString = argBody;
+
+	var sectionChk = bodyString.match(new RegExp(argStartSection,'g'));
+
+	if(sectionChk != null){
+	    for(var i=0; i < sectionChk.length; i++){
+	        var tmpImg = bodyString.substring(bodyString.indexOf(argStartSection), (bodyString.indexOf(argEndSection)+(argEndSection.length)));
+	        bodyString = bodyString.replace(tmpImg, '').replace(/<br>/gi, '').replace(/&nbsp;/gi, ' ').replace(/<p>/gi, '').replace(/<\/p>/gi, ' ').replace(new RegExp(argRemoveSection,'gi'), '');
+	    }
+	}
+
+	return bodyString;
+
+	}
+	
+	const contentval = $("textarea#content").val();
+	let content = "";
+	
+	content = removeStyleAndImage(contentval, '<img src=', '">', '');      // 스마트에디터 내부의 이미지 제거
+	content = removeStyleAndImage(contentval, '<pre', ';">', '</pre>');    // 스마트에디터 내부의 스타일 제거
+	content = removeStyleAndImage(contentval, '<span', ';">', '</span>');  // 스마트에디터 내부의 스타일 제거
+
+	console.log(content);
+	$("input#replace_content").val(content);
 	
 }//end of method-----
 

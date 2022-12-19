@@ -6,19 +6,20 @@ function getContextPath(){
 }
 
 $(document).ready(function(){
-	// X 버튼 눌러서 창 닫기
-	$("button#btn_close").click(function() {
-		window.close();
-	})
 	
 	$("button#reportWrite").click(function() {
 		const simple_report_reason = $("select#simple_report_reason").val();
 		const detail_report_reason = $("textarea#detail_report_reason").val().trim();
 	  	
-		if(simple_report_reason == "" || (simple_report_reason == "기타" && detail_report_reason == "")) {
+		if(simple_report_reason == "" ) {
 	  		alert("사유를 선택하세요!!");
 			return;
 	  	}
+	  	
+		if(simple_report_reason == "기타" && detail_report_reason == "") {
+			alert("기타 사유를 입력하세요!!");
+			return;
+		}
 	  	
 		const frm = document.reportFrm;
 		frm.method = "POST";

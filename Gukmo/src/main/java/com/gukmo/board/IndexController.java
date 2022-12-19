@@ -36,28 +36,27 @@ public class IndexController {
 			List<BoardVO> curriList1 = service.getCurriList1();
 			mav.addObject("curriList1", curriList1);
 			// System.out.println("curriList1:"+curriList1);
-			
-			if(totalCnt > 8) {
+
+			if (totalCnt > 8) {
 				List<BoardVO> curriList2 = service.getCurriList2();
 				mav.addObject("curriList2", curriList2);
 				// System.out.println("curriList2:"+curriList2);
-				
-				if(totalCnt > 16) {
+
+				if (totalCnt > 16) {
 					List<BoardVO> curriList3 = service.getCurriList3();
 					mav.addObject("curriList3", curriList3);
 					// System.out.println("curriList3:" +curriList3);
 				}
 			}
 
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			String html = "<div> 모집 중인 학원이 없습니다. </div>";
-			mav.addObject("html" , html);
+			mav.addObject("html", html);
 		}
-	
-		
+
 		// 주간 해시태그 순위를 불러오는 메소드
 		List<HashtagVO> topHashList = service.getTopHashList();
-		
+
 		// 주간 검색어 순위를 불러오는 메소드
 		List<SearchVO> topSearchList = service.getTopSearchList();
 
@@ -72,41 +71,31 @@ public class IndexController {
 
 		// 후기/정보공유 게시판 목록 불러오는 메소드
 		List<BoardVO> reviewBoardList = service.getReviewBoardList();
-		
+
+		// 광고 목록 불러오는 메소드
 		List<AdVO> advertisementList = service.getAdvertisementList();
-		        
+		
+		System.out.println("확인:" + advertisementList.toString());
+
+		mav.addObject("advertisementList", advertisementList);
 		mav.addObject("topHashList", topHashList);
 		mav.addObject("topSearchList", topSearchList);
 		mav.addObject("freeBoardList", freeBoardList);
 		mav.addObject("studyBoardList", studyBoardList);
 		mav.addObject("qnaBoardList", qnaBoardList);
 		mav.addObject("reviewBoardList", reviewBoardList);
-		mav.addObject("advertisementList", advertisementList);
 
 		mav.setViewName("index.tiles1");
 
 		return mav;
 	}
-	
-	
-	
-	
+
 	/**
 	 * 회사소개 페이지 URL 매핑
 	 */
-	@RequestMapping(value="/about.do", method= {RequestMethod.GET})
+	@RequestMapping(value = "/about.do", method = { RequestMethod.GET })
 	public String viewAbout(HttpServletRequest request) {
 		return "about";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

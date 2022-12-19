@@ -1,5 +1,6 @@
 package com.gukmo.board.hasol.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +81,11 @@ public class IndexService implements InterIndexService {
 	@Override
 	public List<HashtagVO> getTopHashList() {
 		List<HashtagVO> topHashList = dao.getTopHashList();
+		
+		if(topHashList.size() < 1) {
+			topHashList = dao.getTopHashList_nodata();
+		}
+		
 		return topHashList;
 	}
 
@@ -87,6 +93,11 @@ public class IndexService implements InterIndexService {
 	@Override
 	public List<SearchVO> getTopSearchList() {
 		List<SearchVO> topSearhList = dao.getTopSearchList();
+		
+		if(topSearhList.size() < 1) {			
+			topSearhList = dao.getTopSearchList_nodata();
+		}
+		
 		return topSearhList;
 	}
 
