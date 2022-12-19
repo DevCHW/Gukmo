@@ -87,9 +87,6 @@ public class AdminController {
 	    int length = Integer.parseInt(formData.get("length").get(0));
 	    String startRno = start+1+"";
 	    String endRno = start+length+"";
-	    //확인용
-//	    System.out.println("startRno : " + startRno);
-//	    System.out.println("endRno : " + endRno);
 	    
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("startRno",startRno);

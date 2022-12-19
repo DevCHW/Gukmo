@@ -100,7 +100,9 @@
 		      	</div>
 	    	</div>  
 	
-			</c:if>   
+			</c:if>
+			<div id="hidden_content${status.index}"></div>
+			<span id="show_content${status.index}" ></span>   
 			</c:if>
 			
 	    	<!-- 일반 커뮤니티 게시글 -->
@@ -144,8 +146,10 @@
 					<span class="write_date ml-3">${boardvo.write_date}</span>
 				</div> 
 				<div class="content my-1">
-					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}"> ${boardvo.content}
-						<%-- <input id="hidden_content${status.index}" type="hidden" value="${boardvo.content}"></span> --%>
+					<a href="<%= ctxPath%>/detail.do?boardNum=${boardvo.board_num}">
+						<div id="hidden_content${status.index}">${boardvo.content}</div>
+						<span id="show_content${status.index}" ></span>
+						
 					</a>
 				</div>	
 				<div class="hashtag d-flex ">
@@ -158,7 +162,7 @@
 			</c:forEach>
 			<%-- 게시글 반복문 끝 --%>
 		</div>
-		
+		<div id="length">${requestScope.searchList.size()}</div>
 		<nav>
 			${requestScope.pageBar}
 		</nav>
