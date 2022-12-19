@@ -65,8 +65,7 @@
       
       <%-- content --%>
       <label for="content" class="community_label mt-3">본문</label>
-      <textarea name="content" id="content" class="px-2 py-2 border rounded" cols="30" rows="15">${requestScope.boardvo.content}</textarea>
-      <input type="hidden" name="replace_content" value=""/>
+      <textarea name="content" id="content" class="px-2 py-2 border rounded" cols="30" rows="15" style="width:100%;margin:0;">${requestScope.boardvo.content}</textarea>
     </form>
     <%-- 커뮤니티 작성 폼 끝 --%>
     

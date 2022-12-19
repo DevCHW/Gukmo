@@ -18,46 +18,32 @@
 <!-- 배너 영역 -->
 
 <!-- Indicators -->
- <c:if test="${requestScope.advertisementList != ''}">
+ <c:if test="${not empty requestScope.advertisementList}">
 	
 	<div id="demo" class="carousel slide" data-ride="carousel" >
      
-     <!-- The slideshow -->
+     <%--  The slideshow --%>
      <div class="carousel-inner" style="height:230px;">              
        
      <div class="carousel-item active">
-     	<c:forEach var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-     	<a href="${advertisementList.url}">     
-       		<c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
-              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-            </c:if>
-            <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
-               <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-            </c:if>
+     	<c:forEach end="0" var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
+     	<a href="${advertisementList.url}">            		
+              <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">                       
          </a>
          </c:forEach>
      </div>       
        
      <c:forEach begin="1" var="advertisementList" items="${requestScope.advertisementList}" varStatus="status">
-
-  	 <div class="carousel-item">              
-        <c:if test="${advertisementList.filename.substring(0,4) != 'http'}">
+  	 <div class="carousel-item">                      
           <a href="${advertisementList.url}">
            <img src="<%=ctxPath %>/resources/images/${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-          </a>
-        </c:if>
-        <c:if test="${advertisementList.filename.substring(0,4) == 'http'}">
-          <a href="${advertisementList.url}">
-            <img src="${advertisementList.filename}" style="cursor: pointer; width: 100%; height:230px;">
-          </a>
-        </c:if>    
+          </a>                  
      </div>       
 	 </c:forEach>
      
        
-     </div>
-   
-     <!-- Left and right controls -->
+     </div>   
+     
      <a class="carousel-control-prev" href="#demo" data-slide="prev">
        <span class="carousel-control-prev-icon"></span>
      </a>
@@ -78,11 +64,11 @@
 
 <div class="container d-flex flex-column align-items-center">
 
-    <!-- 검새창 영역 -->
+    <%-- 검새창 영역 --%>
     <jsp:include page="/WEB-INF/views/tiles1/board/searchBar/main_searchBar.jsp" />
 
 
-	<!-- 학원 정보 영역 -->
+	<%-- 학원 정보 영역 --%>
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
 		<div class="academy_titel w-100 px-2 mt-5 mb-1 d-flex justify-content-between">
@@ -90,10 +76,9 @@
 			<a href="<%=ctxPath %>/academy/curricula.do"> 더 보기 </a>
 		</div>
 		
-		<!-- 배너 영역 -->
+		<%-- 배너 영역 --%>
 		<div id="div_academy_content" class="carousel slide w-100" data-ride="carousel" >
-		   
-		     <!-- The slideshow -->
+		   		     
 			<div class="carousel-inner px-2">
 			
 				<c:if test="${empty requestScope.curriList1}">
