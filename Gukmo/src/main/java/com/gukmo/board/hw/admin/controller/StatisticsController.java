@@ -71,6 +71,17 @@ public class StatisticsController {
 	
 	
 	
+	/**
+	 * 지난주 커뮤니티 상세카테고리별 작성게시물 건수 구하기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/admin/getLastWeekCntCommunityData.do", method= {RequestMethod.GET})
+	public List<Integer> getLastWeekCntCommunityData(HttpServletRequest request) {
+		return dao.getLastWeekCntCommunityData();
+	}
+	
+	
+	
 	
 	/**
 	 * 

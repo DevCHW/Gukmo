@@ -2125,6 +2125,52 @@
 		     ) T
 		 where rno between 1 and #{endRno}
      </select>
+     
+     
+     
+     <!-- 지난주 커뮤니티 상세카테고리별 작성게시물 건수 구하기 -->
+     <select id="getLastWeekCntCommunityData" resultType="java.util.LinkedHashMap">
+     	select cnt_free,
+             cnt_qna,
+             cnt_study,
+             cnt_hobby,
+             cnt_review
+	    from
+	    (
+	        select count(*) as cnt_free
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '자유게시판'
+	    ) A
+	    cross join
+	    (
+	        select count(*) as cnt_qna
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = 'QnA'
+	    ) B 
+	    cross join
+	    (
+	        select count(*) as cnt_study
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '스터디'
+	    ) C
+	    cross join
+	    (
+	        select count(*) as cnt_hobby
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '취미모임'
+	    ) D
+	    cross join
+	    (
+	        select count(*) as cnt_review
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '수강/취업후기'
+	    ) E
+     </select>
 
 
 

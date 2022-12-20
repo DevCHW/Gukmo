@@ -6,7 +6,7 @@ div.academy_row{
 
 div#academy_img_box{
   position:relative;
-  height: 180px;
+  height: 400px;
 }
 div#academy_img_box > img{
   position:absolute;

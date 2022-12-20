@@ -711,7 +711,7 @@ public class MemberController {
 //			String path = root+"resources"+ File.separator +"images";
 			
 			String path = "C:/Users/sist/git/Gukmo/Gukmo/src/main/webapp/resources/images";
-			System.out.println("저장되는 실제 경로 : " + path);
+//			System.out.println("저장되는 실제 경로 : " + path);
 			String newFileName = "";
 			// WAS(톰캣)의 디스크에 저장될 파일명 
 			byte[] bytes = null;
@@ -743,7 +743,6 @@ public class MemberController {
 		session.removeAttribute("user");
 		MemberVO user = service.getUser(member.getUserid());
 		session.setAttribute("user", user);
-		System.out.println(result);
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("result", result);
 		return jsonObj.toString();
