@@ -29,4 +29,8 @@ body {font-family: 'Noto Sans KR', sans-serif;}
 
 
 #myfooter		{ font-size:13px; }
+
+#mycontent input{
+	outline:none;
+}
 	

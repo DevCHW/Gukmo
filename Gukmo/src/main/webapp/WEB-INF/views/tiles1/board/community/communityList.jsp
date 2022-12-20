@@ -72,7 +72,12 @@
         <div class="d-flex align-items-center my-2">
          <%-- 작성자 프로필사진 --%>
         <a href="<%=ctxPath %>/member/activityOther.do?nickname=${notice.nickname}" class="writer_image_box border">
-          <img src="<%=ctxPath %>/resources/images/${notice.profile_image}"/>
+          <c:if test="${notice.profile_image.substring(0,4) != 'http'}">
+            <img src="<%=ctxPath %>/resources/images/${notice.profile_image}">
+          </c:if>
+          <c:if test="${notice.profile_image.substring(0,4) == 'http'}">
+            <img src="${notice.profile_image}">
+          </c:if>
         </a>
         
      	<%-- 작성자 닉네임 --%>
@@ -148,7 +153,12 @@
         <div class="d-flex align-items-center my-2">
          <%-- 작성자 프로필사진 --%>
         <a href="<%=ctxPath %>/member/activityOther.do?nickname=${boardvo.nickname}" class="writer_image_box border">
-          <img src="<%=ctxPath %>/resources/images/${boardvo.profile_image}"/>
+          <c:if test="${boardvo.profile_image.substring(0,4) != 'http'}">
+            <img src="<%=ctxPath %>/resources/images/${boardvo.profile_image}">
+          </c:if>
+          <c:if test="${boardvo.profile_image.substring(0,4) == 'http'}">
+            <img src="${boardvo.profile_image}">
+          </c:if>
         </a>
         
      	<%-- 작성자 닉네임 --%>
