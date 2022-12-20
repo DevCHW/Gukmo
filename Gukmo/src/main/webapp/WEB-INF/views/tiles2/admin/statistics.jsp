@@ -202,11 +202,12 @@
 	      <div class="card shadow mb-4">
 	      	<div class="card-header">
 	      		<%-- 차트제목 --%>
-	      		<h6 class="m-0 font-weight-bold text-primary">차트4제목</h6>
+	      		<h6 class="m-0 font-weight-bold text-primary">지난주 일주일간 커뮤니티 카테고리별 작성게시물 건수</h6>
 	      	</div>
 	      	<div class="card-body">
-	      	
-	      		
+	      		<div class="chart-bar">
+                    <canvas id="lastWeekCntCommunityChart"></canvas>
+                </div>
 	      	</div>
 	      </div>
 	    </div>
