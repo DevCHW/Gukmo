@@ -286,7 +286,13 @@ public class AdvertisementController {
 	@ResponseBody
 	@RequestMapping(value="/admin/advertisement/edit_ad.do", method={RequestMethod.POST},  produces="text/plain;charset=UTF-8") 
 	public String edit_ad(@RequestParam Map<String, String> paraMap) {
-		System.out.println(paraMap);
+		String status = paraMap.get("status");
+		if("진행중".equals(status)) {
+			status = "1";
+		}else {
+			status = "0";
+		}
+		paraMap.put("status",status);
 		int result = service.edit_ad(paraMap);
 		
 		JSONObject jsonObj = new JSONObject();

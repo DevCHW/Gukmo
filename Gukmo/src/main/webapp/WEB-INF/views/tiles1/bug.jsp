@@ -10,6 +10,9 @@
 	textarea#content:placeholder{
 		font-size:small;
 	}
+	input,textarea{
+		outline:none;
+	}
 </style>
 
 

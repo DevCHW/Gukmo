@@ -280,7 +280,7 @@ function getLastWeekCntCommunityChart(data){
 		  data: {
 		    labels: ["자유게시판", "Q&A", "스터디", "취미모임", "수강/취업후기"],
 		    datasets: [{
-		      label: "Revenue",
+		      label: "게시물 수",
 		      backgroundColor: "#4e73df",
 		      hoverBackgroundColor: "#2e59d9",
 		      borderColor: "#4e73df",
@@ -342,7 +342,7 @@ function getLastWeekCntCommunityChart(data){
 		      bodyFontColor: "#858796",
 		      borderColor: '#dddfeb',
 		      borderWidth: 1,
-		      xPadding: 15,
+		      xPadding: 12,
 		      yPadding: 15,
 		      displayColors: false,
 		      caretPadding: 10,

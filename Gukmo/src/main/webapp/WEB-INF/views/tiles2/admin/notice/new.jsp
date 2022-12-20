@@ -27,7 +27,7 @@
   <%-- Begin Page Content --%>
   <div class="container-fluid">
   	  <%-- Page Heading --%>
-      <h1 class="h3 my-2 text-gray-800">공지 등록</h1>
+      <h1 class="h3 my-2 text-gray-800">공지등록</h1>
       <p class="mb-4">국모 회원분들에게 공지할 내용을 작성해주세요!</p>
       
       <div class="card shadow mb-4">

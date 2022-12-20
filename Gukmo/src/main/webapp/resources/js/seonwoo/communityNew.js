@@ -348,17 +348,17 @@ $(document).ready(function(){
   		
   		if(detail_category == "자유게시판" || detail_category == "QnA" ) {
   			
-  			// 글내용 유효성 검사(스마트 에디터용)
-  			var contentval = $("textarea#content").val();
-  			contentval = contentval.replace(/&nbsp;/gi, "");
-  			
-  			contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
-  			contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
-  			
-  			if(contentval.trim().length == 0) {
-  				alert("글내용을 입력하세요!!");
-  				return;
-  			}
+  			if($("textarea#content").val().length == 0) {
+  		  	  alert("글내용을 입력하세요!!");
+  		  	  return;
+  		    }
+  	    	    
+  	  		
+  	  		// 글내용 유효성 검사(스마트 에디터용)
+  	  		let contentval = $("textarea#content").val();
+  	  		contentval = contentval.replace(/&nbsp;/gi, "");
+  	  	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
+  	  	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "
   			
   		}
 

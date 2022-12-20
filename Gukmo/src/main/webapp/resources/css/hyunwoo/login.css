@@ -69,6 +69,7 @@ svg{
 /* input_login */
 input.input_login{
   height:40px;
+  outline:none;
 }
 input.input_login::placeholder{
   font-size:small;

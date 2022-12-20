@@ -174,6 +174,17 @@ public class LoginDAO implements InterLoginDAO{
 	}
 
 
+
+	/**
+	 * 휴면 풀어주기
+	 */
+	@Override
+	public boolean restRelease(String userid) {
+		int result = gukmo_sql.update("chw.restRelease",userid);
+		return result != 0?true:false;
+	}
+
+
 	
 
 

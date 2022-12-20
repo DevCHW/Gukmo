@@ -117,28 +117,30 @@ $(document).ready(function() {
 			extend: 'excel'
 			,text: "<img src='"+getContextPath()+"/resources/images/dataTable/excel.png' style='width:25px; height:17px;'/>Excel&nbsp;&nbsp;"
 			,filename: '국모 일반회원내역'+year+month+date
-			,title: '국비의모든것 교육기관회원내역'+year+month+date
+			,title: '국비의모든것 일반회원내역'+year+month+date
 			,action: newExportAction
 		},
 		{
 			extend: 'copy'
 			,text: '📋&nbsp;Copy&nbsp;'
-			,title: '국비의모든것 교육기관회원내역'+year+month+date
+			,title: '국비의모든것 일반회원내역'+year+month+date
 		},
 		{
 			extend: 'pdf'
 			,text: "<img src='https://toppng.com/public/uploads/preview/pdf-icon-11549528510ilxx4eex38.png' style='width:25px; height:20px;'/>&nbsp;PDF&nbsp;"
-			,filename: '국비의모든것 교육기관회원내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 일반회원내역'+year+month+date
 		},
 		{
 			extend: 'csv'
+			,charset: 'UTF-8'
+			,bom: true
 			,text: "<img src='"+getContextPath()+"/resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;"
-			,filename: '국비의모든것 교육기관회원내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 일반회원내역'+year+month+date
 		},
 		{
 			extend: 'print'
 			,text: '️🖨&nbsp;Print&nbsp;'
-			,filename: '국비의모든것 교육기관회원내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 일반회원내역'+year+month+date
 		},
 	]
   });//end of Event---

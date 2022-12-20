@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gukmo.board.model.AdVO;
 
@@ -46,17 +49,17 @@ public class AdvertisementDAO implements InterAdvertisementDAO{
 
 	// 광고 날짜 변경시 tbl_advertisement 에서 날짜 변경
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public int edit_ad(Map<String, String> paraMap) {
 		int result1 = 0; 
 		int result2 = 0; 
+		int result3 = 0;
 		
 		result1 = gukmo_sql.update("ksm.edit_Ad_start_date", paraMap);
+		result2 = gukmo_sql.update("ksm.edit_Ad_period", paraMap);
+		result3 = gukmo_sql.update("chw.editAd",paraMap);
 		
-		if(result1 == 1) {
-			result2 = gukmo_sql.update("ksm.edit_Ad_period", paraMap);
-		}
-		
-		return result1 * result2;
+		return result1 * result2 * result3;
 	}
 
 	// 광고 일정 캘린더에 광고 일정 박기(ajax)

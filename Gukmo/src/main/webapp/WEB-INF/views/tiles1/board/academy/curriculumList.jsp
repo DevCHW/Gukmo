@@ -159,14 +159,20 @@
       </div>
       
       
-      <%-- 학원명 --%>
-      <div class="academy_name my-1">[${boardvo.curriculum.academy_name}]</div>
-	  
+      <%-- 학원명 
+      <div class="academy_name my-1"></div>
+	  --%>
 	  
       <%-- 교육과정명 --%>
       <a href="<%=ctxPath %>/detail.do?boardNum=${boardvo.board_num} " class="subject align-items-center my-2">
-        ${boardvo.subject}
+        [${boardvo.curriculum.academy_name}]&nbsp;&nbsp;${boardvo.subject}
       </a>
+      <c:if test="${boardvo.dday < 10}">
+      	<span class="ml-2 text-danger" style="font-size:17px; font-weight:bold;">[D-${boardvo.dday}] 마감임박!</span>
+      </c:if>
+      <c:if test="${boardvo.dday >= 10}">
+      	<span class="ml-2 text-info" style="font-size:17px; font-weight:bold;">[D-${boardvo.dday}]</span>
+      </c:if>
       
       
       <%-- 교육과정 기간,핵심기술 --%>
