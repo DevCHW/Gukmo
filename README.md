@@ -108,7 +108,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 - 타인의 댓글 신고 가능
 - 관리자로 로그인시 댓글 블라인드,블라인드 해제 가능
 ![image](https://user-images.githubusercontent.com/113486147/209842589-46834bc9-932c-4c2d-b136-89bc45be5b60.png)
-![image](https://user-images.githubusercontent.com/113486147/209845202-bb7c3106-7789-4ba7-b3ca-19ca1154862f.png)
+![image](https://user-images.githubusercontent.com/113486147/209845264-bbbfdf84-affb-4f60-84b5-8c5d56e1a480.png)
 ![image](https://user-images.githubusercontent.com/113486147/209843035-ab9d70ed-0bb3-46bb-ac86-3bb49b5fc143.png)
 ![image](https://user-images.githubusercontent.com/113486147/209843088-1662f720-e33c-4d5d-a96a-b3e39b712d0a.png)
 
