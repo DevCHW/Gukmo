@@ -101,4 +101,4 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 언어들을 활용하여 Spring Framewo
 	
 
 ## ERD
-<img width="788" alt="erd 최종" src="https://user-images.githubusercontent.com/100989788/209434132-13c6efe9-fbde-47d9-9e2b-da95b88ab2c3.png">
+<img width="788" alt="erd 최종" src="">
