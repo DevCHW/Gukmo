@@ -98,8 +98,11 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 ![image](https://user-images.githubusercontent.com/113486147/209841767-756f5a2e-c893-4a12-a57f-d8dca7f54bdb.png)
 - 좋아요 여부에따라 아이콘모양을 다르게표시
 - 좋아요 클릭시 카운트1증가, 좋아요 취소시 카운트1
-![image](https://user-images.githubusercontent.com/113486147/209843381-92c478d8-a9d3-4a24-a999-c9f652414942.png)
+![image](https://user-images.githubusercontent.com/113486147/209843593-ea6645d1-bb30-4729-9476-aa19fc0100d3.png)
+
 ![image](https://user-images.githubusercontent.com/113486147/209843403-f7f1adff-fc2e-4241-b2c9-b06323a2db71.png)
+![image](https://user-images.githubusercontent.com/113486147/209843633-2a378285-8cb5-421a-8378-817fa210aa9b.png)
+
 
 
 - 댓글과 대댓글 내용 표시
