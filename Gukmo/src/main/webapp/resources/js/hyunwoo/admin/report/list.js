@@ -136,17 +136,17 @@ $(document).ready(function() {
 		{
 			extend: 'pdf'
 			,text: "<img src='https://toppng.com/public/uploads/preview/pdf-icon-11549528510ilxx4eex38.png' style='width:25px; height:20px;'/>&nbsp;PDF&nbsp;"
-			,filename: '국비의모든것 신고내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 신고내역'+year+month+date
 		},
 		{
 			extend: 'csv'
 			,text: "<img src='"+getContextPath()+"/resources/images/dataTable/csv.png' style='width:20px; height:20px;'/>&nbsp;CSV&nbsp;"
-			,filename: '국비의모든것 신고내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 신고내역'+year+month+date
 		},
 		{
 			extend: 'print'
 			,text: '️🖨&nbsp;Print&nbsp;'
-			,filename: '국비의모든것 신고내역(utf-8이라서 ms엑셀로 바로 열면 글자 깨짐)'+year+month+date
+			,filename: '국비의모든것 신고내역'+year+month+date
 		},
 	]
   });//end of Event---

@@ -86,18 +86,18 @@ public class BoardAOP {
 		// 현재 접속된 유저의 닉네임 알아오기
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		String nickname = user.getNickname();
-		
-		System.out.println("nickname:" + nickname);
-		System.out.println("alarm nic"+ alarmMap.get("alarm_nickname"));
-		
-		if(!alarmMap.get("alarm_nickname").equals(nickname)) {
-			// 알람 닉네임과 로그인된 유저의 닉네임이 같지 않을 때만 알람에 값 넣어줌
-			System.out.println("틀림!");
-			int result = alarm_service.setAlarm(alarmMap);
+		if(user != null) {	//로그인중이라면
+			String nickname = user.getNickname();
+			
+//			System.out.println("nickname:" + nickname);
+//			System.out.println("alarm nic"+ alarmMap.get("alarm_nickname"));
+			
+			if(!alarmMap.get("alarm_nickname").equals(nickname)) {
+				// 알람 닉네임과 로그인된 유저의 닉네임이 같지 않을 때만 알람에 값 넣어줌
+//				System.out.println("틀림!");
+				int result = alarm_service.setAlarm(alarmMap);
+			}
 		}
-
-
 	//	System.out.println("aop 확인용 : " + n);
 	
 	} //end of setAlarm

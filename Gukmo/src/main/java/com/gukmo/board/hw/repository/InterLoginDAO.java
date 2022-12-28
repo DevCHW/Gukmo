@@ -87,6 +87,12 @@ public interface InterLoginDAO {
 	String getRefuseReason(String userid);
 
 
+	/**
+	 * 휴면 풀어주기
+	 */
+	boolean restRelease(String userid);
+
+
 	
 
 	

@@ -160,13 +160,14 @@ function user_status(userid){
 					let result = confirm("로그인한지 1년이상 지나서 휴면회원으로 전환되었습니다. 휴면을 푸시겠습니까?");
 					if(result){	//휴면을 풀겠다고 했다면
 						$.ajax({	
-							url:getContextPath()+"/회원상태를 휴면에서 활동으로 업데이트시켜주는 빽단.do",
+							url:getContextPath()+"/login/restRelease.do",
 							type:"POST",
 							data:{"userid":userid},
 						    dataType:"JSON",
-						    success:function(json){
-						    	if(json.result){
-						    		alert("휴면이 풀렸습니다!");
+						    success:function(res){
+						    	if(res){
+						    		alert("휴면이 해제되었습니다.\n" +
+						    			  "다시 정상적으로 활동하실 수 있습니다!");
 						    		login(userid);
 						    	} else{
 						    		alert("휴면을 푸는 도중 문제가 발생하였습니다. 다시 시도하여주세요.");

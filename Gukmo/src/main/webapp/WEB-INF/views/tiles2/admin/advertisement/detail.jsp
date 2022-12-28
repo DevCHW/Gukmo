@@ -16,7 +16,7 @@
     $(document).ready(function(){
       const statusArr = ['진행중','종료'];
       let currentStatus = "${requestScope.adDetail.status}";
-      if("${requestScope.adDetail.status}" == '0'){
+      if("${requestScope.adDetail.status}" == '1'){
         currentStatus = '진행중';
       } else {
         currentStatus = '종료';
@@ -130,8 +130,8 @@
 			        
 			        <%-- 광고상태 --%>
 			        <div class="py-3 px-3">
-			          <c:if test="${requestScope.adDetail.status == 0}">진행중</c:if>
-			          <c:if test="${requestScope.adDetail.status == 1}">종료</c:if>
+			          <c:if test="${requestScope.adDetail.status == 1}">진행중</c:if>
+			          <c:if test="${requestScope.adDetail.status == 0}">종료</c:if>
 			        </div>
 			        <div class="edit_select_area py-3 px-3">
 			          <select name="status" id="select_status" class="border rounded"></select>

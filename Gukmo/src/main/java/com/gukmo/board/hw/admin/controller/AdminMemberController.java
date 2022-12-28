@@ -23,8 +23,6 @@ import com.gukmo.board.model.DataTableDTO;
 import com.gukmo.board.model.MemberVO;
 import com.gukmo.board.model.PenaltyVO;
 
-
-
 @Controller
 public class AdminMemberController {
 	@Autowired   // Type 에 따라 알아서 Bean 을 주입해준다.
@@ -49,8 +47,6 @@ public class AdminMemberController {
 		request.setAttribute("member", member);
 		return "admin/member/detail.tiles2";
 	}
-	
-	
 	
 	
 	

@@ -126,23 +126,21 @@ $(document).ready(function(){
       // 삭제 버튼
       // 삭제 버튼은 비동기적 생성이므로 document 최초 생성시가 아닌 검색을 통해 이벤트를 구현시킨다.
       $(document).on("click", ".btn_hashtag_delete", function (e) {
-          var index = $(this).attr("idx");
+          let index = $(this).attr("idx");
           hashtag[index] = "";
           $(this).parent().remove();
         });
    
     // ==== 해시태그 구현 끝 ==== // 
-    
-      
-      
-      
       let flag = false;
+     
       
       function frm_check(){
+    	  flag = false;
     	  
-    	  var values = "";
+    	  let values = "";
     	  $("li.tag-item").each(function( index, element) {
-    		  var value = $(this).text().substr(1);
+    		  let value = $(this).text().substr(1);
     		  values += value+ ",";
 		   });
     	  
@@ -164,17 +162,18 @@ $(document).ready(function(){
   			return;
   		}
   		
+  		if($("textarea#content").val().length == 0) {
+	  	  alert("글내용을 입력하세요!!");
+	  	  return;
+	    }
+    	    
+  		
   		// 글내용 유효성 검사(스마트 에디터용)
-  		var contentval = $("textarea#content").val();
+  		let contentval = $("textarea#content").val();
   		contentval = contentval.replace(/&nbsp;/gi, "");
-  	
   	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
   	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
   	            
-  	    if(contentval.trim().length == 0) {
-  	  	  alert("글내용을 입력하세요!!");
-  	  	  return;
-  	    }
   	    
   	    reCAPTCHA();
 	    if(!recaptcha_ok){

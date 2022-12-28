@@ -78,7 +78,7 @@ public class BoardController {
 		paraMap = getRno(page,sizePerPage,paraMap); 
 		
 		List<BoardVO> notices = service.getNotices(paraMap); // 글목록 가져오기
-		
+//		System.out.println("notices 사이즈" + notices.size());
 		String url = request.getContextPath()+"notices.do";
 		//정렬기준 넣기
 		switch (sort) {

@@ -217,17 +217,17 @@ $(document).ready(function(){
 		
 		
 		
-		// 글내용 유효성 검사(스마트 에디터용)
-		let contentval = $("textarea#content").val();
-		contentval = contentval.replace(/&nbsp;/gi, "");
-	
-	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
-	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "             "
-	            
-	    if(contentval.trim() == "") {
+		if($("textarea#content").val().length == 0) {
 	  	  alert("글내용을 입력하세요!!");
-	      return;
+	  	  return;
 	    }
+    	    
+  		
+  		// 글내용 유효성 검사(스마트 에디터용)
+  		let contentval = $("textarea#content").val();
+  		contentval = contentval.replace(/&nbsp;/gi, "");
+  	    contentval = contentval.substring(contentval.indexOf("<p>")+3);   // "             </p>"
+  	    contentval = contentval.substring(0, contentval.indexOf("</p>")); // "
 	    
 	    reCAPTCHA();
 	    if(!recaptcha_ok){

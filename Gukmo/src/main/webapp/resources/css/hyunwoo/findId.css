@@ -39,6 +39,7 @@ label[for='email']{
 
 input#email{
   height:40px;
+  outline:none;
 }
 
 input#email::placeholder{

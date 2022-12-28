@@ -32,6 +32,10 @@ $("document").ready(function(){
 	let memberRateChartData = getMemberRateData();
 	getMemberRateChart(memberRateChartData);
 	
+	//지난주 카테고리별 작성게시물건수 구하기
+	let lastWeekCntCommunityData = getLastWeekCntCommunityData();
+	getLastWeekCntCommunityChart(lastWeekCntCommunityData);
+	
 });//end of $("document").ready(function(){})--
 
 
@@ -246,18 +250,41 @@ function getMemberRateChart(data){
 	});
 }//end of method--
 
+/**
+ * 지난주 작성게시물건수 데이터 얻기
+ */
+function getLastWeekCntCommunityData(){
+	let cntData = [];
+	$.ajax({
+		type : 'get',
+		url:getContextPath()+"/admin/getLastWeekCntCommunityData.do",
+		async:false,
+		dataType : 'json',
+		success : function(res){
+			cntData.push(...res);
+		},//end of success
+		error: function(xhr, status, error){
+			alert(status+":"+error);
+		}
+	  });//end of ajax
+	console.log("cntData : " + cntData);
+	return cntData;
+}//end of method--
 
-function getBarChart(){
-	var myBarChart = new Chart(ctx, {
+
+
+function getLastWeekCntCommunityChart(data){
+	var ctx = document.getElementById("lastWeekCntCommunityChart");
+	var lastWeekCntCommunityChart = new Chart(ctx, {
 		  type: 'bar',
 		  data: {
-		    labels: ["January", "February", "March", "April", "May", "June"],
+		    labels: ["자유게시판", "Q&A", "스터디", "취미모임", "수강/취업후기"],
 		    datasets: [{
-		      label: "Revenue",
+		      label: "게시물 수",
 		      backgroundColor: "#4e73df",
 		      hoverBackgroundColor: "#2e59d9",
 		      borderColor: "#4e73df",
-		      data: [4215, 5312, 6251, 7841, 9821, 14984],
+		      data: data,
 		    }],
 		  },
 		  options: {
@@ -287,12 +314,12 @@ function getBarChart(){
 		      yAxes: [{
 		        ticks: {
 		          min: 0,
-		          max: 15000,
+		          max: Math.max.apply(null, data),
 		          maxTicksLimit: 5,
 		          padding: 10,
 		          // Include a dollar sign in the ticks
 		          callback: function(value, index, values) {
-		            return '$' + number_format(value);
+		            return number_format(value)+"건";
 		          }
 		        },
 		        gridLines: {
@@ -315,14 +342,14 @@ function getBarChart(){
 		      bodyFontColor: "#858796",
 		      borderColor: '#dddfeb',
 		      borderWidth: 1,
-		      xPadding: 15,
+		      xPadding: 12,
 		      yPadding: 15,
 		      displayColors: false,
 		      caretPadding: 10,
 		      callbacks: {
 		        label: function(tooltipItem, chart) {
 		          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-		          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+		          return datasetLabel + ':' + number_format(tooltipItem.yLabel) + '건';
 		        }
 		      }
 		    },
@@ -350,6 +377,7 @@ function getBrowserData(){
 	  });//end of ajax
 	return browserData;
 }//end of method--
+
 
 
 

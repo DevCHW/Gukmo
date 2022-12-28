@@ -40,4 +40,10 @@ public interface InterStatisticsDAO {
 	 */
 	String getTotalVisit();
 
+
+	/**
+	 * 지난주 커뮤니티 상세카테고리별 작성게시물 건수 구하기
+	 */
+	List<Integer> getLastWeekCntCommunityData();
+
 }

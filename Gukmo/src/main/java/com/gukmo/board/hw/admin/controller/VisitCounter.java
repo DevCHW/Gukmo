@@ -24,7 +24,6 @@ public class VisitCounter implements HttpSessionListener{
 	
     @Override
     public void sessionCreated(HttpSessionEvent arg0){
-    	System.out.println("접속시작");
     	currentConnectCount++;
         HttpSession session = arg0.getSession();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(session.getServletContext());
@@ -42,14 +41,12 @@ public class VisitCounter implements HttpSessionListener{
         	SqlSessionTemplate gukmo_sql = getSessionService(arg0);
 			visitCountDAO.insertVisitor(vo,gukmo_sql);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
     
     @Override
     public void sessionDestroyed(HttpSessionEvent arg0){
-    	System.out.println("접속종료");
     	--currentConnectCount;
     	if( currentConnectCount < 0 ) currentConnectCount = 0;
     }

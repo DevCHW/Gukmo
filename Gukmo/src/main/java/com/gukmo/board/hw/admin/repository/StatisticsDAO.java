@@ -1,6 +1,8 @@
 package com.gukmo.board.hw.admin.repository;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +66,23 @@ public class StatisticsDAO implements InterStatisticsDAO{
 	@Override
 	public String getTotalVisit() {
 		return gukmo_sql.selectOne("chw.getTotalVisit");
+	}
+
+	
+	/**
+	 * 지난주 커뮤니티 상세카테고리별 작성게시물 건수 구하기
+	 */
+	@Override
+	public List<Integer> getLastWeekCntCommunityData() {
+		Map<String,String> dataMap = gukmo_sql.selectOne("chw.getLastWeekCntCommunityData");
+		List<Integer> data = new ArrayList<Integer>();
+		Collection<?> value = dataMap.values();
+		Iterator<?> itr = value.iterator();
+		while(itr.hasNext()) {
+			data.add(Integer.parseInt(String.valueOf(itr.next())));
+		}
+		return data;
+		
 	}
 	
 	

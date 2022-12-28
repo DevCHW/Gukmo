@@ -367,6 +367,13 @@
 	</insert>
 	
 	
+	<!-- 휴면 풀어주기 -->
+	<update id="restRelease" parameterType="String">
+		update tbl_member_login set status = '활동'
+		where userid = #{userid}
+	</update>
+	
+	
 	
 	
 	<!--================================================================================================================================-->
@@ -525,6 +532,7 @@
 		<result property="comment_cnt" column="comment_cnt" />
 		<result property="like_cnt" column="like_cnt" />
 		<result property="writer_point" column="writer_point" />
+		<result property="dday" column="dday" />
 		<association property="academy"  column="fk_board_num" javaType="com.gukmo.board.model.AcademyVO" resultMap="academy"/>
 		<association property="curriculum"  column="fk_board_num" javaType="com.gukmo.board.model.CurriculumVO" resultMap="curriculum"/>
 		<collection property="hashtags" column="hashtag_num" javaType="java.util.ArrayList" ofType="com.gukmo.board.model.HashtagVO">
@@ -911,6 +919,7 @@
 		          ,to_char(C.curriculum_end_date,'yyyy-mm-dd') curriculum_end_date
 		          ,to_char(C.recruitment_start_date) recruitment_start_date
 		          ,to_char(C.recruitment_end_date) recruitment_end_date
+		          ,trunc(C.recruitment_end_date - sysdate) as dday
 		          ,C.cnt_recruits
 		          ,C.join_url
 		    from
@@ -1272,6 +1281,7 @@
 				</if>
 					order by ${sort} ${direction}
 			) V
+			where academy_name is not null
 		) T
 		where rno between #{startRno} and #{endRno}
 	</select>
@@ -1308,12 +1318,15 @@
 			select rownum rno,V.*
 			from
 			(
-				select nickname,userid,email,to_char(join_date,'yyyy-mm-dd') join_date,status
+				select nickname,userid,email,to_char(join_date,'yyyy-mm-dd') join_date,status,C.academy_name
 				from 
 					tbl_member A
 				left join 
 					tbl_member_login B
 				on A.fk_userid = B.userid
+				left join
+					tbl_academy_member C
+				on A.fk_userid = C.fk_userid
 				where 1=1
 				<if test='searchType != "" and searchWord != ""'>
 					and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%' 
@@ -1326,6 +1339,7 @@
 				</if>
 					order by ${sort} ${direction}
 			) V
+			where academy_name is null
 		) T
 		where rno between #{startRno} and #{endRno}
 	</select>
@@ -1671,7 +1685,13 @@
 	<!--tbl_notice에 insert  -->
 	<insert id="insertNotice" parameterType="HashMap">
 		insert into tbl_notice(fk_board_num,must_read)
-		values(#{board_num},#{must_read})
+		<if test='must_read != null and must_read != ""'>
+			values(#{board_num},#{must_read})
+		</if>
+		<if test='must_read == null or must_read == ""'>
+			values(#{board_num},0)
+		</if>
+		
 	</insert>
 	
 	
@@ -1682,6 +1702,7 @@
 		<result property="category" column="category" />
 		<result property="detail_category" column="detail_category" />
 		<result property="subject" column="subject" />
+		<result property="content" column="content" />
 		<result property="write_date" column="write_date" />
 		<result property="views" column="views" />
 		<result property="profile_image" column="profile_image" />
@@ -2125,6 +2146,52 @@
 		     ) T
 		 where rno between 1 and #{endRno}
      </select>
+     
+     
+     
+     <!-- 지난주 커뮤니티 상세카테고리별 작성게시물 건수 구하기 -->
+     <select id="getLastWeekCntCommunityData" resultType="java.util.LinkedHashMap">
+     	select cnt_free,
+             cnt_qna,
+             cnt_study,
+             cnt_hobby,
+             cnt_review
+	    from
+	    (
+	        select count(*) as cnt_free
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '자유게시판'
+	    ) A
+	    cross join
+	    (
+	        select count(*) as cnt_qna
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = 'QnA'
+	    ) B 
+	    cross join
+	    (
+	        select count(*) as cnt_study
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '스터디'
+	    ) C
+	    cross join
+	    (
+	        select count(*) as cnt_hobby
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '취미모임'
+	    ) D
+	    cross join
+	    (
+	        select count(*) as cnt_review
+	        from tbl_board 
+	        where write_date between TRUNC(sysdate,'iw') and (TRUNC(sysdate,'iw')+6)
+	              and category='커뮤니티' and detail_category = '수강/취업후기'
+	    ) E
+     </select>
 
 
 
@@ -2163,6 +2230,13 @@
 		delete from tbl_bug
 		where bug_num = #{bugNum}
 	</delete>
+	
+	
+	<!-- 광고상태 수정 -->
+	<update id="editAd" parameterType="HashMap">
+		update tbl_advertisement set status = #{status}
+		where advertisement_num = #{advertisement_num}
+	</update>
 	
 	
 	
