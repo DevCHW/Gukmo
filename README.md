@@ -41,7 +41,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 언어들을 활용하여 Spring Framewo
 <img src="https://img.shields.io/badge/JSP-yellowgreen?style=flat-square&logo=JSP&logoColor=white"/>
 <img src="https://img.shields.io/badge/JSTL-blue?style=flat-square&logo=JSTL&logoColor=white"/>
 <img src="https://img.shields.io/badge/Mybatis-green?style=flat-square&logo=JSTL&logoColor=white"/>
-<img src="https://img.shields.io/badge/Spring 3.0-important?style=flat-square&logo=JDK &logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring 5.3-brightgreen?style=flat-square&logo=JDK &logoColor=white"/>
 
 
 <br>
