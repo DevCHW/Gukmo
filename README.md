@@ -92,7 +92,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 언어들을 활용하여 Spring Framewo
 - 
 	
 	
-	
+<br><br>	
 ## 글 상세페이지
 - 
 
