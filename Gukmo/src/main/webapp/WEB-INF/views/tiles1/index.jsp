@@ -85,7 +85,7 @@
 				<!-- 첫번째! -->
 		        <c:if test="${not empty requestScope.curriList1}">		        
 		        <div class="carousel-item active">
-					<div class="d-flex flex-wrap justify-content-between">
+					<div class="d-flex flex-wrap justify-content-start">
 					<c:forEach var="curriList1" items="${requestScope.curriList1}">
 						<div class="card">
 						  <div class="card-body" onclick="location.href='<%=ctxPath %>/detail.do?boardNum=${curriList1.board_num}'">
@@ -102,7 +102,7 @@
 				
 				<c:if test="${not empty requestScope.curriList2}">
 		        <div class="carousel-item">
-					<div class="d-flex flex-wrap justify-content-between">
+					<div class="d-flex flex-wrap justify-content-start">
 					<c:forEach var="curriList2" items="${requestScope.curriList2}">
 						<div class="card">
 						  <div class="card-body" onclick="location.href='<%=ctxPath %>/detail.do?boardNum=${curriList2.board_num}'">
@@ -119,7 +119,7 @@
 		        
 				<c:if test="${not empty requestScope.curriList3}">
 		        <div class="carousel-item">
-					<div class="d-flex flex-wrap justify-content-between">
+					<div class="d-flex flex-wrap justify-content-start">
 					<c:forEach var="curriList3" items="${requestScope.curriList3}">
 						<div class="card">
 						  <div class="card-body" onclick="location.href='<%=ctxPath %>detail.do?boardNum=${curriList3.board_num}'">
