@@ -63,7 +63,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 언어들을 활용하여 Spring Framewo
 임선우 - 게시판, 회원차트
 조하솔 - 
 최현우 - 
-황광빈 - 
+황광빈 - 게시글 상세페이지
 ```
 <br>
 
