@@ -95,6 +95,8 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 <br><br>	
 ## 글 상세페이지
 - 
+![image](https://user-images.githubusercontent.com/113486147/209841670-de9c1668-fccb-441c-abc3-e0f61e017334.png)
+
 
 
 
