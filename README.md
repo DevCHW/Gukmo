@@ -94,7 +94,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 	
 <br><br>	
 ## 글 상세페이지
-- 글 제목 및 내용,해시태그, 이전글 다음글 제목,좋아요,광고 표시
+- 글 제목 및 내용,카테고리,해시태그, 이전글 다음글 제목,좋아요,광고 표시
 ![image](https://user-images.githubusercontent.com/113486147/209841767-756f5a2e-c893-4a12-a57f-d8dca7f54bdb.png)
 
 - 댓글과 대댓글 내용 표시
