@@ -105,10 +105,10 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 
 - 댓글과 대댓글 내용 표시
 - 본인의 댓글이라면 수정,삭제 가능
-![image](https://user-images.githubusercontent.com/113486147/209842589-46834bc9-932c-4c2d-b136-89bc45be5b60.png)
 - 타인의 댓글 신고 가능
-![image](https://user-images.githubusercontent.com/113486147/209842949-6222981e-c98f-4481-9959-e317cad6295c.png)
 - 관리자로 로그인시 댓글 블라인드,블라인드 해제 가능
+![image](https://user-images.githubusercontent.com/113486147/209842589-46834bc9-932c-4c2d-b136-89bc45be5b60.png)
+![image](https://user-images.githubusercontent.com/113486147/209844484-2b4f07cd-3c95-4226-b98c-863dc2a8856d.png)
 ![image](https://user-images.githubusercontent.com/113486147/209843035-ab9d70ed-0bb3-46bb-ac86-3bb49b5fc143.png)
 ![image](https://user-images.githubusercontent.com/113486147/209843088-1662f720-e33c-4d5d-a96a-b3e39b712d0a.png)
 
