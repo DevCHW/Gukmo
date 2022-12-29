@@ -80,7 +80,8 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 
 ```sh
 - 로그인 기능
-- 알림 기능 
+- 알림 기능
+- 검색 기능
 - 커뮤니티 기능
 - 관리자 기능
 - 마이페이지 기능
@@ -125,9 +126,16 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 <br><br>
 
 ## 알람
--
+- 읽지 않은 알람 개수 표시 및 읽지 않은 알람 리스트 
+![image](https://user-images.githubusercontent.com/111223575/209939051-e3e15616-6dd8-4665-abd1-443c2cac51ba.png)
+
 <br><br>
 
+## 검색
+- 학원 정보 / 과정 정보 / 게시판 별 노출 구성 변경 및 게시글 미리보기
+![image](https://user-images.githubusercontent.com/111223575/209939662-4d0654bd-66c3-4ade-b2e3-89e8ef1ba69c.png)
+
+<br><br>
 	
 
 ## ERD
