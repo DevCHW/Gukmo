@@ -127,7 +127,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 
 ## 알람
 - 읽지 않은 알람 개수 표시 및 읽지 않은 알람 리스트 
-![image](https://user-images.githubusercontent.com/111223575/209939051-e3e15616-6dd8-4665-abd1-443c2cac51ba.png)
+![image](https://user-images.githubusercontent.com/111223575/209939822-7d9feb69-6070-4c91-a591-de009e4b2463.png)
 
 <br><br>
 
