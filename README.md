@@ -3,6 +3,7 @@
 
 <Br>
 <h3>🍀프로젝트 소개 🍀</h3>
+- 프로젝트 이름: 국비의 모든 것(GUKMO)
 HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하여 Spring Framework 의 MVC 패턴 기법을 적용한 커뮤니티 웹사이트
 <br>
 
@@ -71,7 +72,9 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 ## 사용한 API 
 
 * Fullcalendar
-* 
+* GoogleMail
+* NAVER Smart Editor
+* Chart.JS
 
 
 <Br>	
