@@ -122,6 +122,7 @@
 
 ## 계정찾기
 - 가입할 때 인증된 이메일을 입력하게되면, 비밀번호를 변경할 수 있는 페이지로 갈 수 있는 3분간 유효한 링크를 보내줍니다.
+
 ![image](https://user-images.githubusercontent.com/112748454/210743336-abfc1ce3-2b1b-411b-a870-d3525d35a90f.png)
 	
 <br><br>
