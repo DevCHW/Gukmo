@@ -143,42 +143,14 @@
 
 <br><br>
 ## 관리자
-- 회원관리_회원내역(리스트) : 회원 리스트 노출, 회원 내역 excel, pdf, csv 파일로 다운로드 및 인쇄, 검색 및 정렬기능
-![회원내역 리스트](https://user-images.githubusercontent.com/113486287/210050643-9e2cf8d9-f3fe-4312-93e5-bb44f4bf01e1.jpg)
+- 회원관리 : 회원 리스트 노출, 회원 내역 excel, pdf, csv 파일로 다운로드 및 인쇄, 검색 및 정렬기능, 회원의 상세정보 조회, 검색기록, 게시물 및 신고내역 등 활동내역 차트화 
+![녹화_2023_01_05_16_57_40_852](https://user-images.githubusercontent.com/113486287/210730400-720a3d5d-9675-4103-9a87-65200cbf33c7.gif)
 
-
-<br><br>
-- 회원관리_상세정보 :  회원의 상세정보 조회, 검색기록, 게시물 및 신고내역 등 활동내역 차트화 
-![회원상세 - 상단](https://user-images.githubusercontent.com/113486287/210050813-9e189e43-b00d-453a-be6c-e2dd81791312.jpg)
-![회원상세 - 활동내역](https://user-images.githubusercontent.com/113486287/210050815-760781b8-f1d4-4670-91e0-590790452424.jpg)
-![회원상세 - 검색기록](https://user-images.githubusercontent.com/113486287/210050817-e6791e16-0eb9-4bc5-8fa3-9a7159253e94.jpg)
-
-
-<br><br>
-- 광고관리_광고리스트 : 현재 사이트에서 광고 중인 리스트 노출, 광고 내역을 excel, pdf, csv 파일로 다운로드 및 인쇄, 검색 및 정렬기능
-![광고리스트](https://user-images.githubusercontent.com/113486287/210050967-1dd48fcb-8f07-4e40-9bfc-d4fc8dc238d6.jpg)
-
-
-<br><br>
--광고관리_광고상세 : 광고 상세정보 조회.
-![광고_상세](https://user-images.githubusercontent.com/113486287/210050977-a79b350d-fc7e-476f-88c5-e8c1b6d189a1.jpg)
-
-
-<br><br>
--광고관리_광고일정 : 풀캘린더 API를 이용하여 광고 관련 일정을 캘린더로 조회.
+- 광고관리 : 현재 사이트에서 광고 중인 리스트 노출, 광고 상세정보 조회. 풀캘린더 API를 이용하여 광고 관련 일정을 캘린더로 조회.
 ![광고 일정](https://user-images.githubusercontent.com/113486287/210051030-1537f6fe-cd16-4ace-8a22-ba97245f95ed.jpg)
 
-
 <br><br>
--신고관리_신고 리스트 : 현재 국모 사이트에 신고된 리스트 노출, 신고 내역을 excel, pdf, csv 파일로 다운로드 및 인쇄, 검색 및 정렬기능
-![신고내역 _ 리스트](https://user-images.githubusercontent.com/113486287/210051265-38eaa408-fe6e-4836-a58c-519511efba9b.jpg)
-
-
-<br><br>
--신고관리_신고 상세 : 해당 신고 관련 상세정보 조회, 신고한(신고받은) 사용자의 신고(피신고) 내역 조회, 신고 관련 게시글로 이동, 피신고자 정지
-![신고 상세](https://user-images.githubusercontent.com/113486287/210051280-2e15b74e-c6f6-4ce9-aecb-510b5514244c.jpg)
-![정지 모달](https://user-images.githubusercontent.com/113486287/210052637-98bc7ea9-b6b0-44a5-a1d3-c7aa0891424e.jpg)
-
+-신고관리 : 현재 국모 사이트에 신고 리스트 노출, 해당 신고 관련 상세정보 조회, 신고한(신고받은) 사용자의 신고(피신고) 내역 조회, 신고 관련 게시글로 이동, 피신고자 정지 등록 
 	
 <br><br>
 -각종 통계 : 유입도메인, 일자별 회원가입자 수, 일반회원/교육기관회원 비중, 카테고리별 게시물 건수 등 
