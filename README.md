@@ -76,6 +76,10 @@
 * GoogleMail
 * NAVER Smart Editor
 * Chart.JS
+* Kakao / Naver / Facebook / Google 로그인 API
+* Google reCAPTCHA V2
+* Google Calendar API
+* DataTable
 
 
 <Br>	
@@ -95,7 +99,31 @@
 
 ## 로그인
 - 카카오, 네이버, 페이스북, 구글 아이디로 로그인 할 수 있고 해당 사이트 자체 아이디로도 로그인 할 수 있습니다.
-![image](https://user-images.githubusercontent.com/112748454/210741846-c78674ea-eeb7-4657-92ea-69643325c600.png)
+![image](https://user-images.githubusercontent.com/112748454/210742774-d50eb7eb-5fbe-4f0d-abd7-96899af535ca.png)
+	
+<br><br>
+
+## 회원가입
+- 일반회원 가입 : 일반회원에 관한 정보를 입력하면 국비의모든것 일반회원이 될 수 있습니다.
+- 교육기관회원 가입 : 일반회원가입에 필요한 정보 + 교육기관회원에 필요한 정보를 입력한 후에 회원가입을 하여 관리자에게 승인받은 후, 교육기관회원이 될 수 있습니다.
+- Google reCAPTCHA v2를 이용하여 자동가입 방지를 적용하였습니다.
+![image](https://user-images.githubusercontent.com/112748454/210743030-154a90a5-2278-44a4-b378-e03e69a9cf7e.png)
+![image](https://user-images.githubusercontent.com/112748454/210743077-a55730ac-6379-4f8a-9373-858360657f18.png)
+![image](https://user-images.githubusercontent.com/112748454/210743098-ac73dc37-cf9c-42e1-90b4-0b7cba10b7fb.png)
+	
+<br><br>
+
+
+
+## 계정찾기
+- 가입할 때 인증된 이메일을 입력하게되면, 비밀번호를 변경할 수 있는 페이지로 갈 수 있는 3분간 유효한 링크를 보내줍니다.
+![image](https://user-images.githubusercontent.com/112748454/210743336-abfc1ce3-2b1b-411b-a870-d3525d35a90f.png)
+	
+<br><br>
+
+## 마이페이지
+- 이름/닉네임/이메일수신동의/프로필 이미지/이메일/비밀번호를 변경할 수 있고, 일반회원은 교육기관회원으로 전환 가능하며 사이트에서 활동내역/알림을 확인할 수 있습니다.
+![image](https://user-images.githubusercontent.com/112748454/210743435-1102ab39-aed8-4cab-8866-51b58e87d339.png)
 
 	
 	
