@@ -52,13 +52,13 @@
 
 
       <%-- hashtag --%>
-      <label for="hashtag" class="community_label mt-3">태그</label>
+      <label for="hashtag" class="community_label mt-3">태그ㅎㅎ</label>
       <div id="hashtag_box" class="border rounded pl-2">
         <ul id="hashtag_list" class="d-flex align-items-center">
           <c:forEach var="hashtags" items="${requestScope.boardvo.hashtags}" varStatus="status">
           <li class='d-flex align-items-center flex-nowrap mr-2 tag-item'>#${hashtags.hashtag}<span class='btn_hashtag_delete mx-2' style='cursor:pointer; color:darkgray; idx='${status.count}'><i class='fa-solid fa-xmark'></i></span></li>
 		  </c:forEach>
-          <input type="text" id="hashtag" name="hashtag" class="border-0" placeholder="태그를 설정하세요(최대 5개)">
+          <input type="text" id="hashtag" name="hashtag" class="border-0" placeholder="태그를 설정하세요(최대 5개)"/>
         </ul>
       </div>
       

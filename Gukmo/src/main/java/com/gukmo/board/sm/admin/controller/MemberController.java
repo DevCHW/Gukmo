@@ -256,14 +256,7 @@ public class MemberController {
       return paraMap;
    }
 		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		
 		

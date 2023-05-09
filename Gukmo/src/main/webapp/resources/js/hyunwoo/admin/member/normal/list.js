@@ -144,6 +144,7 @@ $(document).ready(function() {
 		},
 	]
   });//end of Event---
+  
   const table = $('#dataTable').DataTable();
   
   //Export 버튼들 꾸미기

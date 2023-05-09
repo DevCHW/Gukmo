@@ -69,7 +69,7 @@
 	<div class="div_academy mt-2 d-flex flex-column align-items-center" >
 		
 		<div class="academy_title w-100 px-2 mt-4 mb-1 d-flex justify-content-between">
-			<span>현재 모집 중인 과정</span>
+			<span>현재 모집 중인 과그정</span>
 			<a href="<%=ctxPath %>/academy/curricula.do"> 더 보기 </a>
 		</div>
 		

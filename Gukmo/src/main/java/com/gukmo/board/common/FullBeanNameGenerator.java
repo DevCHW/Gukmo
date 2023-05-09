@@ -7,6 +7,6 @@ public class FullBeanNameGenerator implements org.springframework.beans.factory.
 
 	@Override
 	public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
-		return definition.getBeanClassName(); 
+		return definition.getBeanClassName();
 	}
 }

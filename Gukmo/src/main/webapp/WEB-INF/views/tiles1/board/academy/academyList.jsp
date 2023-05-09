@@ -171,7 +171,7 @@
         
         <%-- 학원주소 --%>
         <div class="academy_address mt-1">
-          <span>주소 : ${board.academy.address }</span>
+          <span>주소 : ${board.academy.address}</span>
         </div>
         
         

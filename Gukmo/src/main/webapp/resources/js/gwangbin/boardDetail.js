@@ -16,7 +16,7 @@ $(document).ready(function(){
     var obj = [];
 	
 	$("div.comment_edit").hide();
-	$("div.c_of_comment_edit").hide();			
+	$("div.c_of_comment_edit").hide();
 	
 	// 대댓 보여주는 함수
 	// viewCommentOfComment();
@@ -461,7 +461,7 @@ function likeClick(data){
 		type:'post',
 		data:data,
 		dataType:"json",
-		success:function(json){	
+		success:function(json){
 			if(json.JavaData == 'login'){	// 로그인 중이 아니라면
 				$("button.btn_login").trigger("click");// 로그인페이지로 보내기
 				

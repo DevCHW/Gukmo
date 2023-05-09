@@ -19,7 +19,6 @@ public interface InterMemberService {
 	 */
 	List<MemberVO> memberList(Map<String, String> paraMap);
 
-
 	
 	/**
 	 * 교육기관회원 관리 페이지의 총 갯수 알아오기

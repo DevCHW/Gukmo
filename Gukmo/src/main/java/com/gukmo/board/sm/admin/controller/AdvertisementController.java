@@ -181,12 +181,9 @@ public class AdvertisementController {
 		//	~~~~ 확인용 originalFilename => LG_싸이킹청소기_사용설명서.pdf
 			
 			newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
-			           // 첨부되어진 파일을 업로드 하도록 하는 것이다.  
-			
+			           // 첨부되어진 파일을 업로드 하도록 하는 것이다.  			
 		//	System.out.println(">>> 확인용 newFileName => " + newFileName);
-			// >>> 확인용 newFileName => 202210281521341200152368627000.pdf
-			
-		
+			// >>> 확인용 newFileName => 202210281521341200152368627000.pdf					
 		//   3. BoardVO boardvo 에 fileName 값과 orgFilename 값과 fileSize 값을 넣어주기
 			
 			advo.setFilename(newFileName);

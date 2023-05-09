@@ -15,6 +15,7 @@ import com.gukmo.board.model.BoardVO;
 
 @Service
 public class IndexService implements InterIndexService{
+	
 	@Autowired
 	private InterIndexDAO dao;
 

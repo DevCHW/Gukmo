@@ -58,7 +58,7 @@
             <span>최신순</span>
             <span>추천순</span>
             <span>댓글순</span>
-            <span>조회순</span>
+            <span>조회라</span>
           </div>
         </div>
       </div>

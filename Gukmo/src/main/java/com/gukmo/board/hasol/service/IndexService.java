@@ -43,7 +43,8 @@ public class IndexService implements InterIndexService {
 
 	
 	// 학원 목록 촉 개수를 구하기 위한 메소드
-	@Override public int getCurriTotalCnt() {
+	@Override
+	public int getCurriTotalCnt() {
 		int n = dao.getCurriTotalCnt();
 		return n;
 	}
